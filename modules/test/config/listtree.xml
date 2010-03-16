@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="list">
+	
+	<i:title>A Tree</i:title>
+
+	<i:params>
+		<i:param name="maxperpage">2</i:param>
+	</i:params>
+	
+	<i:proxy url="interface/jsonactionstree" />
+	
+	<i:datasource type="orm">
+		<i:class>ServerPeer</i:class>
+		<i:method name="fetchData" type="static" />
+	</i:datasource>
+	
+	<i:display>
+		<i:visible>company</i:visible>
+	</i:display>
+	
+	<i:fields tree="true" title="The root" pager="false">
+		<i:column label="Company." name="company" sortable="true" hidden="false" hideable="true" />
+	</i:fields>
+	
+</i:view>

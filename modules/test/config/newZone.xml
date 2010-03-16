@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="edit">
+
+<i:title>New Zone</i:title>
+
+<i:fields url="test/newZone">
+	<i:field name="name" label="Name" state="editable" style="css" >
+
+	<i:help>This is some help for the name field</i:help>
+	<i:comment>This is some comment about the name field</i:comment>
+
+	</i:field>
+	<i:field name="offset" label="Offset" type="input" state="editable" style="css" >
+	
+	<i:help>This is some help for the offset field</i:help>
+	<i:comment>This is some comment about the offset field</i:comment>
+
+	</i:field>
+</i:fields>
+
+	<i:description><![CDATA[<h1>This is the OTHER help!</h1>
+
+<p>Hi, <i>this is</i> the text.</p>
+]]></i:description>
+
+<i:grouping>
+	<i:set title="Data">
+		<i:ref to="name" />
+		<i:ref to="offset" />
+	</i:set>
+</i:grouping>
+
+</i:view>

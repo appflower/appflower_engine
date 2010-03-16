@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="info">
+	
+	<i:title>Info view</i:title>
+	
+	<i:body title="foo"><![CDATA[<h1>Foo bar!</h1><p>Bar bar!</p>]]></i:body>
+	
+</i:view>

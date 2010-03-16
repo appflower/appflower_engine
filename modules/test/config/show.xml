@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="show">
+
+<i:title>Show view</i:title>
+
+<i:datasource type="orm">
+	<i:class>ServerPeer</i:class>
+	<i:method name="retrieveByPk">
+		<i:param name="id">1</i:param>
+	</i:method>
+</i:datasource>
+
+<i:fields>
+	<i:field name="username" label="Username" state="editable" style="css" >
+	
+		<i:value type="orm">
+			<i:source name="getHostname" />
+		</i:value>
+
+	<i:help>This is some help for the username field</i:help>
+	<i:comment>This is some comment about the username field</i:comment>
+
+	<i:handler type="focus" action="alert(1);" />
+	<i:handler type="blur" action="alert(2);" />
+	
+	</i:field>
+	<i:field name="password" label="Password" type="password" state="editable" style="css" >
+	
+		<i:value type="orm">
+			<i:source name="getDomain" />
+		</i:value>
+	
+	<i:help>This is some help for the password field</i:help>
+	<i:comment>This is some comment about the password field</i:comment>
+	
+	<i:handler type="click" action="alert('password');" />
+	
+	</i:field>
+	<i:field name="upload" type="file" label="Upload" />
+	<i:field name="combo" type="combo" label="Menu">
+		<i:value type="orm">
+			<i:source name="getCombo" />
+		</i:value>
+		<i:help>FOOBAR!</i:help>
+		<i:handler type="select" action="alert(1);" />
+		<i:handler type="blur" action="alert('combo');" />
+	</i:field>
+	<i:field name="combo2" type="multicombo" label="Menu2" selected="2,3">
+		<i:value type="orm">
+			<i:source name="getMultiCombo" />
+		</i:value>
+		<i:help>FOOBAR!</i:help>
+		<i:comment>Hello world...</i:comment>
+	</i:field>
+	<i:field name="mco" label="Choices" type="doubletree" state="editable" style="css">
+	
+	<i:value type="orm">
+			<i:class>ServerPeer</i:class>
+			<i:method name="getDoubleTree">
+			</i:method>
+	</i:value>
+	
+	<i:help>This is some help for the double field</i:help>
+	<i:comment>This is some comment about the double field</i:comment>
+
+	</i:field>
+	<i:field name="la2" type="date" label="date">
+		<i:value type="orm">
+			<i:source name="getUpdatedAt" />
+		</i:value>
+		<i:help>LALALA!</i:help>
+	</i:field>
+	<i:field name="la" type="datetime" label="datetime">
+		<i:value type="orm">
+			<i:source name="getUpdatedAt" />
+		</i:value>
+		<i:help>LALALA!</i:help>
+	</i:field>
+	<i:field name="text" type="textarea" label="Your shit">
+		<i:value type="orm">
+			<i:source name="getName" />
+		</i:value>
+		<i:help>FOOBAR!</i:help>
+		<i:handler type="activate" action="alert(1);" />
+	</i:field>
+	<i:linkbutton name="keke" label="External Url" icon="/images/famfamfam/accept.png" action="http://www.google.com" />
+	<i:linkbutton name="internal" label="Internal Uri" action="test/edit" />
+	<i:button name="cic" label="Normal button" icon="/images/famfamfam/cancel.png" action="test/edit">
+		<i:handler type="click" action="alert('You clicked me!');" />
+	</i:button>
+	<!--
+	<i:linkbutton name="keke" label="External Url" icon="/images/famfamfam/accept.png" action="http://www.google.com" />
+	<i:linkbutton name="internal" label="Internal Uri" action="test/edit" />
+	<i:button name="cic" label="Normal button" icon="/images/famfamfam/cancel.png" action="test/edit">
+		<i:handler type="click" action="alert('You clicked me!');" />
+	</i:button>
+	<i:link name="keke2" text="This is a button" action="get@gmail.com" />
+	<i:radiogroup name="group1" label="This is a group"  >
+		<i:field name="radio" type="radio" label="button 1">
+			<i:value type="orm">
+				<i:source name="getRadio" />
+			</i:value>
+			<i:handler type="focus" action="alert('radio');" />
+		</i:field>
+		<i:field name="radio2" type="radio" label="button 2" checked="true" />
+	</i:radiogroup>
+	<i:radiogroup name="group2" label="This is ANOTHER group"  >
+		<i:field name="radio3" type="radio" label="button 1" checked="true">
+			<i:value type="orm">
+				<i:source name="getRadio" />
+			</i:value>
+			<i:handler type="focus" action="alert('radio');" />
+		</i:field>
+		<i:field name="radio4" type="radio" label="button 2" />
+	</i:radiogroup>
+	<i:radiogroup name="group3" label="This is checkbox group" help="Checkbox group help"  >
+		<i:field name="chk1" type="checkbox" label="box1" checked="true">
+			<i:value type="orm">
+				<i:source name="getCheckbox" />
+			</i:value>
+			<i:help>This is some help for CHECKBOX</i:help>
+			<i:comment>This is some help for CHECKBOX</i:comment>
+			<i:handler type="check" action="alert(checked);" />
+		</i:field>
+		<i:field name="chk2" type="checkbox" label="box 2" />
+	</i:radiogroup>
+	-->
+</i:fields>
+
+<i:actions>
+	<i:action name="new" url="test/show" />
+</i:actions>
+
+<i:grouping>
+	<i:set title="Group1" float="true" tabtitle="This is tab1">
+		<i:ref to="username"  />
+		<i:ref to="password" />
+		<i:ref to="la" />
+	</i:set>
+	<i:set title="Group2" tabtitle="This is tab2">
+		<i:ref to="upload" />
+		<i:ref to="mco" />
+		<i:ref to="la2" />
+	</i:set>
+	<i:set title="Group3" tabtitle="This is tab3">
+		<i:ref to="text" />
+	</i:set>
+	<i:set title="A Fieldset">
+		<i:ref to="combo" />
+		<i:ref to="combo2" />
+	</i:set>
+</i:grouping>
+
+</i:view>

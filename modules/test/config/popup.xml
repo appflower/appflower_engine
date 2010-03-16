@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="edit">
+
+<i:title>A popup</i:title>
+
+<i:datasource type="orm">
+	<i:class>ServerPeer</i:class>
+	<i:method name="retrieveByPk">
+		<i:param name="id">1</i:param>
+	</i:method>
+</i:datasource>
+
+<i:fields url="test/dummy">
+	<i:field name="myfield" label="Field1" state="editable" style="css" >
+
+	<i:help>This is some help for me</i:help>
+	<i:comment>This is some comment about nothing</i:comment>
+
+	<i:validator name="myValidatorTest">
+		<i:param name="max">20</i:param>
+		<i:param name="min">1</i:param>
+		<i:param name="min_error">Min is 1</i:param>
+		<i:param name="max_error">Max is 20</i:param>
+	</i:validator>
+	
+	</i:field>
+	<i:field name="mypass" label="MyPass" type="password" state="editable" style="css" >
+	
+	<i:help>This is some help</i:help>
+	<i:comment>This is some comment</i:comment>
+	
+	<i:validator name="sfStringValidator">
+		<i:param name="max">20</i:param>
+		<i:param name="min">1</i:param>
+	</i:validator>
+	
+	<i:handler type="click" action="alert('password');" />
+	
+	</i:field>
+	<i:field name="is_active" label="Is Active" type="checkbox" state="editable" style="css">
+		<i:value type="orm">
+			<i:source name="getIsActive" />
+		</i:value>
+		
+		<i:help>This is the help</i:help>
+		<i:comment>This is the comment</i:comment>
+	</i:field>
+	<i:field name="timezone_id" label="Time Zone" type="combo" state="editable" style="css">
+		
+		<i:value type="orm">					
+			<i:class>TimeZonesPeer</i:class>
+			<i:method name="getAll">
+			</i:method> 
+		</i:value>
+		<i:help>This is the help</i:help> 
+		<i:comment>This is the comment</i:comment>
+		
+		<i:validator name="testValidator" />
+		 
+	</i:field>		
+</i:fields>
+
+<i:actions>
+	<i:action name="delete" url="test/delete" icon="/images/famfamfam/delete.png" />
+	<i:action name="new" url="test/new" icon="/images/famfamfam/ok.png" />
+</i:actions>
+
+<i:grouping>
+	<i:set title="Data">
+		<i:ref to="myfield" />
+		<i:ref to="is_active" />
+		<i:ref to="mypass" />
+		<i:ref to="timezone_id" />
+	</i:set>
+</i:grouping>
+
+</i:view>

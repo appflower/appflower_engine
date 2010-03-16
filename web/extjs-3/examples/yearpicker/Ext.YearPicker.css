@@ -1,0 +1,15 @@
+.x-month-mp {
+    width: 165px;
+}
+.x-month-mp .x-month-mp-month{
+    height: 25px;
+}
+td.x-date-mp-month a.x-date-mp-disabled, td.x-date-mp-year a.x-date-mp-disabled{
+    color: gray;
+}
+
+td.x-date-mp-month a:hover.x-date-mp-disabled, td.x-date-mp-year a:hover.x-date-mp-disabled {
+    background:none;
+    color:gray;
+    cursor:default;
+}

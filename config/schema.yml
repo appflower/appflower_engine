@@ -1,0 +1,76 @@
+propel:
+  _attributes:    { package: plugins.appFlowerPlugin.lib.model }
+
+  sf_combine:
+    _attributes:      { phpName: sfCombine }
+    assets_key:       { type: varchar, size: 32, required: true, primaryKey: true }
+    files:            { type: longvarchar, required: true }
+    
+  sf_combine_server:
+    _attributes:      { phpName: sfCombineServer }
+    id:               ~
+    online:           boolean
+
+  ############################################################################
+  # - appFlower Portal State by radu --------------------------------------- #
+  ############################################################################
+  
+  af_portal_state:
+    _attributes: { phpName: afPortalState }
+    id:
+    id_xml: varchar(255)
+    user_id: { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade }
+    layout_type: varchar(255)
+    content: LONGVARCHAR
+    created_at:
+    updated_at:
+    
+    
+  ############################################################################
+  # - WIDGET SETTING ------------------------------------------------------- #
+  ############################################################################
+  
+  af_widget_setting:
+    _attributes:               { phpName: afWidgetSetting }
+    id:
+    name:                      { type: varchar(255) }
+    user:                      { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade }
+    setting:                   { type: longvarchar }
+    
+  ############################################################################
+  # - WIDGET Selector ------------------------------------------------------ #
+  ############################################################################
+  
+  af_widget_selector:
+    _attributes:               { phpName: afWidgetSelector }
+    id:
+    url:                       { type: varchar(128), index: true }
+    params:                    { type: varchar(255) }
+    category_id:               { type: integer, foreignTable: af_widget_category, foreignReference: id, onDelete: cascade }
+    permission:                { type: varchar(255) }
+    
+  af_widget_category:
+    _attributes:               { phpName: afWidgetCategory }
+    id:
+    module:                    { type: varchar(128), index: true }
+    name:                      { type: varchar(255) }
+    
+  ############################################################################
+  # - Parser Validator Cache ----------------------------------------------- #
+  ############################################################################
+  
+  af_validator_cache:
+    _attributes: { phpName: afValidatorCache }
+    id:
+    signature:    { type: varchar(40), index: true }
+    path:         { type: varchar(255), index: true }
+    created_at:
+    updated_at:
+
+  af_save_filter:
+    _attributes: { phpName: afSaveFilter }
+    id:
+    name: { type: varchar(255) }
+    user: { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade }
+    path: { type: varchar(255) }
+    filter: { type: longvarchar }

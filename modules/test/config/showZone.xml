@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="show">
+
+<i:title>Show Zone</i:title>
+
+<i:datasource type="orm">
+	<i:class>TimeZonesPeer</i:class>
+	<i:method name="retrieveByPk">
+		<i:param name="id">{id}</i:param>
+	</i:method>
+</i:datasource>
+
+<i:fields>
+	<i:field name="name" label="Name" state="editable" style="css" >
+	
+		<i:value type="orm">
+			<i:source name="getName" />
+		</i:value>	
+	</i:field>
+	<i:field name="offset" label="Offset" type="input" state="editable" style="css" >
+	
+		<i:value type="orm">
+			<i:source name="getOffset" />
+		</i:value>
+		
+	</i:field>
+	</i:fields>
+
+<i:actions>
+	<i:action name="back" url="test/zonepage" />
+</i:actions>
+
+<i:grouping>
+	<i:set title="Data">
+		<i:ref to="name" />
+		<i:ref to="offset" />
+	</i:set>
+</i:grouping>
+
+</i:view>

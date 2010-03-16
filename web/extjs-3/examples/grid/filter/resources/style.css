@@ -1,0 +1,39 @@
+.x-grid3-hd-row .ux-filtered-column {
+	border-left:  1px solid #C7E3B4;
+	border-right: 1px solid #C7E3B4;
+}
+
+.x-grid3-hd-row .ux-filtered-column .x-grid3-hd-inner {
+	background-image: url(header_bg.gif);
+}
+
+.ux-filtered-column .x-grid3-hd-btn {
+	background-image: url(hd-btn.gif);
+}
+
+.ux-filtered-column.sort-asc .x-grid3-sort-icon {
+	background-image: url(sort_filtered_asc.gif);
+}
+
+.ux-filtered-column.sort-desc .x-grid3-sort-icon {
+	background-image: url(sort_filtered_desc.gif);
+}
+
+.ux-gridfilter-text-icon {
+	background-image: url(find.png);
+}
+
+/**
+ * RangeMenu.js Styles
+ **/
+.ux-rangemenu-gt {
+	background-image: url(greater_then.png);
+}
+
+.ux-rangemenu-lt {
+	background-image: url(less_then.png);
+}
+
+.ux-rangemenu-eq {
+	background-image: url(equals.png);
+}

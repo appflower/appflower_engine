@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="edit">
+
+<i:title>Edit {foobar} view</i:title>
+
+<i:datasource type="orm">
+	<i:class>ServerPeer</i:class>
+	<i:method name="retrieveByPk">
+		<i:param name="id">1</i:param>
+	</i:method>
+</i:datasource>
+
+<i:fields url="test/dummy">
+	<i:field name="username" width="50" label="Username{foobar}" state="editable" style="css">
+
+	<i:help>This is some help for {foobar} {bar} the username field</i:help>
+	<i:comment permissions="lala">This is some comment {foobar} about the username field</i:comment>
+
+	<i:validator name="myValidatorTest">
+		<i:param name="max">1</i:param>
+		<i:param name="min">1</i:param>
+		<i:param name="min_error">Min is 1 char</i:param>
+		<i:param name="max_error">Max is 1 char</i:param>
+	</i:validator>
+	
+	</i:field>
+	<i:field name="password" width="50" label="Password" type="password" state="editable" style="css" permissions="foo">
+	
+	<i:help>This is some help for the password field</i:help>
+	<i:comment>This is some comment about the password field</i:comment>
+	
+	<i:handler type="click" action="alert('password');" />
+	
+	</i:field>
+	<i:field name="mco" label="Choices" type="doublemulticombo" state="editable" style="css">
+	
+	<i:value type="orm">
+			<i:class>ServerPeer</i:class>
+			<i:method name="getDouble">
+			</i:method>
+	</i:value>
+	
+	<i:help>This is some help for the double field</i:help>
+	<i:comment>This is some comment about the double field</i:comment>
+
+	</i:field>
+	<i:field name="combo" type="combo" label="Menu">
+		
+		<i:value type="orm">
+			<i:class>ServerPeer</i:class>
+			<i:method name="getServers">
+				<i:param name="example">/^([0-9]{4}\-[0-9]{10})?$/</i:param>
+				<i:param name="example2">Bar</i:param>
+			</i:method>
+		</i:value>
+		<i:help>FOOBAR!</i:help>
+		<i:handler type="select" action="alert('The selected value is: '+record.data.value);" />
+		
+		<i:trigger text="open popup" />
+		<i:window title="Example popup" component="test/popup" className="ServerPeer" methodName="getAllAsOptions" />
+		
+	</i:field>
+	<i:field name="combo2" type="multicombo" label="Menu2" selected="0,1">
+		<i:value type="orm">
+			<i:source name="getMulticombo" />
+		</i:value>
+		<i:help>FOOBAR!</i:help>
+		<i:comment>Hello world...</i:comment>
+	</i:field>
+	<i:field name="la" type="date" label="date">
+		<i:help>LALALA!</i:help>
+	</i:field>
+	<i:field name="lo" width="40" type="datetime" label="date">
+		<i:help>LALALA!</i:help>
+	</i:field>
+	<i:field name="lo2" width="40" type="datetime" label="date2">
+		<i:help>LALALA!</i:help>
+	</i:field>
+	<i:field name="lo3" width="40" type="datetime" label="date3">
+		<i:help>LALALA!</i:help>
+	</i:field>
+	<i:field name="lo4" width="40" type="datetime" label="date4">
+		<i:help>LALALA!</i:help>
+	</i:field>
+	<i:field name="lo5" width="40" type="datetime" label="date5">
+		<i:help>LALALA!</i:help>
+	</i:field>
+	<i:field name="text" type="textarea" label="Your shit" rich="false">
+		<i:help>FOOBAR!</i:help>
+	</i:field>
+	<i:linkbutton name="keke" label="External Url{bar}" icon="/images/famfamfam/accept.png" action="http://www.google.com" />
+	<i:linkbutton name="internal" label="Internal Uri" action="test/show" />
+	<i:button name="cic" label="Normal button" icon="/images/famfamfam/cancel.png" action="test/show">
+		<i:handler type="click" action="alert('You clicked me!');" />
+	</i:button>
+	<i:link name="keke2" text="This is a button" action="get@gmail.com" />
+	<i:radiogroup name="group1" label="This is a group">
+		<i:field name="radio" type="radio" label="button 1" checked="true">
+		</i:field>
+		<i:field name="radio2" type="radio" label="button 2" />
+	</i:radiogroup>
+	<i:radiogroup name="group2" label="This is ANOTHER group">
+		<i:field name="radio3" type="radio" label="button 3">
+		</i:field>
+		<i:field name="radio4" type="radio" label="button 4" checked="true" />
+	</i:radiogroup>
+	<i:radiogroup name="group3" label="This is checkbox group" help="Checkbox group help"  >
+		<i:field name="chk1" type="checkbox" label="box1">
+			<i:value type="orm">
+				<i:source name="getChkbox" />
+			</i:value>
+			<i:help>This is some help for CHECKBOX</i:help>
+			<i:comment>This is some help for CHECKBOX</i:comment>
+		</i:field>
+		<i:field name="chk2" type="checkbox" label="box 2" />
+	</i:radiogroup>
+</i:fields>
+
+<i:actions>
+	<i:action name="delete" url="foo/bar" icon="/images/famfamfam/delete.png" />
+	<i:action name="new" url="foo/bar?foo={foobar}" icon="/images/famfamfam/ok.png" />
+</i:actions>
+
+<i:description><![CDATA[<h1>This is the help!</h1>
+
+<p>Hi, <i>this is</i> the text.</p>
+]]></i:description>
+
+<i:grouping>
+	<i:set title="Group2" tabtitle="This is tab2">
+		<i:ref to="mco" />
+	</i:set>
+	<i:set title="Test" tabtitle="Foo">
+		<i:ref to="lo" />
+		<i:ref to="combo" />
+	</i:set>
+	<i:set title="Group1" float="true" tabtitle="This is tab1">
+		<i:ref to="username"  />
+		<i:ref to="password" break="true" />
+		<i:ref to="lo2" />
+		<i:ref to="lo3"  />
+		<i:ref to="lo4" />
+	</i:set>
+	<i:set title="A Fieldset">
+		<i:ref to="la" />
+		<i:ref to="group1" group="true" />
+	</i:set>
+	<i:set title="Another set..">
+		<i:ref to="combo2" />
+		<i:ref to="text" />
+	</i:set>
+</i:grouping>
+
+</i:view>

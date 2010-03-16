@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="list">
+	
+	<i:title>List {foobar} view</i:title>
+
+	<i:params>
+		<i:param name="maxperpage">{foobar}</i:param>
+	</i:params>
+	
+	<i:proxy url="parser/listjson?lala={foobar}" />
+	
+	<i:datasource type="orm">
+		<!-- <i:statement>select *, mgmt_server_group.name as 'group', mgmt_location.name as 'zuzu' from mgmt_server LEFT JOIN mgmt_server_group ON server_group_id=mgmt_server_group.id LEFT JOIN mgmt_location ON location_id=mgmt_location.id
+		</i:statement> -->
+		<i:class>ServerPeer</i:class>
+		<i:method name="fetchData" type="static">
+			<i:param name="foo">lala</i:param>
+			<i:param name="ikmin">12122</i:param>
+		</i:method>
+	</i:datasource>
+	
+	<i:display>
+		<i:visible>id,name,hostname,domain,server_type_id,server_group_id,server_interface_id</i:visible>
+	</i:display>
+	
+	<i:fields>
+		<i:column label="No." name="id" isid="true" />
+		<i:column label="Name" name="name" sortable="true"/>
+		<i:column label="Host" name="hostname" />
+		<i:column label="Domain" name="domain"/>
+		<i:column label="Server Type" name="server_type_id"/>
+		<i:column label="Server Group" name="server_group_id"/>
+		<i:column label="Iface" name="server_interface_id"/>
+	</i:fields>
+	
+	<i:rowactions>
+		<i:action name="modify" iconCls="icon-minus" url="test/show?foo={bar}" />
+		<i:action name="delete" url="test/delete" iconCls="icon-minus" />
+	</i:rowactions>
+	
+	<i:actions>
+		<i:action name="new" url="test/new?foo={bar}&amp;bar={foobar}" />
+	</i:actions>
+	
+	<i:cache>
+		<i:ref to="name" />
+		<i:ref to="domain" />
+	</i:cache>
+	
+	<i:grouping>
+		<i:by ref="name" callback="FooBar" />
+		<i:by ref="domain" callback="getSomeStuff" />
+	</i:grouping>
+	
+</i:view>

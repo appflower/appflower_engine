@@ -1,0 +1,1774 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:i="http://www.appflower.com/schema/" 
+xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/schema/" elementFormDefault="qualified">
+  
+  <xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd" />
+    
+  <!-- Types -->
+    
+  <xs:simpleType name="inputType">
+	<xs:annotation>
+		<xs:documentation>
+			This is the data type of form fields.
+			It is an enumeration an it may have the following values:
+			
+			input - simple text field (this is the default)
+			checkbox - A checkbox
+			radio - A radio button element
+			textarea - the equavilent of HTML textarea tag
+			combi -  A combi panel (combination of input and select)
+			multicomobi - same as above, but selecting multiple choices is possible
+			hidden - A hidden field
+			file - A file upload field
+			password - A password field
+			
+		</xs:documentation>
+	</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:enumeration value="input"/>
+		    <xs:enumeration value="textarea"/>
+			<xs:enumeration value="checkbox"/>
+			<xs:enumeration value="radio"/>
+		    <xs:enumeration value="password"/>
+		    <xs:enumeration value="hidden"/>
+		    <xs:enumeration value="file"/>
+		    <xs:enumeration value="combo"/>
+			<xs:enumeration value="extendedCombo"/>
+			<xs:enumeration value="dayTimeSelect"/>			
+			<xs:enumeration value="extendedDayTimeSelect"/>			
+			<xs:enumeration value="itemSelectorAutoSuggest"/>
+			<xs:enumeration value="remoteComboAutoSuggest"/>
+		    <xs:enumeration value="multicombo"/>
+		    <xs:enumeration value="doublemulticombo"/>
+		    <xs:enumeration value="static"/>
+		    <xs:enumeration value="doubletree"/>
+		    <xs:enumeration value="datetime"/>
+		    <xs:enumeration value="date"/>
+		    <xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+    
+  
+  <xs:simpleType name="stateType">
+	<xs:annotation>
+		<xs:documentation>
+			This is the data type of the state of form fields.
+			There are three valid states:
+			
+			editable - Normal state, field can be edited and will posted. This is the default
+			readonly - Field cannot be edited but will still be posted
+			disabled - Field may not be edited and wont be posted
+			
+		</xs:documentation>
+	</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:enumeration value="editable"/>
+		    <xs:enumeration value="readonly"/>
+		    <xs:enumeration value="disabled"/>
+		    <xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="alignType">
+	<xs:annotation>
+		<xs:documentation>
+			These are the possible values of align attribute of a grid column.
+						
+			left (default)
+			center
+			right
+			
+		</xs:documentation>
+	</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:enumeration value="left"/>
+		    <xs:enumeration value="center"/>
+		    <xs:enumeration value="right"/>
+		    <xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="buttonType">
+	<xs:annotation>
+		<xs:documentation>
+			This is the data type for buttons. It defines what kind of button will be
+			created.
+					
+			normal - A simple button, it will trigger some action and may execute some JS. 
+			reset - A reset button
+			
+		</xs:documentation>
+	</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:enumeration value="button"/>
+		    <xs:enumeration value="reset"/>
+		    <xs:enumeration value="submit"/>
+		    <xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="valueType">
+	<xs:annotation>
+		<xs:documentation>
+			The type of the source of a form field value. It may be defined as:
+			
+			orm - read the data from DB
+			file - read the data from file
+			static - a constant value (this is the default one)
+			  
+		</xs:documentation>
+	</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:enumeration value="orm"/>
+		    <xs:enumeration value="file"/>
+		    <xs:enumeration value="static"/>
+		    <xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="fetchType">
+	<xs:annotation>
+		<xs:documentation>
+			This determines whether an instance has to be crated, or
+			the method should be called statically.
+			
+			instance - create new instance
+			static	- The method is static.	
+			  
+		</xs:documentation>
+	</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:enumeration value="instance"/>
+		    <xs:enumeration value="static"/>
+		    <xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="areaWidthType">
+		<xs:annotation>
+			<xs:documentation>
+				This is the type for panel widths. Its value must be between 1 and 0.
+			</xs:documentation>
+		</xs:annotation>
+		 <xs:restriction base="xs:float">
+		  	<xs:maxInclusive value="1"></xs:maxInclusive>
+		  	<xs:minInclusive value="0"></xs:minInclusive>
+		  	<xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="viewType">
+	<xs:annotation>
+		<xs:documentation>
+			This data type defines the type of the view.
+			It may have the following values:
+			
+			edit - An edit view (update or new opartions)
+			list - A list view
+			show - A show view
+			layout - A component glueing view
+			  
+		</xs:documentation>
+	</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:enumeration value="edit" />
+		    <xs:enumeration value="list" />
+			<xs:enumeration value="show" />
+			<xs:enumeration value="layout" />
+			<xs:enumeration value="html" />
+			<xs:enumeration value="wizard" />
+			<xs:enumeration value="info" />
+		    <xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="areaType">
+	<xs:annotation>
+		<xs:documentation>
+			This data type defines the possible values for
+			"area" element's type attribute.
+			
+			It is used only in layout view
+			  
+		</xs:documentation>
+	</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:enumeration value="sidebar" />
+		    <xs:enumeration value="content" />
+		    <xs:enumeration value="footer" />
+		    <xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="displayType">
+	<xs:annotation>
+		<xs:documentation>
+			This data type defines the type of show element's "display" attribute.
+			It may have the following values:
+			
+			normal - Render the data as it is (default)
+			obfuscated - Render the data as rubbish text.
+			  
+		</xs:documentation>
+	</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:enumeration value="normal" />
+		    <xs:enumeration value="obfuscated" />
+		    <xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="sortType">
+	<xs:annotation>
+		<xs:documentation>
+			This is the data type of column field's sort attribute.
+			It determines the direction of sorting:
+			
+			ASC - Ascending
+			DESC - Descending
+			  
+		</xs:documentation>
+	</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:enumeration value="ASC" />
+		    <xs:enumeration value="DESC" />
+		    <xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="internalUriType">
+		<xs:annotation>
+			<xs:documentation>
+				This is the data type for symfony internal uris. The value must be a string, in the following
+				format:
+			
+				/module/action
+				
+				or
+					
+				/module/action?param1=value1&amp;param2=value2
+				
+			</xs:documentation>
+		</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:pattern value="([/]{0,1}[A-Za-z0-9_]+[/]{1}[A-Za-z0-9_]+)|([/]{0,1}[A-Za-z0-9_]+[/]{1}[A-Za-z0-9_]+([/]{1}[A-Za-z0-9_])*)|([/]{0,1}[A-Za-z0-9_]+/[A-Za-z0-9_\{\}]+\?[A-Za-z0-9_]+=[A-Za-z0-9_\{\}@]+(&amp;[A-Za-z0-9_]+=[A-Za-z0-9_\{\}@]+)*&amp;?)"/>
+		  	<xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="listType">
+		<xs:annotation>
+			<xs:documentation>
+				This data type is good for lists where items are separated by comma ",".
+				The values may contain only letters (english ABC) and numbers 				
+			</xs:documentation>
+		</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:pattern value="([A-Za-z0-9_:\*]+[,]{0,1})+"/>
+		  	<xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="arrayType">
+		<xs:annotation>
+			<xs:documentation>
+				This type defines an array (key => value pairs).
+				The array can be associative or numeric.				
+			</xs:documentation>
+		</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:pattern value="\[([A-Za-z0-9]+:[A-Za-z0-9.\[\],]+,{0,1})+\]"/>
+		  	<xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="permissionType">
+		<xs:annotation>
+			<xs:documentation>
+				This data type is used to define a list of access rights. These are strings.
+				* means there are no restrictions, and this is the default value.				
+			</xs:documentation>
+		</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:pattern value="([A-Za-z\*]+[,]{0,1})+"/>
+		  	<xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="absoluteUriType">
+		<xs:annotation>
+			<xs:documentation>
+				Data type of absolute paths, used for image srcs.	
+			</xs:documentation>
+		</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:pattern value="/[A-Za-z0-9/\-_]+\.[a-z]{1,4}"/>
+		  	<xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="pathType">
+		<xs:annotation>
+			<xs:documentation>
+				Data type of absolute paths.	
+			</xs:documentation>
+		</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:pattern value="(/[A-Za-z0-9\-_]+[/]{0,1})+"/>
+		  	<xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	
+	<xs:simpleType name="scriptType">
+		<xs:annotation>
+			<xs:documentation>
+				This one is the data type for JS code.	
+				It is only for JS function calls, the function body must be defined in external file!
+			</xs:documentation>
+		</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:pattern value="[a-zA-Z0-9\-_]+\([^\)]+\);"/>
+		  	<xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="externalUriType">
+		<xs:annotation>
+			<xs:documentation>
+				This is the data type for external urls. A valid value is a http or ftp address.
+			</xs:documentation>
+		</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:pattern value="(ftp://)|(http://)[A-Za-z0-9_\.\-]+"/>
+		  	<xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="webUriType">
+		<xs:annotation>
+			<xs:documentation>
+				This is the data type for web (http/https) urls. A valid value is a http(s) address.
+			</xs:documentation>
+		</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:pattern value="^http[s]{0,1}://[A-Za-z0-9_\.\-]+$"/>
+		  	<xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="combinedUriType">
+		<xs:annotation>
+			<xs:documentation>
+				This is the data type for urls. Its value can be an internal symfony url or
+				a http / ftp address. 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union  memberTypes="i:internalUriType xs:anyURI" />
+	</xs:simpleType>
+	
+	<xs:simpleType name="dbNameType">
+		<xs:annotation>
+			<xs:documentation>
+				The data type for database column names. It is used by the column filed's
+				name attribute. 				
+			</xs:documentation>
+		</xs:annotation>
+		 <xs:restriction base="xs:token">
+		  	<xs:pattern value="[A-Za-z0-9_]+"/>
+		  	<xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+	
+    <xs:simpleType name="handlerType">
+	<xs:annotation>
+		<xs:documentation>
+			The data type for javascript event handlers.
+			Its value is some "on.." event.
+			
+			Currently only the ExtJS Component and Field events are supported!
+			  
+		</xs:documentation>
+	</xs:annotation>
+		 <xs:restriction base="xs:token">
+		 	<xs:enumeration value="beforedestroy" />
+		 	<xs:enumeration value="beforehide" />
+		 	<xs:enumeration value="beforerender" />
+		 	<xs:enumeration value="beforeshow" />
+		 	<xs:enumeration value="beforestaterestore" />
+		 	<xs:enumeration value="beforestatesave" />
+		 	<xs:enumeration value="blur" />
+		 	<xs:enumeration value="change" />
+		 	<xs:enumeration value="check" />
+		  	<xs:enumeration value="destroy" />
+		  	<xs:enumeration value="disable" />
+		  	<xs:enumeration value="enable" />
+		    <xs:enumeration value="focus" />
+		    <xs:enumeration value="hide" />
+		    <xs:enumeration value="invalid" />
+		    <xs:enumeration value="move" />
+		    <xs:enumeration value="render" />
+		    <xs:enumeration value="resize" />
+		    <xs:enumeration value="show" />
+		    <xs:enumeration value="specialkey" />
+		    <xs:enumeration value="staterestore" />
+		    <xs:enumeration value="statesave" />
+		    <xs:enumeration value="valid" />
+		    <xs:enumeration value="click" />
+		    <xs:enumeration value="beforeselect" />
+		    <xs:enumeration value="collapse" />
+		    <xs:enumeration value="expand" />
+		    <xs:enumeration value="keydown" />
+		    <xs:enumeration value="keyup" />
+		    <xs:enumeration value="keypress" />
+		    <xs:enumeration value="select" />
+		    <xs:enumeration value="autosize" />
+		    <xs:enumeration value="beforequery" />
+		    <xs:enumeration value="activate" />
+		    <xs:enumeration value="initialize" />
+		    <xs:enumeration value="beforepush" />
+		    <xs:enumeration value="beforesync" />
+		    <xs:enumeration value="push" />
+		    <xs:enumeration value="sync" />
+		    <xs:whiteSpace value="collapse"/>
+		  </xs:restriction>
+	</xs:simpleType>
+    
+    
+    <!-- Attribute groups -->
+    
+    <xs:attributeGroup name="fieldAttributes">
+        <xs:annotation>
+            <xs:documentation>
+               These are the attributes for each field, checkbox and radio element.
+               All of them are optional, except for "name", which is required:
+            
+            	name - The name of the field
+				label - The label text
+				checked - Makes only sense in case of checkbox or radio button element, determines if the button is checked
+            	type - type of the field
+            	state - state of the field
+            	style - a css class that should be applied to the field
+               
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="xs:token" use="required" />
+        <xs:attribute name="label" type="xs:token" use="optional" default="" />
+        <xs:attribute name="selected" type="xs:token" use="optional" default="" />
+        <xs:attribute name="type" type="i:inputType" use="optional" default="input" />
+        <xs:attribute name="state" type="i:stateType" use="optional" default="editable" />
+        <xs:attribute name="value" type="xs:token" use="optional" />
+        <xs:attribute name="style" type="xs:token" use="optional" />
+        <xs:attribute name="width" type="xs:positiveInteger" use="optional" /> 
+    	<xs:attribute name="height" type="xs:token" use="optional" /> 
+		<xs:attribute name="checked" type="xs:token" use="optional" /> 
+		<xs:attribute name="rich" type="xs:boolean" use="optional" default="false" /> 
+ 		<xs:attribute name="assignid" type="xs:boolean" fixed="true" />
+ 		<xs:attribute name="content" type="xs:token" use="optional" />
+ 		<xs:attribute name="fromLegend" type="xs:token" use="optional" default="Options" />
+ 		<xs:attribute name="toLegend" type="xs:token" use="optional" default="Selected" />
+ 		<xs:attribute name="clear" type="xs:boolean" use="optional" default="true" /> 
+ 		<xs:attribute name="session" type="xs:boolean" use="optional" default="false" />
+ 		<xs:attribute name="disabled" type="xs:boolean" use="optional" default="false" />
+ 		<xs:attribute name="permissions" type="i:permissionType" default="*" />        
+ 		<xs:attribute name="plugin" type="xs:token" use="optional" default="*" /> 
+ 		<xs:attribute name="url" type="xs:token" use="optional" default="*" />
+ 		           
+    </xs:attributeGroup>
+    
+	<xs:attributeGroup name="columnAttributes">
+      <xs:annotation>
+            <xs:documentation>
+               These are the attributes for each column element.
+     
+            	name - The name of the column in db
+            	width - The column's width in pixels
+				help - Some help text that will be displayed when hovering the title.
+				title - This will be displayed in the table header
+            	style - a css class that should be applied to the column
+				editable - Determines if inline editing should be enabled
+				sortable - Determines if sorting is possible on the column
+				resizable - Determines is the column can be resized
+               
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="i:dbNameType" use="optional" />
+        <xs:attribute name="qtip" type="xs:boolean" use="optional" default="false" />
+        <xs:attribute name="label" type="xs:token" use="required" />
+        <xs:attribute name="help" type="xs:token" use="optional" />
+		<xs:attribute name="width" type="xs:positiveInteger" use="optional" />
+        <xs:attribute name="editable" type="xs:boolean" use="optional" default="false" />
+		<xs:attribute name="sortable" type="xs:boolean" use="optional" default="false" />
+		<xs:attribute name="resizable" type="xs:boolean" use="optional" default="false" />
+        <xs:attribute name="style" type="xs:token" use="optional" />  
+        <xs:attribute name="isid" type="xs:boolean" use="optional" />
+        <xs:attribute name="groupField" type="xs:boolean" use="optional" />
+        <xs:attribute name="sort" type="i:sortType" use="optional" />
+        <xs:attribute name="hidden" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="hideable" type="xs:boolean" use="optional" default="true" />
+        <xs:attribute name="align" type="i:alignType" use="optional" default="left" />
+        <xs:attribute name="assignid" type="xs:boolean" fixed="true" />
+        <xs:attribute name="filter" type="i:arrayType" use="optional" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+        <xs:attribute name="type" type="xs:token" use="optional" />
+        <xs:attribute name="sortType" type="xs:token" default="asText" use="optional" />
+        <xs:attribute name="sortIndex" type="xs:token" use="optional" />
+        <xs:attribute name="contextMenu" type="xs:token" use="optional" />
+    </xs:attributeGroup>
+
+	<xs:attributeGroup name="showAttributes">
+        <xs:annotation>
+            <xs:documentation>
+               These are the attributes for each show element.
+     
+            	name - The name of the column in db
+         			display - how the text should be displayed
+							editable - Is the field inline editable
+							label - The text of label
+							comment - This text should be displayed below the field
+					    style - a css class that should be applied to the column
+               
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="xs:token" use="required" />
+        <xs:attribute name="display" type="i:displayType" use="optional" default="normal" />
+        <xs:attribute name="editable" type="xs:boolean" use="optional" default="false" />
+		<xs:attribute name="label" type="xs:token" use="required" />
+        <xs:attribute name="comment" type="xs:token" use="optional" />
+        <xs:attribute name="style" type="xs:token" use="optional" />  
+        <xs:attribute name="assignid" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+    </xs:attributeGroup>
+	
+	
+	<xs:attributeGroup name="buttonAttributes">
+        <xs:annotation>
+            <xs:documentation>
+               These are the attributes used by button and linkbutton elements
+     
+            	name - The name of the field
+				label - The label of the button
+				action - An internal uri
+            	state - state of the field
+            	style - a css class that should be applied to the field
+            	               
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="xs:token" use="required" />
+		<xs:attribute name="label" type="xs:token" use="required" />
+		<xs:attribute name="icon" type="i:absoluteUriType" use="optional" />
+		<xs:attribute name="iconCls" type="xs:token" use="optional" />
+        <xs:attribute name="action" type="i:combinedUriType" use="required" />
+        <xs:attribute name="state" type="i:stateType" use="optional" default="editable" />
+		<xs:attribute name="style" type="xs:token" use="optional" />
+		<xs:attribute name="updater" type="xs:boolean" use="optional" default="false" />
+		<xs:attribute name="permissions" type="i:permissionType" default="*" />
+    </xs:attributeGroup>
+	
+
+    <!-- Elements -->
+    
+    <!-- Element groups -->
+    
+    <xs:group name="actionelements">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		This is a group of elements common to all action
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:sequence>
+	    <xs:element ref="i:handler" minOccurs="0" maxOccurs="unbounded" />
+	  </xs:sequence>
+	</xs:group> 
+	
+	
+    <xs:group name="fieldelements">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		This is a group of elements common to all form fields, checkboxes and radios.
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:sequence>
+	    <xs:element ref="i:value" minOccurs="0" maxOccurs="1" />
+	    <xs:element ref="i:help" minOccurs="0" maxOccurs="1" />
+	    <xs:element ref="i:comment" minOccurs="0" maxOccurs="1" />
+	    <xs:element ref="i:validator" minOccurs="0" maxOccurs="unbounded" />
+	    <xs:element ref="i:handler" minOccurs="0" maxOccurs="unbounded" />
+	    <xs:element ref="i:trigger" minOccurs="0" maxOccurs="1" />
+	    <xs:element ref="i:window" minOccurs="0" maxOccurs="1" />
+	  </xs:sequence>
+	</xs:group> 
+    
+    
+    <!--  Simple elements -->
+    
+    <xs:element type="xs:token" name="class" />
+    <xs:element type="xs:token" name="error" />
+	<xs:element type="i:listType" name="visible" />
+	<xs:element type="i:listType" name="hidden" />
+	<xs:element type="i:listType" name="level" />
+    
+    <!-- Complex elements -->
+    
+    <xs:element name="title">
+    	<xs:annotation>
+        <xs:documentation>
+            This element defines the title of a view
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+      	<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="trigger">
+    	<xs:annotation>
+        <xs:documentation>
+            This is a special button bound to a field. It opens a popup window.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="text" type="xs:token" use="optional" />
+        <xs:attribute name="icon" type="i:absoluteUriType" use="optional" default="/images/famfamfam/cancel.png" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="window">
+    	<xs:annotation>
+        <xs:documentation>
+            The element defines the options of a popup window.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="title" type="xs:token" use="required" />
+        <xs:attribute name="component" type="i:internalUriType" use="required" />
+        <xs:attribute name="className" type="xs:token" use="required" />
+        <xs:attribute name="methodName" type="xs:token" use="required" />
+        <xs:attribute name="width" type="xs:positiveInteger" use="optional" default="500" />
+        <xs:attribute name="iconCls" type="xs:token" use="optional" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="description">
+    	<xs:annotation>
+        <xs:documentation>
+            This element contains the description of a widget
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+      	<xs:sequence>
+      		<xs:any namespace="http://www.w3.org/1999/xhtml" minOccurs="0" maxOccurs="unbounded" />
+      	</xs:sequence>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="image" type="xs:token" use="optional" />
+      	<xs:attribute name="condition" type="xs:token" use="optional" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="alternateDescriptions">
+    	<xs:annotation>
+        <xs:documentation>
+            This element holds description elements, alternatives to the main description of the widget.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      	<xs:sequence>
+      		<xs:element ref="i:description" minOccurs="1" maxOccurs="unbounded" />
+      	</xs:sequence>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="extrahelp">
+    	<xs:annotation>
+        <xs:documentation>
+            This element defines some extra information about a glued page.
+            It is a kind of help.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+      	<xs:sequence>
+      		<xs:any namespace="http://www.w3.org/1999/xhtml" minOccurs="0" maxOccurs="unbounded" />
+      	</xs:sequence>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="body">
+    	<xs:annotation>
+        <xs:documentation>
+            This element defines a custom HTML message.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+      	<xs:sequence>
+      		<xs:any namespace="http://www.w3.org/1999/xhtml" minOccurs="0" maxOccurs="unbounded" />
+      	</xs:sequence>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="title" type="xs:token" use="optional" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="confirm">
+    	<xs:annotation>
+        <xs:documentation>
+            This one will be rendered as a confirm dialogue on client side.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="url" type="i:internalUriType" use="required" />
+      	<xs:attribute name="title" type="xs:token" use="optional" default="Confirmation" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="component">
+    	<xs:annotation>
+        <xs:documentation>
+            This element defines a component to be included in the layout.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      	<xs:sequence>
+        	<xs:element ref="i:params" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="name" type="xs:token" use="required" />
+      	<xs:attribute name="module" type="xs:token" use="required" />
+      	<xs:attribute name="post" type="i:internalUriType" use="optional" />
+      	<xs:attribute name="column" type="xs:integer" use="optional" default="0" />
+      	<xs:attribute name="refresh" type="xs:nonNegativeInteger" use="optional" default="0" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="help">
+    	<xs:annotation>
+        <xs:documentation>
+            The element contains some help text that should showed when hover event occurs.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+      	<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="comment">
+    	<xs:annotation>
+        <xs:documentation>
+            The element describes the comment text that should be rendered beneath the edit field.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+      	<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="statement">
+    	<xs:annotation>
+        <xs:documentation>
+            This one contains a SQL statement to be executed as datasource.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+      	<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="options">
+    	<xs:annotation>
+        <xs:documentation>
+            This one holds optional attributes used in HTML views.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="autoScroll" type="xs:boolean" use="optional" default="true" />
+        <xs:attribute name="border" type="xs:boolean" use="optional" default="false" />
+        <xs:attribute name="header" type="xs:boolean" use="optional" default="true" />
+        <xs:attribute name="autoHeight" type="xs:boolean" use="optional" default="true" />
+        <xs:attribute name="autoEnd" type="xs:boolean" use="optional" default="false" />
+        <xs:attribute name="style" type="xs:token" use="optional" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="method">
+    	<xs:annotation>
+        <xs:documentation>
+            This element describes a method to call and its parameters
+            It may contain any number of "param" elements.
+            The "name" attribute is required.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:sequence>
+        	<xs:element ref="i:param" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:token" use="required" />
+        <xs:attribute name="type" type="i:fetchType" use="optional" default="instance" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="item">
+    	<xs:annotation>
+        <xs:documentation>
+            This element defines items of a combo or multicombo statically.
+            It can be used within value elements.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+        <xs:attribute name="value" type="xs:token" use="required" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="value">
+    	<xs:annotation>
+        <xs:documentation>
+            This element describes the value of a form field.
+							
+			The first syntax is for special cases, when you need to call
+			some custom method to fill the field.
+						
+			The second syntax is the general one. For details, please
+			see the "source" element.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+		<xs:sequence minOccurs="1" maxOccurs="1">
+        	<xs:choice>
+				<xs:sequence minOccurs="0" maxOccurs="1">
+					<xs:element ref="i:class" minOccurs="1" maxOccurs="1" />
+        			<xs:element ref="i:method" minOccurs="1" maxOccurs="1" />
+				</xs:sequence>
+				<xs:sequence minOccurs="0" maxOccurs="1">
+					<xs:element ref="i:source" minOccurs="1" maxOccurs="1" />
+				</xs:sequence>
+				<xs:sequence minOccurs="0" maxOccurs="1">
+					<xs:element ref="i:item" minOccurs="1" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="type" type="i:valueType" use="required" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+
+	<xs:element name="datasource">
+    	<xs:annotation>
+        <xs:documentation>
+            This element describes the data source for the input fields
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      		<xs:choice>
+        		<xs:sequence>
+        			<xs:element ref="i:class" minOccurs="1" maxOccurs="1" />
+        			<xs:element ref="i:method" minOccurs="1" maxOccurs="1" />
+        		</xs:sequence>
+        		<xs:sequence>
+        			<xs:element ref="i:statement" minOccurs="1" maxOccurs="1" />
+        		</xs:sequence>
+        	</xs:choice>
+        	<xs:attributeGroup ref="i:commonAttributes" />
+        	<xs:attribute name="type" type="i:valueType" use="required" />
+        	<xs:attribute name="lister" type="xs:boolean" use="optional" default="false" />
+        	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="datastore">
+    	<xs:annotation>
+        <xs:documentation>
+            This element contains entry elements and is used to define
+            relations between form field names and classes when saving data.
+            It is used only in wizard layouts.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+       		<xs:sequence>
+       			<xs:choice minOccurs="1" maxOccurs="unbounded">
+	       			<xs:element ref="i:table" minOccurs="1" maxOccurs="unbounded" />
+	       			<xs:element ref="i:file" minOccurs="1" maxOccurs="unbounded" />
+       			</xs:choice>
+       		</xs:sequence>
+     	
+        	<xs:attributeGroup ref="i:commonAttributes" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="table">
+    	<xs:annotation>
+        <xs:documentation>
+            This element defines where to save the user input.
+            It is used only in wizard layouts.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      		<xs:sequence>
+        		<xs:element ref="i:ref" minOccurs="1" maxOccurs="unbounded" />
+        	</xs:sequence>
+        	<xs:attributeGroup ref="i:commonAttributes" />
+        	<xs:attribute name="name" type="xs:token" use="required" />
+        	<xs:attribute name="select" type="xs:token" use="optional" />
+        	<xs:attribute name="alias" type="xs:token" use="optional" />
+        	<xs:attribute name="ignore" type="xs:positiveInteger" use="optional" />
+        	<xs:attribute name="insert" type="xs:token" use="optional" />
+        	<xs:attribute name="delete" type="xs:boolean" use="optional" default="false" />
+        	<xs:attribute name="condition" type="xs:token" use="optional" />
+        	<xs:attribute name="json" type="xs:token" use="optional" />
+        	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+    
+    
+    <xs:element name="file">
+    	<xs:annotation>
+        <xs:documentation>
+            This element reprsents an uploaded file.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        	<xs:attributeGroup ref="i:commonAttributes" />
+        	<xs:attribute name="to" type="i:pathType" use="required" />
+        	<xs:attribute name="name" type="xs:token" use="required" />
+        	<xs:attribute name="overwrite" type="xs:boolean" use="optional" default="false" />
+        	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+    
+	<xs:element name="params">
+    	<xs:annotation>
+        <xs:documentation>
+            This element holds parameters for its parent.
+			It contains 1 or more "param elements".
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        	<xs:sequence>
+        		<xs:element ref="i:param" minOccurs="1" maxOccurs="unbounded" />
+        	</xs:sequence>
+        	<xs:attributeGroup ref="i:commonAttributes" />
+        	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+
+    <xs:element name="param">
+    	<xs:annotation>
+        <xs:documentation>
+            It defines an argument for a validator. 
+            This element must reside in a "validator" element.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+      <xs:sequence>
+      	<xs:any namespace="http://www.w3.org/1999/xhtml" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+        <xs:attribute name="name" type="xs:token" use="required" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="validator">
+    	<xs:annotation>
+        <xs:documentation>
+            This element defines a validator to be called from PHP.
+            It may contain any number of param elements (including 0) to define arguments.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:sequence>
+        	<xs:element ref="i:param" minOccurs="0" maxOccurs="unbounded" />
+        	<xs:element ref="i:error" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="name" type="xs:token" use="required" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="proxy">
+    	<xs:annotation>
+        <xs:documentation>
+            The element defines a proxy url for list views.
+            This will be called by the client to fetch list items. 
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="url" type="i:internalUriType" use="required" />
+        <xs:attribute name="stateId" type="xs:boolean" default="false" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="handler">
+    	<xs:annotation>
+        <xs:documentation>
+            The element can be used to define s Javascript event handler for a form field.
+            It has two attributes:
+            
+            type - the event type (HTML or custom event)
+            action - Javascript code to call
+            
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="type" type="i:handlerType" use="optional" />
+        <xs:attribute name="action" type="xs:token" use="required" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="field">
+    	<xs:annotation>
+        <xs:documentation>
+            This element describes an input field of a form.
+            It has several attributes, but all of them are optional, except for "name" and "label".
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:group ref="i:fieldelements" minOccurs="1" maxOccurs="1" />
+        <xs:attributeGroup ref="i:fieldAttributes" />
+        <xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+
+		<xs:element name="show">
+    	<xs:annotation>
+        <xs:documentation>
+            This element describes a field in show view. It determines how the value is rendered.
+            It has several attributes, but all of them are optional, except for "name" and "label".
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:attributeGroup ref="i:showAttributes" />
+        <xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+  
+    <xs:element name="button">
+      <xs:annotation>
+        <xs:documentation>
+            This is an extension of the field element. A button is also a field
+            and its data type is almost the same, but has one more extra attribute:
+            
+            action - the internal url to post to
+            
+            Defining a label is also required in this case.
+            
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      	<xs:sequence>
+        	<xs:element ref="i:handler" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+       	<xs:attributeGroup ref="i:commonAttributes" />
+       	<xs:attributeGroup ref="i:buttonAttributes" />
+     	<xs:attribute name="type" type="i:buttonType" use="optional" default="button" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="assignid" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="link">
+      <xs:annotation>
+        <xs:documentation>
+            This element is used to create hyperlinks. It has two attributes:
+            
+            action - an internal or external uri to point to
+            text - The text of the link
+            
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="name" type="xs:QName" use="required" />
+      	<xs:attribute name="type" type="xs:token" use="optional" fixed="link" />
+        <xs:attribute name="action" type="i:combinedUriType" use="required" />
+        <xs:attribute name="text" type="xs:token" use="required" />
+        <xs:attribute name="assignid" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="linkbutton">
+      <xs:annotation>
+        <xs:documentation>
+            This element is used to create a button that acts as hyperlink. It has 
+            two unique attributes, the others as the same as button`s:
+            
+            action - an internal or external uri to point to
+            text - The text of the link
+            
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attributeGroup ref="i:buttonAttributes" />
+      	<xs:attribute name="type" type="xs:token" use="optional" fixed="linkButton" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="assignid" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+    
+     <xs:element name="radiogroup">
+      <xs:annotation>
+        <xs:documentation>
+            The element is the container for radio buttons. 
+            It has a name and label and may have a comment attached ot it.
+            
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      	<xs:sequence>
+        	<xs:element ref="i:field" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="name" type="xs:token" use="required" />
+      	<xs:attribute name="label" type="xs:token" use="required" />
+      	<xs:attribute name="comment" type="xs:token" use="optional" />
+      	<xs:attribute name="help" type="xs:token" use="optional" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="container" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+
+	<xs:element name="fields">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		This is a container for all the input fields, it is similar to HTML form element.
+	  		In an edit view it may contain any number of field elements, but it must hold at least one.
+	
+				In a list view it is the container of "column" elements, the columns of the list.
+				At least 1 "column" element is required.
+				
+				In case of a show view it contains "show" elements, which will define rendering options
+				for the values.
+				At least 1 "show" element is required.
+	  		
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:choice minOccurs="1" maxOccurs="1">
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element ref="i:field" minOccurs="1" maxOccurs="unbounded"/>
+      					<xs:element ref="i:button" minOccurs="0" maxOccurs="unbounded"/>
+      					<xs:element ref="i:linkbutton" minOccurs="0" maxOccurs="unbounded"/>
+      					<xs:element ref="i:link" minOccurs="0" maxOccurs="unbounded"/>
+      					<xs:element ref="i:radiogroup" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:choice>
+					<xs:choice minOccurs="0" maxOccurs="1">
+						<xs:sequence>
+							<xs:element ref="i:column" minOccurs="1" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:choice>
+					<xs:choice minOccurs="0" maxOccurs="1">
+						<xs:sequence>
+							<xs:element ref="i:show" minOccurs="1" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:choice>
+      	</xs:choice>
+      	<xs:attribute name="tree" type="xs:boolean" use="optional" default="false" />
+      	<xs:attribute name="selectable" type="xs:boolean" use="optional" default="true" />
+      	<xs:attribute name="exportable" type="xs:boolean" use="optional" default="true" />
+      	<xs:attribute name="title" type="xs:token" use="optional" default="" />
+      	<xs:attribute name="select" type="xs:boolean" use="optional" default="false" />
+      	<xs:attribute name="pager" type="xs:boolean" use="optional" default="true" />
+      	<xs:attribute name="url" type="i:internalUriType" use="optional" default="n/a" />
+      	<xs:attribute name="action" type="i:internalUriType" use="optional" default="n/a" />
+      	<xs:attribute name="multipart" type="xs:boolean" use="optional" default="false" />
+      	<xs:attribute name="remoteSort" type="xs:boolean" default="false" />
+      	<xs:attribute name="submit" type="xs:boolean" use="optional" default="true" />
+      	<xs:attribute name="classic" type="xs:boolean" use="optional" default="false" />
+      	<xs:attribute name="iconCls" type="xs:token" use="optional" />
+      	<xs:attribute name="icon" type="xs:token" use="optional" default="/images/famfamfam/accept.png" />
+      	<xs:attribute name="bodyStyle" type="xs:token" use="optional" />
+      	<xs:attribute name="border" type="xs:boolean" use="optional" default="true" />
+      	<xs:attribute name="portal" type="xs:boolean" use="optional" default="true" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="permissions" type="i:permissionType" use="optional" default="*" />
+      	<xs:attribute name="label" type="xs:token" use="optional" default="Save Selection" />
+      	<xs:attribute name="redirect" type="i:internalUriType" use="optional" />
+      	<xs:attribute name="expandButton" type="xs:boolean" use="optional" />
+      	<xs:attribute name="remoteLoad" type="xs:boolean" use="optional" />
+      	<xs:attribute name="labelWidth" type="xs:positiveInteger" use="optional" default="75" />
+      	<xs:attribute name="exportFrom" type="xs:token" use="optional"/>
+      	<xs:attribute name="remoteFilter" type="xs:boolean" use="optional" />
+      	<xs:attribute name="plugin" type="xs:token" use="optional" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="grouping">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		In an edit view, this one can be used to define grouping of fields. It will transformed to
+				something like fieldsets in HTML.
+				
+				It also determines the order of the fields in the view. Those fields not
+				associated with any fieldset will belong to a "default" set and will appear
+				below the last named set.
+				
+				In a list view, it defines what columns should be grouped and by what criteria.
+				
+	  		It contains at least one "set" element in edit view or at least 1 "by"
+				tag in list view.
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:choice minOccurs="1" maxOccurs="1">
+					<xs:choice minOccurs="1" maxOccurs="1">
+						<xs:sequence>
+							<xs:element ref="i:set" minOccurs="1" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:choice>
+					<xs:choice minOccurs="1" maxOccurs="1">
+						<xs:sequence>
+							<xs:element ref="i:by" minOccurs="1" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:choice>
+      	</xs:choice>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="title" type="xs:token" default="Default" />
+      	<xs:attribute name="isSetting" type="xs:boolean" default="false" />
+      	<xs:attribute name="collapsed" type="xs:boolean" default="false" />      	
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="by">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		This tag must reside in a "column" element and it is used to
+	  		define a grouping criteria for a column.
+	  	
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:attribute name="ref" type="xs:QName" use="required" />
+				<xs:attribute name="callback" type="xs:token" use="required" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="set">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		This tag must reside in a "grouping" element and it is used to
+	  		define a fieldset.
+	  		
+	  		It must have a "title" attribute. It must contain at least one 
+				"ref" element.
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+		<xs:sequence>
+      		<xs:element ref="i:ref" minOccurs="1" maxOccurs="unbounded"/>
+      	</xs:sequence>
+      	<xs:attribute name="title" type="xs:token" use="required" />
+      	<xs:attribute name="tabtitle" type="xs:token" use="optional" />
+      	<xs:attribute name="columns" type="xs:positiveInteger" use="optional" default="1" />
+      	<xs:attribute name="float" type="xs:boolean" use="optional" default="false" />
+      	<xs:attribute name="collapsed" type="xs:boolean" use="optional" default="false" />
+      	<xs:attribute name="tabHeight" type="xs:positiveInteger" use="optional" default="225" />
+      	<xs:attribute name="iconCls" type="xs:token" use="optional"/>
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="ref">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		It refers to a field defined within the "fields" element. 
+				This determines the placement of the field in the view.
+				
+				In a list view it may refer to any other named element.
+				
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:attribute name="to" type="xs:QName" use="required" />
+      	<xs:attribute name="as" type="xs:token" use="optional" />
+      	<xs:attribute name="break" type="xs:boolean" use="optional" default="false" />
+      	<xs:attribute name="group" type="xs:boolean" use="optional" default="false" />
+      	<xs:attribute name="title" type="xs:token" use="optional" />
+      	<xs:attribute name="tip" type="xs:token" use="optional" />
+      	<xs:attribute name="json" type="xs:token" use="optional" />  
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="source">
+	  <xs:annotation>
+	  	<xs:documentation>
+				This refers to one of the getter methods of the object returned by "datasource". The return value will be
+				the value of the "field" element. 
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:attribute name="name" type="xs:token" use="required" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="column">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		This tag defines a column of a list view. It may have many
+				attributes, but only the "name" is required.
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType mixed="true">
+      	<xs:attributeGroup ref="i:columnAttributes" />
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="actions">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		The tag used to list the actions for a given view.
+	  		It must contain at least 1 "action" tag.
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:sequence>
+      		<xs:element ref="i:action" minOccurs="1" maxOccurs="unbounded"/>
+      	</xs:sequence>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="permissions" type="i:permissionType" default="*" />
+	  </xs:complexType>
+	</xs:element>
+	
+	
+	<xs:element name="widgetCategories">
+		<xs:annotation>
+			<xs:documentation>
+				The contains one or more category elements, and defines
+				the list of visible categries in widget selector for a PAGE.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="i:category" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="i:commonAttributes" />
+			<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+			<xs:attribute name="container" type="xs:boolean" fixed="true" />
+			<xs:attribute name="permissions" type="i:permissionType" default="*" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="category">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a widget category, used by the widget selector.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attributeGroup ref="i:commonAttributes" />
+			<xs:attribute name="catid" type="xs:integer" use="required" />
+			<xs:attribute name="name" type="xs:token" use="optional" />
+			<xs:attribute name="permissions" type="i:permissionType" default="*" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="rowactions">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		The tag used to list the actions for a row in the list view.
+	  		It must contain at least 1 "action" tag.
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:sequence>
+      		<xs:element ref="i:action" minOccurs="1" maxOccurs="unbounded"/>
+      	</xs:sequence>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="permissions" type="i:permissionType" default="*" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="moreactions">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		The tag used to list the actions for selected row in the list view.
+	  		It must contain at least 1 "action" tag.
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:sequence>
+      		<xs:element ref="i:action" minOccurs="1" maxOccurs="unbounded"/>
+      	</xs:sequence>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="permissions" type="i:permissionType" default="*" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="action">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		This tag describes an action for the given view.
+	  		It has a required attribute.
+	  		
+	  		The content must be the name of the class and function to call,
+	  		or false.
+	  		
+	  		E.g.: someclass/foobar
+	  		
+	  	</xs:documentation>
+	  </xs:annotation>
+	  
+	  <xs:complexType>
+	  	<xs:group ref="i:actionelements" minOccurs="1" maxOccurs="1" />
+      	<xs:attribute name="name" type="xs:token" use="required" />
+      	<xs:attribute name="url" type="i:combinedUriType" use="required" />
+      	<xs:attribute name="pk" type="xs:token" use="optional" default="id" />
+	  	<xs:attribute name="condition" type="xs:token" use="optional" />
+      	<xs:attribute name="script" type="xs:token" use="optional" />
+      	<xs:attribute name="params" type="xs:token" use="optional" />
+		<xs:attribute name="icon" type="i:absoluteUriType" use="optional" />
+		<xs:attribute name="iconCls" type="xs:token" use="optional" />
+		<xs:attribute name="tooltip" type="xs:token" use="optional" />
+		<xs:attribute name="text" type="xs:token" use="optional" />
+		<xs:attribute name="style" type="xs:token" use="optional" />
+		<xs:attribute name="post" type="xs:boolean" use="optional" default="false" />
+		<xs:attribute name="forceSelection" type="xs:boolean" use="optional" />
+		<xs:attribute name="confirmMsg" type="xs:string" use="optional" />
+		<xs:attribute name="confirm" type="xs:boolean" use="optional" />
+		<xs:attribute name="updater" type="xs:boolean" use="optional" default="false" />
+		<xs:attribute name="popup" type="xs:boolean" use="optional" default="false" />
+		<xs:attribute name="permissions" type="i:permissionType" default="*" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="selectors">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		This element describes the selectors for treegrid with multiple
+	  		leveles.
+	  		
+	  		It contains one or more "level" elements.
+	  		
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:sequence>
+      		<xs:element ref="i:level" minOccurs="1" maxOccurs="unbounded"/>
+      	</xs:sequence>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="display">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		This one is for list and show views. It is a container of
+	  		multiple elements manipulating how the view gets
+	  		displayed.
+	  		
+	  		It must contain at least a "visible" child element.
+	  		
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:sequence>
+      		<xs:element ref="i:visible" minOccurs="1" maxOccurs="1"/>
+			<xs:element ref="i:hidden" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="i:selectors" minOccurs="0" maxOccurs="1"/>
+      	</xs:sequence>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="permissions" type="i:permissionType" default="*" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="cache">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		The element controls cacheing, by defining a set of references to
+				to named elements that should be cached.
+				
+				It must contain at least 1 "ref" element.
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:sequence>
+      		<xs:element ref="i:ref" minOccurs="1" maxOccurs="unbounded"/>
+      	</xs:sequence>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="area">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		It defines an area of a complete layout.
+	  		It may contain component and params elemnts.
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:choice minOccurs="1" maxOccurs="1">
+      		<xs:sequence>
+      			<xs:element ref="i:component" minOccurs="1" maxOccurs="unbounded"/>
+      			<xs:element ref="i:params" minOccurs="0" maxOccurs="1"/>
+      		</xs:sequence>
+      		<xs:sequence>
+      			<xs:element ref="i:tree" minOccurs="1" maxOccurs="1"/>
+      		</xs:sequence>
+      		<xs:sequence>
+      			<xs:element ref="i:tab" minOccurs="1" maxOccurs="unbounded"/>
+      		</xs:sequence>
+      	</xs:choice>
+      	<xs:attribute name="type" type="i:areaType" use="required" />
+      	<xs:attribute name="layout" type="xs:positiveInteger" use="optional" default="1" />
+      	<xs:attribute name="width" type="i:areaWidthType" use="optional" />
+      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="permissions" type="i:permissionType" default="*" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="tab">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		This defines a tab for tabbed PAGE layouts.
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:choice minOccurs="1" maxOccurs="1">
+      		<xs:sequence>
+      			<xs:element ref="i:component" minOccurs="1" maxOccurs="unbounded"/>
+      			<xs:element ref="i:params" minOccurs="0" maxOccurs="1"/>
+      		</xs:sequence>
+      		<xs:sequence>
+      			<xs:element ref="i:tree" minOccurs="1" maxOccurs="1"/>
+      		</xs:sequence>
+      	</xs:choice>
+      	<xs:attribute name="title" type="xs:token" use="required" />
+      	<xs:attribute name="name" type="xs:token" use="optional" default="" />
+      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="permissions" type="i:permissionType" default="*" />
+	  </xs:complexType>
+	</xs:element>
+	
+		
+	<xs:element name="tree">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		This element will be rendered as a tree with expandable branches.
+	  		It can be added to any area element.
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:sequence>
+      		<xs:element ref="i:root" minOccurs="1" maxOccurs="1"/>
+      	</xs:sequence>
+      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="title" type="xs:token" use="required" />
+      	<xs:attribute name="name" type="xs:token" use="optional" />
+      	<xs:attribute name="column" type="xs:integer" use="optional" default="0" />
+      	<xs:attribute name="permissions" type="i:permissionType" default="*" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="root">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		The element is the root node of a tree. All nodes must reside
+	  		inside of this one.
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:sequence>
+      		<xs:element ref="i:node" minOccurs="1" maxOccurs="unbounded"/>
+      	</xs:sequence>
+      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="text" type="xs:token" use="required" />
+      	<xs:attribute name="name" type="xs:token" use="optional" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="node">
+	  <xs:annotation>
+	  	<xs:documentation>
+	  		This one is an elmenet of the tree. It may define a section (branch)
+	  		or an item (link). A node may contain other nodes.
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:sequence>
+      		<xs:element ref="i:node" minOccurs="0" maxOccurs="unbounded"/>
+      	</xs:sequence>
+      	<xs:attribute name="text" type="xs:token" use="required" />
+      	<xs:attribute name="name" type="xs:token" use="optional" />
+	  	<xs:attribute name="href" type="i:combinedUriType" use="optional" />
+	  	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+	  </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="view">
+    	<xs:annotation>
+        <xs:documentation>
+            This is the root element of our XML structure. 
+            It may contain several different types of elements depending on the type of view.
+            The element has one attribute, which defines the type of the view.
+            
+            type - The view type.
+            
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+				<xs:choice minOccurs="1" maxOccurs="1">
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:sequence>
+								<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
+								<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
+								<xs:element ref="i:datasource" minOccurs="0" maxOccurs="1" />
+			        			<xs:element ref="i:fields" minOccurs="1" maxOccurs="1" />
+			        			<xs:element ref="i:actions" minOccurs="0" maxOccurs="1" />
+			        			<xs:element ref="i:description" minOccurs="0" maxOccurs="1" />
+			        			<xs:element ref="i:alternateDescriptions" minOccurs="0" maxOccurs="1" />
+			        			<xs:element ref="i:grouping" minOccurs="0" maxOccurs="1" />
+							</xs:sequence>
+					</xs:choice>
+					<xs:choice minOccurs="0" maxOccurs="1">
+						<xs:sequence>
+							<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
+							<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
+							<xs:element ref="i:params" minOccurs="0" maxOccurs="1" />
+							<xs:element ref="i:proxy" minOccurs="1" maxOccurs="1" />
+							<xs:element ref="i:datasource" minOccurs="0" maxOccurs="1" />
+							<xs:element ref="i:display" minOccurs="1" maxOccurs="1" />
+		        			<xs:element ref="i:fields" minOccurs="1" maxOccurs="1" />
+							<xs:element ref="i:rowactions" minOccurs="0" maxOccurs="1" />
+		        			<xs:element ref="i:actions" minOccurs="0" maxOccurs="1" />
+		        			<xs:element ref="i:moreactions" minOccurs="0" maxOccurs="1" />
+							<xs:element ref="i:cache" minOccurs="0" maxOccurs="1" />
+							<xs:element ref="i:description" minOccurs="0" maxOccurs="1" />
+							<xs:element ref="i:alternateDescriptions" minOccurs="0" maxOccurs="1" />
+							<xs:element ref="i:grouping" minOccurs="0" maxOccurs="1" />
+						</xs:sequence>
+					</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="1">
+					<xs:sequence>
+						<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
+						<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:datasource" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:display" minOccurs="1" maxOccurs="1" />
+						<xs:element ref="i:fields" minOccurs="1" maxOccurs="1" />
+	        			<xs:element ref="i:actions" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:cache" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:description" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:alternateDescriptions" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:grouping" minOccurs="0" maxOccurs="1" />
+					</xs:sequence>
+				</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="1">
+					<xs:sequence>
+						<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
+						<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:datastore" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:area" minOccurs="1" maxOccurs="unbounded" />
+						<xs:element ref="i:actions" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:grouping" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:widgetCategories" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:extrahelp" minOccurs="0" maxOccurs="1" />
+					</xs:sequence>
+				</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="1">
+					<xs:sequence>
+						<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
+						<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:params" minOccurs="1" maxOccurs="1" />
+						<xs:element ref="i:options" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:description" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:alternateDescriptions" minOccurs="0" maxOccurs="1" />
+					</xs:sequence>
+				</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="1">
+					<xs:sequence>
+						<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
+						<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:body" minOccurs="1" maxOccurs="1" />
+						<xs:element ref="i:actions" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:description" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:alternateDescriptions" minOccurs="0" maxOccurs="1" />
+					</xs:sequence>
+				</xs:choice>
+    	</xs:choice>
+        <xs:attribute name="type" type="i:viewType" use="required" />
+        <xs:attribute name="tabbed" type="xs:boolean" use="optional" />
+      </xs:complexType>
+    </xs:element>
+	
+	<!-- This must be placed here to maintain proper parsing order. DO NOT Remove it! -->
+	
+	<xs:attributeGroup name="commonAttributes">
+        <xs:annotation>
+            <xs:documentation>
+               These are the attributes common to all directly parsable elements.          
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="priority" type="xs:integer" use="optional" default="0" />
+        <xs:attribute name="id" type="xs:ID" use="optional" />
+    </xs:attributeGroup>
+	
+</xs:schema>

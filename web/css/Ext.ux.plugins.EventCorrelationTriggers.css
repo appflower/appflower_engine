@@ -1,0 +1,44 @@
+.row-re-order-up{
+    float:left;
+    width:16px;
+    height:16px;
+    border:1px solid #eee;
+    margin-right:5px;
+    background-image: url(/appFlowerPlugin/images/arrow_up.png);
+}
+.row-re-order-up:hover{    
+    border:1px solid #ccc;    
+}
+.row-re-order-down{
+    float:left;
+    width:16px;
+    height:16px;
+    margin-right:5px;
+    border:1px solid #eee;
+    background-image: url(/appFlowerPlugin/images/arrow_down.png);
+}
+.row-re-order-down:hover{    
+    border:1px solid #ccc;    
+}
+.row-re-order-edit{
+    float:left;
+    width:16px;
+    height:16px;
+    margin-right:5px;
+    border:1px solid #eee;
+    background-image: url(/appFlowerPlugin/images/cog_edit.png);
+}
+.row-re-order-edit:hover{    
+    border:1px solid #ccc;    
+}
+.row-re-order-remove{
+    float:left;
+    width:16px;
+    height:16px;
+    margin-right:5px;
+    border:1px solid #eee;
+    background-image: url(/appFlowerPlugin/images/delete.png);
+}
+.row-re-order-remove:hover{    
+    border:1px solid #ccc;    
+}

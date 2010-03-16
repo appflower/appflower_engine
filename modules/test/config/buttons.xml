@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="edit">
+
+<i:title>Some buttons</i:title>
+
+<i:fields>
+	<i:linkbutton name="button1" label="Test Link" action="test/edit" />
+	<i:button name="button2" label="Script Button" icon="/images/famfamfam/cancel.png" action="test/show">
+		<i:handler type="click" action="alert('You clicked me!');" />
+	</i:button>
+	<i:linkbutton name="button3" label="External Link" action="http://www.google.com" />
+</i:fields>
+
+
+</i:view>

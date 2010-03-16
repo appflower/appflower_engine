@@ -1,0 +1,212 @@
+/* for icons, please name icon-imageaction */
+.icon-selected-view { background:url('/images/famfamfam/bullet_black.png') no-repeat center left !important; }
+.icon-expanded-view { background:url('/images/famfamfam/application_split.png') no-repeat center left !important; }
+.icon-list-view { background:url('/images/famfamfam/application_view_columns.png') no-repeat center left !important; }
+.icon-engine { background:url('/images/famfamfam/cog_go.png') no-repeat center left !important; }
+.icon-connect { background:url('/images/famfamfam/connect.png') no-repeat center left !important; }
+.icon-addnetwork { background:url('/images/famfamfam/chart_organisation_add.png') no-repeat center left !important; }
+.icon-addmonitor { background:url('/images/famfamfam/monitor_add.png') no-repeat center left !important; }
+.icon-checkpatch { background:url('/images/famfamfam/brick_go.png') no-repeat center left !important; }
+.icon-import { background:url('/images/famfamfam/table_row_insert.png') no-repeat center left !important; }
+.icon-share { background:url('/images/famfamfam/arrow_out.png') no-repeat center left !important; }
+.icon-export { background:url('/images/famfamfam/table_save.png') no-repeat center left !important; }
+.icon-go { background:url('/images/famfamfam/arrow_switch.png') no-repeat center left !important; }
+.icon-stop { background:url('/images/famfamfam/cancel.png') no-repeat center left !important; }
+.icon-showgraph { background:url('/images/famfamfam/chart_curve.png') no-repeat center left !important; }
+.icon-addgraph { background:url('/images/famfamfam/chart_curve_add.png') no-repeat center left !important; }
+.icon-editgraph { background:url('/images/famfamfam/chart_curve_edit.png') no-repeat center left !important; }
+.icon-deletegraph { background:url('/images/famfamfam/chart_curve_delete.png') no-repeat center left !important; }
+.icon-showprocesses { background:url('/images/famfamfam/application_cascade.png') no-repeat center left !important; }
+.icon-showsoftware { background:url('/images/famfamfam/plugin.png') no-repeat center left !important; }
+.icon-edit { background:url('/images/famfamfam/table_edit.png') no-repeat center left !important; }
+.upload-icon { background: url('/appFlowerPlugin/extjs-3/examples/shared/icons/fam/image_add.png') no-repeat center left !important; }
+.settings { background-image: url( /appFlowerPlugin/extjs-3/examples/shared/icons/fam/folder_wrench.png ) !important; }
+.nav { background-image:url( /appFlowerPlugin/extjs-3/examples/shared/icons/fam/folder_go.png ) !important; }
+.calendar { background-image:url( /images/famfamfam/calendar.png ) !important; }
+.user { background-image:url( /images/famfamfam/user.png ) !important; }
+.server { background-image:url( /images/famfamfam/server.png ) !important; }
+.server-edit { background-image:url( /images/famfamfam/server_edit.png ) !important; }
+.server-delete { background-image:url( /images/famfamfam/server_delete.png ) !important; }
+.report { background-image:url( /images/famfamfam/page_white.png ) !important; }
+.report-edit { background-image:url( /images/famfamfam/page_white_edit.png ) !important; }
+.report-delete { background-image:url( /images/famfamfam/page_white_delete.png ) !important; }
+.report-generate { background-image:url( /images/famfamfam/page_white_gear.png ) !important; }
+.nade-add { background-image:url( /images/famfamfam/add.png ) !important; }
+.patch-install { background-image:url( /images/famfamfam/plugin_go.png ) !important; }
+.patch-delete { background-image:url( /images/famfamfam/plugin_delete.png ) !important; }
+
+.icon-expand-row{background:url('/images/plus.png') no-repeat center left !important;}
+.icon-plus{background:url('/images/famfamfam/add.png') no-repeat center left !important;}
+.icon-collapse-row{background:url('/images/minus.png') no-repeat center left !important;}
+.icon-comment-add {background-image:url('/images/famfamfam/comment_add.png') ! important;}
+.icon-delete{background:url('/appFlowerPlugin/images/delete.png') no-repeat center left !important;}
+
+.icon-search{background:url('/images/famfamfam/find.png') no-repeat center left !important;}
+/*
+* Settings icons
+*/
+.icon-font{background:url('/images/famfamfam/style.png') no-repeat center left !important;}
+.icon-graph{background:url('/images/famfamfam/chart_bar.png') no-repeat center left !important;}
+.icon-default{background:url('/images/famfamfam/arrow_undo.png') no-repeat center left !important;}
+.icon-reload{background:url('/images/famfamfam/arrow_refresh.png') no-repeat center left !important;}
+
+/*
+* Css for the ListField
+*/
+.listfield-remove-icon{	
+	float:right;
+	width:16px;
+}
+.listfield-remove-icon a{
+	display:block;
+	width:16px;
+	text-decoration:none;
+	background:url('/appFlowerPlugin/images/cross.png') no-repeat center left !important;
+}
+.listfield-remove-icon a:hover{
+	display:block;
+	width:16px;
+	text-decoration:none;
+	background:url('/appFlowerPlugin/images/cross_over.png') no-repeat center left !important;
+}
+.listfield-add-button{
+	background:url('/appFlowerPlugin/images/add.png') no-repeat center left !important;
+}
+/*
+* Css for the new tool [stop auto refreshing widgets]
+*/
+.x-tool-stop-reload{
+	background-position:0px;
+	width:15px;
+	background-image:url(/appFlowerPlugin/images/tool-stop-reload.png);
+}
+
+.x-tool-stop-reload-over{
+	background-position: -15px;
+	width:15px;
+	background-image:url(/appFlowerPlugin/images/tool-stop-reload.png);
+}
+.x-tool-start-reload{
+	background-position:0px;
+	width:15px;
+	background-image:url(/appFlowerPlugin/images/tool-start-reload.png);
+}
+
+.x-tool-start-reload-over{
+	background-position: -15px;
+	width:15px;
+	background-image:url(/appFlowerPlugin/images/tool-start-reload.png);
+}
+/*
+* CSS for the west panel items
+*/
+#westpanel_link{
+	padding:3px;
+	margin-bottom:10px;
+	font-size:11px;
+	font-family: "verdana"
+}
+#west_panel a:link, #west_panel a:active, #west_panel a:visited{
+	color:#0000ff;	
+	text-decoration:none;
+	font-wight:normal;
+}
+#west_panel a:hover{
+	color:#0000ff;		
+}
+#west_panel #servers .x-grid3-header{
+	display:none;
+}
+.nowrapgridcell{
+  white-space: normal !important;
+}
+#west_panel .x-grid3-header{
+	display:none;
+}
+/**************************************************************************************/
+/*
+* CSS for interactive arrow icon where the context menu is displayed
+*/
+
+.interactive-arrow-active a:active, .interactive-arrow-active a:link, .interactive-arrow-active a:visited{
+	background:url(/images/arrows.gif) no-repeat -16px -3px;
+	padding-left:18px;
+	text-decoration:none;
+}
+.interactive-arrow a:active, .interactive-arrow a:link, .interactive-arrow a:visited{
+	background:url(/images/arrows.gif) no-repeat left -3px; 
+	padding-left:18px;
+	text-decoration:none;
+}
+.interactive-arrow a:hover{
+	background:url(/images/arrows.gif) no-repeat -48px -3px; 
+	padding-left:18px;
+}
+/********************************************************************************************************************************/
+.expand-list-btn{
+	color:#0000ff !important;
+	background-image:none !important;
+}
+.custom-dataview .x-panel-body{
+	background: white;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+.custom-dataview .item{
+	background: #dddddd;
+	padding: 3px;
+}
+.custom-dataview .item-wrap{
+	float: left;
+	margin: 4px;
+	margin-right: 0;
+	padding: 5px;
+}
+.custom-dataview .x-view-over{
+    border:1px solid #dddddd;
+    background: #efefef url(/appFlowerPlugin/extjs-3/resources/images/default/grid/row-over.gif) repeat-x left top;
+	padding: 4px;
+}
+
+.custom-dataview .x-view-selected{
+	background: #eff5fb url(/appFlowerPlugin/extjs-3/examples/view/images/selected.gif) no-repeat right bottom;
+	border:1px solid #99bbe8;
+	padding: 4px;
+}
+.custom-dataview .x-view-selected .item{
+	background:transparent;
+}
+
+.custom-dataview .loading-indicator {
+	font-size:11px;
+	background-image:url('/appFlowerPlugin/extjs-3/resources/images/default/grid/loading.gif');
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left:20px;
+	margin:10px;
+}
+
+.folder {
+	background-image:url(/appFlowerPlugin/extjs-3/resources/images/default/tree/folder.gif) no-repeat 0 0 !important;
+/*	background-repeat:no-repeat; */
+}
+.file {
+	background-image:url(/appFlowerPlugin/extjs-3/resources/images/default/tree/leaf.gif) no-repeat 0 0 !important;
+/*	background-repeat:no-repeat; */
+}
+
+.tbarBottomBorderFix
+{
+	border-bottom-style: solid !important;
+	border-bottom-width: 2px !important;
+	border-bottom-color:#cc0000;
+	margin-bottom:5px;
+}
+
+.x-btn-text-icon-right .x-btn-center .x-btn-text{background-position:right;background-repeat:no-repeat;padding-left:0px;padding-top:2px;padding-bottom:3px;padding-right:18px;}
+
+/* Enables text selection in grid rows. */
+.x-grid3-row td,.x-grid3-summary-row td {
+  -khtml-user-select: text!important;
+  -moz-user-select: text!important;
+}
+

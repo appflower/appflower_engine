@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="list">
+	
+	<i:title>List view</i:title>
+
+	<i:params>
+		<i:param name="maxperpage">1</i:param>
+	</i:params>
+	
+	<i:proxy url="parser/listjson" />
+	
+	<i:datasource type="static">
+		<i:class>ServerPeer</i:class>
+		<i:method name="staticFetch" type="static">
+			<i:param name="foo">lala</i:param>
+			<i:param name="ikmin">12122</i:param>
+		</i:method>
+	</i:datasource>
+	
+	<i:display>
+		<i:visible>foo,bar,foobar</i:visible>
+	</i:display>
+	
+	<i:fields>
+		<i:column label="Stuff" name="foo" isid="true" />
+		<i:column label="Other" name="bar" sortable="true"/>
+		<i:column label="Yet Another" name="foobar"/>
+	</i:fields>
+	
+	<i:rowactions>
+		<i:action name="modify" icon="/images/famfamfam/accept.png"  url="test/show?foo={bar}&amp;" />
+		<i:action name="delete" url="test/delete" iconCls="icon-minus" />
+	</i:rowactions>
+	
+	<i:actions>
+		<i:action name="new" url="test/new" />
+	</i:actions>
+	
+	<i:cache>
+		<i:ref to="foo" />
+		<i:ref to="bar" />
+	</i:cache>
+	
+	<i:grouping>
+		<i:by ref="foo" callback="FooBar" />
+		<i:by ref="bar" callback="getSomeStuff" />
+	</i:grouping>
+	
+</i:view>

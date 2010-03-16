@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="list">
+	
+	<i:title>Zone List</i:title>
+
+	<i:params>
+		<i:param name="maxperpage">20</i:param>
+	</i:params>
+	
+	<i:proxy url="parser/listjson" />
+
+	<i:datasource type="orm">
+		<i:class>TimeZonesPeer</i:class>
+		<i:method name="fetchEm" type="static">
+		</i:method>
+	</i:datasource>
+	
+	<i:display>
+		<i:visible>id,name,offset</i:visible>
+	</i:display>
+	
+	<i:fields>
+		<i:column label="No." name="id" isid="true" filter="[type:numeric]" />
+		<i:column label="Name" name="name" sortable="true" filter="[type:string]" />
+		<i:column label="Offset" name="offset"/>
+	</i:fields>
+	
+	<i:rowactions>
+		<i:action name="modify" iconCls="icon-minus" url="test/showZone" />
+	</i:rowactions>
+	
+	<i:cache>
+		<i:ref to="name" />
+		<i:ref to="offset" />
+	</i:cache>
+	
+		<i:description><![CDATA[<h1>This is the help!</h1>
+
+<p>Hi, <i>this is</i> the text.</p>
+]]></i:description>
+	
+	<i:grouping>
+		<i:by ref="name" callback="FooBar" />
+		<i:by ref="offset" callback="getSomeStuff" />
+	</i:grouping>
+	
+</i:view>

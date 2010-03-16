@@ -1,0 +1,7 @@
+.x-form-field-wrap .x-form-color-trigger {
+	background-image: url(/appFlowerPlugin/extjs-3/examples/form/colorfield/color-trigger.png);
+}
+
+.ie6 .x-form-field-wrap .x-form-color-trigger {
+	background-image: url(/appFlowerPlugin/extjs-3/examples/form/colorfield/color-trigger.gif);
+}

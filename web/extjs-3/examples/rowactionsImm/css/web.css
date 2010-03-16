@@ -1,0 +1,174 @@
+/** vim: ts=4:sw=4:nu:fdc=4:nospell
+ *
+ * extjs.eu main css file
+ *
+ * @author    Ing.Jozef Sakáloš
+ * @copyright (c) 2008, by Ing. Jozef Sakáloš
+ * @date      5. April 2008
+ * @version   $Id: web.css 142 2008-04-06 04:07:22Z jozo $
+ */
+
+/* {{{ 
+// body and other tags */
+body {
+	font-family:"Lucida Grande",Tahoma,Arial,sans-serif;
+	color: #222222;
+	background: #fff !important;
+	line-height:22px;
+	color: #222222;
+	font-size:13px ! important;
+	margin:0;padding:0;border:0;
+	text-align:center;
+}
+a:link, a:visited, a:active {
+	color:#1860a8;
+	text-decoration:none;
+}
+a:hover {
+	text-decoration:underline;
+}
+h2 {
+	color:083772;
+	font-size:20px;
+	float:left;
+	margin:10px 0 10px 0;
+}
+/* }}} */
+/* {{{ 
+// layout */
+#main-layout .x-table-layout {
+	width:100%;
+}
+#main-layout .x-table-layout td {
+	vertical-align:top;
+}
+#ct {
+	margin:auto;
+	text-align:left ! important;
+	width:1020px;
+}
+.td-north {
+}
+.td-navlinks {
+}
+.td-west {
+	width:190px;
+}
+.td-center {
+	width:700px; 
+}
+.td-east {
+	padding:0 0 0 10px;
+}
+.td-south {
+	height:30px;
+}
+/* }}} */
+/* {{{
+// north */
+#north .x-panel-body {
+	background: #203d8e;
+	color: white;
+}
+#north .x-panel-body {
+	padding:10px;
+}
+#north-title {
+	font-size:24px;
+	float:left;
+}
+/* }}} */
+/* {{{
+// combos */
+#themect {
+	float:right;
+	margin:4px 0 0 0;
+}
+#langct {
+	float:right;
+	margin: 4px 10px 0 0;
+}
+/* }}} */
+/* {{{
+// navlinks */
+#navlinks {
+	background-color:#ffc800;
+	font-size:12px;
+	font-family:verdana, sans-serif;
+	text-transform:lowercase;
+	vertical-align:middle;
+	zoom:1;
+}
+#navlinks li {
+	display:inline;
+}
+#navlinks a {
+	display:block;
+	float:left;
+	padding:2px 15px;
+	color:blue;
+}
+#navlinks a:hover {
+	background-color:#ffff40;
+	text-decoration:none;
+}
+/* }}} */
+/* {{{
+// other elements */
+.msg {
+	text-align:left;
+}
+.msg h3 {
+	margin:0;
+}
+#google-search {
+	margin:20px 0;
+}
+#adsense {
+	margin:1px 0 0 0;
+	opacity:.8;
+	-moz-opacity:.8
+	filter:alpha(opacity=80);
+}
+.cleaner {
+	clear:both;
+	height:0;
+	width:0;
+	line-height:0;
+	font-size:0;
+	margin:0;
+	padding:0;
+	border:0;
+}
+#paypal {
+/*	text-align:center; */
+	margin:20px 0;
+	float:left;
+}
+#digg {
+	margin:10px 20px 0 0;
+	float:right;
+}
+#addthis {
+	margin: 25px 0 0 0;
+	clear:both;
+}
+/* }}} */
+
+/* {{{
+// center body fixes */
+ .x-combo-list-item
+,.x-panel-ghost
+,.x-panel
+,.x-window
+,.x-menu 
+,.x-tip {
+	text-align:left;
+}
+.x-btn td {
+	vertical-align:middle ! important;
+}
+
+/* }}} */
+
+/* eof */

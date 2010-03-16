@@ -1,0 +1,14 @@
+/*===================================
+/*  Rules for custom ux layouts
+/*====================================*/
+/* 
+ * Ext.ux.layout.CenterLayout
+ */
+.ux-layout-center-item {
+    margin:0 auto;
+    text-align:left;
+}
+.ux-layout-center .x-panel-body,  /* if the container is a panel */
+body.ux-layout-center {           /* if the container is the doc body (for viewport) */
+    text-align:left;
+}
