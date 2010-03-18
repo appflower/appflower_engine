@@ -15,20 +15,10 @@ Ext.ux.plugins.FilePagingInfo = {
 					var to = this.formatData((pager.pageSize * currentPage) > data.total ? data.total:pager.pageSize * currentPage);					
 					var from = this.formatData(currentPage == 1?1:(currentPage-1)*pager.pageSize);
 					//var msg = "Displaying "+pager.store.getCount()+" messages within "+from+" to "+to+" of "+ this.formatData(data.total);
-					var msg = "Displaying "+pager.store.getCount()+" Messages";
-					var divs = this.el.dom.getElementsByTagName('div');
-					var div;
-					
-					for(var i=0;i<divs.length;i++){						
-						if(divs[i].className == "xtb-text" && divs[i].innerHTML.substr(0,10) == "Displaying"){
-							div = divs[i];
-						}
-					}
-					if(div)
-					{div.innerHTML = '';
-						this.displayEl = Ext.fly(this.el.dom).createChild({cls:'x-paging-info'});
-						pager.displayEl.update(msg);
-					}
+					var msg = "Displaying "+pager.store.getCount()+" Messages";				
+					this.displayEl = this.el.select('.x-toolbar-right').select('xtb-text');					
+					pager.displayEl.update(msg);
+				
 				});			    		   
 			}),
 			formatData: function(data){
