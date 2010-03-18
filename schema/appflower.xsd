@@ -1313,7 +1313,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	<xs:attribute name="columns" type="xs:positiveInteger" use="optional" default="1" />
       	<xs:attribute name="float" type="xs:boolean" use="optional" default="false" />
       	<xs:attribute name="collapsed" type="xs:boolean" use="optional" default="false" />
-      	<xs:attribute name="tabHeight" type="xs:positiveInteger" use="optional" default="225" />
+      	<xs:attribute name="tabHeight" type="xs:positiveInteger" use="optional"/>
       	<xs:attribute name="iconCls" type="xs:token" use="optional"/>
 	  </xs:complexType>
 	</xs:element>
