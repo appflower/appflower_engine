@@ -34,6 +34,9 @@ class ImmExtjsFieldCombo extends ImmExtjsField
 			}
 			
 			$this->attributes['width']='250';
+			if(empty($attributes['options'])){
+				$this->attributes['store'] = '[]';
+			}
 		}
 		else {
 			$this->immExtjs->setAddons(array('js' => array($this->immExtjs->getExamplesDir().'form/Ext.ux.form.Combo.js') ));
