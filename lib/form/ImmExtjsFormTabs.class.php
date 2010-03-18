@@ -9,9 +9,10 @@ class ImmExtjsFormTabs
 	 * default attributes for the tabs
 	 */
 	public $attributes=array('xtype'=>'tabpanel',
-							'plain'=>true,
+							//'plain'=>true,
 							'activeTab'=>0,
-							'height'=>235,
+							//'height'=>235,
+							'frame'=>true,
 							'items'=>array(),'enableTabScroll'=>true);
 	public $immExtjs=null;						
 							
@@ -25,8 +26,8 @@ class ImmExtjsFormTabs
 		$this->attributes['deferredRender'] = false;
 		
 		//$this->attributes['forceLayout'] = true;				
-		
-		$this->attributes['defaults']=$this->immExtjs->asAnonymousClass(array('bodyStyle'=>'padding:10px;','hideMode'=>'offsets'));
+		$ah = array('autoHeight'=>$attributes['tabHeight']?false:true);
+		$this->attributes['defaults']=$this->immExtjs->asAnonymousClass(array_merge(array('iconCls'=>'icon-tab-default','bodyStyle'=>'padding:10px;','hideMode'=>'offsets'),$ah));
 		
 		$this->attributes['listeners']['tabchange']=$this->immExtjs->asMethod(array(
 				          	      	'parameters'=>'tabPanel,tab',
