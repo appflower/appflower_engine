@@ -204,12 +204,12 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
         // iterate through raw values and records and check/uncheck items
         Ext.each(rva, function(v) {
             snapshot.each(function(r) {
-                if(v === r.get(this.displayField)) {
+                if(v === r.get(this.displayField)) {                	
                     va.push(r.get(this.valueField));
                 }
             }, this);
         }, this);
-        this.setValue(va.join(this.separator));
+        //this.setValue(va.join(this.separator));
         this.store.clearFilter();
     } // eo function onRealBlur
     // }}}
@@ -250,7 +250,7 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
      * Sets the value of the LovCombo
      * @param {Mixed} v value
      */
-    ,setValue:function(v) {  
+    ,setValue:function(v) { 
         if(v) {
             v = '' + v;
             if(this.valueField) {            	
