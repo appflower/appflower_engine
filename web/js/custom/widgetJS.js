@@ -179,23 +179,24 @@ function ajax_widget_popup(widget,title,superClass) {
 		method : "GET",		
 		success : function(r) {
 			var json = Ext.util.JSON.decode(r.responseText);
-			// Load CSS
-			var scripts = document.getElementsByTagName("script");
-			
 			var scripts_srcs = new Array(),styles_hrefs = new Array(),total_addons = new Array();
-			
+			/**
+			 * SCRIPTS AND STYLES FROM HEAD TAGS
+			 */
+			// Load CSS
+			var scripts = document.getElementsByTagName("script");						
 			//createAddon("/js/swfobject.js", "js");	
 			for(var i = 0;i<scripts.length;i++) if(scripts[i].src) scripts_srcs[i] = scripts[i].src;
 			var styles = document.getElementsByTagName("link");
 			for(var i = 0;i<styles.length;i++) if(styles[i].href) styles_hrefs[i] = styles[i].href;
-			if(json.addons && json.addons.css)
-			for ( var i = 0; i < json.addons.css.length; i++) {
-				var addon = json.addons.css[i];
-				if(!in_array(addon,styles_hrefs)){
-					//total_addons.push(addon);
-					createAddon(addon, "css");
-				}
-			}
+			
+			/**************************************************************************************/
+			/**
+			 * SCRIPTS AND STYLES FROM GLOBAL VARS
+			 */
+			scripts_srcs = GLOBAL_JS_VAR;
+			styles_hrefs = GLOBAL_CSS_VAR;
+			/*************************************************************************************/
 			if(json.addons && json.addons.js)
 			for ( var i = 0; i < json.addons.js.length; i++) {
 				var addon = json.addons.js[i];
