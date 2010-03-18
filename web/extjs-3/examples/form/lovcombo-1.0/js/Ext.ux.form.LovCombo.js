@@ -44,7 +44,7 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
      * @cfg {String} selectAllOn the value of the option used as 
      * the select-all / deselect-all trigger
      */
-    selectAllOn: null,
+    selectAllOn: 'select-deselect-all',
     /**
      * @cfg {String} checkField name of field used to store checked state.
      * It is automatically added to existing fields.
@@ -96,8 +96,21 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
             //,blur:this.onRealBlur
         });
 
+        this.onRender = this.onRender.createSequence(function(){
+        	if(!this.getStore())return;
+        	var MyRecordType = Ext.data.Record.create([this.valueField, this.displayField]);        	
+        	var json = '({"'+this.valueField+'":"select-deselect-all","'+this.displayField+'":"<span style=\'display:block\'><b>Select/Deselect All</b></span>"})';        	
+        	myrec = new MyRecordType(eval(json));        	
+        	this.getStore().insert(0,myrec);
+        	if(this.selectAllCheck){        		
+        		var record = this.getStore().getAt(0);
+        		record.set(this.checkField, true);
+                this.doQuery(this.allQuery);
+        	}
+        	
+        })
         // remove selection from input field
-        this.onLoad = this.onLoad.createSequence(function() {
+        this.onLoad = this.onLoad.createSequence(function() {        	
             if(this.el) {
                 var v = this.el.dom.value;
                 this.el.dom.value = '';
@@ -167,15 +180,14 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
     } // eo function getCheckedValue
 
     ,selectAllCheck:function() {
-        var snapshot = this.store.snapshot || this.store.data;
+        var snapshot = this.store.snapshot || this.store.data;        
         var selectAll = true;
         snapshot.each(function(r) {
             if (r.data[this.valueField] !== this.selectAllOn && !r.get(this.checkField)) {
                 selectAll = false;
                 return;
             }
-        }, this);
-        
+        }, this);        
         return selectAll;
     }
 
