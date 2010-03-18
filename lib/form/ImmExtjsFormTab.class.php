@@ -8,7 +8,7 @@ class ImmExtjsFormTab
 	/**
 	 * default attributes for the column
 	 */
-	public $attributes=array('layout'=>'form','title'=>'','autoScroll'=>true);
+	public $attributes=array('layout'=>'form','height'=>50,'autoScroll'=>true);
 	
 	public $immExtjs=null;						
 							
