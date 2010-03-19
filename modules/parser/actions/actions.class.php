@@ -626,7 +626,14 @@ class parserActions extends sfActions
 					$class = $tmp[0];
 					$method = $tmp[1];
 					$pk = $this->getRowActionPk(preg_replace("/[^0-9]+/","",$action),$parser);
-					$args[] = $item[$pk];
+					
+					/**
+					 * if column name exists in $item
+					 */
+					if(isset($item[$pk]))
+					{
+						$args[] = $item[$pk];
+					}
 					
 					unset($tmp[0],$tmp[1]);
 					
