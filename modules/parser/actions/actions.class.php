@@ -667,7 +667,7 @@ class parserActions extends sfActions
 		$page=($start==0)?1:(@ceil($start/$limit)+1);	
 		
 		$criteria=clone $parser['criteria'];
-		$this->setFilters($criteria,$filters);
+		$this->setFilters($criteria,$filters,$parser);
 		$xsort = $this->getRequestParameter('xsort');
 		if($xsort){$sort = constant($xsort);}
 		
@@ -745,7 +745,7 @@ class parserActions extends sfActions
 		$i = $j = 0;
 		
 		foreach($pager->getResults() as $object) {
-	
+				
 				foreach($parser["columns"] as $column) {
 					$j = 0;
 					$id = call_user_func(array($object,"getId"));
@@ -1017,61 +1017,72 @@ class parserActions extends sfActions
 	 * 
 	 * @author radu
 	 */
-	public function setFilters(Criteria &$criteria,$filters)
-	{
-		
+	public function setFilters(Criteria &$criteria,$filters,$parser)
+	{		
 		if($filters)
-		{
-		
+		{		
 			for($i=0;$i<count($filters);$i++)
 			{
+				$peerClassName=$parser['class'].'Peer';
+				$peerField=strtoupper($filters[$i]['field']);
 				
-				switch($filters[$i]['data']['type'])
-				{					
-					case 'string' :					
-						$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],"%".$filters[$i]['data']['value']."%",Criteria::LIKE); 
+				if(defined($peerClassName."::".$peerField))
+				{
+					$filters[$i]['field']=constant($peerClassName."::".$peerField);
+				}
+				else {
+					$filters[$i]['field']=false;
+				}
+				
+				if($filters[$i]['field']!=false)
+				{				
+					switch($filters[$i]['data']['type'])
+					{					
+						case 'string' :					
+							$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],"%".$filters[$i]['data']['value']."%",Criteria::LIKE); 
+							break;
+						case 'list' : 
+						case 'combo':
+							if (strstr($filters[$i]['data']['value'],',')){
+								$fi = explode(',',$filters[$i]['data']['value']);							
+								$filters[$i]['data']['value'] = $fi;
+								$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::IN); 
+							}else{
+								$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::EQUAL);							 
+							}
+							Break;
+						case 'boolean' : 
+							$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::EQUAL); 
+							Break;
+						case 'numeric' :					
+							switch ($filters[$i]['data']['comparison']) {
+								case 'eq' : 
+									$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::EQUAL); 
+									break;
+								case 'lt' : 
+									$critNumeric[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::LESS_THAN); 
+									break;
+								case 'gt' : 
+									$critNumeric[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::GREATER_THAN); 
+									break;
+							}
+							break;
+						case 'date' : 
+							switch ($filters[$i]['data']['comparison']) {
+								case 'eq' : 
+									//$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::EQUAL);
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::GREATER_THAN);
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])+(24*60*60)),Criteria::LESS_THAN);
+									break;
+								case 'lt' : 
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::LESS_THAN);
+									break;
+								case 'gt' : 
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::GREATER_THAN);
+									break;
+							}
 						break;
-					case 'list' : 
-					case 'combo':
-						if (strstr($filters[$i]['data']['value'],',')){
-							$fi = explode(',',$filters[$i]['data']['value']);							
-							$filters[$i]['data']['value'] = $fi;
-							$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::IN); 
-						}else{
-							$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::EQUAL);							 
-						}
-						Break;
-					case 'boolean' : 
-						$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::EQUAL); 
-						Break;
-					case 'numeric' :					
-						switch ($filters[$i]['data']['comparison']) {
-							case 'eq' : 
-								$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::EQUAL); 
-								break;
-							case 'lt' : 
-								$critNumeric[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::LESS_THAN); 
-								break;
-							case 'gt' : 
-								$critNumeric[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::GREATER_THAN); 
-								break;
-						}
-						break;
-					case 'date' : 
-						switch ($filters[$i]['data']['comparison']) {
-							case 'eq' : 
-								//$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::EQUAL);
-								$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::GREATER_THAN);
-								$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])+(24*60*60)),Criteria::LESS_THAN);
-								break;
-							case 'lt' : 
-								$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::LESS_THAN);
-								break;
-							case 'gt' : 
-								$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::GREATER_THAN);
-								break;
-						}
-					break;
+					}
 				}
 			}
 			

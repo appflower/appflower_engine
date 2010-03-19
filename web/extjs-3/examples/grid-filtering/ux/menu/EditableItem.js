@@ -14,8 +14,8 @@ Ext.ux.menu.EditableItem = Ext.extend(Ext.menu.BaseItem, {
     onRender: function(container){
         var s = container.createChild({
         	cls: this.itemCls,
-        	html: '<img src="' + (Ext.BLANK_IMAGE_URL)+ '" class="x-menu-item-icon'+(this.iconCls?' '+this.iconCls:'')+'" style="margin: 3px 7px 2px 2px;" />'
-        });;
+        	html: '<img id="my" src="' + (Ext.BLANK_IMAGE_URL)+ '" class="x-menu-item-icon'+(this.iconCls?' '+this.iconCls:'')+'" style="margin: 3px 7px 2px 2px;" />'
+        });
         
         Ext.apply(this.config, {width: 125});
         this.editor.render(s);
@@ -25,6 +25,10 @@ Ext.ux.menu.EditableItem = Ext.extend(Ext.menu.BaseItem, {
         
         if(Ext.isGecko)
 			s.setStyle('overflow', 'auto');
+		
+		//added next line to hide the class name created automatically by Extjs
+		//@author radu
+		container.dom.firstChild.className="x-menu-item-icon";
 			
 		if(this.iconCls&&this.iconCls=='ux-rangemenu-lt')
 		{
