@@ -28,7 +28,7 @@ class ImmExtjsWidgets{
 	}
 
 	/**
-	 * Returns the "module/action" url for the current widget.
+	 * Returns the "/module/action" url for the current widget.
 	 */
 	private static function getWidgetUrl($parse) {
 		$action = ArrayUtil::get($parse, 'component_name', null);
