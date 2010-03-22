@@ -73,4 +73,5 @@ propel:
     name: { type: varchar(255) }
     user: { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade }
     path: { type: varchar(255) }
+    title: { type: varchar(255) }
     filter: { type: longvarchar }
