@@ -534,6 +534,9 @@ class ImmExtjsGrid
 		{
 			$this->attributes[$filtersPrivateName]['filters']=$this->filters;
 			$this->attributes[$filtersPrivateName]['local']=(isset($this->attributes['remoteFilter']) && $this->attributes['remoteFilter'])?false:true;			
+			//$this->attributes[$filtersPrivateName]['filterby']=sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->getRequestParameter("filterby",false);
+			$this->attributes[$filtersPrivateName]['filterby']=sfContext::getInstance()->getUser()->getAttribute('filterby',false);
+			sfContext::getInstance()->getUser()->setAttribute('filterby',false);
 			
 			$this->immExtjs->private[$filtersPrivateName]=$this->immExtjs->GridFilters($this->attributes[$filtersPrivateName]);
 			
