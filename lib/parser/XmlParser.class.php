@@ -62,6 +62,7 @@ class XmlParser extends XmlParserTools {
 		$multisubmit = false;
 		
 	private static
+		$dbschema,
 		$instance;
 		
 	public static
@@ -3609,10 +3610,26 @@ if(response.message) {
 	}
 
 	/**
-	 * Returns the matching PhpName or throws a PropelExceptions.
+	 * Returns the matching PhpName or throws an XmlParserException.
 	 */
 	private static function getPhpName($dbName, $tableName) {
-		return Propel::getDatabaseMap($dbName)->getTable($tableName)->getPhpName();
+		$dbMap = Propel::getDatabaseMap($dbName);
+		try {
+			// The dbMap will know the table if the Peer was used
+			// by the action code.
+			$table = @$dbMap->getTable($tableName);
+			return $table->getPhpName();
+		} catch (PropelException $e) {
+			if(!isset(self::$dbschema)) {
+				$root = sfConfig::get("sf_root_dir");
+				self::$dbschema = sfYaml::load($root.'/config/schema.yml');
+			}
+			$phpName = self::$dbschema[$dbName][$tableName]['_attributes']['phpName'];
+			if(!$phpName) {
+				throw new XmlParserException("Invalid table name: '$tableName'");
+			}
+			return $phpName;
+		}
 	}
 
 	public static function layoutExt($actionInstance, $type = XmlParser::PANEL,$msg = null) {
