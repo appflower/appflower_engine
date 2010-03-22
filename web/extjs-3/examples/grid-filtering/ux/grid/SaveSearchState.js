@@ -17,7 +17,7 @@ Ext.ux.SaveSearchState = function(grid){
     	var list = this.list;
 		filtersObj.filters.each(function(filter){
 			if(filter.active){
-				var obj = {
+				var obj = {					
 					dataIndex: filter.dataIndex,
 					value: p.encodeValue(filter.getValue())
 				}
@@ -54,9 +54,10 @@ Ext.ux.SaveSearchState = function(grid){
 		    			
 		    		},
 		    		params:{
+		    			path:grid.path,
 		    			name: text,
 		    			state:json,
-		    			path:grid.name?grid.name:grid.path
+		    			title:grid.name?grid.name:grid.path
 		    		}
 		    	})
 		    }
