@@ -115,7 +115,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 					  
 		} else if(grid instanceof Ext.PagingToolbar){
 		  this.toolbar = grid;
-		}
+		}		
 	},
 		
 	/** private **/
@@ -139,6 +139,12 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 			this.reload();
 		
 		this.suspendStateStore = false;
+		
+		/* Filter by filterby parameter */		
+		if(this.filterby){
+			var ss = new Ext.ux.SaveSearchState(this.grid);
+			ss.restore(this.filterby);
+		}
 		
 	},
 	
@@ -212,6 +218,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 		
 		this.grid.getView().on("refresh", this.onRefresh, this);
 		this.updateColumnHeadings(this.grid.getView());
+
 		
 	},
 	
@@ -261,7 +268,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 		options.params = options.params || {};
 		this.cleanParams(options.params);		
 		var params = this.buildQuery(this.getFilterData());
-		Ext.apply(options.params, params);		
+		Ext.apply(options.params, params);			
 	},
 	
 	/** private **/
