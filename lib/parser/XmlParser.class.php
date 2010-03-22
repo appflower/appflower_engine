@@ -59,8 +59,7 @@ class XmlParser extends XmlParserTools {
 		),
 		$defaultPanels,
 		$manualMode = false,
-		$multisubmit = false,
-		$dbschema;
+		$multisubmit = false;
 		
 	private static
 		$instance;
@@ -152,10 +151,6 @@ class XmlParser extends XmlParserTools {
 		
 		$this->parseDefaultPanels();
 		
-		// Database schema
-		
-		$this->dbschema = sfYaml::load($this->root."/config/schema.yml");
-				
 		// Reading Main XML Schema..
 		
 		$this->schema = new DOMDocument();
@@ -3155,16 +3150,14 @@ class XmlParser extends XmlParserTools {
 
 					if(!$m || sizeof($m) != 2) {
 						throw new XmlParserException("Invalid SQL statement, name of table cannot be determined!");
-					} else if(!isset($this->dbschema["propel"][trim($m[1])]["_attributes"]["phpName"])) {
-						throw new XmlParserException("Invalid SQL statement, specified table doesn't exist in schema!");
-					}
-					
+					} 
+					$phpName = self::getPhpName('propel', trim($m[1]));
 					$con = Propel::getConnection("propel");
 
 					$stmt = $con->prepare($parse["datasource"]["statement"]);
 					$stmt->execute();
 					
-					$data_class = $this->dbschema["propel"][trim($m[1])]["_attributes"]["phpName"]."Peer";
+					$data_class = $phpName.'Peer';
 					
 					preg_match_all("/([a-zA-Z0-9_\-\.]+) as '([a-zA-Z0-9_\-]+)'/",$parse["datasource"]["statement"],$as_columns);
 					
@@ -3202,12 +3195,7 @@ class XmlParser extends XmlParserTools {
 						$data_types[$column] = $colobject->getType();
 				
 						if($related_column) {
-							
-							if(isset($this->dbschema[$dbconn][$colobject->getRelatedTableName()]["_attributes"]["phpName"])) {
-								$class = $this->dbschema[$dbconn][$colobject->getRelatedTableName()]["_attributes"]["phpName"];	
-							} else {
-								$class = sfInflector::camelize($colobject->getRelatedTableName());	
-							}
+							$class = self::getPhpName($dbconn, $colobject->getRelatedTableName());
 							
 							if(!class_exists($class)) {
 								throw new XmlParserException("PhpName of table: ".$colobject->getRelatedTableName()." cannot be determined!");
@@ -3618,6 +3606,13 @@ if(response.message) {
 			$attributes['confirm'] = true;
 			$attributes['message'] = 'Are you sure you would like to delete this item?';
 		}
+	}
+
+	/**
+	 * Returns the matching PhpName or throws a PropelExceptions.
+	 */
+	private static function getPhpName($dbName, $tableName) {
+		return Propel::getDatabaseMap($dbName)->getTable($tableName)->getPhpName();
 	}
 
 	public static function layoutExt($actionInstance, $type = XmlParser::PANEL,$msg = null) {
