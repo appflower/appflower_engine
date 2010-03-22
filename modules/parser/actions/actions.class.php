@@ -1185,6 +1185,9 @@ class parserActions extends sfActions
 	*/
 	public function executeErrors()
 	{
+	  if($this->missing){
+		return JsonUtil::renderFailure($this,'Some form field(s) is missing');
+	  }
 	  $result = array('success' => false, 'message' => 'Validation error occured!');
 	  foreach($this->errors as $error)
 	  {
