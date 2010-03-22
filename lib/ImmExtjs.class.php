@@ -71,10 +71,11 @@ class ImmExtjs extends sfExtjs2Plugin
 	$this->initApplication ( 'App' );
 	$this->end ('',false);
 	
-	//$packer = new JavaScriptPacker($this->source, 'None', false, false);
-	echo "<script type='text/javascript'>";
+	echo "<script type='text/javascript'>\n";
+	echo "// <![CDATA[\n";
 	echo $this->source;
-	echo '</script>';
+	echo "// ]]>\n";
+	echo "</script>\n";
   }
 }
 ?>
