@@ -309,12 +309,11 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 					
 					for(var i=0;i<(fieldsets.length-1);i++)
 					{					
-						var fieldset=new Ext.form.FieldSet ({collapsible: true,
+						var fieldset=new Ext.form.FieldSet({collapsible: true,
 												autoHeight: true,
 												anchor: "100%",
-												title: fieldsets[i].title,
-												});
-							
+												title: fieldsets[i].title});							
+												
 						//left column for each fieldset
 						var leftColumn=[];				
 						//right column for each fieldset
