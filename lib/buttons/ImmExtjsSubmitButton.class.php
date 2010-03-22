@@ -66,11 +66,13 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 				{
 					$attributes['timeout']='300000';
 				}
+			
 				$source = 'Ext.getCmp("'.$submitContainerObject->attributes['id'].'").getForm().submit('.
 		  									$this->immExtjs->asAnonymousClass(array(
 		  									'url'=>$attributes['action'],
 		  									'waitMsg'=>'loading...',
-		  									'params'=>$attributes['params'],
+		  									'params'=>array_merge($attributes['params'],array('form_index'=>$submitContainerObject->attributes['name'])),
+		  									
 		  									/**
 		  									 * set the timeout
 		  									 */
