@@ -336,6 +336,7 @@ class appFlowerActions extends sfActions
 			$user = $this->getUser()->getGuardUser()->getId();
 			$name = $this->getRequestParameter("name");
 			$path = $this->getRequestParameter("path");
+			$title = $this->getRequestParameter("title");
 			$state = $this->getRequestParameter("state");
 			
 			$c = new Criteria();
@@ -343,12 +344,13 @@ class appFlowerActions extends sfActions
 			$c->add(afSaveFilterPeer::NAME,$name);
 			$c->add(afSaveFilterPeer::PATH,$path);
 			if(afSaveFilterPeer::doSelectOne($c)){
-				$message = "The name '".$name."' already exists for ".$path."";
+				$message = "The name '".$name."' already exists for ".$title."";
 			}else{
 				$obj = new afSaveFilter();
 				$obj->setUser($user);
 				$obj->setName($name);
 				$obj->setPath($path);
+				$obj->setTitle($title);
 				$obj->setFilter($state);
 				$obj->save();
 				$success = true;
@@ -363,10 +365,10 @@ class appFlowerActions extends sfActions
 		$data = array();
 		if($this->getRequest()->getMethod() == sfRequest::POST){
 			$user = $this->getUser()->getGuardUser()->getId();
-			$path = $this->getRequestParameter("path");
+			$title = $this->getRequestParameter("path");
 			$c = new Criteria();
 			$c->add(afSaveFilterPeer::USER,$user);
-			$c->add(afSaveFilterPeer::PATH,$path);
+			$c->add(afSaveFilterPeer::TITLE,$title);
 			$c->addAscendingOrderByColumn(afSaveFilterPeer::NAME);
 			$objs = afSaveFilterPeer::doSelect($c);			
 			foreach($objs as $obj){
@@ -390,7 +392,7 @@ class appFlowerActions extends sfActions
 			$success=true;
 			
 		}
-		$result = array("success"=>$success,"message"=>$message);
+		$result = array("success"=>$success,"message"=>$message,"redirect"=>"/user/filters");
 		return $this->renderText(json_encode($result));		
-	}
+	}	
 }
