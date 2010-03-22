@@ -35,8 +35,4 @@ class sfCombineActions extends sfActions
     
     return $this->renderText($style);
   }  
-  public function executeInitApp(){
-  	echo $this->getUser()->getAttribute("init_source"); 
-  	exit;
-  }
 }

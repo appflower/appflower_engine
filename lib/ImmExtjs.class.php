@@ -72,11 +72,9 @@ class ImmExtjs extends sfExtjs2Plugin
 	$this->end ('',false);
 	
 	//$packer = new JavaScriptPacker($this->source, 'None', false, false);
-	sfContext::getInstance()->getUser()->setAttribute("init_source",$this->source);	   
-	$source  = '';   
-    $source .= sprintf("<script type='text/javascript' src='/sfCombine/initApp'>");
-    $source .= sprintf("</script>");     
-    echo $source;
+	echo "<script type='text/javascript'>";
+	echo $this->source;
+	echo '</script>';
   }
 }
 ?>
