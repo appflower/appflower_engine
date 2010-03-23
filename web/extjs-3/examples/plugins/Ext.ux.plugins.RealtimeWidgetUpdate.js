@@ -99,6 +99,16 @@ Ext.extend(Ext.ux.plugins.RealtimeWidgetUpdate, Ext.util.Observable,{
 					if(store.proxy.conn.disableCaching === false) {
 						store.proxy.conn.disableCaching = true;
 					}
+					if(store.proxy.setUrl) {
+						// Gives a signal that waiting for new news is OK.
+						var url = store.proxy.url;
+						if(url.indexOf('?') > 0){
+							url = url + '&_reload=1';
+						} else {
+							url = url + '?_reload=1';
+						}
+						store.proxy.setUrl(url);
+					}
 					store.reload();
 				}
 			},
