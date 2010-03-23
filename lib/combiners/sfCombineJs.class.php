@@ -94,9 +94,9 @@ class sfCombineJs extends sfCombiner
    */
   public function minify($content)
   {
-    $packer = new JavaScriptPacker($content, 'None', false, false);
-    
-    return $packer->pack();
+  	return JSMin::minify($content);
+    $packer = new JavaScriptPacker($content, 'None', false, false);    
+    return $packer->pack();    
   }
 
   /**
