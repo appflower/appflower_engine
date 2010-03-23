@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:i="http://www.appflower.com/schema/" 
 xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/schema/" elementFormDefault="qualified">
+	<xs:annotation>
+		<xs:documentation>
+			
+		</xs:documentation>
+	</xs:annotation>
+  
+  <!-- Imported XHTML Namespace - adds XHTML 1.1 Strict content -->
   
   <xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd" />
+	
     
   <!-- Types -->
     
   <xs:simpleType name="inputType">
 	<xs:annotation>
 		<xs:documentation>
-			This is the data type of form fields.
+			This is the data type of form fields. It determines what kind of field will be rendered.
 			It is an enumeration an it may have the following values:
 			
-			input - simple text field (this is the default)
-			checkbox - A checkbox
-			radio - A radio button element
-			textarea - the equavilent of HTML textarea tag
-			combi -  A combi panel (combination of input and select)
-			multicomobi - same as above, but selecting multiple choices is possible
-			hidden - A hidden field
-			file - A file upload field
-			password - A password field
+			input 					- simple text field (this is the default)
+			textarea 				- the equavilent of HTML textarea tag
+			checkbox 				- A checkbox
+			radio 					- A radio button element
+			password 				- A password field
+			hidden 					- A hidden field
+			file 					- A file upload field
+			combo 					- A combi panel (combination of input and HTML select)
+			extendedCombo			- Creates a combo that renders its elements as hyperlinks
+			extendedDayTimeSelect	- A date selector that lets you define time frames. See docs.
+			itemSelectorAutoSugges	- Like a multicombo with auto suggest feature (fiters items as you type into the search field).
+			remoteComboAutoSuggest	- Extended combo box, wuth auto suggest feature. See docs.
+			multicomobo 			- same as above, but selecting multiple choices is possible
+			doublemulticombo 		- Two compo panels, suitable for specifying many-to many relationships. Drag &amp; Drop
+			static 					- Renders data as plain text. Not editable, not POSTable.
+			doubletree 				- Like doublemulticombo, but renders two tree views instead, thus suports grouping. Drag &amp; Drop
+			datetime 				- A date and time input (YYYY-MM-DD HH:ii:ss). 
+			date     				- Date input            (YYYY-MM-DD)
 			
 		</xs:documentation>
 	</xs:annotation>
@@ -33,8 +50,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		    <xs:enumeration value="hidden"/>
 		    <xs:enumeration value="file"/>
 		    <xs:enumeration value="combo"/>
-			<xs:enumeration value="extendedCombo"/>
-			<xs:enumeration value="dayTimeSelect"/>			
+			<xs:enumeration value="extendedCombo"/>		
 			<xs:enumeration value="extendedDayTimeSelect"/>			
 			<xs:enumeration value="itemSelectorAutoSuggest"/>
 			<xs:enumeration value="remoteComboAutoSuggest"/>
@@ -55,9 +71,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 			This is the data type of the state of form fields.
 			There are three valid states:
 			
-			editable - Normal state, field can be edited and will posted. This is the default
-			readonly - Field cannot be edited but will still be posted
-			disabled - Field may not be edited and wont be posted
+			editable 		- Normal state, field can be edited and will posted. This is the default
+			readonly 		- Field cannot be edited but will still be posted
+			disabled 		- Field may not be edited and wont be posted
 			
 		</xs:documentation>
 	</xs:annotation>
@@ -91,11 +107,12 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="buttonType">
 	<xs:annotation>
 		<xs:documentation>
-			This is the data type for buttons. It defines what kind of button will be
+			This is the data type for buttons. It determines what kind of button will be
 			created.
 					
-			normal - A simple button, it will trigger some action and may execute some JS. 
-			reset - A reset button
+			normal 		- A simple button, it will trigger some action or may execute JS.
+			submit 		- A submit button, will POST list or edit view. 
+			reset 		- A reset button
 			
 		</xs:documentation>
 	</xs:annotation>
@@ -112,9 +129,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		<xs:documentation>
 			The type of the source of a form field value. It may be defined as:
 			
-			orm - read the data from DB
-			file - read the data from file
-			static - a constant value (this is the default one)
+			orm 		- read the data from DB
+			file 		- read the data from file
+			static 		- a constant value
 			  
 		</xs:documentation>
 	</xs:annotation>
@@ -132,8 +149,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 			This determines whether an instance has to be crated, or
 			the method should be called statically.
 			
-			instance - create new instance
-			static	- The method is static.	
+			instance 		- create new instance
+			static			- The method is static.	
 			  
 		</xs:documentation>
 	</xs:annotation>
@@ -160,13 +177,15 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="viewType">
 	<xs:annotation>
 		<xs:documentation>
-			This data type defines the type of the view.
+			This data type determines the type of the view.
 			It may have the following values:
 			
-			edit - An edit view (update or new opartions)
-			list - A list view
-			show - A show view
-			layout - A component glueing view
+			edit 		- An edit view (update or create opartions)
+			list 		- A list view (Renders a grid)
+			show 		- A show view (contents of source as plain text)
+			wizard 		- A wizard view (Windows-like wizards)
+			html 		- A HTML view (custom HTML content, messages)
+			layout 		- A component glueing view (Pages)
 			  
 		</xs:documentation>
 	</xs:annotation>
@@ -185,10 +204,13 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="areaType">
 	<xs:annotation>
 		<xs:documentation>
-			This data type defines the possible values for
-			"area" element's type attribute.
+			This data type defines the possible values of "area" element's type attribute.
 			
-			It is used only in layout view
+			It is used only in Pages, may have the following values:
+			
+			sidebar 		- Panel on the left side of the screen
+			content 		- Main content area
+			footer  		- Area at the bottom of the screen
 			  
 		</xs:documentation>
 	</xs:annotation>
@@ -203,12 +225,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="displayType">
 	<xs:annotation>
 		<xs:documentation>
-			This data type defines the type of show element's "display" attribute.
-			It may have the following values:
-			
-			normal - Render the data as it is (default)
-			obfuscated - Render the data as rubbish text.
-			  
+			Depricated: This type is not in use anymore!
 		</xs:documentation>
 	</xs:annotation>
 		 <xs:restriction base="xs:token">
@@ -221,11 +238,11 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="sortType">
 	<xs:annotation>
 		<xs:documentation>
-			This is the data type of column field's sort attribute.
+			This is the data type of a column's sort attribute.
 			It determines the direction of sorting:
 			
-			ASC - Ascending
-			DESC - Descending
+			ASC 		- Ascending
+			DESC 		- Descending
 			  
 		</xs:documentation>
 	</xs:annotation>
@@ -239,7 +256,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="internalUriType">
 		<xs:annotation>
 			<xs:documentation>
-				This is the data type for symfony internal uris. The value must be a string, in the following
+				This is the data type of symfony internal URIs. The value must be a string, in the following
 				format:
 			
 				/module/action
@@ -259,8 +276,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="listType">
 		<xs:annotation>
 			<xs:documentation>
-				This data type is good for lists where items are separated by comma ",".
-				The values may contain only letters (english ABC) and numbers 				
+				This data type is good for comma separated lists ",".
+				The items in the list may contain only letters (english ABC) and numbers 				
 			</xs:documentation>
 		</xs:annotation>
 		 <xs:restriction base="xs:token">
@@ -273,7 +290,16 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		<xs:annotation>
 			<xs:documentation>
 				This type defines an array (key => value pairs).
-				The array can be associative or numeric.				
+				The array can be associative or numeric, and should look like this:
+				
+				[foo: bar,fofo: barbar]
+				
+				or
+				
+				[0 => foo, 1: bar]
+				
+				You have to use the keys, even if array is numerically indexed! 
+				
 			</xs:documentation>
 		</xs:annotation>
 		 <xs:restriction base="xs:token">
@@ -285,8 +311,15 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="permissionType">
 		<xs:annotation>
 			<xs:documentation>
-				This data type is used to define a list of access rights. These are strings.
-				* means there are no restrictions, and this is the default value.				
+				This data type is used to define a list of access rights for a widget. These are strings.
+				The character "*" (asterisk) means there are no restrictions, and this is the default value.
+				
+				Otherwise such a definition should look like this:
+				
+				[foo, bar]
+				
+				There is an AND relationship between the rights.
+				
 			</xs:documentation>
 		</xs:annotation>
 		 <xs:restriction base="xs:token">
@@ -298,7 +331,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="absoluteUriType">
 		<xs:annotation>
 			<xs:documentation>
-				Data type of absolute paths, used for image srcs.	
+				Data type of absolute paths pointing to files, used for image srcs. Nix* kind of syntax is expected.	
 			</xs:documentation>
 		</xs:annotation>
 		 <xs:restriction base="xs:token">
@@ -310,7 +343,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="pathType">
 		<xs:annotation>
 			<xs:documentation>
-				Data type of absolute paths.	
+				Data type of absolute paths pointing to directories. Nix* kind of syntax is expected. 	
 			</xs:documentation>
 		</xs:annotation>
 		 <xs:restriction base="xs:token">
@@ -323,8 +356,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="scriptType">
 		<xs:annotation>
 			<xs:documentation>
-				This one is the data type for JS code.	
-				It is only for JS function calls, the function body must be defined in external file!
+				This one is the data type for JS calls.	
+				It is only for function calls, the function body must be defined in external file!
 			</xs:documentation>
 		</xs:annotation>
 		 <xs:restriction base="xs:token">
@@ -336,11 +369,11 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="externalUriType">
 		<xs:annotation>
 			<xs:documentation>
-				This is the data type for external urls. A valid value is a http or ftp address.
+				This is the data type for external URLs. A valid value is any internet URL with protocol.
 			</xs:documentation>
 		</xs:annotation>
 		 <xs:restriction base="xs:token">
-		  	<xs:pattern value="(ftp://)|(http://)[A-Za-z0-9_\.\-]+"/>
+		  	<xs:pattern value="[a-z]{3,4}://[A-Za-z0-9_\.\-]+"/>
 		  	<xs:whiteSpace value="collapse"/>
 		  </xs:restriction>
 	</xs:simpleType>
@@ -360,8 +393,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="combinedUriType">
 		<xs:annotation>
 			<xs:documentation>
-				This is the data type for urls. Its value can be an internal symfony url or
-				a http / ftp address. 
+				This is the data type for urls. Its value can be an internal symfony URI or
+				any URL. 
 			</xs:documentation>
 		</xs:annotation>
 		<xs:union  memberTypes="i:internalUriType xs:anyURI" />
@@ -370,8 +403,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="dbNameType">
 		<xs:annotation>
 			<xs:documentation>
-				The data type for database column names. It is used by the column filed's
-				name attribute. 				
+				The data type for database column names. It is used by the column's
+				"name" attribute. 				
 			</xs:documentation>
 		</xs:annotation>
 		 <xs:restriction base="xs:token">
@@ -384,9 +417,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:annotation>
 		<xs:documentation>
 			The data type for javascript event handlers.
-			Its value is some "on.." event.
-			
-			Currently only the ExtJS Component and Field events are supported!
 			  
 		</xs:documentation>
 	</xs:annotation>
@@ -443,12 +473,26 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
                These are the attributes for each field, checkbox and radio element.
                All of them are optional, except for "name", which is required:
             
-            	name - The name of the field
-				label - The label text
-				checked - Makes only sense in case of checkbox or radio button element, determines if the button is checked
-            	type - type of the field
-            	state - state of the field
-            	style - a css class that should be applied to the field
+            	name 		- The name of the field
+				label 		- The label text
+				selected 	- Works only with combo fileds, it specifies the selected value. See the docs for info.
+				type 		- type of the field
+            	state 		- state of the field
+            	value 		- An alternate way to provide a value for the field.
+            	style 		- a css class that should be applied to the field
+            	width		- Width of the field in pixels
+            	height		- height of the field in pixels
+            	checked 	- Makes only sense in case of checkbox or radio button element, determines if the button is checked
+               	rich		- Works with textarea only. Determines whether rich text editor should be rendered.
+                content		- If defined, its value will be used as field value.
+                fromLegend	- Label for doublemulticiombo and similar fields (from part)
+                toLegend	- same as above for the "to" part.
+                clear		- Determined whether or not the "Clear" button should be rendered for doublemulticombo.
+                session		- ???
+                disabled    - Determines whether or not the field is disabled.
+                permissions - Access rights required to render the element.
+                plugin		- Reference to extra JS code to be loaded and applied to the field
+                url			- ???
                
             </xs:documentation>
         </xs:annotation>
@@ -481,14 +525,27 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
             <xs:documentation>
                These are the attributes for each column element.
      
-            	name - The name of the column in db
-            	width - The column's width in pixels
-				help - Some help text that will be displayed when hovering the title.
-				title - This will be displayed in the table header
-            	style - a css class that should be applied to the column
-				editable - Determines if inline editing should be enabled
-				sortable - Determines if sorting is possible on the column
-				resizable - Determines is the column can be resized
+            	name 		- The name of the column in db
+            	qtip		- Whether or not to show full text of column onmouseover. See docs. 
+            	label		- Column title text
+            	help 		- Some help text that will be displayed when hovering the title.
+            	width 		- The column's width in pixels
+            	editable 	- Determines if inline editing should be enabled
+            	sortable 	- Determines if sorting is possible on the column
+            	resizable 	- Determines if the column can be resized
+            	style 		- a css class that should be applied to the column
+            	isid		- Wheter or not the column should be handled as "id". See docs.
+            	groupField	- If true, the list will be grouped by this field.
+            	sort		- Sorting direction
+            	hidden		- Is this column visible?
+            	hieable 	- May the user hide this column?
+            	align		- Text align
+            	filter		- Declares filter type to be used with remote filtering. See docs.
+            	permissions - Access rights required to render the element.
+            	type		- An alternate way to define filter type, works with simple types only.
+            	sortType	- Specifies sorting method to be used by type of data in the column. See docs.
+            	sortIndex	- Specifies index to use for sorting. See docs.
+            	contextMenu - NOT IMPLEMENTED.	
                
             </xs:documentation>
         </xs:annotation>
@@ -519,15 +576,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:attributeGroup name="showAttributes">
         <xs:annotation>
             <xs:documentation>
-               These are the attributes for each show element.
-     
-            	name - The name of the column in db
-         			display - how the text should be displayed
-							editable - Is the field inline editable
-							label - The text of label
-							comment - This text should be displayed below the field
-					    style - a css class that should be applied to the column
-               
+              Depricated: This element is not in use anymore!
             </xs:documentation>
         </xs:annotation>
         <xs:attribute name="name" type="xs:token" use="required" />
@@ -544,13 +593,18 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:attributeGroup name="buttonAttributes">
         <xs:annotation>
             <xs:documentation>
-               These are the attributes used by button and linkbutton elements
+               These are the attributes used by button elements
      
-            	name - The name of the field
-				label - The label of the button
-				action - An internal uri
-            	state - state of the field
-            	style - a css class that should be applied to the field
+            	name 		- The name of the field
+				label 		- The label of the button
+				icon		- An image to attach to the button as icon
+				iconCls		- A CSS class name that adds icon image to the button.
+				action 		- An internal URI
+            	state 		- state of the field
+            	style 		- a css class that should be applied to the field
+            	updater		- Whether or not a comet-like request should be started. See docs.
+            	permissions -  Access rights required to render the element.
+            	
             	               
             </xs:documentation>
         </xs:annotation>
@@ -573,7 +627,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:group name="actionelements">
 	  <xs:annotation>
 	  	<xs:documentation>
-	  		This is a group of elements common to all action
+	  		This is a group of elements common to all actions
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:sequence>
@@ -585,7 +639,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:group name="fieldelements">
 	  <xs:annotation>
 	  	<xs:documentation>
-	  		This is a group of elements common to all form fields, checkboxes and radios.
+	  		This group of elements is common to all form fields.
+	  		These are the children of the field element.
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:sequence>
@@ -613,7 +668,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="title">
     	<xs:annotation>
         <xs:documentation>
-            This element defines the title of a view
+            This element defines the title text of a view
         </xs:documentation>
       </xs:annotation>
       <xs:complexType mixed="true">
@@ -626,7 +681,12 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="trigger">
     	<xs:annotation>
         <xs:documentation>
-            This is a special button bound to a field. It opens a popup window.
+            Thisrenders as a special button which is bound to a field. It opens a popup window. See docs.
+            
+            text 		- Custom text for the button
+            icon		- Path to an image that should be attached to the buttons as icon. 
+            permissions -  Access rights required to render the element.
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -641,7 +701,17 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="window">
     	<xs:annotation>
         <xs:documentation>
-            The element defines the options of a popup window.
+            The element defines the properties of the popup window opened by the trigger element.
+            
+            Please not that this is not a real window, but only a DHTML layer.
+            
+            title			- Window title
+            component		- The URI of a widget that should be loaded in the window
+            className		- Name of a PHP class (see docs)
+            methodName		- Name of a public static method (see docs)
+            width			- Window width in pixels
+            iconCls			- A CSS class name that adds icon image to the button.
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -659,7 +729,12 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="description">
     	<xs:annotation>
         <xs:documentation>
-            This element contains the description of a widget
+            This element contains the description of a widget. Also used to define widget help.
+            
+            image			- Path to an image file to be shown in the widget selector's listing. Usually a screenshot of the widget.         
+            condition		- It is used only in alternateDescriptions element. Determines the condition when this description should be used.
+            permissions 	-  Access rights required to render the element.
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType mixed="true">
@@ -679,6 +754,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     	<xs:annotation>
         <xs:documentation>
             This element holds description elements, alternatives to the main description of the widget.
+            
+            permissions 	-  Access rights required to render the element.
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -697,6 +775,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         <xs:documentation>
             This element defines some extra information about a glued page.
             It is a kind of help.
+            
+            permissions -  Access rights required to render the element.
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType mixed="true">
@@ -713,7 +794,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="body">
     	<xs:annotation>
         <xs:documentation>
-            This element defines a custom HTML message.
+            Depricated: This element is not in use anymore!
         </xs:documentation>
       </xs:annotation>
       <xs:complexType mixed="true">
@@ -732,6 +813,11 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     	<xs:annotation>
         <xs:documentation>
             This one will be rendered as a confirm dialogue on client side.
+            
+            url			- The URL to redirect to when dialogue is rejected.
+            title		- Custom title text of the dialogue
+            permissions -  Access rights required to render the element.
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType mixed="true">
@@ -747,7 +833,15 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="component">
     	<xs:annotation>
         <xs:documentation>
-            This element defines a component to be included in the layout.
+            This element refers to a widget to be included as part of a Page.
+            
+            name			- SF action name
+            module			- SF module name
+            post			- An URI. Overrides the widgets default action. See docs.
+            column			- Which column the widget should be placed to (relevant only in Pages with more than one column)
+            refersh			- Automatic reload enabler and delay
+            permissions 	-  Access rights required to render the element.
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -769,7 +863,10 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="help">
     	<xs:annotation>
         <xs:documentation>
-            The element contains some help text that should showed when hover event occurs.
+            The element contains some help text related to a form field. It should shown when hover event occurs.
+            
+            permissions 	-  Access rights required to render the element.
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType mixed="true">
@@ -782,7 +879,10 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="comment">
     	<xs:annotation>
         <xs:documentation>
-            The element describes the comment text that should be rendered beneath the edit field.
+            The element defines the comment text that should be rendered beneath the form field.
+            
+            permissions 	-  Access rights required to render the element.
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType mixed="true">
@@ -795,7 +895,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="statement">
     	<xs:annotation>
         <xs:documentation>
-            This one contains a SQL statement to be executed as datasource.
+            This one contains a SQL statement to be executed, substitutes datasource.
         </xs:documentation>
       </xs:annotation>
       <xs:complexType mixed="true">
@@ -808,6 +908,15 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     	<xs:annotation>
         <xs:documentation>
             This one holds optional attributes used in HTML views.
+            
+            autoScroll			- ???
+            border				- Whether or not a border should be rendered around content area
+            header				- Whether or not a header row should be placed at the top of content area.
+            autoHeight			- ???
+            autoEnd				- ???
+            style				- A css class that should be applied to the column
+            
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -825,9 +934,12 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="method">
     	<xs:annotation>
         <xs:documentation>
-            This element describes a method to call and its parameters
-            It may contain any number of "param" elements.
-            The "name" attribute is required.
+            This element describes a method to call and its (optional) arguments
+            It may contain any number of "param" elements, these represent the arguments.
+            
+            name			- Name of the method
+            type			- Type of the method, see docs.
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -842,8 +954,11 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="item">
     	<xs:annotation>
         <xs:documentation>
-            This element defines items of a combo or multicombo statically.
+            This element defines an item of a combo or multicombo statically.
             It can be used within value elements.
+            
+            value			- Value of the item
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType mixed="true">
@@ -859,8 +974,16 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 			The first syntax is for special cases, when you need to call
 			some custom method to fill the field.
 						
-			The second syntax is the general one. For details, please
-			see the "source" element.
+			The second syntax is the general one.
+			
+			The third syntax can be used to provide value statically (for combo, multicombo elements only).
+			
+			See the docs for details.
+			
+			type			- Type of the value
+			permissions 	-  Access rights required to render the element.
+			
+			
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -888,7 +1011,12 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="datasource">
     	<xs:annotation>
         <xs:documentation>
-            This element describes the data source for the input fields
+            This element describes the data source of a grid, edit or show view.
+            
+            type			- Type of data source. See docs.
+            lister			- Must be set to true in case of file data source. See Docs.
+            
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -912,9 +1040,11 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="datastore">
     	<xs:annotation>
         <xs:documentation>
-            This element contains entry elements and is used to define
-            relations between form field names and classes when saving data.
-            It is used only in wizard layouts.
+            This element is used to define relations between form field names and db tables regarding
+            automatic saving of user input. It is used only in wizard views.
+            
+            See docs.
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -932,8 +1062,21 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="table">
     	<xs:annotation>
         <xs:documentation>
-            This element defines where to save the user input.
-            It is used only in wizard layouts.
+            This element represents a db table, determined where to save the user input.
+            It is used only in wizard views.
+            
+            See docs for details!
+            
+            name 			- Propel class name
+            select			- Triggers update operation, see docs
+            alias			- A table alias, to allow multiple references to the same table.
+            ignore			- Number of optional step to ignore. See docs
+            insert			- Triggers insert opration, see docs
+            delete			- ???
+            condition		- Use this definition to save the data only if expression evaluates to true.
+            json			- ???
+            
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -957,7 +1100,12 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="file">
     	<xs:annotation>
         <xs:documentation>
-            This element reprsents an uploaded file.
+            This element represents a file upload opreation.
+            
+            to 				- Path to move the uploaded file to.
+            name			- name of the form field (upload field)
+            overwrite		- Whether or not to automatically overwrite existing files when moving upload from tmp.
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -972,8 +1120,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="params">
     	<xs:annotation>
         <xs:documentation>
-            This element holds parameters for its parent.
-			It contains 1 or more "param elements".
+            This element holds parameters of its parent node.
+			It contains 1 or more "param" elements.
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -988,8 +1136,10 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="param">
     	<xs:annotation>
         <xs:documentation>
-            It defines an argument for a validator. 
-            This element must reside in a "validator" element.
+            It represents a parameter or a function argument. 
+            
+            name			- Name odf the parameter
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType mixed="true">
@@ -1003,8 +1153,11 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="validator">
     	<xs:annotation>
         <xs:documentation>
-            This element defines a validator to be called from PHP.
-            It may contain any number of param elements (including 0) to define arguments.
+            This element refers to a validator to be called to validate input.
+            
+            name			- Class name of the validator to use (SF 1.0 or 1.2 API)
+            permissions 	-  Access rights required to render the element.
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -1023,13 +1176,15 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     	<xs:annotation>
         <xs:documentation>
             The element defines a proxy url for list views.
-            This will be called by the client to fetch list items. 
+            This action will be called by the client to fetch list items as JSON.
+            
+            url			- An internal URI
+            
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
         <xs:attributeGroup ref="i:commonAttributes" />
         <xs:attribute name="url" type="i:internalUriType" use="required" />
-        <xs:attribute name="stateId" type="xs:boolean" default="false" />
         <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
         <xs:attribute name="container" type="xs:boolean" fixed="true" />
       </xs:complexType>
@@ -1038,11 +1193,10 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="handler">
     	<xs:annotation>
         <xs:documentation>
-            The element can be used to define s Javascript event handler for a form field.
-            It has two attributes:
+            The element can be used to define an event handler for a form field (and some other elements).
             
-            type - the event type (HTML or custom event)
-            action - Javascript code to call
+            type 		- the event type (HTML or custom event)
+            action 		- Javascript code to call
             
         </xs:documentation>
       </xs:annotation>
@@ -1058,7 +1212,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     	<xs:annotation>
         <xs:documentation>
             This element describes an input field of a form.
-            It has several attributes, but all of them are optional, except for "name" and "label".
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -1070,11 +1223,10 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       </xs:complexType>
     </xs:element>
 
-		<xs:element name="show">
+	<xs:element name="show">
     	<xs:annotation>
         <xs:documentation>
-            This element describes a field in show view. It determines how the value is rendered.
-            It has several attributes, but all of them are optional, except for "name" and "label".
+            Depricated: The element is not in use anymore!
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -1088,13 +1240,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="button">
       <xs:annotation>
         <xs:documentation>
-            This is an extension of the field element. A button is also a field
-            and its data type is almost the same, but has one more extra attribute:
-            
-            action - the internal url to post to
-            
-            Defining a label is also required in this case.
-            
+            This element represents a push button. Can be used in forms.
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -1107,6 +1253,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
         <xs:attribute name="assignid" type="xs:boolean" fixed="true" />
         <xs:attribute name="container" type="xs:boolean" fixed="true" />
+      	<xs:attribute name="permission" type="i:permissionType" default="*" />
       </xs:complexType>
     </xs:element>
     
@@ -1115,8 +1262,10 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         <xs:documentation>
             This element is used to create hyperlinks. It has two attributes:
             
-            action - an internal or external uri to point to
-            text - The text of the link
+            name				- A unique name (ID).
+            action 				- an internal or external URL to point to
+            text 				- The text of the link
+            permissions 		-  Access rights required to render the element.
             
         </xs:documentation>
       </xs:annotation>
@@ -1136,12 +1285,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     <xs:element name="linkbutton">
       <xs:annotation>
         <xs:documentation>
-            This element is used to create a button that acts as hyperlink. It has 
-            two unique attributes, the others as the same as button`s:
-            
-            action - an internal or external uri to point to
-            text - The text of the link
-            
+            Depricated: The element is not in use anymore!
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -1157,9 +1301,14 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
      <xs:element name="radiogroup">
       <xs:annotation>
         <xs:documentation>
-            The element is the container for radio buttons. 
-            It has a name and label and may have a comment attached ot it.
-            
+            The element is the container of radio buttons (if you need to group them). 
+           
+           	name				- The name of the group
+           	label				- Form field label of the group
+           	comment				- Text to be rendered beneath the group (same as comment element)
+           	help				- Text to be shown on hovering over the group (same as help element)
+           	permissions 		-  Access rights required to render the element.
+           
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
@@ -1180,16 +1329,38 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="fields">
 	  <xs:annotation>
 	  	<xs:documentation>
-	  		This is a container for all the input fields, it is similar to HTML form element.
-	  		In an edit view it may contain any number of field elements, but it must hold at least one.
-	
-				In a list view it is the container of "column" elements, the columns of the list.
-				At least 1 "column" element is required.
+	  		This is a container element and has different purpose in each view.
 				
-				In case of a show view it contains "show" elements, which will define rendering options
-				for the values.
-				At least 1 "show" element is required.
-	  		
+			See docs dor details!
+			
+			
+			tree			- Whether or not to render a tree grid
+			selectable		- Whether or not to add "Select .." options to moreactions menu
+			exportable		- Is the list exportable to CSV?
+			title			- List title text
+			select			- Makes rows selectable, the grid can be POSTed (selection or everything).
+			pager			- Wheteher or not to add pager controls
+			action			- List action (URI) to use when POSTing grid data
+			multipart		- Should be used in edit view when files has to be uploaded.
+			remoteSort		- Enables server-side sorting. See docs.
+			submit			- Used in grids, to post selection
+			classic			- When POSTing form, dont use AJAX
+			icon			- An image to attach to the "Save Selection" button as icon
+			iconCls			- A CSS class name that adds icon image to the "Save selection" button.
+			bodyStyle		- ???
+			border			- Whether or not to draw a border around content area
+			portal			- ???
+			permissions 	-  Access rights required to render the element.
+			label			- Custom text for the "Save Selection" button
+			redirect		- An URI to redirect to upon successful submit (grid and edit)
+			expandButton	- Places "Expanded View" button at the top of the list and makes the rows collapsable / expandable
+			remoteLoad		- Used in tree grids, makes nodes in sublevels to load only upon request. Good for big trees. See docs.
+			labelWidth		- Width of form field labels in pixels
+			exportFrom		- Specifies alternate action to use for CSV export. See docs.
+			remoteFilter	- Allows filtering of lists.
+			plugin			- Extra JS to be loaded and applied to the form
+			
+	
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1245,17 +1416,16 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="grouping">
 	  <xs:annotation>
 	  	<xs:documentation>
-	  		In an edit view, this one can be used to define grouping of fields. It will transformed to
+	  		In an edit view, this one can be used to arrange fields. It will transformed to
 				something like fieldsets in HTML.
-				
-				It also determines the order of the fields in the view. Those fields not
-				associated with any fieldset will belong to a "default" set and will appear
-				below the last named set.
+				It also determines the order of the fields in the view. 
 				
 				In a list view, it defines what columns should be grouped and by what criteria.
 				
-	  		It contains at least one "set" element in edit view or at least 1 "by"
-				tag in list view.
+				title			- Title text of the default field set
+				isSetting		- If true, an tabs are used, the tab will be rendered in a certain style.  
+				collapsed		- Whether or not to render the groups in a collapsed state by default
+				
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1283,8 +1453,10 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="by">
 	  <xs:annotation>
 	  	<xs:documentation>
-	  		This tag must reside in a "column" element and it is used to
-	  		define a grouping criteria for a column.
+	  		This tag is used to define a grouping criteria for a list column.
+	  	
+	  		callback			- ???
+	  		
 	  	
 	  	</xs:documentation>
 	  </xs:annotation>
@@ -1297,11 +1469,16 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="set">
 	  <xs:annotation>
 	  	<xs:documentation>
-	  		This tag must reside in a "grouping" element and it is used to
-	  		define a fieldset.
+	  		This tag is used to define a fieldset in Edit Views.
+	  	
+	  		title			- Title text
+	  		tabtitle		- Triggers tabbed rendering, title text of the tab
+	  		float			- Does this field set contain multiple columns?
+	  		collapsed		- Whether or not to render the field set in a collapsed state by default
+	  		tabHeight		- Height of tab title in pixels
+	  		iconCls			- CSS class that adds icon to the tab title
 	  		
-	  		It must have a "title" attribute. It must contain at least one 
-				"ref" element.
+	  	
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1313,7 +1490,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	<xs:attribute name="columns" type="xs:positiveInteger" use="optional" default="1" />
       	<xs:attribute name="float" type="xs:boolean" use="optional" default="false" />
       	<xs:attribute name="collapsed" type="xs:boolean" use="optional" default="false" />
-      	<xs:attribute name="tabHeight" type="xs:positiveInteger" use="optional"/>
+      	<xs:attribute name="tabHeight" type="xs:positiveInteger" use="optional" default="225" />
       	<xs:attribute name="iconCls" type="xs:token" use="optional"/>
 	  </xs:complexType>
 	</xs:element>
@@ -1322,10 +1499,14 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  <xs:annotation>
 	  	<xs:documentation>
 	  		It refers to a field defined within the "fields" element. 
-				This determines the placement of the field in the view.
-				
-				In a list view it may refer to any other named element.
-				
+			
+			to			- Name of the field to refer to
+			as			- Used only in Wizard views when db column name and field name are different. See docs
+			group		- Must be set to true, if ref points to a radiogroup.
+			title		- ???
+			tip			- ???
+			json		- ???
+			
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1342,8 +1523,11 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="source">
 	  <xs:annotation>
 	  	<xs:documentation>
-				This refers to one of the getter methods of the object returned by "datasource". The return value will be
+				This is a reference to one of the getter methods of the object returned by "datasource". The return value will be
 				the value of the "field" element. 
+				
+				name			- Name of the method
+				
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1354,8 +1538,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="column">
 	  <xs:annotation>
 	  	<xs:documentation>
-	  		This tag defines a column of a list view. It may have many
-				attributes, but only the "name" is required.
+	  		This tag defines a column of a list view. 
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType mixed="true">
@@ -1369,8 +1552,10 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="actions">
 	  <xs:annotation>
 	  	<xs:documentation>
-	  		The tag used to list the actions for a given view.
-	  		It must contain at least 1 "action" tag.
+	  		The tag used to list the global actions for a given view.
+	  		
+	  		permissions 		-  Access rights required to render the element.
+	  		
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1388,8 +1573,11 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="widgetCategories">
 		<xs:annotation>
 			<xs:documentation>
-				The contains one or more category elements, and defines
-				the list of visible categries in widget selector for a PAGE.
+				This one defines those widget categries that should be listed in widget selector.
+				It can be used only in Pages.
+				
+				permissions 		-  Access rights required to render the element.
+				
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -1406,7 +1594,13 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="category">
 		<xs:annotation>
 			<xs:documentation>
-				Defines a widget category, used by the widget selector.
+				Refers to a widget category. All widgets related to the category will be listed 
+				in widget selector.
+				
+				catid			- Id of the category (db PK)
+				name			- Identify a category by its name
+				permissions 	-  Access rights required to render the element.
+				
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -1420,8 +1614,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="rowactions">
 	  <xs:annotation>
 	  	<xs:documentation>
-	  		The tag used to list the actions for a row in the list view.
-	  		It must contain at least 1 "action" tag.
+	  		The tag used to list the actions related to a row in the list.
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1438,8 +1631,10 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="moreactions">
 	  <xs:annotation>
 	  	<xs:documentation>
-	  		The tag used to list the actions for selected row in the list view.
-	  		It must contain at least 1 "action" tag.
+	  		The tag used to list the actions to be placed in drop-down menu placed in the top right corner of the list.
+	  		
+	  		permissions 		-  Access rights required to render the element.
+	  		
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1456,13 +1651,26 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="action">
 	  <xs:annotation>
 	  	<xs:documentation>
-	  		This tag describes an action for the given view.
-	  		It has a required attribute.
+	  		This tag describes an action (either normal, rowaction or moreaction).
 	  		
-	  		The content must be the name of the class and function to call,
-	  		or false.
+	  		name			- Unique name of the action. Also used as the label if "text" attribute is omitted. 
+	  		url				- The URL to be requested
+	  		pk				- Applies for rowactions only. If the primary key is not called "ID", you can name it here.
+	  		condition		- When to hide this action? See docs
+	  		script			- Cyustom JS to be executed
+	  		params			- ???
+	  		icon			- An image to attach to the button / menu item as icon (normal and moreactions)
+	  		iconCls			- A CSS class name that adds icon image to the button / menu item. (normal and moreactions)
+	  		tooltip			- Text to be shown when hovering over action icon (rowactions)
+	  		text			- Custom text for action button.
+	  		style			- CSS class to apply to the button / icon
+	  		post			- Used only in Wizard Views, overrides default widget action. See docs
+	  		forceSelection	- Action will be performed if at least 1 item is selected in the grid
+	  		confirmMsg		- Action will be performed only if users confirms it.
+	  		updater			- Whether or not a comet-like request should be initiated?
+	  		popup			- Opens a popup layer and loads URL in this "window". By default URL will be loaded in main content area. 
+	  		permissions 	-  Access rights required to render the element.
 	  		
-	  		E.g.: someclass/foobar
 	  		
 	  	</xs:documentation>
 	  </xs:annotation>
@@ -1517,8 +1725,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  		multiple elements manipulating how the view gets
 	  		displayed.
 	  		
-	  		It must contain at least a "visible" child element.
-	  		
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1530,7 +1736,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	<xs:attributeGroup ref="i:commonAttributes" />
       	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
       	<xs:attribute name="container" type="xs:boolean" fixed="true" />
-      	<xs:attribute name="permissions" type="i:permissionType" default="*" />
 	  </xs:complexType>
 	</xs:element>
 	
@@ -1538,9 +1743,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  <xs:annotation>
 	  	<xs:documentation>
 	  		The element controls cacheing, by defining a set of references to
-				to named elements that should be cached.
+			to named elements that should be cached.
 				
-				It must contain at least 1 "ref" element.
+			Not implemented yet!
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1556,8 +1761,13 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="area">
 	  <xs:annotation>
 	  	<xs:documentation>
-	  		It defines an area of a complete layout.
-	  		It may contain component and params elemnts.
+	  		It defines an area of a Page.
+	  		
+	  		type			- Type of the area
+	  		layout			- Must be used if you wish to divide your content area into columns. See docs.
+	  		width			- Width of the area in pixels
+	  		permissions 	-  Access rights required to render the element.
+	  		
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1585,7 +1795,12 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="tab">
 	  <xs:annotation>
 	  	<xs:documentation>
-	  		This defines a tab for tabbed PAGE layouts.
+	  		This defines a tab for tabbed Pages.
+	  		
+	  		title				- Tab title text
+	  		name				- Name of the tab
+	  		permissions 		-  Access rights required to render the element.
+	  		
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1612,6 +1827,12 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  	<xs:documentation>
 	  		This element will be rendered as a tree with expandable branches.
 	  		It can be added to any area element.
+	  		
+	  		title				- Title text
+	  		name				- Name of the tree
+	  		column				- The number of column the tree should placed into. Applies to Pages with multiple columns
+	  		permissions 		-  Access rights required to render the element.
+	  		
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1632,6 +1853,10 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  	<xs:documentation>
 	  		The element is the root node of a tree. All nodes must reside
 	  		inside of this one.
+	  		
+	  		name			- Name of the node
+	  		text			- Label text
+	  		
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1650,6 +1875,11 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  	<xs:documentation>
 	  		This one is an elmenet of the tree. It may define a section (branch)
 	  		or an item (link). A node may contain other nodes.
+	  		
+	  		name			- Name of the node
+	  		text			- Label text
+	  		href			- URL to point to, if node is a link
+	  		
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
@@ -1671,7 +1901,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
             It may contain several different types of elements depending on the type of view.
             The element has one attribute, which defines the type of the view.
             
-            type - The view type.
+            type 			- The view type.
             
         </xs:documentation>
       </xs:annotation>
