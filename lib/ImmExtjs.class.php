@@ -72,8 +72,8 @@ class ImmExtjs extends sfExtjs2Plugin
 	$this->end ('',false);
 	
 	echo "<script type='text/javascript'>\n";
-	echo "// <![CDATA[\n";
-	echo $this->source;
+	echo "// <![CDATA[\n";	
+	echo JSMin::minify($this->source);
 	echo "// ]]>\n";
 	echo "</script>\n";
   }
