@@ -168,7 +168,7 @@ Ext.ux.plugins.ExtendedDayTimeSelect = Ext.extend(Ext.form.Field, {
 		    },
 		    valueField: 'valueField',
 		    displayField: 'displayField',
-		    emptyText:'Select time frame',
+		    emptyText:'Select time frame'
 		});
 		
 		dayTimeCombo.setValue('weekly');
