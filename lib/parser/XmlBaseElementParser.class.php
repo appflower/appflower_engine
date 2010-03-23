@@ -13,6 +13,10 @@ class XmlBaseElementParser  {
 		
 		$val = self::$parser->get($node);
 		
+		// Replacing non-XML firendly chars..
+		
+		self::entityReplace($val);
+		
 		if($val && (is_string($val) || is_numeric($val)) && property_exists($node,"nodeValue") && 
 		self::$parser->textonly($node)) {
 			$str = self::parseValue($val,$node);		
@@ -49,6 +53,16 @@ class XmlBaseElementParser  {
 		self::$parser = $parser;
 	}
 	
+	
+	private static function entityReplace(&$val) {
+		
+		$entities = array("&" => "&amp;","<" => "&lt;",">" => "&gt;", "\"" => "&quot;", "'" => "&#39;");
+		
+		foreach($entities as $char => $ent) {
+			$val = str_replace($char,$ent,$val);
+		}
+		
+	} 
 	
 	public static final function add($key,$value) {
 		
