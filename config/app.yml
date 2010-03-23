@@ -19,12 +19,12 @@ all:
     enabled:        true    # enabling the plugin will combine script and css files into a single file
     asset_version:  1       # key to the asset version (see below)
     js:
-      minify:       false   # minification removes whitespaces and comments
+      minify:       true   # minification removes whitespaces and comments
       pack:         false   # packing reduces the filesize by using a JavaScript compression (warning: see below)
       online: [http://extjs.cachefly.net/builds/ext-cdn-771.js] #/sfExtjs2Plugin/extjs/adapter/ext/ext-base.js,/sfExtjs2Plugin/extjs/ext-all.js this files are skiped and added separatelly to response
       offline: [/appFlowerPlugin/extjs-3/adapter/ext/ext-base.js,/appFlowerPlugin/extjs-3/ext-all.js] # this files are skiped and added separatelly to response
     css:
-      minify:       false    # only minification is available for css
+      minify:       true    # only minification is available for css
       online: [http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css] # this files are skiped and added separatelly to response
       offline: [] # this files are skiped and added separatelly to response
     client_cache_max_age: 5  # enable the browser to keep a copy of the files for x days (false to disable)     
