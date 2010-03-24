@@ -14,152 +14,178 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
   <!-- Types -->
     
-  <xs:simpleType name="inputType">
-	<xs:annotation>
-		<xs:documentation>
-			This is the data type of form fields. It determines what kind of field will be rendered.
-			It is an enumeration an it may have the following values:
-			
-			input 					- simple text field (this is the default)
-			textarea 				- the equavilent of HTML textarea tag
-			checkbox 				- A checkbox
-			radio 					- A radio button element
-			password 				- A password field
-			hidden 					- A hidden field
-			file 					- A file upload field
-			combo 					- A combi panel (combination of input and HTML select)
-			extendedCombo			- Creates a combo that renders its elements as hyperlinks
-			extendedDayTimeSelect	- A date selector that lets you define time frames. See docs.
-			itemSelectorAutoSugges	- Like a multicombo with auto suggest feature (fiters items as you type into the search field).
-			remoteComboAutoSuggest	- Extended combo box, wuth auto suggest feature. See docs.
-			multicomobo 			- same as above, but selecting multiple choices is possible
-			doublemulticombo 		- Two compo panels, suitable for specifying many-to many relationships. Drag &amp; Drop
-			static 					- Renders data as plain text. Not editable, not POSTable.
-			doubletree 				- Like doublemulticombo, but renders two tree views instead, thus suports grouping. Drag &amp; Drop
-			datetime 				- A date and time input (YYYY-MM-DD HH:ii:ss). 
-			date     				- Date input            (YYYY-MM-DD)
-			
-		</xs:documentation>
-	</xs:annotation>
-		 <xs:restriction base="xs:token">
-		  	<xs:enumeration value="input"/>
-		    <xs:enumeration value="textarea"/>
-			<xs:enumeration value="checkbox"/>
-			<xs:enumeration value="radio"/>
-		    <xs:enumeration value="password"/>
-		    <xs:enumeration value="hidden"/>
-		    <xs:enumeration value="file"/>
-		    <xs:enumeration value="combo"/>
-			<xs:enumeration value="extendedCombo"/>		
-			<xs:enumeration value="extendedDayTimeSelect"/>			
-			<xs:enumeration value="itemSelectorAutoSuggest"/>
-			<xs:enumeration value="remoteComboAutoSuggest"/>
-		    <xs:enumeration value="multicombo"/>
-		    <xs:enumeration value="doublemulticombo"/>
-		    <xs:enumeration value="static"/>
-		    <xs:enumeration value="doubletree"/>
-		    <xs:enumeration value="datetime"/>
-		    <xs:enumeration value="date"/>
-		    <xs:whiteSpace value="collapse"/>
-		  </xs:restriction>
-	</xs:simpleType>
+	<xs:simpleType name="inputType">
+		<xs:annotation>
+			<xs:documentation>
+				This is the data type of form fields. It determines what kind of field will be rendered.
+				It is an enumeration or placeholder and it may have the following values:
+				
+				input 					- simple text field (this is the default)
+				textarea 				- the equavilent of HTML textarea tag
+				checkbox 				- A checkbox
+				radio 					- A radio button element
+				password 				- A password field
+				hidden 					- A hidden field
+				file 					- A file upload field
+				combo 					- A combi panel (combination of input and HTML select)
+				extendedCombo			- Creates a combo that renders its elements as hyperlinks
+				extendedDayTimeSelect	- A date selector that lets you define time frames. See docs.
+				itemSelectorAutoSugges	- Like a multicombo with auto suggest feature (fiters items as you type into the search field).
+				remoteComboAutoSuggest	- Extended combo box, wuth auto suggest feature. See docs.
+				multicomobo 			- same as above, but selecting multiple choices is possible
+				doublemulticombo 		- Two compo panels, suitable for specifying many-to many relationships. Drag &amp; Drop
+				static 					- Renders data as plain text. Not editable, not POSTable.
+				doubletree 				- Like doublemulticombo, but renders two tree views instead, thus suports grouping. Drag &amp; Drop
+				datetime 				- A date and time input (YYYY-MM-DD HH:ii:ss). 
+				date     				- Date input            (YYYY-MM-DD)
+				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="i:varType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="input"/>
+					<xs:enumeration value="textarea"/>
+					<xs:enumeration value="checkbox"/>
+					<xs:enumeration value="radio"/>
+					<xs:enumeration value="password"/>
+					<xs:enumeration value="hidden"/>
+					<xs:enumeration value="file"/>
+					<xs:enumeration value="combo"/>
+					<xs:enumeration value="extendedCombo"/>		
+					<xs:enumeration value="extendedDayTimeSelect"/>			
+					<xs:enumeration value="itemSelectorAutoSuggest"/>
+					<xs:enumeration value="remoteComboAutoSuggest"/>
+					<xs:enumeration value="multicombo"/>
+					<xs:enumeration value="doublemulticombo"/>
+					<xs:enumeration value="static"/>
+					<xs:enumeration value="doubletree"/>
+					<xs:enumeration value="datetime"/>
+					<xs:enumeration value="date"/>
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>	
+		</xs:union>
+ 	</xs:simpleType>
     
+	<xs:simpleType name="stateType">
+		<xs:annotation>
+			<xs:documentation>
+				This is the data type of the state of form fields.
+				There are three valid states:
+				
+				editable 		- Normal state, field can be edited and will posted. This is the default
+				readonly 		- Field cannot be edited but will still be posted
+				disabled 		- Field may not be edited and wont be posted
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="i:varType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="editable"/>
+					<xs:enumeration value="readonly"/>
+					<xs:enumeration value="disabled"/>
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
   
-  <xs:simpleType name="stateType">
-	<xs:annotation>
-		<xs:documentation>
-			This is the data type of the state of form fields.
-			There are three valid states:
-			
-			editable 		- Normal state, field can be edited and will posted. This is the default
-			readonly 		- Field cannot be edited but will still be posted
-			disabled 		- Field may not be edited and wont be posted
-			
-		</xs:documentation>
-	</xs:annotation>
-		 <xs:restriction base="xs:token">
-		  	<xs:enumeration value="editable"/>
-		    <xs:enumeration value="readonly"/>
-		    <xs:enumeration value="disabled"/>
-		    <xs:whiteSpace value="collapse"/>
-		  </xs:restriction>
+  
+	<xs:simpleType name="alignType">
+		<xs:annotation>
+			<xs:documentation>
+				These are the possible values of align attribute of a grid column.
+				
+				left (default)
+				center
+				right
+				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="i:varType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="left"/>
+					<xs:enumeration value="center"/>
+					<xs:enumeration value="right"/>
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
 	</xs:simpleType>
 	
-	<xs:simpleType name="alignType">
-	<xs:annotation>
-		<xs:documentation>
-			These are the possible values of align attribute of a grid column.
-						
-			left (default)
-			center
-			right
-			
-		</xs:documentation>
-	</xs:annotation>
-		 <xs:restriction base="xs:token">
-		  	<xs:enumeration value="left"/>
-		    <xs:enumeration value="center"/>
-		    <xs:enumeration value="right"/>
-		    <xs:whiteSpace value="collapse"/>
-		  </xs:restriction>
-	</xs:simpleType>
 	
 	<xs:simpleType name="buttonType">
-	<xs:annotation>
-		<xs:documentation>
-			This is the data type for buttons. It determines what kind of button will be
-			created.
-					
-			normal 		- A simple button, it will trigger some action or may execute JS.
-			submit 		- A submit button, will POST list or edit view. 
-			reset 		- A reset button
-			
-		</xs:documentation>
-	</xs:annotation>
-		 <xs:restriction base="xs:token">
-		  	<xs:enumeration value="button"/>
-		    <xs:enumeration value="reset"/>
-		    <xs:enumeration value="submit"/>
-		    <xs:whiteSpace value="collapse"/>
-		  </xs:restriction>
+		<xs:annotation>
+			<xs:documentation>
+				This is the data type for buttons. It determines what kind of button will be
+				created.
+				
+				normal 		- A simple button, it will trigger some action or may execute JS.
+				submit 		- A submit button, will POST list or edit view. 
+				reset 		- A reset button				
+				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="i:varType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="button"/>
+					<xs:enumeration value="reset"/>
+					<xs:enumeration value="submit"/>
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
 	</xs:simpleType>
 	
-	<xs:simpleType name="valueType">
-	<xs:annotation>
-		<xs:documentation>
-			The type of the source of a form field value. It may be defined as:
-			
-			orm 		- read the data from DB
-			file 		- read the data from file
-			static 		- a constant value
-			  
-		</xs:documentation>
-	</xs:annotation>
-		 <xs:restriction base="xs:token">
-		  	<xs:enumeration value="orm"/>
-		    <xs:enumeration value="file"/>
-		    <xs:enumeration value="static"/>
-		    <xs:whiteSpace value="collapse"/>
-		  </xs:restriction>
-	</xs:simpleType>
 
-	<xs:simpleType name="fetchType">
-	<xs:annotation>
-		<xs:documentation>
-			This determines whether an instance has to be crated, or
-			the method should be called statically.
-			
-			instance 		- create new instance
-			static			- The method is static.	
-			  
-		</xs:documentation>
-	</xs:annotation>
-		 <xs:restriction base="xs:token">
-		  	<xs:enumeration value="instance"/>
-		    <xs:enumeration value="static"/>
-		    <xs:whiteSpace value="collapse"/>
-		  </xs:restriction>
+	<xs:simpleType name="valueType">
+		<xs:annotation>
+			<xs:documentation>
+				The type of the source of a form field value. It may be defined as:
+				
+				orm 		- read the data from DB
+				file 		- read the data from file
+				static 		- a constant value
+				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="i:varType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="orm"/>
+					<xs:enumeration value="file"/>
+					<xs:enumeration value="static"/>
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
 	</xs:simpleType>
+	
+	<xs:simpleType name="fetchType">
+		<xs:annotation>
+			<xs:documentation>
+				This determines whether an instance has to be crated, or
+				the method should be called statically.
+				
+				instance 		- create new instance
+				static			- The method is static.	
+				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="i:varType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="instance"/>
+					<xs:enumeration value="static"/>
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	
 	
 	<xs:simpleType name="areaWidthType">
 		<xs:annotation>
@@ -174,84 +200,105 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		  </xs:restriction>
 	</xs:simpleType>
 	
+	
 	<xs:simpleType name="viewType">
-	<xs:annotation>
-		<xs:documentation>
-			This data type determines the type of the view.
-			It may have the following values:
-			
-			edit 		- An edit view (update or create opartions)
-			list 		- A list view (Renders a grid)
-			show 		- A show view (contents of source as plain text)
-			wizard 		- A wizard view (Windows-like wizards)
-			html 		- A HTML view (custom HTML content, messages)
-			layout 		- A component glueing view (Pages)
-			  
-		</xs:documentation>
-	</xs:annotation>
-		 <xs:restriction base="xs:token">
-		  	<xs:enumeration value="edit" />
-		    <xs:enumeration value="list" />
-			<xs:enumeration value="show" />
-			<xs:enumeration value="layout" />
-			<xs:enumeration value="html" />
-			<xs:enumeration value="wizard" />
-			<xs:enumeration value="info" />
-		    <xs:whiteSpace value="collapse"/>
-		  </xs:restriction>
+		<xs:annotation>
+			<xs:documentation>
+				This data type determines the type of the view.
+				It may have the following values:
+				
+				edit 		- An edit view (update or create opartions)
+				list 		- A list view (Renders a grid)
+				show 		- A show view (contents of source as plain text)
+				wizard 		- A wizard view (Windows-like wizards)
+				html 		- A HTML view (custom HTML content, messages)
+				layout 		- A component glueing view (Pages)
+				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="i:varType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="edit" />
+					<xs:enumeration value="list" />
+					<xs:enumeration value="show" />
+					<xs:enumeration value="layout" />
+					<xs:enumeration value="html" />
+					<xs:enumeration value="wizard" />
+					<xs:enumeration value="info" />
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
 	</xs:simpleType>
+	
 	
 	<xs:simpleType name="areaType">
-	<xs:annotation>
-		<xs:documentation>
-			This data type defines the possible values of "area" element's type attribute.
-			
-			It is used only in Pages, may have the following values:
-			
-			sidebar 		- Panel on the left side of the screen
-			content 		- Main content area
-			footer  		- Area at the bottom of the screen
-			  
-		</xs:documentation>
-	</xs:annotation>
-		 <xs:restriction base="xs:token">
-		  	<xs:enumeration value="sidebar" />
-		    <xs:enumeration value="content" />
-		    <xs:enumeration value="footer" />
-		    <xs:whiteSpace value="collapse"/>
-		  </xs:restriction>
+		<xs:annotation>
+			<xs:documentation>
+				This data type defines the possible values of "area" element's type attribute.
+				
+				It is used only in Pages, may have the following values:
+				
+				sidebar 		- Panel on the left side of the screen
+				content 		- Main content area
+				footer  		- Area at the bottom of the screen
+						
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="i:varType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="sidebar" />
+					<xs:enumeration value="content" />
+					<xs:enumeration value="footer" />
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
 	</xs:simpleType>
 	
+	
 	<xs:simpleType name="displayType">
-	<xs:annotation>
-		<xs:documentation>
-			Depricated: This type is not in use anymore!
-		</xs:documentation>
-	</xs:annotation>
-		 <xs:restriction base="xs:token">
-		  	<xs:enumeration value="normal" />
-		    <xs:enumeration value="obfuscated" />
-		    <xs:whiteSpace value="collapse"/>
-		  </xs:restriction>
+		<xs:annotation>
+			<xs:documentation>
+				Depricated: This type is not in use anymore!
+				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="i:varType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="normal" />
+					<xs:enumeration value="obfuscated" />
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
 	</xs:simpleType>
 	
 	<xs:simpleType name="sortType">
-	<xs:annotation>
-		<xs:documentation>
-			This is the data type of a column's sort attribute.
-			It determines the direction of sorting:
-			
-			ASC 		- Ascending
-			DESC 		- Descending
-			  
-		</xs:documentation>
-	</xs:annotation>
-		 <xs:restriction base="xs:token">
-		  	<xs:enumeration value="ASC" />
-		    <xs:enumeration value="DESC" />
-		    <xs:whiteSpace value="collapse"/>
-		  </xs:restriction>
+		<xs:annotation>
+			<xs:documentation>
+				This is the data type of a column's sort attribute.
+				It determines the direction of sorting:
+				
+				ASC 		- Ascending
+				DESC 		- Descending
+				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="i:varType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="ASC" />
+					<xs:enumeration value="DESC" />
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
 	</xs:simpleType>
+	
 
 	<xs:simpleType name="internalUriType">
 		<xs:annotation>
@@ -284,6 +331,21 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		  	<xs:pattern value="([A-Za-z0-9_:\*]+[,]{0,1})+"/>
 		  	<xs:whiteSpace value="collapse"/>
 		  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="varType">
+		<xs:annotation>
+			<xs:documentation>
+				The data type of placeholders. Format:
+				
+				{string}
+				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:pattern value="\{[A-Za-z0-9_\-]+\}"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
 	</xs:simpleType>
 	
 	<xs:simpleType name="arrayType">
@@ -413,57 +475,62 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		  </xs:restriction>
 	</xs:simpleType>
 	
-    <xs:simpleType name="handlerType">
-	<xs:annotation>
-		<xs:documentation>
-			The data type for javascript event handlers.
-			  
-		</xs:documentation>
-	</xs:annotation>
-		 <xs:restriction base="xs:token">
-		 	<xs:enumeration value="beforedestroy" />
-		 	<xs:enumeration value="beforehide" />
-		 	<xs:enumeration value="beforerender" />
-		 	<xs:enumeration value="beforeshow" />
-		 	<xs:enumeration value="beforestaterestore" />
-		 	<xs:enumeration value="beforestatesave" />
-		 	<xs:enumeration value="blur" />
-		 	<xs:enumeration value="change" />
-		 	<xs:enumeration value="check" />
-		  	<xs:enumeration value="destroy" />
-		  	<xs:enumeration value="disable" />
-		  	<xs:enumeration value="enable" />
-		    <xs:enumeration value="focus" />
-		    <xs:enumeration value="hide" />
-		    <xs:enumeration value="invalid" />
-		    <xs:enumeration value="move" />
-		    <xs:enumeration value="render" />
-		    <xs:enumeration value="resize" />
-		    <xs:enumeration value="show" />
-		    <xs:enumeration value="specialkey" />
-		    <xs:enumeration value="staterestore" />
-		    <xs:enumeration value="statesave" />
-		    <xs:enumeration value="valid" />
-		    <xs:enumeration value="click" />
-		    <xs:enumeration value="beforeselect" />
-		    <xs:enumeration value="collapse" />
-		    <xs:enumeration value="expand" />
-		    <xs:enumeration value="keydown" />
-		    <xs:enumeration value="keyup" />
-		    <xs:enumeration value="keypress" />
-		    <xs:enumeration value="select" />
-		    <xs:enumeration value="autosize" />
-		    <xs:enumeration value="beforequery" />
-		    <xs:enumeration value="activate" />
-		    <xs:enumeration value="initialize" />
-		    <xs:enumeration value="beforepush" />
-		    <xs:enumeration value="beforesync" />
-		    <xs:enumeration value="push" />
-		    <xs:enumeration value="sync" />
-		    <xs:whiteSpace value="collapse"/>
-		  </xs:restriction>
+	
+	<xs:simpleType name="handlerType">
+		<xs:annotation>
+			<xs:documentation>
+				The data type for javascript event handlers.
+				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="i:varType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="beforedestroy" />
+					<xs:enumeration value="beforehide" />
+					<xs:enumeration value="beforerender" />
+					<xs:enumeration value="beforeshow" />
+					<xs:enumeration value="beforestaterestore" />
+					<xs:enumeration value="beforestatesave" />
+					<xs:enumeration value="blur" />
+					<xs:enumeration value="change" />
+					<xs:enumeration value="check" />
+					<xs:enumeration value="destroy" />
+					<xs:enumeration value="disable" />
+					<xs:enumeration value="enable" />
+					<xs:enumeration value="focus" />
+					<xs:enumeration value="hide" />
+					<xs:enumeration value="invalid" />
+					<xs:enumeration value="move" />
+					<xs:enumeration value="render" />
+					<xs:enumeration value="resize" />
+					<xs:enumeration value="show" />
+					<xs:enumeration value="specialkey" />
+					<xs:enumeration value="staterestore" />
+					<xs:enumeration value="statesave" />
+					<xs:enumeration value="valid" />
+					<xs:enumeration value="click" />
+					<xs:enumeration value="beforeselect" />
+					<xs:enumeration value="collapse" />
+					<xs:enumeration value="expand" />
+					<xs:enumeration value="keydown" />
+					<xs:enumeration value="keyup" />
+					<xs:enumeration value="keypress" />
+					<xs:enumeration value="select" />
+					<xs:enumeration value="autosize" />
+					<xs:enumeration value="beforequery" />
+					<xs:enumeration value="activate" />
+					<xs:enumeration value="initialize" />
+					<xs:enumeration value="beforepush" />
+					<xs:enumeration value="beforesync" />
+					<xs:enumeration value="push" />
+					<xs:enumeration value="sync" />
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
 	</xs:simpleType>
-    
+	
     
     <!-- Attribute groups -->
     
