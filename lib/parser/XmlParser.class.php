@@ -1354,7 +1354,7 @@ class XmlParser extends XmlParserTools {
 						eval("return \$this->process['parses'][".$this->iteration."]".$item["key"]." = ".$value.";");
 					}  else {
 						if(eval("return !isset(\$this->process['parses'][".$this->iteration."]".$item["key"].");")) {
-							eval("\$tmp =& \$this->process['parses'][".$this->iteration."]".$item["key"].";");
+						eval("\$tmp =& \$this->process['parses'][".$this->iteration."]".$item["key"].";");
 							$tmp = $item["value"];	
 						}
 						
@@ -1640,8 +1640,7 @@ class XmlParser extends XmlParserTools {
 	
 	
 	private function childToAttribute(&$data,$key) {
-		
-		
+				
 		if(isset($data["help"])) {
 			if(!isset($data["attributes"]["help"])) {
 				$data["attributes"]["help"] = $data["help"];	
@@ -1824,11 +1823,12 @@ class XmlParser extends XmlParserTools {
 		// Handlers
 					
 		if(isset($data["handlers"])) {
-						
+			
 			$data["attributes"]["handlers"] = array();
 						
 			foreach($data["handlers"] as $handler => $value) {
-				if($handler == "beforestaterestore" || $handler == "beforestatesave" ||
+				
+				/*if($handler == "beforestaterestore" || $handler == "beforestatesave" ||
 				$handler == "staterestore" || $handler == "statesave") {
 					$params = "component,state";
 				} else if($handler == "change") {
@@ -1864,8 +1864,22 @@ class XmlParser extends XmlParserTools {
 				} else {
 					$params = "component";
 				}
+				*/
 				
-				$data["attributes"]["handlers"][$handler] = array("parameters" => $params, "source" => $value);	
+				// Adding params..
+				
+				$params = "";
+				
+				if(isset($value["params"])) {;
+					foreach($value["params"] as $p) {
+						$params .= "'".$p."',";
+					}
+					$params = trim($params,",");
+				} 
+				
+				
+				$data["attributes"]["handlers"][$handler] = array("parameters" => $params, "source" => $value["action"]);
+
 			}
 											
 		}
@@ -2234,6 +2248,7 @@ class XmlParser extends XmlParserTools {
 
 	
 	private function postProcess($build = false) {
+				
 		
 		/*
 		 * Create widgets in advanced for the text link script (widget launcher)
@@ -2348,7 +2363,7 @@ class XmlParser extends XmlParserTools {
 				} else if($this->type == self::PAGE) {
 					$widget = $action_name;
 					$formoptions["idxml"] = $parse["module"]."/".$action_name;
-				}
+				} 
 				 
 				
 				if($this->type === self::WIZARD) {
@@ -2364,7 +2379,6 @@ class XmlParser extends XmlParserTools {
 				}	
 				
 				foreach($parse["fields"] as $setname => $set) {
-					
 					
 					$this->is_floated = array();
 					
@@ -2432,7 +2446,7 @@ class XmlParser extends XmlParserTools {
 						
 						if($name == "attributes" || !is_array($data)) {
 							continue;
-						}	
+						}
 						
 						// Convert to attributes field's children's default values here!
 						

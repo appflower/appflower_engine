@@ -70,8 +70,17 @@ class attributeParser extends XmlBaseElementParser {
 			}
 			
 			
-			if(($attrName == "url" || $attrName == "action") && substr($attrValue,0,1) != "/" && !strstr($attrValue,"://"))  {
-				$attrValue = "/".$attrValue;
+			if(($attrName == "url" || $attrName == "action") && substr($attrValue,0,1) != "/" && substr($attrValue,0,1) != "#" && !strstr($attrValue,"://"))  {
+				if(!self::$parser->has($node,"is_script") || self::$parser->get($node,"is_script") === "false") {
+					$attrValue = "/".$attrValue;
+					
+				}
+				
+			}
+			
+		if(self::$parser->has($node,"is_script")) {
+			
+				
 			}
 			
 			if($attrName == "confirmMsg" && trim($attrValue)) {

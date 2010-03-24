@@ -32,21 +32,6 @@ class actionsParser extends XmlBaseElementParser {
 				
 				attributeParser::parse($n,$node,$key."/".$action."/attributes");	
 				
-				$handlerNodes = self::$parser->fetch("./i:handler",$n);
-				
-				foreach($handlerNodes as $hn){
-					$handlerType = self::$parser->get($hn,"type"); 
-					$data = array("script"=>self::$parser->get($hn,"action"));
-					attributeParser::parse($hn,$n,$key."/".$action."/handlers/".$handlerType);	
-					$handlerParams = self::$parser->fetch("./i:param",$hn);
-					if(count($handlerParams)) $params = array();					
-					foreach($handlerParams as $hp){										
-						$params[] = self::$parser->get($hp);									
-					}					
-					if(count($params))			
-					self::add($key."/".$action."/handlers/".$handlerType."/params",$params);	
-				}
-				
 			}
 		
 		}		

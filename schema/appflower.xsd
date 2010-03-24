@@ -1201,9 +1201,13 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
+      	<xs:sequence>
+      		<xs:element ref="i:param" minOccurs="0" maxOccurs="unbounded" />
+      	</xs:sequence>
       	<xs:attributeGroup ref="i:commonAttributes" />
-        <xs:attribute name="type" type="i:handlerType" use="optional" />
+        <xs:attribute name="type" type="i:handlerType" use="optional" default="click" />
         <xs:attribute name="action" type="xs:token" use="required" />
+      	<xs:attribute name="is_script" type="xs:boolean" use="optional" default="true" />
         <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
       </xs:complexType>
     </xs:element>
