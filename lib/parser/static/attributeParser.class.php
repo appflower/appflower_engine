@@ -28,15 +28,33 @@ class attributeParser extends XmlBaseElementParser {
 		$attribute_holder = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->getVarHolder()->getAll();
 		$iteration = self::$parser->getIteration();
 		$view = self::$parser->getView();
+		$schema = self::$parser->getSchema();
+		$enums = self::$parser->getEnums();
 		
 		if(!$key) {
 			$name = self::$parser->get($node,"name");	
 		}
 		
 		$attributes = self::$parser->attributes($node);
-		
-		foreach ($attributes as $attrName => $attrValue) {
 			
+		foreach ($attributes as $attrName => $attrValue) {	
+
+			$attrNodes = $schema->evaluate("//xs:attribute[@name='".$attrName."']");
+			
+			foreach($attrNodes as $at) {
+				
+				if(strstr($at->parentNode->getAttribute("name"),self::$parser->name($node)) !== false) {
+					
+					$at_type = $at->getAttribute("type");
+					if(isset($enums[$at_type])) {
+						if(!in_array($attrValue,$enums[$at_type])) {
+							throw new Exception("Invalid ".$at_type." value \"".$attrValue."\": \"".
+							implode(", ",$enums[$at_type])."\" expected!");
+						}
+					}	
+				}	
+			}
+		
 			if(strstr($attrValue,"{")) {
 				$attrValue = self::parseValue($attrValue,$node,true);
 				self::$parser->set($attrName,$attrValue,$node);

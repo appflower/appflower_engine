@@ -157,6 +157,10 @@ class XmlParser extends XmlParserTools {
 		$this->schema = new DOMDocument();
 		$this->schema->load($this->schemaLocation);
 		
+		// Reading enum values..
+		
+		$this->fetchEnums();
+		
 		// Check widget access rights
 		
 		if($this->type === self::PANEL || $this->type === self::WIZARD) {
@@ -304,6 +308,18 @@ class XmlParser extends XmlParserTools {
 	
 	public function getProcess() {
 		return $this->process;
+	}
+	
+	public function getSchema() {
+		$xp = new DOMXPath($this->schema);
+		$xp->registerNamespace("xs","http://www.w3.org/2001/XMLSchema");
+		
+		return $xp;
+
+	}
+	
+	public function getEnums() {
+		return $this->enums;
 	}
 	
 	public function getLayout() {
@@ -561,6 +577,28 @@ class XmlParser extends XmlParserTools {
 				
 		} 
 		
+	}
+	
+	
+	private function fetchEnums() {
+		
+		$schema = $this->getSchema();
+		
+		$enums = array();
+		$enumNodes = $schema->evaluate("//child::xs:simpleType[descendant::xs:enumeration]");
+			
+		foreach($enumNodes as $e) {
+			$tmp = $schema->evaluate("descendant::xs:enumeration",$e);	
+			$tmp_name = trim($e->getAttribute("name"));
+			if(!$tmp_name) {
+				continue;
+			}
+			foreach($tmp as $t) {
+				$enums["i:".$tmp_name][] = $t->getAttribute("value");
+			}
+		}
+		
+		$this->enums = $enums;
 	}
 	
 	private function checkWidgetCredentials($module = null,$action = null) {
