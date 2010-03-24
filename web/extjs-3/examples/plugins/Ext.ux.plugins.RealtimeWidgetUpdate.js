@@ -21,7 +21,7 @@ Ext.extend(Ext.ux.plugins.RealtimeWidgetUpdate, Ext.util.Observable,{
 	init: function(widget){
 		var me = this;
 		var ajax;
-		var gridLoad = true;  // whether gridLoad is allowed
+		var numRequests = 0;  // The number of requests in the air.
 		var autoReload;
 		var stopTool = {
 			id: "stop-reload",
@@ -69,9 +69,12 @@ Ext.extend(Ext.ux.plugins.RealtimeWidgetUpdate, Ext.util.Observable,{
 					widget.reloadNow();
 				}
 			}),
+			beforeLoad: function() {
+				numRequests += 1;
+			},
 			afterLoad: function() {
 				ajax = null;
-				gridLoad = true;
+				numRequests -= 1;
 				if(autoReload.isEnabled()) {
 					autoReload.task.delay(me.rate);
 				}
@@ -82,14 +85,14 @@ Ext.extend(Ext.ux.plugins.RealtimeWidgetUpdate, Ext.util.Observable,{
 			}
 		};
 		if(widget.getStore) {
+			widget.getStore().on('beforeload', autoReload.beforeLoad);
 			widget.getStore().on('load', autoReload.afterLoad);
 			widget.getStore().on('exception', autoReload.afterFailure);
 		}
 
 		Ext.apply(widget,{
 			gridReload: function(){
-				if(gridLoad){
-					gridLoad = false;	
+				if(numRequests <= 0){
 					widget.disableLoadMask = true;
 					if(widget.loadMask && widget.loadMask.disable) {
 						widget.loadMask.disable();
