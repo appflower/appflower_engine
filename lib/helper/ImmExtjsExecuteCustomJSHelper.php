@@ -59,14 +59,15 @@ function createSourceForEvent($data){
 	$filename = $data['action'];
 	$filename = substr($filename,1,strlen($filename));
 	$variables = '';
-	if(isset($data['params']) && isset($data['params'][0])){
-		$variables .= 'var title = "'.$data['params'][0].'";';
+	
+	if(isset($data['params']) && isset($data['params']['title'])){
+		$variables .= 'var title = "'.$data['params']['title'].'";';
 	}
 	if(isset($data['params']) && isset($data['params']['custom']) && $data['params']['custom']){
 		$count = 0;
-		foreach($data['params'] as $param){
+		foreach($data['params'] as $key=>$param){
 			$count++;
-			$variables .= 'var immParam'.$count.' = "'.$param.'";';
+			$variables .= 'var immParam_'.$key.' = "'.$param.'";';
 		}
 	}
 	
