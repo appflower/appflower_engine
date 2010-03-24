@@ -50,13 +50,22 @@ class Newsroom {
     public static function waitIfRequested($topic)
     {
         $request = sfContext::getInstance()->getRequest();
+        $uid = $request->getParameter('uid');
         $wait = $request->getParameter('_wait') === '1';
         if($wait) {
-            $uid = $request->getParameter('uid');
             self::waitForNews($topic, $uid);
         } else {
-            self::closeSessionWriteLock();
+            self::wakeupOlderRequests($topic, $uid);
         }
+    }
+
+    /**
+     * Wakeups the older requests.
+     * It is needed to return the responses in the right order.
+     */
+    private static function wakeupOlderRequests($topic, $uid)
+    {
+        self::waitForNews($topic, $uid, 1);
     }
 
     /**
