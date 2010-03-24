@@ -7,7 +7,7 @@ if(!win){
         maximizable:true,
         closeAction:'hide',
         plain: true,
-        title:immParam1,
+        title:title?title:'',
         items: new Ext.Panel ({        	
         	width: "auto",
         	frame: true,        	
