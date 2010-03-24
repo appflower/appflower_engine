@@ -39,6 +39,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 			}
 			$field_missing = false;
 			foreach($post_index as $field){
+				$tmp_field = $field;
 				if(!$context->getRequest()->getParameterHolder()->has($field)) {
 					$tmp_field = substr($field,0,-1)."_value]";
 					if(!$context->getRequest()->getParameterHolder()->has($tmp_field)){
@@ -92,7 +93,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 						$method = "clean";
 					}
 
-					$value = !$diff_call ? $actionInstance->getRequestParameter($field) : array($left_field=>$actionInstance->getRequestParameter($field),$right_field=>$actionInstance->getRequestParameter(str_replace($left_field,$right_field,$field)));
+					$value = !$diff_call ? $actionInstance->getRequestParameter($tmp_field) : array($left_field=>$actionInstance->getRequestParameter($field),$right_field=>$actionInstance->getRequestParameter(str_replace($left_field,$right_field,$tmp_field)));
 					$error = (isset($args["error"])) ? $args["error"] : "";
 
 					try {
