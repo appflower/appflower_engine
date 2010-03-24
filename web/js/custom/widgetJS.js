@@ -155,11 +155,13 @@ function createAddon(filename, filetype) {
 		var fileref = document.createElement('script')
 		fileref.setAttribute("type", "text/javascript")
 		fileref.setAttribute("src", filename)
+		GLOBAL_JS_VAR.push(filename);
 	} else if (filetype == "css") { // if filename is an external CSS file
 		var fileref = document.createElement("link")
 		fileref.setAttribute("rel", "stylesheet")
 		fileref.setAttribute("type", "text/css")
 		fileref.setAttribute("href", filename)
+		GLOBAL_CSS_VAR.push(filename);
 	}
 	
 	if (typeof fileref != "undefined")
@@ -206,6 +208,15 @@ function ajax_widget_popup(widget,title,superClass) {
 					createAddon(addon, "js");				
 				}
 			}
+			if(json.addons && json.addons.css)
+				for ( var i = 0; i < json.addons.css.length; i++) {
+					var addon = json.addons.css[i];
+					if(!in_array(addon,styles_hrefs)){
+						if(addon != null)
+						//total_addons.push(addon);
+						createAddon(addon, "css");				
+					}
+				}
 			if(json.public_source)
 			if(!in_array("swfobject.js",scripts_srcs)){
 				total_addons.push("/js/swfobject.js");
