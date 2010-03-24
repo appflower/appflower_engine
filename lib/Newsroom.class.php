@@ -44,6 +44,22 @@ class Newsroom {
     }
 
     /**
+     * Waits for news if the request is OK with that.
+     * Pagging and sorting requests do not allow waiting.
+     */
+    public static function waitIfRequested($topic)
+    {
+        $request = sfContext::getInstance()->getRequest();
+        $wait = $request->getParameter('_wait') === '1';
+        if($wait) {
+            $uid = $request->getParameter('uid');
+            self::waitForNews($topic, $uid);
+        } else {
+            self::closeSessionWriteLock();
+        }
+    }
+
+    /**
      * Closes a write lock opened by a session_start().
      * The lock should not be hold while waiting.
      */

@@ -103,9 +103,9 @@ Ext.extend(Ext.ux.plugins.RealtimeWidgetUpdate, Ext.util.Observable,{
 						// Gives a signal that waiting for new news is OK.
 						var url = store.proxy.url;
 						if(url.indexOf('?') > 0){
-							url = url + '&_reload=1';
+							url = url + '&_wait=1';
 						} else {
-							url = url + '?_reload=1';
+							url = url + '?_wait=1';
 						}
 						store.proxy.setUrl(url);
 					}

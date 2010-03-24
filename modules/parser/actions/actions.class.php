@@ -472,10 +472,10 @@ class parserActions extends sfActions
 		
 		if(!$parser["sql"]) {
 			if(!$parser["sql"] && $parser["type"] == "orm") {
-				Newsroom::waitForNews($parser['reload_topic'], $uid);
+				Newsroom::waitIfRequested($parser['reload_topic']);
 				$pager = $this->getRawDataOrm($parser,array($start,$limit,$sort,$sort_dir,$filters,$export));		
 			} else if(!$parser["sql"] && $parser["type"] == "file") { 
-				Newsroom::waitForNews($parser['reload_topic'], $uid);
+				Newsroom::waitIfRequested($parser['reload_topic']);
 				$pager = $this->getRawDataFile($parser,array($start,$limit,$sort,$sort_dir,$filters,$export));
 			}
 			
