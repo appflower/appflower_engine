@@ -43,8 +43,8 @@ function setHandler(&$action){
 	foreach($action['handlers'] as $key=>$value){		
 		$filename = $value['action'];
 		//$filename = substr($filename,1,strlen($filename));
-		$action['attributes']['handlers'][$key] = array("parameters" => parameterForEvent($key),"source"=>"ajax_widget_popup('$filename','')");
-		//$action['attributes']['handlers'][$key] = array("parameters" => parameterForEvent($key),"source"=>createSourceForEvent($value));
+		//$action['attributes']['handlers'][$key] = array("parameters" => parameterForEvent($key),"source"=>"ajax_widget_popup('$filename','')");
+		$action['attributes']['handlers'][$key] = array("parameters" => parameterForEvent($key),"source"=>createSourceForEvent($value));
 	}
 }
 function getHandler($action){
@@ -55,16 +55,21 @@ function getHandler($action){
 	return $handler;
 }
 function createSourceForEvent($data){
+	
 	$filename = $data['action'];
 	$filename = substr($filename,1,strlen($filename));
 	$variables = '';
-	if(isset($data['params'])){		
+	if(isset($data['params']) && isset($data['params'][0])){
+		$variables .= 'var title = "'.$data['params'][0].'";';
+	}
+	if(isset($data['params']) && isset($data['params']['custom']) && $data['params']['custom']){
 		$count = 0;
 		foreach($data['params'] as $param){
 			$count++;
 			$variables .= 'var immParam'.$count.' = "'.$param.'";';
 		}
 	}
+	
 	$source = $variables;
 	
 	if(file_exists("appFlowerPlugin/js/custom/".$filename))
