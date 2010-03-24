@@ -1821,14 +1821,18 @@ class XmlParser extends XmlParserTools {
 		}
 		
 		// Handlers
+		
+	
 					
 		if(isset($data["handlers"])) {
+			
+	
 			
 			$data["attributes"]["handlers"] = array();
 						
 			foreach($data["handlers"] as $handler => $value) {
 				
-				/*if($handler == "beforestaterestore" || $handler == "beforestatesave" ||
+				if($handler == "beforestaterestore" || $handler == "beforestatesave" ||
 				$handler == "staterestore" || $handler == "statesave") {
 					$params = "component,state";
 				} else if($handler == "change") {
@@ -1864,19 +1868,20 @@ class XmlParser extends XmlParserTools {
 				} else {
 					$params = "component";
 				}
-				*/
 				
 				// Adding params..
 				
-				$params = "";
-				
 				if(isset($value["params"])) {;
+					if(!isset($params)) {
+						$params = "";
+					} else {
+						$params .= ",";
+					}
 					foreach($value["params"] as $p) {
 						$params .= "'".$p."',";
 					}
 					$params = trim($params,",");
 				} 
-				
 				
 				$data["attributes"]["handlers"][$handler] = array("parameters" => $params, "source" => $value["action"]);
 
