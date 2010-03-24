@@ -2634,7 +2634,6 @@ class XmlParser extends XmlParserTools {
 									$form_params = null;	
 								}
 							}
-							
 							$obj = new ImmExtjsSubmitButton($form,array("action"=>$formoptions["action"], "params" => $form_params));	
 						} else {
 							$this->formaction = $formoptions["action"];
@@ -3393,7 +3392,10 @@ class XmlParser extends XmlParserTools {
 	  	
 	  	if($this->multisubmit && $this->type !== self::WIZARD) {
 	  		new ImmExtjsSubmitButton($this->forms[0],array('action'=>$this->formaction,
-				'afterSuccess'=>'Ext.Ajax.request({ url: "'.$this->multisubmit.'", method:"post", params:{"selections":'.$this->multigrid->privateName.'.getSelectionModel().getSelectionsJSON()}, success:function(response, options){response=Ext.decode(response.responseText);
+				'afterSuccess'=>'
+				var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Saving additional information... <br>Please wait..."});
+				myMask.show();
+				Ext.Ajax.request({ url: "'.$this->multisubmit.'", method:"post", params:{"selections":'.$this->multigrid->privateName.'.getSelectionModel().getSelectionsJSON()}, success:function(response, options){response=Ext.decode(response.responseText);
 if(response.message) {
 	Ext.Msg.alert("Success", response.message, function(){
 		if(response.redirect) {
@@ -3404,7 +3406,9 @@ if(response.message) {
 	if(response.redirect) {
 		window.location.href = response.redirect;
 	}
-}},failure: function(response,options) {if(response.message){Ext.Msg.alert("Failure",response.message);}}});'));
+}
+	  	myMask.hide();
+	  	},failure: function(response,options) {if(response.message){Ext.Msg.alert("Failure",response.message);myMask.hide();}}});'));
 	  		$form->end();
 	  	}
 	  	
