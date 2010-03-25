@@ -65,6 +65,9 @@ class XmlParser extends XmlParserTools {
 		$dbschema,
 		$instance;
 		
+	public 
+		$dschecked = false;
+			
 	public static
 		$masterLayout;
 	
@@ -175,8 +178,15 @@ class XmlParser extends XmlParserTools {
 		
 		$this->readXmlDocument();
 		parent::__construct($this->document);
+	
+		$root = $this->document->getElementsByTagName("view")->item(0);
+		$view_type = $root->getAttribute("type"); 
 		
+		$view_type = XmlBaseElementParser::parseValue($view_type,$root,true);
+		$this->set("type",$view_type,$root);
 		
+		$this->enumCheck("i:viewType",$view_type);
+			
 		if($this->type === self::WIZARD && isset($this->attribute_holder["init"])) {
 			if(!$this->fetch("//i:datastore")->length) {
 				$this->datastore = false;	
@@ -320,6 +330,19 @@ class XmlParser extends XmlParserTools {
 	
 	public function getEnums() {
 		return $this->enums;
+	}
+	
+	
+	public function enumCheck($type,$value) {
+		
+		$enums = $this->getEnums();
+		
+		if(!in_array($value,$enums[$type])) {
+			throw new Exception("Invalid ".$type." value \"".$value."\": \"".
+			implode(", ",$enums[$type])."\" expected!");
+		} 
+		
+		return true;
 	}
 	
 	public function getLayout() {

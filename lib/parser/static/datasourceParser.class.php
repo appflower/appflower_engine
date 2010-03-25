@@ -6,6 +6,8 @@ class datasourceParser extends XmlBaseElementParser {
 		
 		$element = self::$parser->any("datasource");
 		
+		self::$parser->enumCheck("i:valueType",self::$parser->get($element,"type"));
+		
 		self::add("datasource/type",self::$parser->get($element,"type"));
 		self::add("datasource/lister",self::$parser->get($element,"lister"));
 		
@@ -25,6 +27,8 @@ class datasourceParser extends XmlBaseElementParser {
 		$method = self::$parser->get($element,"name");
 		$type = self::$parser->get($element,"type");
 
+		self::$parser->enumCheck("i:fetchType",$type);
+		
 		if(!method_exists($class,$method)) {
 			throw new XmlParserException("The method ".$method." doesn't exist in class ".$class);
 		}

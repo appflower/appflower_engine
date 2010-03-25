@@ -36,21 +36,24 @@ class attributeParser extends XmlBaseElementParser {
 		}
 		
 		$attributes = self::$parser->attributes($node);
-			
+		
 		foreach ($attributes as $attrName => $attrValue) {	
 
 			$attrNodes = $schema->evaluate("//xs:attribute[@name='".$attrName."']");
 			
 			foreach($attrNodes as $at) {
-				
-				if(strstr($at->parentNode->getAttribute("name"),self::$parser->name($node)) !== false) {
+
+				if(strstr($at->parentNode->getAttribute("name"),self::$parser->name($node)) !== false || 
+				($node->nodeName == "i:button" && $attrName == "type")) {
 					
 					$at_type = $at->getAttribute("type");
+					
+					if($node->nodeName == "i:button" && $attrName == "type") {
+						$at_type = "i:buttonType";
+					}
+					
 					if(isset($enums[$at_type])) {
-						if(!in_array($attrValue,$enums[$at_type])) {
-							throw new Exception("Invalid ".$at_type." value \"".$attrValue."\": \"".
-							implode(", ",$enums[$at_type])."\" expected!");
-						}
+						self::$parser->enumCheck($at_type,$attrValue);
 					}	
 				}	
 			}

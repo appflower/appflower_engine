@@ -7,7 +7,10 @@ class handlerParser extends XmlBaseElementParser {
 		$parent = $node->parentNode;
 		
 		$name = self::$parser->get($parent,"name");	
-		$handlerType = self::$parser->get($node,"type"); 
+		$handlerType = self::$parser->get($node,"type");
+
+		self::$parser->enumCheck("i:handlerType",$handlerType);
+		
 		$actions = array("actions","rowactions","moreactions");
 		
 		$handlerParams = self::$parser->fetch("./i:param",$node);

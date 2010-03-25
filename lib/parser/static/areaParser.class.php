@@ -4,6 +4,8 @@ class areaParser extends XmlBaseElementParser {
 	
 	public static function parse($node,$parent,$key = null) {
 		
+		self::$parser->enumCheck("i:areaType",self::$parser->get($node,"type"));
+		
 		$key = "areas/".self::$parser->get($node,"type")."/attributes";
 		
 		attributeParser::parse($node,$parent,$key);
