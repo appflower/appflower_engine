@@ -2911,6 +2911,20 @@ class XmlParser extends XmlParserTools {
 				
 				
 			} else if($view == "list") {
+		
+				
+				$invisibles = array();
+				
+				// Add all non-hidden columns to visible..
+				
+				foreach($parse["fields"] as $column) {
+					if(!in_array($column["attributes"]["name"], $parse["display"]["visible"])) {
+						$parse["display"]["visible"][] = $column["attributes"]["name"];
+						if($column["attributes"]["hidden"] == "false")
+							$invisibles[] = $column["attributes"]["name"]; 
+					}
+				}
+				
 				if(isset($parse["params"]["name"])){
 					$formoptions['name'] = $parse["params"]["name"];
 				}
@@ -2988,8 +3002,9 @@ class XmlParser extends XmlParserTools {
 				foreach($parse["fields"] as $colname => $column) {
 					
 					unset($column["attributes"]["id"]);
-					if(!in_array($column["attributes"]["name"],$parse["display"]["visible"])) {
-							$column["attributes"]["hidden"] = true;
+					
+					if($column["attributes"]["hidden"] == "true" || in_array($column["attributes"]["name"],$invisibles)) {	
+						$column["attributes"]["hidden"] = true;
 					}
 					
 					if(isset($column["attributes"]["qtip"]) && $column["attributes"]["qtip"] == "false") {
@@ -3381,6 +3396,7 @@ class XmlParser extends XmlParserTools {
 				if(!isset($group_field)) {
 					$group_field = "";
 				}
+				
 				
 	  			$data = array
 	  			(
