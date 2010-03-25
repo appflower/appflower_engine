@@ -51,7 +51,20 @@ Ext.ux.grid.filter.StringFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 		
 		if(typeof val != "string")
 			return this.getValue().length == 0;
-			
-		return val.toLowerCase().indexOf(this.getValue().toLowerCase()) > -1;
+		/**
+		 * perform multiple strings to be filtered.
+		 * separated by a semicolon (;)
+		 */	
+		var arr = [];
+		var key = this.getValue().toLowerCase();
+		arr = key.split(";");
+		arr.push(key);
+		var match = false;
+		for(var i=0;i<arr.length;i++){
+			match = (val.toLowerCase().indexOf(arr[i]) > -1);
+			if(match) break;
+		}
+		return match;		
+		//return val.toLowerCase().indexOf(this.getValue().toLowerCase()) > -1;
 	}
 });
