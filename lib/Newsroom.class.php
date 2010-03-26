@@ -55,17 +55,8 @@ class Newsroom {
         if($wait) {
             self::waitForNews($topic, $uid);
         } else {
-            self::wakeupOlderRequests($topic, $uid);
+            self::closeSessionWriteLock();
         }
-    }
-
-    /**
-     * Wakeups the older requests.
-     * It is needed to return the responses in the right order.
-     */
-    private static function wakeupOlderRequests($topic, $uid)
-    {
-        self::waitForNews($topic, $uid, 1);
     }
 
     /**
