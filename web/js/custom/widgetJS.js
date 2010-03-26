@@ -108,9 +108,6 @@ function executeAddons(addons,json,mask,title,superClass){
 				})
 			}
 		},
-		hideForms: function(){
-			document.body.removeChild(document.getElementById("center_panel"))
-		},
 	    interval: 1000
 	});
 	function restoreBackup(){
