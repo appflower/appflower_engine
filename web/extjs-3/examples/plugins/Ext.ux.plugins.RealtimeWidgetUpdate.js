@@ -20,18 +20,15 @@ Ext.ux.plugins.RealtimeWidgetUpdate = function(config){
 Ext.extend(Ext.ux.plugins.RealtimeWidgetUpdate, Ext.util.Observable,{		
 	init: function(widget){
 		var me = this;
-		var ajax;
 		var numRequests = 0;  // The number of requests in the air.
 		var autoReload;
 		var stopTool = {
 			id: "stop-reload",
 			hidden:this.startInitial?false:true,
 			handler: function(){
-				autoReload.started = false;
+				autoReload.stop();
 				widget.tools['stop-reload'].setVisible(false);
 				widget.tools['start-reload'].setVisible(true);
-				if(ajax) Ext.Ajax.abort(ajax);
-				ajax = null;
 			},
 			scope:widget,
 			qtip:"Pause auto widget reload."
@@ -61,6 +58,18 @@ Ext.extend(Ext.ux.plugins.RealtimeWidgetUpdate, Ext.util.Observable,{
 
 		autoReload = {
 			started: me.startInitial,
+			ajaxId: undefined,
+			stop: function(){
+				autoReload.started = false;
+				autoReload._abortAjax();
+			},
+			_abortAjax: function(){
+				if(autoReload.ajaxId) {
+					numRequests -= 1;
+					Ext.Ajax.abort(autoReload.ajaxId);
+					autoReload.ajaxId = undefined;
+				}
+			},
 			isEnabled: function(){
 				return autoReload.started;
 			},
@@ -70,10 +79,12 @@ Ext.extend(Ext.ux.plugins.RealtimeWidgetUpdate, Ext.util.Observable,{
 				}
 			}),
 			beforeLoad: function() {
+				// The numRequests counts also active paging requests.
 				numRequests += 1;
+				autoReload._abortAjax();
 			},
 			afterLoad: function() {
-				ajax = null;
+				autoReload.ajaxId = undefined;
 				numRequests -= 1;
 				if(autoReload.isEnabled()) {
 					autoReload.task.delay(me.rate);
@@ -93,6 +104,7 @@ Ext.extend(Ext.ux.plugins.RealtimeWidgetUpdate, Ext.util.Observable,{
 		Ext.apply(widget,{
 			gridReload: function(){
 				if(numRequests <= 0){
+					numRequests = 0;
 					widget.disableLoadMask = true;
 					if(widget.loadMask && widget.loadMask.disable) {
 						widget.loadMask.disable();
@@ -113,12 +125,16 @@ Ext.extend(Ext.ux.plugins.RealtimeWidgetUpdate, Ext.util.Observable,{
 						store.proxy.setUrl(url);
 					}
 					store.reload();
+					autoReload.ajaxId = undefined;
+					if(store.proxy.activeRequest) {
+						autoReload.ajaxId = store.proxy.activeRequest.read;
+					}
 				}
 			},
 			htmlReload: function(){
 				var owner = this;
-				if(!ajax){
-			       ajax = Ext.Ajax.request({
+				if(!autoReload.ajaxId){
+			       autoReload.ajaxId = Ext.Ajax.request({
 			    	   url:me.url,
 			    	   method:'POST',
 			    	   params:Ext.apply(me.requestParams,{
@@ -144,7 +160,6 @@ Ext.extend(Ext.ux.plugins.RealtimeWidgetUpdate, Ext.util.Observable,{
 			},
 			onSuccess: function(r){
 			   autoReload.afterLoad();
-			   ajax = null;
 			   var rc = null;
 			   try{rc=new RegExp('^("(\\\\.|[^"\\\\\\n\\r])*?"|[,:{}\\[\\]0-9.\\-+Eaeflnr-u \\n\\r\\t])+?$')}
 			   catch(z){rc=/^(true|false|null|\[.*\]|\{.*\}|".*"|\d+|\d+\.\d+)$/}
