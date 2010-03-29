@@ -30,9 +30,10 @@ class ImmExtjsAjaxWidgetsPopup{
 		if($action->getRequestParameter("widget_popup_request")){	
 				
 			if(!$action->isPageComponent){		
-				//echo "<pre>";print_r($layout);
+				sfConfig::set('app_parser_panels', array());
 				$w = new ImmExtjsAjaxWidgetsPopup($layout,$type);				
-				echo $w->getSource();exit;				
+				echo $w->getSource();
+				exit;
 			}
 		}
 		return false;
