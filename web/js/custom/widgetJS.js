@@ -38,31 +38,28 @@ function in_array (needle, haystack, argStrict) {
 
 function executeAddons(addons,json,mask,title,superClass){
 	
-	var counter = -1;
+	var counter = 0;
 	var backup = new Array();
+	var finish;
 	var ajax = function(){	
-		mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>Loading on progress: "+(counter+2)+"/"+addons.length,removeMask:true});
+		if(counter >= addons.length){
+			finish();
+			return;
+		}
+		mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>Loading on progress: "+(counter+1)+"/"+addons.length,removeMask:true});
 		mask.show();		
 		Ext.Ajax.request({
-			url : addons[++counter],
+			url : addons[counter++],
 			method: "POST",
 			success:function(r){				
 				eval(r.responseText);
-				
-				if(counter < addons.length-1){				
-					ajax();				
-				}else counter++;
+				ajax();
 			}
-		})
+		});
 	};
-	if(addons.length) ajax();
-	
-	var runner = new Ext.util.TaskRunner();
-	runner.start({
-	    run: function(){
-			if(counter == -1 || counter >= addons.length){			
+
+	finish = function(){
 				backupForms();
-				runner.stopAll();
 				eval(json.source);				
 				
 				var win = new Ext.Window( {
@@ -106,10 +103,8 @@ function executeAddons(addons,json,mask,title,superClass){
 					win.close();
 					restoreBackup();
 				})
-			}
-		},
-	    interval: 1000
-	});
+	};
+
 	function restoreBackup(){
 		for(id in backup){
 			var el = document.getElementById(id);
@@ -145,6 +140,8 @@ function executeAddons(addons,json,mask,title,superClass){
 		}
 		
 	}
+
+	ajax();
 }
 function createAddon(filename, filetype) {
 	//console.log(filename+":"+filetype);
