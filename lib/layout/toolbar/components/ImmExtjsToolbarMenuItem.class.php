@@ -22,9 +22,10 @@ class ImmExtjsToolbarMenuItem extends ImmExtjsToolbarComponent
 		
 		if(isset($attributes['url']))
 		{
+			$url = json_encode($attributes['url']);
 			$this->attributes['handler']=$this->immExtjs->asMethod(array(
-  									'parameters'=>'',
-  									'source'=>'window.location.href="'.$attributes['url'].'";'
+  									'parameters'=>'b,e',
+									'source'=>"if(!e.ctrlKey){window.location.href=$url;}else{ajax_widget_popup($url);}"
   								));
 			
 			unset($attributes['url']);
