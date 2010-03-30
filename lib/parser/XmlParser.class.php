@@ -1495,8 +1495,6 @@ class XmlParser extends XmlParserTools {
 	
 	
 	private function preProcess() {
-        Console::profile('preProcess');
-		
 		// Remove trash data
 		
 		$this->document->normalize();
