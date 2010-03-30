@@ -32,11 +32,30 @@ class XmlDefaults {
     }
 
     /**
+     * Sets default attributes in all descendants of the given tree.
+     */
+    public function setTreeDefaults($tree) {
+        foreach ($tree->childNodes as $node) {
+            if (!($node instanceof DOMElement)) {
+                continue;
+            }
+
+            self::setElementDefaults($node);
+            self::setTreeDefaults($node);
+        }
+    }
+
+    /**
      * Sets the default attributes on the element
      * if they are not set explicitly.
      */
-    public function setDefaults($element) {
+    public function setElementDefaults($element) {
         $elName = $element->tagName;
+        $pos = strpos($elName, ':');
+        if($pos !== false) {
+            $elName = substr($elName, $pos + 1);
+        }
+
         if(isset($this->defaults[$elName])) {
             self::setUnset($element, $this->defaults[$elName]);
         }
