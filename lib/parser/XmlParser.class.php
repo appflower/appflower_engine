@@ -13,6 +13,7 @@ class XmlParser extends XmlParserTools {
 		$layout,
 		$validator,
 		$document,
+		$xmlDefaults,
 		$multi = false,
 		$iteration = 0,
 		$fields, $elements, $process = array(),
@@ -1431,69 +1432,12 @@ class XmlParser extends XmlParserTools {
 	
 	
 	private function parseDefaults() {
-		
-		try {
-
-			$xpath = new DOMXPath($this->schema);
-
-			if(!$xpath->registerNamespace("xs",$this->schemaNamespace)) {
-				throw XmlParserException("Unable to register W3C namespace for schema!");
-			}
-
+		if(!isset($this->xmlDefaults)) {
+			$this->xmlDefaults = new XmlDefaults($this->getSchema());
 		}
-		catch(Exception $e) {
-			throw $e;
-		}
-		
-		$attrs = $xpath->evaluate("//*[@default|@fixed]",$this->schema);
-		$found = array();
-		
-		foreach($attrs as $node) {
-			unset($key);
-			$parent = $xpath->evaluate("..",$node)->item(0);
- 			while($parent->nodeName != "xs:attributeGroup" && $parent->nodeName != "xs:element") {
-				$parent = $xpath->evaluate("..",$parent)->item(0);
-			}
-			
-			if($node->hasAttribute("default")) {
-				$key = "default";
-			} else if($node->hasAttribute("fixed")) {
-				$key = "fixed";
-			}	
-
-			if(isset($key)) {
-				$parent_name = str_replace("Attributes","",$this->get($parent,"name"));
-				
-				if($parent_name == "common") {
-					$parent_name = "*[@parsable]";
-				} else {
-					$parent_name = "i:".$parent_name;
-				}
-				
-				$nodes = $this->fetch("//".$parent_name);
-				
-				if($nodes) {
-					foreach($nodes as $n) {
-						if(!$this->has($n,$this->get($node,"name"))) {
-							$this->set($this->get($node,"name"),$this->get($node,$key),$n);	
-						}
-					}	
-				}
-			}
-		}
-		
-		// Re-validating document to make sure parsing order is ok.
-		
-		/*if($this->validator) {
-			$this->validator->setXmlDocument($this->document);
-			// TODO: turned off validation for now.
-			//$this->validator->validateParsingOrder($this->xpath);
-			//$this->validator->validateActions($this->xpath);
-		}
-		*/
+		$this->xmlDefaults->setTreeDefaults($this->document);
 	}
-	
-	
+
 	private function buildParserData() {
 		
 		$elements = $this->fetch("//*[@parsable]|//*[@assignid]");
