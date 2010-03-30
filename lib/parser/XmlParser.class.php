@@ -257,6 +257,7 @@ class XmlParser extends XmlParserTools {
 	*******************************************************************/
 	
 	private function parseXmlDocument() {
+        Console::profile('parseXmlDocument');
 		
 		$this->fields = array();
 		
@@ -536,7 +537,6 @@ class XmlParser extends XmlParserTools {
 	
 	
 	public function runParser($arg = 0,$region = "content") {
-		
 		if($region == "object") {
 			$this->iteration = 99;
 		}
@@ -1462,7 +1462,6 @@ class XmlParser extends XmlParserTools {
 			}	
 
 			if(isset($key)) {
-				$this->defaults[$parent->getAttribute("name")][$node->getAttribute("name")] = $node->getAttribute($key);
 				$parent_name = str_replace("Attributes","",$this->get($parent,"name"));
 				
 				if($parent_name == "common") {
@@ -1492,9 +1491,6 @@ class XmlParser extends XmlParserTools {
 			//$this->validator->validateActions($this->xpath);
 		}
 		*/
-		
-		return $this->defaults;
-		
 	}
 	
 	
@@ -1555,6 +1551,7 @@ class XmlParser extends XmlParserTools {
 	
 	
 	private function preProcess() {
+        Console::profile('preProcess');
 		
 		// Remove trash data
 		
@@ -1567,7 +1564,7 @@ class XmlParser extends XmlParserTools {
 	
 		// Parse the schema, store and assign default / fixed values of all attributes 
 		
-		$this->defaults = $this->parseDefaults();
+		$this->parseDefaults();
 		
 		// Find parsable elements, assign unique ids, build parser data
 				
@@ -2314,6 +2311,7 @@ class XmlParser extends XmlParserTools {
 
 	
 	private function postProcess($build = false) {
+        Console::profile('postProcess');
 				
 		
 		/*

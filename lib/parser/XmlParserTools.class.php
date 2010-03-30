@@ -8,7 +8,6 @@ class XmlParserTools {
 		$namespace_prefix;
 	
 	protected 
-		$defaults = array(),
 		$xpath;
 	
 	public $it;
@@ -132,11 +131,6 @@ class XmlParserTools {
 		
 	}
 		
-		protected function resetDefaults() {
-			$this->defaults = array();
-		}
-		
-		
 		public function getNew($type,$name = null) {
 			
 			try {
@@ -218,7 +212,6 @@ class XmlParserTools {
 		
 		
 		public function attributes($element) {
-			
 			try {
 				
 				if(get_class($element) != "DOMElement") {
@@ -230,32 +223,14 @@ class XmlParserTools {
 				throw $e;
 			}
 			
-			$ret = $found = array();
+			$ret = array();
 			$nodename = $this->name($element);
 			
 			foreach ($element->attributes as $attrName => $attrNode) {
 				$ret[$attrName] = $attrNode->nodeValue;
-				$found[] = $attrName;
 			}
-			
-			if($nodename == "field" || $nodename == "column" || $nodename == "show") {
-				$key = $nodename."Attributes";
-			} else {
-				$key = $nodename;
-			}
-			
-			// Adding default and fixed attributes..
-			if(isset($this->defaults[$key])) {
-				foreach($this->defaults[$key] as $attribute => $value) {
-					if(!isset($ret[$attribute])) {
-						$ret[$attribute] = $value;
-					}
-				}	
-			}
-			
 			
 			return $ret;
-		
 		}
 		
 		
