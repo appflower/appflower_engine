@@ -6,6 +6,7 @@
 */
 Ext.ns("Ext.ux");
 Ext.ux.RePositionFilters = function(grid){
+	grid.addEvents('spresize');
 	//Find column model
 	var cm = grid.getColumnModel();	
 	this.grid = grid;
@@ -61,8 +62,8 @@ Ext.ux.RePositionFilters = function(grid){
               else {               
                 filterMenu.render(filterDiv);
               }
-            }          
-        });      
+          }          
+        });
     }
     // returns filter field of a column
     this.getFilterField = function(column) {
@@ -71,7 +72,7 @@ Ext.ux.RePositionFilters = function(grid){
     	//return new Ext.form.TextField();
     	var filter = this.getFilterForColumn(column);
     	if(!filter) return column.sp = new Ext.Button({width:column.width,disabled:true});    	
-    	var filterMenu = this.getFilterMenuForColumn(column);   	    	
+    	var filterMenu = this.getFilterMenuForColumn(column);    	
     	var sp = new Ext.SplitButton({
 			text: this.grid.filters.menuFilterText,
 			menu: filterMenu,
@@ -112,7 +113,7 @@ Ext.ux.RePositionFilters = function(grid){
     	}
     	return null;    	
     }
-    this.getFilterForColumn = function(column){
+    this.getFilterForColumn = function(column){    	
     	var filter = this.grid.filters.filters.get(column.dataIndex);    	
     	return filter;
     }
@@ -121,6 +122,7 @@ Ext.ux.RePositionFilters = function(grid){
     view.templates.header = this.applyTemplate();
     view.refresh(true);	   
 	this.renderFields();
+	
 	cm.on("widthchange", function(cm, colIndex, newWidth){
 		this.resizeAllSp();		
 	}, this);
@@ -133,7 +135,11 @@ Ext.ux.RePositionFilters = function(grid){
 	},this);
 	grid.on("columnresize",function(colIndex, newSize) {	    
 	    this.resizeAllSp();
+	},this);
+	grid.on("resize",function() {	    
+	    this.resizeAllSp();	   
 	},this);	
+	
 	cm.on("columnmoved", function(cm,oldIndex,newIndex){		
 		var view = this.grid.getView();
 		Ext.applyIf(view, { templates: {} });
