@@ -36,7 +36,7 @@ function in_array (needle, haystack, argStrict) {
     return false;
 }
 
-function executeAddons(addons,json,mask,title,superClass){
+function executeAddons(addons,json,mask,title,superClass,winConfig){
 	
 	var counter = 0;
 	var backup = new Array();
@@ -62,12 +62,7 @@ function executeAddons(addons,json,mask,title,superClass){
 				backupForms();
 				eval(json.source);				
 				
-				var win = new Ext.Window( {
-//					width : (superClass && superClass.windowConfig && superClass.windowConfig.width)?superClass.windowConfig.width:Ext.get("body").getWidth()-200,
-//					height:(superClass && superClass.windowConfig && superClass.windowConfig.width)?superClass.windowConfig.height:Ext.get("body").getHeight()-100,
-					width:800,
-					height:500,
-					//height: "auto",
+				Ext.applyIf(winConfig, {
 					autoScroll : true,
 					maximizable : true,
 					draggable:true,	
@@ -80,7 +75,9 @@ function executeAddons(addons,json,mask,title,superClass){
 						layout:"form",
 						items : eval(json.center_panel)
 					})
-				});	
+				});
+				
+				var win = new Ext.Window( winConfig );	
 				win.on("show",function(win){var pos = win.getPosition(); if(pos[1]<0) win.setPosition(pos[0],0);});
 				//win.items.items[0].items.items[0].frame = false;
 				win.doLayout()
@@ -161,7 +158,10 @@ function createAddon(filename, filetype) {
 	if (typeof fileref != "undefined")
 		document.getElementsByTagName("head")[0].appendChild(fileref)
 }
-function ajax_widget_popup(widget,title,superClass) {
+function ajax_widget_popup(widget,title,superClass,winConfig) {
+	
+	winConfig.width = winConfig.width || 800;
+	winConfig.height = winConfig.height || 500;
 	
 	var getWidgetText = function(widget){
 		if(widget.length > 45){
@@ -216,7 +216,7 @@ function ajax_widget_popup(widget,title,superClass) {
 				total_addons.push("/js/swfobject.js");
 				createAddon("/js/swfobject.js", "js");
 			}
-			executeAddons(total_addons,json,mask,title,superClass);					
+			executeAddons(total_addons,json,mask,title,superClass,winConfig);					
 		},
 		params : {
 			widget_popup_request : true
