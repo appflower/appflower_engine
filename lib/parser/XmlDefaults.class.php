@@ -31,17 +31,33 @@ class XmlDefaults {
         return $defaults;
     }
 
-    public function getDefaults($elName) {
-        $elDefaults = array();
+    /**
+     * Sets the default attributes on the element
+     * if they are not set explicitly.
+     */
+    public function setDefaults($element) {
+        $elName = $element->tagName;
         if(isset($this->defaults[$elName])) {
-            $elDefaults += $this->defaults[$elName];
+            self::setUnset($element, $this->defaults[$elName]);
         }
+
         $groupName = $elName.'Attributes';
         if(isset($this->defaults[$groupName])) {
-            $elDefaults += $this->defaults[$groupName];
+            self::setUnset($element, $this->defaults[$groupName]);
         }
-        //TODO: Add also the common attributes when $element[@parsable] is true.
 
-        return $elDefaults;
+        //TODO: Set also the common attributes when $element[@parsable] is true.
+    }
+
+    /**
+     * Copies the attributes to the element
+     * if the attributes are not set there already.
+     */
+    private function setUnset($element, $attrValues) {
+        foreach($attrValues as $name => $value) {
+            if(!$element->hasAttribute($name)) {
+                $element->setAttribute($name, $value);
+            }
+        }
     }
 }
