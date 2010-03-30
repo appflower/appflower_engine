@@ -46,7 +46,9 @@ class XmlDefaults {
             self::setUnset($element, $this->defaults[$groupName]);
         }
 
-        //TODO: Set also the common attributes when $element[@parsable] is true.
+        if($element->hasAttribute('parsable')) {
+            self::setUnset($element, $this->defaults['commonAttributes']);
+        }
     }
 
     /**
