@@ -3,6 +3,7 @@
 class Console {
     private static $startedAt = null;
     private static $last;
+    private static $profilingEnabled = false;
 
     /**
      * Logs the given arguments to stderr.
@@ -20,7 +21,7 @@ class Console {
      * Logs the number of milliseconds till this named point.
      */
     public static function profile($point) {
-        if(ini_get('display_errors') !== 'on') {
+        if(!self::$profilingEnabled || ini_get('display_errors') !== 'on') {
             return;
         }
 
