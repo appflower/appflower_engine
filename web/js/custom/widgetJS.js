@@ -160,8 +160,12 @@ function createAddon(filename, filetype) {
 }
 function ajax_widget_popup(widget,title,superClass,winConfig) {
 	
-	winConfig.width = winConfig.width || 800;
-	winConfig.height = winConfig.height || 500;
+	if(!winConfig)
+	{
+		var winConfig = {};
+		winConfig.width = 800;
+		winConfig.height = 500;
+	}
 	
 	var getWidgetText = function(widget){
 		if(widget.length > 45){
