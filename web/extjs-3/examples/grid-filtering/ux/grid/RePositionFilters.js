@@ -5,7 +5,7 @@
 * Re-position the filters from the hmenu to the just below column header..
 */
 Ext.ns("Ext.ux");
-Ext.ux.RePositionFilters = function(grid){
+Ext.ux.RePositionFilters = function(grid){	
 	grid.addEvents('spresize');
 	//Find column model
 	var cm = grid.getColumnModel();	
@@ -41,8 +41,14 @@ Ext.ux.RePositionFilters = function(grid){
     }
     this.resizeSp = function(column, newColumnWidth) {
 		//var col = cm.getColumnById(cm.getColumnId(colIndex));
-    	if(column.sp)
-		column.sp.setWidth(newColumnWidth);		
+    	if(column.sp){
+    		var minW = 50;
+    		if(newColumnWidth < minW){
+    			cm.setColumnWidth(cm.getIndexById(column.dataIndex),minW)
+    			newColumnWidth = minW;
+    		}
+    		column.sp.setWidth(newColumnWidth);
+    	}
 	}
     this.resizeAllSp = function() {
 	    var cm = this.grid.getColumnModel();	    
@@ -72,7 +78,10 @@ Ext.ux.RePositionFilters = function(grid){
     	//return new Ext.form.TextField();
     	var filter = this.getFilterForColumn(column);
     	if(!filter) return column.sp = new Ext.Button({width:column.width,disabled:true});    	
-    	var filterMenu = this.getFilterMenuForColumn(column);    	
+    	var filterMenu = this.getFilterMenuForColumn(column); 
+    	/*if(column.width < 50){
+    		cm.setColumnWidth(cm.findColumnIndex(column.dataIndex),200);
+    	}*/
     	var sp = new Ext.SplitButton({
 			text: this.grid.filters.menuFilterText,
 			menu: filterMenu,
