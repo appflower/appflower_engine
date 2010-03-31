@@ -166,6 +166,13 @@ function ajax_widget_popup(widget,title,superClass,winConfig) {
 		winConfig.width = 800;
 		winConfig.height = 500;
 	}
+	else
+	{
+		winConfig=eval('({'+unescape(winConfig)+'});');
+		
+		winConfig.width = winConfig.width? winConfig.width:800;
+		winConfig.height = winConfig.height? winConfig.height:500;
+	}
 	
 	var getWidgetText = function(widget){
 		if(widget.length > 45){

@@ -21,6 +21,9 @@ class actionsParser extends XmlBaseElementParser {
 		if(self::$parser->has($node,"popup")) {
 			self::add("popup",self::$parser->get($node,"popup"));
 		}	
+		if(self::$parser->has($node,"popupSettings")) {
+			self::add("popupSettings",self::$parser->get($node,"popupSettings"));
+		}
 		
 		self::$parser->set("name",$key,$node);	
 		

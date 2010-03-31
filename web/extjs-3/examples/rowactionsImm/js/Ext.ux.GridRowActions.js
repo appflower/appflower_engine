@@ -393,13 +393,15 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 			 * Support for the popup widget option
 			 */
 			if(a.popup){
-				urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="{'+a.urlIndex+'}" <tpl if="!'+a.confirm+'">onclick=\'ajax_widget_popup("{'+a.urlIndex+'}"); return false;\'</tpl><tpl if="'+a.confirm+'">onclick=\'Ext.Msg.confirm("Confirmation","'+a.message+'", function(btn){if (btn=="yes"){ ajax_widget_popup("{'+a.urlIndex+'}"); }}); return false;\'</tpl>>') : '';
+				
+				a.popupSettings=escape(a.popupSettings);
+				
+				urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="{'+a.urlIndex+'}" <tpl if="!'+a.confirm+'">onclick=\'ajax_widget_popup("{'+a.urlIndex+'}","","","'+a.popupSettings+'"); return false;\'</tpl><tpl if="'+a.confirm+'">onclick=\'Ext.Msg.confirm("Confirmation","'+a.message+'", function(btn){if (btn=="yes"){ ajax_widget_popup("{'+a.urlIndex+'}"); }}); return false;\'</tpl>>') : '';
 			}
 			/***************************************************************************/
 			
 			
 			var o = {
-				
 				 cls:a.iconIndex ? '{' + a.iconIndex + '}' : (a.iconCls ? a.iconCls : '')
 				,qtip:a.qtipIndex ? '{' + a.qtipIndex + '}' : (a.tooltip || a.qtip ? a.tooltip || a.qtip : '')
 				,text:a.textIndex ? '{' + a.textIndex + '}' : (a.text ? a.text : '')
@@ -421,13 +423,15 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 			}
 		);
 		
-		return new Ext.XTemplate(xt.apply({actions:acts}),{
+		var xt2 = new Ext.XTemplate(xt.apply({actions:acts}),{
 				isUrl : function(url)
 				{
 					if(url.length>0){return true;}else{return false;}
 				}
 			}
 		);
+		
+		return xt2;
 
 	} // eo function processActions
 	// }}}
