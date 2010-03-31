@@ -4,6 +4,7 @@ class sfCombineActions extends sfActions
 {
   public function preExecute()
   {
+    Newsroom::closeSessionWriteLock();
     sfConfig::set('sf_web_debug', false);
     $this->setLayout(false);
     $max_age = sfConfig::get('app_sfCombinePlugin_client_cache_max_age', false);
