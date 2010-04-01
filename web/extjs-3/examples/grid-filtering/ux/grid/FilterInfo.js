@@ -18,12 +18,18 @@ Ext.ux.FilterInfo = function(grid){
 	//Get the grid element
 	var gridEl = grid.getGridEl();
 	
+	//Get the clear div between info and grid
+	var clearDivExists = Ext.DomQuery.selectNode(".ux-grid-filter-info-clear",gridEl.dom);
+	
+	//Use clear div if it already exists or create new
+	var clearDiv = clearDivExists?clearDivExists:Ext.DomHelper.insertFirst(gridEl,{tag:'span',html:'&nbsp;',cls:'ux-grid-filter-info-clear'});
+	
 	//Get info div if already exists
 	var infoDivExists = Ext.DomQuery.selectNode(".ux-grid-filter-info",gridEl.dom);
 	
 	//Use info div if it already exists or create new
 	var infoDiv = infoDivExists?infoDivExists:Ext.DomHelper.insertFirst(gridEl,{tag:'div',html:'',cls:'ux-grid-filter-info'});
-	
+	//infoDiv.style.width=gridEl.getWidth()+"px";
 	//Create a template for info-box
 	var tpl = Ext.DomHelper.createTemplate({tag: 'div', cls: 'ux-grid-filter-info-box', html: '{html}&nbsp;&nbsp;<a title="Remove this filter" id="{id}" href="#" onclick="Ext.ux.FilterInfo.remove(this)"></a>'});
 	
