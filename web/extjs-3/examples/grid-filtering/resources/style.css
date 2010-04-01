@@ -52,11 +52,15 @@
 .ux-grid-filter-hidden-value{
 	display:none;
 }
+.ux-grid-filter-info-clear{
+	clear:both;	
+	font-size:0px;
+}
 .ux-grid-filter-info{
-	padding:1px;	
-	
+	padding:1px;
 	float:left;
-	width:100%;
+	overflow: auto;
+	width: 100%
 }
 .ux-grid-filter-info-box{
 	padding:3px;
