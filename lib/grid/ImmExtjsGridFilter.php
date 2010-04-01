@@ -84,7 +84,7 @@ class ImmExtjsGridFilter{
 					if(in_array($column['type'],self::$ftypes)){
 						$temp_filter=array('type'=>$column['type']);
 						$temp_filter['dataIndex']=$temp_column['dataIndex'];				
-						$grid->addFilter($temp_filter);
+						$grid->addFilter($temp_filter);						
 					}
 				}
 			}
@@ -143,8 +143,7 @@ class ImmExtjsGridFilter{
 					'4'=>"Warning",
 					'5'=>"Notice",
 					'6'=>"Info",
-					'7'=>"Debug",
-				
+					'7'=>"Debug"				
 				);
 			case 'SEVERITY_LEVEL_18':
 				return array(
@@ -155,8 +154,34 @@ class ImmExtjsGridFilter{
 					'5'=>"Warning",
 					'6'=>"Notice",
 					'7'=>"Info",
-					'8'=>"Debug",
-				
+					'8'=>"Debug"				
+				);
+			case 'FACILITY_LEVEL':
+					return array(
+					'0'=>'Kernel Messages',
+					'1'=>'User-Level Messages',
+					'2'=>'Mail System',
+					'3'=>'System Daemons',
+					'4'=>'Security/Authorization Messages',
+					'5'=>'Messages Generated Internally by Syslogd',
+					'6'=>'Line Printer Subsystem',
+					'7'=>'Network News Subsystem',
+					'8'=>'UUCP Subsystem',
+					'9'=>'Clock Daemon',
+					'10'=>'Security/Authorization Messages',
+					'11'=>'FTP Daemon',
+					'12'=>'NTP Subsystem',					 
+					'13'=>'Log Audit',
+					'14'=>'Log Alert',
+					'15'=>'Clock Daemon',
+					'16'=>'local use 0 (local0)',
+					'17'=>'local use 1 (local1)',
+					'18'=>'local use 2 (local2)',
+					'19'=>'local use 3 (local3)',
+					'20'=>'local use 4 (local4)',
+					'21'=>'local use 5 (local5)',
+					'22'=>'local use 6 (local6)',
+					'23'=>'local use 7 (local7)'			
 				);
 			default:
 				return false;
