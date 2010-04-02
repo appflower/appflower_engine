@@ -186,7 +186,7 @@ class parserActions extends sfActions
 	}
 	
 	
-	/*
+/*
 	 * Exports the list as CSV and forces the browser to open download dialogue.
 	 * 
 	 */
@@ -202,7 +202,7 @@ class parserActions extends sfActions
 			}
 			
 		} else {
-			list($sort,$sort_dir,$start,$limit,$anode,$filters,$export,$data_file,$title) = $job->getUnserializedParamsList();
+			list($sort,$sort_dir,$start,$limit,$anode,$filters,$export,$data_file,$title,$xsort) = $job->getUnserializedParamsList();
 			$uid = null;
 			$parser = unserialize(file_get_contents($data_file));
 		}
@@ -214,7 +214,8 @@ class parserActions extends sfActions
 			$data_file = XmlParser::saveSessionData($parser);
 			
 			$params = array('sort' => $sort, 'sort_dir' => $sort_dir,'start' => $start,'limit' => $limit,
-			'anode' => $anode,'filters' => $filters,'export' => 'all', 'data_file' => $data_file, "title" => $parser["title"]);
+			'anode' => $anode,'filters' => $filters,'export' => 'all', 'data_file' => $data_file, 
+			"title" => $parser["title"],"xsort" => $this->getRequestParameter("xsort",""));
 
 		    $queue = sfJobQueuePeer::retrieveByQueueName('CSV_Exports');
 		    
@@ -232,7 +233,7 @@ class parserActions extends sfActions
 		if(!$job) {
 			$items = $this->executeListjson(null,array($sort,$sort_dir,$start,$limit,$anode,$filters,$export,$uid));	
 		} else {
-			$items = $this->executeListjson(null,array($sort,$sort_dir,$start,$limit,$anode,$filters,$export,null,$data_file,$title,$job));	
+			$items = $this->executeListjson(null,array($sort,$sort_dir,$start,$limit,$anode,$filters,$export,null,$data_file,$title,$job,$xsort));	
 		}
 		
 		$this->removeTags($items);
@@ -292,7 +293,7 @@ class parserActions extends sfActions
 		$export_columns = array();
 		foreach($parser["columns"] as $c) {
 			$export_columns[] = (is_array($c)) ? $c["column"] : $c;
-		}
+		}	
 		
 		$export_data = "";
 		$export_config = sfConfig::get('app_parser_export');
@@ -309,7 +310,6 @@ class parserActions extends sfActions
 			$ef['export'] = array('start'=>$start,'limit'=>$limit);
 			$export_data = call_user_func(array($ef[0],$ef[1]),$ef);
 		} else {
-			
 			
 			if($parser["tree"]) {
 	
@@ -351,6 +351,10 @@ class parserActions extends sfActions
 					$output["ungrouped"] = $items;
 				}
 				
+				// Date split
+				
+				$date_columns = array("user_timestamp","date_received");
+				
 				foreach($output as $k => $group) {
 					if($k != "ungrouped") {
 						$export_data .= $k."\r\n";
@@ -361,7 +365,22 @@ class parserActions extends sfActions
 							if(!in_array($k,$export_columns)) {
 								unset($item[$k]);
 							} 
-							
+							foreach($date_columns as $dc) {
+								if($k == $dc) {
+									$m = preg_match("/([0-9]{4}\-[0-9]{2}\-[0-9]{2}) ([0-9]{2}:[0-9]{2}:[0-9]{2})/",$cell,$matches);
+									$tmp = array();
+									foreach($item as $kx => $value) {
+										if($kx != $k) {
+											$tmp[$kx] = $value;
+										} else {
+											$tmp[$k."_date"] = $matches[1];
+											$tmp[$k."_time"] = $matches[2];
+										}
+									}
+									//unset($item[$k]);
+									$item = $tmp;
+								}	
+							}
 						}
 						$export_data .= implode($export_config["separator"],$item)."\r\n";
 					}	
@@ -428,9 +447,9 @@ class parserActions extends sfActions
 		// If uid is not null.
 		if($params[7] !== null) {
 			list($sort,$sort_dir,$start,$limit,$anode,$filters,$export,$uid) = $params;	
-			$data_file = $title = $job = null;
+			$xsort = $data_file = $title = $job = null;
 		} else {
-			list($sort,$sort_dir,$start,$limit,$anode,$filters,$export,$uid,$data_file,$title,$job) = $params;
+			list($sort,$sort_dir,$start,$limit,$anode,$filters,$export,$uid,$data_file,$title,$job,$xsort) = $params;
 		}
 		
 		// Getting parser session data..
@@ -450,6 +469,7 @@ class parserActions extends sfActions
 			$limit = null;
 			$start = 0;
 		}	
+		
 		
 		// Invalid key in session, parser data cannot be found..
 		
@@ -473,7 +493,7 @@ class parserActions extends sfActions
 		if(!$parser["sql"]) {
 			if(!$parser["sql"] && $parser["type"] == "orm") {
 				Newsroom::waitIfRequested($parser['reload_topic']);
-				$pager = $this->getRawDataOrm($parser,array($start,$limit,$sort,$sort_dir,$filters,$export));		
+				$pager = $this->getRawDataOrm($parser,array($start,$limit,$sort,$sort_dir,$filters,$export,$xsort));		
 			} else if(!$parser["sql"] && $parser["type"] == "file") { 
 				Newsroom::waitIfRequested($parser['reload_topic']);
 				$pager = $this->getRawDataFile($parser,array($start,$limit,$sort,$sort_dir,$filters,$export));
@@ -561,7 +581,7 @@ class parserActions extends sfActions
 		
 		if(empty($args)) {
 			
-			// Hode unwanted rowactions..
+			// Hide unwanted rowactions..
 			
 			if(isset($parser["conditions"])) {
 				$this->hideActions($items,$parser);
@@ -594,7 +614,6 @@ class parserActions extends sfActions
 		} 	
 		
 	}
-	
 	
 	/***************************************************************************************************** 
 	 * These functions get the raw data from the datasource, add a new one here for a different source   *

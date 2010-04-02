@@ -2253,8 +2253,8 @@ class XmlParser extends XmlParserTools {
 
 	
 	private function postProcess($build = false) {
-        Console::profile('postProcess');
-				
+
+		Console::profile('postProcess');
 		
 		/*
 		 * Create widgets in advanced for the text link script (widget launcher)
@@ -2864,6 +2864,7 @@ class XmlParser extends XmlParserTools {
 							$invisibles[] = $column["attributes"]["name"]; 
 					}
 				}
+			
 				
 				if(isset($parse["params"]["name"])){
 					$formoptions['name'] = $parse["params"]["name"];
@@ -3035,7 +3036,10 @@ class XmlParser extends XmlParserTools {
 					
 					if(isset($parse["pager"]) && $parse["pager"] === "true") {
 						$grid->addMenuActionsItem(array('label'=>'Export Page as CSV', 'icon'=>'/images/famfamfam/database_save.png','url' => '#','listeners'=>array('click'=> array('parameters'=>'','source'=>"window.location.href='/parser/csvexport?uid=".$unique_id."&export=page&start='+".$grid->privateName.
-						".store.lastOptions.params.start+'&limit='+".$grid->privateName.".store.lastOptions.params.limit+'&sort='+((".$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.field : '')+'&dir='+((".$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.direction : '');"))));
+						".store.lastOptions.params.start+'&limit='+".$grid->privateName.".store.lastOptions.params.limit+'&sort='+((".
+						$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.field : '')+'&dir='+((".
+						$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.direction : '')+'&xsort='+((".
+						$grid->privateName.".store.lastOptions.params.xsort) ? ".$grid->privateName.".store.lastOptions.params.xsort : '');"))));
 					}
 					
 					if($parse["tree"] === "false") {
@@ -3048,7 +3052,8 @@ class XmlParser extends XmlParserTools {
 								   "window.location.href='/parser/csvexport?uid=".$unique_id."&export=all&sort='+((".
 								   $grid->privateName.".store.sortInfo) ? ".$grid->privateName.
 								   ".store.sortInfo.field : '')+'&dir='+((".$grid->privateName.".store.sortInfo) ? ".
-								   $grid->privateName.".store.sortInfo.direction : '');".'}},
+								   $grid->privateName.".store.sortInfo.direction : '')+'&xsort='+((".
+									$grid->privateName.".store.lastOptions.params.xsort) ? ".$grid->privateName.".store.lastOptions.params.xsort : '');".'}},
 								   icon: Ext.MessageBox.QUESTION								   
 								});
 							';
@@ -3077,7 +3082,8 @@ class XmlParser extends XmlParserTools {
 						"frm = document.createElement('form'); field = document.createElement('input'); field.setAttribute('type','hidden'); field.setAttribute('name','selections'); field.value = ".
 						$grid->privateName.".getSelectionModel().getSelectionsJSON(); frm.appendChild(field); frm.action = '/parser/csvexport?uid=".
 						$unique_id."&_csrf_token=".$this->context->getRequest()->getAttribute("_csrf_token")."&export=".(($fs === "true") ? "selected" : "all")."&sort='+((".$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.field : '')+'&dir='+((".
-						$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.direction : ''); frm.method='POST'; frm.name='frm1'; document.body.appendChild(frm); ".$noItemsSelectedFunction." frm.submit();"))));
+						$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.direction : '')+'&xsort='+((".
+						$grid->privateName.".store.lastOptions.params.xsort) ? ".$grid->privateName.".store.lastOptions.params.xsort : ''); frm.method='POST'; frm.name='frm1'; document.body.appendChild(frm); ".$noItemsSelectedFunction." frm.submit();"))));
 						
 						
 					}
