@@ -23,6 +23,9 @@ class ImmExtjsLinkButton extends ImmExtjsButton
 				sfLoader::loadHelpers("ImmExtjsExecuteCustomJS");				
 				$source = preExecuteSource($pe_file,$source);
 			}	
+			if(isset($attributes['handlerSource'])){	
+				$source=$attributes['handlerSource'];
+			}
 			$this->attributes['handler']=$this->immExtjs->asMethod(array(
 	  									'parameters'=>'',
 	  									'source'=>$source

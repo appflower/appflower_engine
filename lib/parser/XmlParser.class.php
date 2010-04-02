@@ -3723,6 +3723,19 @@ if(response.message) {
 		}
 		$attributes['icon'] = (isset($attributes["icon"]) && $attributes["icon"]) ? $attributes["icon"] : $defaultIcon;
 
+		if(!isset($attributes['popupSettings']))
+		{
+			$attributes['popupSettings']="";
+		}
+		
+		if(isset($attributes['popup']) && $attributes['popup'] && $attributes['popup'] !=="false") 
+		{
+			$attributes['handlerSource'] = 'ajax_widget_popup("'.$attributes["url"].'","","","'.$attributes['popupSettings'].'");';
+		}
+		
+		unset($attributes['popupSettings']);
+		unset($attributes['popup']);
+		
 		if($attributes["post"] === "true"){
 			$obj = new ImmExtjsSubmitButton($form,array_merge($attributes,array('label'=>$attributes["label"], 'action'=>$attributes["url"])),$this->forms[0]);
 		} else {

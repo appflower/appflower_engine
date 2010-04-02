@@ -38,8 +38,7 @@ class ImmExtjsButton
 				$this->attributes['cls']='x-btn-text-icon';
 			}
 		}
-		
-		
+				
 		if(isset($attributes['state']))
 		{		
 			switch ($attributes['state'])
