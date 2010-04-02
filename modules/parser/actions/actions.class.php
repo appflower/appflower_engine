@@ -262,6 +262,8 @@ class parserActions extends sfActions
 			
 			}
 			
+			$this->removeTags($items);
+			
 		}
 		
 		if(!ArrayUtil::isTrue($parser, 'remoteSort') && $sort) {
@@ -353,7 +355,7 @@ class parserActions extends sfActions
 				
 				// Date split
 				
-				$date_columns = array("user_timestamp","date_received");
+				$date_columns = array("user_timestamp","date_received","timestamp");
 				
 				foreach($output as $k => $group) {
 					if($k != "ungrouped") {
@@ -377,7 +379,6 @@ class parserActions extends sfActions
 											$tmp[$k."_time"] = $matches[2];
 										}
 									}
-									//unset($item[$k]);
 									$item = $tmp;
 								}	
 							}
