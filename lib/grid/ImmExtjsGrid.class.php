@@ -925,7 +925,12 @@ class ImmExtjsGrid
 		}
 		//popup = true will overwrite the successFunction
         
-		if(isset($action['attributes']['popup']) && $action['attributes']['popup'] && $action['attributes']['popup'] !=="false") $successFunction = 'ajax_widget_popup("'.$action["attributes"]["url"].'");';
+		if(!isset($action['attributes']['popupSettings']))
+		{
+			$action['attributes']['popupSettings']="";
+		}
+		
+		if(isset($action['attributes']['popup']) && $action['attributes']['popup'] && $action['attributes']['popup'] !=="false") $successFunction = 'ajax_widget_popup("'.$action["attributes"]["url"].'","","","'.$action['attributes']['popupSettings'].'");';
 		if($action["attributes"]["confirm"] != "false"){
 			$confirmFunction = '
 				Ext.Msg.show({

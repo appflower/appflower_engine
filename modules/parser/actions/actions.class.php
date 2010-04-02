@@ -776,12 +776,15 @@ class parserActions extends sfActions
 					}
 					//.................................................................................................
 					if(isset($parser["rowactions"]))
-					{
+					{					
 						foreach($parser["rowactions"] as $k => $action) {
+							
+							$pk = $action["attributes"]["pk"];
+							
 							if(!strstr($host.$action["attributes"]["url"],"?")) {
 								$host.$action["attributes"]["url"] .= "?";
 							}
-							$items[$i]["action".($j+1)] = $host.$action["attributes"]["url"].((substr($action["attributes"]["url"],-1,1) == "?") ? "" : "&")."id=".$id."&";
+							$items[$i]["action".($j+1)] = $host.$action["attributes"]["url"].((substr($action["attributes"]["url"],-1,1) == "?") ? "" : "&").$pk."=".$id."&";
 						$j++;
 						}
 					}			 	
@@ -989,7 +992,7 @@ class parserActions extends sfActions
 							$host.$action["attributes"]["url"] .= "?";
 						}
 						
-						$items[$ki]["action".$j] = $host.$action["attributes"]["url"].(isset($item[$pk])?("id=".$item[$pk]."&"):"");
+						$items[$ki]["action".$j] = $host.$action["attributes"]["url"].(isset($item[$pk])?($pk."=".$item[$pk]."&"):"");
 					}
 				
 				}
