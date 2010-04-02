@@ -82,8 +82,11 @@ Ext.override(Ext.form.Field,{
 	    this.el.on("keydown", this.fireKeys, this);
 	    this.el.on("keypress", this.fireKeys, this);
 	    this.el.on("keyup", this.fireKeys, this);
+	    this.el.on("focus", this.onFocus, this);
+	    this.el.on("blur", this.onBlur, this);
 	}
 })
+
 
 
 
