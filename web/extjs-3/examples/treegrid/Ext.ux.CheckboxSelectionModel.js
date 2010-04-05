@@ -46,10 +46,9 @@ Ext.ux.CheckboxSelectionModel = Ext.extend(Ext.grid.CheckboxSelectionModel, {
 
     // private
     onMouseDown : function(e, t){
-    	//console.info(t);
+    	
     	if(e.button === 0 && t.className == 'x-grid3-row-checker'){ // Only fire if left-click
-            e.stopEvent();
-                       
+            e.stopEvent();            
             var target = e.getTarget('.x-grid3-row'),
 				view = this.grid.getView(),
 				index = target.rowIndex,
@@ -179,8 +178,7 @@ Ext.ux.CheckboxSelectionModel = Ext.extend(Ext.grid.CheckboxSelectionModel, {
     */
     onStoreExpandNode : function(ds,rc){
     	var view = this.grid.getView(),
-			store = this.grid.getStore();
-    	
+			store = this.grid.getStore();    	
     	if (ds.isVisibleNode(rc)) {
 			children = ds.getNodeChildren(rc);
 
@@ -213,7 +211,7 @@ Ext.ux.CheckboxSelectionModel = Ext.extend(Ext.grid.CheckboxSelectionModel, {
     /**
      * Select all from parent record
      */
-    selectAllUpFrom : function(record){
+    selectAllUpFrom : function(record){    	
     	var store = this.grid.getStore();
     	//if there are all selected in parent node
         var parentRecord=store.getNodeParent(record);
@@ -304,7 +302,7 @@ Ext.ux.CheckboxSelectionModel = Ext.extend(Ext.grid.CheckboxSelectionModel, {
      * @param {Number} row The index of the row to select
      * @param {Boolean} keepExisting (optional) True to keep existing selections
      */
-    selectRow : function(index, keepExisting, preventViewNotify){
+    selectRow : function(index, keepExisting, preventViewNotify){    	
     	if(this.locked || (index < 0 || index >= this.grid.store.getCount()) || this.isSelected(index)) return;
         var r = this.grid.store.getAt(index);
         
@@ -326,7 +324,7 @@ Ext.ux.CheckboxSelectionModel = Ext.extend(Ext.grid.CheckboxSelectionModel, {
             {
 	            this.grid.getView().on('rowsinserted', function(){
 	            	            	
-		        	this.grid.getView().onRowSelect(index);
+		        	//this.grid.getView().onRowSelect(index);
 	            	
 	            }, this);
             }
