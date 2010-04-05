@@ -634,7 +634,7 @@ Ext.ux.maximgb.tg.AbstractTreeStore = Ext.extend(Ext.data.Store,
                 this.fireEvent('expandnode', this, rc);
             }
             // If node isn't loaded yet then expanding after load.
-            else {
+            else {            	
                 params = {};
                 params[this.paramNames.active_node] = rc.id;
                 this.load({
@@ -651,7 +651,7 @@ Ext.ux.maximgb.tg.AbstractTreeStore = Ext.extend(Ext.data.Store,
      * @access private
      */
     expandNodeCallback : function(r, options, success)
-    {
+    {   
         var rc = this.getById(options.params[this.paramNames.active_node]);
         
         if (success && rc) {
@@ -1570,15 +1570,16 @@ Ext.ux.maximgb.tg.GridView = Ext.extend(Ext.grid.GridView,
             for (i = 0, len = children.length; i < len; i++) {
                 child_index = ds.indexOf(children[i]);
                 row = this.getRow(child_index);
-                row.style.display = 'block';
-                
+                row.style.display = 'block';               
                 //Only if the grid is remoteLoad enabled
-				if(this.grid.remoteLoad){
+				if(this.grid.remoteLoad){	
+					var sm = this.grid.getSelectionModel();	
 					//Check the row if..........................................................				   
-				    if(this.grid.select && children[i].data[ds.selected_field_name]){				    
-				      	var sm = this.grid.getSelectionModel();
+				    if(this.grid.select && children[i].data[ds.selected_field_name]){				      				      	
 				      	sm.selectRow(ds.indexOf(children[i]),true);				      	
-				    }				    
+				    }else{
+				    	//sm.myDeselectRow(children[i]);
+				    }
 				    /*************************************************************************/
 				}
 				/********************************************************************************/
@@ -1655,8 +1656,7 @@ Ext.ux.maximgb.tg.GridView = Ext.extend(Ext.grid.GridView,
     
     onLoad : function(store, records, options)
     {
-        var ridx;
-        
+        var ridx;        
         if (
             options && 
             options.params && 
@@ -1778,7 +1778,7 @@ Ext.ux.maximgb.tg.GridPanel = Ext.extend(Ext.grid.GridPanel,
                 if (store.isExpandedNode(record)) {
                     store.collapseNode(record);
                 }
-                else {
+                else {                	
                     store.expandNode(record);
                 }
                 do_default = false;
