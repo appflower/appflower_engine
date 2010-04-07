@@ -1734,6 +1734,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  		iconCls			- A CSS class name that adds icon image to the button / menu item. (normal and moreactions)
 	  		tooltip			- Text to be shown when hovering over action icon (rowactions)
 	  		text			- Custom text for action button.
+	  		popupSettings   - Allows you define some arguments for the popup window. See docs.
 	  		style			- CSS class to apply to the button / icon
 	  		post			- Used only in Wizard Views, overrides default widget action. See docs
 	  		forceSelection	- Action will be performed if at least 1 item is selected in the grid
@@ -1761,6 +1762,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		<xs:attribute name="style" type="xs:token" use="optional" />
 		<xs:attribute name="post" type="xs:boolean" use="optional" default="false" />
 		<xs:attribute name="forceSelection" type="xs:boolean" use="optional" />
+		<xs:attribute name="popupSettings" type="xs:token" use="optional" />
 		<xs:attribute name="confirmMsg" type="xs:string" use="optional" />
 		<xs:attribute name="confirm" type="xs:boolean" use="optional" />
 		<xs:attribute name="updater" type="xs:boolean" use="optional" default="false" />
