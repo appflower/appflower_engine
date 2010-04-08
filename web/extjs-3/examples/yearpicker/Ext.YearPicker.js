@@ -434,14 +434,14 @@ Ext.YearPicker = Ext.extend(Ext.Component, {
     },
 
     // private
-    selectOk : function(){
+    selectOk : function(){    	
         var d = new Date(this.mpSelYear, this.mpSelMonth, 1);
         if(d.getMonth() != this.mpSelMonth){
             // "fix" the JS rolling date conversion if needed
             d = new Date(this.mpSelYear, this.mpSelMonth, 1).getLastDateOfMonth();
         }
         this.update(d);
-        this.setValue(d);
+        this.setValue(d);       
         this.fireEvent("select", this, this.value);
     },
 
@@ -503,12 +503,12 @@ Ext.menu.YearMenu = function(config){
     Ext.menu.YearMenu.superclass.constructor.call(this, config);
     this.plain = true;
     var di = new Ext.menu.YearItem(config);
-    this.add(di);
+    this.add(di.picker);
     /**
      * The {@link Ext.YearPicker} instance for this YearMenu
      * @type YearPicker
      */
-    this.picker = di.picker;
+    this.picker = di.picker;   
     /**
      * @event select
      * @param {MonthPicker} picker
@@ -543,24 +543,27 @@ Ext.extend(Ext.menu.YearMenu, Ext.menu.Menu, {
  * @param {Object} config Configuration options
  */
 Ext.menu.YearItem = function(config){
-    Ext.menu.YearItem.superclass.constructor.call(this, new Ext.YearPicker(config), config);
+	/**
+	 * Changes are made in this section for ext 3 support
+	 */
+    Ext.menu.YearItem.superclass.constructor.call(this,config);
     /** The Ext.YearPicker object @type Ext.YearPicker */
-    this.picker = this.component;
+    this.picker = new Ext.YearPicker(config);    
     this.addEvents('select');
-
     this.picker.on("render", function(picker){
         picker.getEl().swallowEvent("click");
         picker.container.addClass("x-menu-date-item");
     });
 
     this.picker.on("select", this.onSelect, this);
+   
 };
 
-Ext.extend(Ext.menu.YearItem, Ext.menu.Adapter, {
+Ext.extend(Ext.menu.YearItem, Ext.menu.Item, {
     // private
     onSelect : function(picker, date){
         this.fireEvent("select", this, date, picker);
-        Ext.menu.YearItem.superclass.handleClick.call(this);
+        //Ext.menu.YearItem.superclass.handleClick.call(this);
     }
 });
 
