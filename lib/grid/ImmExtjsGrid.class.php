@@ -19,8 +19,7 @@ class ImmExtjsGrid
 	{
 		$this->immExtjs=ImmExtjs::getInstance();
 		//for test
-		$this->attributes['tbar']=array();
-		
+		$this->attributes['tbar']=array();	
 		
 		sfLoader::loadHelpers(array('ImmExtjsContextMenu'));
 		if(isset($attributes['datasource']))
@@ -32,7 +31,7 @@ class ImmExtjsGrid
 		
 		if(isset($attributes['idxml'])&&$attributes['idxml'])
 		{
-			$this->attributes['id']=$attributes['idxml'];
+			//$this->attributes['id']=$attributes['idxml'];
 			$this->proxy['stateId']=$attributes['idxml'];
 		}
 
@@ -233,6 +232,7 @@ class ImmExtjsGrid
 		
 	public function end()
 	{		
+		
 		
 		if(!$this->attributes['tree'])
 		{
@@ -453,6 +453,7 @@ class ImmExtjsGrid
 					grid.getStore().lastOptions.params.xsort = null
 				}
 			";
+			
 			if(isset($this->proxy['stateId']))
 			{
 				$this->attributes[$storePrivateName]['pt_state_loaded']=false;
@@ -652,7 +653,7 @@ class ImmExtjsGrid
 		else {
 			$this->immExtjs->private[$this->privateName]=$this->immExtjs->GridTreePanel($this->attributes);
 		}
-		
+		//print_r($this);
 	}
 
 	private function defineSortInfo($storePrivateName, $field, $direction)
