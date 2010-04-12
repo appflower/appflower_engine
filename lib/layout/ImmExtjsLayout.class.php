@@ -41,6 +41,9 @@ class ImmExtjsLayout
 		 */
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'overrides/Override.Ext.data.SortTypes.js')));
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'overrides/Override.Ext.form.Field.js')));
+		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'overrides/Override.Fixes.js')));
+		if(sfContext::getInstance()->getUser()->isAuthenticated())
+		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'plugins/Ext.ux.Notification.js')));
 		
 		// Plugin to enable setting active item in accordion layout
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'layout/AccordionLayoutSetActiveItem.js')));
@@ -258,8 +261,7 @@ class ImmExtjsLayout
 			$this->addPanel('west',$this->attributes['viewport']['west_panel']);
 		}
 		
-		
-		
+	
 		if(isset($this->attributes['viewport']['south_panel'])&&!isset($this->immExtjs->private['south_panel']))
 		$this->addPanel('south',$this->attributes['viewport']['south_panel']);
 		
