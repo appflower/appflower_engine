@@ -55,6 +55,13 @@
 .icon-reload{background:url('/images/famfamfam/arrow_refresh.png') no-repeat center left !important;}
 
 /*
+* Notification icons
+*/
+.icon-notification-error{background:url('/appFlowerPlugin/images/error.png') no-repeat center left !important;}
+.icon-notification-info{background:url('/appFlowerPlugin/images/information.png') no-repeat center left !important;}
+.icon-notification-warning{background:url('/appFlowerPlugin/images/warning.png') no-repeat center left !important;}
+
+/*
 * Css for the ListField
 */
 .listfield-remove-icon{	
