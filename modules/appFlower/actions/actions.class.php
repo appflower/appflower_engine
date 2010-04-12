@@ -394,5 +394,28 @@ class appFlowerActions extends sfActions
 		}
 		$result = array("success"=>$success,"message"=>$message,"redirect"=>"/user/filters");
 		return $this->renderText(json_encode($result));		
+	}
+	public function executeNotifications(){
+		if($this->getRequest()->getMethod() == sfRequest::POST){
+			$this->limit = $this->getRequestParameter('limit');
+		}
+		//while(true){
+			$objs = afNotificationPeer::getNotifications();
+			//sleep(2);
+			//if($objs) break;
+		//}		
+		$return = array("success"=>true,"data"=>$objs);
+		echo json_encode($return);		
+		exit;
+	}	
+	public function executeNotificationDetails(){
+		if($this->getRequest()->getMethod() == sfRequest::POST){
+			$id = $this->getRequestParameter("id");
+			$obj = afNotificationPeer::retrieveByPk($id);
+			if($obj){
+				return $this->renderText($this->getPartial("notification_detail",array('obj'=>$obj)));				
+			}
+		}
+		exit;
 	}	
 }
