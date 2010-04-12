@@ -70,12 +70,16 @@ class ImmExtjs extends sfExtjs2Plugin
 	
 	$this->initApplication ( 'App' );
 	$this->end ('',false);
-	
+	/*
+	 * Add notification plugin to the system
+	 */
+	$this->source .= Notification::getPluginSource();
 	echo "<script type='text/javascript'>\n";
 	echo "// <![CDATA[\n";	
 	echo $this->source;
 	echo "// ]]>\n";
 	echo "</script>\n";
+	
   }
 }
 ?>
