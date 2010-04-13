@@ -95,10 +95,11 @@ function ajax_source($url){
 			   url: "'.$url.',
 			   method:"POST",
 			   success: function(response){
+			   
 			   		var json = Ext.util.JSON.decode(response.responseText);
 			   		var title = "Success";
 			   		if(json.title) title = json.title;
-			   		if(json.success && !json.target){
+			   		if(json.success){
 			   			Ext.Msg.alert(title, json.message);
 			   		}else{
 			   			Ext.Msg.alert("Error", json.message);
