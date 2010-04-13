@@ -143,7 +143,7 @@ Ext.ux.Notification.start = function(url){
 								limit:(3-Ext.ux.NotificationMgr.positions.length)
 							}
 						}))
-					}).delay(count*defer+1000);
+					}).delay(count*defer+10000);
 				}
 			}
 		}
