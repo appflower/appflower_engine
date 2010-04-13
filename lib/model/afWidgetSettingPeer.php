@@ -33,7 +33,8 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 	public static function buildCriteria()
 	{
 		$criteria = new Criteria();
-		$criteria->add(self::USER,sfContext::getInstance()->getUser()->getGuardUser()->getId());
+		$user = sfContext::getInstance()->getUser()->isAuthenticated()?sfContext::getInstance()->getUser()->getGuardUser()->getId():'';
+		$criteria->add(self::USER,$user);
 		return $criteria;
 	}
 
