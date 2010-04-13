@@ -665,8 +665,9 @@ class ImmExtjsGrid
 		 * Listener for the context menu
 		 *
 		 */
-		$initialize = '';			
-		foreach($this->contextMenu as $key=>$value){
+		$initialize = '';
+				
+		foreach($this->contextMenu as $key=>$value){				
 			$initialize .= "contextMenus['".$key."'] = ".$value.";";	
 		}
 		$this->attributes['listeners']['click'] = "function(e){			 
@@ -702,7 +703,7 @@ class ImmExtjsGrid
 						var valueNode = Ext.DomQuery.selectNode('.interactive-arrow-a',grid.getView().getCell(ri,ci));
 						data = valueNode.innerHTML;						
 					}
-					var pattern = /(\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b) | [0-9]+/;
+					var pattern = /(\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b)/;
 					var ip = data.match(pattern);
 					if(!ip){
 						ip = data.match(/[0-9]+/);
@@ -710,7 +711,7 @@ class ImmExtjsGrid
 							Ext.Msg.alert('Notice','No valid data found');
 							return;
 						}
-					}
+					}					
 					data = ip[0];
 					
 					var contextMenu = contextMenus[fieldName];
