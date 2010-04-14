@@ -1430,6 +1430,36 @@ class Util {
 		}		
 		return $color;    	
     }
+    
+    public static function getAppFlowerFiltersForWidgetTitle()
+    {
+    	$filters=sfContext::getInstance()->getUser()->getAttribute('filters',null,'/appflower');
+
+    	$titleSuffix='';
+    	
+		if($filters!=null)
+		{
+			foreach ($filters as $name=>$value)
+			{
+				if($value==null)
+				{
+					unset($filters[$name]);
+				}
+			}
+			
+			if(count($filters)>0)
+			{
+				foreach ($filters as $name=>$value)
+				{
+					$titleSuffix[]=$name.': "'.$value.'"';
+				}
+				
+				$titleSuffix=' <span style="color:red;">(filtered by '.implode(' & ',$titleSuffix).')</span>';
+			}
+		}
+		
+		return $titleSuffix;
+    }
 }
 
 
