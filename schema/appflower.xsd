@@ -315,7 +315,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 			</xs:documentation>
 		</xs:annotation>
 		 <xs:restriction base="xs:token">
-		  	<xs:pattern value="([/]{0,1}[A-Za-z0-9_]+[/]{1}[A-Za-z0-9_]+)|([/]{0,1}[A-Za-z0-9_]+[/]{1}[A-Za-z0-9_]+([/]{1}[A-Za-z0-9_])*)|([/]{0,1}[A-Za-z0-9_]+/[A-Za-z0-9_\{\}]+\?[A-Za-z0-9_]+=[A-Za-z0-9_\{\}@]+(&amp;[A-Za-z0-9_]+=[A-Za-z0-9_\{\}@]+)*&amp;?)"/>
+		  	<xs:pattern value="([/]{0,1}[A-Za-z0-9_]+[/]{1}[A-Za-z0-9_]+)|([/]{0,1}[A-Za-z0-9_]+[/]{1}[A-Za-z0-9_]+([/]{1}[A-Za-z0-9_])*)|([/]{0,1}[A-Za-z0-9_]+/[A-Za-z0-9_\{\}]+\?[A-Za-z0-9_]+=[A-Za-z0-9_\{\}@]+(&amp;[A-Za-z0-9_]+=[A-Za-z0-9_\{\}@]+)*&amp;?)|(\{[a-zA-Z0-9]+\})"/>
 		  	<xs:whiteSpace value="collapse"/>
 		  </xs:restriction>
 	</xs:simpleType>
