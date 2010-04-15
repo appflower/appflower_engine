@@ -22,6 +22,12 @@ class ImmExtjsFieldInput extends ImmExtjsField
 			}
 			unset($attributes['plugin']);
 		}
+		if(isset($attributes['value'])&&$attributes['value']!=null)
+		{
+			$this->attributes['value']=is_numeric($attributes['value'])?($attributes['value']." "):$attributes['value'];
+			
+			unset($attributes['value']);
+		}
 		parent::__construct($fieldsetObject,$attributes);
 	}
 }
