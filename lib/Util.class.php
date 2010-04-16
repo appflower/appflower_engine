@@ -130,7 +130,8 @@ class Util {
 				/****** Delete all **********/
 				call_user_func(array($class,"doDeleteAll"));				
 				/****** Delete all **********/
-				$msg = "All data removed successfully";
+				$msg = "All data removed successfully";	
+				myAuditLogger::logMessage("All record has deleted from ".str_replace("Peer","",$class));			
 			}else{							
 				$items = json_decode($post["selections"],true);
 				
@@ -149,6 +150,7 @@ class Util {
 					/******* Delete individual ***************/
 				}
 				$msg = "Selected data removed successfully";
+				myAuditLogger::logMessage(count($items)." record has deleted from ".str_replace("Peer","",$class));	
 			}
 
 			$result = array('success' => true, 'message' => $msg, 'redirect' => $redirect);
