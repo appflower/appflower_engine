@@ -117,6 +117,7 @@ Ext.ux.ListField = Ext.extend(Ext.form.Field,  {
     	if(ct instanceof Ext.Button){
     		val = this.inputField.getValue();    	
     	}else{
+    		if(!e) return;
 	    	if(e.getKey()==e.ENTER && ct.getXType()=='textfield'){
 	    		val = ct.getValue();    		
 	    	}else{
