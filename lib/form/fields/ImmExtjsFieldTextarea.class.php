@@ -9,6 +9,7 @@ class ImmExtjsFieldTextarea extends ImmExtjsField
 		if((isset($attributes['rich'])&&$attributes['rich'])||!isset($attributes['rich']))
 		{		
 			$this->attributes['xtype']='htmleditor';
+			$this->attributes['msgTarget']='side';
 		}
 		else {
 			$this->attributes['xtype']='textarea';

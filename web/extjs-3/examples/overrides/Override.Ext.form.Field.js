@@ -114,8 +114,52 @@ Ext.override(Ext.form.TextField,{
 	}
 });
 
-
-
+/**
+* Override for error markup on HtmlEditor
+*
+* @author radu
+*/
+Ext.override(Ext.form.HtmlEditor, {
+    markInvalid: function(msg){
+        if(!this.rendered || this.preventMark){
+            return;
+        }
+        msg = msg || this.invalidText;
+        
+        switch(this.msgTarget){
+            case 'qtip':
+            	this.iframe.qtip = msg;
+                this.iframe.qclass = 'x-form-invalid-tip';
+                Ext.get(this.iframe).addClass(this.invalidClass);
+                break;
+            case 'side':
+            	Ext.get(this.iframe).addClass(this.invalidClass);
+            	
+            	this.errorDiv=Ext.DomHelper.append(this.wrap,{tag:'div',style:'top:0px;left:'+(this.wrap.getWidth()+85)+'px;z-index:1000;position:absolute;visibility:visible;',cls:'x-form-invalid-icon',qtip:msg,qclass:'x-form-invalid-tip'});            	
+	            break;
+        }
+        return Ext.form.TextArea.superclass.markInvalid.call(this, [msg]);
+    },
+    clearInvalid: function(){
+        if(!this.rendered || this.preventMark){
+            return;
+        }
+        switch(this.msgTarget){
+            case 'qtip':
+                this.iframe.qtip = '';
+                Ext.get(this.iframe).removeClass(this.invalidClass);
+                break;
+            case 'side':
+            	if(this.errorDiv)
+            	{            		
+                	Ext.get(this.errorDiv).remove();
+            	}
+                Ext.get(this.iframe).removeClass(this.invalidClass);
+                break;
+        }
+        return Ext.form.TextArea.superclass.clearInvalid.call(this);
+    }
+});
 
 
 
