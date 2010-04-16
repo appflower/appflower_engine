@@ -35,7 +35,7 @@ class ImmExtjsFieldCombo extends ImmExtjsField
 			
 			$this->attributes['width']='250';
 			if(empty($attributes['options'])){
-				$this->attributes['store'] = '[]';
+				$this->attributes['store'] = '[[0,"No options available.."]]';
 			}
 		}
 		else {
