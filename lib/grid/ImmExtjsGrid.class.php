@@ -607,42 +607,11 @@ class ImmExtjsGrid
 		{		
 			$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/EditableItem.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/ComboMenu.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/RangeMenu.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/GridFilters.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/DrillFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/RePositionFilters.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/SaveSearchState.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/FilterInfo.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/Filter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/BooleanFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/ComboFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/DateFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/ListFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/NumericFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/StringFilter.js'),'css'=>array($this->immExtjs->getExamplesDir().'grid-filtering/resources/style.css')));
 			// Add reset filters on menu action if there is filter in grid
-			$this->addMenuActionsItem(array('label'=>'Filters','icon'=>'/images/famfamfam/drink.png','menu'=>array(
-				'items'=>array(
-					array(
-						'text'=>'Save current filter',
-						'icon'=>'/images/famfamfam/disk.png',
-						'listeners'=>array('click'=>$this->immExtjs->asMethod(array('parameters'=>'','source'=>'
-							var grid = '.$this->privateName.';
+			$this->addMenuActionsItem(array('label'=>'Filters','icon'=>'/images/famfamfam/drink.png','listeners'=>array('click'=>array('parameters'=>'','source'=>'var grid = '.$this->privateName.';
 							var filters = grid.filters;
 							if(!filters) return;							
 							var saveFilter = Ext.ux.SaveSearchState(grid);
-							saveFilter.save();						
-						')))
-					),
-					array(
-						'text'=>'Load saved filter',
-						'icon'=>'/images/famfamfam/folder_table.png',
-						'listeners'=>array('click'=>$this->immExtjs->asMethod(array('parameters'=>'','source'=>'
-							var grid = '.$this->privateName.';
-							var filters = grid.filters;
-							if(!filters) return;							
-							var saveFilter = Ext.ux.SaveSearchState(grid);
-							saveFilter.viewSavedList();						
-						')))
-					),
-					array(
-						'text'=>'Clear filters',
-						'icon'=>'/images/famfamfam/drink_empty.png',
-						'listeners'=>array('click'=>$this->immExtjs->asMethod(array('parameters'=>'','source'=>'
-							var grid = '.$this->privateName.';
-							var filters = grid.filters;
-							if(!filters) return;
-							filters.clearFilters();						
-						')))
-					)
-				)
-			)));			
+							saveFilter.viewSavedList();'))));				
 		}
 		$this->addMenuActions();
 		
