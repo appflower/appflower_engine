@@ -87,6 +87,24 @@ Ext.ux.SaveSearchState = function(grid){
 	            	}
 	            }
 	        ],
+	        tbar:[{	        	
+	            text:'Save current filter',
+	            icon:'/images/famfamfam/disk.png',
+	            handler: function(){		        	
+					var filters = grid.filters;
+					if(!filters) return;							
+					var saveFilter = Ext.ux.SaveSearchState(grid);
+					saveFilter.save();
+	        	}
+	        },'-',{
+	        	text:'Clear current filter',
+	        	icon:'/images/famfamfam/drink_empty.png',
+	        	handler: function(){
+		        	var filters = grid.filters;
+					if(!filters) return;
+					filters.clearFilters();
+	        	}
+	        }],
 	        autoExpandColumn: 'name',
 	        loadMask:true
     	})
@@ -132,7 +150,7 @@ Ext.ux.SaveSearchState = function(grid){
     		}
     	},this)
     	var win = new Ext.Window({    				
-    		width:400,
+    		width:500,
     		height:300,
     		layout:'fit',
     		title:'Saved filters for '+path,
