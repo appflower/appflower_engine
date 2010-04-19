@@ -31,10 +31,11 @@ class Console {
             self::$last = $now;
         }
 
+        $path = $_SERVER['REQUEST_URI'];
         $totalMillis = ($now - self::$startedAt) * 1000;
         $passedMillis = ($now - self::$last) * 1000;
-        error_log(sprintf('%dms (%dms) till %s',
-            $totalMillis, $passedMillis, $point));
+        file_put_contents('php://stderr', sprintf("%dms (%dms) till %s, %s\n",
+            $totalMillis, $passedMillis, $point, $path));
         self::$last = $now;
     }
 }
