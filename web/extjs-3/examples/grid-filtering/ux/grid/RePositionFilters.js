@@ -115,14 +115,16 @@ Ext.ux.RePositionFilters = function(grid){
     	column.sp = sp;
     	return sp;
     }
-    this.getFilterMenuForColumn = function(column){    	
+    this.getFilterMenuForColumn = function(column){   
+    	if(!this.grid.filters.filters) return;
     	var filter = this.grid.filters.filters.get(column.dataIndex);    	
     	if(filter){
     		return filter.menu;
     	}
     	return null;    	
     }
-    this.getFilterForColumn = function(column){    	
+    this.getFilterForColumn = function(column){
+    	if(!this.grid.filters.filters) return;
     	var filter = this.grid.filters.filters.get(column.dataIndex);    	
     	return filter;
     }
