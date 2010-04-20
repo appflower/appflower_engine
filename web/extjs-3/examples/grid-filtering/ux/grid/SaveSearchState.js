@@ -83,7 +83,8 @@ Ext.ux.SaveSearchState = function(grid){
 	            {id:'name',header: 'Name', dataIndex: 'name',menuDisabled:true},
 	            {id:'action',header:'Action',dataIndex:null, width:50,menuDisabled:true,
 	            	renderer:function(){
-	            		return '<a href="#"><img class="restore-saved-filter-button" src="/images/famfamfam/connect.png" qtip="Apply this filter to grid"/></a>&nbsp;&nbsp;<a href="#"><img class="remove-saved-filter-button" src="/images/famfamfam/cross.png" qtip="Remove this filter"/></a>'
+	            		//return '<a href="#"><img class="restore-saved-filter-button" src="/images/famfamfam/connect.png" qtip="Apply this filter to grid"/></a>&nbsp;&nbsp;<a href="#"><img class="remove-saved-filter-button" src="/images/famfamfam/cross.png" qtip="Remove this filter"/></a>'
+	            		return '<a href="#"><img class="remove-saved-filter-button" src="/images/famfamfam/cross.png" qtip="Remove this filter"/></a>'
 	            	}
 	            }
 	        ],
@@ -111,6 +112,11 @@ Ext.ux.SaveSearchState = function(grid){
     	this.list = list;
     	list.on("cellclick",function(grid,rowIndex,columnIndex,e){
     		var target = e.getTarget();
+    		if(target.className == "ux-grid-filter-apply"){
+    			var record = grid.getStore().getAt(rowIndex);                
+                var filterJson = record.get("filter");
+                this.restore(filterJson);
+    		}
     		if(target.className == "restore-saved-filter-button"){
     			var record = grid.getStore().getAt(rowIndex);                
                 var filterJson = record.get("filter");
