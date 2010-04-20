@@ -372,7 +372,7 @@ class appFlowerActions extends sfActions
 			$c->addAscendingOrderByColumn(afSaveFilterPeer::NAME);
 			$objs = afSaveFilterPeer::doSelect($c);			
 			foreach($objs as $obj){
-				$data[] = array("id"=>$obj->getId(),"name"=>$obj->getName(),"filter"=>$obj->getFilter());			
+				$data[] = array("id"=>$obj->getId(),"name"=>"<a href='#' style='color:#0000ff' qtip='Apply this filter to grid' class='ux-grid-filter-apply'>".$obj->getName()."</a>","filter"=>$obj->getFilter());			
 			}
 			$success=true;
 		}
@@ -401,8 +401,8 @@ class appFlowerActions extends sfActions
 		}
 		//while(true){
 			$objs = afNotificationPeer::getNotifications();
-			//sleep(2);
 			//if($objs) break;
+			//sleep(10);			
 		//}		
 		$return = array("success"=>true,"data"=>$objs);
 		echo json_encode($return);		
@@ -412,7 +412,7 @@ class appFlowerActions extends sfActions
 		if($this->getRequest()->getMethod() == sfRequest::POST){
 			$id = $this->getRequestParameter("id");
 			$obj = afNotificationPeer::retrieveByPk($id);
-			if($obj){
+			if($obj){				
 				return $this->renderText($this->getPartial("notification_detail",array('obj'=>$obj)));				
 			}
 		}
