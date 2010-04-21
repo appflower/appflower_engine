@@ -35,6 +35,8 @@ class ImmExtjsLayout
 		 */
 		$this->immExtjs->setAddons(array('js'=>array('/appFlowerPlugin/js/custom/BorderLayoutOverride.js')));
 		
+		$this->immExtjs->setAddons(array('js'=>array('/appFlowerPlugin/js/custom/gridUtil.js')));
+		
 		/******************************************************************************************************************/
 		/*
 		 * Add overrides
