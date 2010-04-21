@@ -81,6 +81,7 @@ class Notification{
 	static $SHORT_CONVERSION = array("t"=>"title","m"=>"message","s"=>"type","l"=>"log","d"=>"duration","c"=>"category","p"=>"persistent","b"=>"created_by","f"=>"created_for");
 	static $LONG_CONVERSION = array("title"=>"title","msg"=>"message","sev"=>"type","log"=>"log","duration"=>"duration","category"=>"category","persistent"=>"persistent","by"=>"created_by","for"=>"created_for");
 	
+	static $dbschema;
 	public static function add($title='',$message='',$category=3,$type=self::INFO){		
 		if($title != ''){		
 			//If first parameter is json string			
@@ -149,7 +150,7 @@ class Notification{
 			foreach ($new_object_fields as $k=>$new_object_field){			
 				if($old_object->getByPosition($new_object_field)!=$new_object->getByPosition($new_object_field)){
 					$count++;	
-					$log .= "<br><u>".sfInflector::humanize($new_object_fields_fieldname[$k])."</u>:<br><s>".$old_object->getByPosition($new_object_field)."</s><br>".$new_object->getByPosition($new_object_field)."<br>";								
+					$log .= "<br><u>".sfInflector::humanize($new_object_fields_fieldname[$k])."</u>:<br><s>".(self::handleForeignData($old_object,$new_object_fields_fieldname[$k]))."</s><br>".(self::handleForeignData($new_object,$new_object_fields_fieldname[$k]))."<br>";								
 				}
 			}
 			if($log) $log = "<u>The following is the updates</u><br>".$log;	
@@ -159,7 +160,7 @@ class Notification{
 			$count = 0;			
 			foreach ($new_object_fields as $k=>$new_object_field){				
 				$count++;	
-				$log .= "<br><u>".sfInflector::humanize($new_object_fields_fieldname[$k])."</u>: ".$new_object->getByPosition($new_object_field)."<br>";			
+				$log .= "<br><u>".sfInflector::humanize($new_object_fields_fieldname[$k])."</u>: ".(self::handleForeignData($new_object,$new_object_fields_fieldname[$k]))."<br>";			
 			}
 			if($log) $log = "<u>The new record is created with following</u><br>".$log;	
 			$msg = ($user_commit_msg?("<u>".$user_commit_msg."</u><br>"):"")."A new record is created from ".sfContext::getInstance()->getModuleName()."/".sfContext::getInstance()->getActionName().$ip_string.". Altogether ".$count." fields are created with record.";
@@ -167,9 +168,10 @@ class Notification{
 			$title = "Record Deleted !";			
 			$count = 0;			
 			foreach ($new_object_fields as $k=>$new_object_field){				
-				$count++;	
-				$log .= "<br><u>".sfInflector::humanize($new_object_fields_fieldname[$k])."</u>:<br>".$new_object->getByPosition($new_object_field)."<br>";			
+				$count++;				
+				$log .= "<br><u>".sfInflector::humanize($new_object_fields_fieldname[$k])."</u>:<br>".(self::handleForeignData($new_object,$new_object_fields_fieldname[$k]))."<br>";			
 			}
+			//exit;
 			if($log) $log = "<u>The deleted record info is following</u><br>".$log;			
 			$msg = ($user_commit_msg?("<u>".$user_commit_msg."</u><br>"):"")."Record is deleted from ".sfContext::getInstance()->getModuleName()."/".sfContext::getInstance()->getActionName().$ip_string;
 		
@@ -178,7 +180,54 @@ class Notification{
 		//for($i=0;$i<5;$i++)	
 		self::add(json_encode($options));
 	}
-	
+	private static function handleForeignData($obj,$field){		
+		$tableMap = $obj->getPeer()->getTableMap();
+		$cols = $tableMap->getColumns();
+		$data = '';		
+		foreach($cols as $col){
+			if($col->getName() == strtoupper($field)){				
+				$data = call_user_func(array($obj,"get".$col->getPhpName()));
+				if($col->isForeignKey()){
+					$rt = $col->getRelatedTableName();
+					$rc = $col->getRelatedColumnName();
+					$dbName = constant($col->getTable()->getPhpName()."Peer::DATABASE_NAME");
+					$fc = self::getPhpName($dbName,$rt);
+					if(method_exists($obj,"get".$fc)){
+						$method = "get".$fc;
+						$data_obj = call_user_func(array($obj,$method));
+					}else{
+						$method = "get".$fc."RelatedBy".$col->getPhpName();
+						$data_obj = call_user_func(array($obj,$method));
+					}
+					if(method_exists($data_obj,"__toString")){
+						$data = $data_obj->__toString();
+					}else{
+						$data = $data_obj;
+					}
+				}	
+			}
+		}
+		return $data;		
+	}
+	private static function getPhpName($dbName, $tableName) {
+		$dbMap = Propel::getDatabaseMap($dbName);
+		try {
+			// The dbMap will know the table if the Peer was used
+			// by the action code.
+			$table = @$dbMap->getTable($tableName);
+			return $table->getPhpName();
+		} catch (PropelException $e) {
+			if(!isset(self::$dbschema)) {
+				$root = sfConfig::get("sf_root_dir");
+				self::$dbschema = sfYaml::load($root.'/config/schema.yml');
+			}
+			$phpName = self::$dbschema[$dbName][$tableName]['_attributes']['phpName'];
+			if(!$phpName) {
+				throw new XmlParserException("Invalid table name: '$tableName'");
+			}
+			return $phpName;
+		}
+	}
 	/**
 	 * This method parses the arguments from cli and converts it into json string to feed to self::add()
 	 */
