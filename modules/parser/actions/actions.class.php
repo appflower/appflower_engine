@@ -770,7 +770,7 @@ class parserActions extends sfActions
 					$j = 0;
 					$id = call_user_func(array($object,"getId"));
 					$tmp = call_user_func(array($object,"get".$column["phpname"]));
-					
+										
 					if(in_array($column["phpname"],$parser["foreign_keys"])) {
 						if(isset($tmp)) {
 							$tmp = call_user_func(array($tmp,"__toString"));
@@ -1046,17 +1046,6 @@ class parserActions extends sfActions
 		{		
 			for($i=0;$i<count($filters);$i++)
 			{
-				$peerClassName=$parser['class'].'Peer';
-				$peerField=strtoupper($filters[$i]['field']);
-				
-				if(defined($peerClassName."::".$peerField))
-				{
-					$filters[$i]['field']=constant($peerClassName."::".$peerField);
-				}
-				else {
-					$filters[$i]['field']=false;
-				}
-				
 				if($filters[$i]['field']!=false)
 				{				
 					switch($filters[$i]['data']['type'])
