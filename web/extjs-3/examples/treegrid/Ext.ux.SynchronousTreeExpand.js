@@ -5,7 +5,7 @@ Ext.ux.SynchronousTreeExpand = function(config){
 	var loading = false;
 	var mask;
 	var task = {
-		run: function(){
+		run: function(){		
 			if(!loading && ds){
 				record = ds.getAt(counter);				
 				if(!store.isLeafNode(record) && record.get("name").match(/<font color=red>&darr;<\/font>/)){			
@@ -36,8 +36,9 @@ Ext.ux.SynchronousTreeExpand = function(config){
 			loading = false;			
 		}	
 	});		
-	Ext.TaskMgr.start(task);
-	if(config.grid.remoteLoad){		
+	
+	if(config.grid.remoteLoad){
+		Ext.TaskMgr.start(task);
 		mask = new Ext.LoadMask(Ext.getBody(), {msg:"Retrieving data..."});
 		mask.show();
 	}
