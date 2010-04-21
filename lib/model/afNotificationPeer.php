@@ -66,7 +66,7 @@ class afNotificationPeer extends BaseafNotificationPeer
 	}
 	public static function filterObjects($objs){		
 		$newObj = array();
-		$permission = sfContext::getInstance()->getUser()->hasCredential("audit_log");		
+		$permission = sfContext::getInstance()->getUser()->hasCredential("audit_log");			
 		$show_only = sfConfig::get("app_growl_notification_notify");
 		$new_show_only = array();	
 		foreach($show_only as $so){
@@ -95,12 +95,17 @@ class afNotificationPeer extends BaseafNotificationPeer
 		return $source;		
 	}
 	public static function getAll(){
+		$user_id = sfContext::getInstance()->getUser()->getProfile()->getUserId();
 		$c = new Criteria();
 		$c->add(self::PERSISTENT,true);
 		$permission = sfContext::getInstance()->getUser()->hasCredential("audit_log");		
 		$nC1 = $c->getNewCriterion(self::CATEGORY,Notification::AUDIT_RELATED,Criteria::NOT_EQUAL);
 		$nC2 = $c->getNewCriterion(self::CATEGORY,Notification::AUDIT_RELATED*$permission,Criteria::EQUAL);
 		$nC1->addOr($nC2);				
+		$c->add($nC1);
+		$nC1 = $c->getNewCriterion(self::CREATED_FOR,$user_id);
+		$nC2 = $c->getNewCriterion(self::CREATED_FOR,null,Criteria::ISNULL);
+		$nC1->addOr($nC2);
 		$c->add($nC1);		
 		return $c;
 	}	
