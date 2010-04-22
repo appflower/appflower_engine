@@ -16,7 +16,7 @@ class ImmExtjsGrid
 	public $gridType = null, $menuactions_items=array();
 	public $filter_types = array("boolean","numeric","list","string","combo","date");						
 	public function __construct($attributes=array())
-	{
+	{		
 		$this->immExtjs=ImmExtjs::getInstance();
 		//for test
 		$this->attributes['tbar']=array();	
@@ -639,8 +639,8 @@ class ImmExtjsGrid
 		foreach($this->contextMenu as $key=>$value){				
 			$initialize .= "contextMenus['".$key."'] = ".$value.";";	
 		}
-		$this->attributes['listeners']['click'] = "function(e){			 
-			var t = e.getTarget();							
+		$this->attributes['listeners']['click'] = "function(e){		
+			var t = e.getTarget();										
 			if(t.className != 'x-grid3-header'){
 	            var r = e.getRelatedTarget();
 	            var v = this.view;
@@ -694,6 +694,9 @@ class ImmExtjsGrid
 						contextMenu.stack['rowDivs'] = grid.getView().getRow(ri).getElementsByTagName('div');
 						contextMenu.showAt(xy);
 					}		
+	            }
+	            if(t.className == 'grid-util-action'){
+	            	gridUtil(this,t.rel);
 	            }
 	            if(Ext.ux.DrillFilter)	            	
 	            new Ext.ux.DrillFilter(grid,e);
