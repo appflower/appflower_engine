@@ -65,8 +65,7 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 				Ext.applyIf(winConfig, {
 					autoScroll : true,
 					maximizable : true,
-					draggable:true,	
-					title:title,
+					draggable:true,					
 					closeAction:'hide',
 					
 					items : new Ext.Panel( {
@@ -77,12 +76,16 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 					})
 				});
 				
-				var win = new Ext.Window( winConfig );	
+				if(winConfig.applyTo){					
+					var win = new Ext.Panel( winConfig );					
+				}else{
+					var win = new Ext.Window( winConfig );
+				}
+				if(title) win.setTitle(title);
 				win.on("show",function(win){var pos = win.getPosition(); if(pos[1]<0) win.setPosition(pos[0],0);});
 				//win.items.items[0].items.items[0].frame = false;
 				win.doLayout()
-				win.show();
-				
+				win.show();				
 				
 				win.on("render",function(win){eval(json.public_source);});
 				win.on("move",function(win,x,y){
