@@ -24,7 +24,8 @@ var gridUtil = function(grid,config){
 		}
 	}
 		
-	if(!grid){alert("Component not found"); return;}	
+	if(!grid){alert("Component not found"); return;}
+	
 	if(config.confirmMsg){
 		Ext.Msg.show({
 			title:'Confirmation required.',
