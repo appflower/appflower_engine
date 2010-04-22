@@ -474,8 +474,16 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 				    		mask.hide();
 				    		return;
 				    	}
-				    }
-					Ext.DomHelper.append(row,{tag:"div",cls:"imm-row-expand",style:"padding:5px;",html:response.responseText})
+				    	if(json.html){
+				    		Ext.DomHelper.append(row,{tag:"div",cls:"imm-row-expand",style:"padding:5px;",html:json.html})
+				    	}
+				    	if(json.script){
+				    		eval(json.script);
+				    	}
+				    	
+				    }else{
+				    	Ext.DomHelper.append(row,{tag:"div",cls:"imm-row-expand",style:"padding:5px;",html:response.responseText})
+					}
 					link.style.backgroundImage = "url("+obj.minusIcon+")";
 					link.style.backgroundPosition = "center";
 					link.qtip = "Collapse";
