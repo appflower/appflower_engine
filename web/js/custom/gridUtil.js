@@ -1,22 +1,5 @@
 var gridUtil = function(grid,config){
-	config = Ext.decode(config);	
-	if(!grid){alert("Component not found"); return;}
-	
-	if(config.confirmMsg){
-		Ext.Msg.show({
-			title:'Confirmation required.',
-			msg: config.confirmMsg,
-			buttons: Ext.Msg.YESNOCANCEL,
-			fn: function(btn,text){
-				if (btn == 'yes'){
-			        proceed();
-			    }
-			},
-			icon: Ext.MessageBox.QUESTION
-		})
-	}else{
-		proceed();
-	}
+	config = Ext.decode(config);
 	var proceed = function(){
 		if(config.is_ajax){
 			if(config.url == "#") return;
@@ -40,4 +23,22 @@ var gridUtil = function(grid,config){
 			window.location.href = config.url
 		}
 	}
+		
+	if(!grid){alert("Component not found"); return;}	
+	if(config.confirmMsg){
+		Ext.Msg.show({
+			title:'Confirmation required.',
+			msg: config.confirmMsg,
+			buttons: Ext.Msg.YESNOCANCEL,
+			fn: function(btn,text){
+				if (btn == 'yes'){
+			        proceed();
+			    }
+			},
+			icon: Ext.MessageBox.QUESTION
+		})
+	}else{
+		proceed();
+	}
+	
 }
