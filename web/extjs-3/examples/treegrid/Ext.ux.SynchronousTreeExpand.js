@@ -37,7 +37,7 @@ Ext.ux.SynchronousTreeExpand = function(config){
 		}	
 	});		
 	
-	if(config.grid.remoteLoad){
+	if(config.grid.remoteLoad && config.grid.select){
 		Ext.TaskMgr.start(task);
 		mask = new Ext.LoadMask(Ext.getBody(), {msg:"Retrieving data..."});
 		mask.show();
