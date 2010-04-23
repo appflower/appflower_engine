@@ -529,6 +529,41 @@ class XmlParser extends XmlParserTools {
 		
 	}
 	
+	public static function toggleAction($action,$info,$args = null) {
+		
+		$data = null;
+		
+		if(isset($info["conditions"][$action])) {
+			$data = $info["conditions"][$action];	
+		} else if(isset($info["attributes"]["condition"])) {
+			$data = $info["attributes"]["condition"];
+		} 
+		
+		if(!$data) {
+			return true;
+		}
+
+		$tmp = explode(",",$data);
+		$class = $tmp[0];
+		$method = $tmp[1];
+
+		unset($tmp[0],$tmp[1]);
+		
+		if(!$args) {
+			$args = $tmp;
+		}
+		
+		if(call_user_func(array($class,$method),$args) !== false) {
+			return true;
+		} else {
+			return false;
+		}
+			
+		
+		
+		
+	}
+	
 	
 	/******************************************************************
 	*	PARSER PRIVATE FUNCTIONS
@@ -2665,7 +2700,11 @@ class XmlParser extends XmlParserTools {
 				}
 				
 				if(isset($parse["actions"]) && $this->type !== self::WIZARD) {					
-					foreach($parse["actions"] as $action) {
+					foreach($parse["actions"] as $aname => $action) {
+						
+						if(!self::toggleAction($aname,$action)) {
+							continue;
+						}
 						
 						$action["attributes"]["label"] = ucfirst($action["attributes"]["name"]);
 						$action["attributes"]["name"] = $this->view.$this->iteration."_".$action["attributes"]["name"];
@@ -2807,7 +2846,12 @@ class XmlParser extends XmlParserTools {
 				$fieldset = $form->startFieldSet($attributes);
 				
 				if(isset($parse["actions"])) {
-					foreach($parse["actions"] as $action) {
+					foreach($parse["actions"] as $aname => $action) {
+						
+						if(!self::toggleAction($aname,$action)) {
+							continue;
+						}
+						
 						$action["attributes"]["label"] = ucfirst($action["attributes"]["name"]);
 						$action["attributes"]["name"] = $this->view.$this->iteration."_".$action["attributes"]["name"];
 						$action["attributes"]["url"] = url_for($action["attributes"]["url"]);
@@ -3096,8 +3140,11 @@ class XmlParser extends XmlParserTools {
 					$parse["select"] = "true";
 					$items = array();										
 					
-					foreach($parse["moreactions"] as $action) {	
+					foreach($parse["moreactions"] as $aname => $action) {	
 						
+						if(!self::toggleAction($aname,$action)) {
+							continue;
+						}
 						
 						$parameterForButton = $grid->getListenerParams($action,"moreactions",$this->view.$this->iteration,$parse["select"]);						
 						$grid->addMenuActionsItem($parameterForButton);															
@@ -3107,8 +3154,12 @@ class XmlParser extends XmlParserTools {
 				//...........................................................................
 				
 				if(isset($parse["actions"])) {
-					//print_r($parse["actions"]);
-					foreach($parse["actions"] as $action) {							
+					
+					foreach($parse["actions"] as $aname => $action) {
+						
+						if(!self::toggleAction($aname,$action)) {
+							continue;
+						}
 						$parameterForButton = $grid->getListenerParams($action,"actions",$this->view.$this->iteration,$parse["select"]);
 						$obj = new ImmExtjsButton($grid,$parameterForButton);
 					}

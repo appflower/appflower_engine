@@ -643,8 +643,6 @@ class parserActions extends sfActions
 				
 				if(isset($parser["conditions"][$action])) {
 					$tmp = explode(",",$parser["conditions"][$action]);
-					$class = $tmp[0];
-					$method = $tmp[1];
 					$pk = $this->getRowActionPk(preg_replace("/[^0-9]+/","",$action),$parser);
 					
 					/**
@@ -661,7 +659,7 @@ class parserActions extends sfActions
 						$args[] = (isset($item[$t])) ? $item[$t] : $t;
 					}
 					
-					if(!call_user_func(array($class,$method),$args)) {
+					if(!XmlParser::toggleAction($action,$parser,$args)) {
 						unset($items[$k][$kk]);	
 					}
 							
