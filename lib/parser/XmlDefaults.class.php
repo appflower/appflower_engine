@@ -4,10 +4,16 @@ class XmlDefaults {
     private $defaults;
 
     public function __construct($schemaXpath) {
-        $this->defaults = self::parseDefaults($schemaXpath);
+        $uri = $schemaXpath->document->documentURI;
+        if ($uri) {
+            $key = sprintf('XmlDefaults(%s)', $uri);
+            $this->defaults = PublicCache::cacheNamed($key, array('XmlDefaults', 'parseDefaults'), array($schemaXpath));
+        } else {
+            $this->defaults = self::parseDefaults($schemaXpath);
+        }
     }
 
-    private static function parseDefaults($xpath) {
+    public static function parseDefaults($xpath) {
         $defaults = array();
         $attrs = $xpath->evaluate("//*[@default|@fixed]");
         foreach($attrs as $node) {
