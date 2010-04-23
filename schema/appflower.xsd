@@ -1353,22 +1353,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       </xs:complexType>
     </xs:element>
     
-    <xs:element name="linkbutton">
-      <xs:annotation>
-        <xs:documentation>
-            Depricated: The element is not in use anymore!
-        </xs:documentation>
-      </xs:annotation>
-      <xs:complexType>
-      	<xs:attributeGroup ref="i:commonAttributes" />
-      	<xs:attributeGroup ref="i:buttonAttributes" />
-      	<xs:attribute name="type" type="xs:token" use="optional" fixed="linkButton" />
-        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
-        <xs:attribute name="assignid" type="xs:boolean" fixed="true" />
-        <xs:attribute name="container" type="xs:boolean" fixed="true" />
-      </xs:complexType>
-    </xs:element>
-    
      <xs:element name="radiogroup">
       <xs:annotation>
         <xs:documentation>
@@ -1439,7 +1423,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 					<xs:choice minOccurs="0" maxOccurs="unbounded">
 						<xs:element ref="i:field" minOccurs="1" maxOccurs="unbounded"/>
       					<xs:element ref="i:button" minOccurs="0" maxOccurs="unbounded"/>
-      					<xs:element ref="i:linkbutton" minOccurs="0" maxOccurs="unbounded"/>
       					<xs:element ref="i:link" minOccurs="0" maxOccurs="unbounded"/>
       					<xs:element ref="i:radiogroup" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:choice>
