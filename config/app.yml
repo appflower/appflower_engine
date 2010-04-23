@@ -31,7 +31,7 @@ all:
 
 
   growl_notification:
-    enable: true
+    enable: false
     url: /appFlower/notifications
     notify: [PRODUCT,SERVICE,AUDIT,USERS,GENERAL]
       

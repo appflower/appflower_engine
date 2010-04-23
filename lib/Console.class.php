@@ -3,7 +3,7 @@
 class Console {
     private static $startedAt = null;
     private static $last;
-    public static $profilingEnabled = false;
+    public static $profilingEnabled = true;
 
     /**
      * Logs the given arguments to stderr.
