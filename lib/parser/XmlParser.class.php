@@ -3710,23 +3710,20 @@ if(response.message) {
 	 * Returns the matching PhpName or throws an XmlParserException.
 	 */
 	private static function getPhpName($dbName, $tableName) {
-		$dbMap = Propel::getDatabaseMap($dbName);
-		try {
-			// The dbMap will know the table if the Peer was used
-			// by the action code.
-			$table = @$dbMap->getTable($tableName);
-			return $table->getPhpName();
-		} catch (PropelException $e) {
-			if(!isset(self::$dbschema)) {
-				$root = sfConfig::get("sf_root_dir");
-				self::$dbschema = sfYaml::load($root.'/config/schema.yml');
-			}
-			$phpName = self::$dbschema[$dbName][$tableName]['_attributes']['phpName'];
-			if(!$phpName) {
-				throw new XmlParserException("Invalid table name: '$tableName'");
-			}
-			return $phpName;
+		return PublicCache::cache(array('XmlParser', '_getPhpName'), array($dbName, $tableName));
+	}
+
+	public static function _getPhpName($dbName, $tableName) {
+		if(!isset(self::$dbschema)) {
+			$root = sfConfig::get("sf_root_dir");
+			self::$dbschema = sfYaml::load($root.'/config/schema.yml');
 		}
+		if(isset(self::$dbschema[$dbName][$tableName]['_attributes']['phpName'])) {
+			$phpName = self::$dbschema[$dbName][$tableName]['_attributes']['phpName'];
+		} else {
+			$phpName = sfInflector::camelize($tableName);
+		}
+		return $phpName;
 	}
 
 	public static function layoutExt($actionInstance, $type = XmlParser::PANEL,$msg = null) {
