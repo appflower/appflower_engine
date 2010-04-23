@@ -1,45 +1,37 @@
 Ext.ns("Ext.ux");
 Ext.ux.SynchronousTreeExpand = function(config){	
 	var store,sm,ds,record;
-	var counter = -1;
+	var counter = 0;
 	var loading = false;
+	var expandedNodes = [];
 	var mask;
-	var task = {
-		run: function(){		
-			if(!loading && ds){
-				record = ds.getAt(counter);				
-				if(!store.isLeafNode(record) && record.get("name").match(/<font color=red>&darr;<\/font>/)){			
-					loading=true;
-					store.expandNode(record);				
-				}else{				
-					loading = false;
-					counter++;	
-					if(counter >= ds.getCount()){
-						Ext.TaskMgr.stop(task);
-						mask.hide();
-					}
-				}
-			}
-		},
-		interval:100
+	var moveFurther = function(){
+		if(counter >= ds.getCount()) return null;		
+		var record = store.getAt(counter);
+		counter++;
+		if(!store.isLeafNode(record) && record.get("name").match(/<font color=red>&darr;<\/font>/)){				
+			return record;
+		}else{			
+			return moveFurther();
+		}
 	}
-	config.grid.store.on('load',function(){
-		if(config.grid.remoteLoad){			
+	config.grid.store.on('load',function(){		
+		if(config.grid.remoteLoad && config.grid.select){	
+			mask = new Ext.LoadMask(Ext.getBody(), {msg:"Retrieving data..."});
+			mask.show();
+			
 			store = config.grid.getStore();
 			sm = config.grid.getSelectionModel();
 			ds = config.grid.getView().ds;			
-			counter++;	
-			if(counter >= ds.getCount()){
-				Ext.TaskMgr.stop(task);
-				mask.hide();
+			
+			if(ds.getCount()){
+				var record = moveFurther();
+				if(record){
+					store.expandNode(record);	
+				}else{
+					mask.hide();
+				}
 			}
-			loading = false;			
 		}	
-	});		
-	
-	if(config.grid.remoteLoad && config.grid.select){
-		Ext.TaskMgr.start(task);
-		mask = new Ext.LoadMask(Ext.getBody(), {msg:"Retrieving data..."});
-		mask.show();
-	}
+	});	
 }
