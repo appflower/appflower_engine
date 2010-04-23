@@ -565,7 +565,7 @@ Ext.ux.DatePickerPlus = Ext.extend(Ext.DatePicker, {
     },
 
 // private
-	onRender : function(container, position){
+	onRender : function(container, position){    	
 		if (this.noOfMonthPerRow===0) {
 			this.noOfMonthPerRow = 1;
 		}
@@ -1777,8 +1777,8 @@ Ext.ux.DatePickerPlus = Ext.extend(Ext.DatePicker, {
         }		
     },
 	
-    setValue : function(value){
-		if (Ext.isArray(value)) {
+    setValue : function(value){    	
+		if (Ext.isArray(value)) {			
 			this.selectedDates = [];
 			this.preSelectedDates = [];			
 			this.setSelectedDates(value,true);
@@ -2006,8 +2006,7 @@ if (Ext.form && Ext.form.DateField) {
 			}
 			if(typeof this.maxDate == "string"){
 				this.maxDate = this.parseDate(this.maxDate);
-			}
-			
+			}			
 			Ext.apply(this.menu.picker,  {
 				minDate : this.minValue || this.minDate,
 				maxDate : this.maxValue || this.maxDate,
@@ -2077,8 +2076,16 @@ if (Ext.form && Ext.form.DateField) {
 			this.menu.focus();
 		},
 		
-		setValue : function(date){
-			var field = this;     
+		setValue : function(date){			
+			var field = this; 
+			/**
+			 * if date is string and comma separated (not array) make it array by split
+			 * fix for the selected dates not retained in date field.
+			 */
+			if(!Ext.isArray(date) && date.toString().match(/,/)){				
+				date = date.toString().split(",");
+			}
+			/****************************************************************************/
 			if (Ext.isArray(date)) {
 				var formatted = [];
 				for (var e=0,el=date.length;e<el;++e) {
@@ -2090,7 +2097,7 @@ if (Ext.form && Ext.form.DateField) {
 //bypass setValue validation on Ext.DateField
 				Ext.form.DateField.superclass.setValue.call(this, value);
 			}
-			else {
+			else {				
 				Ext.form.DateField.superclass.setValue.call(this, this.formatDate(this.parseDate(date)));				   
 			}
 		},
