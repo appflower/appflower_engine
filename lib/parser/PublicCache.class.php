@@ -18,6 +18,10 @@ class PublicCache {
      * Caches the callback result under a given unique key.
      */
     public static function cacheNamed($key, $callback, $params) {
+        if (!function_exists('apc_fetch')) {
+            return call_user_func_array($callback, $params);
+        }
+
         $result = apc_fetch($key);
         if ($result !== false) {
             return $result;
