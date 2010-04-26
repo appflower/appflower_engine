@@ -326,8 +326,10 @@ Ext.extend(Ext.ux.plugins.IntegrityPolicyTriggers, Ext.util.Observable,{
                         var record = grid.getStore().getAt(rowIndex);
                         var location,action,is_included;
                         if(record.get('action') != ''){
-                        	var replace = record.get('action').toString().replace("(","").replace(")","");
-                        	action = replace.match("[0-9]+");                        	
+                        	
+                			var matches = record.get('action').toString().match(/<span[^>]*>(.*)<\/span>/i);
+                        	if(matches[1])                        	
+                        	action = matches[1];                        	
                         }                        
                         var editTrigger = new triggerAttr({
             		        location: record.get('location'),             		        
