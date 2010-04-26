@@ -136,6 +136,14 @@ class Notification{
 		}
 		return null;
 	}
+	private static function handleSkip($obj,$col){
+		$skip_cols = sfConfig::get('notification_skip_table_column');
+		
+		$tableMap = $obj->getPeer()->getTableMap();		
+		if(!array_key_exists(strtolower($tableMap->getName()),$skip_cols)) return true;
+		if(in_array($col,$skip_cols[strtolower($tableMap->getName())])) return false;
+		return true;
+	}
 	public static function notifyObject($new_object,$old_object=null,$user_commit_msg='',$changes=''){		
 		$new_object_peer=$new_object->getPeer();
 		$new_object_fields=$new_object_peer->getFieldNames(BasePeer::TYPE_NUM);
@@ -144,11 +152,12 @@ class Notification{
 		$title = '';
 		$msg = '';
 		$ip_string = " from tracked ip ".self::getRemoteIP()."";
+		
 		if(is_object($old_object)){
 			$title = "Record Updated !";					
 			$count = 0;			
 			foreach ($new_object_fields as $k=>$new_object_field){			
-				if($old_object->getByPosition($new_object_field)!=$new_object->getByPosition($new_object_field)){
+				if($old_object->getByPosition($new_object_field)!=$new_object->getByPosition($new_object_field) && self::handleSkip($new_object,$new_object_fields_fieldname[$k])){					
 					$count++;	
 					$log .= "<br><u>".sfInflector::humanize($new_object_fields_fieldname[$k])."</u>:<br><s>".(self::handleForeignData($old_object,$new_object_fields_fieldname[$k]))."</s><br>".(self::handleForeignData($new_object,$new_object_fields_fieldname[$k]))."<br>";								
 				}
@@ -158,18 +167,22 @@ class Notification{
 		}else if($old_object == "new"){
 			$title = "Record Created !";					
 			$count = 0;			
-			foreach ($new_object_fields as $k=>$new_object_field){				
-				$count++;	
-				$log .= "<br><u>".sfInflector::humanize($new_object_fields_fieldname[$k])."</u>: ".(self::handleForeignData($new_object,$new_object_fields_fieldname[$k]))."<br>";			
+			foreach ($new_object_fields as $k=>$new_object_field){	
+				if(self::handleSkip($new_object,$new_object_fields_fieldname[$k])){			
+					$count++;	
+					$log .= "<br><u>".sfInflector::humanize($new_object_fields_fieldname[$k])."</u>: ".(self::handleForeignData($new_object,$new_object_fields_fieldname[$k]))."<br>";
+				}			
 			}
 			if($log) $log = "<u>The new record is created with following</u><br>".$log;	
 			$msg = ($user_commit_msg?("<u>".$user_commit_msg."</u><br>"):"")."A new record is created from ".sfContext::getInstance()->getModuleName()."/".sfContext::getInstance()->getActionName().$ip_string.". Altogether ".$count." fields are created with record.";
 		}else if($old_object == "deleted"){
 			$title = "Record Deleted !";			
 			$count = 0;			
-			foreach ($new_object_fields as $k=>$new_object_field){				
-				$count++;				
-				$log .= "<br><u>".sfInflector::humanize($new_object_fields_fieldname[$k])."</u>:<br>".(self::handleForeignData($new_object,$new_object_fields_fieldname[$k]))."<br>";			
+			foreach ($new_object_fields as $k=>$new_object_field){	
+				if(self::handleSkip($new_object,$new_object_fields_fieldname[$k])){			
+					$count++;				
+					$log .= "<br><u>".sfInflector::humanize($new_object_fields_fieldname[$k])."</u>:<br>".(self::handleForeignData($new_object,$new_object_fields_fieldname[$k]))."<br>";
+				}			
 			}
 			//exit;
 			if($log) $log = "<u>The deleted record info is following</u><br>".$log;			
