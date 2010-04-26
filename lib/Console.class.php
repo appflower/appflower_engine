@@ -42,9 +42,36 @@ class Console {
 
         $totalMillis = ($now - self::$startedAt) * 1000;
         $passedMillis = ($now - self::$last) * 1000;
-        file_put_contents('php://stderr', sprintf("%dms (%dms) till %s, %s\n",
+        file_put_contents('php://stderr', self::formatPoint(
             $totalMillis, $passedMillis, $point, $path));
         self::$last = $now;
         apc_store('Console::memory', array(self::$startedAt, self::$last));
+    }
+
+    private static function formatPoint($totalMillis, $passedMillis, $point, $path) {
+        return sprintf("%dms (%dms) till %s, %s\n",
+            $totalMillis, $passedMillis, $point, $path);
+    }
+
+    public static function formatSvgPoint($totalMillis, $passedMillis, $point, $path) {
+        $scale = 10.0;
+        $fontSize = 16;
+        $boundary = $fontSize;
+
+        $output = '';
+        if ($totalMillis == 0) {
+            $output .= '<svg xmlns="http://www.w3.org/2000/svg">'."\n";
+        } else {
+            $height = $passedMillis/$scale;
+            $output .= sprintf('<rect x="0" y="%.3f" height="%.3f" width="20"/>'."\n",
+                $totalMillis/$scale + $boundary - $height, $height);
+        }
+        $output .= sprintf('<rect x="0" y="%.3f" height="1" width="28"/>'."\n",
+                $totalMillis/$scale + $boundary);
+        $output .= sprintf('<text x="30" y="%.3f" font-size="%s">%dms %s</text>'."\n",
+            $totalMillis/$scale + $boundary, $fontSize,
+            $totalMillis, $point);
+
+        return $output;
     }
 }
