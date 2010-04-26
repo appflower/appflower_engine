@@ -63,8 +63,8 @@ class Console {
             $output .= '<svg xmlns="http://www.w3.org/2000/svg">'."\n";
         } else {
             $height = $passedMillis/$scale;
-            $output .= sprintf('<rect x="0" y="%.3f" height="%.3f" width="20"/>'."\n",
-                $totalMillis/$scale + $boundary - $height, $height);
+            $output .= sprintf('<rect fill="yellow" x="0" y="%.3f" height="%.3f" width="20"/>'."\n",
+                $totalMillis/$scale + $boundary - $height + 1, $height);
         }
         $output .= sprintf('<rect x="0" y="%.3f" height="1" width="28"/>'."\n",
                 $totalMillis/$scale + $boundary);
