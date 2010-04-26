@@ -12,4 +12,14 @@ class UrlUtil {
             return $url.'?'.$suffix;
         }
     }
+
+    /**
+     * A faster link_to() for simple usages.
+     */
+    public static function link($name, $url) {
+        if(!StringUtil::startsWith($url, '/')) {
+            $url = '/'.$url;
+        }
+        return '<a href="'.$url.'">'.htmlspecialchars($name).'</a>';
+    }
 }
