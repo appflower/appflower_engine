@@ -201,8 +201,10 @@ class Notification{
 					}
 					if(method_exists($data_obj,"__toString")){
 						$data = $data_obj->__toString();
-					}else{
-						$data = $data_obj;
+					}else if(method_exists($data_obj,"getName")){
+						$data = $data_obj->getName();
+					}else if(method_exists($data_obj,"getTitle")){
+						$data = $data_obj->getTitle();
 					}
 				}	
 			}
