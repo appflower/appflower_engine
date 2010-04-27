@@ -68,7 +68,14 @@ class ImmExtjsGridFilter{
 				//$tf['single'] = true;
 				$tf['lovcombo'] = true;
 			}
-			
+			/*
+			 * If not remoteload use string type of filter by default, if they are not of
+			 * numeric, boolean and date			 * 
+			 */			
+			if(!isset($grid->attributes['remoteFilter'])){ 
+				if(!in_array($tf['type'],array("numeric","boolean","date"))) 
+					$tf['type'] = "string";
+			}
 			$grid->immExtjs->setAddons(array('js' => array($grid->immExtjs->getExamplesDir().'form/lovcombo-1.0/js/Ext.ux.form.LovCombo.js') ));					
 			$grid->immExtjs->setAddons(array('css' => array($grid->immExtjs->getExamplesDir().'form/lovcombo-1.0/css/Ext.ux.form.LovCombo.css') ));
 								
