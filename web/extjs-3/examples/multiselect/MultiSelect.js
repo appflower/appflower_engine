@@ -139,7 +139,7 @@ Ext.ux.Multiselect = Ext.extend(Ext.form.Field,  {
     // private
     onRender: function(ct, position){
         Ext.ux.Multiselect.superclass.onRender.call(this, ct, position);
-        
+       
         var cls = 'ux-mselect';
         var fs = new Ext.form.FieldSet({
             renderTo:this.el,
@@ -183,6 +183,7 @@ Ext.ux.Multiselect = Ext.extend(Ext.form.Field,  {
             appendOnly:this.appendOnly,
             sortField:this.sortField, 
             sortDir:this.sortDir
+            
         });
 
         fs.add(this.view);
@@ -202,6 +203,16 @@ Ext.ux.Multiselect = Ext.extend(Ext.form.Field,  {
             this.hiddenField = Ext.get(document.body).createChild(hiddenTag);
         }
         fs.doLayout();
+        /**
+         * Fix for the double multicombo not rendered while placed inside multiple tabs
+         * by Prakash
+         */
+        fs.on("afterlayout",function(ct,layout){
+            if(this.ownerCt && this.ownerCt.container){
+            	this.ownerCt.container.dom.style.width = ((this.width*2)+20)+"px";
+            }        	
+        },this)
+        /*******************************************************************************/
     },
     
     // private
