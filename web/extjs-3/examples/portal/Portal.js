@@ -327,7 +327,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 							var wpanel = new Ext.Panel({
 								                layout: "column",
 												frame: true,
-												bodyStyle:'padding-bottom:3px;',
+												bodyStyle:'padding:0px;padding-bottom:3px;',
 												style:'border:0px;'+((w>1)?'margin-top:10px;':''),
 												items:[
 												{
@@ -336,7 +336,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 												},
 												{
 													columnWidth:0.96,
-													items: [{title:fieldsets[i].widgetsInfo[w].title, html: '<p style="padding:3px;"><img src="'+fieldsets[i].widgetsInfo[w].image+'" border="0" style="float:left;" wspace="5" hspace="5">'+fieldsets[i].widgetsInfo[w].description+'</p>', bodyStyle:'border:0px;',style:'border:0px;'}]
+													items: [{title:fieldsets[i].widgetsInfo[w].title, html: '<p style="padding:3px;"><img src="'+fieldsets[i].widgetsInfo[w].image+'"  style="margin-right:5px; border:1px solid #99bbe8; padding:3px;float:left;" >'+fieldsets[i].widgetsInfo[w].description+'</p>', bodyStyle:'border:0px;',style:'border:0px;'}]
 												}
 												],
 												listeners:{
