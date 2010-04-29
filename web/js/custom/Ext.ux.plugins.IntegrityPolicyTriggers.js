@@ -140,7 +140,8 @@ Ext.extend(Ext.ux.plugins.IntegrityPolicyTriggers, Ext.util.Observable,{
                 		{
                     		name:'is_included',
                     		xtype:'checkbox',
-                    		fieldLabel:'Is included?'
+                    		fieldLabel:'Is included?',
+                    		checked:true
                     	}]
                 	}],
                 	buttons:[{
