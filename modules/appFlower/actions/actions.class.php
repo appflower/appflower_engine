@@ -80,7 +80,7 @@ class appFlowerActions extends sfActions
 				foreach ($portalWidgetsFielset->widgets as $pfwi=>$widget)
 				{
 					$ma=explode('/',$widget);
-					
+					$image = $title = '';
 					$checked=afPortalStatePeer::searchForWidgetInState($config,$widget);
 					
 					$path = sfConfig::get("sf_root_dir").'/apps/'.$this->context->getConfiguration()->getApplication().'/modules/'.$ma[1].'/config/'.$ma[2].'.xml';
@@ -100,7 +100,7 @@ class appFlowerActions extends sfActions
 								 * if image exists ok, but the images are saved in /images/widgets 
 								 * same as the widget title, so try to get image
 								 */					
-								if($image == "" && file_exists(sfConfig::get("sf_root_dir")."/web/images/widgets/".$title.".PNG")){
+								if(empty($image) && file_exists(sfConfig::get("sf_root_dir")."/web/images/widgets/".$title.".PNG")){
 									$image = "/images/widgets/".$title.".PNG";
 								}
 							}
@@ -109,7 +109,7 @@ class appFlowerActions extends sfActions
 						$portalWidgets[$pwi]->widgetsInfo[$pfwi]['title']=$title;
 						if(!isset($description)) {
 							$description = "";
-						}
+						}						
 						$portalWidgets[$pwi]->widgetsInfo[$pfwi]['description']=$description;
 						
 						$image=(empty($image)?'/appFlowerPlugin/images/defaultWidget.gif':$image);
