@@ -95,7 +95,14 @@ class appFlowerActions extends sfActions
 							if($oChildNode->nodeName=='i:description')
 							{
 								$description=trim($oChildNode->nodeValue);	
-								$image=$oChildNode->getAttribute('image');					
+								$image=$oChildNode->getAttribute('image');
+								/**
+								 * if image exists ok, but the images are saved in /images/widgets 
+								 * same as the widget title, so try to get image
+								 */					
+								if($image == "" && file_exists(sfConfig::get("sf_root_dir")."/web/images/widgets/".$title.".PNG")){
+									$image = "/images/widgets/".$title.".PNG";
+								}
 							}
 						}
 						
@@ -408,7 +415,7 @@ class appFlowerActions extends sfActions
 		echo json_encode($return);		
 		exit;
 	}	
-	public function executeNotificationDetails(){
+	public function executeNotificationDetails(){		
 		if($this->getRequest()->getMethod() == sfRequest::POST){
 			$id = $this->getRequestParameter("id");
 			$obj = afNotificationPeer::retrieveByPk($id);
