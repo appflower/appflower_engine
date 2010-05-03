@@ -174,7 +174,7 @@ Ext.ux.SaveSearchState = function(grid){
     	if(!grid.originalTitle){
     		grid.originalTitle = grid.title;
     	}
-    	grid.setTitle(grid.originalTitle+": <font color=red>(Filtered by keyword: '"+keyword.replace(/<\S[^><]*>/g, "")+"'</font>)");    	
+    	grid.setTitle(grid.originalTitle+": <font color=red>(Filtered by keyword: '"+keyword.replace(/<\S[^><]*>/g, "")+"')</font>");    	
     	filtersObj.clearFilters();
     	filtersObj.filters.each(function(filter){	
     		var json_array = Ext.util.JSON.decode(json);    		
