@@ -115,12 +115,14 @@ Ext.ux.SaveSearchState = function(grid){
     		if(target.className == "ux-grid-filter-apply"){
     			var record = grid.getStore().getAt(rowIndex);                
                 var filterJson = record.get("filter");
-                this.restore(filterJson);
+                var keyword = record.get("name");
+                this.restore(filterJson,keyword);                
     		}
     		if(target.className == "restore-saved-filter-button"){
     			var record = grid.getStore().getAt(rowIndex);                
                 var filterJson = record.get("filter");
-                this.restore(filterJson);
+                var keyword = record.get("name");
+                this.restore(filterJson,keyword);
     		}
     		if(target.className == "remove-saved-filter-button"){
     			var record = grid.getStore().getAt(rowIndex);                
@@ -168,7 +170,11 @@ Ext.ux.SaveSearchState = function(grid){
     	
     	win.show();    
     }
-    this.restore = function(json){
+    this.restore = function(json,keyword){
+    	if(!grid.originalTitle){
+    		grid.originalTitle = grid.title;
+    	}
+    	grid.setTitle(grid.originalTitle+": <font color=red>(Filtered by keyword: '"+keyword.replace(/<\S[^><]*>/g, "")+"'</font>)");    	
     	filtersObj.clearFilters();
     	filtersObj.filters.each(function(filter){	
     		var json_array = Ext.util.JSON.decode(json);    		
@@ -182,7 +188,7 @@ Ext.ux.SaveSearchState = function(grid){
     			}
     		}
 						
-		});
+		});    	   	
     }   	
     return this;
 }

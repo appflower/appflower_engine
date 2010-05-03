@@ -11,9 +11,11 @@ Ext.ux.grid.filter.StringFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	},
 	
 	onKeyUp: function(event){
-		if(event.getKey() == event.ENTER){
+		
+		if(event.getKey() == event.ENTER){			
 			//this.menu.hide(true);
-			this.updateTask.delay(this.updateBuffer);
+			//this.updateTask.delay(this.updateBuffer);
+			this.fireUpdate();
 			//return;
 		}	
 			

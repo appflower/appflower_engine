@@ -83,7 +83,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 	
 	mode: 'header',
 
-	init: function(grid){
+	init: function(grid){	
 		if(grid instanceof Ext.grid.GridPanel){
 			this.grid  = grid;
 		  
@@ -141,9 +141,9 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 		this.suspendStateStore = false;
 		
 		/* Filter by filterby parameter */		
-		if(this.filterby){
+		if(this.filterby && this.filterbyKeyword){
 			var ss = new Ext.ux.SaveSearchState(this.grid);
-			ss.restore(this.filterby);
+			ss.restore(this.filterby, this.filterbyKeyword);
 		}
 		
 	},
