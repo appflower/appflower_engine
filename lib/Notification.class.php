@@ -55,6 +55,7 @@ class Notification{
 	const WARNING = 'WARNING';
 	const ERROR = 'ERROR';
 	
+	const TIP_OF_THE_DAY_TEXT = "Tip of the day";
 	/*
 	 * Maximum number of notifications to show, if there are a lot of notifications
 	 * this will show the specified notifications and others are skipped saying, 
@@ -333,5 +334,37 @@ class Notification{
 			$arr[$user->getId()] = $user->getUsername();
 		}
 		return $arr;
+	}	
+	public static function getTipOfTheDay(){
+		$c = new Criteria();
+		$c->add(afNotificationPeer::TITLE,self::TIP_OF_THE_DAY_TEXT);
+		$c->add(afNotificationPeer::CREATED_AT,date("Y-m-d"),Criteria::GREATER_THAN);
+		$c->add(afNotificationPeer::CREATED_FOR,self::getUser());
+		$c->add(afNotificationPeer::CATEGORY,self::GENERAL_RELATED);
+		$tip = afNotificationPeer::doSelectOne($c);
+		if($tip) return false;		
+		$path = sfConfig::get("app_growl_notification_tip_of_the_day_path");
+		if(!($xml_obj = @simplexml_load_file($path))) return;
+		$rand = rand(1,count($xml_obj->tip));
+		$rand -= 1;
+		$tip = $xml_obj->tip[$rand];
+		$message = "<b>".$tip->title."</b><hr style='border:0px;color: #ccc;background-color: #ccc;height: 1px; margin:2px 0px 2px 0px;'>".$tip->synopsis;
+		if($tip->url){
+			$message .= "&nbsp;&nbsp;<a  href='".$tip->url."' target='_blank'>Learn more..</a>";
+		}		
+		self::add(
+			json_encode(
+				array(
+					"title"=>self::TIP_OF_THE_DAY_TEXT,
+					"message"=>$message,
+					"type"=>self::INFO,
+					"category"=>self::GENERAL_RELATED,
+					"created_by"=>null,					
+					"persistent"=>false,
+					"created_for"=>self::getUser()
+				)
+			)
+		);
+		
 	}
 }
