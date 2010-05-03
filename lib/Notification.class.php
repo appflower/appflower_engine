@@ -348,9 +348,9 @@ class Notification{
 		$rand = rand(1,count($xml_obj->tip));
 		$rand -= 1;
 		$tip = $xml_obj->tip[$rand];
-		$message = "<b>".$tip->title."</b><hr style='border:0px;color: #ccc;background-color: #ccc;height: 1px; margin:2px 0px 2px 0px;'>".$tip->synopsis;
+		$message = "<b>".$tip->title."</b><hr style='border:0px;color: #ccc;background-color: #ccc;height: 1px; margin:2px 0px 2px 0px;'>".substr($tip->synopsis,0,130)." ...";
 		if($tip->url){
-			$message .= "&nbsp;&nbsp;<a  href='".$tip->url."' target='_blank'>Learn more..</a>";
+			$message .= "&nbsp;&nbsp;<a  href='".$tip->url."' target='_blank'>Learn more</a>";
 		}		
 		self::add(
 			json_encode(
