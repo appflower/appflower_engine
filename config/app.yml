@@ -34,5 +34,6 @@ all:
     enable: true
     url: /appFlower/notifications
     notify: [PRODUCT,SERVICE,AUDIT,USERS,GENERAL]
+    tip_of_the_day_path: http://192.168.2.8/prakash/xml-server/tips.xml
       
     
