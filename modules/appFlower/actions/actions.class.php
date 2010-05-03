@@ -410,7 +410,7 @@ class appFlowerActions extends sfActions
 			$objs = afNotificationPeer::getNotifications();
 			//if($objs) break;
 			//sleep(10);			
-		//}		
+		//}			
 		$return = array("success"=>true,"data"=>$objs);
 		echo json_encode($return);		
 		exit;
