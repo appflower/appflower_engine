@@ -50,8 +50,8 @@ class afNotificationPeer extends BaseafNotificationPeer
 		$arr = array();
 		foreach($objs as $obj){			
 			$source_for_window = "var win = new Ext.Window({title:'Notification Details',autoScroll:true,frame:true, bodyStyle:'background-color:#fff',width:600,height:400}).show(); var mask = new Ext.LoadMask(win.getEl(),{msg:'Loading details... Please wait...'}); mask.show(); Ext.Ajax.request({url:'/appFlower/notificationDetails',params:{id:".$obj->getId()."},success:function(response){win.getEl().select('.x-window-body').update(response.responseText,true);mask.hide();}}); ";
-			$detailLink = $obj->getLog()?'<br><a style="color:#0000ff" href="#" onclick="'.$source_for_window.'">Click here for detail</a>':'';
-			$msg = self::getDecoratedMessage($obj).$detailLink;				
+			$detailLink = $obj->getLog()?'<a style="float:right;color:#0000ff" href="#" onclick="'.$source_for_window.'">Click here for detail</a>':'';
+			$msg = self::getDecoratedMessage($obj)."<br>".$detailLink;				
 			$arr[] = array('title'=>$obj->getTitle(),'message'=>$msg,'type'=>$obj->getType(),'duration'=>$obj->getDuration());
 					
 		}
