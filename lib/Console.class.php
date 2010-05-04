@@ -54,7 +54,7 @@ class Console {
     }
 
     public static function formatSvgPoint($totalMillis, $passedMillis, $point, $path) {
-        $scale = 10.0;
+        $scale = 8.0;
         $fontSize = 16;
         $boundary = $fontSize;
 
@@ -68,9 +68,9 @@ class Console {
         }
         $output .= sprintf('<rect x="0" y="%.3f" height="1" width="28"/>'."\n",
                 $totalMillis/$scale + $boundary);
-        $output .= sprintf('<text x="30" y="%.3f" font-size="%s">%dms %s</text>'."\n",
+        $output .= sprintf('<text x="30" y="%.3f" font-size="%s" font-family="Verdana">%dms (%dms) %s</text>'."\n",
             $totalMillis/$scale + $boundary, $fontSize,
-            $totalMillis, $point);
+            $totalMillis, $passedMillis, $point);
 
         return $output;
     }
