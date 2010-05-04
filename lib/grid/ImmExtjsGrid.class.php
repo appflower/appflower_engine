@@ -614,6 +614,18 @@ class ImmExtjsGrid
 							if(!filters) return;							
 							var saveFilter = Ext.ux.SaveSearchState(grid);
 							saveFilter.viewSavedList();'))));				
+			$this->addMenuActionsItem(array('xtype'=>'menuseparator'));			
+			$savedFilters = afSaveFilterPeer::getFiltersByName(isset($this->attributes['name'])?$this->attributes['name']:$this->attributes['path']);
+			$fc = 0;
+			foreach($savedFilters as $f){
+				//if($fc > 4) break;			
+				$this->addMenuActionsItem(array('label'=>++$fc.". ".$f->getName(),'listeners'=>array('click'=>array('parameters'=>'','source'=>'
+							var grid = '.$this->privateName.';
+							var filters = grid.filters;
+							if(!filters) return;							
+							var saveFilter = Ext.ux.SaveSearchState(grid);							
+							saveFilter.restore(\''.$f->getFilter().'\',"'.$f->getName().'");'))));	
+			}
 		}
 		$this->addMenuActions();
 		
