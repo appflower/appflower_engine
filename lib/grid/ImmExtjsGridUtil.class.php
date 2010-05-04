@@ -58,7 +58,7 @@ class ImmExtjsGridUtil{
 			'confirmMsg'=>$this->confirmMsg,
 			'redirect'=>$this->redirect
 		);		
-		return "<a href='#' rel='".json_encode($config)."' class='grid-util-action'>".$text."</a>";		
+		return "<a href='javascript:void(0)' rel='".json_encode($config)."' class='grid-util-action'>".$text."</a>";		
 	}	
 	public static function grid($url){
 		$id = "inline-grid-id-".rand(1,10000)."-".rand(1,10000)."-".rand(1,10000)."-".rand(1,10000);		 
