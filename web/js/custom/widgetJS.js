@@ -46,7 +46,7 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 			finish();
 			return;
 		}
-		mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>Loading on progress: "+(counter+1)+"/"+addons.length,removeMask:true});
+		mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.",removeMask:true});
 		mask.show();		
 		Ext.Ajax.request({
 			url : addons[counter++],
