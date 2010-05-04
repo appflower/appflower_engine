@@ -80,8 +80,8 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 	showMenu: true,
 
 	menuFilterText: 'Filters',
-	
-	mode: 'header',
+		
+	mode:'menu',
 
 	init: function(grid){	
 		if(grid instanceof Ext.grid.GridPanel){
