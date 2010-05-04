@@ -8,6 +8,10 @@ var gridUtil = function(grid,config){
 				params:config.params,
 				success: function(response){
 					if(config.onsuccess == "RELOAD"){
+						var store = grid.getStore();
+						if(store.proxy.conn.disableCaching === false) {
+							store.proxy.conn.disableCaching = true;
+						}
 						grid.getStore().reload();
 						if(grid.getSelectionModel){
 							var sm = grid.getSelectionModel();
