@@ -53,56 +53,30 @@ class afApiActions extends sfActions
     private static function fetchData() {
         //TODO: implement ...
         // Getting DB results..
-        if(!isset($parse["datasource"]["statement"])) {
-
-            if($parse["datasource"]["type"] != "file") {
-                if(ArrayUtil::isTrue($parse, 'remoteLoad')) {
-                    $criteria = array();
-                } else {
-                    $criteria = call_user_func_array(array($parse["datasource"]["class"],$parse["datasource"]["method"]["name"]),
-                        (isset($parse["datasource"]["method"]["params"])?$parse["datasource"]["method"]["params"]:array()));	
-                }
+        if($parse["datasource"]["type"] != "file") {
+            if(ArrayUtil::isTrue($parse, 'remoteLoad')) {
+                $criteria = array();
+            } else {
+                $criteria = call_user_func_array(array($parse["datasource"]["class"],$parse["datasource"]["method"]["name"]),
+                    (isset($parse["datasource"]["method"]["params"])?$parse["datasource"]["method"]["params"]:array()));	
             }
-            
-            if($parse["datasource"]["type"] == "orm") {
-                if(get_class($criteria) != "Criteria") {
-                    throw new XmlParserException("Bad return value, in case of orm source, peer methods must return Criteria object!");
-                }	
-            } else if($parse["datasource"]["type"] == "static") {
-                if(!is_array($criteria)) {
-                    throw new XmlParserException("Bad return value, in case of static source, peer methods must return Array!");
-                }
-                $result = $criteria;
-                $criteria = null;
-            } else if($parse["datasource"]["type"] == "file") {
-                $criteria = $result = null;
-            }
-            
-            $stmt = null;
-            $data_class = $parse["datasource"]["class"];	
-            
-            
-        } else {
-        
-            preg_match("/from ([a-zA-Z0-9_\-]+)/",$parse["datasource"]["statement"],$m);
-
-            if(!$m || sizeof($m) != 2) {
-                throw new XmlParserException("Invalid SQL statement, name of table cannot be determined!");
-            } 
-            $phpName = self::getPhpName('propel', trim($m[1]));
-            $con = Propel::getConnection("propel");
-
-            $stmt = $con->prepare($parse["datasource"]["statement"]);
-            $stmt->execute();
-            
-            $data_class = $phpName.'Peer';
-            
-            preg_match_all("/([a-zA-Z0-9_\-\.]+) as '([a-zA-Z0-9_\-]+)'/",$parse["datasource"]["statement"],$as_columns);
-            
-            $criteria = null;
-            
         }
         
+        if($parse["datasource"]["type"] == "orm") {
+            if(get_class($criteria) != "Criteria") {
+                throw new XmlParserException("Bad return value, in case of orm source, peer methods must return Criteria object!");
+            }	
+        } else if($parse["datasource"]["type"] == "static") {
+            if(!is_array($criteria)) {
+                throw new XmlParserException("Bad return value, in case of static source, peer methods must return Array!");
+            }
+            $result = $criteria;
+            $criteria = null;
+        } else if($parse["datasource"]["type"] == "file") {
+            $criteria = $result = null;
+        }
+
+        $data_class = $parse["datasource"]["class"];	
         if($data_class) {
             if($parse["datasource"]["type"] == "orm") {
                 $cols = call_user_func(array($data_class,"getTableMap"));	
@@ -185,53 +159,28 @@ class afApiActions extends sfActions
                 $duplicates = false;
             }
             
-            if(!isset($parse["datasource"]["statement"])) {
-                if(!$duplicates && sizeof($selected_foreign_keys) == 0) {
-                    $select_method = "doSelect";
-                } else if(!$duplicates && sizeof($selected_foreign_keys) == 1) {
-                    $select_method = "doSelectJoin".$selected_foreign_keys[key($selected_foreign_keys)]["class"];
-                } else if(!$duplicates && sizeof($foreign_keys)-1 == sizeof($selected_foreign_keys)) {
-                    foreach($foreign_keys as $value) {
-                        if(!array_key_exists($value["pointer"],$selected_foreign_keys)) {
-                            $diff = $value;
-                            break;
-                        }
+            if(!$duplicates && sizeof($selected_foreign_keys) == 0) {
+                $select_method = "doSelect";
+            } else if(!$duplicates && sizeof($selected_foreign_keys) == 1) {
+                $select_method = "doSelectJoin".$selected_foreign_keys[key($selected_foreign_keys)]["class"];
+            } else if(!$duplicates && sizeof($foreign_keys)-1 == sizeof($selected_foreign_keys)) {
+                foreach($foreign_keys as $value) {
+                    if(!array_key_exists($value["pointer"],$selected_foreign_keys)) {
+                        $diff = $value;
+                        break;
                     }
-                    $select_method = "doSelectJoinAllExcept".$diff["class"];
-                } else {
-                    $select_method = "doSelect";
-                    foreach($selected_foreign_keys as $fk) {
-                        if($fk_count[$fk["class"]] == 1) {
-                            $criteria->addJoin(strtolower(constant($current_table."Peer::".
-                            strtoupper($fk["pointer"]))),constant($fk["class"]."Peer::ID"),Criteria::LEFT_JOIN);	
-                        }
-                    }
-                }	
-                $result = array();
+                }
+                $select_method = "doSelectJoinAllExcept".$diff["class"];
             } else {
-                $select_method = null;
-            }
-        
-            
-            $i = 0;
-            
-            if($stmt) {
-                $result = array();
-                while($row = $stmt->fetch(PDO::FETCH_BOTH)) {
-                    $keys = array_keys($row);
-                    foreach($parse["display"]["visible"] as $k => $r) {
-                        if(isset($row[$r["column"]])) {
-                            if(!$as_columns || !isset($as_columns[3][$r["column"]])) {
-                                $result[$i][$r["column"]] = $row[$keys[array_search($r["column"],$keys,true)+1]];	
-                            } else if(isset($as_columns[3][$r["column"]])) {
-                                $result[$i][$r["column"]] = $row[$as_columns[3][$r["column"]]];
-                            }
-                        }
+                $select_method = "doSelect";
+                foreach($selected_foreign_keys as $fk) {
+                    if($fk_count[$fk["class"]] == 1) {
+                        $criteria->addJoin(strtolower(constant($current_table."Peer::".
+                        strtoupper($fk["pointer"]))),constant($fk["class"]."Peer::ID"),Criteria::LEFT_JOIN);	
                     }
-                $i++;
-                }	
+                }
             }
-        
+            $result = array();
         } else {
             $select_method = null;
         }
