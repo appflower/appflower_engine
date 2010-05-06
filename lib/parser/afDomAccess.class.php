@@ -1,11 +1,39 @@
 <?php
 
 class afDomAccess {
+    private $node;
+
+    private function __construct($node) {
+        $this->node = $node;
+    }
+
+    /**
+     * Creates a wrapper to access values on the given path.
+     */
+    public static function wrap($node, $path='') {
+        return new afDomAccess(self::getElement($node, $path));
+    }
+
+    /**
+     * Returns a text value at the given path.
+     * The path could be a path/to/element or a path/to@attribute.
+     */
+    public function get($path, $default='') {
+        return self::getValue($this->node, $path, $default);
+    }
+
+    public function getBool($path, $default=false) {
+        $value = self::getValue($this->node, $path, $default);
+        return $value === true || $value === 'true';
+    }
+
+
+
     /**
      * Returns the first DOM element on the given path/to/element.
      * It return null when there is no such element in the doc.
      */
-    public static function getElement($node, $path) {
+    private static function getElement($node, $path) {
         if($path === '') {
             return $node;
         }
@@ -20,14 +48,6 @@ class afDomAccess {
             $node = $child;
         }
         return $node;
-    }
-
-    /**
-     * Returns a text value at the given path.
-     * The path could be a path/to/element or a path/to@attribute.
-     */
-    public static function getString($node, $path, $default=null) {
-        return self::getValue($node, $path, $default);
     }
 
     private static function getValue($node, $path, $default=null) {
