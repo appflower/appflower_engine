@@ -2,33 +2,38 @@
 
 class afColumnExtractor {
     private
-        $class,
-        $selectedColumns;
+        $getters;
 
     public function __construct($class, $selectedColumns) {
-        $this->class = $class;
-        $this->init($selectedColumns);
+        $this->getters = self::prepareGetters($class, $selectedColumns);
     }
 
-    private function init($selectedColumns) {
-        $peer = constant($this->class.'::PEER');
+    private function prepareGetters($class, $selectedColumns) {
+        $peer = constant($class.'::PEER');
         $tableMap = call_user_func(array($peer, 'getTableMap'));
+        $getters = array();
         foreach($selectedColumns as $column) {
             if($tableMap->containsColumn($column)) {
                 $col = $tableMap->getColumn($column);
-                Console::debug('col', $column, $col->getRelatedColumnName());
+                $colPhpname = $col->getPhpName();
             } else {
-                Console::debug('php', $column);
+                $colPhpname = sfInflector::camelize($column);
             }
+
+            $getters[$column] = 'get'.$colPhpname;
         }
+
+        return $getters;
     }
 
     public function extractColumns($objects) {
         $rows = array();
         foreach($objects as $obj) {
             $row = array();
+            foreach($this->getters as $column => $getter) {
+                $row[$column] = call_user_func(array($obj, $getter));
+            }
             $rows[] = $row;
-            //TODO: fetch to values
         }
         return $rows;
     }
