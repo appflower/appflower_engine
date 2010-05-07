@@ -58,7 +58,7 @@ class afApiActions extends sfActions
                 $criteria = array();
             } else {
                 $criteria = call_user_func_array(array($parse["datasource"]["class"],$parse["datasource"]["method"]["name"]),
-                    (isset($parse["datasource"]["method"]["params"])?$parse["datasource"]["method"]["params"]:array()));	
+                    (isset($parse["datasource"]["method"]["params"])?$parse["datasource"]["method"]["params"]:array()));
             }
         }
         
@@ -81,17 +81,6 @@ class afApiActions extends sfActions
             if($parse["datasource"]["type"] == "orm") {
                 $cols = call_user_func(array($data_class,"getTableMap"));	
                 $current_table = $cols->getPhpName();	
-            }
-        }
-        
-        if(isset($as_columns) && !empty($as_columns)) {
-            foreach($as_columns[1] as $i => $table) {
-                $table = substr($table,0,strpos($table,"."));
-                foreach($cols->getColumns() as $colobject) {
-                    if($colobject->getRelatedTableName() == $table) {
-                        $as_columns[3][strtolower($colobject->getName())] = $as_columns[2][$i];
-                    }
-                }
             }
         }
         

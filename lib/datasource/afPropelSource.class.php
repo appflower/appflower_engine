@@ -5,6 +5,7 @@ class afPropelSource implements afIDataSource {
         $class,
         $selectedColumns,
         $criteria,
+        $start = 0,
         $limit = 25,
         $pager = null,
         $initialized = false;
@@ -22,7 +23,12 @@ class afPropelSource implements afIDataSource {
 
     public function setLimit($limit) {
         $this->initialized = false;
-        $this->limit = $limit;
+        $this->limit = max(0, $limit);
+    }
+
+    public function setStart($start) {
+        $this->initialized = false;
+        $this->start = max(0, $start);
     }
 
     public function getTotalCount() {
@@ -47,7 +53,12 @@ class afPropelSource implements afIDataSource {
         $this->pager->setCriteria($this->criteria);
         //TODO: set the other properties
         //$this->pager->setPeerMethod($selectMethod);
+
         $this->pager->init();
+        // The offset have to be set after the pager init
+        // to allow to set any offset.
+        $c = $this->pager->getCriteria();
+        $c->setOffset($this->start);
     }
 }
 
