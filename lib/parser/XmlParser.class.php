@@ -259,6 +259,7 @@ class XmlParser extends XmlParserTools {
 	
 	private function parseXmlDocument() {
         Console::profile('parseXmlDocument');
+        
 		
 		$this->fields = array();
 		
@@ -332,6 +333,52 @@ class XmlParser extends XmlParserTools {
 	
 	public function getEnums() {
 		return $this->enums;
+	}
+	
+	
+	public function testConditions() {
+		
+		$ifs = $this->fetch("//i:if");
+		
+		if(!$ifs->length) {
+			return true;
+		}
+		
+		$root = $this->fetch("/i:view");
+		
+		$view = $this->get($root->item(0),"type");
+		
+		foreach($ifs as $if) {
+			$condition = str_replace("&amp;","&",$this->get($if,"test"));
+			
+			$parent = $if->parentNode;
+		
+			if(!eval("return (".$condition.");")) {
+				
+				$childnodes = $this->fetch("child::*",$if);
+				
+				$this->remove($if);
+				
+				foreach($childnodes as $child) {
+					
+					$name = $this->name($child);
+					
+					if($name == "field") {
+						$grouping = $this->fetch("//i:grouping/i:set/i:ref[@to='".$this->get($child,"name")."']");
+						if($grouping->length == 1) {
+							$this->remove($grouping->item(0));
+						}
+					} else if($name == "action") {
+						if($this->childcount($parent,3) == 0) {
+							$this->remove($parent);
+						}
+					} 	
+				}	
+			}
+		}
+		
+		return true;
+		
 	}
 	
 	
@@ -1111,6 +1158,7 @@ class XmlParser extends XmlParserTools {
 					
 						foreach($item["portalColumns"] as $column) {
 							foreach($column as $component) {
+								
 								$tmp[0] = strtok($component->idxml,"/");
 								$tmp[1] = strtok("/");
 								$found = false;
@@ -1542,6 +1590,12 @@ class XmlParser extends XmlParserTools {
 		// Parse the schema, store and assign default / fixed values of all attributes 
 		
 		$this->parseDefaults();
+		
+		// Parse ifs..
+		
+		
+		$this->testConditions();
+		
 		
 		// Find parsable elements, assign unique ids, build parser data
 				

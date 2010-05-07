@@ -11,6 +11,8 @@ class XmlBaseElementParser  {
 	
 	public static final function init($node) {
 		
+		// Value
+		
 		$val = self::$parser->get($node);
 		
 		// Replacing non-XML firendly chars..
@@ -133,7 +135,7 @@ class XmlBaseElementParser  {
 			foreach($matches[1] as $tmp) {
 				$match = true;
 				$tmp = preg_replace("/[\{\}]+/","",$tmp);
-				if(isset($attribute_holder[$tmp]) || is_null($attribute_holder[$tmp])) {
+				if(array_key_exists($tmp,$attribute_holder)) {
 					$ret[$tmp] = $attribute_holder[$tmp];
 					$node->parsed = true;	
 				} else {

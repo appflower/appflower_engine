@@ -4,7 +4,7 @@ class actionsParser extends XmlBaseElementParser {
 	
 	public static function parse($node,$parent,$key = null) {
 		
-		$nodes = self::$parser->fetch("./i:action",$node);
+		$nodes = self::$parser->fetch("./i:action|./i:if/i:action",$node);
 		$it = new nodeListIterator($nodes);
 		
 		if($key === null) {
