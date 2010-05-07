@@ -50,12 +50,8 @@ class ImmExtjsPortalLayout extends ImmExtjsLayout
 		$this->attributes['viewport']['center_panel']['items'][]=$tabObj->end();
 	}
 	
-	public function end()
+	public function beforeEnd()
 	{
-		$this->addSouthComponent();
-		
-		sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsWest'));
-		
 		$this->immExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->immExtjs->getExamplesDir().'portal/portal.css'), 'js' => array($this->immExtjs->getExamplesDir().'portal/Portal.js',$this->immExtjs->getExamplesDir().'portal/PortalColumn.js',$this->immExtjs->getExamplesDir().'portal/Portlet.js',$this->immExtjs->getExamplesDir().'portal/sample-grid.js','/appFlowerPlugin/js/custom/portalsJS.js',$this->immExtjs->getExamplesDir().'form/Ext.ux.ClassicFormPanel.js')));
 		
 		if(isset($this->attributes['viewport']['center_panel'])&&count($this->attributes['viewport']['center_panel'])>0)
@@ -86,8 +82,28 @@ class ImmExtjsPortalLayout extends ImmExtjsLayout
 				{
 					$attributes['portalWidgets']=$this->attributes['portalWidgets'];
 				}
-				@$attributes['style'].='padding-right:5px;';
-				$this->addPortal('center',$attributes);
+				$attributes['autoScroll']=true;
+				$attributes['id']='center_panel_first_portal';
+				$attributes['border']=false;
+				$attributes['bodyBorder']=false;
+				$this->immExtjs->private['center_panel_first_portal']=$this->immExtjs->Portal($attributes);
+				
+				$attributesPanel['items'][]=$this->immExtjs->asVar('center_panel_first_portal');
+				$attributesPanel['border']=true;
+				$attributesPanel['bodyBorder']=true;
+				$attributesPanel['layout']='fit';
+								
+				$attributesPanel['id']='center_panel_first';
+				$this->immExtjs->private['center_panel_first']=$this->immExtjs->Panel($attributesPanel);
+				
+				$attributesPanelContainer['items'][]=$this->immExtjs->asVar('center_panel_first');
+				$attributesPanelContainer['style']='padding-right:5px;';
+				$attributesPanelContainer['border']=false;
+				$attributesPanelContainer['bodyBorder']=false;
+				$attributesPanelContainer['layout']='fit';
+				$attributesPanelContainer['id']='center_panel';         	      	
+				
+				$this->addPanel('center',$attributesPanelContainer);
 				break;
 			case afPortalStatePeer::TYPE_TABBED:
 				$attributesTabPanel=array_merge($attributes,array('enableTabScroll'=>true,
@@ -118,13 +134,36 @@ class ImmExtjsPortalLayout extends ImmExtjsLayout
 				{
 					$attributesPanel['tools']=$this->attributes['tools']->end();
 				}
-				$this->immExtjs->private['center_tab_panel']=$this->immExtjs->TabPanel($attributesTabPanel);
-				$attributesPanel['items'][]=$this->immExtjs->asVar('center_tab_panel');
-				$attributesPanel['style']='padding-right:5px;';
-				          	      	
-				$this->addPanel('center',$attributesPanel);
+				$attributesTabPanel['id']='center_panel_first_tab';
+				$this->immExtjs->private['center_panel_first_tab']=$this->immExtjs->TabPanel($attributesTabPanel);
+				
+				$attributesPanel['items'][]=$this->immExtjs->asVar('center_panel_first_tab');
+				$attributesPanel['border']=true;
+				$attributesPanel['bodyBorder']=true;
+				$attributesPanel['layout']='fit';
+								
+				$attributesPanel['id']='center_panel_first';
+				$this->immExtjs->private['center_panel_first']=$this->immExtjs->Panel($attributesPanel);
+				
+				$attributesPanelContainer['items'][]=$this->immExtjs->asVar('center_panel_first');
+				$attributesPanelContainer['style']='padding-right:5px;';
+				$attributesPanelContainer['border']=false;
+				$attributesPanelContainer['bodyBorder']=false;
+				$attributesPanelContainer['layout']='fit';
+				$attributesPanelContainer['id']='center_panel';         	      	
+				
+				$this->addPanel('center',$attributesPanelContainer);
 				break;
-		}	
+		}
+	}
+	
+	public function end()
+	{
+		$this->addSouthComponent();
+		
+		sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsWest'));				
+		
+		$this->beforeEnd();
 		
 		parent::end();
 	}

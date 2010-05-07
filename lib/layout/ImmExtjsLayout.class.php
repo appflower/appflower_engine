@@ -262,8 +262,7 @@ class ImmExtjsLayout
 			
 			$this->addPanel('west',$this->attributes['viewport']['west_panel']);
 		}
-		
-	
+			
 		if(isset($this->attributes['viewport']['south_panel'])&&!isset($this->immExtjs->private['south_panel']))
 		$this->addPanel('south',$this->attributes['viewport']['south_panel']);
 		

@@ -30,7 +30,7 @@ class ImmExtjsPanelLayout extends ImmExtjsLayout
 					      'width'=>'auto',
 				          'frame'=>true,
 				          'collapsible'=>true,
-				          'style'=>'padding-right:5px;',
+				          'style'=>'padding-right:0px;',
 				          //'tools'=>$tools->end()
 		);
 		
@@ -38,8 +38,24 @@ class ImmExtjsPanelLayout extends ImmExtjsLayout
 		if(isset($this->attributes['viewport']['center_panel'])&&count($this->attributes['viewport']['center_panel'])>0)
 		$attributes=array_merge($attributes,$this->attributes['viewport']['center_panel']);
 				          
-		$this->addPanel('center',$attributes);
+		$this->immExtjs->private['center_panel_first_panel']=$this->immExtjs->Panel($attributes);
+				
+		$attributesPanel['items'][]=$this->immExtjs->asVar('center_panel_first_panel');
+		$attributesPanel['border']=false;
+		$attributesPanel['bodyBorder']=false;
+		$attributesPanel['layout']='fit';
+						
+		$attributesPanel['id']='center_panel_first';
+		$this->immExtjs->private['center_panel_first']=$this->immExtjs->Panel($attributesPanel);
 		
+		$attributesPanelContainer['items'][]=$this->immExtjs->asVar('center_panel_first');
+		$attributesPanelContainer['style']='padding-right:5px;';
+		$attributesPanelContainer['border']=false;
+		$attributesPanelContainer['bodyBorder']=false;
+		$attributesPanelContainer['layout']='fit';
+		$attributesPanelContainer['id']='center_panel';         	      	
+		
+		$this->addPanel('center',$attributesPanelContainer);
 	}
 	
 	public function end()

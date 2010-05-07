@@ -3728,7 +3728,10 @@ if(response.message) {
 
 	public static function layoutExt($actionInstance, $type = XmlParser::PANEL,$msg = null) {
 					
+		//used in pop-ups
 		ImmExtjsAjaxWidgetsPopup::checkWidgetPopupRequest($actionInstance,$type);
+		//used in loading center content
+		ImmExtjsAjaxLoadWidgets::initialize($actionInstance,$type);
 		sfLoader::loadHelpers("Helper");
 		$parser = new XmlParser($type);
 		$actionInstance->layout = $parser->getLayout();		

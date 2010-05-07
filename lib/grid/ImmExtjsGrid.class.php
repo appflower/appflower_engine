@@ -473,7 +473,7 @@ class ImmExtjsGrid
 			$this->attributes[$storePrivateName]['listeners']['load']=$this->immExtjs->asMethod(array(
 																			"parameters"=>"object,records,options",
 																			"source"=>
-																			'if(records.length>0&&records[0].json.redirect&&records[0].json.message){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){window.location.href=rec.redirect;});}else{if(!Ext.isIE){'.$this->privateName.'.getEl().unmask();}}'
+																			'if(records.length>0&&records[0].json.redirect&&records[0].json.message){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){window.location.href=rec.redirect;});}else{if(!Ext.isIE){'.$this->privateName.'.getEl().unmask();}}afApp.attachHrefWidgetLoad();'
 																	));
 																	
 			$this->attributes[$storePrivateName]['listeners']['loadexception']=$this->immExtjs->asMethod(array(

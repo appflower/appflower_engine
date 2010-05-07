@@ -1,7 +1,10 @@
 /*
- *  Dynamic widget popup plugin
- *  @author: Prakash Paudel  
+ *  Dynamic widgets
+ *  @author1: Prakash Paudel  
+ *  @author2: Radu Topala
  */
+Ext.ns('afApp');
+
 function strstr (haystack, needle, bool) {   
     var pos = 0;    
     haystack += '';
@@ -237,3 +240,109 @@ function ajax_widget_popup(widget,title,superClass,winConfig) {
 		}
 	});
 }
+//just add widgetLoad class to any internal a href, and that url will be loaded inside the cemter panel
+afApp.attachHrefWidgetLoad = function ()
+{
+	Ext.select('a.widgetLoad').on('click', function(e){
+	    var el = Ext.get(e.getTarget());
+	    afApp.loadCenterWidget(el.dom.href);	
+	    e.stopEvent();
+	});
+}
+afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
+	
+	var counter = 0;
+	var finish;
+	var ajax = function(){	
+		if(counter >= addons.length){
+			finish();
+			return;
+		}
+		mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.",removeMask:true});
+		mask.show();		
+		Ext.Ajax.request({
+			url : addons[counter++],
+			method: "POST",
+			success:function(r){				
+				eval(r.responseText);
+				ajax();
+			}
+		});
+	};
+
+	finish = function(){
+		eval(json.source);				
+		
+		viewport.layout.center.panel.add(eval(json.center_panel_first));		
+		viewport.doLayout();
+				
+		mask.hide();
+	};
+	
+	ajax();
+}
+afApp.loadCenterWidget = function(widget) {
+		
+	var viewport=App.getViewport();
+	var mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading</b> <br>Please Wait...",removeMask:true});
+	mask.show();
+	var ajax = Ext.Ajax.request( {
+		url : widget,
+		method : "GET",		
+		success : function(r) {
+			var json = Ext.util.JSON.decode(r.responseText);
+			var scripts_srcs = new Array(),styles_hrefs = new Array(),total_addons = new Array();
+			/**
+			 * SCRIPTS AND STYLES FROM HEAD TAGS
+			 */
+			// Load CSS
+			var scripts = document.getElementsByTagName("script");						
+			//createAddon("/js/swfobject.js", "js");	
+			for(var i = 0;i<scripts.length;i++) if(scripts[i].src) scripts_srcs[i] = scripts[i].src;
+			var styles = document.getElementsByTagName("link");
+			for(var i = 0;i<styles.length;i++) if(styles[i].href) styles_hrefs[i] = styles[i].href;
+			
+			/**************************************************************************************/
+			/**
+			 * SCRIPTS AND STYLES FROM GLOBAL VARS
+			 */
+			scripts_srcs = GLOBAL_JS_VAR;
+			styles_hrefs = GLOBAL_CSS_VAR;
+			/*************************************************************************************/
+			if(json.addons && json.addons.js)
+			for ( var i = 0; i < json.addons.js.length; i++) {
+				var addon = json.addons.js[i];
+				if(!in_array(addon,scripts_srcs)){
+					if(addon != null)
+					total_addons.push(addon);
+					createAddon(addon, "js");				
+				}
+			}
+			if(json.addons && json.addons.css)
+				for ( var i = 0; i < json.addons.css.length; i++) {
+					var addon = json.addons.css[i];
+					if(!in_array(addon,styles_hrefs)){
+						if(addon != null)
+						//total_addons.push(addon);
+						createAddon(addon, "css");				
+					}
+				}
+			if(json.public_source)
+			if(!in_array("swfobject.js",scripts_srcs)){
+				total_addons.push("/js/swfobject.js");
+				createAddon("/js/swfobject.js", "js");
+			}
+			
+			afApp.executeAddonsLoadCenterWidget(viewport,total_addons,json,mask);					
+		},
+		params : {
+			widget_load : true
+		}
+	});
+}
+
+Ext.onReady(function(){
+
+	afApp.attachHrefWidgetLoad();
+
+});
