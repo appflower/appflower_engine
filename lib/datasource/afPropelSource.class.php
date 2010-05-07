@@ -39,8 +39,9 @@ class afPropelSource implements afIDataSource {
     public function getRows() {
         $this->init();
         $objects = $this->pager->getResults();
-        //TODO: implement
-        return $objects;
+        $extractor = new afColumnExtractor($this->class,
+            $this->selectedColumns);
+        return $extractor->extractColumns($objects);
     }
 
     private function init() {
