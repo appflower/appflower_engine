@@ -57,8 +57,11 @@ class afPortalStatePeer extends BaseafPortalStatePeer
 				$widgets=array();
 				for($i=$countNewLayout;$i<$countOldLayout;$i++)
 				{
-					$widgets=array_merge($widgets,$columns[$i]);
-					unset($columns[$i]);
+					if(isset($columns[$i]))
+					{
+						$widgets=array_merge($widgets,$columns[$i]);
+						unset($columns[$i]);
+					}
 				}
 				$columns[$countNewLayout-1]=array_merge($columns[$countNewLayout-1],$widgets);
 								

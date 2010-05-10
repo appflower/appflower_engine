@@ -1419,8 +1419,7 @@ class XmlParser extends XmlParserTools {
 								},icon: '/images/famfamfam/application_lightning.png'
 							}
 						   ]});						 
-						menu.showAt(e.getXY());
-						menu.showAt([menu.getEl().getBox().x-menu.getEl().getBox().width,menu.getEl().getBox().y]);")));
+						menu.showAt(e.getXY());")));
 			} else {
 				
 				// TODO: Thise must be changed in 1165!!
@@ -1460,8 +1459,7 @@ class XmlParser extends XmlParserTools {
 								},icon: '/images/famfamfam/application_lightning.png'
 							}
 						   ]});						  
-						menu.showAt(e.getXY());
-						menu.showAt([menu.getEl().getBox().x-menu.getEl().getBox().width,menu.getEl().getBox().y]);")));
+						menu.showAt(e.getXY());")));
 			}
 				
 			$this->layout = new ImmExtjsPortalLayout(array('id'=>'center_panel','tools'=>$portalTools,'idxml'=>$this->portalIdXml,'layoutType'=>$layoutType, 'portalLayoutType' => $portalLayoutType, 'portalWidgets' => $portalWidgets));
