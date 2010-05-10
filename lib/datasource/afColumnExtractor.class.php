@@ -22,12 +22,16 @@ class afColumnExtractor {
     private static function createGetter($tableMap, $column) {
         if($tableMap->containsColumn($column)) {
             $col = $tableMap->getColumn($column);
-            //TODO: use the FK column getter for FKs.
-            $methodName = 'get'.$col->getPhpName();
-            if($col->isTemporal()) {
-                $getter = new afDatetimeGetter($methodName);
-            } else {
+            if($col->getRelatedTableName()) {
+                $methodName = afMetaDb::getForeignMethodName($col);
                 $getter = new afMethodGetter($methodName);
+            } else {
+                $methodName = 'get'.$col->getPhpName();
+                if($col->isTemporal()) {
+                    $getter = new afDatetimeGetter($methodName);
+                } else {
+                    $getter = new afMethodGetter($methodName);
+                }
             }
         } else {
             $methodName = 'get'.sfInflector::camelize($column);
@@ -36,7 +40,12 @@ class afColumnExtractor {
         return $getter;
     }
 
+    /**
+     * Extracts an array of values from each object.
+     */
     public function extractColumns($objects) {
+        // The getters are already prepared,
+        // no expensive logic is done inside of the loop.
         $rows = array();
         foreach($objects as $obj) {
             $row = array();
