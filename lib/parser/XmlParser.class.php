@@ -63,7 +63,6 @@ class XmlParser extends XmlParserTools {
 		$multisubmit = false;
 		
 	private static
-		$dbschema,
 		$instance;
 		
 	public 
@@ -3764,20 +3763,7 @@ if(response.message) {
 	 * Returns the matching PhpName or throws an XmlParserException.
 	 */
 	private static function getPhpName($dbName, $tableName) {
-		return PublicCache::cache(array('XmlParser', '_getPhpName'), array($dbName, $tableName));
-	}
-
-	public static function _getPhpName($dbName, $tableName) {
-		if(!isset(self::$dbschema)) {
-			$root = sfConfig::get("sf_root_dir");
-			self::$dbschema = sfYaml::load($root.'/config/schema.yml');
-		}
-		if(isset(self::$dbschema[$dbName][$tableName]['_attributes']['phpName'])) {
-			$phpName = self::$dbschema[$dbName][$tableName]['_attributes']['phpName'];
-		} else {
-			$phpName = sfInflector::camelize($tableName);
-		}
-		return $phpName;
+		return afMetaDb::getPhpName($dbName, $tableName);
 	}
 
 	public static function layoutExt($actionInstance, $type = XmlParser::PANEL,$msg = null) {

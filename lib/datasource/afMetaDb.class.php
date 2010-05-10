@@ -1,7 +1,7 @@
 <?php
 
 class afMetaDb {
-    private
+    private static
         $dbschema;
 
     /**
@@ -23,9 +23,13 @@ class afMetaDb {
 
     /**
      * Returns the matching PhpName.
+     * Don't use this method directly.
+     * Use the getForeignMethodName() instead.
+     *
+     * @deprecated
      */
-    private static function getPhpName($dbName, $tableName) {
-        return PublicCache::cache(array('XmlParser', '_getPhpName'), array($dbName, $tableName));
+    public static function getPhpName($dbName, $tableName) {
+        return PublicCache::cache(array('afMetaDb', '_getPhpName'), array($dbName, $tableName));
     }
 
     public static function _getPhpName($dbName, $tableName) {
