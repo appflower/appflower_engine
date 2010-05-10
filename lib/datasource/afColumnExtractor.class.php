@@ -15,6 +15,7 @@ class afColumnExtractor {
         foreach($selectedColumns as $column) {
             if($tableMap->containsColumn($column)) {
                 $col = $tableMap->getColumn($column);
+                //TODO: use the FK column getter for FKs.
                 $colPhpname = $col->getPhpName();
             } else {
                 $colPhpname = sfInflector::camelize($column);
