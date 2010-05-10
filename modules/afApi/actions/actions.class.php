@@ -58,8 +58,11 @@ class afApiActions extends sfActions
     }
 
     private static function createDataSource($view) {
-        //TODO: parse the column names
-        $selectedColumns = array('id');
+        $columns = $view->wrapAll('fields/column');
+        $selectedColumns = array();
+        foreach($columns as $column) {
+            $selectedColumns[] = $column->get('@name');
+        }
 
         //TODO: support also the other datasources: file and static
         if($view->get('datasource@type') === 'orm') {
