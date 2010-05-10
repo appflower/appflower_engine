@@ -23,11 +23,17 @@ class afColumnExtractor {
         if($tableMap->containsColumn($column)) {
             $col = $tableMap->getColumn($column);
             //TODO: use the FK column getter for FKs.
-            $colPhpname = $col->getPhpName();
+            $methodName = 'get'.$col->getPhpName();
+            if($col->isTemporal()) {
+                $getter = new afDatetimeGetter($methodName);
+            } else {
+                $getter = new afMethodGetter($methodName);
+            }
         } else {
-            $colPhpname = sfInflector::camelize($column);
+            $methodName = 'get'.sfInflector::camelize($column);
+            $getter = new afMethodGetter($methodName);
         }
-        return new afMethodGetter('get'.$colPhpname);
+        return $getter;
     }
 
     public function extractColumns($objects) {
