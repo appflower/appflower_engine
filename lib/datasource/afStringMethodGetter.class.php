@@ -14,7 +14,11 @@ class afStringMethodGetter {
     }
 
     public function getFrom($object) {
-        return (string)call_user_func(array($object, $this->methodName));
+        $result = call_user_func(array($object, $this->methodName));
+        if($result === null) {
+            return $result;
+        }
+        return (string)$result;
     }
 }
 
