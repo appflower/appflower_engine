@@ -328,17 +328,6 @@ class XmlParserTools {
 		}
 
 
-		public function remove($node) {
-			
-			$parent = $node->parentNode;
-			
-			if($parent) {
-				$parent->removeChild($node);	
-			}
-			
-			
-		}
-		
 		public function get($node,$nodevalue = -1,$array = false) {
 
 			try {

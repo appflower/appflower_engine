@@ -1286,10 +1286,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
-        <xs:choice minOccurs="1" maxOccurs="unbounded">
-        	<xs:group ref="i:fieldelements" minOccurs="1" maxOccurs="1" />
-        	<xs:element ref="i:if" minOccurs="1" maxOccurs="unbounded" />
-        </xs:choice>
+        <xs:group ref="i:fieldelements" minOccurs="1" maxOccurs="1" />
         <xs:attributeGroup ref="i:fieldAttributes" />
         <xs:attributeGroup ref="i:commonAttributes" />
         <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
@@ -1384,8 +1381,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       </xs:complexType>
     </xs:element>
 
-
-
 	<xs:element name="fields">
 	  <xs:annotation>
 	  	<xs:documentation>
@@ -1430,7 +1425,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       					<xs:element ref="i:button" minOccurs="0" maxOccurs="unbounded"/>
       					<xs:element ref="i:link" minOccurs="0" maxOccurs="unbounded"/>
       					<xs:element ref="i:radiogroup" minOccurs="0" maxOccurs="unbounded"/>
-      					<xs:element ref="i:if" minOccurs="1" maxOccurs="unbounded"/>
 					</xs:choice>
 					<xs:choice minOccurs="0" maxOccurs="1">
 						<xs:sequence>
@@ -1507,45 +1501,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	<xs:attribute name="title" type="xs:token" default="Default" />
       	<xs:attribute name="isSetting" type="xs:boolean" default="false" />
       	<xs:attribute name="collapsed" type="xs:boolean" default="false" />      	
-	  </xs:complexType>
-	</xs:element>
-	
-	<xs:element name="if">
-	  <xs:annotation>
-	  	<xs:documentation>
-	  		This element applies a condition. If expression in "test" attribute evalutes to false,
-	  		the contents of i:if won't be parsed.
-	  		
-	  		Any valid PHP expression is supported. Function calles must be made to built-in or static functions only.
-	  		
-	  		strstr(...)
-	  		or
-	  		Foo::Bar(arg)
-	  		
-	  		The element may be used as child of i:fields in Edit and Show view as well as in i:actions, i:rowactions and
-	  		i:moreactions.
-	  		
-	  		test		- An expression to evaluate
-				
-	  	</xs:documentation>
-	  </xs:annotation>
-	  <xs:complexType>
-      	<xs:choice minOccurs="1" maxOccurs="1">
-					<xs:choice minOccurs="0" maxOccurs="unbounded">
-						<xs:element ref="i:field" minOccurs="1" maxOccurs="unbounded"/>
-      					<xs:element ref="i:button" minOccurs="0" maxOccurs="unbounded"/>
-      					<xs:element ref="i:link" minOccurs="0" maxOccurs="unbounded"/>
-      					<xs:element ref="i:radiogroup" minOccurs="0" maxOccurs="unbounded"/>
-					</xs:choice>
-					<xs:choice minOccurs="0" maxOccurs="unbounded">
-						<xs:group ref="i:fieldelements" minOccurs="1" maxOccurs="1" />
-					</xs:choice>
-					<xs:choice minOccurs="0" maxOccurs="unbounded">
-						<xs:element ref="i:action" minOccurs="1" maxOccurs="unbounded"/>
-					</xs:choice>
-      	</xs:choice>
-      	<xs:attributeGroup ref="i:commonAttributes" />
-      	<xs:attribute name="test" type="xs:token" use="required" />    	
 	  </xs:complexType>
 	</xs:element>
 	
@@ -1658,12 +1613,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
-      		<xs:choice maxOccurs="1" minOccurs="1">
-      			<xs:choice minOccurs="1" maxOccurs="unbounded">
-					<xs:element ref="i:if" minOccurs="1" maxOccurs="unbounded"/>
-					<xs:element ref="i:action" minOccurs="1" maxOccurs="unbounded"/>
-				</xs:choice>
-      		</xs:choice>
+      	<xs:sequence>
+      		<xs:element ref="i:action" minOccurs="1" maxOccurs="unbounded"/>
+      	</xs:sequence>
       	<xs:attributeGroup ref="i:commonAttributes" />
       	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
       	<xs:attribute name="container" type="xs:boolean" fixed="true" />
@@ -1720,10 +1672,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
-    	<xs:choice minOccurs="1" maxOccurs="unbounded">
-			<xs:element ref="i:if" minOccurs="1" maxOccurs="unbounded"/>
-			<xs:element ref="i:action" minOccurs="1" maxOccurs="unbounded"/>
-		</xs:choice>
+      	<xs:sequence>
+      		<xs:element ref="i:action" minOccurs="1" maxOccurs="unbounded"/>
+      	</xs:sequence>
       	<xs:attributeGroup ref="i:commonAttributes" />
       	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
       	<xs:attribute name="container" type="xs:boolean" fixed="true" />
@@ -1741,10 +1692,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
-      	<xs:choice minOccurs="1" maxOccurs="unbounded">
-			<xs:element ref="i:if" minOccurs="1" maxOccurs="unbounded"/>
-			<xs:element ref="i:action" minOccurs="1" maxOccurs="unbounded"/>
-		</xs:choice>
+      	<xs:sequence>
+      		<xs:element ref="i:action" minOccurs="1" maxOccurs="unbounded"/>
+      	</xs:sequence>
       	<xs:attributeGroup ref="i:commonAttributes" />
       	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
       	<xs:attribute name="container" type="xs:boolean" fixed="true" />
