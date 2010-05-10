@@ -167,18 +167,15 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:simpleType name="fetchType">
 		<xs:annotation>
 			<xs:documentation>
-				This determines whether an instance has to be crated, or
-				the method should be called statically.
+				This determines whether the method is a static method.
+				No other type is currently supported.
 				
-				instance 		- create new instance
 				static			- The method is static.	
-				
 			</xs:documentation>
 		</xs:annotation>
 		<xs:union memberTypes="i:varType">
 			<xs:simpleType>
 				<xs:restriction base="xs:token">
-					<xs:enumeration value="instance"/>
 					<xs:enumeration value="static"/>
 					<xs:whiteSpace value="collapse"/>
 				</xs:restriction>
@@ -1014,7 +1011,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         	<xs:element ref="i:param" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="name" type="xs:token" use="required" />
-        <xs:attribute name="type" type="i:fetchType" use="optional" default="instance" />
+        <xs:attribute name="type" type="i:fetchType" use="optional" default="static" />
       </xs:complexType>
     </xs:element>
     
