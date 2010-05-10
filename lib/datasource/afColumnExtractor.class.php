@@ -13,18 +13,21 @@ class afColumnExtractor {
         $tableMap = call_user_func(array($peer, 'getTableMap'));
         $getters = array();
         foreach($selectedColumns as $column) {
-            if($tableMap->containsColumn($column)) {
-                $col = $tableMap->getColumn($column);
-                //TODO: use the FK column getter for FKs.
-                $colPhpname = $col->getPhpName();
-            } else {
-                $colPhpname = sfInflector::camelize($column);
-            }
-
-            $getters[$column] = 'get'.$colPhpname;
+            $getters[$column] = self::createGetter($tableMap, $column);
         }
 
         return $getters;
+    }
+
+    private static function createGetter($tableMap, $column) {
+        if($tableMap->containsColumn($column)) {
+            $col = $tableMap->getColumn($column);
+            //TODO: use the FK column getter for FKs.
+            $colPhpname = $col->getPhpName();
+        } else {
+            $colPhpname = sfInflector::camelize($column);
+        }
+        return new afMethodGetter('get'.$colPhpname);
     }
 
     public function extractColumns($objects) {
@@ -32,7 +35,7 @@ class afColumnExtractor {
         foreach($objects as $obj) {
             $row = array();
             foreach($this->getters as $column => $getter) {
-                $row[$column] = call_user_func(array($obj, $getter));
+                $row[$column] = $getter->getFrom($obj);
             }
             $rows[] = $row;
         }
