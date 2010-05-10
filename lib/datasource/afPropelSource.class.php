@@ -18,7 +18,7 @@ class afPropelSource implements afIDataSource {
 
     public function setCriteria($criteria) {
         $this->initialized = false;
-        $this->criteria = criteria;
+        $this->criteria = $criteria;
     }
 
     public function setLimit($limit) {
