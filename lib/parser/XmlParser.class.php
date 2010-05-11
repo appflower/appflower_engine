@@ -3058,12 +3058,13 @@ class XmlParser extends XmlParserTools {
 					$parse["proxystart"] = $parse["params"]['proxystart'];
 				}
 				
+				$proxyUrl = $host."/".$parse['proxy'];
+				$proxyUrl = UrlUtil::addParam($proxyUrl, 'uid', $unique_id);
+				$proxyUrl = UrlUtil::addParam($proxyUrl, 'config',
+					ImmExtjsWidgets::getWidgetUrl($parse));
+				$args = array('url'=>$proxyUrl, 'limit'=>$limit, 'start' => $parse["proxystart"]);
 				if(isset($parse["stateId"]) && $parse["stateId"] == "true") {
-					$args = array('url'=>$host."/".$parse["proxy"].((strstr($parse["proxy"],"?")) ? "&" : "?")."uid=".$unique_id,'limit'=>$limit, 'start' => $parse["proxystart"],'stateId'=>true);
-				}
-				else
-				{
-					$args = array('url'=>$host."/".$parse["proxy"].((strstr($parse["proxy"],"?")) ? "&" : "?")."uid=".$unique_id,'limit'=>$limit, 'start' => $parse["proxystart"]);
+					$args['stateId'] = true;
 				}
 				$grid->setProxy($args);
 				

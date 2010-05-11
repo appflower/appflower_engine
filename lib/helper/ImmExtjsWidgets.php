@@ -8,7 +8,7 @@ class ImmExtjsWidgets{
 	 * Generates a JS code for a widget reload plugin.
 	 */
 	public static function getReloadPlugin($parse) {
-		$widgetUrl = self::getWidgetUrl($parse);
+		$widgetUrl = '/'.self::getWidgetUrl($parse);
 
 		$started = ArrayUtil::get($parse, 'params', 'reload_started', self::DEFAULT_RELOAD_STARTED) === 'true';
 		$visible = ArrayUtil::get($parse, 'params', 'reload_visible', self::DEFAULT_RELOAD_VISIBLE) === 'true';
@@ -28,9 +28,9 @@ class ImmExtjsWidgets{
 	}
 
 	/**
-	 * Returns the "/module/action" url for the current widget.
+	 * Returns the "module/action" url for the current widget.
 	 */
-	private static function getWidgetUrl($parse) {
+	public static function getWidgetUrl($parse) {
 		$action = ArrayUtil::get($parse, 'component_name', null);
 		if ($action) {
 			$module = $parse['module'];
@@ -39,7 +39,7 @@ class ImmExtjsWidgets{
 			$action = $context->getActionName();
 			$module = $context->getModuleName();
 		}
-		return sprintf('/%s/%s', $module, $action);
+		return sprintf('%s/%s', $module, $action);
 	}
 	/**
 	 * Returns the current request parameters, that are necessary for reloading conditional widgets
