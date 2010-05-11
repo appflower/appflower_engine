@@ -476,7 +476,11 @@ class parserActions extends sfActions
 		
 		
 		if(empty($args)) {
-			$this->forward404Unless(isset($parser["uid"]) && $parser["uid"] == $uid);	
+			if(!isset($parser["uid"]) || $parser["uid"] != $uid) {
+				$result = array('message' => "This page has expired! Please refresh it!", 'redirect' => "new sfExtjs2Var('window.location.href')");
+				$result = json_encode($result);
+				return $this->renderText($result);
+			}
 		} else {
 			if(isset($parser["uid"]) && $parser["uid"] != $uid)
 				if($export !== "all") {
