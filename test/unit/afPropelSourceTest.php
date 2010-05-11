@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__).'/../bootstrap/dbunit.php');
-$t = new lime_test(7, new lime_output_color());
+$t = new lime_test(8, new lime_output_color());
 
 $source = new afPropelSource('MonitorService', array('name', 'port', 'server_id'));
 
@@ -17,4 +17,6 @@ $t->is(count($source->getRows()), 3);
 
 $source->setStart(0);
 $source->setLimit(0);
+$t->is(count($source->getRows()), 0);
+$source->setLimit(null);
 $t->is(count($source->getRows()), 8);

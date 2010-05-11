@@ -6,7 +6,7 @@ class afPropelSource implements afIDataSource {
         $selectedColumns,
         $criteria,
         $start = 0,
-        $limit = 0,
+        $limit = null,
         $pager = null,
         $initialized = false;
 
@@ -23,7 +23,11 @@ class afPropelSource implements afIDataSource {
 
     public function setLimit($limit) {
         $this->initialized = false;
-        $this->limit = max(0, $limit);
+        if($limit === null) {
+            $this->limit = null;
+        } else {
+            $this->limit = max(0, $limit);
+        }
     }
 
     public function setStart($start) {
@@ -37,6 +41,11 @@ class afPropelSource implements afIDataSource {
     }
 
     public function getRows() {
+        // Propel would consider limit=0 to mean limit=unlimited.
+        if($this->limit === 0) {
+            return array();
+        }
+
         $this->init();
         $objects = $this->pager->getResults();
         $extractor = new afColumnExtractor($this->class,

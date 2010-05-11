@@ -11,7 +11,7 @@ class afApiActions extends sfActions
         $source = self::createDataSource($view);
         self::setupDataSource($source, $this->getRequest());
         if($view->getBool('fields@tree')) {
-            $source->setLimit(0);
+            $source->setLimit(null);
         }
 
         $gridData = new ImmExtjsGridData();

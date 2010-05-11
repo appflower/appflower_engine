@@ -8,7 +8,7 @@ interface afIDataSource {
 
     /**
      * Sets the limit.
-     * Zero limit means unlimited.
+     * Null limit means unlimited.
      */
     public function setLimit($limit);
 

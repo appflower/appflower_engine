@@ -5,7 +5,7 @@ class afStaticSource implements afIDataSource {
         $callback,
         $params,
         $start = 0,
-        $limit = 0,
+        $limit = null,
         $results = null;
 
     public function __construct($callback, $params) {
@@ -14,7 +14,11 @@ class afStaticSource implements afIDataSource {
     }
 
     public function setLimit($limit) {
-        $this->limit = max(0, $limit);
+        if($limit === null) {
+            $this->limit = null;
+        } else {
+            $this->limit = max(0, $limit);
+        }
     }
 
     public function setStart($start) {
@@ -28,7 +32,7 @@ class afStaticSource implements afIDataSource {
 
     public function getRows() {
         $this->init();
-        if($this->limit > 0) {
+        if($this->limit !== null) {
             $rows = array_slice($this->results, $this->start, $this->limit);
         } else {
             $rows = array_slice($this->results, $this->start);
