@@ -1760,18 +1760,16 @@ class XmlParser extends XmlParserTools {
 				
 				
 				if($data["value"]["type"] == 1 && $data["value"]["class"] == $this->process["parses"][$key]["datasource"]["class"]) {
-					if($this->process["parses"][$key]["datasource"]["method"]["type"] == "instance") {
-						$params = isset($this->process["parses"][$key]["datasource"]["method"]["params"])?$this->process["parses"][$key]["datasource"]["method"]["params"]: array(null);
-						$class = call_user_func_array(array($data["value"]["class"],$this->process["parses"][$key]["datasource"]["method"]["name"]),$params);
-						if(!$class || !is_object($class)) {
-							if($this->view == "show") {
-								throw new XmlParserException("Invalid id was specified, non-object value has been returned!");	
-							} else {
-								$class = "";
-							}
+					$params = isset($this->process["parses"][$key]["datasource"]["method"]["params"])?$this->process["parses"][$key]["datasource"]["method"]["params"]: array(null);
+					$class = call_user_func_array(array($data["value"]["class"],$this->process["parses"][$key]["datasource"]["method"]["name"]),$params);
+					if(!$class || !is_object($class)) {
+						if($this->view == "show") {
+							throw new XmlParserException("Invalid id was specified, non-object value has been returned!");	
+						} else {
+							$class = "";
 						}
-					$params = array();
 					}
+					$params = array();
 				} 
 								
 				
