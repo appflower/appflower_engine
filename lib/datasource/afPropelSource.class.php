@@ -6,7 +6,7 @@ class afPropelSource implements afIDataSource {
         $selectedColumns,
         $criteria,
         $start = 0,
-        $limit = 25,
+        $limit = 0,
         $pager = null,
         $initialized = false;
 

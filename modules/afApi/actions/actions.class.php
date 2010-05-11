@@ -10,6 +10,9 @@ class afApiActions extends sfActions
         $view = afDomAccess::wrap($doc, 'view');
         $source = self::createDataSource($view);
         self::setupDataSource($source, $this->getRequest());
+        if($view->getBool('fields@tree')) {
+            $source->setLimit(0);
+        }
 
         $gridData = new ImmExtjsGridData();
         $gridData->totalCount = $source->getTotalCount();
@@ -74,19 +77,30 @@ class afApiActions extends sfActions
         }
 
         //TODO: support also the other datasources: file and static
-        if($view->get('datasource@type') === 'orm') {
-            //TODO: parse the params from the XML config
-            $params = array();
-            $peer = $view->get('datasource/class');
-            $criteria = call_user_func_array(array($peer,
-                $view->get('datasource/method@name')), $params);
+        $sourceType = $view->get('datasource@type');
+        if($sourceType === 'orm') {
+            list($callback, $params) = self::getDataSourceCallback($view);
+            list($peer, $method) = $callback;
+            $criteria = call_user_func_array($callback, $params);
 
             $class = self::getClassFromPeerClass($peer);
             $source = new afPropelSource($class, $selectedColumns);
             $source->setCriteria($criteria);
+        } else if($sourceType === 'static') {
+            list($callback, $params) = self::getDataSourceCallback($view);
+            $source = new afStaticSource($callback, $params);
         }
 
         return $source;
+    }
+
+    private static function getDataSourceCallback($view) {
+        //TODO: parse the params from the XML config
+        $params = array();
+        $class = $view->get('datasource/class');
+        $method = $view->get('datasource/method@name');
+        $callback = array($class, $method);
+        return array($callback, $params);
     }
 
     private static function getClassFromPeerClass($peerClass) {
