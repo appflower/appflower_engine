@@ -38,6 +38,7 @@ class XmlParser extends XmlParserTools {
 		$portalStateObj,
 		$is_floated,
 		$portalColumns,
+		$parser_config,
 		$portalColumnsSize,
 		$portalSizes = array(
 			1=>array(100),
@@ -98,6 +99,11 @@ class XmlParser extends XmlParserTools {
 		
 		$this->root = sfConfig::get("sf_root_dir");
 		$this->schemaLocation = $this->root."/plugins/appFlowerPlugin/schema/appflower.xsd";
+		
+		// Reading parser YML config
+		
+		$tmp = sfYaml::load("/usr/www/manager/plugins/appFlowerPlugin/config/app.yml");
+		$this->parser_config = $tmp["all"]["parser"];		
 		
 		// Context info
 			
@@ -169,7 +175,7 @@ class XmlParser extends XmlParserTools {
 		if($this->type === self::PANEL || $this->type === self::WIZARD) {
 			$this->checkWidgetCredentials();	
 		}
-		
+	
 		// Is this a layout?
 		
 		$this->page = $type;
@@ -356,16 +362,22 @@ class XmlParser extends XmlParserTools {
 				
 				$childnodes = $this->fetch("child::*",$if);
 				
-				$this->remove($if);
+				if($childnodes->item(0) && ($this->name($childnodes->item(0)) != "field" || $this->parser_config["remove_fields"])) {
+					$this->remove($if);
+				}
 				
 				foreach($childnodes as $child) {
 					
 					$name = $this->name($child);
 					
 					if($name == "field") {
-						$grouping = $this->fetch("//i:grouping/i:set/i:ref[@to='".$this->get($child,"name")."']");
-						if($grouping->length == 1) {
-							$this->remove($grouping->item(0));
+						if($this->parser_config["remove_fields"]) {
+							$grouping = $this->fetch("//i:grouping/i:set/i:ref[@to='".$this->get($child,"name")."']");
+							if($grouping->length == 1) {
+								$this->remove($grouping->item(0));
+							}	
+						} else {
+							$this->set("state","readonly",$child);
 						}
 					} else if($name == "action") {
 						if($this->childcount($parent,3) == 0) {
@@ -1589,7 +1601,6 @@ class XmlParser extends XmlParserTools {
 		$this->parseDefaults();
 		
 		// Parse ifs..
-		
 		
 		$this->testConditions();
 		
