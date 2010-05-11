@@ -9,12 +9,21 @@ class afApiActions extends sfActions
         $doc = afConfigUtils::getDoc($module, $action);
         $view = afDomAccess::wrap($doc, 'view');
         $source = self::createDataSource($view);
+        self::setupDataSource($source, $this->getRequest());
 
         $gridData = new ImmExtjsGridData();
         $gridData->totalCount = $source->getTotalCount();
         $gridData->data = $source->getRows();
         return $this->renderText($gridData->end());
+    }
 
+    private function setupDataSource($source, $request) {
+        $source->setStart($request->getParameter('start', 0));
+        $source->setLimit($request->getParameter('limit', 20));
+        //TODO: set the sort and sort direction
+    }
+
+    private function oldCode() {
         // TODO: remove the old code
         $data = array(
             'uid' => $unique_id,
