@@ -477,7 +477,7 @@ class parserActions extends sfActions
 		
 		if(empty($args)) {
 			if(!isset($parser["uid"]) || $parser["uid"] != $uid) {
-				$result = array('success'=>true,'totalCount'=>1,'rows'=>array(array('message' => "This page has expired! Please refresh it!", 'redirect' => $this->getRequest()->getReferer())));
+				$result = array('success'=>true,'totalCount'=>1,'rows'=>array(array('message' => "This page has expired! It will be refreshed automatically!", 'redirect' => $this->getRequest()->getReferer())));
 				$result = json_encode($result);
 				return $this->renderText($result);
 			}
