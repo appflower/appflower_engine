@@ -244,9 +244,11 @@ function ajax_widget_popup(widget,title,superClass,winConfig) {
 afApp.attachHrefWidgetLoad = function ()
 {
 	Ext.select('a.widgetLoad').on('click', function(e){
-	    var el = Ext.get(e.getTarget());
+		e.preventDefault();
+		e.stopPropagation();
+		
+	    var el = Ext.get(e.getTarget());	    
 	    afApp.loadCenterWidget(el.dom.href);	
-	    e.stopEvent();
 	});
 }
 afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
@@ -274,7 +276,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		eval(json.source);				
 		
 		viewport.layout.center.panel.add(eval(json.center_panel_first));		
-		viewport.doLayout();
+		viewport.doLayout();				
 				
 		mask.hide();
 	};
@@ -332,6 +334,16 @@ afApp.loadCenterWidget = function(widget) {
 				total_addons.push("/js/swfobject.js");
 				createAddon("/js/swfobject.js", "js");
 			}
+			
+			//hash contains the value without #in front of the internal link
+			var hash=widget.replace(document.location.protocol+'//'+document.location.host,'');
+			
+			document.location.hash=hash;
+			
+			//adding a referer param to all Ajax request in Ext objects
+			Ext.Ajax.extraParams = {
+			    'referer': hash
+			};
 			
 			afApp.executeAddonsLoadCenterWidget(viewport,total_addons,json,mask);					
 		},

@@ -79,7 +79,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  									'timeout'=>$attributes['timeout'],
 		  									'failure'=>$this->immExtjs->asMethod(array(
 		  												'parameters'=>'form,action',
-		  												'source'=>'var onclose=function(){if(action.result && action.result.redirect){window.location.href=action.result.redirect;}}; if(action.result){ if(action.result.message){Ext.Msg.alert("Failure", action.result.message, onclose);}}else{Ext.Msg.alert("Failure", "Some error appeared!", onclose);}')),
+		  												'source'=>'var onclose=function(){if(action.result && action.result.redirect){afApp.loadCenterWidget(action.result.redirect);}}; if(action.result){ if(action.result.message){Ext.Msg.alert("Failure", action.result.message, onclose);}}else{Ext.Msg.alert("Failure", "Some error appeared!", onclose);}')),
 		  									'success'=>$this->immExtjs->asMethod(array(
 		  												'parameters'=>'form,action',
 		  												'source'=>'

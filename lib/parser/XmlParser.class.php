@@ -3222,7 +3222,7 @@ class XmlParser extends XmlParserTools {
 						if(!$this->multisubmit) {
 							new ImmExtjsButton($grid,array('label'=>$parse["label"],'icon' => $parse["icon"], 'handlers'=>array('click'=>
 							array('parameters'=>'field,event','source'=>'Ext.Ajax.request({ url: "'.$post_url.'", 
-							method:"post", params:{"selections":'.$grid->privateName.'.getSelectionModel().getSelectionsJSON()}, success:function(response, options){response=Ext.decode(response.responseText);if(response.message){Ext.Msg.alert("Success",response.message,function(){if(response.redirect){window.location.href=response.redirect;}});}},failure: function(response,options) {if(response.message){Ext.Msg.alert("Failure",response.message);}}});'))));
+							method:"post", params:{"selections":'.$grid->privateName.'.getSelectionModel().getSelectionsJSON()}, success:function(response, options){response=Ext.decode(response.responseText);if(response.message){Ext.Msg.alert("Success",response.message,function(){if(response.redirect){afApp.loadCenterWidget(response.redirect);}});}},failure: function(response,options) {if(response.message){Ext.Msg.alert("Failure",response.message);}}});'))));
 						}
 					}					
 				}
@@ -3543,12 +3543,12 @@ class XmlParser extends XmlParserTools {
 if(response.message) {
 	Ext.Msg.alert("Success", response.message, function(){
 		if(response.redirect) {
-			window.location.href = response.redirect;
+			afApp.loadCenterWidget(response.redirect);
 		}
 	});
 } else {
 	if(response.redirect) {
-		window.location.href = response.redirect;
+		afApp.loadCenterWidget(response.redirect);
 	}
 }
 	  	myMask.hide();

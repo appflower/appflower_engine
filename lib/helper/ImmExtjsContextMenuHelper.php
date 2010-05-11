@@ -111,7 +111,7 @@ function ajax_source($url){
 			   		}else if(json.redirect && json.target){
 			   			window.open(json.redirect,json.target);
 			   		}else if(json.redirect){
-			   			window.location.href=json.redirect;
+			   			afApp.loadCenterWidget(json.redirect);
 			   		}
 			   		mask.hide();
 			   },

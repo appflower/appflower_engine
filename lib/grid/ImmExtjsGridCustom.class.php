@@ -93,7 +93,7 @@ class ImmExtjsGridCustom
 		$this->attributes[$storePrivateName]['listeners']['load']=$this->immExtjs->asMethod(array(
 																		"parameters"=>"object,records,options",
 																		"source"=>
-																		'if(records.length>0&&records[0].json.redirect&&records[0].json.message){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){window.location.href=rec.redirect;});}'
+																		'if(records.length>0&&records[0].json.redirect&&records[0].json.message){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){afApp.loadCenterWidget(rec.redirect);});}'
 																));
 				
 		$this->immExtjs->private[$storePrivateName]=$this->immExtjs->JsonStore($this->attributes[$storePrivateName]);
