@@ -22,7 +22,7 @@ class afDomAccess {
         $wrappers = array();
         $elements = self::getElements($this->node, $path);
         foreach($elements as $element) {
-            $wrappers[] =  new afDomAccess($element);
+            $wrappers[] = new afDomAccess($element);
         }
         return $wrappers;
     }
@@ -75,7 +75,7 @@ class afDomAccess {
             $newToexpand = array();
             foreach($toexpand as $node) {
                 $children = self::getChildElements($node, $part);
-                $newToexpand += $children;
+                $newToexpand = array_merge($newToexpand, $children);
             }
         }
         return $newToexpand;

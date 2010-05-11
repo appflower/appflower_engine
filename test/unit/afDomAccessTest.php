@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__).'/../bootstrap/dbunit.php');
-$t = new lime_test(8, new lime_output_color());
+$t = new lime_test(9, new lime_output_color());
 
 $doc = afConfigUtils::getDoc('server', 'listServer');
 $view = afDomAccess::wrap($doc, 'view');
@@ -15,3 +15,6 @@ $t->is(count($columns), 10);
 $t->is($columns[0]->get('@name'), 'name');
 $t->is($columns[1]->get('@name'), 'is_enabled');
 $t->is($columns[9]->get('@name'), 'c_i_a');
+
+$actions = $view->wrapAll('actions/action');
+$t->is(count($actions), 4);
