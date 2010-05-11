@@ -14,9 +14,12 @@ class afApiActions extends sfActions
             $source->setLimit(null);
         }
 
+        $rows = $source->getRows();
+        self::addRowActionSuffixes($view, $rows);
+
         $gridData = new ImmExtjsGridData();
         $gridData->totalCount = $source->getTotalCount();
-        $gridData->data = $source->getRows();
+        $gridData->data = $rows;
         return $this->renderText($gridData->end());
     }
 
@@ -26,6 +29,28 @@ class afApiActions extends sfActions
         $sortColumn = $request->getParameter('sort');
         if($sortColumn) {
             $source->setSort($sortColumn, $request->getParameter('dir', 'ASC'));
+        }
+    }
+
+    private function addRowActionSuffixes($view, &$rows) {
+        $rowactions = $view->wrapAll('rowactions/action');
+        $actionNumber = 0;
+        foreach($rowactions as $action) {
+            $actionNumber++;
+            $url = $action->get('@url');
+            $params = $action->get('params', 'id');
+            $params = explode(',', $params);
+            foreach($rows as &$row) {
+                $rowurl = $url;
+                foreach($params as $param) {
+                    if(isset($row[$param])) {
+                        $rowurl = UrlUtil::addParam($rowurl,
+                            $param, $row[$param]);
+                    }
+                }
+
+                $row['action'.$actionNumber] = $rowurl;
+            }
         }
     }
 
