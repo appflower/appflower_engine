@@ -26,7 +26,7 @@ class ImmExtjsToolbarButton extends ImmExtjsToolbarComponent
 		{
 			$this->attributes['handler']=$this->immExtjs->asMethod(array(
   									'parameters'=>'',
-  									'source'=>'window.location.href="'.$attributes['url'].'";'
+  									'source'=>'afApp.loadCenterWidget("'.$attributes['url'].'");'
   								));
 			
 			unset($attributes['url']);

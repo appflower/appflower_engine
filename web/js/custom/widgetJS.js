@@ -282,7 +282,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 	ajax();
 }
 afApp.loadCenterWidget = function(widget) {
-		
+	
 	var viewport=App.getViewport();
 	var mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading</b> <br>Please Wait...",removeMask:true});
 	mask.show();

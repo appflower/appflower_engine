@@ -24,7 +24,7 @@ class ImmExtjsPanelLayout extends ImmExtjsLayout
 	
 	public function addCenterComponent($tools,$attributes=array())
 	{	
-		$attributes=array('id'=>'center_panel',
+		$attributes=array('id'=>'center_panel_first_panel',
 					      'title'=>isset($attributes['title'])?$attributes['title']:'Panel',
 					      'autoScroll'=>true,
 					      'width'=>'auto',
