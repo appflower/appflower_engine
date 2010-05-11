@@ -171,12 +171,14 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 				No other type is currently supported.
 				
 				static			- The method is static.	
+				instance        - The method is not static, object required
 			</xs:documentation>
 		</xs:annotation>
 		<xs:union memberTypes="i:varType">
 			<xs:simpleType>
 				<xs:restriction base="xs:token">
 					<xs:enumeration value="static"/>
+					<xs:enumeration value="instance"/>
 					<xs:whiteSpace value="collapse"/>
 				</xs:restriction>
 			</xs:simpleType>
