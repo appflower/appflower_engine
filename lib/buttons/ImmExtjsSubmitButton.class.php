@@ -89,7 +89,8 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  								}else if(target){
 		  									window.open(location,target);
 		  								}else{
-		  									window.location.href=location;
+		  									//modified to load in center content
+		  									afApp.loadCenterWidget(location);
 		  								}
 		  							}
 		  							var confirm=action.result.confirm ||action.options.params.confirm; 
