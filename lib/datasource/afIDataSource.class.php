@@ -13,6 +13,11 @@ interface afIDataSource {
     public function setLimit($limit);
 
     /**
+     * Makes the rows sorted by the given column.
+     */
+    public function setSort($column, $sortDir='ASC');
+
+    /**
      * Returns the total number of rows in the datasource.
      * That number is not affected by the limit.
      */

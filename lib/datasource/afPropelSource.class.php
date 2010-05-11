@@ -8,6 +8,8 @@ class afPropelSource implements afIDataSource {
         $start = 0,
         $limit = null,
         $pager = null,
+        $sortColumn = null,
+        $sortDir = 'ASC',
         $initialized = false;
 
     public function __construct($class, $selectedColumns) {
@@ -35,6 +37,12 @@ class afPropelSource implements afIDataSource {
         $this->start = max(0, $start);
     }
 
+    public function setSort($column, $sortDir='ASC') {
+        $this->initialized = false;
+        $this->sortColumn = $column;
+        $this->sortDir = $sortDir;
+    }
+
     public function getTotalCount() {
         $this->init();
         return $this->pager->getNbResults();
@@ -58,6 +66,15 @@ class afPropelSource implements afIDataSource {
             return;
         }
         $this->initialized = true;
+
+        if($this->sortColumn) {
+            $this->criteria->clearOrderByColumns();
+            if($this->sortDir === 'DESC') {
+                $this->criteria->addDescendingOrderByColumn($this->sortColumn);
+            } else {
+                $this->criteria->addAscendingOrderByColumn($this->sortColumn);
+            }
+        }
 
         $this->pager = new sfPropelPager($this->class, $this->limit);
         $this->pager->setCriteria($this->criteria);

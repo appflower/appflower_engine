@@ -23,7 +23,10 @@ class afApiActions extends sfActions
     private function setupDataSource($source, $request) {
         $source->setStart($request->getParameter('start', 0));
         $source->setLimit($request->getParameter('limit', 20));
-        //TODO: set the sort and sort direction
+        $sortColumn = $request->getParameter('sort');
+        if($sortColumn) {
+            $source->setSort($sortColumn, $request->getParameter('dir', 'ASC'));
+        }
     }
 
     private function oldCode() {
