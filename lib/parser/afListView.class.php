@@ -18,16 +18,17 @@ class afListView {
             $selectedColumns[] = $column->get('@name');
         }
 
-        $selectedColumns += $this->getRowActionSelectedColumns();
-        $selectedColumns = array_unique($selectedColumns);
-        return $selectedColumns;
+        $selectedColumns = array_merge($selectedColumns,
+            $this->getRowActionSelectedColumns());
+        return array_unique($selectedColumns);
     }
 
     private function getRowActionSelectedColumns() {
         $columns = array();
         $rowactions = $this->view->wrapAll('rowactions/action');
         foreach($rowactions as $action) {
-            $columns += explode(',', $action->get('@params', 'id'));
+            $params = explode(',', $action->get('@params', 'id'));
+            $columns = array_merge($columns, $params);
         }
         return array_unique($columns);
     }

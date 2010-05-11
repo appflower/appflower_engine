@@ -32,13 +32,16 @@ class afApiActions extends sfActions
         }
     }
 
+    /**
+     * Adds row action urls to the rows.
+     */
     private function addRowActionSuffixes($view, &$rows) {
         $rowactions = $view->wrapAll('rowactions/action');
         $actionNumber = 0;
         foreach($rowactions as $action) {
             $actionNumber++;
             $url = $action->get('@url');
-            $params = $action->get('params', 'id');
+            $params = $action->get('@params', 'id');
             $params = explode(',', $params);
             foreach($rows as &$row) {
                 $rowurl = $url;
@@ -98,11 +101,8 @@ class afApiActions extends sfActions
     }
 
     private static function createDataSource($view) {
-        $columns = $view->wrapAll('fields/column');
-        $selectedColumns = array();
-        foreach($columns as $column) {
-            $selectedColumns[] = $column->get('@name');
-        }
+        $listView = new afListView($view);
+        $selectedColumns = $listView->getSelectedColumns();
 
         //TODO: support also the other datasources: file and static
         $sourceType = $view->get('datasource@type');
