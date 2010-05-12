@@ -82,11 +82,19 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 	menuFilterText: 'Filters',
 		
 	mode:'menu',
+	
+	/**
+	* Show filter info at
+	* 1. panel -for displaying filter info in a panel just above grid
+	* 2. title -for displaying filter info in grid title
+	* 3. false -for not displaying filter info
+	*/	
+	showFilterInfo: 'title',
 
 	init: function(grid){	
 		if(grid instanceof Ext.grid.GridPanel){
 			this.grid  = grid;
-		  
+		    this.grid.originalTitle = this.grid.originalTitle?this.grid.originalTitle:grid.title;
 			this.store = this.grid.getStore();
 			
 			if(this.local){
@@ -96,7 +104,8 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 			} else {
 			  this.store.on('beforeload', this.onBeforeLoad, this);
 			  this.store.on('load',function(){
-				  new Ext.ux.FilterInfo(this.grid);
+					if(this.showFilterInfo)
+					new Ext.ux.FilterInfo(this.grid,this.showFilterInfo);
 			  },this);
 			}		
 			
