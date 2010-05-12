@@ -473,7 +473,7 @@ class ImmExtjsGrid
 			$this->attributes[$storePrivateName]['listeners']['load']=$this->immExtjs->asMethod(array(
 																			"parameters"=>"object,records,options",
 																			"source"=>
-																			'if(records.length>0&&records[0].json.redirect&&records[0].json.message){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){afApp.loadCenterWidget(rec.redirect);});}else{if(!Ext.isIE){'.$this->privateName.'.getEl().unmask();}}afApp.attachHrefWidgetLoad();'
+																			'if(records.length>0&&records[0].json.redirect&&records[0].json.message){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){afApp.loadCenterWidget(rec.redirect);});}else{if(!Ext.isIE){'.$this->privateName.'.getEl().unmask();}}'
 																	));
 																	
 			$this->attributes[$storePrivateName]['listeners']['loadexception']=$this->immExtjs->asMethod(array(
@@ -604,6 +604,12 @@ class ImmExtjsGrid
 		));		
 		
 		unset($attributes['listeners']['render']["source"]);
+		
+		//attach center loading ajax to links with class="widgetLoad"
+		$this->attributes['listeners']['mouseover']=$this->immExtjs->asMethod(array(
+				"parameters"=>"",
+				"source"=>"afApp.attachHrefWidgetLoad();"
+		));
 						
 		if(count($this->filters)>0)
 		{		

@@ -243,12 +243,14 @@ function ajax_widget_popup(widget,title,superClass,winConfig) {
 //just add widgetLoad class to any internal a href, and that url will be loaded inside the cemter panel
 afApp.attachHrefWidgetLoad = function ()
 {
+	//remove all listeners before adding, because it might add the same listener multiple times
+	Ext.select('a.widgetLoad').removeAllListeners();
+	
 	Ext.select('a.widgetLoad').on('click', function(e){
-		e.preventDefault();
-		e.stopPropagation();
+		e.stopEvent();
 		
-	    var el = Ext.get(e.getTarget());	    
-	    afApp.loadCenterWidget(el.dom.href);	
+		var el = Ext.get(e.getTarget());	    
+	    afApp.loadCenterWidget(el.dom.href);
 	});
 }
 afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
@@ -359,7 +361,18 @@ afApp.loadCenterWidget = function(widget) {
 		document.location.href=widget;
 	}
 }
-
+afApp.logTime = function (msg) {
+	var today=new Date();
+	
+	var day=today.getDate();
+	var month = today.getMonth();
+	var year = today.getFullYear();
+	var h=today.getHours();
+	var m=today.getMinutes();
+	var s=today.getSeconds();
+	
+	if(console)console.log('[',msg,']',day,'/',month,'/',year,' ',h,':',m,':',s,' | ',today.getTime());
+}
 Ext.onReady(function(){
 
 	afApp.attachHrefWidgetLoad();
