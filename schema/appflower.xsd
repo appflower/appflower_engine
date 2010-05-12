@@ -1442,6 +1442,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 						</xs:sequence>
 					</xs:choice>
       	</xs:choice>
+      	<xs:attribute name="resetable" type="xs:boolean" use="optional" default="true" />
+      	<xs:attribute name="resetlabel" type="xs:token" use="optional" default="Reset" />
+      	<xs:attribute name="submitlabel" type="xs:token" use="optional" default="Submit" /> 	
       	<xs:attribute name="tree" type="xs:boolean" use="optional" default="false" />
       	<xs:attribute name="selectable" type="xs:boolean" use="optional" default="true" />
       	<xs:attribute name="exportable" type="xs:boolean" use="optional" default="true" />

@@ -1583,6 +1583,8 @@ class XmlParser extends XmlParserTools {
 		}
 		*/
 		
+			//print_r($this->elements);
+		
 	}
 	
 	
@@ -2458,6 +2460,9 @@ class XmlParser extends XmlParserTools {
 				$formoptions["action"] = $host.url_for($parse["form"]);
 				$formoptions["name"] = "form".$it;
 				$formoptions["classic"] = ($parse["classic"] !== "false");
+				$formoptions["resetable"] = ($parse["resetable"] !== "false");
+				$formoptions["resetlabel"] = $parse["resetlabel"];
+				$formoptions["submitlabel"] = $parse["submitlabel"];
 				$formoptions["labelWidth"] = isset($parse['labelWidth'])?$parse['labelWidth']:'75';
 				if($this->type == self::PANEL) {
 					$widget = $this->context->getActionName();	

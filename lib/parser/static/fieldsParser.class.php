@@ -22,6 +22,9 @@ class fieldsParser extends XmlBaseElementParser {
 		self::add("select",self::$parser->get($node,"select"));
 		self::add("submit",self::$parser->get($node,"submit"));
 		self::add("classic",self::$parser->get($node,"classic"));
+		self::add("resetable",self::$parser->get($node,"resetable"));
+		self::add("submitlabel",self::$parser->get($node,"submitlabel"));
+		self::add("resetlabel",self::$parser->get($node,"resetlabel"));
 		self::add("border",self::$parser->get($node,"border"));
 		self::add("portal",self::$parser->get($node,"portal"));
 		self::add("permissions",self::$parser->get($node,"permissions"));
