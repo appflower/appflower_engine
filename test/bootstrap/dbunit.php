@@ -5,4 +5,4 @@ new sfDatabaseManager($configuration);
 sfContext::createInstance($configuration);
 error_reporting(E_ALL);
  
-include($configuration->getSymfonyLibDir().'/vendor/lime/lime.php');
+require_once($configuration->getSymfonyLibDir().'/vendor/lime/lime.php');
