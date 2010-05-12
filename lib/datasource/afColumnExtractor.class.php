@@ -24,7 +24,8 @@ class afColumnExtractor {
             $col = $tableMap->getColumn($column);
             if($col->getRelatedTableName()) {
                 $methodName = afMetaDb::getForeignMethodName($col);
-                $getter = new afStringMethodGetter($methodName);
+                $getter = new afMethodGetter($methodName,
+                    afToStringConversion::getInstance());
             } else {
                 $methodName = 'get'.$col->getPhpName();
                 if($col->isTemporal()) {
