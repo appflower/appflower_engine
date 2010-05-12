@@ -102,7 +102,7 @@ class XmlParser extends XmlParserTools {
 		
 		// Reading parser YML config
 		
-		$tmp = sfYaml::load("/usr/www/manager/plugins/appFlowerPlugin/config/app.yml");
+		$tmp = sfYaml::load($this->root."/plugins/appFlowerPlugin/config/app.yml");
 		$this->parser_config = $tmp["all"]["parser"];		
 		
 		// Context info
