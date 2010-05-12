@@ -2,32 +2,38 @@
 
 class afColumnExtractor {
     private
-        $getters;
+        $class,
+        $selectedColumns,
+        $formatMethodPrefix;
 
-    public function __construct($class, $selectedColumns) {
-        $this->getters = self::prepareGetters($class, $selectedColumns);
+    public function __construct($class, $selectedColumns, $format='html') {
+        $this->class = $class;
+        $this->selectedColumns = $selectedColumns;
+        $this->formatMethodPrefix = 'get'.sfInflector::camelize($format);
     }
 
-    private function prepareGetters($class, $selectedColumns) {
-        $peer = constant($class.'::PEER');
+    private function prepareGetters() {
+        $peer = constant($this->class.'::PEER');
         $tableMap = call_user_func(array($peer, 'getTableMap'));
         $getters = array();
-        foreach($selectedColumns as $column) {
-            $getters[$column] = self::createGetter($tableMap, $column);
+        foreach($this->selectedColumns as $column) {
+            $getters[$column] = $this->createGetter($tableMap, $column);
         }
 
         return $getters;
     }
 
-    private static function createGetter($tableMap, $column) {
+    private function createGetter($tableMap, $column) {
         if($tableMap->containsColumn($column)) {
             $col = $tableMap->getColumn($column);
             if($col->getRelatedTableName()) {
                 $methodName = afMetaDb::getForeignMethodName($col);
+                $methodName = $this->customizeFormat($methodName);
                 $getter = new afMethodGetter($methodName,
                     afToStringConversion::getInstance());
             } else {
                 $methodName = 'get'.$col->getPhpName();
+                $methodName = $this->customizeFormat($methodName);
                 if($col->isTemporal()) {
                     $getter = new afDatetimeGetter($methodName);
                 } else {
@@ -36,21 +42,33 @@ class afColumnExtractor {
             }
         } else {
             $methodName = 'get'.sfInflector::camelize($column);
+            $methodName = $this->customizeFormat($methodName);
             $getter = new afMethodGetter($methodName);
         }
         return $getter;
+    }
+
+    private function customizeFormat($methodName) {
+        $formatMethod = preg_replace('/^get/',
+            $this->formatMethodPrefix, $methodName, 1);
+        if(method_exists($this->class, $formatMethod)) {
+            //TODO: wrap the getter output in sfOutputEscaperSafe().
+            return $formatMethod;
+        }
+        return $methodName;
     }
 
     /**
      * Extracts an array of values from each object.
      */
     public function extractColumns($objects) {
-        // The getters are already prepared,
+        // Once the getters are prepared,
         // no expensive logic is done inside of the loop.
+        $getters = $this->prepareGetters();
         $rows = array();
         foreach($objects as $obj) {
             $row = array();
-            foreach($this->getters as $column => $getter) {
+            foreach($getters as $column => $getter) {
                 $row[$column] = $getter->getFrom($obj);
             }
             $rows[] = $row;
