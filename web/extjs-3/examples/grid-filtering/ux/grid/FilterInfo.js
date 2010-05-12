@@ -5,7 +5,7 @@
 * Information about the filtered criteria
 */
 Ext.ns("Ext.ux");
-Ext.ux.FilterInfo = function(grid){
+Ext.ux.FilterInfo = function(grid,mode){
 	var filterInfo = this;	
 	//Get column model
 	var cm = grid.getColumnModel();
@@ -35,6 +35,8 @@ Ext.ux.FilterInfo = function(grid){
 	
 	infoDiv.innerHTML = '';
 	var actions = [];
+	var plainText = '';
+	var originalTitle = null;
 	filtersObj.filters.each(function(filter){
 		
     	var dataIndex = filter.dataIndex;
@@ -44,9 +46,10 @@ Ext.ux.FilterInfo = function(grid){
 			if(filter.getDisplayValue){
 				val = filter.getDisplayValue();
 			}else{
-				val = filter.getValue();
-			}
+				val = filter.getValue();				
+			}			
 			if(val){
+				plainText += "'"+val+"', ";
 				var id = Ext.id(null,"filter-");
 				
 				actions.push(new Ext.Button(new Ext.Action({				    
@@ -56,21 +59,25 @@ Ext.ux.FilterInfo = function(grid){
 				    itemId: id+"-action",
 				    hidden:true
 				})));
-				
-				tpl.append(infoDiv,{
-		    		html:'<b>'+header+':</b> '+val,
-		    		id:id
-		    	});
-				
+				if(mode == 'panel'){
+					tpl.append(infoDiv,{
+						html:'<b>'+header+':</b> '+val,
+						id:id
+					});	
+				}				
 			}
     	}
-    });
+    });	
 	var panel = new Ext.Panel({
 		renderTo:infoDiv,
 		items: actions,
 		id:'filter-info-action-panel'
 	})
-	
+	if(mode == "title"){		
+		if(plainText)
+		grid.setTitle(grid.originalTitle+" <font color='red'>Filtered by keyword: "+plainText+"</font>");
+	}
+
 	
 }
 Ext.ns("Ext.ux.FilterInfo");
