@@ -192,48 +192,65 @@ function ajax_widget_popup(widget,title,superClass,winConfig) {
 		method : "GET",		
 		success : function(r) {
 			var json = Ext.util.JSON.decode(r.responseText);
-			var scripts_srcs = new Array(),styles_hrefs = new Array(),total_addons = new Array();
-			/**
-			 * SCRIPTS AND STYLES FROM HEAD TAGS
-			 */
-			// Load CSS
-			var scripts = document.getElementsByTagName("script");						
-			//createAddon("/js/swfobject.js", "js");	
-			for(var i = 0;i<scripts.length;i++) if(scripts[i].src) scripts_srcs[i] = scripts[i].src;
-			var styles = document.getElementsByTagName("link");
-			for(var i = 0;i<styles.length;i++) if(styles[i].href) styles_hrefs[i] = styles[i].href;
 			
-			/**************************************************************************************/
-			/**
-			 * SCRIPTS AND STYLES FROM GLOBAL VARS
-			 */
-			scripts_srcs = GLOBAL_JS_VAR;
-			styles_hrefs = GLOBAL_CSS_VAR;
-			/*************************************************************************************/
-			if(json.addons && json.addons.js)
-			for ( var i = 0; i < json.addons.js.length; i++) {
-				var addon = json.addons.js[i];
-				if(!in_array(addon,scripts_srcs)){
-					if(addon != null)
-					total_addons.push(addon);
-					createAddon(addon, "js");				
+			if(json.redirect&&json.message)
+			{
+				mask.hide();
+				
+				if(json.redirect_type='page')
+				{
+					Ext.Msg.alert("Failure", json.message, function(){document.location.href=json.redirect;});
+				}
+				else if(json.redirect_type='center')
+				{
+					Ext.Msg.alert("Failure", json.message, function(){afApp.loadCenterWidget(json.redirect);});
 				}
 			}
-			if(json.addons && json.addons.css)
-				for ( var i = 0; i < json.addons.css.length; i++) {
-					var addon = json.addons.css[i];
-					if(!in_array(addon,styles_hrefs)){
+			else
+			{			
+				var scripts_srcs = new Array(),styles_hrefs = new Array(),total_addons = new Array();
+				/**
+				 * SCRIPTS AND STYLES FROM HEAD TAGS
+				 */
+				// Load CSS
+				var scripts = document.getElementsByTagName("script");						
+				//createAddon("/js/swfobject.js", "js");	
+				for(var i = 0;i<scripts.length;i++) if(scripts[i].src) scripts_srcs[i] = scripts[i].src;
+				var styles = document.getElementsByTagName("link");
+				for(var i = 0;i<styles.length;i++) if(styles[i].href) styles_hrefs[i] = styles[i].href;
+				
+				/**************************************************************************************/
+				/**
+				 * SCRIPTS AND STYLES FROM GLOBAL VARS
+				 */
+				scripts_srcs = GLOBAL_JS_VAR;
+				styles_hrefs = GLOBAL_CSS_VAR;
+				/*************************************************************************************/
+				if(json.addons && json.addons.js)
+				for ( var i = 0; i < json.addons.js.length; i++) {
+					var addon = json.addons.js[i];
+					if(!in_array(addon,scripts_srcs)){
 						if(addon != null)
-						//total_addons.push(addon);
-						createAddon(addon, "css");				
+						total_addons.push(addon);
+						createAddon(addon, "js");				
 					}
 				}
-			if(json.public_source)
-			if(!in_array("swfobject.js",scripts_srcs)){
-				total_addons.push("/js/swfobject.js");
-				createAddon("/js/swfobject.js", "js");
-			}
-			executeAddons(total_addons,json,mask,title,superClass,winConfig);					
+				if(json.addons && json.addons.css)
+					for ( var i = 0; i < json.addons.css.length; i++) {
+						var addon = json.addons.css[i];
+						if(!in_array(addon,styles_hrefs)){
+							if(addon != null)
+							//total_addons.push(addon);
+							createAddon(addon, "css");				
+						}
+					}
+				if(json.public_source)
+				if(!in_array("swfobject.js",scripts_srcs)){
+					total_addons.push("/js/swfobject.js");
+					createAddon("/js/swfobject.js", "js");
+				}
+				executeAddons(total_addons,json,mask,title,superClass,winConfig);		
+			}			
 		},
 		params : {
 			widget_popup_request : true
@@ -297,59 +314,76 @@ afApp.loadCenterWidget = function(widget) {
 			method : "GET",		
 			success : function(r) {
 				var json = Ext.util.JSON.decode(r.responseText);
-				var scripts_srcs = new Array(),styles_hrefs = new Array(),total_addons = new Array();
-				/**
-				 * SCRIPTS AND STYLES FROM HEAD TAGS
-				 */
-				// Load CSS
-				var scripts = document.getElementsByTagName("script");						
-				//createAddon("/js/swfobject.js", "js");	
-				for(var i = 0;i<scripts.length;i++) if(scripts[i].src) scripts_srcs[i] = scripts[i].src;
-				var styles = document.getElementsByTagName("link");
-				for(var i = 0;i<styles.length;i++) if(styles[i].href) styles_hrefs[i] = styles[i].href;
 				
-				/**************************************************************************************/
-				/**
-				 * SCRIPTS AND STYLES FROM GLOBAL VARS
-				 */
-				scripts_srcs = GLOBAL_JS_VAR;
-				styles_hrefs = GLOBAL_CSS_VAR;
-				/*************************************************************************************/
-				if(json.addons && json.addons.js)
-				for ( var i = 0; i < json.addons.js.length; i++) {
-					var addon = json.addons.js[i];
-					if(!in_array(addon,scripts_srcs)){
-						if(addon != null)
-						total_addons.push(addon);
-						createAddon(addon, "js");				
+				if(json.redirect&&json.message)
+				{
+					mask.hide();
+					
+					if(json.redirect_type='page')
+					{
+						Ext.Msg.alert("Failure", json.message, function(){document.location.href=json.redirect;});
+					}
+					else if(json.redirect_type='center')
+					{
+						Ext.Msg.alert("Failure", json.message, function(){afApp.loadCenterWidget(json.redirect);});
 					}
 				}
-				if(json.addons && json.addons.css)
-					for ( var i = 0; i < json.addons.css.length; i++) {
-						var addon = json.addons.css[i];
-						if(!in_array(addon,styles_hrefs)){
+				else
+				{				
+					var scripts_srcs = new Array(),styles_hrefs = new Array(),total_addons = new Array();
+					/**
+					 * SCRIPTS AND STYLES FROM HEAD TAGS
+					 */
+					// Load CSS
+					var scripts = document.getElementsByTagName("script");						
+					//createAddon("/js/swfobject.js", "js");	
+					for(var i = 0;i<scripts.length;i++) if(scripts[i].src) scripts_srcs[i] = scripts[i].src;
+					var styles = document.getElementsByTagName("link");
+					for(var i = 0;i<styles.length;i++) if(styles[i].href) styles_hrefs[i] = styles[i].href;
+					
+					/**************************************************************************************/
+					/**
+					 * SCRIPTS AND STYLES FROM GLOBAL VARS
+					 */
+					scripts_srcs = GLOBAL_JS_VAR;
+					styles_hrefs = GLOBAL_CSS_VAR;
+					/*************************************************************************************/
+					if(json.addons && json.addons.js)
+					for ( var i = 0; i < json.addons.js.length; i++) {
+						var addon = json.addons.js[i];
+						if(!in_array(addon,scripts_srcs)){
 							if(addon != null)
-							//total_addons.push(addon);
-							createAddon(addon, "css");				
+							total_addons.push(addon);
+							createAddon(addon, "js");				
 						}
 					}
-				if(json.public_source)
-				if(!in_array("swfobject.js",scripts_srcs)){
-					total_addons.push("/js/swfobject.js");
-					createAddon("/js/swfobject.js", "js");
-				}
-				
-				//hash contains the value without #in front of the internal link
-				var hash=widget.replace(document.location.protocol+'//'+document.location.host,'');
-				
-				document.location.hash=hash;
-				
-				//adding a referer param to all Ajax request in Ext objects
-				Ext.Ajax.extraParams = {
-				    'referer': hash
-				};
-				
-				afApp.executeAddonsLoadCenterWidget(viewport,total_addons,json,mask);					
+					if(json.addons && json.addons.css)
+						for ( var i = 0; i < json.addons.css.length; i++) {
+							var addon = json.addons.css[i];
+							if(!in_array(addon,styles_hrefs)){
+								if(addon != null)
+								//total_addons.push(addon);
+								createAddon(addon, "css");				
+							}
+						}
+					if(json.public_source)
+					if(!in_array("swfobject.js",scripts_srcs)){
+						total_addons.push("/js/swfobject.js");
+						createAddon("/js/swfobject.js", "js");
+					}
+					
+					//hash contains the value without #in front of the internal link
+					var hash=widget.replace(document.location.protocol+'//'+document.location.host,'');
+					
+					document.location.hash=hash;
+					
+					//adding a referer param to all Ajax request in Ext objects
+					Ext.Ajax.extraParams = {
+					    'referer': hash
+					};
+					
+					afApp.executeAddonsLoadCenterWidget(viewport,total_addons,json,mask);	
+				}				
 			},
 			params : {
 				widget_load : true
