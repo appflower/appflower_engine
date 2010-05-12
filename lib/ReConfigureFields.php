@@ -4,7 +4,7 @@
  * @author Prakash Paudel
  * Reconfigure the form fields
  * 
- * The class helps to tweek the form fields globally according 
+ * The class helps to tweak the form fields globally according 
  * to certain conditions
  */
 class ReConfigureFields{	
@@ -47,12 +47,15 @@ class ReConfigureFields{
 		$attr = $this->field['attributes'];
 		if(preg_match("/\*$/",trim($attr['label']))){
 			$this->field['attributes']['label'] = preg_replace("/\*$/","",trim($attr['label']));			
-		}		
+		}
+		if(preg_match("/<font color=red>\*<\/font>$/",trim($attr['label']))){
+			$this->field['attributes']['label'] = preg_replace("/<font color=red>\*<\/font>$/","",trim($attr['label']));			
+		}
 	}
 	private function addAsterisk(){
 		$attr = $this->field['attributes'];
-		if(!preg_match("/\*$/",trim($attr['label']))){
-			$this->field['attributes']['label'] = $attr['label']."*";
+		if(!preg_match("/\*$/",trim($attr['label'])) && !preg_match("/<font color=red>\*<\/font>$/",trim($attr['label']))){
+			$this->field['attributes']['label'] = $attr['label']."<font color=red>*</font>";
 		}		
 	}
 	public function getField(){
