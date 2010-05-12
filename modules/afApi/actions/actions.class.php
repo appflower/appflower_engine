@@ -36,7 +36,10 @@ class afApiActions extends sfActions
     private function escapeHtml(&$rows) {
         foreach($rows as &$row) {
             foreach($row as $column => &$value) {
-                if(is_string($value) &&
+                if($value instanceof sfOutputEscaperSafe) {
+                    $value = (string)$value;
+                }
+                else if(is_string($value) &&
                     preg_match('/^html|^link/i', $column) === 0) {
                     $value = htmlspecialchars($value);
                 }
