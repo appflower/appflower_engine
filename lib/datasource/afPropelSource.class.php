@@ -3,7 +3,7 @@
 class afPropelSource implements afIDataSource {
     private
         $class,
-        $selectedColumns,
+        $extractor,
         $criteria,
         $start = 0,
         $limit = null,
@@ -12,9 +12,9 @@ class afPropelSource implements afIDataSource {
         $sortDir = 'ASC',
         $initialized = false;
 
-    public function __construct($class, $selectedColumns) {
-        $this->class = $class;
-        $this->selectedColumns = $selectedColumns;
+    public function __construct($extractor) {
+        $this->class = $extractor->getClass();
+        $this->extractor = $extractor;
         $this->criteria = new Criteria();
     }
 
@@ -56,9 +56,7 @@ class afPropelSource implements afIDataSource {
 
         $this->init();
         $objects = $this->pager->getResults();
-        $extractor = new afColumnExtractor($this->class,
-            $this->selectedColumns);
-        return $extractor->extractColumns($objects);
+        return $this->extractor->extractColumns($objects);
     }
 
     private function init() {

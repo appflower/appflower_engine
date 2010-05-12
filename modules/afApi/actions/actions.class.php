@@ -73,7 +73,7 @@ class afApiActions extends sfActions
         }
     }
 
-    private static function createDataSource($view, $filters=null) {
+    private static function createDataSource($view, $filters, $format='html') {
         $listView = new afListView($view);
         $selectedColumns = $listView->getSelectedColumns();
 
@@ -86,7 +86,9 @@ class afApiActions extends sfActions
             afFilterUtil::setFilters($criteria, $filters);
 
             $class = self::getClassFromPeerClass($peer);
-            $source = new afPropelSource($class, $selectedColumns);
+            $extractor = new afColumnExtractor($class, $selectedColumns,
+                $format);
+            $source = new afPropelSource($extractor);
             $source->setCriteria($criteria);
         } else if($sourceType === 'static') {
             list($callback, $params) = self::getDataSourceCallback($view);

@@ -2,7 +2,9 @@
 include(dirname(__FILE__).'/../bootstrap/dbunit.php');
 $t = new lime_test(13, new lime_output_color());
 
-$source = new afPropelSource('MonitorService', array('name', 'port', 'server_id'));
+$extractor = new afColumnExtractor('MonitorService',
+	array('name', 'port', 'server_id'));
+$source = new afPropelSource($extractor);
 
 $t->is($source->getTotalCount(), 8);
 $t->is(count($source->getRows()), 8);

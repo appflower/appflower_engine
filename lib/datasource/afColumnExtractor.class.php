@@ -12,6 +12,14 @@ class afColumnExtractor {
         $this->formatMethodPrefix = 'get'.sfInflector::camelize($format);
     }
 
+    public function getClass() {
+        return $this->class;
+    }
+
+    public function getSelectedColumns() {
+        return $this->selectedColumns;
+    }
+
     private function prepareGetters() {
         $peer = constant($this->class.'::PEER');
         $tableMap = call_user_func(array($peer, 'getTableMap'));
