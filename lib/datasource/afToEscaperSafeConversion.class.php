@@ -1,9 +1,9 @@
 <?php
 
 /**
- * A conversion to a string value.
+ * A conversion to a sfOutputEscaperSafe() wrapper.
  */
-class afToStringConversion {
+class afToEscaperSafeConversion {
     private static
         $instance = null;
 
@@ -11,10 +11,7 @@ class afToStringConversion {
     }
 
     public function convert($value) {
-        if($value === null) {
-            return null;
-        }
-        return (string)$value;
+        return new sfOutputEscaperSafe($value);
     }
 
     public static function getInstance() {

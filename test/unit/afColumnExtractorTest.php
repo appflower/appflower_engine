@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__).'/../bootstrap/dbunit.php');
-$t = new lime_test(3, new lime_output_color());
+$t = new lime_test(4, new lime_output_color());
 
 $extractor = new afColumnExtractor('Server', array('name', 'alert_interval', 'updated_at', 'location_id', 'server_type_id', 'is_enabled'));
 
@@ -18,6 +18,7 @@ $objects = array($server);
 
 $rows = $extractor->extractColumns($objects);
 $row = $rows[0];
+$t->is(get_class($row['is_enabled']), 'sfOutputEscaperSafe');
 $t->like($row['is_enabled'], '@^<img src=\'/images/famfamfam/accept.png\' .*@');
 unset($row['is_enabled']);
 

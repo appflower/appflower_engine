@@ -28,34 +28,31 @@ class afColumnExtractor {
             $col = $tableMap->getColumn($column);
             if($col->getRelatedTableName()) {
                 $methodName = afMetaDb::getForeignMethodName($col);
-                $methodName = $this->customizeFormat($methodName);
-                $getter = new afMethodGetter($methodName,
+                $getter = $this->createMethodGetter($methodName,
                     afToStringConversion::getInstance());
             } else {
                 $methodName = 'get'.$col->getPhpName();
-                $methodName = $this->customizeFormat($methodName);
                 if($col->isTemporal()) {
                     $getter = new afDatetimeGetter($methodName);
                 } else {
-                    $getter = new afMethodGetter($methodName);
+                    $getter = $this->createMethodGetter($methodName);
                 }
             }
         } else {
             $methodName = 'get'.sfInflector::camelize($column);
-            $methodName = $this->customizeFormat($methodName);
-            $getter = new afMethodGetter($methodName);
+            $getter = $this->createMethodGetter($methodName);
         }
         return $getter;
     }
 
-    private function customizeFormat($methodName) {
+    private function createMethodGetter($methodName, $conversion=null) {
         $formatMethod = preg_replace('/^get/',
             $this->formatMethodPrefix, $methodName, 1);
         if(method_exists($this->class, $formatMethod)) {
-            //TODO: wrap the getter output in sfOutputEscaperSafe().
-            return $formatMethod;
+            $methodName = $formatMethod;
+            $conversion = afToEscaperSafeConversion::getInstance();
         }
-        return $methodName;
+        return new afMethodGetter($methodName, $conversion);
     }
 
     /**
