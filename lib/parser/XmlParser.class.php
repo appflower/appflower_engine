@@ -2460,9 +2460,6 @@ class XmlParser extends XmlParserTools {
 				$formoptions["action"] = $host.url_for($parse["form"]);
 				$formoptions["name"] = "form".$it;
 				$formoptions["classic"] = ($parse["classic"] !== "false");
-				$formoptions["resetable"] = ($parse["resetable"] !== "false");
-				$formoptions["resetlabel"] = $parse["resetlabel"];
-				$formoptions["submitlabel"] = $parse["submitlabel"];
 				$formoptions["labelWidth"] = isset($parse['labelWidth'])?$parse['labelWidth']:'75';
 				if($this->type == self::PANEL) {
 					$widget = $this->context->getActionName();	
@@ -2754,12 +2751,14 @@ class XmlParser extends XmlParserTools {
 									$form_params = null;	
 								}
 							}
-							$obj = new ImmExtjsSubmitButton($form,array("action"=>$formoptions["action"], "params" => $form_params));	
+							$obj = new ImmExtjsSubmitButton($form,array("action"=>$formoptions["action"], "label" => $parse["submitlabel"], "params" => $form_params));	
 						} else {
 							$this->formaction = $formoptions["action"];
 						}
-						if(!isset($parse['isSetting']) || $parse['isSetting']==="false")
-						$obj = new ImmExtjsResetButton($form,array("action"=>$formoptions["action"]));	
+						if((!isset($parse['isSetting']) || $parse['isSetting']==="false") && $parse["resetable"] !== "false") {
+							$obj = new ImmExtjsResetButton($form,array("action"=>$formoptions["action"],"text" => $parse["resetlabel"]));	
+						}
+							
 					}
 					
 				}
@@ -3542,7 +3541,7 @@ class XmlParser extends XmlParserTools {
 	  	}
 	  	
 	  	if($this->multisubmit && $this->type !== self::WIZARD) {
-	  		new ImmExtjsSubmitButton($this->forms[0],array('action'=>$this->formaction,
+	  		new ImmExtjsSubmitButton($this->forms[0],array('action'=>$this->formaction, "label" => $parse["submitlabel"],
 				'afterSuccess'=>'
 				var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Saving additional information... <br>Please wait..."});
 				myMask.show();
