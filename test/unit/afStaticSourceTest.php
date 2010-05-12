@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__).'/../bootstrap/dbunit.php');
-$t = new lime_test(8, new lime_output_color());
+$t = new lime_test(12, new lime_output_color());
 
 $source = new afStaticSource(array('ServerSnmpGraphPeer', 'getGraphTree'), array(1));
 
@@ -23,3 +23,14 @@ $source->setLimit(0);
 $t->is(count($source->getRows()), 0);
 $source->setLimit(null);
 $t->is(count($source->getRows()), $totalCount);
+
+$source->setSort('name', 'DESC');
+$rows = $source->getRows();
+$t->is(count($rows), 28);
+$t->is($rows[0]['name'], 'Users');
+$t->is($rows[27]['name'], '(em0) Bandwith Usage');
+
+$source->setSort('name', 'ASC');
+$rows = $source->getRows();
+$t->is($rows[0]['name'], '(em0) Bandwith Usage');
+

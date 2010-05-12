@@ -6,6 +6,8 @@ class afStaticSource implements afIDataSource {
         $params,
         $start = 0,
         $limit = null,
+        $sortColumn = null,
+        $sortDir = 'ASC',
         $results = null;
 
     public function __construct($callback, $params) {
@@ -25,6 +27,11 @@ class afStaticSource implements afIDataSource {
         $this->start = max(0, $start);
     }
 
+    public function setSort($column, $sortDir='ASC') {
+        $this->sortColumn = $column;
+        $this->sortDir = $sortDir;
+    }
+
     public function getTotalCount() {
         $this->init();
         return count($this->results);
@@ -32,6 +39,13 @@ class afStaticSource implements afIDataSource {
 
     public function getRows() {
         $this->init();
+
+        if($this->sortColumn) {
+            RowCmp::sortByColumn($this->results,
+                $this->sortColumn, $this->sortDir);
+        }
+
+        // The slicing have to be done after sorting.
         if($this->limit !== null) {
             $rows = array_slice($this->results, $this->start, $this->limit);
         } else {

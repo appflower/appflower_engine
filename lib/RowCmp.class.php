@@ -24,4 +24,10 @@ class RowCmp
         }
         return $result;
     }
+
+    public static function sortByColumn(&$rows, $sortColumn, $sortDir)
+    {
+        $cmp = new RowCmp($sortColumn, $sortDir);
+        usort($rows, array($cmp, 'cmp'));
+    }
 }

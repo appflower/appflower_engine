@@ -8,6 +8,9 @@ class afToStringConversion {
     }
 
     public function convert($value) {
+        if($value === null) {
+            return null;
+        }
         return (string)$value;
     }
 
