@@ -3128,14 +3128,6 @@ class XmlParser extends XmlParserTools {
 				
 				$export_config = sfConfig::get('app_parser_export');
 				
-				/**
-				* default select & unselect, export page, export all to csv in all actions
-				*/
-				
-				if($formoptions["select"]) {
-					$grid->addMenuActionsItem(array('label'=>'Select All','icon'=>'/images/famfamfam/flag_green.png','listeners'=>array('click'=>array('parameters'=>'','source'=>$grid->privateName.".getSelectionModel().selectAll()"))));
-					$grid->addMenuActionsItem(array('label'=>'Deselect All','icon'=>'/images/famfamfam/flag_red.png','listeners'=>array('click'=>array('parameters'=>'','source'=>$grid->privateName.".getSelectionModel().clearSelections()"))));
-				}
 				
 				if(isset($export_config["enabled"]) && $export_config["enabled"] === true && $parse["exportable"] == "true") {
 					
