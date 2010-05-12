@@ -8,7 +8,8 @@ class afApiActions extends sfActions
 
         $doc = afConfigUtils::getDoc($module, $action);
         $view = afDomAccess::wrap($doc, 'view');
-        $source = self::createDataSource($view);
+        $source = self::createDataSource($view,
+            $this->getRequestParameter('filter'));
         self::setupDataSource($source, $this->getRequest());
         if($view->getBool('fields@tree')) {
             $source->setLimit(null);
@@ -72,7 +73,7 @@ class afApiActions extends sfActions
         }
     }
 
-    private static function createDataSource($view) {
+    private static function createDataSource($view, $filters=null) {
         $listView = new afListView($view);
         $selectedColumns = $listView->getSelectedColumns();
 
@@ -82,6 +83,7 @@ class afApiActions extends sfActions
             list($callback, $params) = self::getDataSourceCallback($view);
             list($peer, $method) = $callback;
             $criteria = call_user_func_array($callback, $params);
+            afFilterUtil::setFilters($criteria, $filters);
 
             $class = self::getClassFromPeerClass($peer);
             $source = new afPropelSource($class, $selectedColumns);

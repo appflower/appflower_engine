@@ -6,7 +6,7 @@ class afFilterUtil {
 	 * 
 	 * @author radu
 	 */
-	public static function setFilters(Criteria &$criteria,$filters)
+	public static function setFilters(Criteria $criteria,$filters)
 	{		
 		if($filters)
 		{		
