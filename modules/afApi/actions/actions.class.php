@@ -37,7 +37,7 @@ class afApiActions extends sfActions
         foreach($rows as &$row) {
             foreach($row as $column => &$value) {
                 if(is_string($value) &&
-                    !StringUtil::startsWith($column, 'html_')) {
+                    preg_match('/^html|^link/i', $column) === 0) {
                     $value = htmlspecialchars($value);
                 }
             }
