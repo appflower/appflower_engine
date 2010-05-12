@@ -15,6 +15,7 @@ class afApiActions extends sfActions
         }
 
         $rows = $source->getRows();
+        self::escapeHtml($rows);
         self::addRowActionSuffixes($view, $rows);
 
         $gridData = new ImmExtjsGridData();
@@ -29,6 +30,17 @@ class afApiActions extends sfActions
         $sortColumn = $request->getParameter('sort');
         if($sortColumn) {
             $source->setSort($sortColumn, $request->getParameter('dir', 'ASC'));
+        }
+    }
+
+    private function escapeHtml(&$rows) {
+        foreach($rows as &$row) {
+            foreach($row as $column => &$value) {
+                if(is_string($value) &&
+                    !StringUtil::startsWith($column, 'html_')) {
+                    $value = htmlspecialchars($value);
+                }
+            }
         }
     }
 
