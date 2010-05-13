@@ -99,12 +99,16 @@ class afApiActions extends sfActions
     }
 
     private static function getDataSourceCallback($view) {
-        //TODO: parse the params from the XML config
-        $params = array();
+        $args = array();
+        $params = $view->wrapAll('datasource/method/param');
+        foreach($params as $param) {
+            $args[] = $param->get('');
+        }
+
         $class = $view->get('datasource/class');
         $method = $view->get('datasource/method@name');
         $callback = array($class, $method);
-        return array($callback, $params);
+        return array($callback, $args);
     }
 
     private static function getClassFromPeerClass($peerClass) {
