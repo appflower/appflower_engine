@@ -384,7 +384,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 			</xs:documentation>
 		</xs:annotation>
 		 <xs:restriction base="xs:token">
-		  	<xs:pattern value="([A-Za-z\*]+[,]{0,1})+"/>
+		  	<xs:pattern value="([A-Za-z*]+[,]{0,1})+"/>
 		  	<xs:whiteSpace value="collapse"/>
 		  </xs:restriction>
 	</xs:simpleType>
