@@ -3819,7 +3819,7 @@ if(response.message) {
 		// an action method to get the attributes.
 		$vars = $action->getVarHolder()->getAll();
 		foreach($vars as $key => $value) {
-			if(is_object($value)) {
+			if(is_object($value) || is_array($value)) {
 				unset($vars[$key]);
 			}
 		}
