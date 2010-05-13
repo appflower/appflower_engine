@@ -436,33 +436,35 @@ afApp.reloadGridsData = function (idXmls)
 	var portals=new Array();
 	
 	var center_panel_first_portal=Ext.getCmp('center_panel_first_portal');
-	
-	if(center_panel_first_portal.layoutType=='NORMAL')
+	if(center_panel_first_portal)
 	{
-		portals[0]=center_panel_first_portal;
-	}
-	else if(center_panel_first_portal.layoutType=='TABBED')
-	{
-		for(var i = 0; i < center_panel_first_portal.items.items.length; i++) {
-			portals[i]=center_panel_first_portal.items.items[i].items.items[0];
+		if(center_panel_first_portal.layoutType=='NORMAL')
+		{
+			portals[0]=center_panel_first_portal;
 		}
-	}
-	
-	for(var i=0; i<portals.length; i++)
-	{
-		var col;
-        for(var c = 0; c < portals[i].items.getCount(); c++) {
-            col = portals[i].items.get(c); 	            
-            if(col.items) {
-                for(var s = 0; s < col.items.getCount(); s++) {
-                	var widget=col.items.get(s);
-                	if(idXmls.in_array(widget.idxml))
-                	{
-                		widget.store.reload();
-                	}
-                }
-            }
-        }
+		else if(center_panel_first_portal.layoutType=='TABBED')
+		{
+			for(var i = 0; i < center_panel_first_portal.items.items.length; i++) {
+				portals[i]=center_panel_first_portal.items.items[i].items.items[0];
+			}
+		}
+		
+		for(var i=0; i<portals.length; i++)
+		{
+			var col;
+	        for(var c = 0; c < portals[i].items.getCount(); c++) {
+	            col = portals[i].items.get(c); 	            
+	            if(col.items) {
+	                for(var s = 0; s < col.items.getCount(); s++) {
+	                	var widget=col.items.get(s);
+	                	if(idXmls.in_array(widget.idxml))
+	                	{
+	                		widget.store.reload();
+	                	}
+	                }
+	            }
+	        }
+		}
 	}
 }
 Ext.onReady(function(){
