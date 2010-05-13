@@ -1,17 +1,30 @@
 <?php
 
+/**
+ * An access to a widget XML config.
+ * It hides the DOM elements to have a flexibity
+ * where to get the values.
+ * For example, placeholders and i:if logic could build inside of it.
+ */
 class afDomAccess {
-    private $node;
+    private
+        $node,
+        $scope;
 
-    private function __construct($node) {
+    private function __construct($node, $scope) {
         $this->node = $node;
+        $this->scope = $scope;
     }
 
     /**
      * Creates a wrapper to access values on the given path.
+     * The scope is used when replacing a {placeholder}.
      */
-    public static function wrap($node, $path='') {
-        return new afDomAccess(self::getElement($node, $path));
+    public static function wrap($node, $path, $scope=null) {
+        if($scope === null) {
+            $scope = new afVarScope(array());
+        }
+        return new afDomAccess(self::getElement($node, $path), $scope);
     }
 
     /**
@@ -22,7 +35,7 @@ class afDomAccess {
         $wrappers = array();
         $elements = self::getElements($this->node, $path);
         foreach($elements as $element) {
-            $wrappers[] = new afDomAccess($element);
+            $wrappers[] = new afDomAccess($element, $this->scope);
         }
         return $wrappers;
     }
@@ -32,11 +45,11 @@ class afDomAccess {
      * The path could be a path/to/element or a path/to@attribute.
      */
     public function get($path, $default='') {
-        return self::getValue($this->node, $path, $default);
+        return $this->getValue($path, $default);
     }
 
     public function getBool($path, $default=false) {
-        $value = self::getValue($this->node, $path, $default);
+        $value = $this->getValue($path, $default);
         return $value === true || $value === 'true';
     }
 
@@ -81,18 +94,18 @@ class afDomAccess {
         return $newToexpand;
     }
 
-    private static function getValue($node, $path, $default=null) {
+    private function getValue($path, $default=null) {
         $pathToAttribute = explode('@', $path);
         if(count($pathToAttribute) === 1) {
-            $element = self::getElement($node, $path);
+            $element = self::getElement($this->node, $path);
             if($element === null) {
                 return $default;
             }
-            return $element->textContent;
+            return $this->scope->interpret($element->textContent);
         }
 
         list($path, $attr) = $pathToAttribute;
-        $element = self::getElement($node, $path);
+        $element = self::getElement($this->node, $path);
         if($element === null) {
             return $default;
         }
@@ -100,7 +113,7 @@ class afDomAccess {
             return $default;
         }
 
-        return $element->getAttribute($attr);
+        return $this->scope->interpret($element->getAttribute($attr));
     }
 
     /**

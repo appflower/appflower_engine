@@ -7,7 +7,8 @@ class afApiActions extends sfActions
         list($module, $action) = explode('/', $config);
 
         $doc = afConfigUtils::getDoc($module, $action);
-        $view = afDomAccess::wrap($doc, 'view');
+        $view = afDomAccess::wrap($doc, 'view',
+            new afVarScope($this->getRequest()->getParameterHolder()->getAll()));
         $source = self::createDataSource($view,
             $this->getRequestParameter('filter'));
         self::setupDataSource($source, $this->getRequest());
