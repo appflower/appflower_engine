@@ -17,7 +17,11 @@ class afApiActions extends sfActions
         }
 
         $rows = $source->getRows();
-        self::escapeHtml($rows);
+        // To support existing static datasources,
+        // html escaping is disabled for them.
+        if($source instanceof sfPropelSource) {
+            self::escapeHtml($rows);
+        }
         self::addRowActionSuffixes($view, $rows);
 
         $gridData = new ImmExtjsGridData();
