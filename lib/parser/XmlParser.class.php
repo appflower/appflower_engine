@@ -884,7 +884,7 @@ class XmlParser extends XmlParserTools {
 	}
 	
 	
-	public static function readDocumentByPath($path,$xpath = true) {
+	public static function readDocumentByPath($path,$xpath = true, Array $ns = array()) {
 		
 		if(!file_exists($path) || !is_readable($path)) {
 			throw new XmlValidatorException("The file ".$file." doesn't exist or isn't readable!");
@@ -936,10 +936,9 @@ class XmlParser extends XmlParserTools {
 		
 	} 
 	
-	public static function buildDocument($path,$xpath = true) {
+	public static function buildDocument($path,$xpath = true,Array $ns = array()) {
 		
-		$namespace = "http://www.appflower.com/schema/";
-		$namespace_prefix = "i";
+		$ns[] = array("prefix" => "i", "uri" => "http://www.appflower.com/schema/");
 	
 		$document = new DOMDocument();
 		$document->load($path);
@@ -947,10 +946,12 @@ class XmlParser extends XmlParserTools {
 		if($xpath) {
 			$xp = new DOMXPath($document);
 	
-			if(!$xp->registerNamespace($namespace_prefix,$namespace)) {
-				throw XmlParserException("Unable to register immune namespace!");
-			}	
-		
+			foreach($ns as $data) {
+				if(!$xp->registerNamespace($data["prefix"],$data["uri"])) {
+					throw XmlParserException("Unable to register namespace: ".$data["uri"]);
+				}		
+			}
+			
 			return $xp;
 		} else {
 			return $document;

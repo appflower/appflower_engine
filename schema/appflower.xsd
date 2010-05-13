@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:i="http://www.appflower.com/schema/" 
+<xs:schema xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:i="http://www.appflower.com/schema/" 
 xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/schema/" elementFormDefault="qualified">
 	<xs:annotation>
 		<xs:documentation>
@@ -9,14 +9,14 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
   
   <!-- Imported XHTML Namespace - adds XHTML 1.1 Strict content -->
   
-  <xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd" />
+  <xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd" i:name="XHTML1.1 Strict" />
 	
     
   <!-- Types -->
     
 	<xs:simpleType name="inputType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This is the data type of form fields. It determines what kind of field will be rendered.
 				It is an enumeration or placeholder and it may have the following values:
 				
@@ -70,7 +70,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
 	<xs:simpleType name="stateType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This is the data type of the state of form fields.
 				There are three valid states:
 				
@@ -94,7 +94,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
   
 	<xs:simpleType name="alignType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				These are the possible values of align attribute of a grid column.
 				
 				left (default)
@@ -118,7 +118,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="buttonType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This is the data type for buttons. It determines what kind of button will be
 				created.
 				
@@ -143,7 +143,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 
 	<xs:simpleType name="valueType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				The type of the source of a form field value. It may be defined as:
 				
 				orm 		- read the data from DB
@@ -166,7 +166,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="fetchType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This determines whether the method is a static method.
 				No other type is currently supported.
 				
@@ -188,7 +188,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="areaWidthType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This is the type for panel widths. Its value must be between 1 and 0.
 			</xs:documentation>
 		</xs:annotation>
@@ -202,7 +202,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="viewType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This data type determines the type of the view.
 				It may have the following values:
 				
@@ -234,7 +234,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="areaType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This data type defines the possible values of "area" element's type attribute.
 				
 				It is used only in Pages, may have the following values:
@@ -260,7 +260,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="displayType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				Depricated: This type is not in use anymore!
 				
 			</xs:documentation>
@@ -278,7 +278,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="sortType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This is the data type of a column's sort attribute.
 				It determines the direction of sorting:
 				
@@ -301,7 +301,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 
 	<xs:simpleType name="internalUriType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This is the data type of symfony internal URIs. The value must be a string, in the following
 				format:
 			
@@ -321,7 +321,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="listType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This data type is good for comma separated lists ",".
 				The items in the list may contain only letters (english ABC) and numbers 				
 			</xs:documentation>
@@ -334,7 +334,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="varType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				The data type of placeholders. Format:
 				
 				{string}
@@ -349,7 +349,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="arrayType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This type defines an array (key => value pairs).
 				The array can be associative or numeric, and should look like this:
 				
@@ -371,7 +371,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="permissionType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This data type is used to define a list of access rights for a widget. These are strings.
 				The character "*" (asterisk) means there are no restrictions, and this is the default value.
 				
@@ -391,7 +391,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="absoluteUriType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				Data type of absolute paths pointing to files, used for image srcs. Nix* kind of syntax is expected.	
 			</xs:documentation>
 		</xs:annotation>
@@ -403,7 +403,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="pathType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				Data type of absolute paths pointing to directories. Nix* kind of syntax is expected. 	
 			</xs:documentation>
 		</xs:annotation>
@@ -416,7 +416,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="scriptType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This one is the data type for JS calls.	
 				It is only for function calls, the function body must be defined in external file!
 			</xs:documentation>
@@ -429,7 +429,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="externalUriType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This is the data type for external URLs. A valid value is any internet URL with protocol.
 			</xs:documentation>
 		</xs:annotation>
@@ -441,7 +441,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="webUriType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This is the data type for web (http/https) urls. A valid value is a http(s) address.
 			</xs:documentation>
 		</xs:annotation>
@@ -453,7 +453,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="combinedUriType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This is the data type for urls. Its value can be an internal symfony URI or
 				any URL. 
 			</xs:documentation>
@@ -463,7 +463,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="dbNameType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				The data type for database column names. It is used by the column's
 				"name" attribute. 				
 			</xs:documentation>
@@ -477,7 +477,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:simpleType name="handlerType">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				The data type for javascript event handlers.
 				
 			</xs:documentation>
@@ -535,7 +535,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:attributeGroup name="fieldAttributes">
         <xs:annotation>
-            <xs:documentation>
+            <xs:documentation xml:lang="en">
                These are the attributes for each field, checkbox and radio element.
                All of them are optional, except for "name", which is required:
             
@@ -588,7 +588,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
 	<xs:attributeGroup name="columnAttributes">
       <xs:annotation>
-            <xs:documentation>
+            <xs:documentation xml:lang="en">
                These are the attributes for each column element.
      
             	name 		- The name of the column in db
@@ -641,7 +641,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 
 	<xs:attributeGroup name="showAttributes">
         <xs:annotation>
-            <xs:documentation>
+            <xs:documentation xml:lang="en">
               Depricated: This element is not in use anymore!
             </xs:documentation>
         </xs:annotation>
@@ -658,7 +658,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:attributeGroup name="buttonAttributes">
         <xs:annotation>
-            <xs:documentation>
+            <xs:documentation xml:lang="en">
                These are the attributes used by button elements
      
             	name 		- The name of the field
@@ -692,7 +692,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:group name="actionelements">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		This is a group of elements common to all actions
 	  	</xs:documentation>
 	  </xs:annotation>
@@ -704,7 +704,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
     <xs:group name="fieldelements">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		This group of elements is common to all form fields.
 	  		These are the children of the field element.
 	  	</xs:documentation>
@@ -733,7 +733,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="title">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element defines the title text of a view
         </xs:documentation>
       </xs:annotation>
@@ -746,7 +746,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="trigger">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             Thisrenders as a special button which is bound to a field. It opens a popup window. See docs.
             
             text 		- Custom text for the button
@@ -766,7 +766,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="window">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             The element defines the properties of the popup window opened by the trigger element.
             
             Please not that this is not a real window, but only a DHTML layer.
@@ -794,7 +794,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="description">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element contains the description of a widget. Also used to define widget help.
             
             image			- Path to an image file to be shown in the widget selector's listing. Usually a screenshot of the widget.         
@@ -818,7 +818,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="alternateDescriptions">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element holds description elements, alternatives to the main description of the widget.
             
             permissions 	-  Access rights required to render the element.
@@ -838,7 +838,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="extrahelp">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element defines some extra information about a glued page.
             It is a kind of help.
             
@@ -859,7 +859,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="body">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             Depricated: This element is not in use anymore!
         </xs:documentation>
       </xs:annotation>
@@ -877,7 +877,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="confirm">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This one will be rendered as a confirm dialogue on client side.
             
             url			- The URL to redirect to when dialogue is rejected.
@@ -898,7 +898,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="component">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element refers to a widget to be included as part of a Page.
             
             name			- SF action name
@@ -928,7 +928,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="help">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             The element contains some help text related to a form field. It should shown when hover event occurs.
             
             permissions 	-  Access rights required to render the element.
@@ -944,7 +944,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="comment">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             The element defines the comment text that should be rendered beneath the form field.
             
             permissions 	-  Access rights required to render the element.
@@ -960,7 +960,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="statement">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This one contains a SQL statement to be executed, substitutes datasource.
         </xs:documentation>
       </xs:annotation>
@@ -972,7 +972,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="options">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This one holds optional attributes used in HTML views.
             
             autoScroll			- ???
@@ -999,7 +999,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="method">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element describes a method to call and its (optional) arguments
             It may contain any number of "param" elements, these represent the arguments.
             
@@ -1019,7 +1019,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="item">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element defines an item of a combo or multicombo statically.
             It can be used within value elements.
             
@@ -1034,7 +1034,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="value">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element describes the value of a form field.
 							
 			The first syntax is for special cases, when you need to call
@@ -1076,7 +1076,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 
 	<xs:element name="datasource">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element describes the data source of a grid, edit or show view.
             
             type			- Type of data source. See docs.
@@ -1105,7 +1105,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="datastore">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element is used to define relations between form field names and db tables regarding
             automatic saving of user input. It is used only in wizard views.
             
@@ -1127,7 +1127,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="table">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element represents a db table, determined where to save the user input.
             It is used only in wizard views.
             
@@ -1165,7 +1165,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="file">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element represents a file upload opreation.
             
             to 				- Path to move the uploaded file to.
@@ -1185,7 +1185,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
 	<xs:element name="params">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element holds parameters of its parent node.
 			It contains 1 or more "param" elements.
         </xs:documentation>
@@ -1201,7 +1201,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 
     <xs:element name="param">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             It represents a parameter or a function argument. 
             
             name			- Name odf the parameter
@@ -1218,7 +1218,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="validator">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element refers to a validator to be called to validate input.
             
             name			- Class name of the validator to use (SF 1.0 or 1.2 API)
@@ -1240,7 +1240,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="proxy">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             The element defines a proxy url for list views.
             This action will be called by the client to fetch list items as JSON.
             
@@ -1258,7 +1258,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="handler">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             The element can be used to define an event handler for a form field (and some other elements).
             
             type 		- the event type (HTML or custom event)
@@ -1280,7 +1280,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="field">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element describes an input field of a form.
         </xs:documentation>
       </xs:annotation>
@@ -1298,7 +1298,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 
 	<xs:element name="show">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             Depricated: The element is not in use anymore!
         </xs:documentation>
       </xs:annotation>
@@ -1312,7 +1312,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
   
     <xs:element name="button">
       <xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element represents a push button. Can be used in forms.
         </xs:documentation>
       </xs:annotation>
@@ -1332,7 +1332,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <xs:element name="link">
       <xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This element is used to create hyperlinks. It has two attributes:
             
             name				- A unique name (ID).
@@ -1357,7 +1357,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
      <xs:element name="radiogroup">
       <xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             The element is the container of radio buttons (if you need to group them). 
            
            	name				- The name of the group
@@ -1387,7 +1387,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 
 	<xs:element name="fields">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		This is a container element and has different purpose in each view.
 				
 			See docs dor details!
@@ -1424,19 +1424,19 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  </xs:annotation>
 	  <xs:complexType>
       	<xs:choice minOccurs="1" maxOccurs="1">
-					<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:choice minOccurs="0" maxOccurs="unbounded" i:view="edit">
 						<xs:element ref="i:field" minOccurs="1" maxOccurs="unbounded"/>
       					<xs:element ref="i:button" minOccurs="0" maxOccurs="unbounded"/>
       					<xs:element ref="i:link" minOccurs="0" maxOccurs="unbounded"/>
       					<xs:element ref="i:radiogroup" minOccurs="0" maxOccurs="unbounded"/>
       					<xs:element ref="i:if" minOccurs="1" maxOccurs="unbounded"/>
 					</xs:choice>
-					<xs:choice minOccurs="0" maxOccurs="1">
+					<xs:choice minOccurs="0" maxOccurs="1" i:view="list">
 						<xs:sequence>
 							<xs:element ref="i:column" minOccurs="1" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:choice>
-					<xs:choice minOccurs="0" maxOccurs="1">
+					<xs:choice minOccurs="0" maxOccurs="1" i:view="show">
 						<xs:sequence>
 							<xs:element ref="i:show" minOccurs="1" maxOccurs="unbounded"/>
 						</xs:sequence>
@@ -1477,7 +1477,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="grouping">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		In an edit view, this one can be used to arrange fields. It will transformed to
 				something like fieldsets in HTML.
 				It also determines the order of the fields in the view. 
@@ -1492,12 +1492,12 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  </xs:annotation>
 	  <xs:complexType>
       	<xs:choice minOccurs="1" maxOccurs="1">
-					<xs:choice minOccurs="1" maxOccurs="1">
+					<xs:choice minOccurs="1" maxOccurs="1" i:view="edit">
 						<xs:sequence>
 							<xs:element ref="i:set" minOccurs="1" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:choice>
-					<xs:choice minOccurs="1" maxOccurs="1">
+					<xs:choice minOccurs="1" maxOccurs="1" i:view="list">
 						<xs:sequence>
 							<xs:element ref="i:by" minOccurs="1" maxOccurs="unbounded"/>
 						</xs:sequence>
@@ -1514,7 +1514,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="if">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		This element applies a condition. If expression in "test" attribute evalutes to false,
 	  		the contents of i:if won't be parsed.
 	  		
@@ -1553,7 +1553,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="by">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		This tag is used to define a grouping criteria for a list column.
 	  	
 	  		callback			- ???
@@ -1569,7 +1569,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="set">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		This tag is used to define a fieldset in Edit Views.
 	  	
 	  		title			- Title text
@@ -1598,7 +1598,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="ref">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		It refers to a field defined within the "fields" element. 
 			
 			to			- Name of the field to refer to
@@ -1623,7 +1623,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="source">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 				This is a reference to one of the getter methods of the object returned by "datasource". The return value will be
 				the value of the "field" element. 
 				
@@ -1638,7 +1638,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="column">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		This tag defines a column of a list view. 
 	  	</xs:documentation>
 	  </xs:annotation>
@@ -1652,7 +1652,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="actions">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		The tag used to list the global actions for a given view.
 	  		
 	  		permissions 		-  Access rights required to render the element.
@@ -1676,7 +1676,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="widgetCategories">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				This one defines those widget categries that should be listed in widget selector.
 				It can be used only in Pages.
 				
@@ -1697,7 +1697,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="category">
 		<xs:annotation>
-			<xs:documentation>
+			<xs:documentation xml:lang="en">
 				Refers to a widget category. All widgets related to the category will be listed 
 				in widget selector.
 				
@@ -1717,7 +1717,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 
 	<xs:element name="rowactions">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		The tag used to list the actions related to a row in the list.
 	  	</xs:documentation>
 	  </xs:annotation>
@@ -1735,7 +1735,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="moreactions">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		The tag used to list the actions to be placed in drop-down menu placed in the top right corner of the list.
 	  		
 	  		permissions 		-  Access rights required to render the element.
@@ -1756,7 +1756,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="action">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		This tag describes an action (either normal, rowaction or moreaction).
 	  		
 	  		name			- Unique name of the action. Also used as the label if "text" attribute is omitted. 
@@ -1808,7 +1808,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="selectors">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		This element describes the selectors for treegrid with multiple
 	  		leveles.
 	  		
@@ -1828,7 +1828,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="display">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		This one is for list and show views. It is a container of
 	  		multiple elements manipulating how the view gets
 	  		displayed.
@@ -1849,7 +1849,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="cache">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		The element controls cacheing, by defining a set of references to
 			to named elements that should be cached.
 				
@@ -1868,7 +1868,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="area">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		It defines an area of a Page.
 	  		
 	  		type			- Type of the area
@@ -1902,7 +1902,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="tab">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		This defines a tab for tabbed Pages.
 	  		
 	  		title				- Tab title text
@@ -1932,7 +1932,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		
 	<xs:element name="tree">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		This element will be rendered as a tree with expandable branches.
 	  		It can be added to any area element.
 	  		
@@ -1958,7 +1958,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="root">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		The element is the root node of a tree. All nodes must reside
 	  		inside of this one.
 	  		
@@ -1980,7 +1980,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="node">
 	  <xs:annotation>
-	  	<xs:documentation>
+	  	<xs:documentation xml:lang="en">
 	  		This one is an elmenet of the tree. It may define a section (branch)
 	  		or an item (link). A node may contain other nodes.
 	  		
@@ -2004,7 +2004,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:element name="view">
     	<xs:annotation>
-        <xs:documentation>
+        <xs:documentation xml:lang="en">
             This is the root element of our XML structure. 
             It may contain several different types of elements depending on the type of view.
             The element has one attribute, which defines the type of the view.
@@ -2015,7 +2015,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       </xs:annotation>
       <xs:complexType>
 				<xs:choice minOccurs="1" maxOccurs="1">
-					<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:choice minOccurs="0" maxOccurs="unbounded" i:view="edit">
 							<xs:sequence>
 								<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
 								<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
@@ -2027,7 +2027,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 			        			<xs:element ref="i:grouping" minOccurs="0" maxOccurs="1" />
 							</xs:sequence>
 					</xs:choice>
-					<xs:choice minOccurs="0" maxOccurs="1">
+					<xs:choice minOccurs="0" maxOccurs="1" i:view="list">
 						<xs:sequence>
 							<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
 							<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
@@ -2045,7 +2045,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 							<xs:element ref="i:grouping" minOccurs="0" maxOccurs="1" />
 						</xs:sequence>
 					</xs:choice>
-				<xs:choice minOccurs="0" maxOccurs="1">
+				<xs:choice minOccurs="0" maxOccurs="1" i:view="show">
 					<xs:sequence>
 						<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
 						<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
@@ -2059,7 +2059,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 						<xs:element ref="i:grouping" minOccurs="0" maxOccurs="1" />
 					</xs:sequence>
 				</xs:choice>
-				<xs:choice minOccurs="0" maxOccurs="1">
+				<xs:choice minOccurs="0" maxOccurs="1" i:view="wizard">
 					<xs:sequence>
 						<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
 						<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
@@ -2071,7 +2071,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 						<xs:element ref="i:extrahelp" minOccurs="0" maxOccurs="1" />
 					</xs:sequence>
 				</xs:choice>
-				<xs:choice minOccurs="0" maxOccurs="1">
+				<xs:choice minOccurs="0" maxOccurs="1" i:view="html">
 					<xs:sequence>
 						<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
 						<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
@@ -2081,7 +2081,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 						<xs:element ref="i:alternateDescriptions" minOccurs="0" maxOccurs="1" />
 					</xs:sequence>
 				</xs:choice>
-				<xs:choice minOccurs="0" maxOccurs="1">
+				<xs:choice minOccurs="0" maxOccurs="1" i:view="info">
 					<xs:sequence>
 						<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
 						<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
@@ -2101,7 +2101,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	
 	<xs:attributeGroup name="commonAttributes">
         <xs:annotation>
-            <xs:documentation>
+            <xs:documentation xml:lang="en">
                These are the attributes common to all directly parsable elements.          
             </xs:documentation>
         </xs:annotation>
