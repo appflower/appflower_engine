@@ -20,7 +20,7 @@ class afVarScope {
             $callback, $text);
     }
 
-    public function _replace_callback($matches) {
+    private function _replace_callback($matches) {
         $name = $matches[1];
         if(isset($this->vars[$name])) {
             return $this->vars[$name];
