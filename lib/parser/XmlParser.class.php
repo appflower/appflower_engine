@@ -682,6 +682,8 @@ class XmlParser extends XmlParserTools {
 				$path = $this->getPath($item["module"]."/".$item["name"]);
 				$this->readXmlDocument($path);
 				$this->iteration++;
+				$this->process["parses"][$this->iteration]["component_name"] = $item["name"];
+				$this->process["parses"][$this->iteration]["module"] = $item["module"];
 				$this->runParser(1,$region);
 				
 				return true;
