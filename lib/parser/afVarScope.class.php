@@ -25,7 +25,9 @@ class afVarScope {
         if(isset($this->vars[$name])) {
             return $this->vars[$name];
         }
-        return $matches[0];
+        throw new XmlParserException(sprintf(
+            'Variable %s cannot be found in the attribute holder!',
+            $matches[0]));
     }
 }
 
