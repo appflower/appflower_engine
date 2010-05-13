@@ -11,8 +11,8 @@ class ImmExtjsFormTabs
 	public $attributes=array('xtype'=>'tabpanel',
 							//'plain'=>true,
 							'activeTab'=>0,
-							//'height'=>235,
-							'frame'=>true,
+							'height'=>300,
+							'frame'=>false,
 							'items'=>array(),'enableTabScroll'=>true);
 	public $immExtjs=null;						
 							
@@ -54,8 +54,7 @@ class ImmExtjsFormTabs
 		}
 		if(count($attributes)>0)
 		$this->attributes=array_merge($this->attributes,$attributes);
-		$this->checkIfSetting($this->attributes);
-		
+		$this->checkIfSetting($this->attributes);		
 	}
 	public function checkIfSetting($attr){		
 		if(isset($attr['isSetting']) && $attr['isSetting'] !== "false"){			

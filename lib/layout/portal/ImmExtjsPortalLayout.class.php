@@ -134,10 +134,10 @@ class ImmExtjsPortalLayout extends ImmExtjsLayout
 				{
 					$attributesPanel['tools']=$this->attributes['tools']->end();
 				}
-				$attributesTabPanel['id']='center_panel_first_tab';
-				$this->immExtjs->private['center_panel_first_tab']=$this->immExtjs->TabPanel($attributesTabPanel);
+				$attributesTabPanel['id']='center_panel_first_portal';
+				$this->immExtjs->private['center_panel_first_portal']=$this->immExtjs->TabPanel($attributesTabPanel);
 				
-				$attributesPanel['items'][]=$this->immExtjs->asVar('center_panel_first_tab');
+				$attributesPanel['items'][]=$this->immExtjs->asVar('center_panel_first_portal');
 				$attributesPanel['border']=true;
 				$attributesPanel['bodyBorder']=true;
 				$attributesPanel['layout']='fit';

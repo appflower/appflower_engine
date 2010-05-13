@@ -83,6 +83,10 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  									'success'=>$this->immExtjs->asMethod(array(
 		  												'parameters'=>'form,action',
 		  												'source'=>'
+		  							/*reload load_widgets store*/
+		  							var load_widgets=action.result.load_widgets ||action.options.params.load_widgets;
+		  							afApp.reloadGridsData(load_widgets);
+		  							
 		  							var normalRedirect = function(location,target,winProp){		  							
 		  								if(target && winProp){
 		  									window.open(location,target,winProp);
@@ -90,7 +94,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  									window.open(location,target);
 		  								}else{
 		  									//modified to load in center content
-		  									afApp.loadCenterWidget(location);
+		  									//afApp.loadCenterWidget(location);
 		  								}
 		  							}
 		  							var confirm=action.result.confirm ||action.options.params.confirm; 
@@ -100,7 +104,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  							var target=action.result.target ||action.options.params.target;
 		  							var winProp=action.result.winProp ||action.options.params.winProp;
 		  							var win;
-		  							
+		  										
 		  							if(message){
 		  							
 		  								if(confirm){

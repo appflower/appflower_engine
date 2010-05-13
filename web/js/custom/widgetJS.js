@@ -39,6 +39,27 @@ function in_array (needle, haystack, argStrict) {
     return false;
 }
 
+Array.prototype.in_array = function (needle, argStrict) {
+	   
+    var key = '', strict = !!argStrict, haystack=this;
+
+    if (strict) {
+        for (key in haystack) {
+            if (haystack[key] === needle) {
+                return true;
+            }
+        }
+    } else {
+        for (key in haystack) {
+            if (haystack[key] == needle) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 function executeAddons(addons,json,mask,title,superClass,winConfig){
 	
 	var counter = 0;
@@ -406,6 +427,43 @@ afApp.logTime = function (msg) {
 	var s=today.getSeconds();
 	
 	if(console)console.log('[',msg,']',day,'/',month,'/',year,' ',h,':',m,':',s,' | ',today.getTime());
+}
+/*
+* reloads the grids data inside a portal page
+*/
+afApp.reloadGridsData = function (idXmls)
+{	
+	var portals=new Array();
+	
+	var center_panel_first_portal=Ext.getCmp('center_panel_first_portal');
+	
+	if(center_panel_first_portal.layoutType=='NORMAL')
+	{
+		portals[0]=center_panel_first_portal;
+	}
+	else if(center_panel_first_portal.layoutType=='TABBED')
+	{
+		for(var i = 0; i < center_panel_first_portal.items.items.length; i++) {
+			portals[i]=center_panel_first_portal.items.items[i].items.items[0];
+		}
+	}
+	
+	for(var i=0; i<portals.length; i++)
+	{
+		var col;
+        for(var c = 0; c < portals[i].items.getCount(); c++) {
+            col = portals[i].items.get(c); 	            
+            if(col.items) {
+                for(var s = 0; s < col.items.getCount(); s++) {
+                	var widget=col.items.get(s);
+                	if(idXmls.in_array(widget.idxml))
+                	{
+                		widget.store.reload();
+                	}
+                }
+            }
+        }
+	}
 }
 Ext.onReady(function(){
 
