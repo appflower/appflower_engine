@@ -3077,9 +3077,7 @@ class XmlParser extends XmlParserTools {
 				}
 				
 				$proxyUrl = $host."/".$parse['proxy'];
-				$proxyUrl = UrlUtil::addParam($proxyUrl, 'uid', $unique_id);
-				$proxyUrl = UrlUtil::addParam($proxyUrl, 'config',
-					ImmExtjsWidgets::getWidgetUrl($parse));
+				$proxyUrl = self::setupProxyUrl($proxyUrl, $parse, $unique_id);
 				$args = array('url'=>$proxyUrl, 'limit'=>$limit, 'start' => $parse["proxystart"]);
 				if(isset($parse["stateId"]) && $parse["stateId"] == "true") {
 					$args['stateId'] = true;
@@ -3808,6 +3806,25 @@ if(response.message) {
 		$name = sfConfig::get('sf_plugins_dir').'/appFlowerPlugin/modules/appFlower/templates/ext';
 		
 		sfConfig::set('symfony.view.'.$actionInstance->getModuleName().'_'.$actionInstance->getActionName().'_template', $name);
+	}
+
+	private static function setupProxyUrl($url, $parse, $unique_id)
+	{
+		$url = UrlUtil::addParam($url, 'uid', $unique_id);
+		$url = UrlUtil::addParam($url, 'config',
+			ImmExtjsWidgets::getWidgetUrl($parse));
+		$action = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance();
+
+		// In the future, it would be better to let the listjson to call
+		// an action method to get the attributes.
+		$vars = $action->getVarHolder()->getAll();
+		foreach($vars as $key => $value) {
+			if(is_object($value)) {
+				unset($vars[$key]);
+			}
+		}
+		$url = UrlUtil::addParam($url, 'config_vars', serialize($vars));
+		return $url;
 	}
 
 	/**
