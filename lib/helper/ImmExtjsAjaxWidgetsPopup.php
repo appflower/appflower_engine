@@ -31,8 +31,9 @@ class ImmExtjsAjaxWidgetsPopup{
 				
 			if(!$action->isPageComponent){		
 				sfConfig::set('app_parser_panels', array());
-				$w = new ImmExtjsAjaxWidgetsPopup($layout,$type);				
-				echo $w->getSource();
+				$action->getUser()->getAttributeHolder()->add($action->getUser()->getAttributeHolder(),"SESSION_BACKUP");
+				$w = new ImmExtjsAjaxWidgetsPopup($layout,$type);							
+				echo $w->getSource();				
 				exit;
 			}
 		}
