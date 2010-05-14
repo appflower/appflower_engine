@@ -14,7 +14,7 @@ class afApiActions extends sfActions
 
         $source = self::createDataSource($view,
             $this->getRequestParameter('filter'));
-        self::setupDataSource($source, $request);
+        self::setupDataSource($view, $source, $request);
         if($view->getBool('fields@tree')) {
             $source->setLimit(null);
         }
@@ -33,16 +33,32 @@ class afApiActions extends sfActions
         return $this->renderText($gridData->end());
     }
 
-    private function setupDataSource($source, $request) {
+    private static function setupDataSource($view, $source, $request) {
         $source->setStart($request->getParameter('start', 0));
         $source->setLimit($request->getParameter('limit', 20));
         $sortColumn = $request->getParameter('sort');
         if($sortColumn) {
+            $sortColumn = self::getSortColumn($view, $sortColumn);
             $source->setSort($sortColumn, $request->getParameter('dir', 'ASC'));
         }
     }
 
-    private function escapeHtml(&$rows) {
+    private static function getSortColumn($view, $sortColumn) {
+        $columns = $view->wrapAll('fields/column');
+        foreach($columns as $column) {
+            if($column->get('@name') == $sortColumn) {
+                $sortIndex = $column->get('@sortIndex');
+                if($sortIndex) {
+                    return constant($sortIndex);
+                } else {
+                    return $sortColumn;
+                }
+            }
+        }
+        return $sortColumn;
+    }
+
+    private static function escapeHtml(&$rows) {
         foreach($rows as &$row) {
             foreach($row as $column => &$value) {
                 if($value instanceof sfOutputEscaperSafe) {
@@ -59,7 +75,7 @@ class afApiActions extends sfActions
     /**
      * Adds row action urls to the rows.
      */
-    private function addRowActionSuffixes($view, &$rows) {
+    private static function addRowActionSuffixes($view, &$rows) {
         $rowactions = $view->wrapAll('rowactions/action');
         $actionNumber = 0;
         foreach($rowactions as $action) {

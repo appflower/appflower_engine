@@ -76,8 +76,9 @@ class afPropelSource implements afIDataSource {
 
         $this->pager = new sfPropelPager($this->class, $this->limit);
         $this->pager->setCriteria($this->criteria);
-        //TODO: set the other properties
-        //$this->pager->setPeerMethod($selectMethod);
+        // It is needed to join with the table metioned by the sortColumn.
+        //TODO: Use only the needed joins.
+        $this->pager->setPeerMethod('doSelectJoinAll');
 
         $this->pager->init();
         // The offset have to be set after the pager init
