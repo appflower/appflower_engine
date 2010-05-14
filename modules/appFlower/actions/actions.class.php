@@ -430,7 +430,7 @@ class appFlowerActions extends sfActions
 	public function executeRestoreSession(){
 		
 		$backup = $this->getUser()->getAttributeHolder()->getAll("SESSION_BACKUP");
-		print_r($backup['parameters']);
+		$this->getUser()->getAttributeHolder()->clear();
 		foreach($backup['parameters'] as $key=>$value){
 			$this->getUser()->getAttributeHolder()->add($value,$key);			
 		}
