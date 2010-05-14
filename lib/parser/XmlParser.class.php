@@ -3772,7 +3772,10 @@ if(response.message) {
 	}
 
 	public static function layoutExt($actionInstance, $type = XmlParser::PANEL,$msg = null) {
-					
+		if($actionInstance->isPageComponent){
+			return sfView::SUCCESS;
+		}
+
 		//used in pop-ups
 		ImmExtjsAjaxWidgetsPopup::checkWidgetPopupRequest($actionInstance,$type);
 		//used in loading center content
@@ -3813,17 +3816,6 @@ if(response.message) {
 		$url = UrlUtil::addParam($url, 'uid', $unique_id);
 		$url = UrlUtil::addParam($url, 'config',
 			ImmExtjsWidgets::getWidgetUrl($parse));
-		$action = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance();
-
-		// In the future, it would be better to let the listjson to call
-		// an action method to get the attributes.
-		$vars = $action->getVarHolder()->getAll();
-		foreach($vars as $key => $value) {
-			if(is_object($value) || is_array($value)) {
-				unset($vars[$key]);
-			}
-		}
-		$url = UrlUtil::addParam($url, 'config_vars', serialize($vars));
 		return $url;
 	}
 

@@ -2,16 +2,16 @@
 
 class afApiActions extends sfActions
 {
-    public function executeListjson() {
+    public function executeListjson($request) {
         $config = $this->getRequestParameter('config');
         list($module, $action) = explode('/', $config);
 
         $doc = afConfigUtils::getDoc($module, $action);
-        $vars = unserialize($this->getRequestParameter('config_vars'));
-        $view = afDomAccess::wrap($doc, 'view', new afVarScope($vars));
+        $view = afDomAccess::wrap($doc, 'view', new afVarScope(
+            afConfigUtils::getConfigVars($module, $action, $request)));
         $source = self::createDataSource($view,
             $this->getRequestParameter('filter'));
-        self::setupDataSource($source, $this->getRequest());
+        self::setupDataSource($source, $request);
         if($view->getBool('fields@tree')) {
             $source->setLimit(null);
         }
