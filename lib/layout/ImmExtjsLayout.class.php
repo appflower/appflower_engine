@@ -102,7 +102,9 @@ class ImmExtjsLayout
 		 * default toolbar constructed in helper /plugins/immExtjsPlugin/helper/ImmExtjsToolbar.php
 		 */
 		elseif(!isset($attributes['toolbar'])||(isset($attributes['toolbar'])&&$attributes['toolbar']!=false)) {
-			sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsToolbar'));
+			if(!sfConfig::get('app_parser_skip_toolbar')){
+				sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsToolbar'));
+			}
 		}
 		
 		/**

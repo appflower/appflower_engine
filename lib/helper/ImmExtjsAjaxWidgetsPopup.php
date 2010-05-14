@@ -31,6 +31,7 @@ class ImmExtjsAjaxWidgetsPopup{
 				
 			if(!$action->isPageComponent){		
 				sfConfig::set('app_parser_panels', array());
+				sfConfig::set('app_parser_skip_toolbar', true);
 				$w = new ImmExtjsAjaxWidgetsPopup($layout,$type);				
 				echo $w->getSource();
 				exit;
