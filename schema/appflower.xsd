@@ -723,9 +723,45 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     
     <!--  Simple elements -->
     
-    <xs:element type="xs:token" name="class" />
-    <xs:element type="xs:token" name="error" />
-	<xs:element type="i:listType" name="visible" />
+    
+     <xs:element name="class">
+    	<xs:annotation>
+        <xs:documentation xml:lang="en">
+            Defines the name of a PHP class
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="error">
+    	<xs:annotation>
+        <xs:documentation xml:lang="en">
+            Error message text to be used in i:validator element.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+      	<xs:attributeGroup ref="i:commonAttributes" />
+      </xs:complexType>
+    </xs:element>
+    
+    
+    <xs:element name="visible">
+    	<xs:annotation>
+        <xs:documentation xml:lang="en">
+            Comma separated list of columns to be rendered in the grid.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+      	<xs:simpleContent>
+      		<xs:extension base="i:listType">
+      			<xs:attributeGroup ref="i:commonAttributes" />
+      		</xs:extension>
+      	</xs:simpleContent>
+      </xs:complexType>
+    </xs:element>
+    
 	<xs:element type="i:listType" name="hidden" />
 	<xs:element type="i:listType" name="level" />
     

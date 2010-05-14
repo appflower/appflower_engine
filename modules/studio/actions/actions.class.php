@@ -15,16 +15,29 @@ class studioActions extends sfActions
 	    $element_groups,
 		$attribute_groups,
 		$imported_namespaces,
+		$data_types,
 		$schema;
 	
 	public function getAttribute($attr) {
+		
+			if($attr->getAttribute("name") == "parsable" || $attr->getAttribute("name") == "container" || $attr->getAttribute("name") == "assignid") {
+				return false;
+			}
 		
 			$k = "default";
 			if($attr->hasAttribute("fixed")) {
 				$k = "fixed";
 			}
+			
+			$dtype = $attr->getAttribute("type");
+			if(strstr($dtype,"i:")) {
+				$type = str_replace("i:","",$dtype);
+			} else {
+				$type = str_replace("xs:","",$dtype);
+			}
+			
 		
-			return array("name" => $attr->getAttribute("name"), $k => $attr->getAttribute($k));
+			return array("name" => $attr->getAttribute("name"), $k => $attr->getAttribute($k), "datatype" => ($type == "token") ? "string" : $type);
 		
 	}
 	
@@ -81,6 +94,7 @@ class studioActions extends sfActions
 			$result = $this->schema->evaluate($xpath,$node);
 			
 			foreach($result as $attr) {
+				
 				if($attr->nodeName == "xs:".$prefix) {
 					$ret[$element][$key][] = ($i == 1) ? $attr->getAttribute("ref") : $this->getAttribute($attr);	
 				}else if($attr->nodeName == "xs:any" && $i == 1) {
@@ -94,6 +108,7 @@ class studioActions extends sfActions
 		}
 		
 		$ret[$element]["children"] = array_unique($ret[$element]["children"]);
+		$ret[$element]["attributes"] = array_filter($ret[$element]["attributes"]);
 		
 		if($is_text_enabled) {
 			$ret[$element]["children"][] = "Any text";
@@ -104,11 +119,74 @@ class studioActions extends sfActions
 	
 	public function executeStructinfo() {
 		
+		//Console::profile('struct start');
+		
+		// Params of call
+		
+		$expression = $this->getRequestParameter("node",null);
+		$type = $this->getRequestParameter("type","edit");
+		$lang = $this->getRequestParameter("lang","en");
+		$do = $this->getRequestParameter("do","nodes");
+		
 		// Read Schema
 		
 		$root = sfConfig::get("sf_root_dir");
 		$this->schema = XmlParser::readDocumentByPath($root."/plugins/appFlowerPlugin/schema/appflower.xsd",true,array("prefix" => "xs", "uri" => "http://www.w3.org/2001/XMLSchema"));
 		
+		// Data types
+		
+		if($do == "types") {
+
+			$result = $this->schema->evaluate("//xs:simpleType");
+			
+			foreach($result as $dtype) {
+				$data = $this->schema->evaluate("./descendant::xs:restriction|./descendant::xs:union|./descendant::xs:documentation[@xml:lang='".$lang."']",$dtype);
+				$type_name = $dtype->getAttribute("name");
+				
+				if(!$type_name) {
+					continue;
+				}
+				
+				foreach($data as $info) {	
+					
+					if($info->nodeName == "xs:documentation") {
+						$this->data_types[$type_name]["docs"] = $info->nodeValue;
+						continue;
+					} else if($info->nodeName == "xs:union") {
+						$this->data_types[$type_name]["union"] = str_replace("i:","",$info->getAttribute("memberTypes"));
+						continue;
+					}
+					
+					$base = $info->getAttribute("base");
+					
+					foreach($info->childNodes as $child) {
+					  
+						if(!($child instanceof DOMElement) || ($child->nodeName != "xs:enumeration" && $child->nodeName != "xs:maxInclusive" &&
+						$child->nodeName != "xs:minInclusive" && $child->nodeName != "xs:pattern")) {
+	                		continue;
+	            		}
+	            	  
+	            		if($child->nodeName == "xs:maxInclusive" || $child->nodeName == "xs:minInclusive") {
+	            	  		$this->data_types[$type_name]["type"] = "range";
+	            	  		$this->data_types[$type_name]["base"] = str_replace("xs:","",$base);
+	            	  	} else if($child->nodeName == "xs:enumeration") {
+	            	  		$this->data_types[$type_name]["type"] = "enum";
+	            	  	} else {
+	            	  		$this->data_types[$type_name]["type"] = "pattern";
+	            	  		continue;
+	            	  	}
+	            	  
+	            	  	$this->data_types[$type_name]["values"][] = $child->getAttribute("value");  
+	            	  
+					}	
+				}
+			}
+
+			$result = json_encode($this->data_types);
+			return $this->renderText($result);
+			
+		}
+	
 		// Imported namespaces
 		
 		$result = $this->schema->evaluate("//xs:import");
@@ -136,12 +214,6 @@ class studioActions extends sfActions
 			}	
 		}
 		
-		// Params of call
-		
-		$expression = $this->getRequestParameter("node",null);
-		$type = $this->getRequestParameter("type","edit");
-		$lang = $this->getRequestParameter("lang","en");
-	
 		if($expression === null) {
 			$result = $this->getElement("i:view",$type,$lang);
 		} else {
@@ -149,6 +221,7 @@ class studioActions extends sfActions
 		}
 		
 		$result = json_encode($result);
+		//Console::profile('struct end');
 		return $this->renderText($result);
 	}
 	
