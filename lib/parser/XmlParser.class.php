@@ -1303,19 +1303,8 @@ class XmlParser extends XmlParserTools {
 						
 						$z++;
 						
-						if(!class_exists($class = $component["module"]."Actions",true)) {
-							require_once($this->root."/apps/".$this->application."/modules/".$component["module"]."/actions/actions.class.php");	
-						}
-						
-						$class = new $class(sfContext::getInstance(),null,null);
-						$class->isPageComponent = true;
-						call_user_func(array($class,"execute".ucfirst($component["name"])),true);
-						
-						foreach($class->getVarHolder()->getAll() as $propname => $propvalue) {
-								$attribute_holder->add(array($propname => $propvalue));	
-						}
-						
-						unset($class);
+						$config_vars = afConfigUtils::getConfigVars($component['module'], $component['name'], $this->context->getRequest());
+						$attribute_holder->add($config_vars);
 							
 						$file = $this->root."/apps/".$this->application."/modules/".$component["module"]."/config/".$component["name"].".xml";
 						$alt_file = $this->root."/plugins/appFlowerPlugin/modules/".$component["module"]."/config/".$component["name"].".xml";
