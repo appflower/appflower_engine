@@ -3807,7 +3807,9 @@ if(response.message) {
 			ImmExtjsWidgets::getWidgetUrl($parse));
 		$request = sfContext::getInstance()->getRequest();
 		foreach($request->getGetParameters() as $key => $value) {
-			$url = UrlUtil::addParam($url, $key, $value);
+			if(!StringUtil::startsWith($key, '_')) {
+				$url = UrlUtil::addParam($url, $key, $value);
+			}
 		}
 		return $url;
 	}
