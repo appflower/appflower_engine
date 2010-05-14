@@ -9,15 +9,15 @@ class afApiActions extends sfActions
         $doc = afConfigUtils::getDoc($module, $action);
         $vars = afConfigUtils::getConfigVars($module, $action, $request);
         $view = afDomAccess::wrap($doc, 'view', new afVarScope($vars));
+        // For backward compatibility with listEventMatrixServer.
+        $this->getVarHolder()->add($vars);
+
         $source = self::createDataSource($view,
             $this->getRequestParameter('filter'));
         self::setupDataSource($source, $request);
         if($view->getBool('fields@tree')) {
             $source->setLimit(null);
         }
-
-        // For backward compatibility with listEventMatrixServer.
-        $this->getVarHolder()->add($vars);
 
         $rows = $source->getRows();
         // To support existing static datasources,
