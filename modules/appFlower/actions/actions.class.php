@@ -410,7 +410,9 @@ class appFlowerActions extends sfActions
 			$objs = afNotificationPeer::getNotifications();
 			//if($objs) break;
 			//sleep(10);			
-		//}			
+		//}
+		//Notification::getTipOfTheDay();
+					
 		$return = array("success"=>true,"data"=>$objs);
 		echo json_encode($return);		
 		exit;
@@ -423,6 +425,16 @@ class appFlowerActions extends sfActions
 				return $this->renderText($this->getPartial("notification_detail",array('obj'=>$obj)));				
 			}
 		}
+		exit;
+	}
+	public function executeRestoreSession(){
+		
+		$backup = $this->getUser()->getAttributeHolder()->getAll("SESSION_BACKUP");
+		print_r($backup['parameters']);
+		foreach($backup['parameters'] as $key=>$value){
+			$this->getUser()->getAttributeHolder()->add($value,$key);			
+		}
+		$this->getUser()->getAttributeHolder()->removeNamespace("SESSION_BACKUP");		
 		exit;
 	}	
 }
