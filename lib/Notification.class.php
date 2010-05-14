@@ -226,23 +226,7 @@ class Notification{
 		return $data;		
 	}
 	private static function getPhpName($dbName, $tableName) {
-		$dbMap = Propel::getDatabaseMap($dbName);
-		try {
-			// The dbMap will know the table if the Peer was used
-			// by the action code.
-			$table = @$dbMap->getTable($tableName);
-			return $table->getPhpName();
-		} catch (PropelException $e) {
-			if(!isset(self::$dbschema)) {
-				$root = sfConfig::get("sf_root_dir");
-				self::$dbschema = sfYaml::load($root.'/config/schema.yml');
-			}
-			$phpName = self::$dbschema[$dbName][$tableName]['_attributes']['phpName'];
-			if(!$phpName) {
-				throw new XmlParserException("Invalid table name: '$tableName'");
-			}
-			return $phpName;
-		}
+		return afMetaDb::getPhpName($dbName, $tableName);
 	}
 	/**
 	 * This method parses the arguments from cli and converts it into json string to feed to self::add()
