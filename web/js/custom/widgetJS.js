@@ -59,6 +59,7 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 	};
 
 	finish = function(){
+				
 				backupForms();
 				eval(json.source);				
 				
@@ -97,19 +98,28 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 				
 				mask.hide();			
 				
-				win.on("hide",function(){	
-					if(superClass)superClass.onHide(win);									
-					win.destroy();
-					win.close();
-					restoreBackup();
+				win.on("hide",function(){
+					backupForms();
+					Ext.Ajax.request( {
+						url : '/appFlower/restoreSession',
+						method : "post",		
+						success : function(r) {
+							if(superClass)superClass.onHide(win);									
+							win.destroy();
+							win.close();
+							restoreBackup();
+						}
+					})					
 				})
 	};
-
 	function restoreBackup(){
 		for(id in backup){
 			var el = document.getElementById(id);
 			if(el){
-				el.id = backup[id]
+				el.id = backup[id];
+				if(backup[id+"-name"]){
+					el.name = backup[id+'-name'];
+				}				              
 			}
 		}
 	}
@@ -127,13 +137,20 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 		for(var j=0;j<arr.length;j++){
 			var forms = arr[j];
 			for(var i=0;i<forms.length;i++){
+				backup[randomId+"-fields-name-"+i] = [];
 				if(forms[i].id){
-					if(forms[i].id.match("edit")){					
+					var pattern = /edit/;
+					if(forms[i].id.match(pattern)){					
 						var el = document.getElementById("x-form-el-"+forms[i].id);							
 						if(el){ 
 							backup[randomId+"-"+i] = el.id;
 							el.id = randomId+"-"+i;
-						}						
+						}
+						backup[randomId+"-fields-"+i] = forms[i].id;
+						backup[randomId+"-fields-"+i+"-name"] = forms[i].name;
+						
+						forms[i].name = randomId+"-fields-"+i+"-name";
+						forms[i].id = randomId+"-fields-"+i;
 					}
 				}
 			}
