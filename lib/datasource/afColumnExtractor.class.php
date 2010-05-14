@@ -21,8 +21,7 @@ class afColumnExtractor {
     }
 
     private function prepareGetters() {
-        $peer = constant($this->class.'::PEER');
-        $tableMap = call_user_func(array($peer, 'getTableMap'));
+        $tableMap = afMetaDb::getTableMap($this->class);
         $getters = array();
         foreach($this->selectedColumns as $column) {
             $getters[$column] = $this->createGetter($tableMap, $column);

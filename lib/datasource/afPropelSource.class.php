@@ -41,6 +41,11 @@ class afPropelSource implements afIDataSource {
         $this->initialized = false;
         $this->sortColumn = $column;
         $this->sortDir = $sortDir;
+        if(!StringUtil::isIn('.', $column)) {
+            $tableMap = afMetaDb::getTableMap($this->class);
+            $this->sortColumn = $tableMap->getColumn(
+                $column)->getFullyQualifiedName();
+        }
     }
 
     public function getTotalCount() {
@@ -76,15 +81,31 @@ class afPropelSource implements afIDataSource {
 
         $this->pager = new sfPropelPager($this->class, $this->limit);
         $this->pager->setCriteria($this->criteria);
-        // It is needed to join with the table metioned by the sortColumn.
-        //TODO: Use only the needed joins.
-        $this->pager->setPeerMethod('doSelectJoinAll');
+        // It is needed to join with the table metioned in the sortColumn.
+        $this->pager->setPeerMethod($this->addJoins($this->criteria));
 
         $this->pager->init();
         // The offset have to be set after the pager init
         // to allow to set any offset.
         $c = $this->pager->getCriteria();
         $c->setOffset($this->start);
+    }
+
+    private function addJoins($criteria) {
+        return afJoinUtil::chooseJoins($criteria,
+            $this->class,
+            $this->extractor->getSelectedColumns(),
+            $this->getReferencedTables());
+    }
+
+    private function getReferencedTables() {
+        if($this->sortColumn) {
+            $parts = explode('.', $this->sortColumn, 2);
+            if(count($parts) === 2) {
+                return array($parts[0]);
+            }
+        }
+        return array();
     }
 }
 

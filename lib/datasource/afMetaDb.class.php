@@ -22,6 +22,14 @@ class afMetaDb {
     }
 
     /**
+     * Returns the table map for the given PHP table name.
+     */
+    public static function getTableMap($class) {
+        $peer = constant($class.'::PEER');
+        return call_user_func(array($peer, 'getTableMap'));
+    }
+
+    /**
      * Returns the matching PhpName.
      * Don't use this method directly.
      * Use the getForeignMethodName() instead.
