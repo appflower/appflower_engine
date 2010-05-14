@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__).'/../bootstrap/dbunit.php');
-$t = new lime_test(10, new lime_output_color());
+$t = new lime_test(12, new lime_output_color());
 
 $c = new Criteria();
 $selectMethod = afJoinUtil::chooseJoins($c, 'MonitorService',
@@ -30,5 +30,11 @@ $c = new Criteria();
 $selectMethod = afJoinUtil::chooseJoins($c, 'MonitorService',
     array('name', 'port'), array('mgmt_server_interface'));
 $t->is($selectMethod, 'doSelectJoinServerInterface');
+$t->is(count($c->getJoins()), 0);
+
+$c = new Criteria();
+$selectMethod = afJoinUtil::chooseJoins($c, 'EventInfo',
+    array('name', 'confidentiality_id'), array());
+$t->is($selectMethod, 'doSelectJoinEventImpactRelatedByConfidentialityId');
 $t->is(count($c->getJoins()), 0);
 

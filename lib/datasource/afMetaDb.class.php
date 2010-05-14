@@ -21,6 +21,10 @@ class afMetaDb {
         return $methodName;
     }
 
+    public static function getRelatedAffix($colMap) {
+        return preg_replace('/^get/', '', self::getRelatedMethodName($colMap));
+    }
+
     /**
      * Returns the table map for the given PHP table name.
      */
