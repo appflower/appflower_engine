@@ -15,9 +15,11 @@ class ImmExtjsLinkButton extends ImmExtjsButton
 	{		
 		$this->immExtjs=ImmExtjs::getInstance();
 		
+		$attributes['load'] = isset($attributes['load'])?$attributes['load']:'center';
+		
 		if(isset($attributes['url']))
 		{	
-			$source = 'window.location.href="'.preg_replace('/js=([a-zA-Z0-9]+)\.js/','',$attributes['url']).'"';
+			$source = 'afApp.load("'.preg_replace('/js=([a-zA-Z0-9]+)\.js/','',$attributes['url']).'","'.$attributes['load'].'");';
 			if(isset($attributes['preExecute']) && $attributes['preExecute']){	
 				$pe_file = isset($attributes['preExecute'])?$attributes['preExecute']:'';
 				sfLoader::loadHelpers("ImmExtjsExecuteCustomJS");				

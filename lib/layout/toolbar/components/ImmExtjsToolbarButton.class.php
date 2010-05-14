@@ -22,11 +22,13 @@ class ImmExtjsToolbarButton extends ImmExtjsToolbarComponent
 			unset($attributes['label']);
 		}
 		
+		$attributes['load'] = isset($attributes['load'])?$attributes['load']:'center';
+		
 		if(isset($attributes['url']))
 		{
 			$this->attributes['handler']=$this->immExtjs->asMethod(array(
   									'parameters'=>'',
-  									'source'=>'afApp.loadCenterWidget("'.$attributes['url'].'");'
+  									'source'=>'afApp.load("'.$attributes['url'].'","'.$attributes['load'].'");'
   								));
 			
 			unset($attributes['url']);

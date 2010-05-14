@@ -79,30 +79,21 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  									'timeout'=>$attributes['timeout'],
 		  									'failure'=>$this->immExtjs->asMethod(array(
 		  												'parameters'=>'form,action',
-		  												'source'=>'var onclose=function(){if(action.result && action.result.redirect){afApp.loadCenterWidget(action.result.redirect);}}; if(action.result){ if(action.result.message){Ext.Msg.alert("Failure", action.result.message, onclose);}}else{Ext.Msg.alert("Failure", "Some error appeared!", onclose);}')),
+		  												'source'=>'var onclose=function(){if(action.result && action.result.redirect){var loadType=action.result.loadType || "center";afApp.load(action.result.redirect,loadType);}}; if(action.result){ if(action.result.message){Ext.Msg.alert("Failure", action.result.message, onclose);}}else{Ext.Msg.alert("Failure", "Some error appeared!", onclose);}')),
 		  									'success'=>$this->immExtjs->asMethod(array(
 		  												'parameters'=>'form,action',
 		  												'source'=>'
 		  							/*reload load_widgets store*/
 		  							var load_widgets=action.result.load_widgets ||action.options.params.load_widgets;
-		  							afApp.reloadGridsData(load_widgets);
+		  							afApp.reloadGridsData(load_widgets);				  							
 		  							
-		  							var normalRedirect = function(location,target,winProp){		  							
-		  								if(target && winProp){
-		  									window.open(location,target,winProp);
-		  								}else if(target){
-		  									window.open(location,target);
-		  								}else{
-		  									//modified to load in center content
-		  									//afApp.loadCenterWidget(location);
-		  								}
-		  							}
 		  							var confirm=action.result.confirm ||action.options.params.confirm; 
 		  							var ajax=action.result.ajax ||action.options.params.ajax;
 		  							var message=action.result.message ||action.options.params.message;
 		  							var redirect=action.result.redirect ||action.options.params.redirect;
 		  							var target=action.result.target ||action.options.params.target;
 		  							var winProp=action.result.winProp ||action.options.params.winProp;
+		  							var loadType=action.result.loadType || "center";
 		  							var win;
 		  										
 		  							if(message){
@@ -131,9 +122,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 			  										}
 			  										else
 			  										{
-			  											normalRedirect(redirect,target,winProp);
-			  											//window.location.href=redirect;
-			  											
+			  											afApp.load(redirect,loadType,target,winProp);				
 			  										}
 			  										
 			  										return false; 
@@ -164,8 +153,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 												   
 												   fn: function(btn){		  									
 													   if (btn=="yes"&&redirect&&redirect!="undefined"){
-													   		normalRedirect(redirect,target,winProp); 
-														   //window.location.href=redirect;
+													   	   afApp.load(redirect,loadType,target,winProp);
 														   return false; 
 													   }else{ 
 													  	 return true;
@@ -178,8 +166,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  										Ext.Msg.alert("Success", message, function(){
 													if(!confirm||confirm=="undefined"){
 														if(redirect){
-															normalRedirect(redirect,target,winProp);
-															//window.location.href=redirect;
+															afApp.load(redirect,"center",target,winProp);
 														}'.(isset($attributes['afterSuccess'])?$attributes['afterSuccess']:'').'
 													}
 												});
@@ -187,8 +174,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  								}		  								
 		  							}else{
 		  								if(redirect){
-		  									normalRedirect(redirect,target,winProp);
-		  									//window.location.href=redirect;
+		  									afApp.load(redirect,loadType,target,winProp);
 										}'.(isset($attributes['afterSuccess'])?$attributes['afterSuccess']:'').'
 		  							} '
 		  										  								

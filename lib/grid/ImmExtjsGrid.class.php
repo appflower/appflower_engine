@@ -387,7 +387,7 @@ class ImmExtjsGrid
 			
 			$this->attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass(array('name'=>'message'));
 			$this->attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass(array('name'=>'redirect'));
-			
+			$this->attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass(array('name'=>'load'));
 			
 			
 			if($this->attributes['tree'])
@@ -473,7 +473,7 @@ class ImmExtjsGrid
 			$this->attributes[$storePrivateName]['listeners']['load']=$this->immExtjs->asMethod(array(
 																			"parameters"=>"object,records,options",
 																			"source"=>
-																			'if(records.length>0&&records[0].json.redirect&&records[0].json.message){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){afApp.loadCenterWidget(rec.redirect);});}else{if(!Ext.isIE){'.$this->privateName.'.getEl().unmask();}}'
+																			'if(records.length>0&&records[0].json.redirect&&records[0].json.message&&records[0].json.load){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){afApp.load(rec.redirect,rec.load);});}else{if(!Ext.isIE){'.$this->privateName.'.getEl().unmask();}}'
 																	));
 																	
 			$this->attributes[$storePrivateName]['listeners']['loadexception']=$this->immExtjs->asMethod(array(
@@ -899,7 +899,7 @@ class ImmExtjsGrid
 								   fn: function(){
 									   	if(response.redirect){
 											win.getDialog().suspendEvents();										
-											afApp.loadCenterWidget(response.redirect);
+											afApp.load(response.redirect,response.load);
 										}
 								   },
 								   icon: Ext.MessageBox.INFO
