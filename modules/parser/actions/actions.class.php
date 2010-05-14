@@ -436,6 +436,8 @@ class parserActions extends sfActions
 	 */
 	public function executeListjson($request,$args = array()) 
 	{		
+		$this->forward('afApi', 'listjson');
+
 		// 1. Setting params		
 		if(!empty($args)) {
 			$params = $args;
