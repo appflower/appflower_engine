@@ -8,7 +8,7 @@ class afMetaDb {
      * Returns a method name to get the object referenced
      * by the given foreign key column.
      */
-    public static function getForeignMethodName($colMap) {
+    public static function getRelatedMethodName($colMap) {
         $class = $colMap->getTable()->getPhpName();
         $dbName = constant($class.'Peer::DATABASE_NAME');
         $foreignClass = self::getPhpName($dbName,
@@ -32,7 +32,7 @@ class afMetaDb {
     /**
      * Returns the matching PhpName.
      * Don't use this method directly.
-     * Use the getForeignMethodName() instead.
+     * Use the getRelatedMethodName() instead.
      *
      * @deprecated
      */

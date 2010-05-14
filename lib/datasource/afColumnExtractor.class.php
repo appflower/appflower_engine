@@ -34,7 +34,7 @@ class afColumnExtractor {
         if($tableMap->containsColumn($column)) {
             $col = $tableMap->getColumn($column);
             if($col->getRelatedTableName()) {
-                $methodName = afMetaDb::getForeignMethodName($col);
+                $methodName = afMetaDb::getRelatedMethodName($col);
                 $getter = $this->createMethodGetter($methodName,
                     afToStringConversion::getInstance());
             } else {
