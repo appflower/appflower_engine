@@ -3805,6 +3805,10 @@ if(response.message) {
 		$url = UrlUtil::addParam($url, 'uid', $unique_id);
 		$url = UrlUtil::addParam($url, 'config',
 			ImmExtjsWidgets::getWidgetUrl($parse));
+		$request = sfContext::getInstance()->getRequest();
+		foreach($request->getGetParameters() as $key => $value) {
+			$url = UrlUtil::addParam($url, $key, $value);
+		}
 		return $url;
 	}
 
