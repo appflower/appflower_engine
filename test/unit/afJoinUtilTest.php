@@ -11,8 +11,8 @@ $t->is(count($c->getJoins()), 0);
 $c = new Criteria();
 $selectMethod = afJoinUtil::chooseJoins($c, 'MonitorService',
     array('name', 'port', 'server_id', 'server_interface_id'), array());
-$t->is($selectMethod, 'doSelect');
-$t->is(count($c->getJoins()), 2);
+$t->is($selectMethod, 'doSelectJoinAllExceptMonitorServiceSettings');
+$t->is(count($c->getJoins()), 0);
 
 $c = new Criteria();
 $selectMethod = afJoinUtil::chooseJoins($c, 'MonitorService',

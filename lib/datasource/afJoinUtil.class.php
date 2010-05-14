@@ -3,25 +3,25 @@
 class afJoinUtil {
     public static function chooseJoins($criteria, $class,
             $selectedColumns, $referencedTables) {
-        list($numFCols, $selectedFCols) = self::getNumAndSelectedForeignCols(
+        list($selectedFCols, $excludedFCols) = self::getForeignColsSelection(
             $class, $selectedColumns, $referencedTables);
         if(count($selectedFCols) === 0) {
             return 'doSelect';
         }
 
-        if(count($selectedFCols) === $numFCols) {
+        if(count($excludedFCols) === 0) {
             return 'doSelectJoinAll';
         }
 
         if(count($selectedFCols) === 1) {
             $col = $selectedFCols[0];
-            $dbName = $col->getTable()->getDatabaseMap()->getName();
-            $relatedTable = $col->getRelatedTableName();
-            $relatedPhpName = afMetaDb::getPhpName($dbName, $relatedTable);
-            return 'doSelectJoin'.$relatedPhpName;
+            return 'doSelectJoin'.self::getRelatedPhpName($col);
         }
 
-        //TODO: use also doSelectJoinAllExcept...
+        if(count($excludedFCols) === 1) {
+            $col = $excludedFCols[0];
+            return 'doSelectJoinAllExcept'.self::getRelatedPhpName($col);
+        }
 
         foreach($selectedFCols as $fcol) {
             $criteria->addJoin($fcol->getFullyQualifiedName(),
@@ -36,24 +36,31 @@ class afJoinUtil {
         return call_user_func(array($peer, 'getTableMap'));
     }
 
-    private static function getNumAndSelectedForeignCols($class,
+    private static function getRelatedPhpName($col) {
+        $dbName = $col->getTable()->getDatabaseMap()->getName();
+        $relatedTable = $col->getRelatedTableName();
+        return afMetaDb::getPhpName($dbName, $relatedTable);
+    }
+
+    private static function getForeignColsSelection($class,
             $selectedColumns, $refTables) {
         $tableMap = self::getTableMap($class);
-        $numFCols = 0;
         $selectedFCols = array();
+        $excludedFCols = array();
         foreach($tableMap->getColumns() as $col) {
             $relatedTable = $col->getRelatedTableName();
             if($relatedTable) {
-                $numFCols += 1;
                 if(in_array($relatedTable, $refTables)) {
                     $selectedFCols[] = $col;
                 } else if(in_array(strtolower($col->getName()),
                         $selectedColumns)){
                     $selectedFCols[] = $col;
+                } else {
+                    $excludedFCols[] = $col;
                 }
             }
         }
-        return array($numFCols, $selectedFCols);
+        return array($selectedFCols, $excludedFCols);
     }
 }
 
