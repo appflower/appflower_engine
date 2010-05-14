@@ -31,14 +31,9 @@ class afJoinUtil {
         return 'doSelect';
     }
 
-    private static function getTableMap($class) {
-        $peer = constant($class.'::PEER');
-        return call_user_func(array($peer, 'getTableMap'));
-    }
-
     private static function getForeignColsSelection($class,
             $selectedColumns, $refTables) {
-        $tableMap = self::getTableMap($class);
+        $tableMap = afMetaDb::getTableMap($class);
         $selectedFCols = array();
         $excludedFCols = array();
         foreach($tableMap->getColumns() as $col) {
