@@ -22,7 +22,7 @@ class afApiActions extends sfActions
         $rows = $source->getRows();
         // To support existing static datasources,
         // html escaping is disabled for them.
-        if($source instanceof sfPropelSource) {
+        if($source instanceof afPropelSource) {
             self::escapeHtml($rows);
         }
         self::addRowActionSuffixes($view, $rows);
