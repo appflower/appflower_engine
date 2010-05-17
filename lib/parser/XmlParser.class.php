@@ -228,9 +228,8 @@ class XmlParser extends XmlParserTools {
 					$this->portalConfig = new stdClass();
 					$this->portalConfig->layoutType = ($this->fetch("//i:tab")->length) ? afPortalStatePeer::TYPE_TABBED : afPortalStatePeer::TYPE_NORMAL;
 					$this->portalConfig->content = array();
-					$this->portalConfig->content[0]["portalLayoutType"] = sfConfig::get("app_parser_default_layout","[100]");
-					$this->portalConfig->idXml = $this->portalIdXml;
-					
+					$this->portalConfig->content[0]["portalLayoutType"] = sfConfig::get("app_parser_default_layout","[100]");					
+					$this->portalConfig->idXml = $this->portalIdXml;					
 				}
 			}
 			
@@ -259,6 +258,7 @@ class XmlParser extends XmlParserTools {
 	
 	private function parseXmlDocument() {
         Console::profile('parseXmlDocument');
+        
 		
 		$this->fields = array();
 		
@@ -332,6 +332,52 @@ class XmlParser extends XmlParserTools {
 	
 	public function getEnums() {
 		return $this->enums;
+	}
+	
+	
+	public function testConditions() {
+		
+		$ifs = $this->fetch("//i:if");
+		
+		if(!$ifs->length) {
+			return true;
+		}
+		
+		$root = $this->fetch("/i:view");
+		
+		$view = $this->get($root->item(0),"type");
+		
+		foreach($ifs as $if) {
+			$condition = str_replace("&amp;","&",$this->get($if,"test"));
+			
+			$parent = $if->parentNode;
+		
+			if(!eval("return (".$condition.");")) {
+				
+				$childnodes = $this->fetch("child::*",$if);
+				
+				$this->remove($if);
+				
+				foreach($childnodes as $child) {
+					
+					$name = $this->name($child);
+					
+					if($name == "field") {
+						$grouping = $this->fetch("//i:grouping/i:set/i:ref[@to='".$this->get($child,"name")."']");
+						if($grouping->length == 1) {
+							$this->remove($grouping->item(0));
+						}
+					} else if($name == "action") {
+						if($this->childcount($parent,3) == 0) {
+							$this->remove($parent);
+						}
+					} 	
+				}	
+			}
+		}
+		
+		return true;
+		
 	}
 	
 	
@@ -662,7 +708,11 @@ class XmlParser extends XmlParserTools {
 	
 	private function checkWidgetCredentials($module = null,$action = null) {
 
-		$action_name = ($action === null) ? $this->context->getActionName() : $action;		
+		$action_name = ($action === null) ? $this->context->getActionName() : $action;	
+		/*$class = $module."Actions";
+		include_once("/usr/www/manager/apps/frontend/modules/".$module."/actions/actions.class.php");		
+		$class = new $class($this->context,$module,$action);
+		if(!$this->user->hasCredential($class->getCredential())) return false;*/
 		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
 		$path = $this->getPath(($module === null) ? $this->context->getModuleName() : $module, true);
 		
@@ -673,6 +723,7 @@ class XmlParser extends XmlParserTools {
 		$this->readXmlDocument($path,true);
 		
 		$permissions = $this->fetch("//s:permissions[@for='".$action_name."']");
+		
 		
 		if(!$permissions->length) {
 			return true;
@@ -1038,8 +1089,7 @@ class XmlParser extends XmlParserTools {
 	}
 	
 	
-	private function getPortalSizes($data,$js = false) {
-		
+	private function getPortalSizes($data,$js = false) {		
 		$value = $this->portalSizes[$data["layout"]];
 	
 			return array("[".implode(",",$value)."]",count($value));
@@ -1088,8 +1138,7 @@ class XmlParser extends XmlParserTools {
 		// Processing afWidgetSelector settings, adding extra widgets.
 		// TODO: Some parts must be changed in 1165!!
 		
-		if($this->portalStateObj) {
-			
+		if($this->portalStateObj) {					
 			$layoutType = $this->portalStateObj->getLayoutType();
 			$content = $this->portalStateObj->getContent();
 			
@@ -1111,6 +1160,7 @@ class XmlParser extends XmlParserTools {
 					
 						foreach($item["portalColumns"] as $column) {
 							foreach($column as $component) {
+								
 								$tmp[0] = strtok($component->idxml,"/");
 								$tmp[1] = strtok("/");
 								$found = false;
@@ -1185,8 +1235,7 @@ class XmlParser extends XmlParserTools {
 			}
 			
 			
-		}
-		
+		}		
 		foreach($this->process["parses"][$this->iteration]["areas"] as $area_type => $area) {
 			
 			$z = 0;
@@ -1198,8 +1247,8 @@ class XmlParser extends XmlParserTools {
 			foreach($area["tabs"] as $k => $tab) {
 				
 			if($area_type == "content" && $this->portalConfig) {
-				$sizedata = $this->getPortalSizes($area["attributes"]);
-				$this->portalConfig->content[$k]["portalLayoutType"] = $sizedata[0];
+				$sizedata = $this->getPortalSizes($area["attributes"]);						
+				$this->portalConfig->content[$k]["portalLayoutType"] = $sizedata[0];				
 				if(isset($tab["attributes"]["title"])) {
 					$this->portalConfig->content[$k]["tabTitle"] = $tab["attributes"]["title"];	
 				}
@@ -1207,8 +1256,7 @@ class XmlParser extends XmlParserTools {
 			}
 			
 			if(count($tab["components"])>0){
-				foreach($tab["components"] as $name => $component) {
-					
+				foreach($tab["components"] as $name => $component) {				
 					$arg = 0;
 					
 					if(substr($name,0,4) != "tree") {						
@@ -1223,11 +1271,10 @@ class XmlParser extends XmlParserTools {
 						}
 						
 						//adds all the widgets by default to first column
-						if($area_type == "content" && !$this->portalStateObj) {
+						if($area_type == "content" && !$this->portalStateObj) {	
 							
 							if($this->type !== self::WIZARD) {
-								$idx = $component["column"];
-							
+								$idx = $component["column"];							
 								if($idx >= $sizedata[1]) {
 									throw new XmlParserException("Invalid column reference!");
 								}
@@ -1242,7 +1289,10 @@ class XmlParser extends XmlParserTools {
 						$z++;
 						
 						if(!class_exists($class = $component["module"]."Actions",true)) {
-							require_once($this->root."/apps/".$this->application."/modules/".$component["module"]."/actions/actions.class.php");	
+							$file = $this->root."/apps/".$this->application."/modules/".$component["module"]."/actions/actions.class.php";
+							if(file_exists($file))require_once($file);
+							$file = $this->root."/plugins/appFlowerPlugin/modules/".$component["module"]."/actions/actions.class.php";
+							if(file_exists($file))require_once($file);	
 						}
 						
 						$class = new $class(sfContext::getInstance(),null,null);
@@ -1266,7 +1316,9 @@ class XmlParser extends XmlParserTools {
 								$file = $alt_file;
 							}
 							
-						} else {
+						}
+						 //else
+						  {
 							if(isset($component["params"])) {
 								foreach($component["params"] as $pname => $pvalue) {
 									$attribute_holder->add(array($pname => $pvalue));
@@ -1350,7 +1402,7 @@ class XmlParser extends XmlParserTools {
 			
 			$this->portalColumns = $this->portalStateObj->getColumns();
 			ksort($this->portalColumns);
-		
+			
 			$this->portalColumnsSize = $this->portalStateObj->getColumnsSize();
 			
 			$portalTools  = new ImmExtjsTools();
@@ -1542,6 +1594,12 @@ class XmlParser extends XmlParserTools {
 		// Parse the schema, store and assign default / fixed values of all attributes 
 		
 		$this->parseDefaults();
+		
+		// Parse ifs..
+		
+		
+		$this->testConditions();
+		
 		
 		// Find parsable elements, assign unique ids, build parser data
 				
@@ -2394,7 +2452,8 @@ class XmlParser extends XmlParserTools {
 				$wizard_group = $this->layout->startGroup();
 			}
 			
-			if($view == "edit" || $view == "show") {				
+			if($view == "edit" || $view == "show") {
+								
 				$formoptions["action"] = $host.url_for($parse["form"]);
 				$formoptions["name"] = "form".$it;
 				$formoptions["classic"] = ($parse["classic"] !== "false");
@@ -2488,6 +2547,8 @@ class XmlParser extends XmlParserTools {
 						if($name == "attributes" || !is_array($data)) {
 							continue;
 						}
+						
+						
 						
 						// Convert to attributes field's children's default values here!
 						
@@ -2895,8 +2956,7 @@ class XmlParser extends XmlParserTools {
 				
 				
 			} else if($view == "list") {
-		
-				
+						
 				$invisibles = array();
 				
 				// Add all non-hidden columns to visible..
@@ -2917,7 +2977,7 @@ class XmlParser extends XmlParserTools {
 				{
 					$formoptions["remoteSort"] = ($parse["remoteSort"]=="false") ? false : true;
 				}
-		
+				if(isset($parse['id'])) $formoptions["id"] = $parse['id'];
 				$formoptions["autoHeight"] = true;
 				$formoptions["clearGrouping"] = false;
 				$formoptions["frame"] = false;
@@ -3755,8 +3815,7 @@ if(response.message) {
      */
 	private static function setTemplateAppFlower($actionInstance)
 	{
-		$name = sfConfig::get('sf_plugins_dir').'/appFlowerPlugin/modules/appFlower/templates/ext';
-		
+		$name = sfConfig::get('sf_plugins_dir').'/appFlowerPlugin/modules/appFlower/templates/ext';		
 		sfConfig::set('symfony.view.'.$actionInstance->getModuleName().'_'.$actionInstance->getActionName().'_template', $name);
 	}
 
