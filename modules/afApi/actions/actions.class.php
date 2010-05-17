@@ -99,8 +99,8 @@ class afApiActions extends sfActions
                     }
                 }
 
-                if(!$condition || self::isRowActionEnabled($class, $method, $urlParams,
-                    $extraArgs)) {
+                if(!$condition || self::isRowActionEnabled(
+                        $class, $method, $urlParams, $extraArgs)) {
                     $rowurl = UrlUtil::addParams($url, $urlParams);
                     $row['action'.$actionNumber] = $rowurl;
                 }
