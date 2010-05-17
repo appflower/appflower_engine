@@ -15,23 +15,25 @@ Ext.ux.SynchronousTreeExpand = function(config){
 			}
 		}
 	}
-	config.grid.store.on('load',function(){		
-		if(config.grid.remoteLoad && config.grid.select){	
-			mask = new Ext.LoadMask(Ext.getBody(), {msg:"Retrieving data..."});
-			mask.show();
-			
-			store = config.grid.getStore();
-			sm = config.grid.getSelectionModel();
-			ds = config.grid.getView().ds;			
-			
-			if(ds.getCount()){
-				var record = moveFurther();
-				if(record){
-					store.expandNode(record);	
-				}else{
-					mask.hide();
+	config.grid.store.on('load',function(){	
+		if(config.grid.getStore().getCount()){
+			if(config.grid.remoteLoad && config.grid.select){	
+				mask = new Ext.LoadMask(Ext.getBody(), {msg:"Retrieving data..."});
+				mask.show();
+				
+				store = config.grid.getStore();
+				sm = config.grid.getSelectionModel();
+				ds = config.grid.getView().ds;			
+				
+				if(ds.getCount()){
+					var record = moveFurther();
+					if(record){
+						store.expandNode(record);	
+					}else{
+						mask.hide();
+					}
 				}
 			}
-		}	
+		}
 	});	
 }
