@@ -83,18 +83,35 @@ class afApiActions extends sfActions
             $url = $action->get('@url');
             $params = $action->get('@params', 'id');
             $params = explode(',', $params);
+            $condition = $action->get('@condition');
+            if($condition) {
+                $parts = explode(',', $condition);
+                $class = $parts[0];
+                $method = $parts[1];
+                $extraArgs = array_slice($parts, 2);
+            }
+
             foreach($rows as &$row) {
-                $rowurl = $url;
+                $urlParams = array();
                 foreach($params as $param) {
                     if(isset($row[$param])) {
-                        $rowurl = UrlUtil::addParam($rowurl,
-                            $param, $row[$param]);
+                        $urlParams[$param] = $row[$param];
                     }
                 }
 
-                $row['action'.$actionNumber] = $rowurl;
+                if(!$condition || self::isRowActionEnabled($class, $method, $urlParams,
+                    $extraArgs)) {
+                    $rowurl = UrlUtil::addParams($url, $urlParams);
+                    $row['action'.$actionNumber] = $rowurl;
+                }
             }
         }
+    }
+
+    private static function isRowActionEnabled($class, $method, $urlParams,
+        $extraArgs) {
+        $args = array_merge(array_values($urlParams), $extraArgs);
+        return XmlParser::isActionEnabled($class, $method, $args);
     }
 
     private static function createDataSource($view, $filters, $format='html') {

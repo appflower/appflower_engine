@@ -611,15 +611,11 @@ class XmlParser extends XmlParserTools {
 			$args = $tmp;
 		}
 		
-		if(call_user_func(array($class,$method),$args) !== false) {
-			return true;
-		} else {
-			return false;
-		}
-			
-		
-		
-		
+		return self::isActionEnabled($class, $method, $args);
+	}
+
+	public static function isActionEnabled($class, $method, $args) {
+		return call_user_func(array($class,$method), $args) !== false;
 	}
 	
 	
