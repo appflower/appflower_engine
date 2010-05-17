@@ -82,7 +82,6 @@ class Notification{
 	static $SHORT_CONVERSION = array("t"=>"title","m"=>"message","s"=>"type","l"=>"log","d"=>"duration","c"=>"category","p"=>"persistent","b"=>"created_by","f"=>"created_for");
 	static $LONG_CONVERSION = array("title"=>"title","msg"=>"message","sev"=>"type","log"=>"log","duration"=>"duration","category"=>"category","persistent"=>"persistent","by"=>"created_by","for"=>"created_for");
 	
-	static $dbschema;
 	public static function add($title='',$message='',$category=3,$type=self::INFO){		
 		if($title != ''){		
 			//If first parameter is json string			
@@ -226,23 +225,7 @@ class Notification{
 		return $data;		
 	}
 	private static function getPhpName($dbName, $tableName) {
-		$dbMap = Propel::getDatabaseMap($dbName);
-		try {
-			// The dbMap will know the table if the Peer was used
-			// by the action code.
-			$table = @$dbMap->getTable($tableName);
-			return $table->getPhpName();
-		} catch (PropelException $e) {
-			if(!isset(self::$dbschema)) {
-				$root = sfConfig::get("sf_root_dir");
-				self::$dbschema = sfYaml::load($root.'/config/schema.yml');
-			}
-			$phpName = self::$dbschema[$dbName][$tableName]['_attributes']['phpName'];
-			if(!$phpName) {
-				throw new XmlParserException("Invalid table name: '$tableName'");
-			}
-			return $phpName;
-		}
+		return XmlParser::getPhpName($dbName, $tableName);
 	}
 	/**
 	 * This method parses the arguments from cli and converts it into json string to feed to self::add()
