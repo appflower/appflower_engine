@@ -3761,9 +3761,7 @@ if(response.message) {
 			return sfView::SUCCESS;
 		}
 
-		//used in pop-ups
-		ImmExtjsAjaxWidgetsPopup::checkWidgetPopupRequest($actionInstance,$type);
-		//used in loading center content
+		//used in ajax loading widgets
 		ImmExtjsAjaxLoadWidgets::initialize($actionInstance,$type);
 		sfLoader::loadHelpers("Helper");
 		$parser = new XmlParser($type);
