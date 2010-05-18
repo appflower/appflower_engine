@@ -3769,7 +3769,7 @@ if(response.message) {
 	/**
 	 * Returns the matching PhpName or throws an XmlParserException.
 	 */
-	private static function getPhpName($dbName, $tableName) {
+	public static function getPhpName($dbName, $tableName) {
 		return PublicCache::cache(array('XmlParser', '_getPhpName'), array($dbName, $tableName));
 	}
 
