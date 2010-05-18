@@ -81,7 +81,7 @@ class Notification{
 	 */
 	static $SHORT_CONVERSION = array("t"=>"title","m"=>"message","s"=>"type","l"=>"log","d"=>"duration","c"=>"category","p"=>"persistent","b"=>"created_by","f"=>"created_for");
 	static $LONG_CONVERSION = array("title"=>"title","msg"=>"message","sev"=>"type","log"=>"log","duration"=>"duration","category"=>"category","persistent"=>"persistent","by"=>"created_by","for"=>"created_for");
-	
+	static $dbschema;
 	public static function add($title='',$message='',$category=3,$type=self::INFO){		
 		if($title != ''){		
 			//If first parameter is json string			
@@ -185,9 +185,9 @@ class Notification{
 			foreach ($new_object_fields as $k=>$new_object_field){	
 				if(self::handleSkip($new_object,$new_object_fields_fieldname[$k])){			
 					$count++;				
-					$log .= "<br><u>".sfInflector::humanize($new_object_fields_fieldname[$k])."</u>:<br>".(self::handleForeignData($new_object,$new_object_fields_fieldname[$k]))."<br>";
+					$log .= "<br><u>".sfInflector::humanize($new_object_fields_fieldname[$k])."</u>:<br>".(self::handleForeignData($new_object,$new_object_fields_fieldname[$k]))."<br>";					
 				}			
-			}
+			}			
 			//exit;
 			if($log) $log = "<u>The deleted record info is following</u><br>".$log;			
 			$msg = ($user_commit_msg?("<u>".$user_commit_msg."</u><br>"):"")."Record is deleted from ".sfContext::getInstance()->getModuleName()."/".sfContext::getInstance()->getActionName().$ip_string;
@@ -200,22 +200,23 @@ class Notification{
 	private static function handleForeignData($obj,$field){		
 		$tableMap = $obj->getPeer()->getTableMap();
 		$cols = $tableMap->getColumns();
-		$data = '';		
+		$data = '';	
+		$data_obj = null;	
 		foreach($cols as $col){
 			if($col->getName() == strtoupper($field)){				
-				$data = call_user_func(array($obj,"get".$col->getPhpName()));
+				$data = call_user_func(array($obj,"get".$col->getPhpName()));				
 				if($col->isForeignKey()){
 					$rt = $col->getRelatedTableName();
-					$rc = $col->getRelatedColumnName();
-					$dbName = constant($col->getTable()->getPhpName()."Peer::DATABASE_NAME");
+					$rc = $col->getRelatedColumnName();					
+					$dbName = constant($col->getTable()->getPhpName()."Peer::DATABASE_NAME");					
 					$fc = self::getPhpName($dbName,$rt);
 					if(method_exists($obj,"get".$fc)){
-						$method = "get".$fc;
+						$method = "get".$fc;						
 						$data_obj = call_user_func(array($obj,$method));
-					}else{
+					}else if(method_exists($obj,"get".$fc."RelatedBy".$col->getPhpName())){
 						$method = "get".$fc."RelatedBy".$col->getPhpName();
 						$data_obj = call_user_func(array($obj,$method));
-					}
+					}					
 					if(method_exists($data_obj,"__toString")){
 						$data = $data_obj->__toString();
 					}else if(method_exists($data_obj,"getName")){
@@ -229,7 +230,16 @@ class Notification{
 		return $data;		
 	}
 	private static function getPhpName($dbName, $tableName) {
-		return XmlParser::getPhpName($dbName, $tableName);
+		if(!isset(self::$dbschema)) {
+			$root = sfConfig::get("sf_root_dir");
+			self::$dbschema = sfYaml::load($root.'/config/schema.yml');
+		}
+		if(isset(self::$dbschema[$dbName][$tableName]['_attributes']['phpName'])) {
+			$phpName = self::$dbschema[$dbName][$tableName]['_attributes']['phpName'];
+		} else {
+			$phpName = sfInflector::camelize($tableName);
+		}
+		return $phpName;
 	}
 	/**
 	 * This method parses the arguments from cli and converts it into json string to feed to self::add()
