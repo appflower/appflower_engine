@@ -7,9 +7,6 @@ xmlns:i="http://www.appflower.com/schema/" type="list">
 
 	<i:params>
 		<i:param name="maxperpage">25</i:param>
-		<i:param name="reload_delay">5000</i:param>
-		<i:param name="reload_topic">status</i:param>
-		<i:param name="reload_started">true</i:param>
 	</i:params>
 	
 	<i:proxy url="parser/listjson" />
