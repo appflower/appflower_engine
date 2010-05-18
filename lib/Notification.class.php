@@ -132,6 +132,10 @@ class Notification{
 		return $source;
 	}
 	private static function getUser(){
+		// A sfJob could also try to add a notification.
+		if(!sfContext::hasInstance()) {
+			return null;
+		}
 		if(sfContext::getInstance()->getUser()->isAuthenticated()){
 			return  sfContext::getInstance()->getUser()->getProfile()->getUserId();
 		}
