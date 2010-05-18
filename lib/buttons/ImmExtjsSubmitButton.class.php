@@ -83,7 +83,23 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  									'success'=>$this->immExtjs->asMethod(array(
 		  												'parameters'=>'form,action',
 		  												'source'=>'
-		  							var normalRedirect = function(location,target,winProp){		  							
+		  							/**
+		  							* Test for popuped window
+		  							*/
+		  							var _form = Ext.getCmp("'.$submitContainerObject->attributes['id'].'");
+		  							var _win = null;
+		  							if(_form){
+		  								_win = _form.findParentByType("window");		  								
+		  							}		  							
+		  							/*************************************************************/
+		  							var showInstantNotification = function(){
+		  								new Ext.ux.InstantNotification({title:"Success",message:message});
+		  							}
+		  							var normalRedirect = function(location,target,winProp){	
+		  								if(_win){
+		  									_win.close(); 
+		  									return false;
+		  								}	  							
 		  								if(target && winProp){
 		  									window.open(location,target,winProp);
 		  								}else if(target){
@@ -141,49 +157,31 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  								else{
 		  								
 		  									/*
-		  									* If redirection is present but not the confirmation, the message dialog can be replaced 
-		  									* with a confirmation dialog to provide the user the options to redirect or not to redirect.
-		  									* Since user has to click one OK on message dialog anyway, if it is replaced with confirmation
-		  									* the OK on confirmation will act as OK on message dialog, with an extra option not to redirect
-		  									* by clicking CANCEL. User can add multiple items without being redirected.
-		  									*
-		  									* This is useful for the case of ajax widget popups, for example in combo box widget popups, where
-		  									* after adding item it automatically redirects the page, making popups useless.
+		  									* if the widget is popuped, the popuped window is closed on success.
 		  									*/
 		  									if(redirect && (!confirm || confirm == "undefined")){
-		  										Ext.Msg.buttonText = {yes: "Ok",no: "Stay Here"}
-		  										Ext.Msg.show({
-												   title:"Success",
-												   msg: message,
-												   buttons: Ext.Msg.YESNO,
-												   
-												   fn: function(btn){		  									
-													   if (btn=="yes"&&redirect&&redirect!="undefined"){
-													   		normalRedirect(redirect,target,winProp); 
-														   //window.location.href=redirect;
-														   return false; 
-													   }else{ 
-													  	 return true;
-													   }
-												   },												  
-												   icon: Ext.MessageBox.QUESTION
-												});
-												Ext.Msg.buttonText = {yes: "Yes",no: "No"}		  										
+		  										showInstantNotification();
+		  										if (redirect&&redirect!="undefined"){
+											   		normalRedirect(redirect,target,winProp);
+												   return false; 
+											   }else{ 
+											  	 return true;
+											   }		  										
 		  									}else{
-		  										Ext.Msg.alert("Success", message, function(){
+		  										showInstantNotification();
+		  										/*Ext.Msg.alert("Success", message, function(){
 													if(!confirm||confirm=="undefined"){
 														if(redirect){
 															normalRedirect(redirect,target,winProp);
-															//window.location.href=redirect;
 														}'.(isset($attributes['afterSuccess'])?$attributes['afterSuccess']:'').'
 													}
-												});
+												});*/
+												'.(isset($attributes['afterSuccess'])?$attributes['afterSuccess']:'').'
 		  									}
 		  								}		  								
 		  							}else{
 		  								if(redirect){
 		  									normalRedirect(redirect,target,winProp);
-		  									//window.location.href=redirect;
 										}'.(isset($attributes['afterSuccess'])?$attributes['afterSuccess']:'').'
 		  							} '
 		  										  								
