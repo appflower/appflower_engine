@@ -23,7 +23,7 @@ xmlns:i="http://www.appflower.com/schema/" type="list">
 		<i:visible>job_id,title,status,created_at,csv_link</i:visible>
 	</i:display>
 	
-	<i:fields>
+	<i:fields expandButton="true">
 		<i:column label="No." name="job_id" isid="true" />
 		<i:column label="Title" name="title" sortable="true"/>
 		<i:column label="Status" name="status"/>
