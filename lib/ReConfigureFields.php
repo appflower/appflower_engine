@@ -57,6 +57,7 @@ class ReConfigureFields{
 		}		
 	}
 	private function tempGraphSelectedColorRemove(){
+		if(!isset($this->field['attributes']))return;
 		if(preg_match('/^Color/',$this->field['attributes']['label'])){
 			$this->field['attributes']['break'] = true;
 			$this->field['attributes']['width'] = 150;
