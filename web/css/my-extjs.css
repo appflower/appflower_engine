@@ -1,4 +1,5 @@
 /* for icons, please name icon-imageaction */
+.icon-accept { background:url('/images/famfamfam/accept.png') no-repeat center left !important; }
 .icon-selected-view { background:url('/images/famfamfam/bullet_black.png') no-repeat center left !important; }
 .icon-expanded-view { background:url('/images/famfamfam/application_split.png') no-repeat center left !important; }
 .icon-list-view { background:url('/images/famfamfam/application_view_columns.png') no-repeat center left !important; }
@@ -221,4 +222,19 @@
   -khtml-user-select: text!important;
   -moz-user-select: text!important;
 }
-
+.table-notification{
+	width:100%;	
+	border:1px solid #ccc;
+	background-color:#eaeaea;
+}
+.table-notification .label{
+	color:#000000;
+	background-color:#f4f2f2;
+	padding:5px;
+	width:100px;	
+}
+.table-notification .content{
+	color:#000000;
+	background-color:#fff;
+	padding:5px;	
+}
