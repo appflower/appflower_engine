@@ -33,17 +33,19 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 		var nbInfos = r.length;
 		var delay=0;
 		for (i = 0; i < nbInfos; i++) {
-			if (r[i] === "") { continue; }
+			/*if (r[i] === "") { continue; }
 			
 			try {
 				r[i] = eval("("+r[i]+")");
 				if (!r[i]) { r[i] = r[i]; }
 			} catch(ex) {
 				r[i] = r[i];
-			}		
+			}*/		
 		
 			delay+=2000;
-									
+					
+			//console.log(r[i]);
+					
 			if(!r[i].step)
 			{
 				this.errors.noStep = this.errors.noStep || 'There is an error in the Updater! No step defined !';
@@ -53,8 +55,8 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 				this.noStep=true;
 			}
 					
-			if(Ext.isIE)
-			{
+			/*if(Ext.isIE)
+			{*/
 				if(!this.noStep) 
 				{
 					if(r[i].step=='start')
@@ -74,7 +76,7 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 						this.hideMsg.defer(delay,this,[r[i]]);
 					}
 				}
-			}
+			/*}
 			else
 			{
 				if(!this.noStep) 
@@ -98,7 +100,7 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 						this.hideMsg(r[i]);
 					}
 				}
-			}
+			}*/
 		}
 	},
 	
