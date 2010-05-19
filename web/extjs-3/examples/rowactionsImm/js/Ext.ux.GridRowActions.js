@@ -375,11 +375,12 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 			 * Support for post {Ajax call for the url}
 			 */
 			
-			var ajaxCall = '';
-			
+			var ajaxCall = '';			
 			if(a.post && a.name && !a.name.match("_expand")){
-				ajaxCall = 'Ext.Ajax.request({'+ 
+				ajaxCall = 'new Ext.LoadMask(Ext.getBody(), {msg:"Action in progress. Please wait..."}).show();Ext.Ajax.request({'+ 
 						'url: "{'+a.urlIndex+'}",'+
+						'name: "'+a.name+'",'+	
+						'grid_id: "'+this.grid.id+'",'+
 						'method:"post",'+						
 						'success: Ext.ux.GridRowActions.onActionSuccess,'+
 						'failure: Ext.ux.GridRowActions.onActionFailure'+
@@ -598,7 +599,7 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 				return false;
 			}
 			this.fireEvent('groupaction', this.grid, records, action, groupId);
-		}
+		}		
 	} // eo function onClick
 	// }}}
 
@@ -608,12 +609,40 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
  * A handler for an JSON response.
  */
 Ext.ux.GridRowActions.onActionSuccess = function(response, options) {
+	if(Ext.getBody().isMasked()){
+		Ext.getBody().unmask();
+	}
 	response = Ext.decode(response.responseText);
 	if(!response.success) {
 		return Ext.ux.GridRowActions.onActionFailure(response, options);
 	}
-
+	/**
+	 * Additional operations according to the action types
+	 */
+	var msg = response.message;
+	var grid = Ext.getCmp(options.grid_id);
+	var name = options.name.toString();
+	if(name.match(/_delete$/i) || name.match(/_remove$/i)){
+		if(!response.message){
+			msg = "Item deleted successfully";
+		}		
+		new Ext.ux.InstantNotification({title:"Success",message:msg});
+		if(grid){
+			sm = grid.getSelectionModel();
+			if(sm){
+				sm.clearSelections();
+			}
+			var store = grid.getStore();
+			if(store.proxy.conn.disableCaching === false) {
+				store.proxy.conn.disableCaching = true;
+			}
+			store.reload();
+		}
+		return;
+	}
+	/**********************************************************************/
 	if(response.message) {
+		
 		Ext.Msg.alert('Success', response.message, function(){
 			if(response.redirect) {
 				window.location.href = response.redirect;
@@ -630,6 +659,7 @@ Ext.ux.GridRowActions.onActionSuccess = function(response, options) {
  * A handler for an Ajax failure or a unsuccessful response.
  */
 Ext.ux.GridRowActions.onActionFailure = function(response, options) {
+	if(Ext.getBody().isMasked()) Ext.getBody().unmask();
 	if(response.responseText) {
 		response = Ext.decode(response.responseText);
 	}
