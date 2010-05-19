@@ -25,6 +25,7 @@ class ImmExtjsFieldInput extends ImmExtjsField
 		if(isset($attributes['value'])&&$attributes['value']!=null)
 		{
 			$this->attributes['value']=is_numeric($attributes['value'])?($attributes['value']." "):$attributes['value'];
+			$this->attributes['value']=is_string($attributes['value'])?html_entity_decode($attributes['value'],ENT_QUOTES):$attributes['value'];
 			
 			unset($attributes['value']);
 		}
