@@ -18,4 +18,15 @@ class afSaveFilterPeer extends BaseafSaveFilterPeer
 		if($filter) return true;
 		return false;
 	}
+	public static function getFiltersByName($name){		
+		$data = array();		
+		$user = sfContext::getInstance()->getUser()->getGuardUser()->getId();
+		$title = $name;
+		$c = new Criteria();
+		$c->add(afSaveFilterPeer::USER,$user);
+		$c->add(afSaveFilterPeer::TITLE,$title);
+		$c->addDescendingOrderByColumn(afSaveFilterPeer::ID);
+		$objs = afSaveFilterPeer::doSelect($c);
+		return $objs;
+	}
 }
