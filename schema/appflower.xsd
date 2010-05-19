@@ -634,7 +634,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         <xs:attribute name="filter" type="i:arrayType" use="optional" />
         <xs:attribute name="permissions" type="i:permissionType" default="*" />
         <xs:attribute name="type" type="xs:token" use="optional" />
-        <xs:attribute name="sortType" type="xs:token" default="asText" use="optional" />
+        <xs:attribute name="sortType" type="xs:token" default="none" use="optional" />
         <xs:attribute name="sortIndex" type="xs:token" use="optional" />
         <xs:attribute name="contextMenu" type="xs:token" use="optional" />
     </xs:attributeGroup>
