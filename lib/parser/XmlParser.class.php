@@ -2401,7 +2401,7 @@ class XmlParser extends XmlParserTools {
 			
 			$tools=new ImmExtjsTools();
 			if(isset($parse['params']) && isset($parse['params']['settings'])){
-				$tools->addItem(array('id'=>'gear','qtip'=>'Setting','handler'=>array('parameters'=>'e,target,panel','source'=>"ajax_widget_popup('".$parse['params']['settings']."','Settings',panel)")));
+				$tools->addItem(array('id'=>'gear','qtip'=>'Setting','handler'=>array('parameters'=>'e,target,panel','source'=>"ajax_widget_popup('".$parse['params']['settings']."','Settings',panel,'width:800,overflow:\'hidden\'')")));
 			}		
 			//$tools->addItem(array('id'=>'start-reload','handler'=>array('parameter'=>'e,target,panel','source'=>'this.id="stop-reload"')));	
 			$tools->addItem(array('id'=>'close','qtip'=>'Close','handler'=>array('parameters'=>'e,target,panel','source'=>"panel.ownerCt.remove(panel, true);")));
@@ -3132,8 +3132,8 @@ class XmlParser extends XmlParserTools {
 				*/
 				
 				if($formoptions["select"]) {
-					$grid->addMenuActionsItem(array('label'=>'Select All','icon'=>'/images/famfamfam/flag_green.png','listeners'=>array('click'=>array('parameters'=>'','source'=>$grid->privateName.".getSelectionModel().selectAll()"))));
-					$grid->addMenuActionsItem(array('label'=>'Deselect All','icon'=>'/images/famfamfam/flag_red.png','listeners'=>array('click'=>array('parameters'=>'','source'=>$grid->privateName.".getSelectionModel().clearSelections()"))));
+					//$grid->addMenuActionsItem(array('label'=>'Select All','icon'=>'/images/famfamfam/flag_green.png','listeners'=>array('click'=>array('parameters'=>'','source'=>$grid->privateName.".getSelectionModel().selectAll()"))));
+					//$grid->addMenuActionsItem(array('label'=>'Deselect All','icon'=>'/images/famfamfam/flag_red.png','listeners'=>array('click'=>array('parameters'=>'','source'=>$grid->privateName.".getSelectionModel().clearSelections()"))));
 				}
 				
 				if(isset($export_config["enabled"]) && $export_config["enabled"] === true && $parse["exportable"] == "true") {
