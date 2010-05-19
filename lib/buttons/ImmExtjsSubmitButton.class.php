@@ -79,7 +79,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  									'timeout'=>$attributes['timeout'],
 		  									'failure'=>$this->immExtjs->asMethod(array(
 		  												'parameters'=>'form,action',
-		  												'source'=>'var onclose=function(){if(action.result && action.result.redirect){var loadType=action.result.loadType || "center";afApp.load(action.result.redirect,loadType);}}; if(action.result){ if(action.result.message){Ext.Msg.alert("Failure", action.result.message, onclose);}}else{Ext.Msg.alert("Failure", "Some error appeared!", onclose);}')),
+		  												'source'=>'var onclose=function(){if(action.result && action.result.redirect){var load=action.result.load || "center";afApp.load(action.result.redirect,load);}}; if(action.result){ if(action.result.message){Ext.Msg.alert("Failure", action.result.message, onclose);}}else{Ext.Msg.alert("Failure", "Some error appeared!", onclose);}')),
 		  									'success'=>$this->immExtjs->asMethod(array(
 		  												'parameters'=>'form,action',
 		  												'source'=>'
@@ -93,7 +93,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  							var redirect=action.result.redirect ||action.options.params.redirect;
 		  							var target=action.result.target ||action.options.params.target;
 		  							var winProp=action.result.winProp ||action.options.params.winProp;
-		  							var loadType=action.result.loadType || "center";
+		  							var load=action.result.load || "center";
 		  							var win;
 		  										
 		  							if(message){
@@ -122,7 +122,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 			  										}
 			  										else
 			  										{
-			  											afApp.load(redirect,loadType,target,winProp);				
+			  											afApp.load(redirect,load,target,winProp);				
 			  										}
 			  										
 			  										return false; 
@@ -153,7 +153,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 												   
 												   fn: function(btn){		  									
 													   if (btn=="yes"&&redirect&&redirect!="undefined"){
-													   	   afApp.load(redirect,loadType,target,winProp);
+													   	   afApp.load(redirect,load,target,winProp);
 														   return false; 
 													   }else{ 
 													  	 return true;
@@ -174,7 +174,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  								}		  								
 		  							}else{
 		  								if(redirect){
-		  									afApp.load(redirect,loadType,target,winProp);
+		  									afApp.load(redirect,load,target,winProp);
 										}'.(isset($attributes['afterSuccess'])?$attributes['afterSuccess']:'').'
 		  							} '
 		  										  								
