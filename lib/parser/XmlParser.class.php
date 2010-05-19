@@ -1157,7 +1157,7 @@ class XmlParser extends XmlParserTools {
 					$tab_id = ($tabbed) ? $tab["attributes"]["id"] : null;
 					$newtab = true;
 					if(!$title || $tab["attributes"]["title"] == $title) {
-					
+						if(isset($items["portalColumns"]))
 						foreach($item["portalColumns"] as $column) {
 							foreach($column as $component) {
 								
@@ -3654,7 +3654,7 @@ if(response.message) {
 					$portalColumnsSize = $this->portalStateObj->getColumnsSize($item);
 					
 		  			${'tab'.$item}=$this->layout->startTab(array('title'=>(isset($itemDetails["tabTitle"])) ? $itemDetails["tabTitle"] : $itemDetails["portalTitle"],'portalLayoutType' => $portalLayoutType,'portalWidgets'=>$this->filterWidgets($item,$content,$this->widgets)));
-		
+					if(is_array($portalColumns))
 					foreach ($portalColumns as $k=>$widgets)
 					{
 						//instanciate a column
@@ -3713,6 +3713,7 @@ if(response.message) {
 		
 		foreach($all_tabs as $item => $details) {
 			if($item !== $current_tab) {
+				if(isset($details["portalColumns"]))
 				foreach($details["portalColumns"] as $col => $widgets) {
 					foreach($widgets as $widget) {
 						foreach($all_widgets as $ck => $category) {
