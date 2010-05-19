@@ -614,6 +614,18 @@ class ImmExtjsGrid
 							if(!filters) return;							
 							var saveFilter = Ext.ux.SaveSearchState(grid);
 							saveFilter.viewSavedList();'))));				
+			$this->addMenuActionsItem(array('xtype'=>'menuseparator'));			
+			$savedFilters = afSaveFilterPeer::getFiltersByName(isset($this->attributes['name'])?$this->attributes['name']:$this->attributes['path']);
+			$fc = 0;
+			foreach($savedFilters as $f){
+				//if($fc > 4) break;			
+				$this->addMenuActionsItem(array('label'=>++$fc.". ".$f->getName(),'listeners'=>array('click'=>array('parameters'=>'','source'=>'
+							var grid = '.$this->privateName.';
+							var filters = grid.filters;
+							if(!filters) return;							
+							var saveFilter = Ext.ux.SaveSearchState(grid);							
+							saveFilter.restore(\''.$f->getFilter().'\',"'.$f->getName().'");'))));	
+			}
 		}
 		$this->addMenuActions();
 		
@@ -867,28 +879,32 @@ class ImmExtjsGrid
 		if($action["attributes"]["updater"] != "true"){
 			if($action["attributes"]["post"] != "false"){
 				$successFunction = '
+					Ext.getBody().mask("Action in progress. Please wait...");
 					Ext.Ajax.request({ 
 						url: "'.$action["attributes"]["url"].'",
 						method:"post", 
 						'.$params.'
 						success:function(response, options){
+							if(Ext.getBody().isMasked()) Ext.getBody().unmask();
 							response=Ext.decode(response.responseText);
 							if(response.message){								
-								var win = Ext.Msg.show({
-								   title:"Success",
-								   msg: response.message,
-								   buttons: Ext.Msg.OK,
-								   fn: function(){
-									   	if(response.redirect){
-											win.getDialog().suspendEvents();										
-											window.location.href=response.redirect;
-										}
-								   },
-								   icon: Ext.MessageBox.INFO
-								});															
+								new Ext.ux.InstantNotification({title:"Success",message:response.message});	
+								var grid = '.$grid->privateName.';
+								if(grid){
+									sm = grid.getSelectionModel();
+									if(sm){
+										sm.clearSelections();
+									}
+									var store = grid.getStore();
+									if(store.proxy.conn.disableCaching === false) {
+										store.proxy.conn.disableCaching = true;
+									}
+									store.reload();
+								}													
 							}
 						},
 						failure: function(response,options) {
+							if(Ext.getBody().isMasked()) Ext.getBody().unmask();
 							if(response.message){
 								Ext.Msg.alert("Failure",response.message);
 							}
