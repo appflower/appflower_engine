@@ -87,17 +87,21 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  							* Test for popuped window
 		  							*/
 		  							var _form = Ext.getCmp("'.$submitContainerObject->attributes['id'].'");
+		  							
 		  							var _win = null;
 		  							if(_form){
 		  								_win = _form.findParentByType("window");		  								
-		  							}		  							
+		  							}	  							
 		  							/*************************************************************/
 		  							var showInstantNotification = function(){
 		  								new Ext.ux.InstantNotification({title:"Success",message:message});
+		  								if(_win){	
+		  									_win.close();	  									
+		  									return false;
+		  								}
 		  							}
 		  							var normalRedirect = function(location,target,winProp){	
-		  								if(_win){
-		  									_win.close(); 
+		  								if(_win){		  									
 		  									return false;
 		  								}	  							
 		  								if(target && winProp){
