@@ -94,7 +94,22 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  							}	  							
 		  							/*************************************************************/
 		  							var showInstantNotification = function(){
-		  								new Ext.ux.InstantNotification({title:"Success",message:message});
+		  								if(showInWindow){
+		  									var w = new Ext.Window({
+		  										html:message,
+		  										title:"Success",
+		  										bodyStyle:"padding:10px",
+		  										autoScroll:true,
+		  										frame:true,		  										
+		  										resizable:true,
+		  										maximizable:true		  										
+		  									}).show();		  									
+		  									if(w.getBox().width > 600) w.setWidth(600);
+		  									if(w.getBox().height > 400){ w.setHeight(400);w.setWidth(w.getWidth()+20)}
+		  									w.center();		  									
+		  								}else{
+		  									new Ext.ux.InstantNotification({title:"Success",message:message});
+		  								}
 		  								if(_win){	
 		  									_win.close();	  									
 		  									return false;
@@ -116,6 +131,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  							var ajax=action.result.ajax ||action.options.params.ajax;
 		  							var message=action.result.message ||action.options.params.message;
 		  							var redirect=action.result.redirect ||action.options.params.redirect;
+		  							var showInWindow=action.result.window ||action.options.params.window;
 		  							var target=action.result.target ||action.options.params.target;
 		  							var winProp=action.result.winProp ||action.options.params.winProp;
 		  							var win;
