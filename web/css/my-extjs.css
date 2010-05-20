@@ -238,3 +238,17 @@
 	background-color:#fff;
 	padding:5px;	
 }
+.about-window{
+	color:#333;
+}
+.about-window u{
+	color:#000
+}
+.about-window a:active, .about-window a:link, .about-window a:visited{
+	color:#0000ff;
+	text-decoration:none;
+}
+.about-window a:hover{
+	color:#0000ff;
+	text-decoration:underline;
+}
