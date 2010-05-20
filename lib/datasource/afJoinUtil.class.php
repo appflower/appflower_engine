@@ -35,25 +35,30 @@ class afJoinUtil {
     private static function getForeignColsSelection($class,
             $selectedColumns, $refTables) {
         $tableMap = afMetaDb::getTableMap($class);
-        $fkCount = array();
+        $duplication = false;
+        $joined = array();
         $selectedFCols = array();
         $excludedFCols = array();
         foreach($tableMap->getColumns() as $col) {
             $relatedTable = $col->getRelatedTableName();
             if($relatedTable) {
                 if(in_array($relatedTable, $refTables) ||
-                    in_array(strtolower($col->getName()), $selectedColumns)){
+                    in_array(strtolower($col->getName()), $selectedColumns)) {
 
-                    $selectedFCols[] = $col;
-                    $fkCount[$relatedTable] = ArrayUtil::get($fkCount,
-                        $relatedTable, 0) + 1;
+                    if(isset($joined[$relatedTable])) {
+                        // It prevents multiple joins to the same table.
+                        $duplication = true;
+                        $excludedFCols[] = $col;
+                    } else {
+                        $joined[$relatedTable] = true;
+                        $selectedFCols[] = $col;
+                    }
                 } else {
                     $excludedFCols[] = $col;
                 }
             }
         }
 
-        $duplication = $fkCount && max($fkCount) > 1;
         return array($duplication, $selectedFCols, $excludedFCols);
     }
 }

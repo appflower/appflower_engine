@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__).'/../bootstrap/dbunit.php');
-$t = new lime_test(16, new lime_output_color());
+$t = new lime_test(19, new lime_output_color());
 
 $c = new Criteria();
 $selectMethod = afJoinUtil::chooseJoins($c, 'MonitorService',
@@ -44,11 +44,18 @@ $c = new Criteria();
 $selectMethod = afJoinUtil::chooseJoins($c, 'EventInfo',
     array('name', 'availability_id', 'confidentiality_id', 'integrity_id', 'publisher_id', 'vendor_id', 'source_type', 'source_name_id', 'category_id'), array('event_source_name'));
 $t->is($selectMethod, 'doSelect');
-$t->is(count($c->getJoins()), 6);
+$t->is(count($c->getJoins()), 4);
 
 $c = new Criteria();
 $selectMethod = afJoinUtil::chooseJoins($c, 'EventInfo',
     array('name', 'availability_id', 'confidentiality_id', 'integrity_id', 'publisher_id', 'vendor_id', 'source_type', 'source_name_id', 'category_id', 'event_response_module_connector_id'), array('event_source_name'));
 $t->is($selectMethod, 'doSelect');
-$t->is(count($c->getJoins()), 7);
+$t->is(count($c->getJoins()), 5);
+
+$c = new Criteria();
+$selectMethod = afJoinUtil::chooseJoins($c, 'EventVariations',
+    array('event_info_id', 'old_event_info_id'), array());
+$t->is($selectMethod, 'doSelectJoinEventInfoRelatedByEventInfoId');
+$t->is(count($c->getJoins()), 0);
+$t->is(is_array(EventVariationsPeer::$selectMethod($c)), true);
 
