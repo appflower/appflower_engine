@@ -1240,7 +1240,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         <xs:documentation xml:lang="en">
             It represents a parameter or a function argument. 
             
-            name			- Name odf the parameter
+            name			- Name of the parameter
             
         </xs:documentation>
       </xs:annotation>
