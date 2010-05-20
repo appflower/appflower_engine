@@ -44,7 +44,7 @@ class ImmExtjsLayout
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'overrides/Override.Ext.data.SortTypes.js')));
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'overrides/Override.Ext.form.Field.js')));
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'overrides/Override.Fixes.js')));
-		if(sfContext::getInstance()->getUser()->isAuthenticated())
+		
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'plugins/Ext.ux.Notification.js')));
 		
 		// Plugin to enable setting active item in accordion layout
