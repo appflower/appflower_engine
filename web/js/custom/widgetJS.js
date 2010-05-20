@@ -106,8 +106,7 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 						success : function(r) {
 							if(superClass)superClass.onHide(win);									
 							win.destroy();
-							win.close();
-							console.log(backup)
+							win.close();							
 							restoreBackup();
 						}
 					})					
