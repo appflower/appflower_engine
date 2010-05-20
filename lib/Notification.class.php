@@ -124,7 +124,7 @@ class Notification{
 	}
 	public static function getPluginSource(){
 		$source = '';
-		if(sfConfig::get("app_growl_notification_enable")){
+		if(sfConfig::get("app_growl_notification_enable") && sfContext::getInstance()->getUser()->isAuthenticated()){
 			$url = sfConfig::get("app_growl_notification_url");
 			$source = 'if(Ext.ux.Notification){var notification = new Ext.ux.Notification();notification.start("'.$url.'");}'."\n";
 		}
