@@ -99,7 +99,7 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 				mask.hide();			
 				
 				win.on("hide",function(){
-					backupForms();
+					//backupForms();
 					Ext.Ajax.request( {
 						url : '/appFlower/restoreSession',
 						method : "post",		
@@ -107,6 +107,7 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 							if(superClass)superClass.onHide(win);									
 							win.destroy();
 							win.close();
+							console.log(backup)
 							restoreBackup();
 						}
 					})					
@@ -124,19 +125,22 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 		}
 	}
 	function backupForms(comp){		
-		var randomnumber=Math.floor(Math.random()*11);
-		var randomId = "x-form-el-random-"+randomnumber;
+		var randomnumber=Ext.id();
+		var rid = "x-form-el-random-"+randomnumber;
 		var inputs = document.getElementsByTagName("input");
 		var textareas = document.getElementsByTagName("textarea");
-		var selects = document.getElementsByTagName("select");
+		var selects = document.getElementsByTagName("select");		
 		
 		var arr = new Array();
 		arr.push(inputs);
 		arr.push(textareas);
 		arr.push(selects);
+				
 		for(var j=0;j<arr.length;j++){
 			var forms = arr[j];
+			var randomId = Ext.id()+"-"+rid;
 			for(var i=0;i<forms.length;i++){
+				randomId = Ext.id()+"-"+rid;
 				backup[randomId+"-fields-name-"+i] = [];
 				if(forms[i].id){
 					var pattern = /edit/;
