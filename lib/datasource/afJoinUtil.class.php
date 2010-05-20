@@ -3,13 +3,14 @@
 class afJoinUtil {
     public static function chooseJoins($criteria, $class,
             $selectedColumns, $referencedTables) {
-        list($selectedFCols, $excludedFCols) = self::getForeignColsSelection(
-            $class, $selectedColumns, $referencedTables);
+        list($duplication, $selectedFCols, $excludedFCols) =
+            self::getForeignColsSelection(
+                $class, $selectedColumns, $referencedTables);
         if(count($selectedFCols) === 0) {
             return 'doSelect';
         }
 
-        if(count($excludedFCols) === 0) {
+        if(!$duplication && count($excludedFCols) === 0) {
             return 'doSelectJoinAll';
         }
 
@@ -18,7 +19,7 @@ class afJoinUtil {
             return 'doSelectJoin'.afMetaDb::getRelatedAffix($col);
         }
 
-        if(count($excludedFCols) === 1) {
+        if(!$duplication && count($excludedFCols) === 1) {
             $col = $excludedFCols[0];
             return 'doSelectJoinAllExcept'.afMetaDb::getRelatedAffix($col);
         }
@@ -34,22 +35,26 @@ class afJoinUtil {
     private static function getForeignColsSelection($class,
             $selectedColumns, $refTables) {
         $tableMap = afMetaDb::getTableMap($class);
+        $fkCount = array();
         $selectedFCols = array();
         $excludedFCols = array();
         foreach($tableMap->getColumns() as $col) {
             $relatedTable = $col->getRelatedTableName();
             if($relatedTable) {
-                if(in_array($relatedTable, $refTables)) {
+                if(in_array($relatedTable, $refTables) ||
+                    in_array(strtolower($col->getName()), $selectedColumns)){
+
                     $selectedFCols[] = $col;
-                } else if(in_array(strtolower($col->getName()),
-                        $selectedColumns)){
-                    $selectedFCols[] = $col;
+                    $fkCount[$relatedTable] = ArrayUtil::get($fkCount,
+                        $relatedTable, 0) + 1;
                 } else {
                     $excludedFCols[] = $col;
                 }
             }
         }
-        return array($selectedFCols, $excludedFCols);
+
+        $duplication = $fkCount && max($fkCount) > 1;
+        return array($duplication, $selectedFCols, $excludedFCols);
     }
 }
 
