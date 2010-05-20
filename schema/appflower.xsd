@@ -9,7 +9,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
   
   <!-- Imported XHTML Namespace - adds XHTML 1.1 Strict content -->
   
-  <xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd" i:name="XHTML1.1 Strict" />
+  <xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="xhtml1-strict.xsd" i:name="XHTML1.1 Strict" />
 	
     
   <!-- Types -->
