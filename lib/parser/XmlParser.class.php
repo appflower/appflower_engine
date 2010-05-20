@@ -3150,7 +3150,7 @@ class XmlParser extends XmlParserTools {
 						$confirmFunction = '
 								Ext.Msg.show({
 								   title:"Confirmation Required",
-								   msg: "Are you sure you wanna export '. sfConfig::get("app_parser_max_items").' items? This may take a while..",
+								   msg: "Are you sure you want export '. sfConfig::get("app_parser_max_items").' items? This may take a while..",
 								   buttons: Ext.Msg.YESNO,
 								   fn: function(buttonId){if(buttonId == "yes"){'.
 								   "window.location.href='/parser/csvexport?uid=".$unique_id."&export=all&sort='+((".
