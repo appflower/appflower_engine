@@ -104,7 +104,7 @@ class appFlowerActions extends sfActions
 			$afPortalStateObj=afPortalStatePeer::updateWidgetsToState($config,$selectedWidgets,$unselectedWidgets);
 		}
 		
-		$info=array('success'=>true,'message'=>'Successful saving! Current page will be refreshed!','redirect'=>$this->getRequest()->getReferer());
+		$info=array('success'=>true,'redirect'=>$this->getRequest()->getReferer());
 		$info=json_encode($info);
 		
 		return $this->renderText($info);
