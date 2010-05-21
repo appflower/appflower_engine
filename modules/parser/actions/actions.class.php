@@ -861,9 +861,6 @@ class parserActions extends sfActions
 			$xmlParam = isset($parser["datasource"]["method"]["params"])?$parser["datasource"]["method"]["params"]:array();
 			$argParam = array_merge($argParam,$xmlParam);								
 			$items = call_user_func(array($parser["datasource"]["class"],$parser["datasource"]["method"]["name"]),$argParam);
-			
-		}else{
-			$items = Util::getDataForAnode($anode,$items);
 		}
 		
 		self::sortColumn($items, $sort, $sort_dir);

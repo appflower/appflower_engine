@@ -80,26 +80,6 @@ class Util {
 		
 	}
 	
-	
-	/*
-	 * Get data for desired node only
-	 *	 
-	 */
-	public static function getDataForAnode($node = null,$all = array()){
-		$returnData = array();
-		if($node !== null){
-			foreach($all as $data){
-				if($data['_parent'] == $node)
-				$returnData[] = $data;
-			}
-		}else{
-			foreach($all as $data){
-				if($data['_parent'] === null)
-				$returnData[] = $data;
-			}
-		}
-		return $returnData;
-	}
 	public static function arrayToString($arr) {
 		
 		$ret = "";
