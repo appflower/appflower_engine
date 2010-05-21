@@ -1533,9 +1533,11 @@ class XmlParser extends XmlParserTools {
 		
 		try {
 			foreach($elements as $e) { 
-				if($this->name($e) == "comment" && $this->getWidgetId() != "appFlower/editHelpSettings" && ($profile->getHelpType() == 0 || 
-				$profile->getHelpType() == 2)) {
-					continue;		
+				if($profile) {
+					if($this->name($e) == "comment" && $this->getWidgetId() != "appFlower/editHelpSettings" && ($profile->getHelpType() == 0 || 
+					$profile->getHelpType() == 2)) {
+						continue;		
+					}	
 				}
 				if($this->has($e,"assignid")) {
 					if(!$this->has($e,"name")) {
