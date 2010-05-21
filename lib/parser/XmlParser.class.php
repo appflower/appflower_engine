@@ -1167,7 +1167,7 @@ class XmlParser extends XmlParserTools {
 					$tab_id = ($tabbed) ? $tab["attributes"]["id"] : null;
 					$newtab = true;
 					if(!$title || $tab["attributes"]["title"] == $title) {
-					
+						if(isset($item["portalColumns"]))
 						foreach($item["portalColumns"] as $column) {
 							foreach($column as $component) {
 								
