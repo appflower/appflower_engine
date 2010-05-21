@@ -14,21 +14,72 @@ class appFlowerActions extends sfActions
 		$this->immExtjs=ImmExtjs::getInstance();
 	}	
 	
+    public function executeEditHelpSettings() {
+		
+		$profile = $this->getUser()->getProfile();
+		$this->uid = $profile->getId();
+		$type = $profile->getHelpType();
+		
+		$this->opt0checked = ($type == 0) ? "true" : "false";
+		$this->opt1checked = ($type == 1) ? "true" : "false";
+		$this->opt2checked = ($type == 2) ? "true" : "false";
+		
+		return XmlParser::layoutExt($this);
+		
+	}
+	
+	
+	public function executeUpdateHelpSettings() {
+		
+		$user = $this->getUser();
+		
+		if($user) {
+			$profile = $user->getProfile();
+			
+			$profile->setHelpType($this->getRequestParameter("fieldhelp"));
+			$profile->setPopupHelpIsEnabled($this->getRequestParameter("edit[0][popup]"));
+			$profile->setWidgetHelpIsEnabled($this->getRequestParameter("edit[0][widgethelp]"));
+			$profile->save();
+			
+			$info=json_encode(array('success'=>true,'message'=>'Your changed have been successfuly saved!'));	
+		} else {
+			$info=json_encode(array('success'=>false,'message'=>'Unable to save data, invalid user!'));	
+		}
+		
+		return $this->renderText($info);
+		
+	}
+	
+	
 	/**
 	 * adding selected widgets to the first column of the portal page/removing deselected widgets from portal page
 	 */
 	public function executeChangePortalWidgets()
 	{
 		$config=$this->hasRequestParameter('config')?$this->getRequestParameter('config'):false;
-		$selectedWidgets=$this->hasRequestParameter('selectedWidgets')?$this->getRequestParameter('selectedWidgets'):array();
+		$selections=$this->hasRequestParameter('selections')?json_decode($this->getRequestParameter('selections')):false;
 		$portalWidgets=$this->hasRequestParameter('portalWidgets')?$this->getRequestParameter('portalWidgets'):false;
 		
+		if($selections)
+		{
+			foreach ($selections as $selectionsParam)
+			{
+				if(!empty($selectionsParam[0]))
+				{
+					$selectedWidgets[]=$selectionsParam[0];
+				}
+			}
+		}
+		else {
+			$selectedWidgets=array();
+		}
+				
 		if($config&&$portalWidgets)
 		{
 			/**
 			 * getting the unique keys from selectedWidgets
 			 */
-			$selectedWidgets=array_unique(array_keys($selectedWidgets));
+			$selectedWidgets=array_unique($selectedWidgets);
 			
 			$portalWidgets=json_decode($portalWidgets);
 			foreach ($portalWidgets as $pwi=>$portalWidgetsFielset)
@@ -40,7 +91,7 @@ class appFlowerActions extends sfActions
 			}
 			
 			$allWidgets=array_unique($allWidgets);
-			
+						
 			$unselectedWidgets=array();
 			$unselectedWidgets=array_diff($allWidgets,$selectedWidgets);
 			
@@ -53,7 +104,10 @@ class appFlowerActions extends sfActions
 			$afPortalStateObj=afPortalStatePeer::updateWidgetsToState($config,$selectedWidgets,$unselectedWidgets);
 		}
 		
-		$this->redirect($this->getRequest()->getReferer());
+		$info=array('success'=>true,'message'=>'Successful saving! Current page will be refreshed!','redirect'=>$this->getRequest()->getReferer());
+		$info=json_encode($info);
+		
+		return $this->renderText($info);
 	}
 	
 	/**
@@ -74,11 +128,27 @@ class appFlowerActions extends sfActions
 			unset($content);
 			
 			$portalWidgets=json_decode($portalWidgets);
-					
+				
+			$i=0;
 			foreach ($portalWidgets as $pwi=>$portalWidgetsFielset)
 			{
+				$i++;
+				
+				$result['rows'][$i]['title']=$portalWidgetsFielset->title;
+				$result['rows'][$i]['image']='';
+				$result['rows'][$i]['widget']='';
+				$result['rows'][$i]['description']='';
+				$result['rows'][$i]['_selected']=false;
+				$result['rows'][$i]['_is_leaf']=false;
+				$result['rows'][$i]['_parent']=null;
+				$result['rows'][$i]['_id']=$i;
+				
+				$j=$i;
+				
 				foreach ($portalWidgetsFielset->widgets as $pfwi=>$widget)
 				{
+					$j++;
+					
 					$ma=explode('/',$widget);
 					$image = $title = $description = '';
 					$checked=afPortalStatePeer::searchForWidgetInState($config,$widget);
@@ -104,27 +174,33 @@ class appFlowerActions extends sfActions
 						 */					
 						if(empty($image) && file_exists(sfConfig::get("sf_root_dir")."/web/images/widgets/".$title.".PNG")){
 							$image = "/images/widgets/".$title.".PNG";
-						}
-						
-						$portalWidgets[$pwi]->widgetsInfo[$pfwi]['title']=$title;
+						}						
 						if(!isset($description)) {
 							$description = "";
 						}						
-						$portalWidgets[$pwi]->widgetsInfo[$pfwi]['description']=$description;
-						
 						$image=(empty($image)?'/appFlowerPlugin/images/defaultWidget.gif':$image);
-						
-						$portalWidgets[$pwi]->widgetsInfo[$pfwi]['image']=$image;
+						$image='<img src="'.$image.'" style="margin-right:5px; border:1px solid #99bbe8; padding:3px;float:left;">';
 					}
 					
-					$portalWidgets[$pwi]->widgetsInfo[$pfwi]['checked']=$checked;
+					$result['rows'][$j]['title']=$title;
+					$result['rows'][$j]['image']=$image;
+					$result['rows'][$j]['widget']=$widget;
+					$result['rows'][$j]['description']=$description;
+					$result['rows'][$j]['_selected']=$checked;
+					$result['rows'][$j]['_is_leaf']=true;
+					$result['rows'][$j]['_parent']=$i;
+					$result['rows'][$j]['_id']=$j;
 				}
+				
+				$i=$j;
 			}
 			
-			//add the last item as the csrf token
-			$portalWidgets[]=sfContext::getInstance()->getRequest()->getAttribute('_csrf_token');
+			$result['success']=true;
+			$result['totalCount']=count($result['rows']);
 			
-			$info=json_encode(array('success'=>true,'fieldsets'=>$portalWidgets));
+			$result['rows']=array_values($result['rows']);
+			
+			$info=json_encode($result);
 		}
 		else {
 			$info=json_encode(array('success'=>false,'message'=>'Retrieving widgets information wasn\'t successful!'));
