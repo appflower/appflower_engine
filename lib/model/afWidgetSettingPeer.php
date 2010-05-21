@@ -167,4 +167,25 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 		$message='Settings successfully saved';
 		return $action->renderText(json_encode(array('success' => true, 'message' =>$message)));
 	}
+	public static function getSettingByName($name){
+		$user_id = sfContext::getInstance()->getUser()->getGuardUser()->getId();
+		$setting = self::getDefaultSettingByName($name);		
+		$c = new Criteria();
+		$c->add(afWidgetSettingPeer::USER,$user_id);
+		$c->add(afWidgetSettingPeer::NAME,$name);
+		$obj = afWidgetSettingPeer::doSelectOne($c);
+		if($obj){			
+			$setting = json_decode($obj->getSetting(),true);
+		}
+		return $setting;
+	}
+	public static function getOriginalGraphTitle($name,$title){
+		$settings = self::getSettingByName($name);
+		foreach($settings as $key=>$setting){
+			if(isset($setting['text']) && $setting['text'] == $title){
+				return $key;
+			}
+		}
+		return $title;
+	}
 }
