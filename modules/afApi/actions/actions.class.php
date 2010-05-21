@@ -134,6 +134,9 @@ class afApiActions extends sfActions
         } else if($sourceType === 'static') {
             list($callback, $params) = self::getDataSourceCallback($view);
             $source = new afStaticSource($callback, $params);
+        } else {
+            throw new XmlParserException(
+                'Unsupported datasource type: '.$sourceType);
         }
 
         return $source;
