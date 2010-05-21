@@ -39,11 +39,22 @@ class afConfigUtils {
         }
 
         $instance = new $moduleClass($context, $module, $action);
+        self::setDefaultActionVars($instance);
         $instance->isPageComponent = true;
         $instance->preExecute();
         $instance->execute($request);
         $instance->postExecute();
 
         return $instance->getVarHolder()->getAll();
+    }
+
+    public static function setDefaultActionVars($actionInstance) {
+        $defaultVars = array('anode', 'filter');
+        foreach($defaultVars as $name) {
+            if(!isset($actionInstance->$name)) {
+                $actionInstance->$name = $actionInstance->getRequestParameter(
+                    $name, null);
+            }
+        }
     }
 }

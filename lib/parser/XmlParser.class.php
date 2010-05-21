@@ -125,7 +125,9 @@ class XmlParser extends XmlParserTools {
 			$this->context->getUser()->getAttributeHolder()->removeNamespace('parser/validation');	
 		}
 		
-		$this->attribute_holder = $this->context->getActionStack()->getLastEntry()->getActionInstance()->getVarHolder()->getAll();
+		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
+		afConfigUtils::setDefaultActionVars($actionInstance);
+		$this->attribute_holder = $actionInstance->getVarHolder()->getAll();
 		
 		try {
 			if(!file_exists($this->schemaLocation) || !is_readable($this->schemaLocation)) {
