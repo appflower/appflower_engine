@@ -3798,12 +3798,14 @@ if(response.message) {
 
 	private static function setupProxyUrl($url, $parse, $unique_id)
 	{
+		$ignoredParams = array('module', 'action');
 		$url = UrlUtil::addParam($url, 'uid', $unique_id);
 		$url = UrlUtil::addParam($url, 'config',
 			ImmExtjsWidgets::getWidgetUrl($parse));
 		$request = sfContext::getInstance()->getRequest();
-		foreach($request->getGetParameters() as $key => $value) {
-			if(!StringUtil::startsWith($key, '_')) {
+		foreach($request->getParameterHolder()->getAll() as $key => $value) {
+			if(!StringUtil::startsWith($key, '_') &&
+					!in_array($key, $ignoredParams)) {
 				$url = UrlUtil::addParam($url, $key, $value);
 			}
 		}
