@@ -267,139 +267,224 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
     retrieveWidgets:function(button)
 	{		
 		//console.log(this.portalWidgets);
-		
-		Ext.Ajax.request( {
-			url : '/appFlower/retrieveWidgetsInfo',
-			method : "POST",	
-			params:{portalWidgets:Ext.encode(this.portalWidgets),config:this.getConfig()},	
-			success : function(r) {
-				var response = Ext.decode(r.responseText);
-				
-				this.mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>"+response.message+"</b>",removeMask:true});
-				this.mask.hide.defer(3000,this.mask);
-				
-				if(response.success)
+		var obj=this;
+			
+		var treereader = new Ext.data.JsonReader ({
+			fields: [
 				{
-					var fieldsets = response.fieldsets;
-					
-					//create a portal inside the window, with two columns
-					this.portal = new Ext.ux.Portal ({
-						region: 'center',
-						items: [
-						{
-							columnWidth: 1,
-							style: 'overflow-x:hidden;overflow-y:scroll;padding:5px;'
+					name: "title",
+					sortType: "asText"
+				},
+				{
+					name: "description",
+					sortType: "asText"
+				},
+				{
+					name: "image",
+					sortType: "asText"
+				},
+				{
+					name: "widget",
+					sortType: "asText"
+				},
+				{
+					name: "message"
+				},
+				{
+					name: "redirect"
+				},
+				{
+					name: "_id",
+					type: "int"
+				},
+				{
+					name: "_parent",
+					type: "auto"
+				},
+				{
+					name: "_is_leaf",
+					type: "bool"
+				},
+				{
+					name: "_color",
+					type: "auto"
+				},
+				{
+					name: "_cell_color",
+					type: "auto"
+				},
+				{
+					name: "_selected",
+					type: "auto"
+				}
+			],
+			id: "_id",
+			totalProperty: "totalCount",
+			root: "rows",
+			properties: "properties"
+		});
+		
+		var treestore = new Ext.ux.maximgb.tg.AdjacencyListStore ({
+			sortInfo: {
+				field: "title",
+				direction: "ASC"
+			},
+			reader: treereader,
+			remoteSort: false,
+			proxy: new Ext.data.HttpProxy ({
+				url: "/appFlower/retrieveWidgetsInfo",
+				method: "POST",
+				disableCaching: false
+			}),
+			listeners: { 
+				beforeload: function (object,options) { 
+					if(!Ext.isIE&&!treegrid.disableLoadMask){
+						treegrid.getEl().mask('Loading, please Wait...', 'x-mask-loading');
+					}
+				},						
+				load: function (object,records,options) { 
+					if(records.length>0&&records[0].json.redirect&&records[0].json.message){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){window.location.href=rec.redirect;});}else{if(!Ext.isIE){treegrid.getEl().unmask();}} 
+				},
+				loadexception: function () {
+					if(!Ext.isIE){treegrid.getEl().unmask();} 
+				} 
+			}
+		});
+		
+		var treesm = new Ext.ux.CheckboxSelectionModel ();
+		var treegrid = new Ext.ux.maximgb.tg.GridPanel ({
+			loadMask: true,
+			frame: false,
+			bodyStyle: "border: 1px solid #8db2e3;",
+			autoHeight: true,
+			forceFit: true,
+			listeners: { 
+				render: function () { 
+					this.store.load({
+						params:{
+							portalWidgets:Ext.encode(obj.portalWidgets),
+							config:obj.getConfig()
 						}
-						]
 					});
 					
-					//creating a classic form
-					var formPanel = new Ext.ux.ClassicFormPanel ({width: "100%",bodyStyle: "border:0px;padding-left:5px",buttonAlign:'center'});
-					//adding the configuration of the portal to the form
-					var configHiddenField = new Ext.form.Hidden({name: 'config', value:this.getConfig()});
-					formPanel.add(configHiddenField);
+					var gcm = treegrid.getColumnModel();
 					
-					//adding the portal widgets to the form, for comparison
-					var portalWidgetsHiddenField = new Ext.form.Hidden({name: 'portalWidgets', value:Ext.encode(this.portalWidgets)});
-					formPanel.add(portalWidgetsHiddenField);
-					
-					//adding secure field to the form
-					var secureHiddenField = new Ext.form.Hidden({name: '_csrf_token', value:fieldsets[fieldsets.length-1]});
-					formPanel.add(secureHiddenField);
-					
-					for(var i=0;i<(fieldsets.length-1);i++)
-					{					
-						var fieldset=new Ext.form.FieldSet({collapsible: true,collapsed:i,
-												autoHeight: true,
-												anchor: "100%",
-												title: fieldsets[i].title});							
-												
-						//left column for each fieldset
-						var leftColumn=[];				
-						//right column for each fieldset
-						var rightColumn=[];	
-												
-						for(var w=0;w<fieldsets[i].widgets.length;w++)
-						{
-							var checkboxId=Ext.id();
-							var widget=fieldsets[i].widgets[w];
-							var checked=fieldsets[i].widgetsInfo[w].checked;
-							var wpanel = new Ext.Panel({
-								                layout: "column",
-												frame: true,
-												bodyStyle:'padding:0px;padding-bottom:3px;',
-												style:'border:0px;'+((w>1)?'margin-top:10px;':''),
-												items:[
-												{
-													columnWidth:0.04,
-													items: [new Ext.form.Checkbox({name:'selectedWidgets['+widget+']',checked:checked,style:'margin-top:5px;'})]
-												},
-												{
-													columnWidth:0.96,
-													items: [{title:fieldsets[i].widgetsInfo[w].title, html: '<p style="padding:3px;"><img src="'+fieldsets[i].widgetsInfo[w].image+'"  style="margin-right:5px; border:1px solid #99bbe8; padding:3px;float:left;" >'+fieldsets[i].widgetsInfo[w].description+'</p>', bodyStyle:'border:0px;',style:'border:0px;'}]
-												}
-												],
-												listeners:{
-													render:function(wp,l)
-													{
-														wp.container.dom.style.height='auto';													
-													}
-												}									
-												});
-							
-							if(w % 2 == 0)
-							{
-								leftColumn.push(wpanel);
-							}
-							else
-							{
-								rightColumn.push(wpanel);
-							}
-						}	
-	
-						fieldset.add({layout: "column",xtype: "panel",border: false,anchor: "100%",
-									items: [
-										{layout: "form",
-										 labelAlign: "top",
-										 columnWidth: 0.5,
-										 items: leftColumn,
-										 style: 'padding:5px',
-										 bodyStyle: 'border:0px;'
-										},
-										{layout: "form",
-										 labelAlign: "top",
-										 columnWidth: 0.5,
-										 items: rightColumn,
-										 style: 'padding:5px',
-										 bodyStyle: 'border:0px;'
-										}
-									]
-									});
-												
-						formPanel.add(fieldset);
-					}
-					
-					//adding a submit button that submits the classic form
-					var submitButton = new Ext.Button ({text:'Save & Refresh Page',
-														icon: "/images/famfamfam/accept.png",
-														cls: "x-btn-text-icon",
-														handler: function () { formPanel.submit({url:'/appFlower/changePortalWidgets',method:'POST'}); }						
-														});
-	
-					formPanel.addButton(submitButton);
-					
-					this.portal.items.items.push(formPanel);
-					
-					this.widgetSelectorWindowConfig.items.push(this.portal);				
-					this.widgetSelectorWindow = new Ext.Window (this.widgetSelectorWindowConfig);
-					
-					this.widgetSelectorWindow.show(button);
-					
-					this.mask.hide();
-				}			
+					if(gcm.getColumnHeader(gcm.getColumnCount()-1) == '<div class="x-grid3-hd-checker" id="hd-checker">&#160;</div>'){
+						gcm.moveColumn(gcm.getColumnCount()-1,0);
+					}									 
+				} 
 			},
-			scope:this
+			viewConfig: {
+				forceFit: true
+			},
+			columns: [
+			{
+				dataIndex: "title",
+				header: "Category > Title",
+				sortable: true,
+				hidden: false,
+				hideable: false,
+				align: "left",
+				id: "title",
+				width: 20
+			},
+			{
+				dataIndex: "description",
+				header: "Description",
+				sortable: true,
+				hidden: false,
+				hideable: false,
+				align: "left",
+				id: "description",
+				width: 50,
+				renderer : function(value, metadata, record){
+					var qtip = value;  return '<span qtip="' + qtip + '">' + value + '</span>';
+				}
+			},
+			{
+				dataIndex: "image",
+				header: "Image",
+				sortable: true,
+				hidden: false,
+				hideable: true,
+				align: "left",
+				id: "image",
+				width: 30
+			},
+			treesm
+			],
+			master_column_id: "title",
+			store: treestore,
+			sm: treesm
 		});
+		
+		//creating a classic form
+		var formPanel = new Ext.FormPanel ({width: "100%",bodyStyle: "border:0px;padding-left:5px",buttonAlign:'center'});
+		//adding the configuration of the portal to the form
+		var configHiddenField = new Ext.form.Hidden({name: 'config', value:this.getConfig()});
+		formPanel.add(configHiddenField);
+		
+		//adding the portal widgets to the form, for comparison
+		var portalWidgetsHiddenField = new Ext.form.Hidden({name: 'portalWidgets', value:Ext.encode(this.portalWidgets)});
+		formPanel.add(portalWidgetsHiddenField);
+				
+		//adding the tree grid
+		formPanel.add(treegrid);
+					
+		//adding a submit button that submits the classic form
+		var submitButton = new Ext.Button ({text:'Save & Refresh Page',
+											icon: "/images/famfamfam/accept.png",
+											cls: "x-btn-text-icon",
+											handler: function () { 
+												
+												formPanel.getForm().submit({
+													url:'/appFlower/changePortalWidgets',
+													method:'POST',
+													params:{"selections":treegrid.getSelectionModel().getSelectionsJSON(["widget"])},
+													waitMsg:'loading...',
+													failure:function(form,action){
+														var onclose=function(){if(action.result && action.result.redirect){window.location.href=action.result.redirect;}}; if(action.result){ if(action.result.message){Ext.Msg.alert("Failure", action.result.message, onclose);}}else{Ext.Msg.alert("Failure", "Some error appeared!", onclose);}
+													},
+													success:function(form,action){
+														if(action.result.message)
+														{
+															Ext.Msg.alert("Success", action.result.message, function(){
+																if(action.result.redirect){
+																	window.location.href=action.result.redirect;
+																}
+															});
+														}
+														else{
+															if(action.result.redirect){
+																window.location.href=action.result.redirect;
+															}
+														}
+													}
+												}); 
+											}						
+											});
+
+		//create a portal inside the window, with two columns
+		this.portal = new Ext.ux.Portal ({
+			region: 'center',
+			buttonAlign: 'center',
+			buttons: [submitButton],
+			items: [
+			{
+				columnWidth: 1,
+				style: 'overflow-x:hidden;overflow-y:scroll;padding:5px;'
+			}
+			]
+		});				
+		
+		this.portal.items.items.push(formPanel);
+		
+		this.widgetSelectorWindowConfig.items.push(this.portal);				
+		this.widgetSelectorWindow = new Ext.Window (this.widgetSelectorWindowConfig);
+		
+		this.widgetSelectorWindow.show(button);
+		
+		this.mask.hide();
 	},
     
     //create the window widget selector
