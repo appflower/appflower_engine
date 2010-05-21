@@ -251,6 +251,12 @@ class XmlParserTools {
 			
 		}
 		
+		public function getWidgetId() {
+			
+			preg_match("/\/([^\/]+)\/config\/([^.]+.xml)/",$this->document->documentURI,$m);
+			return (strstr($m[2],"pages/")) ? str_replace(".xml",$m[2]) : $m[1]."/".str_replace(".xml","",$m[2]);
+		}
+		
 		public function getnode($element,$context = null) {
 			
 			return $this->parseSingleElement($element,$context);

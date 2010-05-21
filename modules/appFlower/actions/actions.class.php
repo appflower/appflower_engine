@@ -14,6 +14,43 @@ class appFlowerActions extends sfActions
 		$this->immExtjs=ImmExtjs::getInstance();
 	}	
 	
+	public function executeEditHelpSettings() {
+		
+		$profile = $this->getUser()->getProfile();
+		$this->uid = $profile->getId();
+		$type = $profile->getHelpType();
+		
+		$this->opt0checked = ($type == 0) ? "true" : "false";
+		$this->opt1checked = ($type == 1) ? "true" : "false";
+		$this->opt2checked = ($type == 2) ? "true" : "false";
+		
+		return XmlParser::layoutExt($this);
+		
+	}
+	
+	
+	public function executeUpdateHelpSettings() {
+		
+		$user = $this->getUser();
+		
+		if($user) {
+			$profile = $user->getProfile();
+			
+			$profile->setHelpType($this->getRequestParameter("fieldhelp"));
+			$profile->setPopupHelpIsEnabled($this->getRequestParameter("edit[0][popup]"));
+			$profile->setWidgetHelpIsEnabled($this->getRequestParameter("edit[0][widgethelp]"));
+			$profile->save();
+			
+			$info=json_encode(array('success'=>true,'message'=>'Your changed have been successfuly saved!'));	
+		} else {
+			$info=json_encode(array('success'=>false,'message'=>'Unable to save data, invalid user!'));	
+		}
+		
+		return $this->renderText($info);
+		
+	}
+	
+	
 	/**
 	 * adding selected widgets to the first column of the portal page/removing deselected widgets from portal page
 	 */

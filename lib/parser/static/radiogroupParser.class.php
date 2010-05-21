@@ -21,7 +21,7 @@ class radiogroupParser extends XmlBaseElementParser {
 			if(self::$parser->checkCredentials(null,$child) === true) {
 				$name = self::$parser->get($child,"name");
 				
-				if(self::$parser->has($child,"checked")) {
+				if(self::$parser->has($child,"checked") && self::$parser->get($child,"checked") == "true") {
 					self::add("fields/".$name."/attributes/checked","true");	
 				}
 				

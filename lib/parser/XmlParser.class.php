@@ -1528,10 +1528,15 @@ class XmlParser extends XmlParserTools {
 	private function buildParserData() {
 		
 		$elements = $this->fetch("//*[@parsable]|//*[@assignid]");
+		$profile = $this->user->getProfile();
 		$sortables = array();
 		
 		try {
-			foreach($elements as $e) { 		
+			foreach($elements as $e) { 
+				if($this->name($e) == "comment" && $this->getWidgetId() != "appFlower/editHelpSettings" && ($profile->getHelpType() == 0 || 
+				$profile->getHelpType() == 2)) {
+					continue;		
+				}
 				if($this->has($e,"assignid")) {
 					if(!$this->has($e,"name")) {
 						throw new XmlParserException("The element: ".$this->name($e)." should have a name attribute!");
