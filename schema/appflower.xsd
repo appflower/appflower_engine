@@ -994,18 +994,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       </xs:complexType>
     </xs:element>
     
-    <xs:element name="statement">
-    	<xs:annotation>
-        <xs:documentation xml:lang="en">
-            This one contains a SQL statement to be executed, substitutes datasource.
-        </xs:documentation>
-      </xs:annotation>
-      <xs:complexType mixed="true">
-      	<xs:attributeGroup ref="i:commonAttributes" />
-        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
-      </xs:complexType>
-    </xs:element>
-    
     <xs:element name="options">
     	<xs:annotation>
         <xs:documentation xml:lang="en">
@@ -1122,15 +1110,10 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
-      		<xs:choice>
-        		<xs:sequence>
-        			<xs:element ref="i:class" minOccurs="1" maxOccurs="1" />
-        			<xs:element ref="i:method" minOccurs="1" maxOccurs="1" />
-        		</xs:sequence>
-        		<xs:sequence>
-        			<xs:element ref="i:statement" minOccurs="1" maxOccurs="1" />
-        		</xs:sequence>
-        	</xs:choice>
+			<xs:sequence>
+				<xs:element ref="i:class" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="i:method" minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
         	<xs:attributeGroup ref="i:commonAttributes" />
         	<xs:attribute name="type" type="i:valueType" use="required" />
         	<xs:attribute name="lister" type="xs:boolean" use="optional" default="false" />
