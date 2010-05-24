@@ -3509,13 +3509,6 @@ if(response.message) {
 		}
 	}
 
-	/**
-	 * Returns the matching PhpName or throws an XmlParserException.
-	 */
-	private static function getPhpName($dbName, $tableName) {
-		return afMetaDb::getPhpName($dbName, $tableName);
-	}
-
 	public static function layoutExt($actionInstance, $type = XmlParser::PANEL,$msg = null) {
 		if($actionInstance->isPageComponent){
 			return sfView::SUCCESS;
