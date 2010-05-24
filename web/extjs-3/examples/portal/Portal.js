@@ -400,7 +400,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 				renderer : function(value, metadata, record){
 					var qtip = value;  return '<span qtip="' + qtip + '">' + value + '</span>';
 				}
-			},
+			}/*,
 			{
 				dataIndex: "image",
 				header: "Image",
@@ -410,7 +410,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 				align: "left",
 				id: "image",
 				width: 30
-			},
+			}*/,
 			treesm
 			],
 			master_column_id: "title",
