@@ -436,7 +436,12 @@ class ImmExtjsGrid
 				$this->attributes[$storePrivateName]['remoteSort']=$this->attributes['remoteSort'];
 				unset($this->attributes['remoteSort']);
 			}
-			$this->attributes[$storePrivateName]['proxy']=$this->immExtjs->HttpProxy(array('url'=>$this->proxy['url'],'method'=>'GET','disableCaching'=>false));
+			$this->attributes[$storePrivateName]['proxy']=$this->immExtjs->HttpProxy(array('url'=>$this->proxy['url'],'method'=>'GET','disableCaching'=>false,
+				'listeners'=>array(
+					'beforeload'=>$this->immExtjs->asMethod(array(
+						'parameters'=>'proxy,params',
+						'source'=>'proxy.lastParams=params')))
+				));
 			
 			$beforeloadListener = "
 				if(!Ext.isIE&&!".$this->privateName.".disableLoadMask){".$this->privateName.".getEl().mask('Loading, please Wait...', 'x-mask-loading');}
