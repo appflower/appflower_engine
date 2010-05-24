@@ -6,8 +6,11 @@ xmlns:i="http://www.appflower.com/schema/" xmlns="http://www.w3.org/1999/xhtml" 
   <i:title>Help Settings</i:title>
 
   <i:datasource type="orm">
-	<i:class>afWidgetHelpSettingsPeer</i:class>
-	<i:method name="retrieveCurrent"></i:method>
+    <i:class>afWidgetHelpSettingsPeer</i:class>
+
+    <i:method name="retrieveCurrent">
+      <i:param name="id">1</i:param>
+    </i:method>
   </i:datasource>
   
   <i:fields url="appFlower/updateHelpSettings">
