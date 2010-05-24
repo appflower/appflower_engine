@@ -97,3 +97,17 @@ propel:
     user: { type: integer, foreignTable: sf_guard_user, foreignReference:id, onDelete: cascade }
     notification_id: { type: integer, foreignTable: af_notification, foreignReference:id, onDelete: cascade }
     created_at:
+    
+  ############################################################################
+  # - Widget Help Settings by radu ----------------------------------------- #
+  ############################################################################
+  
+  af_widget_help_settings:
+    _attributes: { phpName: afWidgetHelpSettings }
+    id:
+    user_id: { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade }
+    widget_help_is_enabled:     { type: boolean, default: true }
+    popup_help_is_enabled:      { type: boolean, default: true }
+    help_type:                  { type: tinyint, default: 1 }
+    created_at:
+    updated_at:

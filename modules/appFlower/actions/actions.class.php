@@ -14,42 +14,31 @@ class appFlowerActions extends sfActions
 		$this->immExtjs=ImmExtjs::getInstance();
 	}	
 	
-	public function executeEditHelpSettings() {
-		
-		$profile = $this->getUser()->getProfile();
-		$this->uid = $profile->getId();
-		$type = $profile->getHelpType();
+	public function executeEditHelpSettings() 
+    {		
+		$widgetHelpSettings = afWidgetHelpSettingsPeer::retrieveCurrent();
+		$type = $widgetHelpSettings->getHelpType();
 		
 		$this->opt0checked = ($type == 0) ? "true" : "false";
 		$this->opt1checked = ($type == 1) ? "true" : "false";
 		$this->opt2checked = ($type == 2) ? "true" : "false";
 		
-		return XmlParser::layoutExt($this);
-		
+		return XmlParser::layoutExt($this);		
 	}
-	
-	
-	public function executeUpdateHelpSettings() {
 		
-		$user = $this->getUser();
+	public function executeUpdateHelpSettings() 
+	{		
+		$widgetHelpSettings = afWidgetHelpSettingsPeer::retrieveCurrent();
 		
-		if($user) {
-			$profile = $user->getProfile();
+		$widgetHelpSettings->setHelpType($this->getRequestParameter("fieldhelp"));
+		$widgetHelpSettings->setPopupHelpIsEnabled($this->getRequestParameter("edit[0][popup]"));
+		$widgetHelpSettings->setWidgetHelpIsEnabled($this->getRequestParameter("edit[0][widgethelp]"));
+		$widgetHelpSettings->save();
 			
-			$profile->setHelpType($this->getRequestParameter("fieldhelp"));
-			$profile->setPopupHelpIsEnabled($this->getRequestParameter("edit[0][popup]"));
-			$profile->setWidgetHelpIsEnabled($this->getRequestParameter("edit[0][widgethelp]"));
-			$profile->save();
-			
-			$info=json_encode(array('success'=>true,'message'=>'Your changed have been successfuly saved!'));	
-		} else {
-			$info=json_encode(array('success'=>false,'message'=>'Unable to save data, invalid user!'));	
-		}
+		$info=json_encode(array('success'=>true,'message'=>'Your changes have been successfuly saved!'));	
 		
-		return $this->renderText($info);
-		
+		return $this->renderText($info);		
 	}
-	
 	
 	/**
 	 * adding selected widgets to the first column of the portal page/removing deselected widgets from portal page
@@ -145,6 +134,8 @@ class appFlowerActions extends sfActions
 				
 				$j=$i;
 				
+				$parentChecked=false;
+				
 				foreach ($portalWidgetsFielset->widgets as $pfwi=>$widget)
 				{
 					$j++;
@@ -190,7 +181,14 @@ class appFlowerActions extends sfActions
 					$result['rows'][$j]['_is_leaf']=true;
 					$result['rows'][$j]['_parent']=$i;
 					$result['rows'][$j]['_id']=$j;
+					
+					if($checked)
+					{
+						$parentChecked=true;
+					}
 				}
+				
+				$result['rows'][$i]['_selected']=$parentChecked;
 				
 				$i=$j;
 			}

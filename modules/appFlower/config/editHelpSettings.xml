@@ -6,10 +6,10 @@ xmlns:i="http://www.appflower.com/schema/" xmlns="http://www.w3.org/1999/xhtml" 
   <i:title>Help Settings</i:title>
 
   <i:datasource type="orm">
-    <i:class>sfGuardUserProfilePeer</i:class>
+    <i:class>afWidgetHelpSettingsPeer</i:class>
 
-    <i:method name="retrieveByPk">
-      <i:param name="id">{uid}</i:param>
+    <i:method name="retrieveCurrent">
+      <i:param name="id">1</i:param>
     </i:method>
   </i:datasource>
   

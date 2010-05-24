@@ -358,6 +358,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 			bodyStyle: "border: 1px solid #8db2e3;",
 			autoHeight: true,
 			forceFit: true,
+			select: true,
 			listeners: { 
 				render: function () { 
 					this.store.load({

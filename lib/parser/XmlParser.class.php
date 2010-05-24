@@ -60,7 +60,8 @@ class XmlParser extends XmlParserTools {
 		),
 		$defaultPanels,
 		$manualMode = false,
-		$multisubmit = false;
+		$multisubmit = false,
+		$widgetHelpSettings;
 		
 	private static
 		$dbschema,
@@ -241,6 +242,13 @@ class XmlParser extends XmlParserTools {
 		}
 		
 		$this->manualMode = $manual;
+		
+		/**
+		 * widget help settings
+		 * 
+		 * ticket #300 - radu
+		 */
+		$this->widgetHelpSettings=afWidgetHelpSettingsPeer::retrieveCurrent();
 		
 		if(!$manual) {
 			$this->runParser(1);	
@@ -1535,8 +1543,8 @@ class XmlParser extends XmlParserTools {
 		try {
 			foreach($elements as $e) { 
 				if($profile) {
-					if($this->name($e) == "comment" && $this->getWidgetId() != "appFlower/editHelpSettings" && ($profile->getHelpType() == 0 || 
-					$profile->getHelpType() == 2)) {
+					if($this->name($e) == "comment" && $this->getWidgetId() != "appFlower/editHelpSettings" && ($this->widgetHelpSettings->getHelpType() == 0 || 
+					$this->widgetHelpSettings->getHelpType() == 2)) {
 						continue;		
 					}	
 				}
@@ -2380,7 +2388,7 @@ class XmlParser extends XmlParserTools {
 		}
 		
 		$host = ($this->isSSL()? 'https' : 'http')."://".$this->context->getRequest()->getHost();
-		$pageHelp = ($this->type !== self::WIZARD && isset($this->process["parses"][0]["extra"]) && $this->context->getUser()->getProfile()->getWidgetHelpIsEnabled());
+		$pageHelp = ($this->type !== self::WIZARD && isset($this->process["parses"][0]["extra"]) && $this->widgetHelpSettings->getWidgetHelpIsEnabled());
 			
 		
 		if($this->multi) {
@@ -2416,7 +2424,7 @@ class XmlParser extends XmlParserTools {
 		
 			/***********************************************************/
 			$unique_id = md5(microtime());
-			$widgetHelp = ($this->type !== self::WIZARD && isset($parse["description"]) && $this->context->getUser()->getProfile()->getWidgetHelpIsEnabled());
+			$widgetHelp = ($this->type !== self::WIZARD && isset($parse["description"]) && $this->widgetHelpSettings->getWidgetHelpIsEnabled());
 			
 			if($widgetHelp) {
 				if($this->type === self::PANEL) {
@@ -2862,7 +2870,7 @@ class XmlParser extends XmlParserTools {
 					
 					if(isset($parse["description"])) {
 						$html = $parse["description"];	
-						if($this->context->getUser()->getProfile()->getWidgetHelpIsEnabled()) {
+						if($this->widgetHelpSettings->getWidgetHelpIsEnabled()) {
 							$pn->addHelp($html);	
 						}
 					}
