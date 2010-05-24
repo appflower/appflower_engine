@@ -13,8 +13,7 @@ class ReConfigureFields{
 	public function __construct($field=array()){
 		$this->field = $field;
 		$this->reConfigureColorField();
-		$this->markLabelMandatory();
-		$this->tempGraphSelectedColorRemove();
+		$this->markLabelMandatory();		
 	}
 	private function markLabelMandatory(){
 		if(!isset($this->field['attributes']))return;
@@ -55,15 +54,7 @@ class ReConfigureFields{
 		if(!preg_match("/\*$/",trim($attr['label']))){
 			$this->field['attributes']['label'] = $attr['label']."*";
 		}		
-	}
-	private function tempGraphSelectedColorRemove(){
-		if(!isset($this->field['attributes']))return;
-		if(preg_match('/^Color/',$this->field['attributes']['label'])){
-			$this->field['attributes']['break'] = true;
-			$this->field['attributes']['width'] = 150;
-		}
-		if(preg_match('/^Selected Color/',$this->field['attributes']['label'])) $this->field = null;
-	}
+	}	
 	public function getField(){		
 		return $this->field;
 	}
