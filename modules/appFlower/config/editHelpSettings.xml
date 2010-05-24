@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" xmlns="http://www.w3.org/1999/xhtml" type="edit">
+
+  <i:title>Help Settings</i:title>
+
+  <i:datasource type="orm">
+	<i:class>afWidgetHelpSettingsPeer</i:class>
+	<i:method name="retrieveCurrent"></i:method>
+  </i:datasource>
+  
+  <i:fields url="appFlower/updateHelpSettings">
+	<i:radiogroup name="fieldhelp" label="">
+		<i:field name="opt0" type="radio" label="No help" checked="{opt0checked}" value="0">
+			<i:comment>Help text shouldn't be displayed at all</i:comment>
+		</i:field>
+		<i:field name="opt1" type="radio" label="Comment" checked="{opt1checked}" value="1">
+			<i:comment>Help text is displayed like this</i:comment>
+		</i:field>
+		<i:field name="opt2" type="radio" label="Inline" checked="{opt2checked}" value="2">
+			<i:comment>Help text should be displayed inline, next to label with icon tip</i:comment>
+		</i:field>
+	</i:radiogroup>
+	<i:field name="popup" type="checkbox" label="Popup">
+		<i:value type="orm"> <i:source name="getPopupHelpIsEnabled" /> </i:value>
+		<i:comment>Enables / disables help popup window, which contains help for each form field and the widget description</i:comment>
+	</i:field>
+  	<i:field name="widgethelp" label="Widget help" type="checkbox" state="editable" style="css" >
+		<i:value type="orm"> <i:source name="getWidgetHelpIsEnabled" /> </i:value>
+		<i:comment>Enables / Disables widget description at the top of each wiget</i:comment>	
+	</i:field>
+  </i:fields>
+  
+  <i:description>
+	 <![CDATA[This widget allows you to define how widget help should be
+	 rendered. It is also possible to disable the help system using the
+	 first option.]]>
+  </i:description>
+  
+  <i:grouping>
+    <i:set title="Field help">
+      <i:ref to="fieldhelp" group="true" />
+    </i:set>
+    <i:set title="Help Popup">
+      <i:ref to="popup" />
+    </i:set>
+    <i:set title="Widget Help">
+      <i:ref to="widgethelp" />
+    </i:set>
+  </i:grouping>
+</i:view>
+
