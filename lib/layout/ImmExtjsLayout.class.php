@@ -136,19 +136,22 @@ class ImmExtjsLayout
 		 * default west panel
 		 */
 		elseif(!isset($attributes['west'])||(isset($attributes['west'])&&$attributes['west']!=false)){
-			
+			$logo = '<div style="background-color:#d9e7f8;border-right:1px solid #99bbe8;border-bottom:1px solid #99bbe8; padding:0px; margin:0px"><img src="/appFlowerPlugin/images/forTheMenu.png"/></div>';
 			$attributes_temp=array('id'=>'west_panel',
 						      'region'=>'west',
 						      'title'=>'Navigation',
-						      'width'=>'240',
-							  'minWidth'=>'240',
+						      'width'=>'255',
+							  'minWidth'=>'255',
 							  'autoHeight'=>'false',
 							  'autoScroll'=>'true',								  
 						      'split'=>'true',							
 							  'layoutConfig'=>array('animate'=>'true'),
 						      'collapsible'=>'true',
 						      'layout'=>'accordion',
-							  'listeners'=>'{"beforerender": function(){this.activeItem = this.findById("profile")}}'							   
+							  
+							  'listeners'=>'{"beforerender": function(){this.activeItem = this.findById("profile")},"render":function(comp){
+							  		Ext.DomHelper.insertFirst(comp.bwrap,{tag:"div",html:'.$logo.'});
+							   }}'							   
 							  
 								
 			);
