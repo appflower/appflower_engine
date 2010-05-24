@@ -15,6 +15,14 @@ class afApiActions extends sfActions
         $source = afDataFacade::getDataSource($view,
             $request->getParameterHolder()->getAll());
 
+        $format = $request->getParameter('af_format');
+        if($format === 'csv') {
+            return $this->renderCsv($source);
+        }
+        return $this->renderJson($source);
+    }
+
+    private function renderJson($source) {
         $rows = $source->getRows();
         // To support existing static datasources,
         // html escaping is disabled for them.
@@ -85,4 +93,17 @@ class afApiActions extends sfActions
         return XmlParser::isActionEnabled($class, $method, $args);
     }
 
+    private function renderCsv($source) {
+        $rows = $source->getRows();
+        $output = '';
+        if(count($rows) > 0) {
+            $keys = array_keys($rows[0]);
+            $output .= afOutput::asCsv($keys);
+            foreach($rows as $row) {
+                $output .= afOutput::asCsv($row);
+            }
+        }
+
+        return $this->renderText($output);
+    }
 }

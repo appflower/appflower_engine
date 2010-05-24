@@ -10,11 +10,11 @@ $rows = array(
     air, moon roof, loaded',4799.00));
 
 $expected = array(
-    '"1997","Ford","E350","ac, abs, moon","3000"',
-    '"1999","Chevy","Venture ""Extended Edition""","","4900"',
-    '"1999","Chevy","Venture ""Extended Edition, Very Large""","","5000"',
+    '"1997","Ford","E350","ac, abs, moon","3000"'."\n",
+    '"1999","Chevy","Venture ""Extended Edition""","","4900"'."\n",
+    '"1999","Chevy","Venture ""Extended Edition, Very Large""","","5000"'."\n",
     '"1996","Jeep","Grand Cherokee","MUST SELL!
-    air, moon roof, loaded","4799"');
+    air, moon roof, loaded","4799"'."\n");
 
 for($i = 0; $i < count($rows); $i++) {
     $t->is(afOutput::asCsv($rows[$i]), $expected[$i]);

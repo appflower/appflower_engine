@@ -1,11 +1,11 @@
 <?php
 
 class afOutput {
-    public function asCsv($row) {
+    public static function asCsv($row) {
         $cells = array();
         foreach($row as $value) {
             $cells[] = '"'.str_replace('"', '""', $value).'"';
         }
-        return implode(',', $cells);
+        return implode(',', $cells)."\n";
     }
 }
