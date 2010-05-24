@@ -843,7 +843,7 @@ class ImmExtjsGrid
 			$params['limit'] = sfConfig::get("app_parser_max_items");
 		}
 
-		return 'Ext.urlAppend('.$this->privateName.'.store.proxy.url, Ext.urlEncode(Ext.apply('.$this->privateName.'.store.proxy.lastParams||{}, '.json_encode($params).')))';
+		return 'Ext.urlAppend('.$this->privateName.'.store.proxy.url, Ext.urlEncode(Ext.apply(Ext.apply({}, '.$this->privateName.'.store.proxy.lastParams), '.json_encode($params).')))';
 	}
 
 	public function getListenerParams(&$action,$type,$iteration='',$select="false"){		
