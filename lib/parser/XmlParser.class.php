@@ -3131,7 +3131,7 @@ class XmlParser extends XmlParserTools {
 				if(isset($export_config["enabled"]) && $export_config["enabled"] === true && $parse["exportable"] == "true") {
 					
 					if(isset($parse["pager"]) && $parse["pager"] === "true") {
-						$grid->addMenuActionsItem(array('label'=>'Export Page as CSV', 'icon'=>'/images/famfamfam/database_save.png','url' => '#','listeners'=>array('click'=> array('parameters'=>'','source'=>'window.location.href='.$grid->getCsvExportJsUrl('page')))));
+						$grid->addMenuActionsItem(array('label'=>'Export Page as CSV', 'icon'=>'/images/famfamfam/database_save.png','listeners'=>array('click'=> array('parameters'=>'','source'=>'window.location.href='.$grid->getCsvExportJsUrl('page')))));
 					}
 					
 					if($parse["tree"] === "false") {
@@ -3146,7 +3146,7 @@ class XmlParser extends XmlParserTools {
 								});
 							';
 												
-						$grid->addMenuActionsItem(array('label'=>'Export first '.sfConfig::get("app_parser_max_items").' rows as CSV', 'confirmMsg' => 'foo', 'icon'=>'/images/famfamfam/database_save.png','url' => '#','listeners'=>array('click'=> array('parameters'=>'','source'=>$confirmFunction))));
+						$grid->addMenuActionsItem(array('label'=>'Export first '.sfConfig::get("app_parser_max_items").' rows as CSV', 'confirmMsg' => 'foo', 'icon'=>'/images/famfamfam/database_save.png','listeners'=>array('click'=> array('parameters'=>'','source'=>$confirmFunction))));
 					
 						
 					} 					
@@ -3162,7 +3162,7 @@ class XmlParser extends XmlParserTools {
 						
 						if(!ArrayUtil::isTrue($parse, 'remoteLoad')) {
 							$grid->addMenuActionsItem(array('label'=>'Export Selected as CSV', 'forceSelection' => "true",
-							'icon'=>'/images/famfamfam/database_save.png','url' => '#','listeners'=>array('click'=> array('parameters'=>'','source'=>
+							'icon'=>'/images/famfamfam/database_save.png','listeners'=>array('click'=> array('parameters'=>'','source'=>
 							"frm = document.createElement('form'); field = document.createElement('input'); field.setAttribute('type','hidden'); field.setAttribute('name','selections'); field.value = ".
 							$grid->privateName.".getSelectionModel().getSelectionsJSON(); frm.appendChild(field); frm.action = ".$grid->getCsvExportJsUrl('selected')."+'&_csrf_token=".$this->context->getRequest()->getAttribute("_csrf_token")."'; frm.method='POST'; frm.name='frm1'; document.body.appendChild(frm); ".$noItemsSelectedFunction." frm.submit();"))));
 						}
