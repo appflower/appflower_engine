@@ -12,8 +12,13 @@ class afApiActions extends sfActions
         // For backward compatibility with listEventMatrixServer.
         $this->getVarHolder()->add($vars);
 
-        $source = afDataFacade::getDataSource($view,
-            $request->getParameterHolder()->getAll());
+        $selections = $this->getRequestParameter('selections');
+        if($selections) {
+            $source = new afSelectionSource(json_decode($selections, true));
+        } else {
+            $source = afDataFacade::getDataSource($view,
+                $request->getParameterHolder()->getAll());
+        }
 
         $format = $request->getParameter('af_format');
         if($format === 'csv') {
