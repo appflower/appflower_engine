@@ -17,7 +17,7 @@ class afApiActions extends sfActions
 
         $format = $request->getParameter('af_format');
         if($format === 'csv') {
-            return $this->renderCsv($source);
+            return $this->renderCsv($action, $source);
         }
         return $this->renderJson($view, $source);
     }
@@ -93,7 +93,9 @@ class afApiActions extends sfActions
         return XmlParser::isActionEnabled($class, $method, $args);
     }
 
-    private function renderCsv($source) {
+    private function renderCsv($actionName, $source) {
+        HttpUtil::sendDownloadHeaders($actionName.'.csv', 'text/csv');
+
         $rows = $source->getRows();
         if(count($rows) > 0) {
             $keys = array_keys($rows[0]);
