@@ -855,7 +855,15 @@ class ImmExtjsGrid
 		if($action["attributes"]["updater"] === "true") {
 			$action["attributes"]["post"] = "true";			
 			$updater = new ImmExtjsUpdater(array('url'=>$action["attributes"]["url"],'width' => 500));
-			$functionForUpdater = $updater->privateName.'.start();';								
+			$functionForUpdater = $updater->privateName.'.start();
+			'.$updater->privateName.'.on("finish",function(){
+				var grid = '.$grid->privateName.';
+				var store = grid.getStore();
+				if(store.proxy.conn.disableCaching === false) {
+					store.proxy.conn.disableCaching = true;
+				}
+				store.reload();});
+			';								
 		}
 		if($action["attributes"]["forceSelection"] != "false"){
 			$noDataInGridFunction = '
