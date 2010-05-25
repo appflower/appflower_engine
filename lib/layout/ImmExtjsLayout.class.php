@@ -136,7 +136,8 @@ class ImmExtjsLayout
 		 * default west panel
 		 */
 		elseif(!isset($attributes['west'])||(isset($attributes['west'])&&$attributes['west']!=false)){
-			$logo = '<div style="background-color:#d9e7f8;border-right:1px solid #99bbe8;border-bottom:1px solid #99bbe8; padding:0px; margin:0px"><img src="/appFlowerPlugin/images/forTheMenu.png"/></div>';
+			$logo = '<div style="background-color:#d9e7f8;border-right:1px solid #99bbe8;border-left:1px solid #99bbe8;border-bottom:1px solid #99bbe8; padding:2px 0px 0px 0px; margin:0px"><img src="'.sfConfig::get("app_avatar_logo").'"/></div>';
+			
 			$attributes_temp=array('id'=>'west_panel',
 						      'region'=>'west',
 						      'title'=>'Navigation',
