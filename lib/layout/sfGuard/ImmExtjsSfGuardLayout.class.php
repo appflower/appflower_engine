@@ -11,10 +11,7 @@ class ImmExtjsSfGuardLayout extends ImmExtjsLayout
 		$attributes['north']=false;
 		$attributes['west']=false;
 		
-		$this->immExtjs->setAddons(array ('css' => array($this->immExtjs->getExamplesDir().'layout-browser/Ext.ux.layout.CenterLayout.css'),'js'=>array($this->immExtjs->getExamplesDir().'layout-browser/Ext.ux.layout.CenterLayout.js')));
-		if(file_exists(sfConfig::get("sf_root_dir")."/web/css/Ext.ux.layout.CenterLayout.css")){
-			$this->immExtjs->setAddons(array ('css' => array("/css/Ext.ux.layout.CenterLayout.css")));
-		}
+		$this->immExtjs->setAddons(array ('css' => array($this->immExtjs->getExamplesDir().'layout-browser/Ext.ux.layout.CenterLayout.css'),'js'=>array($this->immExtjs->getExamplesDir().'layout-browser/Ext.ux.layout.CenterLayout.js')));		
 		$this->layout='ux.center';
 		
 		parent::start($attributes);
@@ -22,6 +19,7 @@ class ImmExtjsSfGuardLayout extends ImmExtjsLayout
 	
 	public function addCenterComponent($tools,$attributes=array())
 	{	
+		//print sfConfig::get("app_avatar_login_screen_bg");		
 		$attributes=array('id'=>'center_panel',
 					      'title'=>isset($attributes['title'])?$attributes['title']:'Panel',
 					      'autoScroll'=>true,
@@ -29,6 +27,10 @@ class ImmExtjsSfGuardLayout extends ImmExtjsLayout
 					      'frame'=>true,
 						  'collapsible'=>false,
 				          'style'=>'margin-top:150px;',
+						  'listeners'=>'{"render":function(comp){						
+							  		Ext.getBody().setStyle("background-image","url('.sfConfig::get("app_avatar_login_screen_bg").')");
+							  		Ext.getBody().setStyle("background-position","top center");
+						   }}',
 				          'tools'=>$tools->end());
 				
 		if(isset($this->attributes['viewport']['center_panel'])&&count($this->attributes['viewport']['center_panel'])>0)
