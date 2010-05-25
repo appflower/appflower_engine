@@ -3515,19 +3515,6 @@ if(response.message) {
 		return sfView::SUCCESS;
 	}
 	
-	
-	public static function saveSessionData($data) {
-		
-		$data_dir = substr(__FILE__,0,strpos(__FILE__,"appFlowerPlugin/")+15)."/data/parser";
-		$str_data = serialize($data);
-		
-		$data_file = FileUtil::saveTmpFile($str_data,$data_dir,"grid_");
-		
-		return $data_file;
-		
-	}
-	
-
     /**
      * set the extSuccess.php template
      */
