@@ -19,10 +19,10 @@ class afApiActions extends sfActions
         if($format === 'csv') {
             return $this->renderCsv($source);
         }
-        return $this->renderJson($source);
+        return $this->renderJson($view, $source);
     }
 
-    private function renderJson($source) {
+    private function renderJson($view, $source) {
         $rows = $source->getRows();
         // To support existing static datasources,
         // html escaping is disabled for them.
