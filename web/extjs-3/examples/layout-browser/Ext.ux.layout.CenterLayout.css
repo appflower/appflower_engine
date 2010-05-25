@@ -12,8 +12,3 @@
 body.ux-layout-center {           /* if the container is the doc body (for viewport) */
     text-align:left;
 }
-
-body{
-	background-image:url(/appFlowerPlugin/images/loginbg.jpg);
-	background-position:center top;
-}
