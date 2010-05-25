@@ -95,15 +95,14 @@ class afApiActions extends sfActions
 
     private function renderCsv($source) {
         $rows = $source->getRows();
-        $output = '';
         if(count($rows) > 0) {
             $keys = array_keys($rows[0]);
-            $output .= afOutput::asCsv($keys);
+            echo afOutput::asCsv($keys);
             foreach($rows as $row) {
-                $output .= afOutput::asCsv($row);
+                echo afOutput::asCsv($row);
             }
         }
 
-        return $this->renderText($output);
+        exit;
     }
 }
