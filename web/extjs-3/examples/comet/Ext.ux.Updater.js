@@ -4,7 +4,8 @@
  */
 
 Ext.ux.Updater = function(config) {
-	Ext.apply(this, config);
+	Ext.apply(this, config);	
+	this.addEvents("finish");
 };
 
 Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
@@ -16,8 +17,7 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 	errors:{
 		noStep: null,
 		title:null
-	},
-	
+	},	
 	start : function()
 	{
 		this.comet = new Ext.Comet({url:this.url, interval:this.interval, timeout:this.timeout});
@@ -73,7 +73,7 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 					}
 					else if(r[i].step=='stop')
 					{
-						this.hideMsg.defer(delay,this,[r[i]]);
+						this.hideMsg.defer(delay,this,[r[i]]);						
 					}
 				}
 			/*}
@@ -153,6 +153,7 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 			Ext.MessageBox.minProgressWidth='250';
 						
 			this.msg.hide.defer(r.hideAfter,this.msg);
+			this.fireEvent("finish",this);
 		}
 	},
 	
