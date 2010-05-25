@@ -12,6 +12,9 @@ class ImmExtjsSfGuardLayout extends ImmExtjsLayout
 		$attributes['west']=false;
 		
 		$this->immExtjs->setAddons(array ('css' => array($this->immExtjs->getExamplesDir().'layout-browser/Ext.ux.layout.CenterLayout.css'),'js'=>array($this->immExtjs->getExamplesDir().'layout-browser/Ext.ux.layout.CenterLayout.js')));
+		if(file_exists(sfConfig::get("sf_root_dir")."/web/css/Ext.ux.layout.CenterLayout.css")){
+			$this->immExtjs->setAddons(array ('css' => array("/css/Ext.ux.layout.CenterLayout.css")));
+		}
 		$this->layout='ux.center';
 		
 		parent::start($attributes);
