@@ -43,7 +43,7 @@ Ext.ux.RePositionFilters = function(grid){
 		//var col = cm.getColumnById(cm.getColumnId(colIndex));
     	if(column.sp){
     		var minW = 50;
-    		if(newColumnWidth < minW){
+    		if(newColumnWidth < minW && !column.sp.disabled){
     			cm.setColumnWidth(cm.getIndexById(column.dataIndex),minW)
     			newColumnWidth = minW;
     		}
