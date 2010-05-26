@@ -40,6 +40,25 @@ class appFlowerActions extends sfActions
 		return $this->renderText($info);		
 	}
 	
+	public function executePopupHelp() 
+    {	
+    	$idXml=$this->hasRequestParameter('idXml')?$this->getRequestParameter('idXml'):false;
+    	
+    	$info['html']='Help not found';
+    	
+    	if($idXml)
+    	{
+	    	$info['html']='some <b>html</b>';
+	    	$info['winConfig']['title']='some title';
+	    	$info['winConfig']['width']=500;
+	    	$info['winConfig']['heigh']=300;
+    	}   	
+    	
+    	$info=json_encode($info);
+		
+		return $this->renderText($info);
+	}
+	
 	/**
 	 * adding selected widgets to the first column of the portal page/removing deselected widgets from portal page
 	 */

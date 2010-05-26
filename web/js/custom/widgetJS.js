@@ -474,6 +474,52 @@ afApp.load = function (location, load, target, winProp)
 		}
 	}
 }
+afApp.loadPopupHelp = function(widget) {
+	
+	var viewport=App.getViewport();
+	var mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading help</b> <br>Please Wait...",removeMask:true});
+	mask.show();
+	var ajax = Ext.Ajax.request( {
+		url : '/appFlower/popupHelp?idXml='+widget,
+		method : "GET",		
+		success : function(r) {
+			var json = Ext.util.JSON.decode(r.responseText);
+			
+			if(json.redirect&&json.message)
+			{
+				mask.hide();
+				
+				Ext.Msg.alert("Failure", json.message, function(){window.location.href=json.redirect;});
+			}
+			else
+			{			
+				Ext.applyIf(json.winConfig, {
+					autoScroll : true,
+					maximizable : true,
+					draggable:true,					
+					closeAction:'hide',
+					html : json.html
+				});
+				
+				var win = new Ext.Window( json.winConfig );
+				
+				win.on("show",function(win){var pos = win.getPosition(); if(pos[1]<0) win.setPosition(pos[0],0);});
+				
+				win.doLayout()
+				win.show();				
+				
+				win.on("move",function(win,x,y){
+					if(y<0) win.setPosition(x,0);
+					if(x < 100-win.getWidth()) win.setPosition(100-win.getWidth(),y);
+					if(x > Ext.getBody().getWidth()-100) win.setPosition(Ext.getBody().getWidth()-100,y);
+					if(y > Ext.getBody().getHeight()-100) win.setPosition(x,Ext.getBody().getHeight()-100);
+				})
+				
+				mask.hide();
+			}				
+		}
+	});
+}
 Ext.onReady(function(){
 
 	afApp.attachHrefWidgetLoad();
