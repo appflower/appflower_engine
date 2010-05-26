@@ -136,8 +136,11 @@ class ImmExtjsLayout
 		 * default west panel
 		 */
 		elseif(!isset($attributes['west'])||(isset($attributes['west'])&&$attributes['west']!=false)){
-			$logo = '<div style="background-color:#d9e7f8;border-right:1px solid #99bbe8;border-left:1px solid #99bbe8;border-bottom:1px solid #99bbe8; padding:2px 0px 0px 0px; margin:0px"><img src="'.sfConfig::get("app_avatar_logo").'"/></div>';
-			
+			$logoScript = "";
+			if(sfConfig::get("app_avatar_logo",false)){
+				$logo = '<div style="background-color:#d9e7f8;border-right:1px solid #99bbe8;border-left:1px solid #99bbe8;border-bottom:1px solid #99bbe8; padding:2px 0px 0px 0px; margin:0px"><img src="'.sfConfig::get("app_avatar_logo").'"/></div>';
+				$logoScript = 'Ext.DomHelper.insertFirst(comp.bwrap,{tag:"div",html:"'.addslashes($logo).'"});';
+			}
 			$attributes_temp=array('id'=>'west_panel',
 						      'region'=>'west',
 						      'title'=>'Navigation',
@@ -148,14 +151,8 @@ class ImmExtjsLayout
 						      'split'=>'true',							
 							  'layoutConfig'=>array('animate'=>'true'),
 						      'collapsible'=>'true',
-						      'layout'=>'accordion',
-							  
-							  'listeners'=>'{"beforerender": function(){this.activeItem = this.findById("profile")},"render":function(comp){
-							  		Ext.DomHelper.insertFirst(comp.bwrap,{tag:"div",html:'.$logo.'});
-							   }}'							   
-							  
-								
-			);
+						      'layout'=>'accordion',							  
+							  'listeners'=>'{"beforerender": function(){this.activeItem = this.findById("profile")},"render":function(comp){'.$logoScript.'}}');
 						      
 			if(!isset($this->attributes['viewport']['west_panel']))
 			{			
