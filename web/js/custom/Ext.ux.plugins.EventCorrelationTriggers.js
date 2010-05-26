@@ -255,9 +255,7 @@ Ext.extend(Ext.ux.plugins.EventCorrelationTriggers, Ext.util.Observable,{
 	                		url:'/eventmanagement/storeTriggers?reset',
 	                		method:"POST",
 	                		success: function(){
-		                		grid.getStore().reload(Ext.apply(grid.getStore().lastOptions.params,{		                			
-		                			fresh:true		                			
-		                		}));
+		                		grid.getStore().reload();
 	                		},
 	                		failure: function(){
 	                			mask.hide();
