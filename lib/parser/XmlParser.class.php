@@ -3475,19 +3475,24 @@ class XmlParser extends XmlParserTools {
 				
 				$headers = array();
 				
-				foreach($parse["fields"] as $f) {
-					foreach($parse["display"]["visible"] as &$col_data) {
-						if($parse["tree"] == "false" && $parse["remoteSort"] == "false") {
+				
+				if(is_array($parse["display"]["visible"][0])) {
+
+					foreach($parse["fields"] as $f) {
+						foreach($parse["display"]["visible"] as &$col_data) {	
 							if($f["attributes"]["name"] == $col_data["column"]) {
 								$col_data["label"] = $f["attributes"]["label"];			
 							}	
-						} 	
+						}
 					}
-					if($parse["tree"] == "true" ||$parse["remoteSort"] == "true") {
+				} else {
+					
+					foreach($parse["fields"] as $f) {
 						if(in_array($f["attributes"]["name"],$parse["display"]["visible"])) {
 								$parse["headers"][$f["attributes"]["name"]] = $f["attributes"]["label"];
-						}	
-					}
+						}
+					}	
+						
 				}
 				
 	  			$data = array

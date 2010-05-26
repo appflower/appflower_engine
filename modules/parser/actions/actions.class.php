@@ -163,9 +163,14 @@ class parserActions extends sfActions
 	  
 	private function removeTags(&$items) {
 		
+		$export_config = sfConfig::get('app_parser_export');
+		
 		foreach($items as $ik => $item) {
-			foreach($item as $ck => $column) {
+			foreach($item as $ck => &$column) {
 				$tmp = array();
+				if(!strstr($column,'"')) {
+					$items[$ik][$ck] = '"'.$column.'"';	
+				}
 				$m = preg_match_all("/(<[^>]+>)([^<]+)(<\/[^>]+>)/",$column,$matches);
 				if($m) {
 					foreach($matches[2] as $k => $v) {
@@ -235,6 +240,7 @@ class parserActions extends sfActions
 		} else {
 			$items = $this->executeListjson(null,array($sort,$sort_dir,$start,$limit,$anode,$filters,$export,null,$data_file,$title,$job,$xsort));	
 		}
+		
 		
 		$this->removeTags($items);
 		
@@ -313,6 +319,8 @@ class parserActions extends sfActions
 			$export_data = call_user_func(array($ef[0],$ef[1]),$ef);
 		} else {
 			
+			$dates_found = array();
+			
 			if($parser["tree"]) {
 	
 				// Trees
@@ -369,6 +377,7 @@ class parserActions extends sfActions
 							} 
 							foreach($date_columns as $dc) {
 								if($k == $dc) {
+									$dates_found[] = $dc;
 									$m = preg_match("/([0-9]{4}\-[0-9]{2}\-[0-9]{2}) ([0-9]{2}:[0-9]{2}:[0-9]{2})/",$cell,$matches);
 									$tmp = array();
 									foreach($item as $kx => $value) {
@@ -392,33 +401,52 @@ class parserActions extends sfActions
 		// Send headers, force download or write tmp file for jobs..
 		
 		// Resort headers for remoteSort.
-		
-		if($parser["remoteSort"] == "true") {
-		
+	
+		if(($parser["remoteSort"] === "true" || $parser["remoteSort"] === true) && !empty($parser["result"])) {
+			
 			$tmp = array();
 			
-			if(!empty($parser["result"])) {
-							
-				$item = $parser["result"][key($parser["result"])];
-				
-				foreach($item as $k => $c) {
-					$tmp[$k] = $parser["headers"][$k];
+			$item = $parser["result"][key($parser["result"])];
+			
+			foreach($item as $k => $c) {
+				if(in_array($k,$dates_found)) {
+					$tmp[$k] = $parser["headers"][$k]." (date)";
+					$tmp[$k] = $parser["headers"][$k]." (time)";
+				} else {
+					$tmp[$k] = $parser["headers"][$k];	
 				}
 			}
-			
+
 			$headers = implode($export_config["separator"],$tmp)."\n";
 			
 		} else {
 			
 			$headers = "";
-			
+				
 			foreach($parser["columns"] as $c) {
-				$headers .= (($parser["headers"]) ? $parser["headers"][$c] : $c["label"]).$export_config["separator"];
+				if($parser["headers"]) {
+					$header = $parser["headers"][$c];
+					$colname = $c;
+				} else if(isset($c["label"])) {
+					$header = $c["label"];	
+					$colname = $c["column"];	
+				} else {
+					$header = $colname = false;
+				}
+				if($header) {
+					if(in_array($colname,$dates_found)) {
+						$headers .= $header." (date)".$export_config["separator"];
+						$headers .= $header." (time)".$export_config["separator"];		
+					} else {
+						$headers .= $header.$export_config["separator"];
+					}
+					
+				}
 			}
 				
 			$headers = trim($headers,$export_config["separator"])."\n";	
+		
 		}
-	
 		
 		if(!$job) {
 			
