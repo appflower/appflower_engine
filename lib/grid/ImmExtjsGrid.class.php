@@ -445,18 +445,6 @@ class ImmExtjsGrid
 			
 			$beforeloadListener = "
 				if(!Ext.isIE&&!".$this->privateName.".disableLoadMask){".$this->privateName.".getEl().mask('Loading, please Wait...', 'x-mask-loading');}
-				var grid = ".$this->privateName.";
-				var cm = grid.getColumnModel();				
-				var id = object.getSortState().field;
-				if(!id) return;
-				var col = cm.getColumnById(id);
-				if(col.sortIndex){
-					Ext.apply(grid.getStore().lastOptions.params,{
-						xsort:col.sortIndex
-					})						
-				}else{
-					grid.getStore().lastOptions.params.xsort = null
-				}
 			";
 			
 			if(isset($this->proxy['stateId']))
