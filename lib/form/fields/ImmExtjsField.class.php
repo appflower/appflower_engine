@@ -102,6 +102,12 @@ class ImmExtjsField
 			unset($attributes['help']);
 		}
 		
+		/**
+		 * TYPES:
+		 * comment || inline
+		 */
+		$this->attributes['helpType']=isset($attributes['helpType'])?$attributes['helpType']:'comment';
+				
 		if(isset($attributes['comment'])&&$attributes['comment']!='')
 		{
 			$this->attributes['helpText']='<i>'.$attributes['comment'].'</i>';

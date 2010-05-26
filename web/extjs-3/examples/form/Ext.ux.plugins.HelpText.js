@@ -10,16 +10,31 @@ Ext.ux.plugins.HelpText = {
             onRender: container.onRender.createSequence(function(ct, position){
                 // if there is helpText create a div and display the text below the field
                 if (typeof this.helpText == 'string') {
-                    this.wrap = this.wrap || this.el.wrap();
-                	var ins = this.el.dom;
-                	ins = this.wrap.dom;
-                    Ext.DomHelper.append(ins.parentNode,{
-                        tag: 'div',
-                        cls: typeof this.helpTextClass != 'undefined' ? this.helpTextClass : '',
-                        style: typeof this.helpTextStyle != 'undefined' ? this.helpTextStyle : 'clear: right; font-size: 11px; color: #888888;',
-                        html: this.helpText
-                    });                   
+	                switch (this.helpType)
+	                {
+	                	case "comment":                
+			                this.wrap = this.wrap || this.el.wrap();
+		                	var ins = this.el.dom;
+		                	ins = this.wrap.dom;
+		                    Ext.DomHelper.append(ins.parentNode,{
+		                        tag: 'div',
+		                        cls: typeof this.helpTextClass != 'undefined' ? this.helpTextClass : '',
+		                        style: typeof this.helpTextStyle != 'undefined' ? this.helpTextStyle : 'clear: right; font-size: 11px; color: #888888;',
+		                        html: this.helpText
+		                    });
+			            break;
+			            
+			            case "inline":
+			            	var label=this.ownerCt.body.dom.firstChild.firstChild;
+			            	Ext.DomHelper.append(label,{
+		                        tag: 'div',
+		                        style: 'float:left;padding-right:2px;',
+		                        html: '<img src="/appFlowerPlugin/images/help.png" qtip="'+this.helpText+'">'
+		                    });
+			            break;
+	                }
                 }
+                
             }),// end of function onRender
             findByClassName: function(div,className){
         		var curDiv;
