@@ -83,7 +83,7 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 			case "/eventmanagement/showEventGraph":
 			case "/eventmanagement/syslogGraph":
 				return array(
-  					"basic" => array("graph_type_value" => "ImmAmLine",	"text_color" => "#000000","text_font_value" => "Arial","text_size_value" => "11","bg_color" => "#FFFFFF", "height" => 380),	
+  					"basic" => array("graph_type_value" => "ImmAm3DColumn",	"text_color" => "#000000","text_font_value" => "Arial","text_size_value" => "11","bg_color" => "#FFFFFF", "height" => 380),	
 			        "emergency" => array("show" => true, "text" => "Emergency", "color" => "#F8A281", "hover_color" => "#ff0000"),
 					"alert" => array("show" => true, "text" => "Alert", "color" => "#FCC698", "hover_color" => "#ff0000"),	
 					"critical" => array("show" => true, "text" => "Critical", "color" => "#FFE2A1", "hover_color" => "#ff0000"),	
@@ -96,7 +96,7 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 				break;
 			case "/eventmanagement/syslogGraphCountSize":
 				return array(
-					"basic" => array("graph_type_value" => "ImmAmLine", "text_color" => "#000000","text_font_value" => "Arial", "text_size_value" => "11","bg_color" => "#FFFFFF", "height" => 380),
+					"basic" => array("graph_type_value" => "ImmAm3DColumn", "text_color" => "#000000","text_font_value" => "Arial", "text_size_value" => "11","bg_color" => "#FFFFFF", "height" => 380),
 					"count" => array("show" => true, "text" => "Log Count", "color" => "#B57B34", "hover_color" => "#ff0000"),
 				 	"size" => array("show" => true, "text" => "Log Size", "color" => "#BC845E", "hover_color" => "#ff0000"),	
 		         	"reload" => array("started" => false, "interval" => 60));
@@ -108,7 +108,7 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 	            	"reload" => array("started" => false, "interval" => 60));
 			case "/netflow/showFirewallGraph":
 				return array(
-					"basic" => array("graph_type_value" => "ImmAmLine", "text_color" => "#000000","text_font_value" => "Arial", "text_size_value" => "11","bg_color" => "#FFFFFF", "height" => 380),	
+					"basic" => array("graph_type_value" => "ImmAm3DColumn", "text_color" => "#000000","text_font_value" => "Arial", "text_size_value" => "11","bg_color" => "#FFFFFF", "height" => 380),	
 			        "granted" => array("show" => true, "text" => "Granted", "color" => "#B57B34", "hover_color" => "#ff0000"),
 					"blocked" => array("show" => true, "text" => "Blocked", "color" => "#BC845E", "hover_color" => "#ff0000"),	
 			        "reload" => array("started" => false, "interval" => 60));	
