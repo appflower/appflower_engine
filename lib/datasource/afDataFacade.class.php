@@ -53,7 +53,7 @@ class afDataFacade {
             list($callback, $params) = self::getDataSourceCallback($view);
             list($peer, $method) = $callback;
             $criteria = call_user_func_array($callback, $params);
-            afFilterUtil::setFilters($criteria, $filters);
+            afFilterUtil::setFilters($peer, $criteria, $filters);
 
             $class = self::getClassFromPeerClass($peer);
             $extractor = new afColumnExtractor($class, $selectedColumns,

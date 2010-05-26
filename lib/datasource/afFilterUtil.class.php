@@ -6,14 +6,20 @@ class afFilterUtil {
 	 * 
 	 * @author radu
 	 */
-	public static function setFilters(Criteria $criteria,$filters)
+	public static function setFilters($peer, Criteria $criteria,$filters)
 	{		
 		if($filters)
 		{		
 			for($i=0;$i<count($filters);$i++)
 			{
-				if($filters[$i]['field']!=false)
-				{				
+				if(empty($filters[$i]['field'])) {
+					continue;
+				}
+				
+
+				if(self::useCustomFilter($peer, $criteria, $filters[$i])) {
+					continue;
+				} else {
 					switch($filters[$i]['data']['type'])
 					{					
 						case 'string' :					
@@ -116,5 +122,15 @@ class afFilterUtil {
 		}
 	}
 
+	private static function useCustomFilter($peer, $criteria, $filter) {
+		$method = 'filter'.sfInflector::camelize($filter['field']);
+		$customFilter = array($peer, $method);
+		if(!is_callable($customFilter)) {
+			return false;
+		}
+
+		call_user_func($customFilter, $criteria, $filter['data']);
+		return true;
+	}
 }
 
