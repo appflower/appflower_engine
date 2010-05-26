@@ -117,12 +117,34 @@ class afApiActions extends sfActions
         $rows = $source->getRows();
         if(count($rows) > 0) {
             $keys = array_keys($rows[0]);
+            self::pruneKeys($keys);
+
             echo afOutput::asCsv($keys);
             foreach($rows as $row) {
-                echo afOutput::asCsv($row);
+                echo afOutput::asCsv(self::extractValues($row, $keys));
             }
         }
 
         exit;
     }
+
+    /**
+     * Removes _* keys from the list of keys.
+     */
+    private static function pruneKeys(&$keys) {
+        foreach($keys as $i => $key) {
+            if(StringUtil::startsWith($key, '_')) {
+                unset($keys[$i]);
+            }
+        }
+    }
+
+    private static function extractValues($row, $keys) {
+        $values = array();
+        foreach($keys as $key) {
+            $values[] = ArrayUtil::get($row, $key, '');
+        }
+        return $values;
+    }
+
 }
