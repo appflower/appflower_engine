@@ -3471,6 +3471,25 @@ class XmlParser extends XmlParserTools {
 				}
 				
 				
+				// Add column labels (CSV export needs it)
+				
+				$headers = array();
+				
+				foreach($parse["fields"] as $f) {
+					foreach($parse["display"]["visible"] as &$col_data) {
+						if($parse["tree"] == "false" && $parse["remoteSort"] == "false") {
+							if($f["attributes"]["name"] == $col_data["column"]) {
+								$col_data["label"] = $f["attributes"]["label"];			
+							}	
+						} 	
+					}
+					if($parse["tree"] == "true" ||$parse["remoteSort"] == "true") {
+						if(in_array($f["attributes"]["name"],$parse["display"]["visible"])) {
+								$parse["headers"][$f["attributes"]["name"]] = $f["attributes"]["label"];
+						}	
+					}
+				}
+				
 	  			$data = array
 	  			(
 	  			"uid" => $unique_id,
@@ -3491,6 +3510,7 @@ class XmlParser extends XmlParserTools {
 	  			"criteria" => $criteria, 
 	  			"class" => str_replace("Peer","",$data_class),
 	  			"columns" => $parse["display"]["visible"],
+	  			"headers" => (isset($parse["headers"])) ? $parse["headers"] : null,
 	  			"selectors" => (isset($parse["display"]["selectors"])) ? $parse["display"]["selectors"] : null,
 	  			"proxy" => $parse["proxy"],
 	  			"limit" => $limit,

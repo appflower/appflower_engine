@@ -391,9 +391,38 @@ class parserActions extends sfActions
 		
 		// Send headers, force download or write tmp file for jobs..
 		
+		// Resort headers for remoteSort.
+		
+		if($parser["remoteSort"] == "true") {
+		
+			$tmp = array();
+			
+			if(!empty($parser["result"])) {
+							
+				$item = $parser["result"][key($parser["result"])];
+				
+				foreach($item as $k => $c) {
+					$tmp[$k] = $parser["headers"][$k];
+				}
+			}
+			
+			$headers = implode($export_config["separator"],$tmp)."\n";
+			
+		} else {
+			
+			$headers = "";
+			
+			foreach($parser["columns"] as $c) {
+				$headers .= (($parser["headers"]) ? $parser["headers"][$c] : $c["label"]).$export_config["separator"];
+			}
+				
+			$headers = trim($headers,$export_config["separator"])."\n";	
+		}
+	
+		
 		if(!$job) {
 			
-			HttpUtil::forceDownload($this,$export_data,"tmp.csv");
+			HttpUtil::forceDownload($this,$headers.$export_data,"tmp.csv");
 			
 		} else {
 			
@@ -402,7 +431,7 @@ class parserActions extends sfActions
 			
 			$dirname = sfCsvExportJobHandler::generateDirName($title);
 			
-			$exported_file = FileUtil::saveTmpFile($export_data,$root."/".$dirname,"job_".$job->getId());
+			$exported_file = FileUtil::saveTmpFile($headers.$export_data,$root."/".$dirname,"job_".$job->getId());
 		
 			$file = substr($exported_file,strrpos($exported_file,$dirname));
 			
