@@ -116,7 +116,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  								}
 		  							}
 		  							var normalRedirect = function(location,target,winProp){	
-		  								if(_win){		  									
+		  								if(_win && !winProp.forceRedirect){		  									
 		  									return false;
 		  								}	  							
 		  								if(target && winProp){
@@ -133,7 +133,11 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  							var redirect=action.result.redirect ||action.options.params.redirect;
 		  							var showInWindow=action.result.window ||action.options.params.window;
 		  							var target=action.result.target ||action.options.params.target;
-		  							var winProp=action.result.winProp ||action.options.params.winProp;
+		  							var winProp=action.result.winProp ||action.options.params.winProp;		  							
+		  							var forceRedirect = action.result.forceRedirect;
+		  							if(forceRedirect !== false) forceRedirect = true;
+		  							winProp = winProp || {};
+		  							winProp.forceRedirect = forceRedirect;		  							
 		  							var win;
 		  							
 		  							if(message){
