@@ -158,7 +158,6 @@ class parserActions extends sfActions
 		return $results;
 		
 	  }
-	
 	  
 	  
 	private function removeTags(&$items) {
@@ -191,7 +190,7 @@ class parserActions extends sfActions
 	}
 	
 	
-/*
+	/*
 	 * Exports the list as CSV and forces the browser to open download dialogue.
 	 * 
 	 */
@@ -240,7 +239,6 @@ class parserActions extends sfActions
 		} else {
 			$items = $this->executeListjson(null,array($sort,$sort_dir,$start,$limit,$anode,$filters,$export,null,$data_file,$title,$job,$xsort));	
 		}
-		
 		
 		$this->removeTags($items);
 		
@@ -313,13 +311,21 @@ class parserActions extends sfActions
 			
 		// Static pagination
 		
+		$dates_found = array();
+		
 		if($parser['static_real_pagination']){
 			$ef = explode(",",$parser['exportFrom']);
 			$ef['export'] = array('start'=>$start,'limit'=>$limit);
-			$export_data = call_user_func(array($ef[0],$ef[1]),$ef);
-		} else {
+			$tmp = call_user_func(array($ef[0],$ef[1]),$ef);
 			
-			$dates_found = array();
+			if(is_array($tmp)) {
+				$export_data = $tmp[0];
+				$dates_found[] = $tmp[1];
+			} else {
+				$export_data = $tmp;
+			}
+			
+		} else {
 			
 			if($parser["tree"]) {
 	
@@ -331,7 +337,6 @@ class parserActions extends sfActions
 				if(isset($parser['remoteLoad']) && $parser['remoteLoad']) {
 					$ef = explode(",",$parser['exportFrom']);
 					$export_data = call_user_func(array($ef[0],$ef[1]),$ef);
-					
 				} else {
 					
 					$post = $this->getRequest()->getParameterHolder()->getAll();
@@ -420,7 +425,7 @@ class parserActions extends sfActions
 			$headers = implode($export_config["separator"],$tmp)."\n";
 			
 		} else {
-			
+
 			$headers = "";
 				
 			foreach($parser["columns"] as $c) {
@@ -582,13 +587,15 @@ class parserActions extends sfActions
 		
 		// 4. Fetching grid data (rows as an array).
 		
+				
 	  	$items = array();	
 		
 	  	// ORM / DB
 	  	
 		if(!$parser["sql"] && $parser["type"] == "orm") {
+					
 			$items = $this->getItemsOrm($pager,$parser);
-		
+			
 		// Files
 			
 		} else if(!$parser["sql"] && $parser["type"] == "file") {			
@@ -752,6 +759,10 @@ class parserActions extends sfActions
 		
 		if($sort)
 		{
+			if($sort == "user_timestamp") {
+				$sort = "timestamp";
+			}
+			
 			$criteria->clearOrderByColumns();
 			if($sort_dir=='ASC')			{			
 						
@@ -800,8 +811,6 @@ class parserActions extends sfActions
 		$pager = new immFilePager($parser["datafile"],$chunk,($export == "all") ? sfConfig::get("app_parser_max_chunk_size"): 1);
 		$pager->setPage($page);
 		$pager->init();
-		
-		//print_r($pager->getResults());
 		
 		return $pager;
 		
@@ -886,7 +895,7 @@ class parserActions extends sfActions
 		
 		if(isset($parser['realtime']) and $parser['realtime'] == "yes")	{				
 			$items = call_user_func(array($parser["datasource"]["class"],$parser["datasource"]["method"]["name"]),$parser["datafile"]);			
-		} else { 			
+		} else { 		
 			foreach($pager->getResults() as $s) {
 				if($parser["datasource"]["lister"] !== "false") {
 					$item = call_user_func(array($parser["datasource"]["class"],$parser["datasource"]["method"]["name"]),$s);
