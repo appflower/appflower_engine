@@ -626,7 +626,7 @@ class XmlParser extends XmlParserTools {
 	}
 
 	public static function isActionEnabled($class, $method, $args) {
-		return call_user_func(array($class,$method), $args) !== false;
+		return call_user_func(array($class,$method), $args) == true;
 	}
 	
 	
