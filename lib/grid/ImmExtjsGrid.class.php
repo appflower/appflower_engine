@@ -608,24 +608,55 @@ class ImmExtjsGrid
 		if(count($this->filters)>0)
 		{		
 			$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/EditableItem.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/ComboMenu.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/RangeMenu.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/GridFilters.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/DrillFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/RePositionFilters.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/SaveSearchState.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/FilterInfo.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/Filter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/BooleanFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/ComboFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/DateFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/ListFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/NumericFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/StringFilter.js'),'css'=>array($this->immExtjs->getExamplesDir().'grid-filtering/resources/style.css')));
+			$savedFilters = afSaveFilterPeer::getFiltersByName(isset($this->attributes['name'])?$this->attributes['name']:$this->attributes['path']);
+			$fc = 0;
+			$str = '';
+			foreach($savedFilters as $f){
+				if($str == "") $str.=',"-"';
+				if($fc > 4) break;			
+				$str .= ',{
+							text:"'.++$fc.'. '.((strlen($f->getName())>25)?(substr($f->getName(),0,25).'...'):$f->getName()).'",
+							handler:function(){
+								var grid = '.$this->privateName.';
+								var filters = grid.filters;
+								if(!filters) return;							
+								var saveFilter = Ext.ux.SaveSearchState(grid);							
+								saveFilter.restore(\''.$f->getFilter().'\',"'.$f->getName().'");
+							}
+						}';
+			}
 			// Add reset filters on menu action if there is filter in grid
-			$this->addMenuActionsItem(array('label'=>'Filters','icon'=>'/images/famfamfam/drink.png','listeners'=>array('click'=>array('parameters'=>'','source'=>'var grid = '.$this->privateName.';
+			$this->addMenuActionsItem(array('label'=>'Filters','iconCls'=>'icon-filter','menu'=>$this->immExtjs->asVar('[
+				{
+					iconCls:"icon-folder",
+					text:"Saved filters detail",
+					handler:function(){
+						var grid = '.$this->privateName.';
+						var filters = grid.filters;
+						if(!filters) return;							
+						var saveFilter = Ext.ux.SaveSearchState(grid);
+						saveFilter.viewSavedList();
+					}
+				},{
+					text:"Save current filter",
+					iconCls:"icon-save",
+					handler:function(){
+						var grid = '.$this->privateName.';
+						var filters = grid.filters;
+						if(!filters) return;							
+						var saveFilter = Ext.ux.SaveSearchState(grid);
+						saveFilter.save();
+					}
+				}'.$str.'
+			]')));			
+			
+			/*$this->addMenuActionsItem(array('label'=>'Filters','icon'=>'/images/famfamfam/drink.png','listeners'=>array('click'=>array('parameters'=>'','source'=>'var grid = '.$this->privateName.';
 							var filters = grid.filters;
 							if(!filters) return;							
 							var saveFilter = Ext.ux.SaveSearchState(grid);
-							saveFilter.viewSavedList();'))));				
-			$this->addMenuActionsItem(array('xtype'=>'menuseparator'));			
-			$savedFilters = afSaveFilterPeer::getFiltersByName(isset($this->attributes['name'])?$this->attributes['name']:$this->attributes['path']);
-			$fc = 0;
-			foreach($savedFilters as $f){
-				//if($fc > 4) break;			
-				$this->addMenuActionsItem(array('label'=>++$fc.". ".$f->getName(),'listeners'=>array('click'=>array('parameters'=>'','source'=>'
-							var grid = '.$this->privateName.';
-							var filters = grid.filters;
-							if(!filters) return;							
-							var saveFilter = Ext.ux.SaveSearchState(grid);							
-							saveFilter.restore(\''.$f->getFilter().'\',"'.$f->getName().'");'))));	
-			}
+							saveFilter.viewSavedList();'))));		*/		
+				
+			
 		}
 		$this->addMenuActions();
 		
