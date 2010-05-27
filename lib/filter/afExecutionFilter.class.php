@@ -17,13 +17,23 @@ class afExecutionFilter extends sfExecutionFilter {
     }
 
     /**
-     * Uses XmlParser to render the view if the action has its XML config.
+     * Recognizes if the viewName is a JSON array
+     * or an XML config view.
      */
     private static function interpretView($actionInstance, $viewName) {
+        if(is_array($viewName)) {
+            return $actionInstance->renderText(json_encode($viewName));
+        }
+
         if($viewName !== sfView::SUCCESS) {
             return $viewName;
         }
 
+        return self::layoutExtIfNeeded($actionInstance);
+    }
+
+    private static function layoutExtIfNeeded($actionInstance) {
+        $viewName = sfView::SUCCESS;
         if(XmlParser::isLayoutStarted()) {
             return $viewName;
         }
