@@ -1142,14 +1142,14 @@ class parserActions extends sfActions
 							switch ($filters[$i]['data']['comparison']) {
 								case 'eq' : 
 									//$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::EQUAL);
-									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::GREATER_THAN);
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',Tz::pickTime(strtotime($filters[$i]['data']['value']))),Criteria::GREATER_THAN);
 									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])+(24*60*60)),Criteria::LESS_THAN);
 									break;
 								case 'lt' : 
-									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::LESS_THAN);
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',Tz::pickTime(strtotime($filters[$i]['data']['value'])+(24*60*60))),Criteria::LESS_THAN);
 									break;
 								case 'gt' : 
-									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::GREATER_THAN);
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',Tz::pickTime(strtotime($filters[$i]['data']['value']))),Criteria::GREATER_THAN);
 									break;
 							}
 						break;
