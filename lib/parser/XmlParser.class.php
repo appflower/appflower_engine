@@ -2407,7 +2407,7 @@ class XmlParser extends XmlParserTools {
 				$tools->addItem(array('id'=>'gear','qtip'=>'Setting','handler'=>array('parameters'=>'e,target,panel','source'=>"ajax_widget_popup('".$parse['params']['settings']."','Settings',panel)")));
 			}		
 			//$tools->addItem(array('id'=>'start-reload','handler'=>array('parameter'=>'e,target,panel','source'=>'this.id="stop-reload"')));	
-			$tools->addItem(array('id'=>'close','qtip'=>'Close','handler'=>array('parameters'=>'e,target,panel','source'=>"panel.ownerCt.remove(panel, true);")));
+			$tools->addItem(array('id'=>'close','qtip'=>'Close','handler'=>array('parameters'=>'e,target,panel','source'=>"var portal=panel.ownerCt.ownerCt;panel.ownerCt.remove(panel, true);portal.onWidgetDrop();")));
 		
 			/***********************************************************/
 			$unique_id = md5(microtime());
