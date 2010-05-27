@@ -630,4 +630,4 @@ sfConfig::set('Ext.ux.GMapPanel',
 );
 
 // normal sfExecutionFilter is used even when sfCompat10Plugin is enabled
-sfConfig::set('sf_execution_filter', array('sfExecutionFilter', array('execution')));
+sfConfig::set('sf_execution_filter', array('afExecutionFilter', array('execution')));

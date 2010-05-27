@@ -39,12 +39,12 @@ class afConfigUtils {
         }
 
         $instance = new $moduleClass($context, $module, $action);
-        self::setDefaultActionVars($instance);
         $instance->isPageComponent = true;
         $instance->preExecute();
         $instance->execute($request);
         $instance->postExecute();
 
+        self::setDefaultActionVars($instance);
         return $instance->getVarHolder()->getAll();
     }
 

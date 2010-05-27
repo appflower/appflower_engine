@@ -65,7 +65,8 @@ class XmlParser extends XmlParserTools {
 		$widgetHelpSettings;
 		
 	private static
-		$instance;
+		$instance,
+		$started = false;
 		
 	public 
 		$dschecked = false;
@@ -84,6 +85,7 @@ class XmlParser extends XmlParserTools {
 		if(self::$instance) {
 			return true;
 		}
+		self::$started = true;
 		
 		if(!defined("NODES")) {
 			define("NODES",1);	
@@ -3513,6 +3515,10 @@ if(response.message) {
 		$actionInstance->setLayout("layoutExtjs");
 		self::setTemplateAppFlower($actionInstance);
 		return sfView::SUCCESS;
+	}
+
+	public static function isLayoutStarted() {
+		return self::$started;
 	}
 	
     /**
