@@ -142,7 +142,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 		
 		/* Filter by filterby parameter */		
 		if(this.filterby && this.filterbyKeyword){
-			var ss = new Ext.ux.SaveSearchState(this.grid);
+			var ss = new Ext.ux.SaveSearchState(this.grid,this.mode);
 			ss.restore(this.filterby, this.filterbyKeyword);
 		}
 		

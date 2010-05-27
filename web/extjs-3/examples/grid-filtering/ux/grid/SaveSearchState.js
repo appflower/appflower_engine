@@ -5,7 +5,7 @@
 * Get the current search state of the grid filter
 */
 Ext.ns("Ext.ux");
-Ext.ux.SaveSearchState = function(grid){	
+Ext.ux.SaveSearchState = function(grid,mode){	
     var filtersObj = grid.filters;    
     if(!filtersObj) return;
     var p = new Ext.state.Provider();
@@ -174,7 +174,9 @@ Ext.ux.SaveSearchState = function(grid){
     	if(!grid.originalTitle){
     		grid.originalTitle = grid.title;
     	}
-    	grid.setTitle(grid.originalTitle+": <font color=red>(Filtered by keyword: '"+keyword.replace(/<\S[^><]*>/g, "")+"')</font>");    	
+    	if(mode == "menu"){
+    		grid.setTitle(grid.originalTitle+": <font color=red>(Filtered by keyword: '"+keyword.replace(/<\S[^><]*>/g, "")+"')</font>");
+    	}
     	filtersObj.clearFilters();
     	filtersObj.filters.each(function(filter){	
     		var json_array = Ext.util.JSON.decode(json);    		

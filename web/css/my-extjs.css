@@ -35,6 +35,9 @@
 .nade-add { background-image:url( /images/famfamfam/add.png ) !important; }
 .patch-install { background-image:url( /images/famfamfam/plugin_go.png ) !important; }
 .patch-delete { background-image:url( /images/famfamfam/plugin_delete.png ) !important; }
+.icon-filter { background-image:url( /images/famfamfam/drink.png ) !important; }
+.icon-save { background-image:url( /images/famfamfam/disk.png ) !important; }
+.icon-folder { background-image:url( /images/famfamfam/folder.png ) !important; }
 
 .icon-expand-row{background:url('/images/plus.png') no-repeat center left !important;}
 .icon-plus{background:url('/images/famfamfam/add.png') no-repeat center left !important;}
