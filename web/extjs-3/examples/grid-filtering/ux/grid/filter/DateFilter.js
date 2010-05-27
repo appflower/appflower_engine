@@ -61,11 +61,13 @@ Ext.ux.grid.filter.DateFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	
 	setValue: function(value){
 		for(var key in this.dates)
-			if(value[key]){
-				this.dates[key].menu.picker.setValue(value[key]);
-				this.dates[key].setChecked(true);
-			} else {
-				this.dates[key].setChecked(false);
+			if(value[key] && value[key].toString().match(/\d{4}-\d{2}-\d{2}/)){
+				if(value[key]){			
+					this.dates[key].menu.picker.setValue(value[key]);
+					this.dates[key].setChecked(true);				
+				} else {
+					this.dates[key].setChecked(false);
+				}
 			}
 	},
 	
