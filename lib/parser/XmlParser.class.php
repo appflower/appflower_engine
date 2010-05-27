@@ -3085,27 +3085,10 @@ class XmlParser extends XmlParserTools {
 				if(isset($parse["rowactions"])) {
 					
 					$actions = $grid->startRowActions(array('header'=>'Actions'));
-					$default_actions_tooltip = array(
-						"Delete"=>array("delete","remove","erase"),
-						"Edit"=>array("edit","modify","update"),
-						"View"=>array("view","show","display","detail","details"),
-						"Expand"=>array("expand")
-					);
-					
 					$cnt = 1;
 					foreach($parse["rowactions"] as $action_name => $action) {						
 						self::addConfirmation($action_name, $action['attributes']);
-						if(!isset($action["attributes"]["tooltip"])){ 
-							foreach($default_actions_tooltip as $key=>$value){
-								foreach($value as $v){
-									if(stristr($action_name,$v)){
-										$action["attributes"]["tooltip"] = $key;
-										break;
-									}
-								}
-								if(isset($action["attributes"]["tooltip"])) break;
-							}
-						}
+						self::fillTooltip($action["attributes"]);
 				
 						if(isset($parse["form"]) && $action["attributes"]["url"] === "/#") {
 							$parse["rowactions"][$action_name]["attributes"]["url"] = $parse["form"]."#";
@@ -3545,6 +3528,30 @@ if(response.message) {
 			}
 		}
 		return $url;
+	}
+
+	private static function fillTooltip(&$attributes) {
+		if(isset($attributes['tooltip'])){ 
+			return;
+		}
+
+		$default_actions_tooltip = array(
+			'Delete'=>array('delete','remove','erase'),
+			'Edit'=>array('edit','modify','update'),
+			'View'=>array('view','show','display','detail','details'),
+			'Expand'=>array('expand')
+		);
+
+		$action_name = $attributes['name'];
+		$lowered_name = strtolower($action_name);
+		foreach($default_actions_tooltip as $key=>$names){
+			if(in_array($lowered_name, $names, true)) {
+				$attributes['tooltip'] = $key;
+				return;
+			}
+		}
+
+		$attributes['tooltip'] = $action_name;
 	}
 
 	/**
