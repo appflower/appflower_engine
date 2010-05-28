@@ -39,17 +39,6 @@ class datasourceParser extends XmlBaseElementParser {
 		self::add("datasource/method/name",$method);
 		self::add("datasource/method/type",$type);
 		
-		if($type == "instance") {
-			if($it->getListLength() == 0) {
-				throw new XmlParserException("Datasource method's type is instance, but no arguments provided!");
-			} else if(!is_numeric(self::$parser->get($it->current())) && self::$parser->get($it->current()) != "{id}") {
-				//throw new XmlParserException("Datasource method's type is instance, but first argument is not an id!");
-			} else if($method == "retrieveByPk" && $it->getListLength() != 1) {
-				throw new XmlParserException("Datasource method's type is instance, and method is retrieveByPk, but there are more than 1 arguments provided!");
-			}		
-		}
-		
-		
 		if($it->getListLength() > 0) {
 			self::parseValues($it);
 			$it->rewind();

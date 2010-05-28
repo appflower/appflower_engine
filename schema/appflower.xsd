@@ -1037,7 +1037,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         	<xs:element ref="i:param" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="name" type="xs:token" use="required" />
-        <xs:attribute name="type" type="i:fetchType" use="optional" default="instance" />
+        <xs:attribute name="type" type="i:fetchType" use="optional" default="static" />
       </xs:complexType>
     </xs:element>
     
