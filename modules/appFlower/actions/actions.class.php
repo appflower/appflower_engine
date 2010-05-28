@@ -44,15 +44,54 @@ class appFlowerActions extends sfActions
     {	
     	$idXml=$this->hasRequestParameter('idXml')?$this->getRequestParameter('idXml'):false;
     	
-    	$info['html']='Help not found';
+    	if($idXml) {
+    		$info['html'] = "<table border='0' cellpadding='0' cellspacing='0' id='whelp'><tr><th colspan=2><strong>Widget Help</strong></th></tr>";
+    		
+    		$xp = XmlParser::readDocumentByUri($idXml);	
     	
-    	if($idXml)
-    	{
-	    	$info['html']='some <b>html</b>';
-	    	$info['winConfig']['title']='some title';
+    		// Title
+    		
+    		$title = $xp->evaluate("//i:title")->item(0)->nodeValue;
+    		
+    		$wh = $xp->evaluate("//i:description");
+    		if($wh->length == 1) {
+    			$info['html'] .= "<tr><td colspan=2>".$wh->item(0)->nodeValue."</td></tr>";
+    		} else {
+    			$info['html'] .= "<tr><td colspan=2>Not available..</td></tr>";
+    		}
+    		
+    		$texts = $xp->evaluate("//i:comment");
+    		
+    		$info['html'] .= "<tr><th><strong>Field</strong></th><th><strong>Help text</strong></th></tr>";
+    		
+    		$empty = 0;
+    		
+    		if($texts->length) {
+    			foreach($texts as $t) {
+	    			$p = $t->parentNode;
+	    			if($p) {
+	    				$label = $p->getAttribute("label");
+	    				if(trim($t->nodeValue)) {
+	    					$value = $t->nodeValue;
+	    					$info['html'] .= "<tr><td>".$label."</td><td>".$value."</td></tr>";	
+	    				} else {
+	    					$empty++;
+	    				}
+	    			}
+	    		}	
+    		} 
+    		
+    		if(!$texts->length || $empty == $texts->length) {
+    			$info['html'] .= "<tr><td colspan=2>Not available..</td></tr>";
+    		}
+    		
+    		
+    		$info['html'] .= "</table>";
+	    	$info['winConfig']['title']=$title." Help";
 	    	$info['winConfig']['width']=500;
 	    	$info['winConfig']['heigh']=300;
-    	}   	
+    		
+    	}  	
     	
     	$info=json_encode($info);
 		

@@ -255,3 +255,23 @@
 	color:#0000ff;
 	text-decoration:underline;
 }
+
+/* Widget Help Popup  */
+
+#whelp {
+   margin: 4px;
+   width: 474px;
+}
+
+#whelp th {
+	font-size: 1.2em; 
+	font-weight: bold !important;
+	background: #eee;
+	border-bottom: dashed 2px gray;
+	padding-left: 4px;
+	}
+
+#whelp td {
+	padding: 4px;	
+}
+
