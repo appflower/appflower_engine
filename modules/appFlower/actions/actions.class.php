@@ -45,10 +45,14 @@ class appFlowerActions extends sfActions
     	$idXml=$this->hasRequestParameter('idXml')?$this->getRequestParameter('idXml'):false;
     
     	if($idXml) {
-    		$info['html'] = "<table border='0' cellpadding='0' cellspacing='0' id='whelp'><tr><th colspan=2><strong>Widget Help</strong></th></tr>";
+    		$info['html'] = "<table border='0' cellpadding='0' cellspacing='0' id='whelp'><tr><th colspan=3><strong>Widget Help</strong></th></tr>";
     		
     		$xp = XmlParser::readDocumentByUri($idXml);	
     	
+    		// View type
+    		
+    		$view = $xp->evaluate("//i:view")->item(0)->getAttribute("type");
+    		
     		// Title
     		
     		$title = $xp->evaluate("//i:title")->item(0)->nodeValue;
@@ -56,43 +60,49 @@ class appFlowerActions extends sfActions
     		$wh = $xp->evaluate("//i:description");
     
     		if($wh->length) {
-    			$info['html'] .= "<tr><td colspan=2>".$wh->item(0)->nodeValue."</td></tr>";
+    			$info['html'] .= "<tr><td colspan=3>".$wh->item(0)->nodeValue."</td></tr>";
     		} else {
-    			$info['html'] .= "<tr><td colspan=2>Not available..</td></tr>";
+    			$info['html'] .= "<tr><td colspan=3>Not available..</td></tr>";
     		}
     		
-    		$texts = $xp->evaluate("//i:comment");
-    		
-    		$info['html'] .= "<tr><th><strong>Field</strong></th><th><strong>Help text</strong></th></tr>";
-    		
-    		$empty = 0;
-    		
-    		if($texts->length) {
-    			foreach($texts as $t) {
-	    			$p = $t->parentNode;
-	    			if($p) {
-	    				$label = $p->getAttribute("label");
-	    				if(!trim($label) || !trim($t->nodeValue)) {
-	    					$empty++;
-	    					continue;
-	    				}
-	    				if(trim($t->nodeValue)) {
-	    					$value = $t->nodeValue;
-	    					$info['html'] .= "<tr><td>".$label."</td><td>".$value."</td></tr>";	
-	    				} 
+    		if($view == "edit" || $view == "show") {
+	    		$fields = $xp->evaluate("//i:field[@type!='hidden']");
+	    		
+	    		$info['html'] .= "<tr><th><strong>Field</strong></th><th><strong>Description</strong></th><th><strong>Tip</strong></th></tr>";
+	    		
+	    		$tmp = array();
+	    		$found = false;
+	    		
+	    		foreach($fields as $t) {
+	    			$comment = $xp->evaluate("./i:comment",$t);
+	    			if($comment->length == 1) {
+	    				$c = $comment->item(0)->nodeValue;
+	    			} else {
+	    				$c = "";
 	    			}
-	    		}	
-    		} 
-    		
-    		if(!$texts->length || $empty == $texts->length) {
-    			$info['html'] .= "<tr><td colspan=2>Not available..</td></tr>";
+	    			
+	    			$tip = $xp->evaluate("./i:help",$t);
+	    			if($tip->length == 1) {
+	    				$h = $tip->item(0)->nodeValue;
+	    			} else {
+	    				$h = "";
+	    			}
+	    			
+	    			if(trim($c) || trim($h)) {	
+		    			$info['html'] .= "<tr><td>".$t->getAttribute("label")."</td><td>".$c."</td><td>".$h."</td></tr>";	
+		    			$found = true; 
+	    			}
+	    		} 
+	    		
+	    		if(!$found) {
+	    			$info['html'] .= "<tr><td colspan=2>Not available..</td></tr>";
+	    		}
     		}
-    		
-    		
+ 
     		$info['html'] .= "</table>";
 	    	$info['winConfig']['title']=$title." Help";
 	    	$info['winConfig']['width']=500;
-	    	$info['winConfig']['heigh']=300;
+	    	$info['winConfig']['height']=300;
     		
     	}  	
     	
