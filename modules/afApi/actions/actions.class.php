@@ -101,6 +101,11 @@ class afApiActions extends sfActions
         }
     }
 
+    /**
+     * Rewrites the old condition.
+     * Example: "MyPeer,isEnabled,extra1,extra2", array('id') ->
+     * "MyPeer::isEnabled(array($id, $extra1, $extra2))"
+     */
     private static function rewriteIfOldCondition($condition, $params) {
         if(preg_match('/^[a-zA-Z_][a-zA-Z_0-9]*,/', $condition) !== 1) {
             return $condition;
