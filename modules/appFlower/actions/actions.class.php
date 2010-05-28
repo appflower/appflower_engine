@@ -43,7 +43,7 @@ class appFlowerActions extends sfActions
 	public function executePopupHelp() 
     {	
     	$idXml=$this->hasRequestParameter('idXml')?$this->getRequestParameter('idXml'):false;
-    	
+    
     	if($idXml) {
     		$info['html'] = "<table border='0' cellpadding='0' cellspacing='0' id='whelp'><tr><th colspan=2><strong>Widget Help</strong></th></tr>";
     		
@@ -54,7 +54,8 @@ class appFlowerActions extends sfActions
     		$title = $xp->evaluate("//i:title")->item(0)->nodeValue;
     		
     		$wh = $xp->evaluate("//i:description");
-    		if($wh->length == 1) {
+    
+    		if($wh->length) {
     			$info['html'] .= "<tr><td colspan=2>".$wh->item(0)->nodeValue."</td></tr>";
     		} else {
     			$info['html'] .= "<tr><td colspan=2>Not available..</td></tr>";
