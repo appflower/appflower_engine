@@ -25,10 +25,21 @@ Ext.ux.plugins.HelpText = {
 			            break;
 			            
 			            case "inline":
-			            	var label=this.ownerCt.body.dom.firstChild.firstChild;
+			            	switch(this.xtype)
+			            	{
+			            		case "radio":
+			            			var label=this.ownerCt.body.dom.firstChild.childNodes[1].firstChild;
+			            			var style="padding-left:2px;";
+			            			break;
+			            		default:
+			            			var label=this.ownerCt.body.dom.firstChild.firstChild;
+			            			var style="float:left;padding-right:2px;";
+			            			break;
+			            	}			            	
+			            	
 			            	Ext.DomHelper.append(label,{
-		                        tag: 'div',
-		                        style: 'float:left;padding-right:2px;',
+		                        tag: 'span',
+		                        style: style,
 		                        html: '<img src="/appFlowerPlugin/images/help.png" qtip="'+this.helpText+'">'
 		                    });
 			            break;
