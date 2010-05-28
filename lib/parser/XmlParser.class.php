@@ -201,6 +201,7 @@ class XmlParser extends XmlParserTools {
 		// Create layout
 		
 		if($type === self::PANEL) {
+			$this->panelIdXml = $this->context->getModuleName()."/".$this->context->getActionName();
 			self::$masterLayout = null;
 			$this->layout = new ImmExtjsPanelLayout();
 		} else {
@@ -2838,7 +2839,7 @@ class XmlParser extends XmlParserTools {
 					$this->layout->addItem($this->area_types[$current_area],$form);	
 
 					if($this->area_types[$current_area] == "center") {
-						$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():'')));	
+						$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''), "idxml" => $this->panelIdXml));	
 					}
 				} else {
 					
@@ -2919,7 +2920,7 @@ class XmlParser extends XmlParserTools {
 							return $pn;
 						}
 					$this->layout->addItem("center",$pn);
-					$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():'')));	
+					$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''), "idxml" => $this->panelIdXml));	
 				}
 				
 			} else if($view == "info") {
@@ -2969,7 +2970,7 @@ class XmlParser extends XmlParserTools {
 				
 				if(!$this->multi) {
 					$this->layout->addItem('center',$form);	
-					$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():'')));
+					$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''), "idxml" => $this->panelIdXml));
 				} else {
 					
 					if($this->type != self::PAGE) {
@@ -3279,7 +3280,7 @@ class XmlParser extends XmlParserTools {
 					if(!$this->multi) {
 						$this->layout->addItem($this->area_types[$current_area],$grid);
 						if($this->area_types[$current_area] == "center") {
-							$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():'')));		
+							$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''), "idxml" => $this->panelIdXml));		
 						}
 					} else {
 						
