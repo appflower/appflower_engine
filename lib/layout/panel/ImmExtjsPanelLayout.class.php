@@ -31,7 +31,7 @@ class ImmExtjsPanelLayout extends ImmExtjsLayout
 				          'frame'=>true,
 				          'collapsible'=>true,
 				          'style'=>'padding-right:5px;',
-				          //'tools'=>$tools->end()
+				          'tools'=>$tools->end()
 		);
 		
 		

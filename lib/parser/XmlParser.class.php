@@ -1543,8 +1543,7 @@ class XmlParser extends XmlParserTools {
 		try {
 			foreach($elements as $e) { 
 				if($profile) {
-					if($this->name($e) == "comment" && $this->getWidgetId() != "appFlower/editHelpSettings" && ($this->widgetHelpSettings->getHelpType() == 0 || 
-					$this->widgetHelpSettings->getHelpType() == 2)) {
+					if($this->name($e) == "comment" && $this->getWidgetId() != "appFlower/editHelpSettings" && $this->widgetHelpSettings->getHelpType() == 0) {
 						continue;		
 					}	
 				}
@@ -1757,7 +1756,15 @@ class XmlParser extends XmlParserTools {
 		} else {
 			$data["attributes"]["help"] = "";
 		}
-					
+		
+		if($this->widgetHelpSettings->getHelpType()) {
+			if($this->widgetHelpSettings->getHelpType() == 1) {
+				$data["attributes"]["helpType"] = "comment"; 
+			} else {
+				$data["attributes"]["helpType"] = "inline"; 
+			}	
+		}
+		
 		if(isset($data["comment"])) {
 			if(!isset($data["attributes"]["comment"])) {
 				$data["attributes"]["comment"] = $data["comment"];	
@@ -2422,6 +2429,12 @@ class XmlParser extends XmlParserTools {
 			//$tools->addItem(array('id'=>'start-reload','handler'=>array('parameter'=>'e,target,panel','source'=>'this.id="stop-reload"')));	
 			$tools->addItem(array('id'=>'close','qtip'=>'Close','handler'=>array('parameters'=>'e,target,panel','source'=>"var portal=panel.ownerCt.ownerCt;panel.ownerCt.remove(panel, true);portal.onWidgetDrop();")));
 		
+			// Help popup
+			
+			if($this->widgetHelpSettings->getPopupHelpIsEnabled()) {
+				$tools->addItem(array('id'=>'help','handler'=>array('parameters'=>'e,target,panel','source'=>"afApp.loadPopupHelp(panel.idxml);")));	
+			}
+			
 			/***********************************************************/
 			$unique_id = md5(microtime());
 			$widgetHelp = ($this->type !== self::WIZARD && isset($parse["description"]) && $this->widgetHelpSettings->getWidgetHelpIsEnabled());
@@ -2823,7 +2836,7 @@ class XmlParser extends XmlParserTools {
 				
 				if(!$this->multi) {
 					$this->layout->addItem($this->area_types[$current_area],$form);	
-					
+
 					if($this->area_types[$current_area] == "center") {
 						$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():'')));	
 					}
