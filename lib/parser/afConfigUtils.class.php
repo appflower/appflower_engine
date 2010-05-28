@@ -15,6 +15,17 @@ class afConfigUtils {
         return $path;
     }
 
+    private static function getActionsPath($module) {
+        $context = sfContext::getInstance();
+        $root = sfConfig::get('sf_root_dir');
+        $application = $context->getConfiguration()->getApplication();
+        $path = "$root/apps/$application/modules/$module/actions/actions.class.php";
+        if(!file_exists($path)) {
+            $path = "$root/plugins/appFlowerPlugin/modules/$module/actions/actions.class.php";
+        }
+        return $path;
+    }
+
     /**
      * Returns the XML config DOM document.
      */
@@ -33,9 +44,7 @@ class afConfigUtils {
         $context = sfContext::getInstance();
         $moduleClass = $module.'Actions';
         if(!class_exists($moduleClass)) {
-            $root = sfConfig::get('sf_root_dir');
-            $application = $context->getConfiguration()->getApplication();
-            require_once("$root/apps/$application/modules/$module/actions/actions.class.php");
+            require_once(self::getActionsPath($module));
         }
 
         $instance = new $moduleClass($context, $module, $action);
