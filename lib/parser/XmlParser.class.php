@@ -2410,7 +2410,6 @@ class XmlParser extends XmlParserTools {
 			$tools->addItem(array('id'=>'close','qtip'=>'Close','handler'=>array('parameters'=>'e,target,panel','source'=>"var portal=panel.ownerCt.ownerCt;panel.ownerCt.remove(panel, true);portal.onWidgetDrop();")));
 		
 			/***********************************************************/
-			$unique_id = md5(microtime());
 			$widgetHelp = ($this->type !== self::WIZARD && isset($parse["description"]) && $this->widgetHelpSettings->getWidgetHelpIsEnabled());
 			
 			if($widgetHelp) {
@@ -3062,24 +3061,7 @@ class XmlParser extends XmlParserTools {
 					
 				}
 				
-				// Reads the maxperpage param.
-				if(isset($parse["params"]['maxperpage'])) {
-					$limit = $parse["params"]['maxperpage'];
-				} else {
-					$limit = 20;
-				}
-				if(isset($parse["params"]['proxystart'])) {
-					$parse["proxystart"] = $parse["params"]['proxystart'];
-				}
-				
-				$proxyUrl = $host."/".$parse['proxy'];
-				$proxyUrl = self::setupProxyUrl($proxyUrl, $parse, $unique_id);
-				$args = array('url'=>$proxyUrl, 'limit'=>$limit, 'start' => $parse["proxystart"]);
-				if(isset($parse["stateId"]) && $parse["stateId"] == "true") {
-					$args['stateId'] = true;
-				}
-				$grid->setProxy($args);
-				
+				$grid->setProxy(self::getProxyAttributes($parse));
 				
 				
 				if(isset($parse["rowactions"])) {
@@ -3514,8 +3496,24 @@ if(response.message) {
 		sfConfig::set('symfony.view.'.$actionInstance->getModuleName().'_'.$actionInstance->getActionName().'_template', $name);
 	}
 
-	private static function setupProxyUrl($url, $parse, $unique_id)
+	private static function getProxyAttributes($parse) {
+		$start = ArrayUtil::get($parse, 'params', 'proxystart', 0);
+		$limit = ArrayUtil::get($parse, 'params', 'maxperpage',
+			afDataFacade::DEFAULT_PROXY_LIMIT);
+		$proxyUrl = '/'.ArrayUtil::get($parse, 'proxy',
+			afDataFacade::DEFAULT_PROXY_URL);
+		$proxyUrl = self::setupProxyUrl($proxyUrl, $parse);
+
+		$args = array('url'=>$proxyUrl, 'limit'=>$limit, 'start' => $start);
+		if(isset($parse["stateId"]) && $parse["stateId"] === "true") {
+			$args['stateId'] = true;
+		}
+		return $args;
+	}
+
+	private static function setupProxyUrl($url, $parse)
 	{
+		$unique_id = uniqid();
 		$ignoredParams = array('module', 'action');
 		$url = UrlUtil::addParam($url, 'uid', $unique_id);
 		$url = UrlUtil::addParam($url, 'config',

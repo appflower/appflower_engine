@@ -1,6 +1,10 @@
 <?php
 
 class afDataFacade {
+    const 
+        DEFAULT_PROXY_LIMIT = 20,
+        DEFAULT_PROXY_URL = 'afApi/listjson';
+
     public static function getDataSource($view, $requestParams) {
 
         $source = self::createDataSource($view,
@@ -15,7 +19,8 @@ class afDataFacade {
 
     private static function setupDataSource($view, $source, $params) {
         $source->setStart(ArrayUtil::get($params, 'start', 0));
-        $source->setLimit(ArrayUtil::get($params, 'limit', 20));
+        $source->setLimit(ArrayUtil::get($params, 'limit', 
+           self::DEFAULT_PROXY_LIMIT));
         $sortColumn = ArrayUtil::get($params, 'sort', null);
         if($sortColumn) {
             $sortColumn = self::getSortColumn($view, $sortColumn);
