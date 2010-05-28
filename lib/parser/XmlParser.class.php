@@ -3500,8 +3500,8 @@ if(response.message) {
 		$start = ArrayUtil::get($parse, 'params', 'proxystart', 0);
 		$limit = ArrayUtil::get($parse, 'params', 'maxperpage',
 			afDataFacade::DEFAULT_PROXY_LIMIT);
-		$proxyUrl = '/'.ArrayUtil::get($parse, 'proxy',
-			afDataFacade::DEFAULT_PROXY_URL);
+		$proxyUrl = UrlUtil::abs(ArrayUtil::get($parse, 'proxy',
+			afDataFacade::DEFAULT_PROXY_URL));
 		$proxyUrl = self::setupProxyUrl($proxyUrl, $parse);
 
 		$args = array('url'=>$proxyUrl, 'limit'=>$limit, 'start' => $start);

@@ -77,27 +77,23 @@ class afApiActions extends sfActions
         $actionNumber = 0;
         foreach($rowactions as $action) {
             $actionNumber++;
-            $url = $action->get('@url');
-            $params = $action->get('@params', 'id');
+            $url = UrlUtil::abs($action->get('@url'));
+            $params = $action->get('@params', $action->get('@pk', 'id'));
             $params = explode(',', $params);
             $condition = $action->get('@condition');
             if($condition) {
-                $parts = explode(',', $condition);
-                $class = $parts[0];
-                $method = $parts[1];
-                $extraArgs = array_slice($parts, 2);
+                $condition = self::rewriteIfOldCondition($condition, $params);
             }
 
             foreach($rows as &$row) {
-                $urlParams = array();
-                foreach($params as $param) {
-                    if(isset($row[$param])) {
-                        $urlParams[$param] = $row[$param];
+                if(!$condition || self::isRowActionEnabled($condition, $row)) {
+                    $urlParams = array();
+                    foreach($params as $param) {
+                        if(isset($row[$param])) {
+                            $urlParams[$param] = $row[$param];
+                        }
                     }
-                }
 
-                if(!$condition || self::isRowActionEnabled(
-                        $class, $method, $urlParams, $extraArgs)) {
                     $rowurl = UrlUtil::addParams($url, $urlParams);
                     $row['action'.$actionNumber] = $rowurl;
                 }
@@ -105,10 +101,27 @@ class afApiActions extends sfActions
         }
     }
 
-    private static function isRowActionEnabled($class, $method, $urlParams,
-        $extraArgs) {
-        $args = array_merge(array_values($urlParams), $extraArgs);
-        return XmlParser::isActionEnabled($class, $method, $args);
+    private static function rewriteIfOldCondition($condition, $params) {
+        if(preg_match('/^[a-zA-Z_][a-zA-Z_0-9]*,/', $condition) !== 1) {
+            return $condition;
+        }
+
+        $parts = explode(',', $condition);
+        $class = $parts[0];
+        $method = $parts[1];
+        $args = array_merge($params, array_slice($parts, 2));
+
+        foreach($args as $i => $name) {
+            $args[$i] = '$'.$name;
+        }
+        // The arguments are passed as an array.
+        // The old functions expect that.
+        $newCondition = "$class::$method(array(".implode(',', $args).'))';
+        return $newCondition;
+    }
+
+    private static function isRowActionEnabled($condition, $row) {
+        return afCall::evalute($condition, $row);
     }
 
     private function renderCsv($actionName, $source) {

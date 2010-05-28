@@ -37,9 +37,17 @@ class UrlUtil {
      * A faster link_to() for simple usages.
      */
     public static function link($name, $url) {
+        $url = self::abs($url);
+        return '<a href="'.$url.'">'.htmlspecialchars($name).'</a>';
+    }
+
+    /**
+     * Returns an /absolute URL.
+     */
+    public static function abs($url) {
         if(!StringUtil::startsWith($url, '/')) {
             $url = '/'.$url;
         }
-        return '<a href="'.$url.'">'.htmlspecialchars($name).'</a>';
+        return $url;
     }
 }
