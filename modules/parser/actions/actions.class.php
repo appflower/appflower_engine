@@ -633,7 +633,7 @@ class parserActions extends sfActions
 				if($parser['type'] == "static" && isset($parser['static_real_pagination']) && $parser['static_real_pagination']){
 					$tmp = $this->getItemsStaticFiltered($parser,$start,$limit,$filters);
 					$items = $tmp;					
-					$c = call_user_func_array(array($parser["datasource"]["class"],$parser["datasource"]["method"]["name"]),array($argParam,true));						
+					$c = afCall::funcArray(array($parser["datasource"]["class"],$parser["datasource"]["method"]["name"]),array($argParam,true));						
 					if($grid_data)					
 		  				$grid_data->totalCount = (int)$c;
 	  			}

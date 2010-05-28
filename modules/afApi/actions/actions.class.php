@@ -57,7 +57,7 @@ class afApiActions extends sfActions
             if(ArrayUtil::isTrue($parse, 'remoteLoad')) {
                 $criteria = array();
             } else {
-                $criteria = call_user_func_array(array($parse["datasource"]["class"],$parse["datasource"]["method"]["name"]),
+                $criteria = afCall::funcArray(array($parse["datasource"]["class"],$parse["datasource"]["method"]["name"]),
                     (isset($parse["datasource"]["method"]["params"])?$parse["datasource"]["method"]["params"]:array()));
             }
         }

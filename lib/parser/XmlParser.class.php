@@ -1792,7 +1792,7 @@ class XmlParser extends XmlParserTools {
 				if($data["value"]["type"] == 1 && $data["value"]["class"] == $this->process["parses"][$key]["datasource"]["class"]) {
 					if($this->process["parses"][$key]["datasource"]["method"]["type"] == "instance") {
 						$params = isset($this->process["parses"][$key]["datasource"]["method"]["params"])?$this->process["parses"][$key]["datasource"]["method"]["params"]: array(null);
-						$class = call_user_func_array(array($data["value"]["class"],$this->process["parses"][$key]["datasource"]["method"]["name"]),$params);
+						$class = afCall::funcArray(array($data["value"]["class"],$this->process["parses"][$key]["datasource"]["method"]["name"]),$params);
 						if(!$class || !is_object($class)) {
 							if($this->view == "show") {
 								throw new XmlParserException("Invalid id was specified, non-object value has been returned!");	
@@ -1824,7 +1824,7 @@ class XmlParser extends XmlParserTools {
 				
 				if($class) {
 				
-					$value = call_user_func_array(array($class,$method),$params);	
+					$value = afCall::funcArray(array($class,$method),$params);	
 					if(isset($data["attributes"]["content"])) {
 						$value = $data["attributes"]["content"];
 					}
@@ -3302,7 +3302,7 @@ class XmlParser extends XmlParserTools {
 						if(ArrayUtil::isTrue($parse, 'remoteLoad')) {
 							$criteria = array();
 						} else {
-							$criteria = call_user_func_array(array($parse["datasource"]["class"],$parse["datasource"]["method"]["name"]),
+							$criteria = afCall::funcArray(array($parse["datasource"]["class"],$parse["datasource"]["method"]["name"]),
 								(isset($parse["datasource"]["method"]["params"])?$parse["datasource"]["method"]["params"]:array()));	
 						}
 					}

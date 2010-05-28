@@ -19,7 +19,7 @@ class PublicCache {
      */
     public static function cacheNamed($key, $callback, $params) {
         if (!function_exists('apc_fetch')) {
-            return call_user_func_array($callback, $params);
+            return afCall::funcArray($callback, $params);
         }
 
         $result = apc_fetch($key);
@@ -28,7 +28,7 @@ class PublicCache {
         }
 
         //error_log("cache miss: $key");
-        $result = call_user_func_array($callback, $params);
+        $result = afCall::funcArray($callback, $params);
         apc_store($key, $result);
         return $result;
     }
