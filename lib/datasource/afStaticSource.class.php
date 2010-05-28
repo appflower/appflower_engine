@@ -61,7 +61,7 @@ class afStaticSource implements afIDataSource {
 
         // Results will be a numeric array of values.
         $this->results = array_values(
-            call_user_func_array($this->callback, $this->params));
+            afCall::funcArray($this->callback, $this->params));
     }
 }
 

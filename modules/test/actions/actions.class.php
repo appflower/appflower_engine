@@ -519,7 +519,7 @@ class testActions extends CustomActions
 		} else {
 			$parser["datasource"]["method"]["params"]["criteria"] = $parser["criteria"];
 			$parser["datasource"]["method"]["params"]["gid"] = $anode;
-			$c = call_user_func_array(array($parser["datasource"]["class"],$parser["datasource"]["method"]["name"]),
+			$c = afCall::funcArray(array($parser["datasource"]["class"],$parser["datasource"]["method"]["name"]),
 			$parser["datasource"]["method"]["params"]);
 		}
 

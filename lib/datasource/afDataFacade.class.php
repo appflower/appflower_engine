@@ -52,7 +52,7 @@ class afDataFacade {
         if($sourceType === 'orm') {
             list($callback, $params) = self::getDataSourceCallback($view);
             list($peer, $method) = $callback;
-            $criteria = call_user_func_array($callback, $params);
+            $criteria = afCall::funcArray($callback, $params);
             afFilterUtil::setFilters($peer, $criteria, $filters);
 
             $class = self::getClassFromPeerClass($peer);
