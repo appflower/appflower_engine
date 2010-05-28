@@ -72,12 +72,14 @@ class appFlowerActions extends sfActions
 	    			$p = $t->parentNode;
 	    			if($p) {
 	    				$label = $p->getAttribute("label");
+	    				if(!trim($label) || !trim($t->nodeValue)) {
+	    					$empty++;
+	    					continue;
+	    				}
 	    				if(trim($t->nodeValue)) {
 	    					$value = $t->nodeValue;
 	    					$info['html'] .= "<tr><td>".$label."</td><td>".$value."</td></tr>";	
-	    				} else {
-	    					$empty++;
-	    				}
+	    				} 
 	    			}
 	    		}	
     		} 
