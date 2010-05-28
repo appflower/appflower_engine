@@ -259,8 +259,7 @@
 /* Widget Help Popup  */
 
 #whelp {
-   margin: 4px;
-   width: 474px;
+   width: 100%;
 }
 
 #whelp th {

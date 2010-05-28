@@ -2910,7 +2910,7 @@ class XmlParser extends XmlParserTools {
 						'border'=>$parse["options"]["border"],
 						'header'=>$parse["options"]["header"],
 						'style'=>'',
-						'tools'=>$tools,
+						//'tools'=>$tools,
 						'autoHeight'=>$parse["options"]["autoHeight"],
 						'autoEnd'=>$parse["options"]["autoEnd"],
 						'portal'=>true));
