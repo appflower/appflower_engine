@@ -598,38 +598,27 @@ class XmlParser extends XmlParserTools {
 		
 	}
 	
-	public static function toggleAction($action,$info,$args = null) {
-		
-		$data = null;
-		
+	/**
+	 * Returns true if the action is enabled.
+	 */
+	private static function toggleAction($action,$info) {
+		$condition = '';
 		if(isset($info["conditions"][$action])) {
-			$data = $info["conditions"][$action];	
+			$condition = $info["conditions"][$action];	
 		} else if(isset($info["attributes"]["condition"])) {
-			$data = $info["attributes"]["condition"];
-		} 
-		
-		if(!$data) {
+			$condition = $info["attributes"]["condition"];
+		}
+
+		if(!$condition) {
 			return true;
 		}
 
-		$tmp = explode(",",$data);
-		$class = $tmp[0];
-		$method = $tmp[1];
-
-		unset($tmp[0],$tmp[1]);
-		
-		if(!$args) {
-			$args = $tmp;
-		}
-		
-		return self::isActionEnabled($class, $method, $args);
+		$condition = afCall::rewriteIfOldCondition($condition, array());
+		$actionInstance = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance();
+		return afCall::evaluate($condition,
+			$actionInstance->getVarHolder()->getAll()) == true;
 	}
 
-	public static function isActionEnabled($class, $method, $args) {
-		return call_user_func(array($class,$method), $args) == true;
-	}
-	
-	
 	/******************************************************************
 	*	PARSER PRIVATE FUNCTIONS
 	*	
