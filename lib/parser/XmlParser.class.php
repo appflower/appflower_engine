@@ -3166,9 +3166,9 @@ class XmlParser extends XmlParserTools {
 					//$grid->addMenuActionsItem(array('label'=>'Deselect All','icon'=>'/images/famfamfam/flag_red.png','listeners'=>array('click'=>array('parameters'=>'','source'=>$grid->privateName.".getSelectionModel().clearSelections()"))));
 				}
 				
-				if(isset($export_config["enabled"]) && $export_config["enabled"] === true && $parse["exportable"] == "true") {
+				if(isset($export_config["enabled"]) && $export_config["enabled"] === true && $parse["exportable"] != array("none")) {
 					
-					if(isset($parse["pager"]) && $parse["pager"] === "true") {
+					if(isset($parse["pager"]) && $parse["pager"] === "true" && in_array("page",$parse["exportable"])) {
 						$grid->addMenuActionsItem(array('label'=>'Export Page as CSV', 'icon'=>'/images/famfamfam/database_save.png','url' => '#','listeners'=>array('click'=> array('parameters'=>'','source'=>"window.location.href='/parser/csvexport?uid=".$unique_id."&export=page&start='+".$grid->privateName.
 						".store.lastOptions.params.start+'&limit='+".$grid->privateName.".store.lastOptions.params.limit+'&sort='+((".
 						$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.field : '')+'&dir='+((".
@@ -3191,9 +3191,10 @@ class XmlParser extends XmlParserTools {
 								   icon: Ext.MessageBox.QUESTION								   
 								});
 							';
-												
-						$grid->addMenuActionsItem(array('label'=>'Export first '.sfConfig::get("app_parser_max_items").' rows as CSV', 'confirmMsg' => 'foo', 'icon'=>'/images/famfamfam/database_save.png','url' => '#','listeners'=>array('click'=> array('parameters'=>'','source'=>$confirmFunction))));
-					
+
+						if(in_array("all",$parse["exportable"])) {
+							$grid->addMenuActionsItem(array('label'=>'Export first '.sfConfig::get("app_parser_max_items").' rows as CSV', 'confirmMsg' => 'foo', 'icon'=>'/images/famfamfam/database_save.png','url' => '#','listeners'=>array('click'=> array('parameters'=>'','source'=>$confirmFunction))));
+						}			
 						
 					} 					
 					
@@ -3211,13 +3212,16 @@ class XmlParser extends XmlParserTools {
 							if(isset($parse['remoteLoad']) && $parse['remoteLoad'] == "true") 
 								$fs = "false";		
 						
-						$grid->addMenuActionsItem(array('label'=>'Export '.(($fs === "true") ? "Selected" :  "All").' as CSV', 'forceSelection' => "true", 
-						'icon'=>'/images/famfamfam/database_save.png','url' => '#','listeners'=>array('click'=> array('parameters'=>'','source'=>
-						"frm = document.createElement('form'); field = document.createElement('input'); field.setAttribute('type','hidden'); field.setAttribute('name','selections'); field.value = ".
-						$grid->privateName.".getSelectionModel().getSelectionsJSON(); frm.appendChild(field); frm.action = '/parser/csvexport?uid=".
-						$unique_id."&_csrf_token=".$this->context->getRequest()->getAttribute("_csrf_token")."&export=".(($fs === "true") ? "selected" : "all")."&sort='+((".$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.field : '')+'&dir='+((".
-						$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.direction : '')+'&xsort='+((".
-						$grid->privateName.".store.lastOptions.params.xsort) ? ".$grid->privateName.".store.lastOptions.params.xsort : ''); frm.method='POST'; frm.name='frm1'; document.body.appendChild(frm); ".$noItemsSelectedFunction." frm.submit();"))));
+						if(($fs === "true" && in_array("selected",$parse["exportable"])) || ($fs !== "true" && in_array("all",$parse["exportable"]))) {
+
+							$grid->addMenuActionsItem(array('label'=>'Export '.(($fs === "true") ? "Selected" :  "All").' as CSV', 'forceSelection' => "true", 
+							'icon'=>'/images/famfamfam/database_save.png','url' => '#','listeners'=>array('click'=> array('parameters'=>'','source'=>
+							"frm = document.createElement('form'); field = document.createElement('input'); field.setAttribute('type','hidden'); field.setAttribute('name','selections'); field.value = ".
+							$grid->privateName.".getSelectionModel().getSelectionsJSON(); frm.appendChild(field); frm.action = '/parser/csvexport?uid=".
+							$unique_id."&_csrf_token=".$this->context->getRequest()->getAttribute("_csrf_token")."&export=".(($fs === "true") ? "selected" : "all")."&sort='+((".$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.field : '')+'&dir='+((".
+							$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.direction : '')+'&xsort='+((".
+							$grid->privateName.".store.lastOptions.params.xsort) ? ".$grid->privateName.".store.lastOptions.params.xsort : ''); frm.method='POST'; frm.name='frm1'; document.body.appendChild(frm); ".$noItemsSelectedFunction." frm.submit();"))));
+						}
 						
 						
 					}

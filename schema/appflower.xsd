@@ -91,7 +91,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		</xs:union>
 	</xs:simpleType>
   
-  
 	<xs:simpleType name="alignType">
 		<xs:annotation>
 			<xs:documentation>
@@ -1439,7 +1438,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	</xs:choice>
       	<xs:attribute name="tree" type="xs:boolean" use="optional" default="false" />
       	<xs:attribute name="selectable" type="xs:boolean" use="optional" default="true" />
-      	<xs:attribute name="exportable" type="xs:boolean" use="optional" default="true" />
+      	<xs:attribute name="exportable" type="i:listType" use="optional" default="all,page,selected" />
       	<xs:attribute name="title" type="xs:token" use="optional" default="" />
       	<xs:attribute name="select" type="xs:boolean" use="optional" default="false" />
       	<xs:attribute name="pager" type="xs:boolean" use="optional" default="true" />
