@@ -58,7 +58,7 @@ class afConfigUtils {
     }
 
     public static function setDefaultActionVars($actionInstance) {
-        $defaultVars = array('anode', 'filter');
+        $defaultVars = array('anode');
         foreach($defaultVars as $name) {
             if(!isset($actionInstance->$name)) {
                 $actionInstance->$name = $actionInstance->getRequestParameter(
