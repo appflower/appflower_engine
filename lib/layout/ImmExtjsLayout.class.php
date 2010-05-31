@@ -307,6 +307,14 @@ class ImmExtjsLayout
 		if(isset($this->immExtjs->private['toolbar']))
 		@$this->immExtjs->public['init'] .= "toolbar.render(document.body);";
 		
+		@$this->immExtjs->public['init'] .="
+		viewport.doLayout();	
+		setTimeout(function(){
+	        Ext.get('loading').remove();
+	        Ext.get('loading-mask').fadeOut({remove:true});
+	    }, 250);";
+
+		
 		$this->immExtjs->public['getViewport'] = "return viewport;";
 		$this->immExtjs->public['getViewport'] = $this->immExtjs->asMethod($this->immExtjs->public['getViewport']);
 		

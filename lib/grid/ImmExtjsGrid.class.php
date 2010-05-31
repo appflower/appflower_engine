@@ -232,7 +232,7 @@ class ImmExtjsGrid
 		
 	public function end()
 	{		
-		
+		$this->attributes['canMask']=$this->immExtjs->asMethod(array("parameters"=>"","source"=>"return !Ext.isIE&&!".$this->privateName.".disableLoadMask&&!Ext.get('loading');"));
 		
 		if(!$this->attributes['tree'])
 		{
@@ -444,7 +444,7 @@ class ImmExtjsGrid
 				));
 			
 			$beforeloadListener = "
-				if(!Ext.isIE&&!".$this->privateName.".disableLoadMask){".$this->privateName.".getEl().mask('Loading, please Wait...', 'x-mask-loading');}
+				if(".$this->privateName.".canMask()){".$this->privateName.".getEl().mask('Loading, please Wait...', 'x-mask-loading');}
 			";
 			
 			if(isset($this->proxy['stateId']))
@@ -466,13 +466,13 @@ class ImmExtjsGrid
 			$this->attributes[$storePrivateName]['listeners']['load']=$this->immExtjs->asMethod(array(
 																			"parameters"=>"object,records,options",
 																			"source"=>
-																			'if(records.length>0&&records[0].json.redirect&&records[0].json.message&&records[0].json.load){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){afApp.load(rec.redirect,rec.load);});}else{if(!Ext.isIE){'.$this->privateName.'.getEl().unmask();}}'
+																			'if(records.length>0&&records[0].json.redirect&&records[0].json.message&&records[0].json.load){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){afApp.load(rec.redirect,rec.load);});}else{if('.$this->privateName.'.canMask()){'.$this->privateName.'.getEl().unmask();}}'
 																	));
 																	
 			$this->attributes[$storePrivateName]['listeners']['loadexception']=$this->immExtjs->asMethod(array(
 																			"parameters"=>"",
 																			"source"=>
-																			'if(!Ext.isIE){'.$this->privateName.'.getEl().unmask();}'
+																			'if('.$this->privateName.'.canMask()){'.$this->privateName.'.getEl().unmask();}'
 																	));
 					
 			if(!$this->attributes['tree'])

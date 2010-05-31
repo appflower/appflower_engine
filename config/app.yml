@@ -1,6 +1,9 @@
 # default values
 all:
-
+  
+  appFlower:
+    version: '1.0'
+  
   parser:
     panels:
       sidebar: [ ]
