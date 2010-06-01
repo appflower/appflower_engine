@@ -36,3 +36,26 @@ Ext.override(Ext.grid.Column,{
 		return value;
 	} 
 });
+Ext.override(Ext.ToolTip,{
+	onMouseMove : function(e){		
+		var x = e.getPageX(),y = e.getPageY();
+		var t = this.delegate ? e.getTarget(this.delegate) : this.triggerElement = true;
+	    if (t) {
+	        this.targetXY = e.getXY();	        
+	        if (t === this.triggerElement) {
+	            if(!this.hidden && this.trackMouse){
+	            	var box = this.getBox();
+	    	    	if(box.x+box.width > Ext.getBody().getWidth()) x = Ext.getBody().getWidth()-box.width;
+	    	        this.setPagePosition(x,this.getTargetXY()[1]);
+	    	       
+	            }
+	        } else {
+	            this.hide();
+	            this.lastActive = new Date(0);
+	            this.onTargetOver(e);
+	        }
+	    } else if (!this.closable && this.isVisible()) {
+	        this.hide();
+	    }
+	}
+})

@@ -2423,18 +2423,19 @@ class XmlParser extends XmlParserTools {
 			 * Moved the tools in this loop to have different tools on different portlets depending upon their types.
 			 */
 			
-			$tools=new ImmExtjsTools();
+			$tools=new ImmExtjsTools();			
+			// Help popup			
+			if($this->widgetHelpSettings->getPopupHelpIsEnabled()) {
+				$tools->addItem(array('id'=>'help','qtip'=>"Widget Help",'handler'=>array('parameters'=>'e,target,panel','source'=>"afApp.loadPopupHelp(panel.idxml);")));	
+			}
 			if(isset($parse['params']) && isset($parse['params']['settings'])){
 				$tools->addItem(array('id'=>'gear','qtip'=>'Setting','handler'=>array('parameters'=>'e,target,panel','source'=>"ajax_widget_popup('".$parse['params']['settings']."','Settings',panel,'width:800,overflow:\'hidden\'')")));
-			}		
+			}
+			$tools->addItem(array('id'=>'toggle','qtip'=>'Toggle Expand/Collapse','handler'=>array('parameters'=>'e,target,panel','source'=>"panel.collapsed?panel.expand():panel.collapse()")));		
 			//$tools->addItem(array('id'=>'start-reload','handler'=>array('parameter'=>'e,target,panel','source'=>'this.id="stop-reload"')));	
 			$tools->addItem(array('id'=>'close','qtip'=>'Close','handler'=>array('parameters'=>'e,target,panel','source'=>"var portal=panel.ownerCt.ownerCt;panel.ownerCt.remove(panel, true);portal.onWidgetDrop();")));
 		
-			// Help popup
 			
-			if($this->widgetHelpSettings->getPopupHelpIsEnabled()) {
-				$tools->addItem(array('id'=>'help','handler'=>array('parameters'=>'e,target,panel','source'=>"afApp.loadPopupHelp(panel.idxml);")));	
-			}
 			
 			/***********************************************************/
 			$unique_id = md5(microtime());

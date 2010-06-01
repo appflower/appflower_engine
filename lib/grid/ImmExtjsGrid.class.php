@@ -112,7 +112,6 @@ class ImmExtjsGrid
 		{
 			$this->attributes=array_merge($this->attributes,array('anchor'=> '100%',
 															'frame'=>true,
-															'collapsible'=>true,
 															'draggable'=>true,
 															'cls'=>'x-portlet'));
 			$this->attributes['plugins'][] = 'new Ext.ux.MaximizeTool()';												

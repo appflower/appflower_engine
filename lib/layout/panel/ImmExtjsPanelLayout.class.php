@@ -29,7 +29,7 @@ class ImmExtjsPanelLayout extends ImmExtjsLayout
 					      'autoScroll'=>true,
 					      'width'=>'auto',
 				          'frame'=>true,
-				          'collapsible'=>true,
+				         // 'collapsible'=>true,
 				          'style'=>'padding-right:5px;',
 				          'tools'=>$tools->end(),
 				          'idxml'=>isset($attributes['idxml'])?$attributes['idxml']:false,

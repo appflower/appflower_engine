@@ -36,7 +36,7 @@ class ImmExtjsPanel
 			
 			$this->attributes=array_merge($this->attributes,array('anchor'=> '100%',
 															'frame'=>true,
-															'collapsible'=>true,
+															//'collapsible'=>true,
 															'draggable'=>true,
 															'maximizable'=>true,
 															
