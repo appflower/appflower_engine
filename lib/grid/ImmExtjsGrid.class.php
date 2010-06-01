@@ -277,7 +277,8 @@ class ImmExtjsGrid
 				$temp_field['name']=isset($column['name'])?$column['name']:Util::stripText($temp_name);
 				//$temp_field['type']=isset($column['type'])?$column['type']:'auto';
 				$temp_field['sortType']=isset($column['sortType'])?$column['sortType']:'asText';
-						
+				$temp_column['sortType']=isset($column['sortType'])?$column['sortType']:'asText';
+				
 				$temp_column['header']=isset($column['label'])?$column['label']:$temp_name;				
 				$temp_column['sortable']=isset($column['sortable'])?$column['sortable']:true;
 				if(isset($column['width'])&&$column['width']!='auto')
@@ -286,7 +287,9 @@ class ImmExtjsGrid
 				}
 				$temp_column['hidden']=isset($column['hidden'])?$column['hidden']:false;
 				$temp_column['hideable']=isset($column['hideable'])?$column['hideable']:true;
-				$temp_column['align']=isset($column['align'])?$column['align']:'left';
+				
+				$temp_column = $this->formatNumberColumn($temp_column);
+				//$temp_column['align']=isset($column['align'])?$column['align']:'left';
 				/*
 				 * check for context menu
 				 */
@@ -360,7 +363,7 @@ class ImmExtjsGrid
 					$this->attributes['master_column_id']=$temp_column['dataIndex'];
 				}
 				
-				$this->attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass($temp_field);
+				$this->attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass($temp_field);				
 			}
 			
 			/*
@@ -1003,6 +1006,12 @@ class ImmExtjsGrid
 		);
 		//echo print_r($parameterForButton);
 		return $parameterForButton;
+	}
+	private function formatNumberColumn(&$column){
+		if(in_array($column['sortType'],array("asSize","htmlAsSize","asInt","htmlAsInt","asFloat","htmlAsFloat"))){
+			$column['align'] = "right";
+		}
+		return $column;
 	}
 }
 ?>

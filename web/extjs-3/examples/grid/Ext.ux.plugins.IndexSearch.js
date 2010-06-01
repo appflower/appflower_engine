@@ -51,7 +51,7 @@ Ext.extend(Ext.ux.plugins.IndexSearch, Ext.util.Observable, {
 					store: new Ext.data.JsonStore({					   
 					    url: '/loganalysis/facetJson?by=ip',					   
 					    root: 'rows',					    
-					    fields: ['facet_name', 'facet_count','facet_id'],
+					    fields: ['facet_name', {name:'facet_count',sortType:'htmlAsInt'},'facet_id'],
 					    autoLoad:false
 					}),
 				    colModel: new Ext.grid.ColumnModel({
@@ -61,7 +61,14 @@ Ext.extend(Ext.ux.plugins.IndexSearch, Ext.util.Observable, {
 				        },
 				        columns: [
 				            {id: 'server', header: 'Server', width: 200, sortable: true, sortType:"asIp", dataIndex: 'facet_name'},
-				            {header: 'Count', dataIndex: 'facet_count', sortable:true, sortType:"asInt"}
+				            {
+				            	header: 'Count', dataIndex: 'facet_count', sortable:true, align:"right", renderer:function(value){
+					            	var re = /<div class="ux-grid-filter-hidden-value">(.*)<\/div>/i;
+					        		value = String(value).replace(re,"");
+				            		var formatted = Ext.util.Format.number(Ext.util.Format.stripTags(value),"0,000");
+				            		return value.toString().replace(Ext.util.Format.stripTags(value),formatted);
+				            	}
+				            }
 				        ]
 				    }),	
 				    height:227,
@@ -101,7 +108,7 @@ Ext.extend(Ext.ux.plugins.IndexSearch, Ext.util.Observable, {
 					store: new Ext.data.JsonStore({					   
 					    url: '/loganalysis/facetJson?by=sev',					   
 					    root: 'rows',					    
-					    fields: ['facet_name', 'facet_count','facet_id'],
+					    fields: ['facet_name', {name:'facet_count',sortType:'htmlAsInt'},'facet_id'],
 					    autoLoad:false
 					}),
 				    colModel: new Ext.grid.ColumnModel({
@@ -111,7 +118,14 @@ Ext.extend(Ext.ux.plugins.IndexSearch, Ext.util.Observable, {
 				        },
 				        columns: [
 				            {id: 'severity', header: 'Severity', width: 200, sortable: true, sortType:"asIp", dataIndex: 'facet_name'},
-				            {header: 'Count', dataIndex: 'facet_count', sortable:true, sortType:"asInt"}
+					        {
+				            	header: 'Count', dataIndex: 'facet_count', sortable:true,align:"right", renderer:function(value){
+					            	var re = /<div class="ux-grid-filter-hidden-value">(.*)<\/div>/i;
+					        		value = String(value).replace(re,""); 
+				            		var formatted = Ext.util.Format.number(Ext.util.Format.stripTags(value),"0,000");
+				            		return value.toString().replace(Ext.util.Format.stripTags(value),formatted);
+				            	}
+				            }
 				        ]
 				    }),	
 				    height:227,

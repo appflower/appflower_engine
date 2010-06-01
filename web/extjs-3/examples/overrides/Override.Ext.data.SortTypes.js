@@ -4,16 +4,21 @@
  *  
  */
 Ext.apply(Ext.data.SortTypes,{
+	removeHidden: function(el){
+		var re = /<div class="ux-grid-filter-hidden-value">(.*)<\/div>/i;
+		return String(el).replace(re,""); 
+	},
 	asText: function(s){
 		return Ext.data.SortTypes.asUCText(s);
 	},
 	htmlAsInt : function(s) {		
+		s = Ext.data.SortTypes.removeHidden(s);
 		return Ext.data.SortTypes.asInt(Ext.data.SortTypes.asUCText(s));		
 	},
 	htmlAsFloat : function(s) {		
 		return Ext.data.SortTypes.asFloat(Ext.data.SortTypes.asUCText(s));
 	},
-	htmlAsText: function(s){
+	htmlAsText: function(s){		
 		var re= /<\S[^>]*>/gi; 
 		return String(s).replace(re,""); 
 	},
