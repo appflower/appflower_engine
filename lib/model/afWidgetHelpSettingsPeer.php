@@ -16,6 +16,7 @@ class afWidgetHelpSettingsPeer extends BaseafWidgetHelpSettingsPeer
 		else {
 			$obj=new afWidgetHelpSettings();
 			$obj->setUserId($userId);
+			$obj->setHelpType(2);
 			$obj->save();
 			
 			return $obj;
