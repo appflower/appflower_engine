@@ -111,7 +111,9 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  									new Ext.ux.InstantNotification({title:"Success",message:message});
 		  								}
 		  								if(_win){	
-		  									_win.close();	  									
+		  								console.log(winProp)
+		  									if(winProp.hidePopup === false) return;
+		  									_win.close();		  									  									
 		  									return false;
 		  								}
 		  							}
@@ -136,8 +138,12 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  							var winProp=action.result.winProp ||action.options.params.winProp;		  							
 		  							var forceRedirect = action.result.forceRedirect;
 		  							if(forceRedirect !== false) forceRedirect = true;
+		  							
+		  							winProp = Ext.util.JSON.decode(winProp)
+		  							
 		  							winProp = winProp || {};
-		  							winProp.forceRedirect = forceRedirect;		  							
+		  							
+		  							Ext.apply(winProp,{forceRedirect:forceRedirect});		  							
 		  							var win;
 		  							
 		  							if(message){
