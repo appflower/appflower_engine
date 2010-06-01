@@ -139,21 +139,27 @@ class ImmExtjsLayout
 		 */
 		elseif(!isset($attributes['west'])||(isset($attributes['west'])&&$attributes['west']!=false)){
 			
+			$logoScript = "";
+			if(sfConfig::get("app_avatar_logo",false)){
+				$logo = '<div style="background-color:#d9e7f8;border-right:1px solid #99bbe8;border-left:1px solid #99bbe8;border-bottom:1px solid #99bbe8; padding:2px 0px 0px 0px; margin:0px"><img src="'.sfConfig::get("app_avatar_logo").'"/></div>';
+				$logoScript = 'Ext.DomHelper.insertFirst(comp.bwrap,{tag:"div",html:"'.addslashes($logo).'"});';
+			}
 			$attributes_temp=array('id'=>'west_panel',
+							  'stateful'=>true,
+							  'stateEvents'=>array('afterlayout'),
+							  'getState'=>$this->immExtjs->asMethod(array("parameters"=>"","source"=>"return { activeItemIndex: this.items.findIndex('id',this.layout.activeItem.id) };")),
+							  'stateId'=>'west_panel',
 						      'region'=>'west',
 						      'title'=>'Navigation',
-						      'width'=>'220',
-							  'minWidth'=>'220',
+						      'width'=>'255',
+							  'minWidth'=>'255',
 							  'autoHeight'=>'false',
 							  'autoScroll'=>'true',								  
 						      'split'=>'true',							
 							  'layoutConfig'=>array('animate'=>'true'),
 						      'collapsible'=>'true',
-						      'layout'=>'accordion',
-							  'listeners'=>'{"beforerender": function(){this.activeItem = this.findById("profile")}}'							   
-							  
-								
-			);
+						      'layout'=>'accordion',							  
+							  'listeners'=>'{"beforerender": function(){var state=Ext.state.Manager.get("west_panel");if(!state){this.activeItem = this.findById("profile");}else{this.activeItem = state.activeItemIndex;}},"render":function(comp){'.$logoScript.'}}');
 						      
 			if(!isset($this->attributes['viewport']['west_panel']))
 			{			
