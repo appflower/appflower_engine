@@ -110,8 +110,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  								}else{
 		  									new Ext.ux.InstantNotification({title:"Success",message:message});
 		  								}
-		  								if(_win){	
-		  								console.log(winProp)
+		  								if(_win){		  								
 		  									if(winProp.hidePopup === false) return;
 		  									_win.close();		  									  									
 		  									return false;
