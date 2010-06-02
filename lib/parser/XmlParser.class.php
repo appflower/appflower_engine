@@ -2947,20 +2947,6 @@ class XmlParser extends XmlParserTools {
 				
 			} else if($view == "list") {
 		
-				
-				$invisibles = array();
-				
-				// Add all non-hidden columns to visible..
-				
-				foreach($parse["fields"] as $column) {
-					if(!in_array($column["attributes"]["name"], $parse["display"]["visible"])) {
-						$parse["display"]["visible"][] = $column["attributes"]["name"];
-						if($column["attributes"]["hidden"] == "false")
-							$invisibles[] = $column["attributes"]["name"]; 
-					}
-				}
-			
-				
 				if(isset($parse["params"]["name"])){
 					$formoptions['name'] = $parse["params"]["name"];
 				}
@@ -2977,7 +2963,6 @@ class XmlParser extends XmlParserTools {
 				$formoptions["pager"] = ($parse["pager"] == "false") ? false : true;
 				$formoptions["border"] = ($parse["border"] == "false") ? false : true;
 				$formoptions["portal"] = ($parse["portal"] == "false") ? false : true;
-				$formoptions["display_visible"] = $parse['display']['visible'];
 				//$formoptions["id"] = strtolower(str_replace(" ","_",$parse['title']));				
 				$formoptions["remoteLoad"] = ArrayUtil::isTrue($parse, 'remoteLoad');
 				$formoptions["remoteFilter"] = isset($parse['remoteFilter'])?true:false;
@@ -3038,10 +3023,8 @@ class XmlParser extends XmlParserTools {
 				foreach($parse["fields"] as $colname => $column) {
 					
 					unset($column["attributes"]["id"]);
-					
-					if($column["attributes"]["hidden"] == "true" || in_array($column["attributes"]["name"],$invisibles)) {	
-						$column["attributes"]["hidden"] = true;
-					}
+					$column["attributes"]["hidden"] = ArrayUtil::isTrue(
+							$column['attributes'], 'hidden');
 					
 					if(isset($column["attributes"]["qtip"]) && $column["attributes"]["qtip"] == "false") {
 						$column["attributes"]["qtip"] = false;

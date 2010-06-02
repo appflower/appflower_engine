@@ -2053,7 +2053,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 							<xs:element ref="i:params" minOccurs="0" maxOccurs="1" />
 							<xs:element ref="i:proxy" minOccurs="0" maxOccurs="1" />
 							<xs:element ref="i:datasource" minOccurs="0" maxOccurs="1" />
-							<xs:element ref="i:display" minOccurs="1" maxOccurs="1" />
+							<xs:element ref="i:display" minOccurs="0" maxOccurs="1" />
 		        			<xs:element ref="i:fields" minOccurs="1" maxOccurs="1" />
 							<xs:element ref="i:rowactions" minOccurs="0" maxOccurs="1" />
 		        			<xs:element ref="i:actions" minOccurs="0" maxOccurs="1" />
