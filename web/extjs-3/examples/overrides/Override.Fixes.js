@@ -45,9 +45,11 @@ Ext.override(Ext.ToolTip,{
 	        if (t === this.triggerElement) {
 	            if(!this.hidden && this.trackMouse){
 	            	var box = this.getBox();
-	    	    	if(box.x+box.width > Ext.getBody().getWidth()) x = Ext.getBody().getWidth()-box.width;
-	    	        this.setPagePosition(x,this.getTargetXY()[1]);
-	    	       
+	    	    	if(box.x+box.width > Ext.getBody().getWidth()) {
+	    	    		x = Ext.getBody().getWidth()-(box.width+10);
+	    	    		this.targetXY = [x,y];
+	    	    	}
+	    	    	this.setPagePosition(this.getTargetXY());
 	            }
 	        } else {
 	            this.hide();
