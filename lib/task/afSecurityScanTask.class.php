@@ -68,7 +68,6 @@ EOF;
   public function execute($arguments = array(), $options = array())
   {
   	
-  	
   	if(!strstr($arguments["sendto"],"@") && substr($arguments["sendto"],0,1) != "/") {
   		throw new Exception("Invalid value for argument: sendto. Either an absolute path or email address is expected, but '".
   		$arguments["sendto"]."' is given!");
