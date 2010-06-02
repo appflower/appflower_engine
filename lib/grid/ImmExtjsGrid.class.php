@@ -262,7 +262,7 @@ class ImmExtjsGrid
 			}
 			
 			$wasSort=false;
-			$firstColumnName=false;
+			$firstSortableCol=null;
 			
 			
 			foreach ($this->columns as $column)
@@ -348,9 +348,9 @@ class ImmExtjsGrid
 					$this->defineSortInfo($storePrivateName, $temp_column['dataIndex'], $column['sort']);
 				}
 
-				if(!$firstColumnName)
+				if(!$firstSortableCol && ArrayUtil::isTrue($temp_column, 'sortable'))
 				{
-					$firstColumnName=$temp_column['dataIndex'];
+					$firstSortableCol=$temp_column['dataIndex'];
 				}
 								
 				$this->attributes['columns'][]=$this->immExtjs->asAnonymousClass($temp_column);
@@ -369,9 +369,9 @@ class ImmExtjsGrid
 			$this->_addListenersForContextMenu($attributes);
 			/**********************************************************/
 			
-			if (!$wasSort&&$firstColumnName)
+			if (!$wasSort && $firstSortableCol)
 			{
-				$this->defineSortInfo($storePrivateName, $firstColumnName, 'ASC');
+				$this->defineSortInfo($storePrivateName, $firstSortableCol, 'ASC');
 			}
 			
 			$count_actions=(is_object($this->actionsObject)?count($this->actionsObject->attributes['actions']):0);
