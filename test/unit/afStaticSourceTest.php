@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__).'/../bootstrap/dbunit.php');
-$t = new lime_test(16, new lime_output_color());
+$t = new lime_test(17, new lime_output_color());
 
 $results = array();
 for($i = 0; $i < 28; $i++) {
@@ -48,3 +48,5 @@ $source = new afStaticSource('getFakeResults', array(1));
 $t->is($source->getTotalCount(), 100);
 $t->is(count($source->getRows()), count($results['rows']));
 
+$source->setStart(10);
+$t->is(count($source->getRows()), count($results['rows']));

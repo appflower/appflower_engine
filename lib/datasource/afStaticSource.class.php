@@ -8,6 +8,7 @@ class afStaticSource implements afIDataSource {
         $limit = null,
         $sortColumn = null,
         $sortDir = 'ASC',
+        $fullResponse = false,
         $totalCount = null,
         $results = null;
 
@@ -46,12 +47,17 @@ class afStaticSource implements afIDataSource {
                 $this->sortColumn, $this->sortDir);
         }
 
-        // The slicing have to be done after sorting.
-        if($this->limit !== null) {
-            $rows = array_slice($this->results, $this->start, $this->limit);
+        if($this->fullResponse) {
+            $rows = $this->results;
         } else {
-            $rows = array_slice($this->results, $this->start);
+            // The slicing have to be done after sorting.
+            if($this->limit !== null) {
+                $rows = array_slice($this->results, $this->start, $this->limit);
+            } else {
+                $rows = array_slice($this->results, $this->start);
+            }
         }
+
         return $rows;
     }
 
@@ -64,6 +70,7 @@ class afStaticSource implements afIDataSource {
         if(isset($response['rows']) && is_array($response['rows'])) {
             $this->results = array_values($response['rows']);
             $this->totalCount = $response['totalCount'];
+            $this->fullResponse = true;
         } else {
             // Results will be a numeric array of rows.
             $this->results = array_values($response);
