@@ -8,6 +8,7 @@ class afStaticSource implements afIDataSource {
         $limit = null,
         $sortColumn = null,
         $sortDir = 'ASC',
+        $totalCount = null,
         $results = null;
 
     public function __construct($callback, $params) {
@@ -34,7 +35,7 @@ class afStaticSource implements afIDataSource {
 
     public function getTotalCount() {
         $this->init();
-        return count($this->results);
+        return $this->totalCount;
     }
 
     public function getRows() {
@@ -59,9 +60,15 @@ class afStaticSource implements afIDataSource {
             return;
         }
 
-        // Results will be a numeric array of values.
-        $this->results = array_values(
-            afCall::funcArray($this->callback, $this->params));
+        $response = afCall::funcArray($this->callback, $this->params);
+        if(isset($response['rows']) && is_array($response['rows'])) {
+            $this->results = array_values($response['rows']);
+            $this->totalCount = $response['totalCount'];
+        } else {
+            // Results will be a numeric array of rows.
+            $this->results = array_values($response);
+            $this->totalCount = count($this->results);
+        }
     }
 }
 
