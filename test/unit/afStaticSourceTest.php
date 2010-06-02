@@ -1,12 +1,21 @@
 <?php
 include(dirname(__FILE__).'/../bootstrap/dbunit.php');
-$t = new lime_test(12, new lime_output_color());
+$t = new lime_test(13, new lime_output_color());
 
-$source = new afStaticSource(array('ServerSnmpGraphPeer', 'getGraphTree'), array(1));
+$results = array();
+for($i = 0; $i < 28; $i++) {
+    $results[] = array('id'=>$i, 'name'=>sprintf('row%03d', $i));
+}
 
-$numGraphs = 24;
-$numGroups = 3;
-$totalCount = $numGraphs + 1 + $numGroups;
+function getFakeResults($id) {
+    global $t, $results;
+    $t->is($id, 1);
+    return $results;
+}
+
+$source = new afStaticSource('getFakeResults', array(1));
+
+$totalCount = count($results);
 $t->is($source->getTotalCount(), $totalCount);
 $t->is(count($source->getRows()), $totalCount);
 
@@ -27,10 +36,10 @@ $t->is(count($source->getRows()), $totalCount);
 $source->setSort('name', 'DESC');
 $rows = $source->getRows();
 $t->is(count($rows), 28);
-$t->is($rows[0]['name'], 'Users');
-$t->is($rows[27]['name'], '(em0) Bandwith Usage');
+$t->is($rows[0]['name'], 'row027');
+$t->is($rows[27]['name'], 'row000');
 
 $source->setSort('name', 'ASC');
 $rows = $source->getRows();
-$t->is($rows[0]['name'], '(em0) Bandwith Usage');
+$t->is($rows[0]['name'], 'row000');
 
