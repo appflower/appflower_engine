@@ -271,6 +271,7 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 		if(this.autoWidth) {
 			this.width =  this.widthSlope * this.actions.length + this.widthIntercept;
 			this.fixed = true;
+			if(this.width < 45) this.width = 45;
 		}
 
 		// body click handler
