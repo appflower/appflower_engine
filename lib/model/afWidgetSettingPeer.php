@@ -97,8 +97,8 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 			case "/eventmanagement/syslogGraphCountSize":
 				return array(
 					"basic" => array("graph_type_value" => "ImmAm3DColumn", "text_color" => "#000000","text_font_value" => "Arial", "text_size_value" => "11","bg_color" => "#FFFFFF", "height" => 380),
-					"count" => array("show" => true, "text" => "Log Count", "color" => "#B57B34", "hover_color" => "#ff0000"),
-				 	"size" => array("show" => true, "text" => "Log Size", "color" => "#BC845E", "hover_color" => "#ff0000"),	
+					"count" => array("show" => true, "text" => "Log Count", "color" => "#2C5D99", "hover_color" => "#ff0000"),
+				 	"size" => array("show" => true, "text" => "Log Size", "color" => "#e0802b", "hover_color" => "#ff0000"),	
 		         	"reload" => array("started" => false, "interval" => 60));
 				break;
 			case "/eventmanagement/topSuccessUser":

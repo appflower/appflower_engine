@@ -39,3 +39,4 @@ all:
   avatar:
     logo:  /images/forTheMenu.png
     login_screen_bg:  /images/loginbg.jpg  
+    tooltip: About product and your license information.
