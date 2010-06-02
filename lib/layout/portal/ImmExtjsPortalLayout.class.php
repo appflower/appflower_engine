@@ -123,8 +123,7 @@ class ImmExtjsPortalLayout extends ImmExtjsLayout
 				 */
 				$attributesTabPanel['listeners']['afterLayout']=$this->immExtjs->asMethod(array(
 				          	      	'parameters'=>'tabPanel,layout',
-				          	      	'source'=>"var setWidthAfterScroll = function(tabPanel){tabPanel.getActiveTab().items.items[0].setWidth(tabPanel.getActiveTab().items.items[0].getWidth());}
-				          	      	setWidthAfterScroll.defer(2000,this,[tabPanel]);
+				          	      	'source'=>"if(tabPanel.getActiveTab())tabPanel.getActiveTab().doLayout();
 				          	      	tabPanel.setHeight(tabPanel.ownerCt.getInnerHeight()-1);
 				          	      	if(tabPanel.afterLayoutOnceEvent==false){new Portals().onTabChange(tabPanel);}
 				          	      	"));
