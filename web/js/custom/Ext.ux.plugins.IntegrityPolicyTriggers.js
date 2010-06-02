@@ -180,7 +180,24 @@ Ext.extend(Ext.ux.plugins.IntegrityPolicyTriggers, Ext.util.Observable,{
                 	closeAction:'hide',
                 	items: form
                 })
-                
+                win.on("show",function(){                	
+                	new Ext.ToolTip({
+                		target:form.getForm().findField('location').getEl(),
+                		html:"Input the location to inspect",
+                		trackMouse:true
+                	});
+                	new Ext.ToolTip({
+                		target:form.getForm().findField('action').getEl(),
+                		html:"The location is inspected for the selected actions",
+                		trackMouse:true
+                	});
+                	new Ext.ToolTip({
+                		target:form.getForm().findField('is_included').getEl(),
+                		html:"The location will not be scanned if excluded",
+                		trackMouse:true
+                	});
+                	
+                })
                 
                 // Get the toolbar of the grid
                 var tb = grid.getTopToolbar();

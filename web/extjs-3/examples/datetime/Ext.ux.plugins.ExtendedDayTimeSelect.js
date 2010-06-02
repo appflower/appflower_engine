@@ -101,9 +101,9 @@ Ext.ux.plugins.ExtendedDayTimeSelect = Ext.extend(Ext.form.Field, {
 	            'displayField'
 	        ],
 	        data: [
-			        ['1', '1'], ['2', '2'],['3', '3'], ['4', '4'],['5', '5'], ['6', '6'],['7', '7'], ['8', '8'], ['9', '9'],['10', '10'],
-			        ['11', '11'], ['12', '12'],['13', '13'], ['14', '14'],['15', '15'], ['16', '16'],['17', '17'], ['18', '18'], ['19', '19'],['20', '20'],
-			        ['21', '21'], ['22', '22'],['23', '23'], ['24', '24']
+			        ['0.00','0.00'], ['1.00', '1.00'], ['2.00', '2.00'],['3.00', '3.00'], ['4.00', '4.00'],['5.00', '5.00'], ['6.00', '6.00'],['7.00', '7.00'], ['8.00', '8.00'], ['9.00', '9.00'],['10.00', '10.00'],
+			        ['11.00', '11.00'], ['12.00', '12.00'],['13.00', '13.00'], ['14.00', '14.00'],['15.00', '15.00'], ['16.00', '16.00'],['17.00', '17.00'], ['18.00', '18.00'], ['19.00', '19.00'],['20.00', '20.00'],
+			        ['21.00', '21.00'], ['22.00', '22.00'],['23.00', '23.00'], ['24.00', '24.00']
 			      ]
 	    });
 	    weekStore = new Ext.data.SimpleStore({				        
@@ -203,16 +203,16 @@ Ext.ux.plugins.ExtendedDayTimeSelect = Ext.extend(Ext.form.Field, {
 		    displayField: 'displayField',
 		    emptyText:'Hour From',
 		    listeners:{
-				change: function(){	
-			//console.log(parseInt(toCombo.getValue()));
-					if(parseInt(toCombo.getValue())){
-						if(parseInt(fromCombo.getValue()) > parseInt(toCombo.getValue())){
+				/*select: function(){	
+			//console.log(parseFloat(toCombo.getValue()));
+					if(parseFloat(toCombo.getValue())){
+						if(parseFloat(fromCombo.getValue()) > parseFloat(toCombo.getValue())){
 							fromCombo.setValue("");
 							Ext.Msg.alert("Error","Please select a lower/equal value than Hour To");
 							
 						}
 					}
-				}			
+				}*/			
 			}
 		   
 		});
@@ -232,15 +232,15 @@ Ext.ux.plugins.ExtendedDayTimeSelect = Ext.extend(Ext.form.Field, {
 		    displayField: 'displayField',
 		    emptyText:'Hour To',
 		    listeners:{
-				change: function(){	
-					if(parseInt(fromCombo.getValue())){
-						if(parseInt(fromCombo.getValue()) > parseInt(toCombo.getValue())){
+				/*select: function(){	
+					if(parseFloat(fromCombo.getValue())){
+						if(parseFloat(fromCombo.getValue()) > parseFloat(toCombo.getValue())){
 							toCombo.setValue("");
 							Ext.Msg.alert("Error","Please select a greater/equal value than Hour From");
 							
 						}
 					}
-				}			
+				}*/			
 			}
 		   
 		});
@@ -262,7 +262,7 @@ Ext.ux.plugins.ExtendedDayTimeSelect = Ext.extend(Ext.form.Field, {
 					if(!dataArray.length)
 					dataType = dayTimeCombo.getValue();
 					
-					if(Ext.getCmp('daytimeselect_weeklymonthlycombo_'+randomN).getValue() == "daily" && this.t_item > 0) return;
+					if(Ext.getCmp('daytimeselect_weeklymonthlycombo_'+randomN).getValue() == "daily" && this.t_item > 0){ Ext.Msg.alert("Error","Only one range for daily");return;}
 					if(Ext.getCmp('daytimeselect_daytimecombo_'+randomN).getValue() == "" || Ext.getCmp('daytimeselect_fromcombo_'+randomN).getValue() == "" || Ext.getCmp('daytimeselect_tocombo_'+randomN).getValue() == ""){
 						Ext.Msg.show({
 						   title:'Error !',

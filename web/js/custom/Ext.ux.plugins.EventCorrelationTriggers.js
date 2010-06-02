@@ -3,6 +3,7 @@
 * Ability to reorder the grid's row
 * @author: Prakash Paudel
 */
+
 Ext.namespace('Ext.ux.plugins');
 
 Ext.ux.plugins.GridRowOrder = function(config){    
@@ -112,7 +113,8 @@ Ext.extend(Ext.ux.plugins.EventCorrelationTriggers, Ext.util.Observable,{
                 Ext.QuickTips.init(true);
                 //Form panel
                 var eventCombo = new Ext.form.ComboBox({
-    		    	name:'event',    		    	
+    		    	name:'event',  
+    		    	
     		    	tpl:new Ext.XTemplate(
     		    		'<tpl for=".">',
     		    			'<tpl if="flag == \'parent\'"><div class="x-combo-list-item" style=" background-color:#dfe8f6;display:block"><span style="font-weight:bold;">{value}</span></div></tpl>',
@@ -125,7 +127,7 @@ Ext.extend(Ext.ux.plugins.EventCorrelationTriggers, Ext.util.Observable,{
         		    fieldLabel:'Event',
         		    triggerAction: 'all',
         		    lazyRender:true,
-        		    mode: 'local',
+        		    mode: 'local',        		   
         		    store: new Ext.data.JsonStore({
         		        url:'/eventmanagement/getEventCorrelationFormData?event',
         		        root:'data',
@@ -140,6 +142,7 @@ Ext.extend(Ext.ux.plugins.EventCorrelationTriggers, Ext.util.Observable,{
         		    displayField: 'value',
         		    flagField:'flag',
         		    allowBlank:false
+        		   
                 });
                 var form = new Ext.form.FormPanel({
                 	bodyStyle:'padding:5px',
@@ -151,12 +154,12 @@ Ext.extend(Ext.ux.plugins.EventCorrelationTriggers, Ext.util.Observable,{
                 		title:'Add Trigger',
                 		defaultType: 'textfield',
                 		autoHeight:true,
-                		defaults:{width:200,msgTarget:'title'},
+                		defaults:{width:400,msgTarget:'title'},
                 		items:[
                 		    eventCombo,
                 		    
                 		{
-                    		name:'source_ip',
+                    		name:'source_ip',                    		
                     		xtype:'textfield',
                     		fieldLabel:'Source Ip'
                     	},{
@@ -220,10 +223,38 @@ Ext.extend(Ext.ux.plugins.EventCorrelationTriggers, Ext.util.Observable,{
                 //Window for the popup add trigger form
                 var win = new Ext.Window({
                 	layout:'form',
-                	autoWidth:true,
+                	width:550,
                 	autoHeight:true,
                 	closeAction:'hide',
                 	items: form
+                });
+                win.on("show",function(){                	
+                	new Ext.ToolTip({
+                		target:form.getForm().findField('event').getEl(),
+                		html:"Select individual signature or classification",
+                		trackMouse:true
+                	});
+                	new Ext.ToolTip({
+                		target:form.getForm().findField('source_ip').getEl(),
+                		html:"Input a valid IP address if any",
+                		trackMouse:true
+                	});
+                	new Ext.ToolTip({
+                		target:form.getForm().findField('attacking_ip').getEl(),
+                		html:"Input a valid IP address if any",
+                		trackMouse:true
+                	});
+                	new Ext.ToolTip({
+                		target:form.getForm().findField('username').getEl(),
+                		html:"Input an username if any",
+                		trackMouse:true
+                	});
+                	new Ext.ToolTip({
+                		target:form.getForm().findField('service').getEl(),
+                		html:"Input service name if any",
+                		trackMouse:true
+                	});
+                	
                 })
                 
                 // Get the toolbar of the grid
@@ -238,6 +269,7 @@ Ext.extend(Ext.ux.plugins.EventCorrelationTriggers, Ext.util.Observable,{
 	                	form.isEdit=false;
 	                    form.rowIndex = null;
                 		win.show();
+                		win.center();
                 	}
                 })
                 
