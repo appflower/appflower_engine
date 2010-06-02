@@ -1,3 +1,7 @@
+/**
+ * author: Prakash Paudel
+ * Override methods for custom requirements..
+ */
 Ext.lib.Event.resolveTextNode = Ext.isGecko ? function(node){
 	if(!node){
 		return;
@@ -61,3 +65,36 @@ Ext.override(Ext.ToolTip,{
 	    }
 	}
 });
+Ext.override(Ext.PagingToolbar,{	
+    updateInfo : function(){
+        if(this.displayItem){
+            var count = this.store.getCount();
+            var msg = count == 0 ?
+                this.emptyMsg :
+                String.format(
+                    this.displayMsg,
+                    Ext.util.Format.number(this.cursor+1,"0,000"),  Ext.util.Format.number(this.cursor+count,"0,000"),  Ext.util.Format.number(this.store.getTotalCount(),"0,000")
+                );
+            this.displayItem.setText(msg);
+        }
+    },
+    onLoad : function(store, r, o){
+        if(!this.rendered){
+            this.dsLoaded = [store, r, o];
+            return;
+        }
+        var p = this.getParams();
+        this.cursor = (o.params && o.params[p.start]) ? o.params[p.start] : 0;
+        var d = this.getPageData(), ap = d.activePage, ps = d.pages;
+
+        this.afterTextItem.setText(String.format(this.afterPageText, Ext.util.Format.number(d.pages,"0,000")));
+        this.inputItem.setValue(ap);
+        this.first.setDisabled(ap == 1);
+        this.prev.setDisabled(ap == 1);
+        this.next.setDisabled(ap == ps);
+        this.last.setDisabled(ap == ps);
+        this.refresh.enable();
+        this.updateInfo();
+        this.fireEvent('change', this, d);
+    }
+})
