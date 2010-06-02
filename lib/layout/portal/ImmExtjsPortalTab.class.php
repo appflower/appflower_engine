@@ -31,6 +31,7 @@ class ImmExtjsPortalTab
 		}
 		
 		$this->attributes['portal']['bodyBorder']=false;
+		$this->attributes['portal']['autoWidth']=true;
 		@$this->attributes['portal']['style'].='padding-right:5px;';
 		@$this->attributes['portal']['bodyStyle'].='overflow-x:hidden;overflow-y:hidden;padding-right:5px;';
 		

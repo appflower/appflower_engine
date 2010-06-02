@@ -57,6 +57,11 @@ class ImmExtjsPanel
 		if(count($attributes)>0)
 		$this->attributes=array_merge($this->attributes,$attributes);
 		
+		$this->attributes['listeners']['bodyresize']=$this->immExtjs->asMethod(array(
+																			"parameters"=>"object,layout",
+																			"source"=>"object.ownerCt.ownerCt.doLayout();"
+																	));
+		
 		if((isset($attributes['autoEnd'])&&$attributes['autoEnd'])||!isset($attributes['autoEnd']))
 		{
 			$this->end();
