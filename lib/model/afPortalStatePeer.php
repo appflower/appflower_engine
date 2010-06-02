@@ -263,7 +263,7 @@ class afPortalStatePeer extends BaseafPortalStatePeer
 	{
 		$c=new Criteria();
 		$c->add(self::ID_XML,$idXml);
-		$c->add(self::USER_ID,(sfContext::getInstance()->getUser()->isAuthenticated()?sfContext::getInstance()->getUser()->getGuardUser()->getId():$userId));
+		$c->add(self::USER_ID,((sfContext::getInstance()->getUser()->isAuthenticated()&&sfContext::getInstance()->getUser()->getGuardUser()!=null)?sfContext::getInstance()->getUser()->getGuardUser()->getId():$userId));
 		$afPortalStateObj=afPortalStatePeer::doSelectOne($c);
 		
 		if($afPortalStateObj!=null)
