@@ -16,8 +16,9 @@ class ImmExtjsFieldDateTime extends ImmExtjsField
 			case "date":
 				$this->immExtjs->setAddons(array ( 'js' => array($this->immExtjs->getExamplesDir().'datetime/Ext.ux.form.DateTime.js') ));		
 				$this->attributes['xtype']='xdatetime';
-				$this->attributes['width']='250';
+				$this->attributes['width']=isset($attributes['width'])?$attributes['width']:'250';
 				$this->attributes['timeActive']=false;
+				$this->attributes['timeWidth']=0;
 				break;
 			case "datetime":
 				$this->immExtjs->setAddons(array ( 'js' => array($this->immExtjs->getExamplesDir().'datetime/Ext.ux.form.DateTime.js') ));		

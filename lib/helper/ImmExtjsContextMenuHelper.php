@@ -100,9 +100,9 @@ function ajax_source($url){
 			   		var title = "Success";
 			   		if(json.title) title = json.title;
 			   		if(json.success){
-			   			Ext.Msg.alert(title, json.message);
+			   			w = new Ext.Window({boxMaxHeight:400,boxMaxWidth:600,boxMinHeight:200,boxMinWidth:600,bodyStyle:"padding:10px;",title:title,html:json.message}).show();w.center();
 			   		}else{
-			   			Ext.Msg.alert("Error", json.message);
+			   			w = new Ext.Window({width:600,height:400,title:"Error",html:json.message}).show();w.center();
 			   			mask.hide();
 			   			return;
 			   		}
