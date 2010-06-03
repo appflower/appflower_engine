@@ -14,7 +14,8 @@ class ImmExtjsGrid
 	public $contextMenu = array();
 	public $actionsObject=null,$columns=null,$filters=array(),$proxy=null;
 	public $gridType = null, $menuactions_items=array();
-	public $filter_types = array("boolean","numeric","list","string","combo","date");						
+	public $filter_types = array("boolean","numeric","list","string","combo","date");
+	public $moveEditRowAction = false;		
 	public function __construct($attributes=array())
 	{		
 		$this->immExtjs=ImmExtjs::getInstance();
@@ -141,6 +142,7 @@ class ImmExtjsGrid
 	
 	public function endRowActions($actionsObject)
 	{
+		
 		$actionsObject->end();
 		
 		$this->actionsObject=$actionsObject;
@@ -230,9 +232,7 @@ class ImmExtjsGrid
 	}
 		
 	public function end()
-	{		
-		
-		
+	{	
 		if(!$this->attributes['tree'])
 		{
 			$this->attributes['view']=$this->immExtjs->GroupingColorView(array('forceFit'=>$this->attributes['forceFit'],'groupTextTpl'=>' {text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'));
@@ -263,7 +263,6 @@ class ImmExtjsGrid
 			$wasSort=false;
 			$firstColumnName=false;
 			
-			
 			foreach ($this->columns as $column)
 			{				
 				
@@ -285,10 +284,38 @@ class ImmExtjsGrid
 					$temp_column['width']=$column['width'];
 				}
 				$temp_column['hidden']=isset($column['hidden'])?$column['hidden']:false;
-				$temp_column['hideable']=isset($column['hideable'])?$column['hideable']:true;
-				
+				$temp_column['hideable']=isset($column['hideable'])?$column['hideable']:true;				
 				$temp_column = $this->formatNumberColumn($temp_column);
 				//$temp_column['align']=isset($column['align'])?$column['align']:'left';
+				
+				/**
+				 * Edit link at defined column
+				 * Please comment this block if the edit should be under the Actions column.
+				 * This section looks the edit="true" in the xml columns. If found, and if 
+				 * there is a row actions matching the name or label with edit, this will
+				 * be transformed to the edit="true" column
+				 */				
+				if((isset($column['edit']) && $column['edit'])){				
+					//print_r($this->actionsObject);
+					if($this->actionsObject){
+						$actions = $this->actionsObject->getActions();					
+						if(is_array($actions))
+						foreach($actions as $key=>$action){
+							if(preg_match("/_edit$/",$action['name']) || preg_match("/edit$/i",$action['label']) || preg_match("/_modify$/",$action['name']) || preg_match("/modify$/i",$action['label']) || preg_match("/_update$/",$action['name']) || preg_match("/update$/i",$action['label'])){							
+								$temp_column['renderer']=$this->immExtjs->asMethod(array(
+									"parameters"=>"value, metadata, record",
+									"source"=>"var action = record.get('action1'); var m = action.toString().match(/.*?\?(.*)/);return '<a href=\"".$action['url']."?'+m[1]+'\" qtip=\"Click to edit\">'+ value + '</a>';"
+								));							
+								$this->actionsObject = $this->actionsObject->changeProperty($action['name'],'hidden',true);
+								if(isset(ImmExtjs::getInstance()->private[$this->actionsObject->privateName]))
+								unset(ImmExtjs::getInstance()->private[$this->actionsObject->privateName]);
+								$this->actionsObject->end();
+								$this->moveEditRowAction = true;							
+							}						
+						}
+					}
+				}
+				
 				/*
 				 * check for context menu
 				 */
@@ -475,8 +502,7 @@ class ImmExtjsGrid
 			$this->attributes[$storePrivateName]['listeners']['load']=$this->immExtjs->asMethod(array(
 																			"parameters"=>"object,records,options",
 																			"source"=>
-																			'if(records.length>0&&records[0].json.redirect&&records[0].json.message){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){window.location.href=rec.redirect;});}else{if(!Ext.isIE){'.$this->privateName.'.getEl().unmask();}}
-																			'.$this->privateName.'.ownerCt.ownerCt.doLayout();'
+																			'if(records.length>0&&records[0].json.redirect&&records[0].json.message){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){window.location.href=rec.redirect;});}else{if(!Ext.isIE){'.$this->privateName.'.getEl().unmask();}}'
 																	));
 																	
 			$this->attributes[$storePrivateName]['listeners']['loadexception']=$this->immExtjs->asMethod(array(
@@ -553,7 +579,12 @@ class ImmExtjsGrid
 		
 		if($count_actions>0)
 		{
-			$this->attributes['columns'][]=$this->immExtjs->asVar($this->actionsObject->privateName);
+			if($this->moveEditRowAction){
+				if(($count_actions - 1)>0)
+				$this->attributes['columns'][]=$this->immExtjs->asVar($this->actionsObject->privateName);
+			}else{
+				$this->attributes['columns'][]=$this->immExtjs->asVar($this->actionsObject->privateName);
+			}
 			$this->attributes['plugins'][]=$this->immExtjs->asVar($this->actionsObject->privateName);
 		}
 		$this->attributes['store']=$this->immExtjs->asVar($storePrivateName);

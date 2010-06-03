@@ -1595,10 +1595,11 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType mixed="true">
-      	<xs:attributeGroup ref="i:columnAttributes" />
-      	<xs:attributeGroup ref="i:commonAttributes" />
-      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
-      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+	  	<xs:attributeGroup ref="i:columnAttributes" />
+	  	<xs:attributeGroup ref="i:commonAttributes" />
+	  	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+	  	<xs:attribute name="container" type="xs:boolean" fixed="true" />
+	  	<xs:attribute name="edit" type="xs:boolean"></xs:attribute>
 	  </xs:complexType>
 	</xs:element>
 	
