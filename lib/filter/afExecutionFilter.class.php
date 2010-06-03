@@ -29,6 +29,15 @@ class afExecutionFilter extends sfExecutionFilter {
             return $viewName;
         }
 
+        $format = $actionInstance->getRequestParameter('af_format');
+        if($format) {
+            return afListRenderer::renderList(
+                $actionInstance->getRequest(),
+                $actionInstance->getModuleName(),
+                $actionInstance->getActionName(),
+                $actionInstance->getVarHolder()->getAll());
+        }
+
         return self::layoutExtIfNeeded($actionInstance);
     }
 
