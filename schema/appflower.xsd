@@ -38,6 +38,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 				doubletree 				- Like doublemulticombo, but renders two tree views instead, thus suports grouping. Drag &amp; Drop
 				datetime 				- A date and time input (YYYY-MM-DD HH:ii:ss). 
 				date     				- Date input            (YYYY-MM-DD)
+				color					- Displays an input field with a color picker.
 				
 			</xs:documentation>
 		</xs:annotation>
@@ -61,6 +62,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 					<xs:enumeration value="static"/>
 					<xs:enumeration value="doubletree"/>
 					<xs:enumeration value="datetime"/>
+					<xs:enumeration value="color"/>
 					<xs:enumeration value="date"/>
 					<xs:whiteSpace value="collapse"/>
 				</xs:restriction>
@@ -711,8 +713,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  </xs:annotation>
 	  <xs:sequence>
 	    <xs:element ref="i:value" minOccurs="0" maxOccurs="1" />
+	    <xs:element ref="i:tooltip" minOccurs="0" maxOccurs="1" />
 	    <xs:element ref="i:help" minOccurs="0" maxOccurs="1" />
-	    <xs:element ref="i:comment" minOccurs="0" maxOccurs="1" />
 	    <xs:element ref="i:validator" minOccurs="0" maxOccurs="unbounded" />
 	    <xs:element ref="i:handler" minOccurs="0" maxOccurs="unbounded" />
 	    <xs:element ref="i:trigger" minOccurs="0" maxOccurs="1" />
@@ -960,10 +962,10 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       </xs:complexType>
     </xs:element>
     
-    <xs:element name="help">
+    <xs:element name="tooltip">
     	<xs:annotation>
         <xs:documentation xml:lang="en">
-            The element contains some help text related to a form field. It should shown when hover event occurs.
+            The element contains some help text related to a form field. It should be shown when hover event occurs.
             
             permissions 	-  Access rights required to render the element.
             
@@ -976,7 +978,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       </xs:complexType>
     </xs:element>
     
-    <xs:element name="comment">
+    <xs:element name="help">
     	<xs:annotation>
         <xs:documentation xml:lang="en">
             The element defines the comment text that should be rendered beneath the form field.
