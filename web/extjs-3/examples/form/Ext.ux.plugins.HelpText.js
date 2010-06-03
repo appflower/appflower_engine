@@ -36,7 +36,7 @@ Ext.ux.plugins.HelpText = {
 			            			var style="float:left;padding-right:2px;";
 			            			break;
 			            	}			            	
-			            	
+			            	this.helpText = (this.helpText+'').replace(/[\\"']/g, '\'');
 			            	Ext.DomHelper.append(label,{
 		                        tag: 'span',
 		                        style: style,

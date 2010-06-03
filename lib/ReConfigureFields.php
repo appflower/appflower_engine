@@ -17,7 +17,7 @@ class ReConfigureFields{
 	}
 	private function markLabelMandatory(){
 		if(!isset($this->field['attributes']))return;
-		if(!isset($this->field['validators'])) return;
+		if(!isset($this->field['validators'])) return;		
 		$validators = $this->field['validators'];
 		foreach($validators as $name=>$arr){
 			if($name == self::$REQUIRED_VALIDATOR){

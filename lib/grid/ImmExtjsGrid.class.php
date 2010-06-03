@@ -296,15 +296,16 @@ class ImmExtjsGrid
 				 * be transformed to the edit="true" column
 				 */				
 				if((isset($column['edit']) && $column['edit'])){				
-					//print_r($this->actionsObject);
+					//print_r($this->actionsObject);					
 					if($this->actionsObject){
-						$actions = $this->actionsObject->getActions();					
+						$actions = $this->actionsObject->getActions();									
 						if(is_array($actions))
 						foreach($actions as $key=>$action){
-							if(preg_match("/_edit$/",$action['name']) || preg_match("/edit$/i",$action['label']) || preg_match("/_modify$/",$action['name']) || preg_match("/modify$/i",$action['label']) || preg_match("/_update$/",$action['name']) || preg_match("/update$/i",$action['label'])){							
+							if(preg_match("/_edit$/",$action['name']) || preg_match("/edit$/i",$action['label']) || preg_match("/_modify$/",$action['name']) || preg_match("/modify$/i",$action['label']) || preg_match("/_update$/",$action['name']) || preg_match("/update$/i",$action['label'])){
+								$urlIndex = $action['urlIndex'];															
 								$temp_column['renderer']=$this->immExtjs->asMethod(array(
 									"parameters"=>"value, metadata, record",
-									"source"=>"var action = record.get('action1'); var m = action.toString().match(/.*?\?(.*)/);return '<a href=\"".$action['url']."?'+m[1]+'\" qtip=\"Click to edit\">'+ value + '</a>';"
+									"source"=>"var action = record.get('".$urlIndex."'); if(!action) return value; var m = action.toString().match(/.*?\?(.*)/);return '<a href=\"".$action['url']."?'+m[1]+'\" qtip=\"Click to edit\">'+ value + '</a>';"
 								));							
 								$this->actionsObject = $this->actionsObject->changeProperty($action['name'],'hidden',true);
 								if(isset(ImmExtjs::getInstance()->private[$this->actionsObject->privateName]))
