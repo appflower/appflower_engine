@@ -751,6 +751,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     	<xs:annotation>
         <xs:documentation xml:lang="en">
             Comma separated list of columns to be rendered in the grid.
+            @deprecated Use the column attribute hidden="true" instead.
         </xs:documentation>
       </xs:annotation>
       <xs:complexType mixed="true">
@@ -761,9 +762,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	</xs:simpleContent>
       </xs:complexType>
     </xs:element>
-    
-	<xs:element type="i:listType" name="hidden" />
-	<xs:element type="i:listType" name="level" />
     
     <!-- Complex elements -->
     
@@ -1825,40 +1823,19 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  </xs:complexType>
 	</xs:element>
 	
-	<xs:element name="selectors">
-	  <xs:annotation>
-	  	<xs:documentation xml:lang="en">
-	  		This element describes the selectors for treegrid with multiple
-	  		leveles.
-	  		
-	  		It contains one or more "level" elements.
-	  		
-	  	</xs:documentation>
-	  </xs:annotation>
-	  <xs:complexType>
-      	<xs:sequence>
-      		<xs:element ref="i:level" minOccurs="1" maxOccurs="unbounded"/>
-      	</xs:sequence>
-      	<xs:attributeGroup ref="i:commonAttributes" />
-      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
-      	<xs:attribute name="container" type="xs:boolean" fixed="true" />
-	  </xs:complexType>
-	</xs:element>
-	
 	<xs:element name="display">
 	  <xs:annotation>
 	  	<xs:documentation xml:lang="en">
 	  		This one is for list and show views. It is a container of
 	  		multiple elements manipulating how the view gets
 	  		displayed.
-	  		
+
+            @deprecated Use the column attribute hidden="true" instead.
 	  	</xs:documentation>
 	  </xs:annotation>
 	  <xs:complexType>
       	<xs:sequence>
       		<xs:element ref="i:visible" minOccurs="1" maxOccurs="1"/>
-			<xs:element ref="i:hidden" minOccurs="0" maxOccurs="1"/>
-			<xs:element ref="i:selectors" minOccurs="0" maxOccurs="1"/>
       	</xs:sequence>
       	<xs:attributeGroup ref="i:commonAttributes" />
       	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
