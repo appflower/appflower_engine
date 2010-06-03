@@ -1778,10 +1778,10 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  		
 	  		name			- Unique name of the action. Also used as the label if "text" attribute is omitted. 
 	  		url				- The URL to be requested
-	  		pk				- Applies for rowactions only. If the primary key is not called "ID", you can name it here.
+	  		params			- The parameters to be added to the rowaction URL. Their values are taken from the row columns. Use commas to separate them.
+	  		pk				- One param to add to the rowaction URL. It is deprecated. Use the params instead.
 	  		condition		- When to hide this action? See docs
 	  		script			- Cyustom JS to be executed
-	  		params			- ???
 	  		icon			- An image to attach to the button / menu item as icon (normal and moreactions)
 	  		iconCls			- A CSS class name that adds icon image to the button / menu item. (normal and moreactions)
 	  		tooltip			- Text to be shown when hovering over action icon (rowactions)
