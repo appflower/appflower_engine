@@ -38,6 +38,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 				doubletree 				- Like doublemulticombo, but renders two tree views instead, thus suports grouping. Drag &amp; Drop
 				datetime 				- A date and time input (YYYY-MM-DD HH:ii:ss). 
 				date     				- Date input            (YYYY-MM-DD)
+				color                                   - Displays an input field with a color picker
 				
 			</xs:documentation>
 		</xs:annotation>
@@ -62,6 +63,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 					<xs:enumeration value="doubletree"/>
 					<xs:enumeration value="datetime"/>
 					<xs:enumeration value="date"/>
+					<xs:enumeration value="color"/>
 					<xs:whiteSpace value="collapse"/>
 				</xs:restriction>
 			</xs:simpleType>	
