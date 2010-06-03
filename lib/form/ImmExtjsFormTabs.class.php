@@ -25,8 +25,8 @@ class ImmExtjsFormTabs
 		 */
 		$this->attributes['deferredRender'] = false;
 		
-		//$this->attributes['forceLayout'] = true;				
-		$ah = array('autoHeight'=>$attributes['tabHeight']?false:true);
+		//$this->attributes['forceLayout'] = true;
+		$ah = array('autoHeight'=>(isset($attributes['tabHeight'])&&$attributes['tabHeight'])?false:true);
 		$this->attributes['defaults']=$this->immExtjs->asAnonymousClass(array_merge(array('iconCls'=>'icon-tab-default','bodyStyle'=>'padding:10px;','hideMode'=>'offsets','autoWidth'=>true),$ah));
 		
 		$this->attributes['listeners']['tabchange']=$this->immExtjs->asMethod(array(
