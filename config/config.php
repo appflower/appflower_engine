@@ -12,7 +12,6 @@ sfConfig::set('notification_skip_table_column',
 /**
  * appFlower config
  */
-sfConfig::set('sf_extjs2_version', 'v1.0');
 sfConfig::set('sf_extjs2_comment', true);
 #
 # adapters

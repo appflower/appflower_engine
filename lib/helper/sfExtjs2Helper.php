@@ -526,9 +526,9 @@ class sfExtjs2Plugin {
    */
   public function begin($script = true)
   {
-    $source  = self::LBR;
+    $source = self::LBR;
     if($script) $source .= sprintf("<script type='text/javascript'>%s", self::LBR);
-    $source .= self::_comment(sprintf("%s// appFlower: %s%s", self::LBR, sfConfig::get('sf_extjs2_version'), self::LBR));
+    $source .= self::_comment(sprintf("%s// appFlower: v%s%s", self::LBR, sfConfig::get('app_appFlower_version'), self::LBR));
     $source .= sprintf("Ext.BLANK_IMAGE_URL = '%s'%s", sfConfig::get('sf_extjs'.$this->getExtjsVersion().'_spacer'), self::LBR_SM);
     
     $source .= "Ext.state.Manager.setProvider(new Ext.state.CookieProvider());";

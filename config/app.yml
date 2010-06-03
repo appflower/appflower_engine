@@ -3,6 +3,7 @@ all:
   
   appFlower:
     version: '1.0'
+    loadingLogo: '/appFlowerPlugin/images/appFlowerAnimatedLogo.gif'
   
   parser:
     panels:
