@@ -159,14 +159,6 @@ class parserActions extends sfActions
 		
 	  }
 	
-	/*
-	 * This creates the grid object for lists and prints JSON result.
-	 */
-	public function executeListjson()
-	{		
-		$this->forward('afApi', 'listjson');
-	}
-	
 	/***************************************************************************************************** 
 	 * These functions get the raw data from the datasource
 	 *****************************************************************************************************/

@@ -2,8 +2,7 @@
 
 class afDataFacade {
     const 
-        DEFAULT_PROXY_LIMIT = 20,
-        DEFAULT_PROXY_URL = 'afApi/listjson';
+        DEFAULT_PROXY_LIMIT = 20;
 
     public static function getDataSource($view, $requestParams) {
 

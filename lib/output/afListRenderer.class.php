@@ -4,6 +4,12 @@ class afListRenderer {
     /**
      * Gets and renders the rows for the given module/action.
      * The output is written directly to the response.
+     *
+     * It serves three types of requests:
+     * 1) It serves JSON data for a ExtJs store.
+     * 2) It serves CSV export of the data when af_format=csv.
+     * 3) It serves CVS export of a selection when
+     *      af_format=csv and selections=[row,...].
      */
     public static function renderList($request, $module, $action, $actionVars) {
         $doc = afConfigUtils::getDoc($module, $action);

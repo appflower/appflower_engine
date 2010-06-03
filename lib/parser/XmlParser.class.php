@@ -3472,8 +3472,14 @@ if(response.message) {
 		$start = ArrayUtil::get($parse, 'params', 'proxystart', 0);
 		$limit = ArrayUtil::get($parse, 'params', 'maxperpage',
 			afDataFacade::DEFAULT_PROXY_LIMIT);
-		$proxyUrl = UrlUtil::abs(ArrayUtil::get($parse, 'proxy',
-			afDataFacade::DEFAULT_PROXY_URL));
+
+		$proxyUrl = afExecutionFilter::getListjsonUrl(
+			ImmExtjsWidgets::getWidgetUrl($parse));
+		$customProxyUrl = ArrayUtil::get($parse, 'proxy', $proxyUrl);
+		if($customProxyUrl !== 'parser/listjson') {
+			$proxyUrl = $customProxyUrl;
+		}
+		$proxyUrl = UrlUtil::abs($proxyUrl);
 		$proxyUrl = self::setupProxyUrl($proxyUrl, $parse);
 
 		$args = array('url'=>$proxyUrl, 'limit'=>$limit, 'start' => $start);
@@ -3483,13 +3489,12 @@ if(response.message) {
 		return $args;
 	}
 
-	private static function setupProxyUrl($url, $parse)
+	private static function setupProxyUrl($url)
 	{
 		$unique_id = uniqid();
-		$ignoredParams = array('module', 'action');
+		$ignoredParams = array('module', 'action', 'widget_load',
+			'widget_popup_request');
 		$url = UrlUtil::addParam($url, 'uid', $unique_id);
-		$url = UrlUtil::addParam($url, 'config',
-			ImmExtjsWidgets::getWidgetUrl($parse));
 		$request = sfContext::getInstance()->getRequest();
 		foreach($request->getParameterHolder()->getAll() as $key => $value) {
 			if(!StringUtil::startsWith($key, '_') &&
