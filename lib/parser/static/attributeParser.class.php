@@ -31,6 +31,7 @@ class attributeParser extends XmlBaseElementParser {
 		
 		if(!$key) {
 			$name = self::$parser->get($node,"name");	
+			$key = 'fields/'.$name.'/attributes/';
 		}
 		
 		$attributes = self::$parser->attributes($node);
@@ -42,11 +43,7 @@ class attributeParser extends XmlBaseElementParser {
 				self::$parser->set($attrName,$attrValue,$node);
 			}
 			
-			if(!$key) {
-				$k = "fields/".$name."/attributes/".$attrName;
-			} else {
-				$k = $key."/".$attrName;
-			}
+			$k = $key.'/'.$attrName;
 			
 			if(substr($attrValue,0,1) == "[") {
 				if($attrName == "filter") {
@@ -75,11 +72,6 @@ class attributeParser extends XmlBaseElementParser {
 					$attrValue = "/".$attrValue;
 					
 				}
-				
-			}
-			
-		if(self::$parser->has($node,"is_script")) {
-			
 				
 			}
 			
