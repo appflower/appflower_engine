@@ -1495,8 +1495,8 @@ class XmlParser extends XmlParserTools {
 						$value = "array('".trim(implode("','",$item["value"]),",")."')";						
 						eval("return \$this->process['parses'][".$this->iteration."]".$item["key"]." = ".$value.";");
 					}  else {
-						if(eval("return !isset(\$this->process['parses'][".$this->iteration."]".$item["key"].");")) {
 						eval("\$tmp =& \$this->process['parses'][".$this->iteration."]".$item["key"].";");
+						if(!isset($tmp)) {
 							$tmp = $item["value"];	
 						}
 						
