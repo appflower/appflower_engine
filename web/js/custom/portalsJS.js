@@ -145,11 +145,10 @@ function Portals()
 		tabPanel.afterLayoutOnceEvent=true;
 		var uri=document.location.href.split('#');
       	var toActivate=0;
-      	if(uri[1]){
-  	      	for(var i=0;i<tabPanel.items.items.length;i++){
-      	      	if(tabPanel.items.items[i].slug==uri[1]){
-      	      		toActivate=i;      	      		
-      	      	}
+      	
+      	for(var i=0;i<tabPanel.items.items.length;i++){
+  	      	if(tabPanel.items.items[i].slug==uri[uri.length-1]){
+  	      		toActivate=i;      	      		
   	      	}
   	    }      	
       	tabPanel.activate(toActivate);

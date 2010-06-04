@@ -11,7 +11,7 @@ class ImmExtjsLayout
 	public $attributes=array(), $layout='border';
 	static public $instance = null;	
 	public $immExtjs=null;
-	
+	public $showFullCenter = false;	
 							
 	public function __construct($attributes=array())
 	{
@@ -66,6 +66,11 @@ class ImmExtjsLayout
 	public static function setInstance($object)
 	{
 		self::$instance = $object;
+	}
+	
+	public function showFullCenter()
+	{
+		return (sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->getRequest()->isXmlHttpRequest()||$this->showFullCenter);
 	}
 	
 	public function setTitle($title)
@@ -285,6 +290,19 @@ class ImmExtjsLayout
 		if(isset($this->immExtjs->private['west_panel']))
 		$viewportItems[]=$this->immExtjs->asVar('west_panel');
 		
+		/**
+		 * if users sends a url directly in browser, then the request is not ajax, so create an empty center_panel in which to load the contents of the given url
+		 */
+		if(!$this->showFullCenter())
+		{
+			$attributesPanelContainer['style']='padding-right:5px;';
+			$attributesPanelContainer['border']=false;
+			$attributesPanelContainer['bodyBorder']=false;
+			$attributesPanelContainer['layout']='fit';
+			$attributesPanelContainer['id']='center_panel';         	      	
+			
+			$this->addPanel('center',$attributesPanelContainer);
+		}
 		if(isset($this->immExtjs->private['center_panel']))
 		$viewportItems[]=$this->immExtjs->asVar('center_panel');
 		
@@ -316,8 +334,9 @@ class ImmExtjsLayout
 		@$this->immExtjs->public['init'] .="
 		viewport.doLayout();	
 		setTimeout(function(){
-	        Ext.get('loading').remove();
+			Ext.get('loading').remove();
 	        Ext.get('loading-mask').fadeOut({remove:true});
+	    ".(!$this->showFullCenter()?"afApp.loadFirst();":"")."        
 	    }, 250);";
 
 		

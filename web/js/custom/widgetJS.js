@@ -309,6 +309,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		eval(json.source);				
 		
 		viewport.layout.center.panel.add(eval(json.center_panel_first));		
+		if(viewport.layout.center.panel.body.dom.childNodes.length>1)
 		viewport.layout.center.panel.body.dom.removeChild(viewport.layout.center.panel.body.dom.lastChild);
 		viewport.doLayout();				
 				
@@ -319,16 +320,19 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 }
 afApp.loadCenterWidget = function(widget) {
 	
+	var uri=widget.split('#');
+	uri[0]=uri[0] || '/';
+	var futureTab=uri[1]?'#'+uri[1]:'';
 	var viewport=App.getViewport();
 	var mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading</b> <br>Please Wait...",removeMask:true});
 	mask.show();
 	var ajax = Ext.Ajax.request( {
-		url : widget,
+		url : uri[0],
 		method : "GET",		
 		success : function(r) {
 			var json = Ext.util.JSON.decode(r.responseText);
 			//hash contains the value without #in front of the internal link
-			var futureHash=widget.replace(document.location.protocol+'//'+document.location.host,'');
+			var futureHash=uri[0].replace(document.location.protocol+'//'+document.location.host,'')+futureTab;
 			var currentHash=document.location.href.replace(document.location.protocol+'//'+document.location.host+'/#','');
 			
 			if(json.redirect&&json.message&&json.load)
@@ -519,6 +523,34 @@ afApp.loadPopupHelp = function(widget) {
 			}				
 		}
 	});
+}
+afApp.changeTabHash = function(tab)
+{
+	var uri=document.location.href.split('#');
+	uri[1]=uri[1] || '/';
+	uri[2]=tab.slug;
+	
+	var futureHash=uri[1]+'#'+uri[2];
+	
+	document.location.hash=futureHash;	
+	
+	//adding a referer param to all Ajax request in Ext objects
+	Ext.Ajax.extraParams = {
+	    'af_referer': futureHash
+	};
+}
+/**
+* load first request made to browser directly
+*/
+afApp.loadFirst = function()
+{
+	var uri=document.location.href.split('#');
+	uri[1]=uri[1] || '/';
+	uri[2]=uri[2]?'#'+uri[2]:'';
+	
+	var firstUri=uri[1]+uri[2];
+	
+	afApp.load(firstUri);
 }
 Ext.onReady(function(){
 

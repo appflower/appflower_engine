@@ -52,9 +52,7 @@ class ImmExtjsPortalLayout extends ImmExtjsLayout
 	}
 	
 	public function beforeEnd()
-	{
-		$this->immExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->immExtjs->getExamplesDir().'portal/portal.css'), 'js' => array($this->immExtjs->getExamplesDir().'portal/Portal.js',$this->immExtjs->getExamplesDir().'portal/PortalColumn.js',$this->immExtjs->getExamplesDir().'portal/Portlet.js',$this->immExtjs->getExamplesDir().'portal/sample-grid.js','/appFlowerPlugin/js/custom/portalsJS.js',$this->immExtjs->getExamplesDir().'form/Ext.ux.ClassicFormPanel.js')));
-		
+	{	
 		if(isset($this->attributes['viewport']['center_panel'])&&count($this->attributes['viewport']['center_panel'])>0)
 		$attributes=array_merge(array(),$this->attributes['viewport']['center_panel']);
 						
@@ -130,7 +128,7 @@ class ImmExtjsPortalLayout extends ImmExtjsLayout
 				          	      	"));
 				$attributesTabPanel['listeners']['tabchange']=$this->immExtjs->asMethod(array(
 				          	      	'parameters'=>'tabPanel,tab',
-				          	      	'source'=>"tabPanel.doLayout();if(tabPanel.getActiveTab().items){tabPanel.getActiveTab().items.items[0].afterLayoutEvent=false;tabPanel.getActiveTab().items.items[0].onPortalAfterLayout(tabPanel.getActiveTab().items.items[0]);}"));
+				          	      	'source'=>"tabPanel.doLayout();if(tabPanel.getActiveTab().items){tabPanel.getActiveTab().items.items[0].afterLayoutEvent=false;tabPanel.getActiveTab().items.items[0].onPortalAfterLayout(tabPanel.getActiveTab().items.items[0]);}afApp.changeTabHash(tab);"));
 
 				$attributesPanel['title']=$attributesTabPanel['title'];
 				unset($attributesTabPanel['title']);
@@ -163,11 +161,16 @@ class ImmExtjsPortalLayout extends ImmExtjsLayout
 	
 	public function end()
 	{
+		$this->immExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->immExtjs->getExamplesDir().'portal/portal.css'), 'js' => array($this->immExtjs->getExamplesDir().'portal/Portal.js',$this->immExtjs->getExamplesDir().'portal/PortalColumn.js',$this->immExtjs->getExamplesDir().'portal/Portlet.js',$this->immExtjs->getExamplesDir().'portal/sample-grid.js','/appFlowerPlugin/js/custom/portalsJS.js',$this->immExtjs->getExamplesDir().'form/Ext.ux.ClassicFormPanel.js')));
+		
 		$this->addSouthComponent();
 		
 		sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsWest'));				
 		
-		$this->beforeEnd();
+		if($this->showFullCenter())
+		{
+			$this->beforeEnd();
+		}
 		
 		parent::end();
 	}
