@@ -37,7 +37,7 @@ Ext.ux.plugins.HelpText = {
 			            			break;
 			            	}			            	
 			            	this.helpText = (this.helpText+'').replace(/[\\"']/g, '\'');
-			            	Ext.DomHelper.append(label,{
+			            	Ext.DomHelper.insertFirst(label,{
 		                        tag: 'span',
 		                        style: style,
 		                        html: '<img src="/appFlowerPlugin/images/help.png" qtip="'+this.helpText+'">'
