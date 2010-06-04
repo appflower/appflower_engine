@@ -25,7 +25,8 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 
 	public static function getTextFont()
 	{
-		$fonts = array("Arial" => "Arial", "Helvetica" => "Helvetica", "sans-serif" => "sans-serif","Arial Black" => "Arial Black", "Comic Sans MS" => "Comic Sans MS","Courier New" => "Courier New","Georgia" => "Georgia","Serif" => "Serif","Times New Roman" => "Times New Roman", "Verdana" => "Verdana", "Webdings" => "Webdings");
+		//$fonts = array("Arial" => "Arial", "Helvetica" => "Helvetica", "sans-serif" => "sans-serif","Arial Black" => "Arial Black", "Comic Sans MS" => "Comic Sans MS","Courier New" => "Courier New","Georgia" => "Georgia","Serif" => "Serif","Times New Roman" => "Times New Roman", "Verdana" => "Verdana", "Webdings" => "Webdings");
+		$fonts = array("Arial" => "Arial", "Times New Roman" => "Times New Roman");
 		asort($fonts);
 		return $fonts;
 	}
