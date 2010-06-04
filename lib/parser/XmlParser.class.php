@@ -1483,23 +1483,18 @@ class XmlParser extends XmlParserTools {
 			}
 			
 			
+			$parse =& $this->process['parses'][$this->iteration];
 			foreach($input as $item) {
 				if(!is_array($item) || !isset($item["key"]) || !isset($item["value"])) {
 					throw new XmlParserException("Invalid input parameter, array structure is unexpected! Please refer the wiki!");
 				} 
 				
-				if(!strstr($item["key"],"[")) {
-					$this->process["parses"][$this->iteration][$item["key"]] = $item["value"];	
+				if($item['key'][0] !== '[') {
+					$parse[$item['key']] = $item['value'];
 				} else {
-					if(is_array($item["value"])) {
-						$value = "array('".trim(implode("','",$item["value"]),",")."')";						
-						eval("return \$this->process['parses'][".$this->iteration."]".$item["key"]." = ".$value.";");
-					}  else {
-						eval("\$tmp =& \$this->process['parses'][".$this->iteration."]".$item["key"].";");
-						if(!isset($tmp)) {
-							$tmp = $item["value"];	
-						}
-						
+					eval('$tmp =& $parse'.$item['key'].';');
+					if(!isset($tmp)) {
+						$tmp = $item["value"];	
 					}
 				}
 			}
