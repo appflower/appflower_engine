@@ -60,6 +60,7 @@ class attributeParser extends XmlBaseElementParser {
 					}
 						
 					self::toArray($attrValue,$k);
+					continue;
 					
 					
 				}

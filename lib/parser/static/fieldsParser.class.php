@@ -17,7 +17,6 @@ class fieldsParser extends XmlBaseElementParser {
 		self::add("tree",self::$parser->get($node,"tree"));
 		self::add("selectable",self::$parser->get($node,"selectable"));
 		self::add("exportable",self::$parser->get($node,"exportable"));
-		self::add("title",self::$parser->get($node,"title"));
 		self::add("pager",self::$parser->get($node,"pager"));
 		self::add("select",self::$parser->get($node,"select"));
 		self::add("submit",self::$parser->get($node,"submit"));
