@@ -1,4 +1,9 @@
 <?php
+$url = '/server/listServer';
+if(isset($argv[1])) {
+    $url = $argv[1];
+}
+
 require_once(dirname(__FILE__).'/../bootstrap/dbunit.php');
 
 Console::$profilingEnabled = true;
@@ -18,5 +23,9 @@ class AuthenticatedBrowser extends sfBrowser {
 $browser = new AuthenticatedBrowser();
 sfConfig::set('app_parser_panels', array());
 sfConfig::set('app_parser_skip_toolbar', true);
-$browser->get('/server/listServer');
+$browser->get($url);
+Console::profile('end');
+
+Console::restartProfiling();
+$browser->get($url);
 

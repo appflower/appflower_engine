@@ -48,6 +48,11 @@ class Console {
         apc_store('Console::memory', array(self::$startedAt, self::$last));
     }
 
+    public static function restartProfiling() {
+        self::$startedAt = null;
+        file_put_contents('php://stderr', "\n");
+    }
+
     private static function formatPoint($totalMillis, $passedMillis, $point, $path) {
         return sprintf("%dms (%dms) till %s, %s\n",
             $totalMillis, $passedMillis, $point, $path);
