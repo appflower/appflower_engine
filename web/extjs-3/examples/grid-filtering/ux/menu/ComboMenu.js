@@ -80,12 +80,11 @@ Ext.ux.menu.ComboMenu = Ext.extend(Ext.menu.BaseItem, {
     		values = v.toString().split(",");
     	}else{
     		values[0] = v;
-    	}
-    	
+    	}    	
     	for(var i=0;i<values.length;i++){
-    		if(values[i] == '') continue;
-    		var index = store.find('field1',values[i]);
-    		
+    		if(values[i] == '') continue;    		
+    		var index = store.findExact('field1',parseInt(values[i]));
+    		if(index == -1) index = store.find('field1',values[i]);
         	var record = store.getAt(index);
         	displayValues.push(record.get('field2'));
     	}	
