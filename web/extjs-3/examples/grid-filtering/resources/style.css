@@ -69,7 +69,8 @@
 	margin-right:5px;
 	margin-bottom:5px;
 	border: 1px solid #8db2e3;
-	
+	font-size:11px;
+	font-family:verdana;
 }
 .ux-grid-filter-info-box:hover{
 	background-color:#cddef1;
