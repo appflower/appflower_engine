@@ -1489,13 +1489,12 @@ class XmlParser extends XmlParserTools {
 					throw new XmlParserException("Invalid input parameter, array structure is unexpected! Please refer the wiki!");
 				} 
 				
-				if($item['key'][0] !== '[') {
-					$parse[$item['key']] = $item['value'];
-				} else {
-					eval('$tmp =& $parse'.$item['key'].';');
-					if(!isset($tmp)) {
-						$tmp = $item["value"];	
-					}
+				$ref =& $parse;
+				foreach($item['key'] as $key) {
+					$ref =& $ref[$key];
+				}
+				if(!isset($ref)) {
+					$ref = $item['value'];
 				}
 			}
 		}

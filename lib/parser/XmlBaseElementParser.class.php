@@ -79,14 +79,7 @@ class XmlBaseElementParser  {
 			throw $e;
 		}
 		
-		if($m) {
-			$tmp = explode("/",$key);
-			$key = "";
-			foreach($tmp as $v) {
-				$key .= "['".trim($v)."']";
-			}
-		}
-		
+		$key = explode('/',$key);
 		
 		if(is_string($value) || @get_class($value) == "DOMElement") {
 			self::$ret[] = array("key" => $key, "value" => $value);
