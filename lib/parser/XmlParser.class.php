@@ -1472,10 +1472,6 @@ class XmlParser extends XmlParserTools {
 	
 	
 	private function storeProcessed($input) {
-		
-		
-		try {
-			
 			if(!is_array($input)) {
 				throw new XmlParserException("Invalid input parameter, a multi-dimensonal array expected!");
 			}
@@ -1493,13 +1489,10 @@ class XmlParser extends XmlParserTools {
 				}
 				if(!isset($ref)) {
 					$ref = $item['value'];
+				} else {
+					throw new XmlParserException(sprintf('Two parsed values are colliding at "%s".', implode('/', $item['key'])));
 				}
 			}
-		}
-		catch(Exception $e) {
-			throw $e;
-		}
-		
 	}
 	
 	

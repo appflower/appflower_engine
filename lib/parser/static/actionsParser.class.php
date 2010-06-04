@@ -10,21 +10,7 @@ class actionsParser extends XmlBaseElementParser {
 		if($key === null) {
 			$key = "actions";
 		}
-		if(self::$parser->has($node,"forceSelection")) {
-			self::add("forceSelection",self::$parser->get($node,"forceSelection"));
-		}
-		else self::add("forceSelection","true");
-		
-		if(self::$parser->has($node,"confirmMsg")) {
-			self::add("confirmMsg",self::$parser->get($node,"confirm"));
-		}
-		if(self::$parser->has($node,"popup")) {
-			self::add("popup",self::$parser->get($node,"popup"));
-		}	
-		if(self::$parser->has($node,"popupSettings")) {
-			self::add("popupSettings",self::$parser->get($node,"popupSettings"));
-		}
-		
+
 		self::$parser->set("name",$key,$node);	
 		
 		foreach($it as $n) {
