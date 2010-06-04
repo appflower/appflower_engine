@@ -3487,7 +3487,7 @@ if(response.message) {
 	{
 		$unique_id = uniqid();
 		$ignoredParams = array('module', 'action', 'widget_load',
-			'widget_popup_request');
+			'widget_popup_request', 'referer');
 		$url = UrlUtil::addParam($url, 'uid', $unique_id);
 		$request = sfContext::getInstance()->getRequest();
 		foreach($request->getParameterHolder()->getAll() as $key => $value) {
