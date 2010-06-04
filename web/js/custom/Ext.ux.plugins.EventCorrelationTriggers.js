@@ -236,22 +236,22 @@ Ext.extend(Ext.ux.plugins.EventCorrelationTriggers, Ext.util.Observable,{
                 	});
                 	new Ext.ToolTip({
                 		target:form.getForm().findField('source_ip').getEl(),
-                		html:"Input a valid IP address if any",
+                		html:"Input a valid IP address or Wildcards [unique/any]",
                 		trackMouse:true
                 	});
                 	new Ext.ToolTip({
                 		target:form.getForm().findField('attacking_ip').getEl(),
-                		html:"Input a valid IP address if any",
+                		html:"Input a valid IP address or Wildcards [unique/any]",
                 		trackMouse:true
                 	});
                 	new Ext.ToolTip({
                 		target:form.getForm().findField('username').getEl(),
-                		html:"Input an username if any",
+                		html:"Input an username or Wildcards [unique/any]",
                 		trackMouse:true
                 	});
                 	new Ext.ToolTip({
                 		target:form.getForm().findField('service').getEl(),
-                		html:"Input service name if any",
+                		html:"Input service name or Wildcards [unique/any]",
                 		trackMouse:true
                 	});
                 	
