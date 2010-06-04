@@ -385,7 +385,7 @@ afApp.loadCenterWidget = function(widget) {
 				
 				//adding a referer param to all Ajax request in Ext objects
 				Ext.Ajax.extraParams = {
-				    'referer': futureHash
+				    'af_referer': futureHash
 				};
 				
 				afApp.executeAddonsLoadCenterWidget(viewport,total_addons,json,mask);	
