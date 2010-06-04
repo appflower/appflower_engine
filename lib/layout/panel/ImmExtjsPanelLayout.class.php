@@ -19,6 +19,7 @@ class ImmExtjsPanelLayout extends ImmExtjsLayout
 		if(isset($this->attributes['viewport']['south_panel'])&&count($this->attributes['viewport']['south_panel'])>0)
 		$attributes=array_merge($attributes,$this->attributes['viewport']['south_panel']);
 				          
+		if(isset($attributes['items'])&&count($attributes['items'])>0)
 		$this->addPanel('south',$attributes);		
 	}
 	
