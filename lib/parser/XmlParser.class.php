@@ -313,10 +313,8 @@ class XmlParser extends XmlParserTools {
 						$this->storeProcessed(call_user_func(array($classname,"getRetVal")));	
 					} else if($ret === false) {
 						throw new XmlParserException("Parser ".$classname." returned with false!");
-					} else if($ret == -1) {
-						call_user_func(array($classname,"clearRetVal"));
-						//echo $classname."<br>";
 					}
+					call_user_func(array($classname, 'clearRetVal'));
 				}
 			}	
 		}
@@ -1478,7 +1476,7 @@ class XmlParser extends XmlParserTools {
 		
 		try {
 			
-			if(!is_array($input) || empty($input)) {
+			if(!is_array($input)) {
 				throw new XmlParserException("Invalid input parameter, a multi-dimensonal array expected!");
 			}
 			
@@ -3487,7 +3485,7 @@ if(response.message) {
 	{
 		$unique_id = uniqid();
 		$ignoredParams = array('module', 'action', 'widget_load',
-			'widget_popup_request', 'referer');
+			'widget_popup_request', 'af_referer');
 		$url = UrlUtil::addParam($url, 'uid', $unique_id);
 		$request = sfContext::getInstance()->getRequest();
 		foreach($request->getParameterHolder()->getAll() as $key => $value) {
