@@ -16,5 +16,7 @@ class AuthenticatedBrowser extends sfBrowser {
 }
 
 $browser = new AuthenticatedBrowser();
+sfConfig::set('app_parser_panels', array());
+sfConfig::set('app_parser_skip_toolbar', true);
 $browser->get('/server/listServer');
 
