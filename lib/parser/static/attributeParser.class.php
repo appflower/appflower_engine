@@ -31,7 +31,7 @@ class attributeParser extends XmlBaseElementParser {
 		
 		if(!$key) {
 			$name = self::$parser->get($node,"name");	
-			$key = 'fields/'.$name.'/attributes/';
+			$key = 'fields/'.$name.'/attributes';
 		}
 		
 		$attributes = self::$parser->attributes($node);
