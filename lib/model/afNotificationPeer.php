@@ -8,11 +8,8 @@ class afNotificationPeer extends BaseafNotificationPeer
 		
 		$cri = new Criteria();
 		$cri->add(afNotifiedForPeer::USER,$user_id);
-		$notified = afNotifiedForPeer::doSelect($cri);
-		$ids = array();
-		foreach($notified as $n){
-			$ids[] = $n->getNotificationId();
-		}
+		$notified = afNotifiedForPeer::doSelectOne($cri);
+		$notified_id = $notified?$notified->getNotificationId():0;
 		
 		$c = new Criteria();	
 		
@@ -35,7 +32,7 @@ class afNotificationPeer extends BaseafNotificationPeer
 		/*
 		 * Criteria for the notifications if not already shown
 		 */
-		$c->add(self::ID,$ids,Criteria::NOT_IN);
+		$c->add(self::ID,$notified_id,Criteria::GREATER_THAN);
 				
 		if(self::doCount($c) <= Notification::WHEN_EXCEEDS){
 			$c->setLimit(3);
@@ -50,7 +47,7 @@ class afNotificationPeer extends BaseafNotificationPeer
 		$arr = array();
 		foreach($objs as $obj){			
 			$source_for_window = "var win = new Ext.Window({title:'Notification Details',autoScroll:true,frame:true, bodyStyle:'background-color:#fff',width:600,height:400}).show(); var mask = new Ext.LoadMask(win.getEl(),{msg:'Loading details... Please wait...'}); mask.show(); Ext.Ajax.request({url:'/appFlower/notificationDetails',params:{id:".$obj->getId()."},success:function(response){win.getEl().select('.x-window-body').update(response.responseText,true);mask.hide();}}); ";
-			$detailLink = $obj->getLog()?'<br><a style="color:#0000ff" href="#" onclick="'.$source_for_window.'">Click here for detail</a>':'';
+			$detailLink = $obj->getLog()?'<br><a style="float:right;color:#0000ff" href="#" onclick="'.$source_for_window.'">Click here for detail</a>':'';
 			$msg = self::getDecoratedMessage($obj).$detailLink;				
 			$arr[] = array('title'=>$obj->getTitle(),'message'=>$msg,'type'=>$obj->getType(),'duration'=>$obj->getDuration());
 					
@@ -73,19 +70,24 @@ class afNotificationPeer extends BaseafNotificationPeer
 			$const = constant("Notification::".strtoupper($so)."_RELATED");
 			$new_show_only[] = $const;
 		}		
-		foreach($objs as $obj){	
-			/*
-			 * save the objs as notfied, even if filtered out
-			 */	
-			$user_id = sfContext::getInstance()->getUser()->getProfile()->getUserId();	
-			$notified_for = new afNotifiedFor();
-			$notified_for->setUser($user_id);
-			$notified_for->setNotificationId($obj->getId());
-			$notified_for->save();			
+		if(!count($objs)) return array();
+		$greatest_id = 0;
+		foreach($objs as $obj){
+			if($obj->getId() > $greatest_id) $greatest_id = $obj->getId();					
 			if(in_array($obj->getCategory(),$new_show_only) && ($obj->getCategory() != Notification::AUDIT_RELATED || ($obj->getCategory() == Notification::AUDIT_RELATED && $permission == 1))){
 				$newObj[] = $obj;
 			}
-		}		
+		}
+		$user_id = sfContext::getInstance()->getUser()->getProfile()->getUserId();
+		$cri = new Criteria();
+		$cri->add(afNotifiedForPeer::USER,$user_id);
+		$notified = afNotifiedForPeer::doSelectOne($cri);
+		if(!$notified){
+			$notified = new afNotifiedFor();
+			$notified->setUser($user_id);			
+		}	
+		$notified->setNotificationId($greatest_id);
+		$notified->save();
 		return $newObj;
 	}
 	public static function getDecoratedMessage($obj){
