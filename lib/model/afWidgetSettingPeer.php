@@ -109,8 +109,8 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 			case "/netflow/showFirewallGraph":
 				return array(
 					"basic" => array("graph_type_value" => "ImmAm3DColumn", "text_color" => "#000000","text_font_value" => "Arial", "text_size_value" => "11","bg_color" => "#FFFFFF", "height" => 380),	
-			        "granted" => array("show" => true, "text" => "Granted", "color" => "#B57B34", "hover_color" => "#ff0000"),
-					"blocked" => array("show" => true, "text" => "Blocked", "color" => "#BC845E", "hover_color" => "#ff0000"),	
+			        "granted" => array("show" => true, "text" => "Granted", "color" => "#C4DFA4", "hover_color" => "#ff0000"),
+					"blocked" => array("show" => true, "text" => "Blocked", "color" => "#F5A07F", "hover_color" => "#ff0000"),	
 			        "reload" => array("started" => false, "interval" => 60));	
 		}
 	}
