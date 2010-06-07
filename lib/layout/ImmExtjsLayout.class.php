@@ -11,7 +11,7 @@ class ImmExtjsLayout
 	public $attributes=array(), $layout='border';
 	static public $instance = null;	
 	public $immExtjs=null;
-	public $showFullCenter = false;	
+	public $showFullCenter = true;	
 							
 	public function __construct($attributes=array())
 	{
