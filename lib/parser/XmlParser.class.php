@@ -1490,7 +1490,7 @@ class XmlParser extends XmlParserTools {
 				if(!isset($ref)) {
 					$ref = $item['value'];
 				} else {
-					//throw new XmlParserException(sprintf('Two parsed values are colliding at "%s".', implode('/', $item['key'])));
+					throw new XmlParserException(sprintf('Two parsed values are colliding at "%s".', implode('/', $item['key'])));
 				}
 			}
 	}
