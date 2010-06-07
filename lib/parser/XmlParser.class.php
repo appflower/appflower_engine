@@ -311,10 +311,10 @@ class XmlParser extends XmlParserTools {
 					// Save data..
 					if((int) $ret > 0) {
 						$this->storeProcessed(call_user_func(array($classname,"getRetVal")));	
-					} else if($ret === false) {
+					} else if($ret !== -1) {
 						throw new XmlParserException("Parser ".$classname." returned with false!");
 					}
-					//call_user_func(array($classname, 'clearRetVal'));
+					call_user_func(array($classname, 'clearRetVal'));
 				}
 			}	
 		}

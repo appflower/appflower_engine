@@ -2,9 +2,10 @@
 
 class XmlBaseElementParser  {
 	
+	private static
+		$ret = array();
 	public static 
 		$parser,
-		$ret = array(),
 		$tree,
 		$tree_root,
 		$tree_item;

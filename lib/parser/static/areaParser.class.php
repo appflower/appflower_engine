@@ -14,14 +14,10 @@ class areaParser extends XmlBaseElementParser {
 			self::add($key."/tabbed","true");
 		} else {
 			self::add($key."/tabbed","false");
-			$x = array();
 			self::add("areas/".self::$parser->get($node,"type")."/tabs/0/attributes",array());
 		}
-		
-		
-		$process = self::$parser->getProcess();
-		
-		
+
+		return true;
 	}
 	
 }
