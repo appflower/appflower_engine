@@ -974,7 +974,10 @@ class ImmExtjsGrid
 										store.proxy.conn.disableCaching = true;
 									}
 									store.reload();
-								}													
+								}
+								if(grid.select && response.redirect){
+									window.location.href = response.redirect;
+								} 																			
 							}
 						},
 						failure: function(response,options) {

@@ -112,9 +112,9 @@ Ext.ux.grid.filter.DateFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	},
 	getDisplayValue: function(){		
 		if(this.getValue().on) return this.getFormatedDate(this.getValue().on);		
-		if(this.getValue().after && this.getValue().before) return "After: "+this.getFormatedDate(this.getValue().after)+", Before: "+this.getFormatedDate(this.getValue().before);
-		if(this.getValue().after) return "After: "+this.getFormatedDate(this.getValue().after)
-		if(this.getValue().before) return "Before: "+this.getFormatedDate(this.getValue().before)
+		if(this.getValue().after && this.getValue().before) return this.afterText+": "+this.getFormatedDate(this.getValue().after)+", "+this.beforeText+": "+this.getFormatedDate(this.getValue().before);
+		if(this.getValue().after) return this.afterText+": "+this.getFormatedDate(this.getValue().after)
+		if(this.getValue().before) return this.beforeText+": "+this.getFormatedDate(this.getValue().before)
 		
 	},
 	getFormatedDate: function(d){
