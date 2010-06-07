@@ -81,22 +81,7 @@ class XmlBaseElementParser  {
 		}
 		
 		$key = explode('/',$key);
-		
-		if(is_string($value) || @get_class($value) == "DOMElement") {
-			self::$ret[] = array("key" => $key, "value" => $value);
-		} else {
-			self::$ret[] = array("key" => $key, "value" => array());
-			if((is_object($value) && $value->getListLength() > 0) || !empty($value)) {
-				$k = sizeof(self::$ret)-1;
-				foreach($value as $v) {
-					if(is_array($v)) {
-						self::$ret[$k]["value"][key($v)] = $v;
-					} else {
-						self::$ret[$k]["value"][] = $v;	
-					}
-				}	
-			}		
-		}	
+		self::$ret[] = array("key" => $key, "value" => $value);
 	}
 	
 	public static final function getParser() {
