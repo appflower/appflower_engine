@@ -70,7 +70,7 @@ class ImmExtjsLayout
 	
 	public function showFullCenter()
 	{
-		return true;//(sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->getRequest()->isXmlHttpRequest()||$this->showFullCenter);
+		return (sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->getRequest()->isXmlHttpRequest()||$this->showFullCenter);
 	}
 	
 	public function setTitle($title)
@@ -293,7 +293,7 @@ class ImmExtjsLayout
 		/**
 		 * if users sends a url directly in browser, then the request is not ajax, so create an empty center_panel in which to load the contents of the given url
 		 */
-		if(!sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->getRequest()->isXmlHttpRequest()&&!$this->showFullCenter)
+		if(!$this->showFullCenter())
 		{
 			$attributesPanelContainer['style']='padding-right:5px;';
 			$attributesPanelContainer['border']=false;
@@ -336,7 +336,7 @@ class ImmExtjsLayout
 		setTimeout(function(){
 			Ext.get('loading').remove();
 	        Ext.get('loading-mask').fadeOut({remove:true});
-	    ".((!sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->getRequest()->isXmlHttpRequest()&&!$this->showFullCenter)?"afApp.loadFirst();":"")."        
+	    ".(!$this->showFullCenter()?"afApp.loadFirst();":"")."        
 	    }, 250);";
 
 		

@@ -167,7 +167,10 @@ class ImmExtjsPortalLayout extends ImmExtjsLayout
 		
 		sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsWest'));				
 		
-		$this->beforeEnd();
+		if($this->showFullCenter())
+		{
+			$this->beforeEnd();
+		}
 		
 		parent::end();
 	}

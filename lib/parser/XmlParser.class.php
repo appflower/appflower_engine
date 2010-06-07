@@ -314,7 +314,7 @@ class XmlParser extends XmlParserTools {
 					} else if($ret === false) {
 						throw new XmlParserException("Parser ".$classname." returned with false!");
 					}
-					call_user_func(array($classname, 'clearRetVal'));
+					//call_user_func(array($classname, 'clearRetVal'));
 				}
 			}	
 		}
@@ -1490,7 +1490,7 @@ class XmlParser extends XmlParserTools {
 				if(!isset($ref)) {
 					$ref = $item['value'];
 				} else {
-					throw new XmlParserException(sprintf('Two parsed values are colliding at "%s".', implode('/', $item['key'])));
+					//throw new XmlParserException(sprintf('Two parsed values are colliding at "%s".', implode('/', $item['key'])));
 				}
 			}
 	}
