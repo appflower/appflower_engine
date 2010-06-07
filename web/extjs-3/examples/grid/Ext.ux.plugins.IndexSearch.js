@@ -64,9 +64,10 @@ Ext.extend(Ext.ux.plugins.IndexSearch, Ext.util.Observable, {
 				            {
 				            	header: 'Count', dataIndex: 'facet_count', sortable:true, align:"right", renderer:function(value){
 					            	var re = /<div class="ux-grid-filter-hidden-value">(.*)<\/div>/i;
+					            	var original = value;
 					        		value = String(value).replace(re,"");
 				            		var formatted = Ext.util.Format.number(Ext.util.Format.stripTags(value),"0,000");
-				            		return value.toString().replace(Ext.util.Format.stripTags(value),formatted);
+				            		return original.toString().replace(Ext.util.Format.stripTags(value),formatted);
 				            	}
 				            }
 				        ]
@@ -121,9 +122,10 @@ Ext.extend(Ext.ux.plugins.IndexSearch, Ext.util.Observable, {
 					        {
 				            	header: 'Count', dataIndex: 'facet_count', sortable:true,align:"right", renderer:function(value){
 					            	var re = /<div class="ux-grid-filter-hidden-value">(.*)<\/div>/i;
+					            	var original = value;
 					        		value = String(value).replace(re,""); 
 				            		var formatted = Ext.util.Format.number(Ext.util.Format.stripTags(value),"0,000");
-				            		return value.toString().replace(Ext.util.Format.stripTags(value),formatted);
+				            		return original.toString().replace(Ext.util.Format.stripTags(value),formatted);
 				            	}
 				            }
 				        ]
