@@ -187,11 +187,12 @@ class appFlowerActions extends sfActions
 			$config->content[$config->layoutItem]=$content;
 			unset($content);
 			
-			$portalWidgets=json_decode($portalWidgets);
+			$portalWidgets=json_decode($portalWidgets);			
 				
 			$i=0;
 			foreach ($portalWidgets as $pwi=>$portalWidgetsFielset)
 			{
+				if(empty($portalWidgetsFielset->widgets)) continue;
 				$i++;
 				
 				$result['rows'][$i]['title']=$portalWidgetsFielset->title;
