@@ -171,7 +171,7 @@ class XmlBaseElementParser  {
 			$item = ($nodelist) ? self::$parser->get($var) : $var;
 			if(strstr($item,"{")) {
 
-				if(!$var->parsed) {
+				if(!property_exists($var,"parsed") || !$var->parsed) {
 					$tmp = self::parseValue($item,$var);	
 				} else {
 					$tmp = $item;

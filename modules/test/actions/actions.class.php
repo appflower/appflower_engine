@@ -34,17 +34,7 @@ class testActions extends CustomActions
 		$this->bar = "oo";
 		$this->foobar = "lalala";
 		 
-		sfProjectConfiguration::getActive()->loadHelpers("Helper");
-
-		$parser = new XmlParser(XmlParser::PANEL);
-
-		$this->layout = $parser->getLayout();
-
-		$this->setLayout("layoutExtjs");
-
-		$this->setTemplate("edit");
-
-		return sfView::SUCCESS;
+		return XmlParser::layoutExt($this);
 
 	}
 
@@ -110,16 +100,7 @@ class testActions extends CustomActions
 		$this->foobar = 2;
 		$this->bar = "lalla";
 		 
-		sfProjectConfiguration::getActive()->loadHelpers("Helper");
-
-		$parser = new XmlParser();
-
-		$this->layout = $parser->getLayout();
-
-		$this->setLayout("layoutExtjs");
-		$this->setTemplate("edit");
-
-		return sfView::SUCCESS;
+		return XmlParser::layoutExt($this);
 
 	}
 
@@ -219,16 +200,7 @@ class testActions extends CustomActions
 		 
 		$this->getVarHolder()->add(array("html" => "<b>this is bold</b>"));
 		 
-		sfProjectConfiguration::getActive()->loadHelpers("Helper");
-		 
-		$parser = new XmlParser();
-
-		$this->layout = $parser->getLayout();
-
-		$this->setLayout("layoutExtjs");
-		$this->setTemplate("edit");
-
-		return sfView::SUCCESS;
+		return XmlParser::layoutExt($this);
 
 	}
 

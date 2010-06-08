@@ -10,6 +10,14 @@ class fieldParser extends XmlBaseElementParser {
 			self::add("width",self::$parser->get($node,"width"));		
 		}
 		
+		if(self::$parser->has($node,"module")) {
+			self::add("module",self::$parser->get($node,"module"));		
+		}
+		
+		if(self::$parser->has($node,"action")) {
+			self::add("action",self::$parser->get($node,"action"));		
+		}
+		
 	}
 	
 }

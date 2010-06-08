@@ -62,6 +62,7 @@ class XmlParser extends XmlParserTools {
 		$defaultPanels,
 		$manualMode = false,
 		$multisubmit = false,
+		$result,
 		$widgetHelpSettings;
 		
 	private static
@@ -80,7 +81,7 @@ class XmlParser extends XmlParserTools {
 		 WIZARD = 2;
 		 
 
-	function __construct($type = self::PANEL, $dry_run = false, $step = false, $manual = false, $internal = false) {
+	function __construct($type = self::PANEL, $dry_run = false, $step = false, $manual = false, $internal = false, $build = false) {
 		
 		if(self::$instance) {
 			return true;
@@ -131,6 +132,13 @@ class XmlParser extends XmlParserTools {
 		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
 		afConfigUtils::setDefaultActionVars($actionInstance);
 		$this->attribute_holder = $actionInstance->getVarHolder()->getAll();
+		
+		if($build) {
+			$config_vars = afConfigUtils::getConfigVars(strtok($build,"/"), strtok("/"), $this->context->getRequest());
+			$actionInstance->getVarHolder()->add($config_vars);
+				
+		}
+		
 		
 		try {
 			if(!file_exists($this->schemaLocation) || !is_readable($this->schemaLocation)) {
@@ -187,7 +195,12 @@ class XmlParser extends XmlParserTools {
 		
 		// Assign DOM Document..
 		
-		$this->readXmlDocument();
+		if(!$build) {
+			$this->readXmlDocument();	
+		} else {
+			$this->readXmlDocument(null,false,$build);
+		}
+		
 		parent::__construct($this->document);
 	
 		$root = $this->document->getElementsByTagName("view")->item(0);
@@ -261,7 +274,7 @@ class XmlParser extends XmlParserTools {
 		$this->widgetHelpSettings=afWidgetHelpSettingsPeer::retrieveCurrent();
 		
 		if(!$manual) {
-			$this->runParser(1);	
+			$this->runParser(($build) ? $build : 1,($build) ? "object" : "content");	
 		}
 	}
 	
@@ -335,6 +348,10 @@ class XmlParser extends XmlParserTools {
 	
 	public function getProcess() {
 		return $this->process;
+	}
+	
+	public function getResult() {
+		return $this->result;
 	}
 	
 	public function getSchema() {
@@ -658,7 +675,7 @@ class XmlParser extends XmlParserTools {
 		$this->clearAttributes();
 		
 		if($region == "object") {
-			return $this->postProcess(true);
+			return $this->postProcess(true,$arg);
 		}
 		
 		// Do post-processing...
@@ -956,7 +973,7 @@ class XmlParser extends XmlParserTools {
 	
 	
 	
-	public function readXmlDocument($path = null,$security = false) {
+	public function readXmlDocument($path = null,$security = false,$uri = false) {
 		
 		try {
 			if($path !== null && !file_exists($path)) {
@@ -969,33 +986,47 @@ class XmlParser extends XmlParserTools {
 		
 		$page = false;
 		
+		if(!$uri) {
+			$action = sfContext::getInstance()->getActionName();
+			$module = sfContext::getInstance()->getModuleName();	
+		} else {
+			$module = strtok($uri,"/");
+			$action = strtok("/");
+		}
+		
 		if($this->page && $path === null) {
-			$path = $this->root."/apps/".$this->application."/config/pages/".sfContext::getInstance()->getActionName().".xml";
+			$path = $this->root."/apps/".$this->application."/config/pages/".$action.".xml";
 			if(!file_exists($path)) {
-				$path = $this->root."/plugins/appFlowerPlugin/config/pages/".sfContext::getInstance()->getActionName().".xml";
+				$path = $this->root."/plugins/appFlowerPlugin/config/pages/".$action.".xml";
 			}
 			$page = true;
 		}
 		
 		if($path === null) {
-            $path = $this->root."/apps/".$this->application."/modules/".sfContext::getInstance()->getModuleName()."/config/".sfContext::getInstance()->getActionName().".xml";
+            $path = $this->root."/apps/".$this->application."/modules/".$module."/config/".$action.".xml";
 			if(!file_exists($path)) {
-				$path = $this->root."/plugins/appFlowerPlugin/modules/".sfContext::getInstance()->getModuleName()."/config/".sfContext::getInstance()->getActionName().".xml";
+				$path = $this->root."/plugins/appFlowerPlugin/modules/".$module."/config/".$action.".xml";
 			}
 		}
         
-		$hash = sha1_file($path);
-		$obj = afValidatorCachePeer::inCache($path);
+		if(!$uri) {
+			$hash = sha1_file($path);
+			$obj = afValidatorCachePeer::inCache($path);
 		
-		if(!$obj || $obj->getSignature() != $hash) {
-			$doc = new XmlValidator($path,$security,false,false,($page) ? $this->context->getModuleName()."/".$this->context->getActionName() : null);
-			$doc->validateXmlDocument();	
-			$this->document = $doc->getXmlDocument();
-			$this->validator = $doc;
+			if(!$obj || $obj->getSignature() != $hash) {
+				$doc = new XmlValidator($path,$security,false,false,($page) ? $this->context->getModuleName()."/".$this->context->getActionName() : null);
+				$doc->validateXmlDocument();	
+				$this->document = $doc->getXmlDocument();
+				$this->validator = $doc;
+			} else {
+				$this->document = new DOMDocument();
+				$this->document->load($path);
+			}	
 		} else {
 			$this->document = new DOMDocument();
 			$this->document->load($path);
 		}
+		
 		
 		parent::setNamespace($security);
 		parent::setXmlDocument($this->document);
@@ -2322,8 +2353,13 @@ class XmlParser extends XmlParserTools {
 	}
 
 	
-	private function postProcess($build = false) {
+	private function postProcess($build = false,$uri = null) {
 
+		if($uri) {
+			$this->process["parses"][$this->iteration]["module"] = strtok($uri,"/");
+			$this->process["parses"][$this->iteration]["component_name"] = strtok("/");
+		}
+		
 		Console::profile('postProcess');
 		
 		/*
@@ -2630,33 +2666,45 @@ class XmlParser extends XmlParserTools {
 								$attributes["rich"] = false;
 							}
 							
-							$tmp_name = "ImmExtjsField".ucfirst($classname);
+							if($attributes["type"] != "include") {
+								$tmp_name = "ImmExtjsField".ucfirst($classname);	
+								
+								if($view == "edit" || $attributes["type"] == "doubletree") {
 							
-							if($view == "edit" || $attributes["type"] == "doubletree") {
-						
-								
-								$obj = new $tmp_name((isset($columnx)) ? $columnx : $form,$attributes);
-								
-								/*
-								if(isset($attributes["window"])) {
-									//$obj = new ImmExtjsFieldCombo($fieldset,array('name'=>'my_combo_button','label'=>'My combo button','help'=>"combo box with button",'comment'=>'comment for combo w button','options'=>array('a'=>'Value A','b'=>'Value B'),'selected'=>'b','button'=>array('text'=>'Trigger','icon'=>'/images/famfamfam/cancel.png'),'window'=>array('title'=>'Window Title','component'=>$this->getForm(),'className'=>'ServerPeer','methodName'=>'getAllAsOptions')));
-									//$columnx = $columns->startColumn(array('columnWidth'=>5,'labelAlign'=> 'left'));
-									//$obj = new ImmExtjsFieldCombo($columnx,array('name'=>'my_combo_button','label'=>'My combo button','help'=>"combo box with button",'comment'=>'comment for combo w button','options'=>array('a'=>'Value A','b'=>'Value B'),'selected'=>'b','button'=>array('text'=>'Trigger','icon'=>'/images/famfamfam/cancel.png'),'window'=>array('title'=>'Window Title','component'=>$this->getForm(),'className'=>'ServerPeer','methodName'=>'getAllAsOptions')));
-									//$obj = new ImmExtjsFieldCombo($columnx,$attributes);							
+									
+									$obj = new $tmp_name((isset($columnx)) ? $columnx : $form,$attributes);
+									
+									/*
+									if(isset($attributes["window"])) {
+										//$obj = new ImmExtjsFieldCombo($fieldset,array('name'=>'my_combo_button','label'=>'My combo button','help'=>"combo box with button",'comment'=>'comment for combo w button','options'=>array('a'=>'Value A','b'=>'Value B'),'selected'=>'b','button'=>array('text'=>'Trigger','icon'=>'/images/famfamfam/cancel.png'),'window'=>array('title'=>'Window Title','component'=>$this->getForm(),'className'=>'ServerPeer','methodName'=>'getAllAsOptions')));
+										//$columnx = $columns->startColumn(array('columnWidth'=>5,'labelAlign'=> 'left'));
+										//$obj = new ImmExtjsFieldCombo($columnx,array('name'=>'my_combo_button','label'=>'My combo button','help'=>"combo box with button",'comment'=>'comment for combo w button','options'=>array('a'=>'Value A','b'=>'Value B'),'selected'=>'b','button'=>array('text'=>'Trigger','icon'=>'/images/famfamfam/cancel.png'),'window'=>array('title'=>'Window Title','component'=>$this->getForm(),'className'=>'ServerPeer','methodName'=>'getAllAsOptions')));
+										//$obj = new ImmExtjsFieldCombo($columnx,$attributes);							
+									} else {
+										
+										;	
+									
+									}
+									*/
+										
 								} else {
+									if($attributes["type"] != "file") {
+										$this->showAttributes($attributes);
+										$obj = new ImmExtjsFieldStatic((isset($columnx)) ? $columnx : $form,$attributes);	
+									}
 									
-									;	
-								
 								}
-								*/
-									
+								
 							} else {
-								if($attributes["type"] != "file") {
-									$this->showAttributes($attributes);
-									$obj = new ImmExtjsFieldStatic((isset($columnx)) ? $columnx : $form,$attributes);	
+								$prs = new XmlParser(self::PANEL,false,false,false,false,$attributes["module"]."/".$attributes["action"]);
+								if($columnx) {
+									$columnx->addMember($prs->getResult());	
+								} else {
+									$form->addMember($prs->getResult());
 								}
 								
 							}
+							
 							
 						}
 												
@@ -2777,6 +2825,7 @@ class XmlParser extends XmlParserTools {
 				}
 				
 				if($build) {
+					$this->result = $form;
 					return $form;
 				}
 				
@@ -2799,7 +2848,8 @@ class XmlParser extends XmlParserTools {
 				}
 			
 	
-			} else if($view == "html") {				
+			} else if($view == "html") {
+
 				if(!isset($parse["options"])) {
 					$parse["options"]["autoScroll"] = true;
 					$parse["options"]["border"] = false;
@@ -2841,6 +2891,7 @@ class XmlParser extends XmlParserTools {
 						$panel->addItem($pn);	
 					} 
 					if($build) {
+						$this->result = $pn;
 						return $pn;
 					}
 					//radu
@@ -2862,6 +2913,7 @@ class XmlParser extends XmlParserTools {
 						$pn->addMember(array('html'=>$parse["params"][0]));
 						$pn->end();
 						if($build) {
+							$this->result = $pn;
 							return $pn;
 						}
 					$this->layout->addItem("center",$pn);
@@ -2931,7 +2983,7 @@ class XmlParser extends XmlParserTools {
 				
 				
 			} else if($view == "list") {
-		
+				
 				if(isset($parse["params"]["name"])){
 					$formoptions['name'] = $parse["params"]["name"];
 				}
@@ -3361,7 +3413,10 @@ if(response.message) {
 	  	}
 	  	
 	  	
-		if($build) return $grid;
+	  	
+		if($build) {
+			$this->result = $grid;
+		}
 		return true;	
 		
 	}
@@ -3430,7 +3485,7 @@ if(response.message) {
 		}
 
 		//used in ajax loading widgets
-		ImmExtjsAjaxLoadWidgets::initialize($actionInstance,$type);
+		//ImmExtjsAjaxLoadWidgets::initialize($actionInstance,$type);
 		sfLoader::loadHelpers("Helper");
 		$parser = new XmlParser($type);
 		$actionInstance->layout = $parser->getLayout();		

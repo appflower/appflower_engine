@@ -39,6 +39,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 				datetime 				- A date and time input (YYYY-MM-DD HH:ii:ss). 
 				date     				- Date input            (YYYY-MM-DD)
 				color					- Displays an input field with a color picker.
+				include                 - Included another widget, can be used only with forms.
 				
 			</xs:documentation>
 		</xs:annotation>
@@ -64,6 +65,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 					<xs:enumeration value="datetime"/>
 					<xs:enumeration value="color"/>
 					<xs:enumeration value="date"/>
+					<xs:enumeration value="include"/>
 					<xs:whiteSpace value="collapse"/>
 				</xs:restriction>
 			</xs:simpleType>	
@@ -561,6 +563,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
                 permissions - Access rights required to render the element.
                 plugin		- Reference to extra JS code to be loaded and applied to the field
                 url			- ???
+                module      - An SF module name
+                action      - An SF action (belongs to module)
                
             </xs:documentation>
         </xs:annotation>
@@ -577,6 +581,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		<xs:attribute name="rich" type="xs:boolean" use="optional" default="false" /> 
  		<xs:attribute name="assignid" type="xs:boolean" fixed="true" />
  		<xs:attribute name="content" type="xs:token" use="optional" />
+ 		<xs:attribute name="module" type="xs:token" use="optional" />
+        <xs:attribute name="action" type="xs:token" use="optional" />
  		<xs:attribute name="fromLegend" type="xs:token" use="optional" default="Options" />
  		<xs:attribute name="toLegend" type="xs:token" use="optional" default="Selected" />
  		<xs:attribute name="clear" type="xs:boolean" use="optional" default="true" /> 
