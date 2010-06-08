@@ -44,7 +44,13 @@ class ImmExtjsFieldset
 	
 	public function addMember($item)
 	{
-		$this->attributes['items'][]=$this->immExtjs->asAnonymousClass($item);		
+		if(is_array($item))
+		{
+			$this->attributes['items'][]=$this->immExtjs->asAnonymousClass($item);
+		}
+		elseif(is_object($item)) {
+			$this->attributes['items'][]=$this->immExtjs->asVar($item->privateName);
+		}
 	}
 	
 	public function startGroup($type,$attributes=array())

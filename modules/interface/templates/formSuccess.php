@@ -48,6 +48,43 @@ new ImmExtjsLinkButton($grid,array('label'=>'www.immune.dk','url'=>'http://www.i
 
 $grid->end();
 
+$gridf=new ImmExtjsGrid(array('autoHeight'=>true,'clearGrouping'=>true,'title'=>'Title','frame'=>false,'idxml'=>'/interface/grid','remoteSort'=>true,'tools'=>$tools));
+//$grid->addHelp('<b>Lorem ipsum dolor sit amet</b>, consectetur adipiscing elit. Ut est neque, feugiat venenatis elementum a, tincidunt non massa. Cras sagittis, augue nec porttitor scelerisque, elit lorem ornare massa, eu euismod odio massa vitae justo. Mauris erat nunc, luctus tincidunt lacinia ac, sagittis id risus. Mauris ut quam nisl. Mauris tortor eros, tincidunt sit amet fringilla lacinia, faucibus vel augue. Sed dolor felis, faucibus nec elementum at, cursus in magna. Nam erat nibh, auctor fermentum convallis id, ornare vitae urna. Ut placerat elementum felis. Donec quis libero mauris, vitae vehicula mauris. Donec sit amet urna id justo tempus aliquam. Duis aliquam gravida dictum. Nullam ac nibh eros. Donec lacinia risus id velit congue sed placerat nibh fringilla. Vivamus condimentum varius lacus et facilisis. Curabitur sed tellus sit amet diam dictum ornare. Donec dui lacus, vehicula sit amet semper a, auctor sed sem. Nam pulvinar iaculis libero sed varius. Quisque volutpat posuere sapien quis condimentum.');
+/**
+ * columns
+ */
+$gridf->addColumn(array('name'=>'company','type'=>'string','label'=>'Company','sort'=>'ASC','id'=>true,'width'=>40,'sortable'=>true,'hidden'=>false,'hideable'=>true,'qtip'=>true,'align'=>'right','filter'=>array('type'=>'string')));
+$gridf->addColumn(array('name'=>'industry','type'=>'int','label'=>'Industry','groupField'=>true,'width'=>20,'sortable'=>true,'qtip'=>false,'filter'=>array('type'=>'numeric')));
+/**
+ * proxy
+ * 
+ * REMEMBER:
+ * stateId attribute must be unique for each view, because with this id Extjs keeps in a cookie the state of start & limit attributes for listjson, see ticket #574; if stateId attribute is not defined, then the state is not kept !
+ */
+$gridf->setProxy(array('url'=>'/interface/jsonactions','limit'=>2,'start'=>2));
+/**
+ * row actions
+ */
+$actions=$gridf->startRowActions(/*array('header'=>'Actions')*/);
+/**
+ * action1
+ */
+$actions->addAction(array('iconCls'=>'icon-edit-record','tooltip'=>'Edit'/*,'text'=>'edit','style'=>''*/));
+/**
+ * action2
+ */
+$actions->addAction(array('iconCls'=>'icon-minus','tooltip'=>'Delete'/*,'text'=>'Delete','style'=>''*/));
+/**
+ * REMEMBER:
+ * $grid->endRowActions($actions) is commented so you can see that if no actions are associated with the grid then the actions column doesn't appear
+ */
+//$grid->endRowActions($actions);
+
+new ImmExtjsLinkButton($gridf,array('label'=>'www.immune.dk','url'=>'http://www.immune.dk'));
+new ImmExtjsLinkButton($gridf,array('label'=>'www.immune.dk','url'=>'http://www.immune.dk','icon'=>'/images/famfamfam/cancel.png'));
+
+$gridf->end();
+
 //$layout->addItem('center',$grid);
 
 /**
@@ -417,6 +454,11 @@ $tab1=$tabs->startTab(array('title'=>'Tab 1'));
 $fieldsett1=$tab1->startFieldset(array('legend'=>'Fieldset Tab 1','collapsed'=>false));
 
 $columns=$fieldsett1->startColumns();
+
+/**
+ * adding a grid to a fieldset
+ */
+$fieldsett1->addMember($gridf);
 
 new ImmExtjsFieldDateTime($fieldsett1,array('name'=>'my_datet1','label'=>'My Date t1','value'=>'','comment'=>'comment on the upper field','type'=>'date'));
 
