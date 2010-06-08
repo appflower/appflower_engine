@@ -3485,7 +3485,7 @@ if(response.message) {
 		}
 
 		//used in ajax loading widgets
-		//ImmExtjsAjaxLoadWidgets::initialize($actionInstance,$type);
+		ImmExtjsAjaxLoadWidgets::initialize($actionInstance,$type);
 		sfLoader::loadHelpers("Helper");
 		$parser = new XmlParser($type);
 		$actionInstance->layout = $parser->getLayout();		
