@@ -12,6 +12,7 @@ class XmlParser extends XmlParserTools {
 		$widgets,
 		$layout,
 		$validator,
+		$remove_fields,
 		$document,
 		$xmlDefaults,
 		$multi = false,
@@ -38,7 +39,6 @@ class XmlParser extends XmlParserTools {
 		$portalStateObj,
 		$is_floated,
 		$portalColumns,
-		$parser_config,
 		$portalColumnsSize,
 		$portalSizes = array(
 			1=>array(100),
@@ -106,8 +106,8 @@ class XmlParser extends XmlParserTools {
 		
 		// Reading parser YML config
 		
-		$tmp = sfYaml::load($this->root."/plugins/appFlowerPlugin/config/app.yml");
-		$this->parser_config = $tmp["all"]["parser"];		
+		//$tmp = sfYaml::load($this->root."/plugins/appFlowerPlugin/config/app.yml");
+		$this->remove_fields = sfConfig::get("app_parser_remove_fields");
 		
 		// Context info
 			
@@ -388,7 +388,7 @@ class XmlParser extends XmlParserTools {
 				
 				$childnodes = $this->fetch("child::*",$if);
 				
-				if($childnodes->item(0) && ($this->name($childnodes->item(0)) != "field" || $this->parser_config["remove_fields"])) {
+				if($childnodes->item(0) && ($this->name($childnodes->item(0)) != "field" || $this->remove_fields)) {
 					$this->remove($if);
 				}
 				
@@ -397,7 +397,7 @@ class XmlParser extends XmlParserTools {
 					$name = $this->name($child);
 					
 					if($name == "field") {
-						if($this->parser_config["remove_fields"]) {
+						if($this->remove_fields) {
 							$grouping = $this->fetch("//i:grouping/i:set/i:ref[@to='".$this->get($child,"name")."']");
 							if($grouping->length == 1) {
 								$this->remove($grouping->item(0));
