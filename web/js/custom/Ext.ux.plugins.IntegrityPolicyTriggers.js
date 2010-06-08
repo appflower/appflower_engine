@@ -134,7 +134,8 @@ Ext.extend(Ext.ux.plugins.IntegrityPolicyTriggers, Ext.util.Observable,{
                 		items:[{
                 			name:'location',
                     		xtype:'textfield',
-                    		fieldLabel:'Location'
+                    		fieldLabel:'Location',
+                    		allowBlank:false
                 		},
                 		    actionCombo,                		    
                 		{
