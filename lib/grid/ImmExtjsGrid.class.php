@@ -975,7 +975,7 @@ class ImmExtjsGrid
 									}
 									store.reload();
 								}
-								if(grid.select && response.redirect){
+								if(grid.select && response.redirect && response.forceRedirect){
 									window.location.href = response.redirect;
 								} 																			
 							}
