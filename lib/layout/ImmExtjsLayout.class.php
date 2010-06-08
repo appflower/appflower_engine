@@ -11,7 +11,7 @@ class ImmExtjsLayout
 	public $attributes=array(), $layout='border';
 	static public $instance = null;	
 	public $immExtjs=null;
-	public $showFullCenter = true;	
+	public $showFullCenter = false;	
 							
 	public function __construct($attributes=array())
 	{
@@ -37,7 +37,11 @@ class ImmExtjsLayout
 		
 		$this->immExtjs->setAddons(array('js'=>array('/appFlowerPlugin/js/custom/gridUtil.js')));
 		
-		/******************************************************************************************************************/
+		/**
+		 * general document key maps
+		 */
+		$this->immExtjs->setAddons(array('js'=>array('/appFlowerPlugin/js/custom/keyMaps.js')));
+		
 		/*
 		 * Add overrides
 		 */
