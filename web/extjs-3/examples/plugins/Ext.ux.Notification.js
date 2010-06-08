@@ -15,7 +15,8 @@ Ext.ux.Notification = Ext.extend(Ext.Window, {
 			plain: false,
 			draggable: false,
 			bodyStyle: 'text-align:left;padding:10px;',
-			resizable: false
+			resizable: false,
+			shadow:false
 		});
 		if(this.autoDestroy){
 			this.task = new Ext.util.DelayedTask(this.close, this);
