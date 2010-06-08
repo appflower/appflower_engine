@@ -45,7 +45,7 @@ class ImmExtjsWidgets{
 	 * Returns the current request parameters, that are necessary for reloading conditional widgets
 	 */
 	private static function getNormalRequests(){
-		$rps = sfContext::getInstance()->getRequest()->getRequestParameters();
+		$rps = sfContext::getInstance()->getRequest()->getRequestParameters();		
 		$myParams = array();
 		foreach($rps as $key=>$val){
 			if(is_string($val)){
@@ -54,11 +54,24 @@ class ImmExtjsWidgets{
 		}
 		return $myParams;		
 	}
+	private static function getQueryString(){
+		$ruri = sfContext::getInstance()->getRequest()->getUri();
+		$temp = explode("?",$ruri);
+		if(is_array($temp) && isset($temp[1])){
+			return $temp[1];
+		}
+		return '';
+	}
 	/**
 	 * Generates JS code for the reload plugin.
 	 * The htmlUrl is needed only for non-grid widgets.
 	 */
 	private static function generateReloadPlugin($delayMillis, $htmlUrl, $startInitial, $reloadToolVisible) {
+		if(strpos($htmlUrl,"?")){
+			$htmlUrl .= "&".self::getQueryString();
+		}else{
+			$htmlUrl .= "?".self::getQueryString();
+		}
 		ImmExtjs::getInstance()->setAddons(array('js' => array(ImmExtjs::getInstance()->getExamplesDir().'plugins/Ext.ux.plugins.RealtimeWidgetUpdate.js')));		
 		return 'new Ext.ux.plugins.RealtimeWidgetUpdate({requestParams:'.json_encode(self::getNormalRequests()).',rate:'.$delayMillis.',url:'.json_encode($htmlUrl).',startInitial:'.($startInitial?"true":"false").',reloadToolVisible:'.($reloadToolVisible?"true":"false").'})';	
 	}
