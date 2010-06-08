@@ -922,13 +922,19 @@ class ImmExtjsGrid
 			$action["attributes"]["post"] = "true";			
 			$updater = new ImmExtjsUpdater(array('url'=>$action["attributes"]["url"],'width' => 500));
 			$functionForUpdater = $updater->privateName.'.start();
-			'.$updater->privateName.'.on("finish",function(){
+			'.$updater->privateName.'.on("finish",function(comet,response){
+				//var response = response.responseText;
+				console.log(response)
 				var grid = '.$grid->privateName.';
 				var store = grid.getStore();
 				if(store.proxy.conn.disableCaching === false) {
 					store.proxy.conn.disableCaching = true;
 				}
-				store.reload();});
+				store.reload();
+				if((grid.tree && response.redirect) || (response.redirect && response.forceRedirect)){
+					window.location.href = response.redirect;
+				}
+			});
 			';								
 		}
 		if($action["attributes"]["forceSelection"] != "false"){
@@ -975,9 +981,9 @@ class ImmExtjsGrid
 									}
 									store.reload();
 								}
-								if(grid.select && response.redirect && response.forceRedirect){
+								if((grid.tree && response.redirect) || (response.redirect && response.forceRedirect)){
 									window.location.href = response.redirect;
-								} 																			
+								}																			
 							}
 						},
 						failure: function(response,options) {

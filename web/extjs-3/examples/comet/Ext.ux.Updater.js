@@ -153,7 +153,7 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 			Ext.MessageBox.minProgressWidth='250';
 						
 			this.msg.hide.defer(r.hideAfter,this.msg);
-			this.fireEvent("finish",this);
+			this.fireEvent("finish",this,r);
 		}
 	},
 	
