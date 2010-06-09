@@ -1271,6 +1271,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
             
             url			- An internal URI
             
+            @deprecated Use a custom datasource method instead.
         </xs:documentation>
       </xs:annotation>
       <xs:complexType>
