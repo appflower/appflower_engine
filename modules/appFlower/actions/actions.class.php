@@ -576,11 +576,16 @@ class appFlowerActions extends sfActions
 	public function executeRestoreSession(){
 		
 		$backup = $this->getUser()->getAttributeHolder()->getAll("SESSION_BACKUP");
+		$inBtw = (array) $this->getUser()->getAttributeHolder()->getAll("IN_BETWEEN");		
 		$this->getUser()->getAttributeHolder()->clear();
 		foreach($backup['parameters'] as $key=>$value){
 			$this->getUser()->getAttributeHolder()->add($value,$key);			
 		}
+		foreach($inBtw as $key=>$value){
+			$this->getUser()->setAttribute($key,$value);
+		}
 		$this->getUser()->getAttributeHolder()->removeNamespace("SESSION_BACKUP");		
+		$this->getUser()->getAttributeHolder()->removeNamespace("IN_BETWEEN");
 		exit;
 	}	
 }
