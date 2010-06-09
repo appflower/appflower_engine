@@ -3493,7 +3493,7 @@ if(response.message) {
 		}
 	}
 
-	public static function layoutExt($actionInstance, $type = XmlParser::PANEL,$msg = null) {
+	public static function layoutExt($actionInstance, $type = XmlParser::PANEL) {
 		if($actionInstance->isPageComponent){
 			return sfView::SUCCESS;
 		}
