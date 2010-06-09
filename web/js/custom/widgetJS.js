@@ -72,14 +72,17 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 		}
 		mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.",removeMask:true});
 		mask.show();		
+		
+		var nextAddon=addons[counter++];
+		
 		Ext.Ajax.request({
-			url : addons[counter++],
+			url : nextAddon,
 			method: "POST",
 			success:function(r){				
-				eval(r.responseText);
+				createAddon(nextAddon,'js');
 				ajax();
 			}
-		});
+		});		
 	};
 
 	finish = function(){
@@ -223,16 +226,6 @@ function ajax_widget_popup(widget,title,superClass,winConfig) {
 			else
 			{			
 				var scripts_srcs = new Array(),styles_hrefs = new Array(),total_addons = new Array();
-				/**
-				 * SCRIPTS AND STYLES FROM HEAD TAGS
-				 */
-				// Load CSS
-				var scripts = document.getElementsByTagName("script");						
-				//createAddon("/js/swfobject.js", "js");	
-				for(var i = 0;i<scripts.length;i++) if(scripts[i].src) scripts_srcs[i] = scripts[i].src;
-				var styles = document.getElementsByTagName("link");
-				for(var i = 0;i<styles.length;i++) if(styles[i].href) styles_hrefs[i] = styles[i].href;
-				
 				/**************************************************************************************/
 				/**
 				 * SCRIPTS AND STYLES FROM GLOBAL VARS
@@ -295,11 +288,14 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		}
 		mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.",removeMask:true});
 		mask.show();		
+		
+		var nextAddon=addons[counter++];
+		
 		Ext.Ajax.request({
-			url : addons[counter++],
+			url : nextAddon,
 			method: "POST",
 			success:function(r){				
-				eval(r.responseText);
+				createAddon(nextAddon,'js');
 				ajax();
 			}
 		});
@@ -344,15 +340,6 @@ afApp.loadCenterWidget = function(widget) {
 			else
 			{				
 				var scripts_srcs = new Array(),styles_hrefs = new Array(),total_addons = new Array();
-				/**
-				 * SCRIPTS AND STYLES FROM HEAD TAGS
-				 */
-				// Load CSS
-				var scripts = document.getElementsByTagName("script");						
-				//createAddon("/js/swfobject.js", "js");	
-				for(var i = 0;i<scripts.length;i++) if(scripts[i].src) scripts_srcs[i] = scripts[i].src;
-				var styles = document.getElementsByTagName("link");
-				for(var i = 0;i<styles.length;i++) if(styles[i].href) styles_hrefs[i] = styles[i].href;
 				
 				/**************************************************************************************/
 				/**

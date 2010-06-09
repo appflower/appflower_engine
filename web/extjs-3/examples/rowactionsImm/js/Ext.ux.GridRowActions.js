@@ -368,7 +368,7 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 				else a.style = "background-image:url(/images/plus.png);background-position:center;background-repeat:no-repeat;";
 				a.iconCls = "imm-expand-row";
 			}else{
-				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="{' + a.urlIndex + '}" <tpl if="'+a.confirm+'">onclick="Ext.Msg.confirm(\'Confirmation\',\''+a.message+'\', function(btn){if (btn==\'yes\'){ window.location.href=\'{' + a.urlIndex + '}\'; return false; }else{ return true;}});return false;"</tpl>>') : '';
+				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a class="widgetLoad" href="{' + a.urlIndex + '}" <tpl if="'+a.confirm+'">onclick="Ext.Msg.confirm(\'Confirmation\',\''+a.message+'\', function(btn){if (btn==\'yes\'){ window.location.href=\'{' + a.urlIndex + '}\'; return false; }else{ return true;}});return false;"</tpl>>') : '';
 			}			
 			
 			/*
