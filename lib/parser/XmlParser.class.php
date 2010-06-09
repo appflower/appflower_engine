@@ -3609,16 +3609,27 @@ class XmlParser extends XmlParserTools {
 				var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Saving additional information... <br>Please wait..."});
 				myMask.show();
 				Ext.Ajax.request({ url: "'.$this->multisubmit.'", method:"post", params:{"selections":'.$this->multigrid->privateName.'.getSelectionModel().getSelectionsJSON()}, success:function(response, options){response=Ext.decode(response.responseText);
+var _form = Ext.getCmp("'.$this->forms[0]->attributes['id'].'");  
+var _win = null;
+var winProp = response.winProp || {};
+if(_form){
+	_win = _form.findParentByType("window");		  								
+}				
 if(response.message) {
 	Ext.Msg.alert("Success", response.message, function(){
-		if(response.redirect) {
+		if(response.redirect && response.forceRedirect !== false) {
 			window.location.href = response.redirect;
 		}
 	});
 } else {
-	if(response.redirect) {
+	if(response.redirect && response.forceRedirect !== false) {
 		window.location.href = response.redirect;
 	}
+}
+if(_win){		  								
+  if(winProp && winProp.hidePopup !== false){
+  	_win.close();		  									  	
+  }
 }
 	  	myMask.hide();
 	  	},failure: function(response,options) {if(response.message){Ext.Msg.alert("Failure",response.message);myMask.hide();}}});'));
