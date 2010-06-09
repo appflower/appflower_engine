@@ -65,7 +65,7 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 	var counter = 0;
 	var backup = new Array();
 	var finish;
-	var ajax = function(){	
+	var load = function(){	
 		if(counter >= addons.length){
 			finish();
 			return;
@@ -80,7 +80,7 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 			method: "POST",
 			success:function(r){				
 				createAddon(nextAddon,'js');
-				ajax();
+				load();
 			}
 		});		
 	};
@@ -168,7 +168,7 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 		
 	}
 
-	ajax();
+	load();
 }
 function createAddon(filename, filetype) {
 	//console.log(filename+":"+filetype);
@@ -281,7 +281,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 	
 	var counter = 0;
 	var finish;
-	var ajax = function(){	
+	var load = function(){	
 		if(counter >= addons.length){
 			finish();
 			return;
@@ -296,7 +296,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 			method: "POST",
 			success:function(r){				
 				createAddon(nextAddon,'js');
-				ajax();
+				load();
 			}
 		});
 	};
@@ -312,7 +312,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		mask.hide();
 	};
 	
-	ajax();
+	load();
 }
 afApp.loadCenterWidget = function(widget) {
 	
