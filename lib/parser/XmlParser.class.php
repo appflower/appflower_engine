@@ -246,7 +246,7 @@ class XmlParser extends XmlParserTools {
 			
 				if(!$this->portalStateObj)
 				{	
-				
+					
 					//default values for layout & columns
 					$this->portalConfig = new stdClass();
 					$this->portalConfig->layoutType = ($this->fetch("//i:tab")->length) ? afPortalStatePeer::TYPE_TABBED : afPortalStatePeer::TYPE_NORMAL;
@@ -1128,7 +1128,7 @@ class XmlParser extends XmlParserTools {
 		
 		$value = $this->portalSizes[$data["layout"]];
 	
-			return array("[".implode(",",$value)."]",count($value));
+		return array("[".implode(",",$value)."]",count($value));
 		
 	} 
 	
@@ -1274,9 +1274,10 @@ class XmlParser extends XmlParserTools {
 			
 		}
 		
-		foreach($this->process["parses"][$this->iteration]["areas"] as $area_type => $area) {
+				
 			
-			$z = 0;
+		
+		foreach($this->process["parses"][$this->iteration]["areas"] as $area_type => $area) {
 			
 			if(!isset($area["tabs"])) {
 				$area["tabs"][0] = array("attributes" => array(), "components" => $area["components"]);
@@ -1284,11 +1285,22 @@ class XmlParser extends XmlParserTools {
 			
 			foreach($area["tabs"] as $k => $tab) {
 				
+			$z = 0;
+				
 			if($area_type == "content" && $this->portalConfig) {
-				$sizedata = $this->getPortalSizes($area["attributes"]);
+				$sizedata = $this->getPortalSizes(($this->portalConfig->layoutType == afPortalStatePeer::TYPE_TABBED && $tab["attributes"]["layout"] != 0) ? $tab["attributes"] : $area["attributes"]);
 				$this->portalConfig->content[$k]["portalLayoutType"] = $sizedata[0];
 				if(isset($tab["attributes"]["title"])) {
 					$this->portalConfig->content[$k]["tabTitle"] = $tab["attributes"]["title"];	
+				}
+				
+				// Create empty columns
+				
+				if(strstr($this->portalConfig->content[$k]["portalLayoutType"],",")) {
+					$tmpx = explode(",",$this->portalConfig->content[$k]["portalLayoutType"]);
+					foreach($tmpx as $x) {
+						$this->portalConfig->content[$k]["portalColumns"][] = array();
+					}
 				}
 				
 			}
@@ -1322,11 +1334,13 @@ class XmlParser extends XmlParserTools {
 								$idx = 0;
 							}
 						
-							$this->portalConfig->content[$k]["portalColumns"][$idx][$z] = new stdClass();
-							$this->portalConfig->content[$k]["portalColumns"][$idx][$z]->idxml = $component["module"]."/".$component["name"];	
+							$this->portalConfig->content[$k]["portalColumns"][$idx][] = new stdClass();
+							$kx = count($this->portalConfig->content[$k]["portalColumns"][$idx])-1;
+							$this->portalConfig->content[$k]["portalColumns"][$idx][$kx]->idxml = $component["module"]."/".$component["name"];
+
 						}
 						
-						$z++;
+						
 						
 						$config_vars = afConfigUtils::getConfigVars($component['module'], $component['name'], $this->context->getRequest());
 						$attribute_holder->add($config_vars);
@@ -1381,11 +1395,11 @@ class XmlParser extends XmlParserTools {
 							}
 						
 							$idxml = "tree".$z;
-							$this->portalConfig->content[$k]["portalColumns"][$idx][$z] = new stdClass();
-							$this->portalConfig->content[$k]["portalColumns"][$idx][$z]->idxml = $idxml;	
+							$this->portalConfig->content[$k]["portalColumns"][$idx][] = new stdClass();
+							$kx = count($this->portalConfig->content[$k]["portalColumns"][$idx])-1;
+							$this->portalConfig->content[$k]["portalColumns"][$idx][$kx]->idxml = $idxml;	
 						}
 						
-						$z++;
 						
 						$this->tree = new ImmExtjsTree(array('title'=>$component["title"]));
 						$this->tree_root = $this->tree->startRoot(array("title" => "Startroot"));
@@ -1410,8 +1424,8 @@ class XmlParser extends XmlParserTools {
 			
 		}
 			
-			
 		}
+		
 		
 		if($this->type == self::PAGE) {
 			

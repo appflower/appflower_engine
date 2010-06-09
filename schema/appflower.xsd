@@ -1926,6 +1926,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	</xs:choice>
       	<xs:attribute name="title" type="xs:token" use="required" />
       	<xs:attribute name="name" type="xs:token" use="optional" default="" />
+      	<xs:attribute name="layout" type="xs:integer" use="optional" default="0" />
       	<xs:attribute name="container" type="xs:boolean" fixed="true" />
       	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
       	<xs:attribute name="permissions" type="i:permissionType" default="*" />
