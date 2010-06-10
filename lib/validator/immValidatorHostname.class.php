@@ -19,7 +19,6 @@ class immValidatorHostname extends sfValidatorBase
 		$this->addOption('match');
 		
 		$this->addMessage('match','"%value%" is not a valid Hostname');
-		self::setRequiredMessage('This field is required!');
 	}
 	
 	protected function doClean($value)
