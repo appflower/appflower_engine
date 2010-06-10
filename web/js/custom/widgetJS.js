@@ -75,14 +75,7 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 		
 		var nextAddon=addons[counter++];
 		
-		Ext.Ajax.request({
-			url : nextAddon,
-			method: "POST",
-			success:function(r){				
-				createAddon(nextAddon,'js');
-				load();
-			}
-		});		
+		createAddon(nextAddon,false,load);
 	};
 
 	finish = function(){
@@ -170,7 +163,13 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 
 	load();
 }
-function createAddon(filename, filetype) {
+function createAddon(filename, filetype, callback) {
+	if(!filetype)
+	{
+		var f = filename.split('.');
+		filetype=f[f.length-1];
+	}
+	
 	//console.log(filename+":"+filetype);
 	if (filetype == "js") { // if filename is a external JavaScript file
 		var fileref = document.createElement('script')
@@ -187,6 +186,18 @@ function createAddon(filename, filetype) {
 	
 	if (typeof fileref != "undefined")
 		document.getElementsByTagName("head")[0].appendChild(fileref)
+		
+	if (filetype == "js") { // if filename is a external JavaScript file
+		fileref.onload = fileref.onreadystatechange = function() {
+			if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") 
+			{
+				callback();
+			}
+		}
+	} else if (filetype == "css") { // if filename is an external CSS file
+		callback();
+	}
+	
 }
 function ajax_widget_popup(widget,title,superClass,winConfig) {
 	
@@ -238,8 +249,7 @@ function ajax_widget_popup(widget,title,superClass,winConfig) {
 					var addon = json.addons.js[i];
 					if(!in_array(addon,scripts_srcs)){
 						if(addon != null)
-						total_addons.push(addon);
-						createAddon(addon, "js");				
+						total_addons.push(addon);			
 					}
 				}
 				if(json.addons && json.addons.css)
@@ -247,14 +257,12 @@ function ajax_widget_popup(widget,title,superClass,winConfig) {
 						var addon = json.addons.css[i];
 						if(!in_array(addon,styles_hrefs)){
 							if(addon != null)
-							//total_addons.push(addon);
-							createAddon(addon, "css");				
+							total_addons.push(addon);
 						}
 					}
 				if(json.public_source)
 				if(!in_array("swfobject.js",scripts_srcs)){
 					total_addons.push("/js/swfobject.js");
-					createAddon("/js/swfobject.js", "js");
 				}
 				executeAddons(total_addons,json,mask,title,superClass,winConfig);		
 			}			
@@ -291,14 +299,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		
 		var nextAddon=addons[counter++];
 		
-		Ext.Ajax.request({
-			url : nextAddon,
-			method: "POST",
-			success:function(r){				
-				createAddon(nextAddon,'js');
-				load();
-			}
-		});
+		createAddon(nextAddon,false,load);
 	};
 
 	finish = function(){
@@ -353,8 +354,7 @@ afApp.loadCenterWidget = function(widget) {
 					var addon = json.addons.js[i];
 					if(!in_array(addon,scripts_srcs)){
 						if(addon != null)
-						total_addons.push(addon);
-						createAddon(addon, "js");				
+						total_addons.push(addon);	
 					}
 				}
 				if(json.addons && json.addons.css)
@@ -362,14 +362,12 @@ afApp.loadCenterWidget = function(widget) {
 						var addon = json.addons.css[i];
 						if(!in_array(addon,styles_hrefs)){
 							if(addon != null)
-							//total_addons.push(addon);
-							createAddon(addon, "css");				
+							total_addons.push(addon);
 						}
 					}
 				if(json.public_source)
 				if(!in_array("swfobject.js",scripts_srcs)){
 					total_addons.push("/js/swfobject.js");
-					createAddon("/js/swfobject.js", "js");
 				}
 							
 				document.location.hash=futureHash;
