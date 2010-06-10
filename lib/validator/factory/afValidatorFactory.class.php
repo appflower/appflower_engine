@@ -13,6 +13,27 @@ class afValidatorFactory {
             return new afCompat10ValidatorAdapter($validator);
         }
 
-        //TODO: support any validator
+        list($options, $messages) = self::collectOptions($params);
+        if($className === 'sfValidatorSchemaCompare') {
+            $options['throw_global_error'] = true;
+            return new $className(null, null, null, $options, $messages);
+        } else {
+            return new $className($options, $messages);
+        }
     }
+
+    private static function collectOptions($params) {
+        $options = array();
+        $messages = array();
+        foreach($params as $key => $param) {
+            if(StringUtil::endsWith($key, '_error')) {
+                $messages[preg_replace('/_error$/','',$key)] = $param;
+            } else {
+                $options[$key] = ($param === 'false')?false:$param;
+            }
+        }
+
+        return array($options, $messages);
+    }
+
 }
