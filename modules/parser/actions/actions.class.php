@@ -273,23 +273,4 @@ class parserActions extends sfActions
 		$info=json_encode($portalWidgets);
 		return $this->renderText($info);
 	}
-	
-   /**
-	* Renders all validation errors
-	* in a JSON response.
-	* The XmlParserValidationFilter uses it.
-	*/
-	public function executeErrors()
-	{
-	  if($this->missing){
-		return JsonUtil::renderFailure($this,'Some form field(s) is missing');
-	  }
-	  $result = array('success' => false, 'message' => 'Validation error occured!');
-	  foreach($this->errors as $error)
-	  {
-	      $result['errors'][$error[0]] = $error[1];
-	  }
-	  
-	  return $this->renderText(json_encode($result));
-	}
 }

@@ -14,7 +14,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		$reflection = new ReflectionClass(get_class($actionInstance));
 
 		$errors = array();
-		$missing_error = array();
+		$errorMessage = null;
 
 		$upload_status = array
 		(
@@ -44,7 +44,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 					$tmp_field = substr($field,0,-1)."_value]";
 					if(!$context->getRequest()->getParameterHolder()->has($tmp_field)){
 						$errors[] = array($field,'This field is missing');
-						$actionInstance->missing = true;
+						$errorMessage = 'Some form field(s) is missing';
 						break;
 					}
 				}
@@ -107,11 +107,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 				}
 			}
 			if(!empty($errors)) {
-				$actionInstance->errors = $errors;
-				if ($this->isFirstCall())
-				{
-					$actionInstance->forward('parser', 'errors');
-				}
+				self::renderErrors($errors, $errorMessage);
 			} else {
 
 				if($reflection->getMethod("execute".ucfirst($actionInstance->getActionName()))->isFinal()) {
@@ -148,8 +144,6 @@ class XmlParserValidationFilter extends sfExecutionFilter
 
 
 					return $actionInstance->renderText(json_encode($result));
-
-					//$actionInstance->forward('main', 'success');
 				}
 			}
 
@@ -158,4 +152,21 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		$filterChain->execute();
 
 	}
+
+    /**
+     * Renders all validation errors in a JSON response.
+     */
+    private static function renderErrors($errors, $message=null) {
+        if(!$message) {
+            $message  = 'Validation error occured!';
+        }
+
+        $result = array('success' => false, 'message' => $message);
+        foreach($errors as $error) {
+            $result['errors'][$error[0]] = $error[1];
+        }
+
+        echo json_encode($result);
+        exit;
+    }
 }
