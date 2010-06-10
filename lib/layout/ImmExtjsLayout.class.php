@@ -142,7 +142,15 @@ class ImmExtjsLayout
 				$tooltip = sfConfig::get("app_avatar_tooltip",false)?sfConfig::get("app_avatar_tooltip",false):"About";
 				$onClick = "if(win = Ext.getCmp('about-window')){win.show(); win.center(); return false;}";
 				$logo = '<div style="background-color:#d9e7f8;border-right:1px solid #99bbe8;border-left:1px solid #99bbe8;border-bottom:1px solid #99bbe8; padding:2px 0px 0px 0px; margin:0px"><a href="javascript:void(0)" onclick="'.$onClick.'"><img src="'.sfConfig::get("app_avatar_logo").'" qtip="'.$tooltip.'"/></a></div>';
-				$logoScript = 'Ext.DomHelper.insertFirst(comp.bwrap,{tag:"div",html:"'.addslashes($logo).'"});';
+				$logoScript = '
+					var logoDiv = Ext.DomHelper.insertFirst(comp.bwrap,{tag:"div",html:"'.addslashes($logo).'"});								
+					this.on("bodyresize",function(comp,w,h){
+						var body = Ext.select("div[class=\'x-panel-body\']",comp.bwrap);
+						if(body && body.elements && body.elements[0]){
+							body.elements[0].style.height = body.elements[0].offsetHeight-logoDiv.offsetHeight+"px";
+						}
+					});
+				';
 			}
 			$attributes_temp=array('id'=>'west_panel',
 							  'stateful'=>true,
