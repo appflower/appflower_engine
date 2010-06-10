@@ -85,6 +85,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  												'source'=>'
 		  							/*reload load_widgets store*/
 		  							var load_widgets=action.result.load_widgets ||action.options.params.load_widgets;
+		  							if(load_widgets && load_widgets.length>0)
 		  							afApp.reloadGridsData(load_widgets);				  							
 		  							
 		  							var confirm=action.result.confirm ||action.options.params.confirm; 
