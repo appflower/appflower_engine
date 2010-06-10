@@ -50,4 +50,12 @@ class UrlUtil {
         }
         return $url;
     }
+    
+    /**
+     * Return absolute url for appFlower trunk
+     */
+    public static function url($url)
+    {
+    	return sfContext::getInstance()->getController()->genUrl('/', true).'#'.$url;
+    }
 }
