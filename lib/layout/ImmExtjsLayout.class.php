@@ -151,7 +151,15 @@ class ImmExtjsLayout
 			$logoScript = "";
 			if(sfConfig::get("app_avatar_logo",false)){
 				$logo = '<div style="background-color:#d9e7f8;border-right:1px solid #99bbe8;border-left:1px solid #99bbe8;border-bottom:1px solid #99bbe8; padding:2px 0px 0px 0px; margin:0px"><img src="'.sfConfig::get("app_avatar_logo").'"/></div>';
-				$logoScript = 'Ext.DomHelper.insertFirst(comp.bwrap,{tag:"div",html:"'.addslashes($logo).'"});';
+				$logoScript = '
+					var logoDiv = Ext.DomHelper.insertFirst(comp.bwrap,{tag:"div",html:"'.addslashes($logo).'"});								
+					this.on("bodyresize",function(comp,w,h){
+						var body = Ext.select("div[class=\'x-panel-body\']",comp.bwrap);
+						if(body && body.elements && body.elements[0]){
+							body.elements[0].style.height = body.elements[0].offsetHeight-logoDiv.offsetHeight+"px";
+						}
+					});
+				';
 			}
 			$attributes_temp=array('id'=>'west_panel',
 							  'stateful'=>true,
