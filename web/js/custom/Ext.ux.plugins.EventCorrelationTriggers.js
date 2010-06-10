@@ -122,12 +122,12 @@ Ext.extend(Ext.ux.plugins.EventCorrelationTriggers, Ext.util.Observable,{
     		    		'</tpl>'
 				    ),
 				    resizable:true,
-				    editable:false,
+				    editable:true,
         		    typeAhead: true,
         		    fieldLabel:'Event',
         		    triggerAction: 'all',
         		    lazyRender:true,
-        		    mode: 'local',        		   
+        		    mode: 'local',        		    
         		    store: new Ext.data.JsonStore({
         		        url:'/eventmanagement/getEventCorrelationFormData?event',
         		        root:'data',
@@ -231,7 +231,7 @@ Ext.extend(Ext.ux.plugins.EventCorrelationTriggers, Ext.util.Observable,{
                 win.on("show",function(){                	
                 	new Ext.ToolTip({
                 		target:form.getForm().findField('event').getEl(),
-                		html:"Select individual signature or classification",
+                		html:"Select individual signature or classification<br>Type ahead to filter out the list",
                 		trackMouse:true
                 	});
                 	new Ext.ToolTip({
