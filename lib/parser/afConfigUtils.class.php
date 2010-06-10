@@ -21,9 +21,6 @@ class afConfigUtils {
             $path =  "$root/plugins/appFlowerPlugin/config/pages/$action.xml";
         }
         
-    	if(!file_exists($path)) {
-            throw new Exception("Unable to read config file for".$module."/".$action);
-        }
         
         return $path;
     }
