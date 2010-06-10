@@ -13,25 +13,31 @@ xmlns:i="http://www.appflower.com/schema/" type="edit">
 </i:datasource>
 
 <i:fields url="test/dummy">
-	<i:field name="widget" type="include" module="customer" action="list" label="Foo" state="editable" style="css">
+	<i:field name="widget2" type="include" module="ticket" action="list" label="Bar" state="editable" style="css">
 
 	<i:tooltip>This is some help for foo field</i:tooltip>
 	<i:help permissions="lala">This is some comment about the foo field</i:help>
 	
 	</i:field>
-	<i:field name="color" type="color" label="Color" state="editable" style="css">
+	<i:field name="widget" type="include" module="customer" action="list" label="Bsddsar" state="editable" style="css">
+
+	<i:tooltip>This is some help for foo field</i:tooltip>
+	<i:help permissions="lala">This is some comment about the foo field</i:help>
+	
+	</i:field>
+	<i:field name="color2" type="color" label="Color" state="editable" style="css">
 
 	<i:tooltip>This is some help for color field</i:tooltip>
 	<i:help permissions="lala">This is some comment about the color field</i:help>
 	
 	</i:field>
-	<i:field name="username" label="Username{foobar}" state="editable" style="css">
+	<i:field name="username2" label="Username{foobar}" state="editable" style="css">
 
 	<i:tooltip>This is some help for {foobar} {bar} the username field</i:tooltip>
 	<i:help permissions="lala">This is some comment {foobar} about the username field</i:help>
 	
 	</i:field>
-	<i:field name="password" label="Password" type="password" state="editable" style="css" permissions="foo">
+	<i:field name="password2" label="Password" type="password" state="editable" style="css" permissions="foo">
 	
 	<i:tooltip>This is some help for the password field</i:tooltip>
 	<i:help>This is some comment about the password field</i:help>
@@ -52,13 +58,16 @@ xmlns:i="http://www.appflower.com/schema/" type="edit">
 ]]></i:description>
 
 <i:grouping>
-	<i:set title="Another set.." tabtitle="Tab1">
-		<i:ref to="color" />
-		<i:ref to="password" />
+	<i:set title="The set" tabtitle="Tab3">
+		<i:ref to="widget2" />
+		<i:ref to="color2" />
+		<i:ref to="password2" />
+		
 	</i:set>
-	<i:set title="Set2" tabtitle="Tab2">
+	<i:set title="New set" tabtitle="Tab4">
 		<i:ref to="widget" />
-		<i:ref to="username" />
+		<i:ref to="username2" />
+		
 	</i:set>
 	
 </i:grouping>

@@ -34,7 +34,26 @@ class testActions extends CustomActions
 		$this->bar = "oo";
 		$this->foobar = "lalala";
 		 
-		return XmlParser::layoutExt($this);
+		
+
+	}
+	
+	
+	public function executeEditnew()
+	{
+		 
+		if($this->getRequest()->getMethod()==sfRequest::POST)
+		{
+			$result = array('success' => true);
+			$result = json_encode($result);
+
+			return $this->renderText($result);
+		}
+		 
+		$this->bar = "oo";
+		$this->foobar = "lalala";
+		 
+		
 
 	}
 
@@ -325,16 +344,6 @@ class testActions extends CustomActions
 	public function executeZonepage()
 	{
 		 
-		sfProjectConfiguration::getActive()->loadHelpers("Helper");
-		 
-		$parser = new XmlParser(true);
-
-		$this->layout = $parser->getLayout();
-
-		$this->setLayout("layoutExtjs");
-		$this->setTemplate("edit");
-
-		return sfView::SUCCESS;
 
 	}
 

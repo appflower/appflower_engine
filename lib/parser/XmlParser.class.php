@@ -83,9 +83,15 @@ class XmlParser extends XmlParserTools {
 
 	function __construct($type = self::PANEL, $dry_run = false, $step = false, $manual = false, $internal = false, $build = false) {
 		
-		if(self::$instance) {
-			return true;
+		
+		if($build) {
+			$this->build = $build;
+		} else {
+			if(self::$instance) {
+				return true;
+			}
 		}
+		
 		self::$started = true;
 		
 		if(!defined("NODES")) {
@@ -134,8 +140,7 @@ class XmlParser extends XmlParserTools {
 			$actionInstance->getVarHolder()->add($config_vars);
 				
 		}
-		
-		
+	
 		// Assign DOM Document..
 		
 		if(!$build) {
@@ -199,7 +204,10 @@ class XmlParser extends XmlParserTools {
 		
 		// Reading default footer and sidebar data
 		
-		$this->parseDefaultPanels();
+		if(!$build) {
+			$this->parseDefaultPanels();	
+		}
+		
 		
 		// Reading Main XML Schema..
 		
@@ -227,61 +235,65 @@ class XmlParser extends XmlParserTools {
 			
 		} 
 		
-		// Create layout
-		
-		if($this->type === self::PANEL) {
-			self::$masterLayout = null;
-			$this->layout = new ImmExtjsPanelLayout();
+		if($build) {
+			$this->runParser($build, "object");
 		} else {
-			if(self::$instance === null) {
-				self::$instance = true;
-			}
-			if($this->type === self::WIZARD) {
-				
-				$this->isTabbed();
-				
-				if(!$this->tabbedWizard) {
-					$wizattrs = array('id'=>'center_panel','title'=>"");
-				} else {
-					$wizattrs = array('id'=>'center_panel','title'=>"",'centerType'=>'group');
-				}
-				$this->layout = new ImmExtjsWizardLayout($wizattrs);
+			// Create layout
+			
+			if($this->type === self::PANEL) {
+				self::$masterLayout = null;
+				$this->layout = new ImmExtjsPanelLayout();
 			} else {
-				
-			$this->portalIdXml = $this->context->getModuleName()."/".$this->context->getActionName();
-			$this->portalStateObj = afPortalStatePeer::retrieveByIdXml($this->portalIdXml);
-			
-				if(!$this->portalStateObj)
-				{	
-					
-					//default values for layout & columns
-					$this->portalConfig = new stdClass();
-					$this->portalConfig->layoutType = ($this->fetch("//i:tab")->length) ? afPortalStatePeer::TYPE_TABBED : afPortalStatePeer::TYPE_NORMAL;
-					$this->portalConfig->content = array();
-					$this->portalConfig->content[0]["portalLayoutType"] = sfConfig::get("app_parser_default_layout","[100]");
-					$this->portalConfig->idXml = $this->portalIdXml;
-					
+				if(self::$instance === null) {
+					self::$instance = true;
 				}
+				if($this->type === self::WIZARD) {
+					
+					$this->isTabbed();
+					
+					if(!$this->tabbedWizard) {
+						$wizattrs = array('id'=>'center_panel','title'=>"");
+					} else {
+						$wizattrs = array('id'=>'center_panel','title'=>"",'centerType'=>'group');
+					}
+					$this->layout = new ImmExtjsWizardLayout($wizattrs);
+				} else {
+					
+				$this->portalIdXml = $this->context->getModuleName()."/".$this->context->getActionName();
+				$this->portalStateObj = afPortalStatePeer::retrieveByIdXml($this->portalIdXml);
+				
+					if(!$this->portalStateObj)
+					{	
+						
+						//default values for layout & columns
+						$this->portalConfig = new stdClass();
+						$this->portalConfig->layoutType = ($this->fetch("//i:tab")->length) ? afPortalStatePeer::TYPE_TABBED : afPortalStatePeer::TYPE_NORMAL;
+						$this->portalConfig->content = array();
+						$this->portalConfig->content[0]["portalLayoutType"] = sfConfig::get("app_parser_default_layout","[100]");
+						$this->portalConfig->idXml = $this->portalIdXml;
+						
+					}
+				}
+				
+				if($this->layout) {
+					self::$masterLayout = $this->layout;	
+				}
+				
+				
 			}
 			
-			if($this->layout) {
-				self::$masterLayout = $this->layout;	
+			$this->manualMode = $manual;
+			
+			/**
+			 * widget help settings
+			 * 
+			 * ticket #300 - radu
+			 */
+			$this->widgetHelpSettings=afWidgetHelpSettingsPeer::retrieveCurrent();
+			
+			if(!$manual) {
+				$this->runParser(1,"content");	
 			}
-			
-			
-		}
-		
-		$this->manualMode = $manual;
-		
-		/**
-		 * widget help settings
-		 * 
-		 * ticket #300 - radu
-		 */
-		$this->widgetHelpSettings=afWidgetHelpSettingsPeer::retrieveCurrent();
-		
-		if(!$manual) {
-			$this->runParser(($build) ? $build : 1,($build) ? "object" : "content");	
 		}
 	}
 	
@@ -649,6 +661,7 @@ class XmlParser extends XmlParserTools {
 	
 	
 	public function runParser($arg = 0,$region = "content") {
+		
 		if($region == "object") {
 			$this->iteration = 99;
 		}
@@ -668,7 +681,6 @@ class XmlParser extends XmlParserTools {
 		// If layout is view, parse xmls
 		
 		if($region != "object" && $this->iteration == 0 && ($this->type == self::WIZARD || $this->type == self::PAGE)) {
-			
 			$this->readTemplates();
 			
 		}
@@ -1357,8 +1369,6 @@ class XmlParser extends XmlParserTools {
 
 						}
 						
-						
-						
 						$config_vars = afConfigUtils::getConfigVars($component['module'], $component['name'], $this->context->getRequest());
 						$attribute_holder->add($config_vars);
 							
@@ -1373,29 +1383,30 @@ class XmlParser extends XmlParserTools {
 								$file = $alt_file;
 							}
 							
-						} else {
-							if(isset($component["params"])) {
-								foreach($component["params"] as $pname => $pvalue) {
-									$attribute_holder->add(array($pname => $pvalue));
-								}
+						} 
+						
+						if(isset($component["params"])) {
+							foreach($component["params"] as $pname => $pvalue) {
+								$attribute_holder->add(array($pname => $pvalue));
 							}
-							
-							$this->readXmlDocument($file);
-							$this->iteration++;
-							$this->process["parses"][$this->iteration]["component"] = $name;
-							$this->process["parses"][$this->iteration]["component_name"] = $component["name"];
-							$this->process["parses"][$this->iteration]["module"] = $component["module"];
-							$this->process["parses"][$this->iteration]["area"] = $area_type;
-							$this->process["parses"][$this->iteration]["refresh"] = isset($component['refresh']) ? $component['refresh'] : false;
-							
-							if(($this->getCurrentView() == "edit" || $this->getCurrentView() == "show") && 
-							$this->fetch("//i:grouping")->length == 0) {
-								$arg = 1;
-							}
-							
-							$this->runParser($arg);
-							
 						}
+						
+						$this->readXmlDocument($file);
+						$this->iteration++;
+						$this->process["parses"][$this->iteration]["component"] = $name;
+						$this->process["parses"][$this->iteration]["component_name"] = $component["name"];
+						$this->process["parses"][$this->iteration]["module"] = $component["module"];
+						$this->process["parses"][$this->iteration]["area"] = $area_type;
+						$this->process["parses"][$this->iteration]["refresh"] = isset($component['refresh']) ? $component['refresh'] : false;
+						
+						if(($this->getCurrentView() == "edit" || $this->getCurrentView() == "show") && 
+						$this->fetch("//i:grouping")->length == 0) {
+							$arg = 1;
+						}
+						
+						$this->runParser($arg);
+							
+						
 					} else {
 						
 						
@@ -2416,7 +2427,12 @@ class XmlParser extends XmlParserTools {
 		}
 		
 		$host = ($this->isSSL()? 'https' : 'http')."://".$this->context->getRequest()->getHost();
-		$pageHelp = ($this->type !== self::WIZARD && isset($this->process["parses"][0]["extra"]) && $this->widgetHelpSettings->getWidgetHelpIsEnabled());
+		
+		if(!$build) {
+			$pageHelp = ($this->type !== self::WIZARD && isset($this->process["parses"][0]["extra"]) && $this->widgetHelpSettings->getWidgetHelpIsEnabled());	
+		} else {
+			$pageHelp = null;
+		}
 			
 		
 		if($this->multi) {
@@ -2426,12 +2442,10 @@ class XmlParser extends XmlParserTools {
 			if($pageHelp) {
 				$this->layout->addHelp($this->page["extra"]);
 			}
+		
+			$this->layout->setTitle($this->page["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''));
 		}		
 		
-		
-		if($this->multi) {
-			$this->layout->setTitle($this->page["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''));
-		}
 		
 		if($this->tree) {
 			$this->layout->addItem('west',$this->tree);
@@ -2452,13 +2466,16 @@ class XmlParser extends XmlParserTools {
 			$tools->addItem(array('id'=>'close','qtip'=>'Close','handler'=>array('parameters'=>'e,target,panel','source'=>"var portal=panel.ownerCt.ownerCt;panel.ownerCt.remove(panel, true);portal.onWidgetDrop();")));
 		
 			/***********************************************************/
-			$widgetHelp = ($this->type !== self::WIZARD && isset($parse["description"]) && $this->widgetHelpSettings->getWidgetHelpIsEnabled());
+			if(!$build) {
+					$widgetHelp = ($this->type !== self::WIZARD && isset($parse["description"]) && $this->widgetHelpSettings->getWidgetHelpIsEnabled());
+				
+					if($widgetHelp) {
+						if($this->type === self::PANEL) {
+							$this->layout->addHelp($parse["description"]);	
+						}
+					}		
+			}
 			
-			if($widgetHelp) {
-				if($this->type === self::PANEL) {
-					$this->layout->addHelp($parse["description"]);	
-				}
-			}	
 			
 			
 			if($this->multi) {
@@ -2595,7 +2612,9 @@ class XmlParser extends XmlParserTools {
 						
 						$this->childToAttribute($data,$it);
 						
-						$attributes = $data["attributes"];	
+						$attributes = $data["attributes"];
+
+						
 						
 						$attributes['labelStyle'] = 'width:'.$parse['labelWidth'].'px;font-size:11px;font-weight:bold;padding:0 3px 3px 0;';
 						
@@ -2728,7 +2747,7 @@ class XmlParser extends XmlParserTools {
 								}
 								
 							} else {
-								$prs = new XmlParser(self::PANEL,false,false,false,false,$attributes["module"]."/".$attributes["action"]);
+								$prs = new XmlParser(self::PANEL,false,false,false,false,$attributes["module"].$attributes["action"]);
 								if($columnx) {
 									$columnx->addMember($prs->getResult());	
 								} else {
@@ -3083,7 +3102,7 @@ class XmlParser extends XmlParserTools {
 				$formoptions['plugins'][] = ImmExtjsWidgets::getReloadPlugin($parse);
 				$grid = new ImmExtjsGrid($formoptions);
 				
-				if($widgetHelp) {
+				if(!$build && $widgetHelp) {
 					if($this->multi) {
 						$grid->addHelp($parse["description"]);	
 					}
@@ -3449,6 +3468,7 @@ if(response.message) {
 		if($build) {
 			$this->result = $grid;
 		}
+		
 		return true;	
 		
 	}
