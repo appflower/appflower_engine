@@ -115,10 +115,6 @@ class XmlParser extends XmlParserTools {
 		
 		$this->application = $this->context->getConfiguration()->getApplication();
 		
-		// Parser type
-		
-		$this->type = $type;
-		
 		// Set user
 		
 		$this->user = $this->context->getUser();
@@ -138,6 +134,37 @@ class XmlParser extends XmlParserTools {
 			$actionInstance->getVarHolder()->add($config_vars);
 				
 		}
+		
+		
+		// Assign DOM Document..
+		
+		if(!$build) {
+			$this->readXmlDocument();	
+		} else {
+			$this->readXmlDocument(null,false,$build);
+		}
+		
+		parent::__construct($this->document);
+	
+		$root = $this->document->getElementsByTagName("view")->item(0);
+		$view_type = $root->getAttribute("type"); 
+		
+		$view_type = XmlBaseElementParser::parseValue($view_type,$root,true);
+		$this->set("type",$view_type,$root);
+		
+		// Parser type
+		
+		if($view_type == "layout") {
+			$this->type = self::PAGE;
+		} else if($view_type == "wizard") {
+			$this->type = self::WIZARD;
+		} else {
+			$this->type = self::PANEL;
+		}
+		
+		// Is this a layout?
+		
+		$this->page = $view_type;
 		
 		
 		try {
@@ -188,26 +215,6 @@ class XmlParser extends XmlParserTools {
 		if($this->type === self::PANEL || $this->type === self::WIZARD) {
 			$this->checkWidgetCredentials();	
 		}
-	
-		// Is this a layout?
-		
-		$this->page = $type;
-		
-		// Assign DOM Document..
-		
-		if(!$build) {
-			$this->readXmlDocument();	
-		} else {
-			$this->readXmlDocument(null,false,$build);
-		}
-		
-		parent::__construct($this->document);
-	
-		$root = $this->document->getElementsByTagName("view")->item(0);
-		$view_type = $root->getAttribute("type"); 
-		
-		$view_type = XmlBaseElementParser::parseValue($view_type,$root,true);
-		$this->set("type",$view_type,$root);
 		
 		$this->enumCheck("i:viewType",$view_type);
 			
@@ -222,14 +229,14 @@ class XmlParser extends XmlParserTools {
 		
 		// Create layout
 		
-		if($type === self::PANEL) {
+		if($this->type === self::PANEL) {
 			self::$masterLayout = null;
 			$this->layout = new ImmExtjsPanelLayout();
 		} else {
 			if(self::$instance === null) {
 				self::$instance = true;
 			}
-			if($type === self::WIZARD) {
+			if($this->type === self::WIZARD) {
 				
 				$this->isTabbed();
 				
@@ -994,21 +1001,31 @@ class XmlParser extends XmlParserTools {
 			$action = strtok("/");
 		}
 		
-		if($this->page && $path === null) {
+		if($path === null) {
 			$path = $this->root."/apps/".$this->application."/config/pages/".$action.".xml";
 			if(!file_exists($path)) {
 				$path = $this->root."/plugins/appFlowerPlugin/config/pages/".$action.".xml";
 			}
-			$page = true;
+			
+			if(!file_exists($path)) {
+				$path = null;
+			} else {
+				$page = true;	
+			}
+			
 		}
 		
 		if($path === null) {
             $path = $this->root."/apps/".$this->application."/modules/".$module."/config/".$action.".xml";
 			if(!file_exists($path)) {
 				$path = $this->root."/plugins/appFlowerPlugin/modules/".$module."/config/".$action.".xml";
+			} 
+
+			if(!file_exists($path)) {
+				throw new XmlParserException("Unable to read config file: ".$path);
 			}
 		}
-        
+		
 		if(!$uri) {
 			$hash = sha1_file($path);
 			$obj = afValidatorCachePeer::inCache($path);
@@ -2368,7 +2385,7 @@ class XmlParser extends XmlParserTools {
 
 	
 	private function postProcess($build = false,$uri = null) {
-
+		
 		if($uri) {
 			$this->process["parses"][$this->iteration]["module"] = strtok($uri,"/");
 			$this->process["parses"][$this->iteration]["component_name"] = strtok("/");
@@ -2422,6 +2439,7 @@ class XmlParser extends XmlParserTools {
 		}
 		
 		foreach($this->process["parses"] as $it => $parse) {
+
 			/*
 			 * Moved the tools in this loop to have different tools on different portlets depending upon their types.
 			 */
@@ -2457,7 +2475,7 @@ class XmlParser extends XmlParserTools {
 				$parse["multipart"] = false;
 			}
 			
-			if(isset($this->page["confirm"])) {
+			if($this->multi && isset($this->page["confirm"])) {
 				$this->layout->attributes['listeners']['beforerender']=$this->layout->immExtjs->asMethod(array('parameters'=>'el','source'=>"Ext.Msg.confirm('".$this->page["confirm"]["title"]."','".$this->page["confirm"]["text"]."', function(btn){if (btn=='yes'){ return true; }else{ window.location.href='".$this->page["confirm"]["url"]."';return false;} });"));
 			}
 			//echo "<pre>";print_r($parse);exit;
@@ -3494,6 +3512,7 @@ if(response.message) {
 	}
 
 	public static function layoutExt($actionInstance, $type = XmlParser::PANEL) {
+		
 		if($actionInstance->isPageComponent){
 			return sfView::SUCCESS;
 		}
@@ -3501,7 +3520,7 @@ if(response.message) {
 		//used in ajax loading widgets
 		ImmExtjsAjaxLoadWidgets::initialize($actionInstance,$type);
 		sfLoader::loadHelpers("Helper");
-		$parser = new XmlParser($type);
+		$parser = new XmlParser();
 		$actionInstance->layout = $parser->getLayout();		
 		$actionInstance->setLayout("layoutExtjs");
 		self::setTemplateAppFlower($actionInstance);
