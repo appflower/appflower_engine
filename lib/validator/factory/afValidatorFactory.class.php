@@ -22,6 +22,30 @@ class afValidatorFactory {
         }
     }
 
+    /**
+     * Returns a value to be validated by the given validator.
+     */
+    public static function prepareValue($field, sfValidatorBase $validator, sfParameterHolder $requestParams) {
+        if($validator instanceof sfValidatorSchemaCompare) {
+            $values = array();
+            $prefix = preg_replace('/^(edit\[\d+\]).*/', '$1', $field);
+            self::fillValue($values, $prefix, 'left_field', $validator,
+                $requestParams);
+            self::fillValue($values, $prefix, 'right_field', $validator,
+                $requestParams);
+            return $values;
+        } else {
+            return $requestParams->get($field);
+        }
+    }
+
+    private static function fillValue(&$values, $prefix, $option, sfValidatorSchemaCompare $validator, sfParameterHolder $requestParams) {
+        $inputName = $validator->getOption($option);
+        $fieldName = sprintf('%s[%s]', $prefix, $inputName);
+        $value = $requestParams->get($fieldName);
+        $values[$inputName] = $value;
+    }
+
     private static function collectOptions($params) {
         $options = array();
         $messages = array();

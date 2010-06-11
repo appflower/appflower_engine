@@ -37,7 +37,6 @@ class XmlParserValidationFilter extends sfExecutionFilter
 					$post_index[] = $value;
 				}
 			}
-			$field_missing = false;
 			foreach($post_index as $field){
 				$tmp_field = $field;
 				if(!$context->getRequest()->getParameterHolder()->has($field)) {
@@ -49,57 +48,15 @@ class XmlParserValidationFilter extends sfExecutionFilter
 					}
 				}
 
-				$left_field = '';
-				$operator = '';
-				$right_field = '';
 				foreach($session[$field] as $class => $args) {
-					$diff_call = false;
-					if($class == 'sfValidatorSchemaCompare') {
-						$diff_call = true;
-					}
-					if(strstr($class,"Validator") == "Validator") {
-						$params = isset($args["params"]) ? $args["params"] : array();
-						$obj = new $class($context,$params);
-						$method = "execute";
-					} else {
-						$call = array("messages"=>array(),"options"=>array());
-							
-						foreach($args as $p) {
-							if(is_array($p)){
-								foreach($p as $key => $param) {
-									if(strstr($key,"_error")) {
-										$call["messages"][str_replace("_error","",$key)] = $param;
-									} else if(!$diff_call) {
-										$call["options"][$key] = $param=="false"?false:$param;
-									} else {
-										if(!$left_field || !$operator || !$right_field) {
-											if($key == 'left_field') {
-												$left_field = $param;
-											} else if($key == 'operator') {
-												$operator = $param;
-											} else if($key == 'right_field') {
-												$right_field = $param;
-											}
-										}
-									}
-								}
-							}
-							if($diff_call) {
-								$call["options"]['throw_global_error'] = true;
-							}
-						}
-							
-						$obj = !$diff_call ? new $class($call["options"],$call["messages"]) : new $class($left_field,$operator,$right_field,$call["options"],$call["messages"]) ;
-						$method = "clean";
-					}
+					$params = ArrayUtil::get($args, 'params', array());
+					$validator = afValidatorFactory::createValidator(
+						$class, $params);
 
-					$value = !$diff_call ? $actionInstance->getRequestParameter($tmp_field) : array($left_field=>$actionInstance->getRequestParameter($field),$right_field=>$actionInstance->getRequestParameter(str_replace($left_field,$right_field,$tmp_field)));
-					$error = (isset($args["error"])) ? $args["error"] : "";
-
+					$value = afValidatorFactory::prepareValue($tmp_field,
+						$validator, $context->getRequest()->getParameterHolder());
 					try {
-						if($obj->$method($value,$error) === false) {
-							$errors[] = array($field,$error);
-						}
+						$validator->clean($value);
 					}
 					catch(sfValidatorError $e) {
 						$errors[] = array($field,$e->getMessage());
