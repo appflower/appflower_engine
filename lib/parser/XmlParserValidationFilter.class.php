@@ -5,16 +5,14 @@ class XmlParserValidationFilter extends sfExecutionFilter
 
 	public function execute ($filterChain)
 	{
+		$context = $this->context;
+		if($this->isFirstCall() && $context->getRequest()->getMethod() == sfRequest::POST) {
+			$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
+			$session = $this->context->getUser()->getAttributeHolder()->getAll("parser/validation");
 
-		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
-		$session = $this->context->getUser()->getAttributeHolder()->getAll("parser/validation");
+			$errors = array();
+			$errorMessage = null;
 
-		$context = sfContext::getInstance();
-
-		$errors = array();
-		$errorMessage = null;
-
-		if($actionInstance->getRequest()->getMethod() == sfRequest::POST) {
 			$index = substr(trim($actionInstance->getRequestParameter('form_index')),4);
 			$keys = array_keys($session);
 			$post_index = array();
