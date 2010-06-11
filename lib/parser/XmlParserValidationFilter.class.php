@@ -74,41 +74,41 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		8 => "An extension stopped the upload process!"
 		);
 
-				if($reflection->getMethod("execute".ucfirst($actionInstance->getActionName()))->isFinal()) {
+		if($reflection->getMethod("execute".ucfirst($actionInstance->getActionName()))->isFinal()) {
 
-					$post = $context->getRequest()->getParameterHolder()->getAll();
-					$url = "/".$post["module"]."/".$post["action"]."?";
+			$post = $context->getRequest()->getParameterHolder()->getAll();
+			$url = "/".$post["module"]."/".$post["action"]."?";
 
-					foreach($post as $key => $value) {
-						if($key == "module" || $key == "action" || $key == "edit" ||  $key == "selections") {
-							continue;
-						}
-						$url .= $key."=".$value."&";
-
-					}
-
-					if(!isset($post["step"])) {
-						$step = $post["last"];
-					} else {
-						$step = $post["step"];
-					}
-
-					if($context->getActionName() == "saveJson") {
-						return;
-					}
-
-					$status = XmlParser::updateSession($step);
-
-					if($status === true || $status === 0) {
-						$result = array('success' => true, 'message' => false, 'redirect' => $url);
-					} else {
-						$result = array('success' => false, 'message' => "A file upload error has been detected: ".$upload_status[$status]."!");
-					}
-
-
-					echo json_encode($result);
-					exit;
+			foreach($post as $key => $value) {
+				if($key == "module" || $key == "action" || $key == "edit" ||  $key == "selections") {
+					continue;
 				}
+				$url .= $key."=".$value."&";
+
+			}
+
+			if(!isset($post["step"])) {
+				$step = $post["last"];
+			} else {
+				$step = $post["step"];
+			}
+
+			if($context->getActionName() == "saveJson") {
+				return;
+			}
+
+			$status = XmlParser::updateSession($step);
+
+			if($status === true || $status === 0) {
+				$result = array('success' => true, 'message' => false, 'redirect' => $url);
+			} else {
+				$result = array('success' => false, 'message' => "A file upload error has been detected: ".$upload_status[$status]."!");
+			}
+
+
+			echo json_encode($result);
+			exit;
+		}
 	}
 
     /**
