@@ -331,15 +331,27 @@ afApp.loadCenterWidget = function(widget) {
 		method : "GET",		
 		success : function(r) {
 			var json = Ext.util.JSON.decode(r.responseText);
+			json.load = json.load?json.load:'center';
 			//hash contains the value without #in front of the internal link
 			var futureHash=uri[0].replace(document.location.protocol+'//'+document.location.host,'')+futureTab;
 			var currentHash=document.location.href.replace(document.location.protocol+'//'+document.location.host+'/#','');
 			
-			if(json.redirect&&json.message&&json.load)
+			if(json.redirect&&json.message)
 			{
 				mask.hide();
-				
-				Ext.Msg.alert("Failure", json.message, function(){if(currentHash!=json.redirect){afApp.load(json.redirect,json.load);}});
+												
+				if(json.message)
+				{
+					Ext.Msg.alert(json.title, json.message, function(){
+						afApp.load(json.redirect,json.load);
+					});
+				}
+				else
+				{
+					if(currentHash!=json.redirect){
+						afApp.load(json.redirect,json.load);
+					}
+				}
 			}
 			else
 			{				
