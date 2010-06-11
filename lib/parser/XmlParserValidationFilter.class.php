@@ -8,13 +8,16 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		$context = $this->context;
 		if($this->isFirstCall() && $context->getRequest()->getMethod() == sfRequest::POST) {
 			$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
-			$session = $this->context->getUser()->getAttributeHolder()->getAll("parser/validation");
+			$validators = $this->getValidators($context);
+			if($validators === null) {
+				self::renderErrors(array(), 'The form is outdated. Please, refresh it.');
+			}
 
 			$errors = array();
 			$errorMessage = null;
 
 			$index = substr(trim($actionInstance->getRequestParameter('form_index')),4);
-			$keys = array_keys($session);
+			$keys = array_keys($validators);
 			$post_index = array();
 			$pattern = '/edit\['.$index.'\].*/';
 			foreach($keys as $value){
@@ -33,7 +36,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 					}
 				}
 
-				foreach($session[$field] as $class => $args) {
+				foreach($validators[$field] as $class => $args) {
 					$params = ArrayUtil::get($args, 'params', array());
 					$validator = afValidatorFactory::createValidator(
 						$class, $params);
@@ -56,6 +59,12 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		}
 
 		return $filterChain->execute();
+	}
+
+	private function getValidators($context) {
+		$uri = $context->getRequest()->getPathInfo();
+		$session = $context->getUser()->getAttributeHolder()->getAll('parser/validation');
+		return ArrayUtil::get($session, $uri, null);
 	}
 
 	private function checkFinalWizardStep() {

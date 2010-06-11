@@ -125,12 +125,6 @@ class XmlParser extends XmlParserTools {
 		
 		$this->user = $this->context->getUser();
 		
-		// Clear Validators		
-		
-		if(!$internal) {
-			$this->context->getUser()->getAttributeHolder()->removeNamespace('parser/validation');	
-		}
-		
 		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
 		afConfigUtils::setDefaultActionVars($actionInstance);
 		$this->attribute_holder = $actionInstance->getVarHolder()->getAll();
@@ -2181,10 +2175,6 @@ class XmlParser extends XmlParserTools {
 		  		}
 		  		
 			}	
-		} else if($key == "parser/validation") {
-			
-			$session = array_merge($session,$data);
-			
 		}
 			
 		$context->getUser()->getAttributeHolder()->removeNamespace($key);
@@ -2192,6 +2182,20 @@ class XmlParser extends XmlParserTools {
 	  	
 	  	return true;
 	  	
+	}
+
+	private static function resetFormValidators($submitUrl) {
+		$ns = 'parser/validation';
+		$holder = sfContext::getInstance()->getUser()->getAttributeHolder();
+		$holder->set($submitUrl, array(), $ns);
+	}
+
+	private static function rememberFieldValidators($submitUrl, $field, $validators) {
+		$ns = 'parser/validation';
+		$holder = sfContext::getInstance()->getUser()->getAttributeHolder();
+		$formValidators = $holder->get($submitUrl, array(), $ns);
+		$formValidators[$field] = $validators;
+		$holder->set($submitUrl, $formValidators, $ns);
 	}
 	
 	private function escapeJString($str) {
@@ -2537,7 +2541,9 @@ class XmlParser extends XmlParserTools {
 						$form->addHelp($parse["description"]);	
 					}
 				}	
-				
+
+				$submitUrl = UrlUtil::abs($parse['form']);
+				self::resetFormValidators($submitUrl);
 				foreach($parse["fields"] as $setname => $set) {
 					
 					$this->is_floated = array();
@@ -2620,8 +2626,8 @@ class XmlParser extends XmlParserTools {
 						
 						// Put validators into session.
 						
-						if(isset($data["validators"])) {
-							self::updateSession(false,"parser/validation",array($name => $data["validators"]),$this->datastore,$this->process);
+						if(isset($data['validators'])) {
+							self::rememberFieldValidators($submitUrl, $name, $data['validators']);
 						}
 						
 						$classname = $attributes["type"];
