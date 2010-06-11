@@ -531,7 +531,7 @@ class sfExtjs2Plugin {
     $source .= self::_comment(sprintf("%s// appFlower: %s%s", self::LBR, sfConfig::get('sf_extjs2_version'), self::LBR));
     $source .= sprintf("Ext.BLANK_IMAGE_URL = '%s'%s", sfConfig::get('sf_extjs'.$this->getExtjsVersion().'_spacer'), self::LBR_SM);
     
-    $source .= "Ext.state.Manager.setProvider(new Ext.state.CookieProvider());";
+    $source .= "Ext.state.Manager.setProvider(new Ext.state.CookieProvider({expires: new Date(new Date().getTime()+(1000*60*60*24*30))}));";
 	$source .= "\nvar GLOBAL_JS_VAR = ".json_encode($this->jsVar).";";
 	$source .= "\nvar GLOBAL_CSS_VAR = ".json_encode($this->cssVar).";";
     $this->source.=$source;

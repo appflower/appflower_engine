@@ -106,9 +106,10 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 			  
 			grid.on("render", this.onRender, this);	
 			grid.on("beforerender",this.applyState,this);
-			if(this.applyPrivateCookie()){				
+			
+			if(this.applyPrivateCookie().filters){				
 				this.saveState(this.grid,this.applyPrivateCookie());
-				this.grid.saveState()
+				//this.grid.saveState();
 			}
 			grid.on("beforestaterestore", this.applyState, this);
 			grid.on("beforestatesave", this.saveState, this);
@@ -123,7 +124,15 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 		this.suspendStateStore = true;
 		this.clearFilters();
 		var s;
-		state = (s = this.applyPrivateCookie())?s:state;
+		var p = this.applyPrivateCookie();
+		if(!p.filters){
+			this.suspendStateStore = false;
+			return ;
+		}
+		state = p
+		
+		//state = Ext.apply(state,this.applyPrivateCookie());
+	
 		//console.log(this.applyPrivateCookie());
 		if(state && state.filters)
 			for(var key in state.filters){
@@ -150,6 +159,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 	
 	/** private **/
 	saveState: function(grid, state){
+		return state;
 		var filters = {};
 		this.filters.each(function(filter){
 			if(filter.active)
@@ -191,7 +201,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 			//console.log(state)
 			return state;
 		}		
-		return false;
+		return {};
 		
 	/******************************************/
 	},

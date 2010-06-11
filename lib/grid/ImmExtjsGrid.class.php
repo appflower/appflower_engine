@@ -20,8 +20,7 @@ class ImmExtjsGrid
 	{		
 		$this->immExtjs=ImmExtjs::getInstance();
 		//for test
-		$this->attributes['tbar']=array();	
-		
+		$this->attributes['tbar']=array();			
 		sfLoader::loadHelpers(array('ImmExtjsContextMenu'));
 		if(isset($attributes['datasource']))
 		{
@@ -233,6 +232,15 @@ class ImmExtjsGrid
 		
 	public function end()
 	{	
+		/**
+		 * Stateful grid
+		 */
+		$this->attributes['stateful'] = true;
+		$this->attributes['stateId'] = isset($this->attributes['name'])?$this->attributes['name']:$this->attributes['path'];
+		$this->attributes['stateId'] = str_replace(" ","_",$this->attributes['stateId']);
+		$this->attributes['stateEvents'] = array('columnresize', 'columnmove', 'show', 'hide','sortchange'); 
+		
+		
 		if(!$this->attributes['tree'])
 		{
 			$this->attributes['view']=$this->immExtjs->GroupingColorView(array('forceFit'=>$this->attributes['forceFit'],'groupTextTpl'=>' {text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'));
