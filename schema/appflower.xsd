@@ -743,18 +743,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       </xs:complexType>
     </xs:element>
     
-    <xs:element name="error">
-    	<xs:annotation>
-        <xs:documentation xml:lang="en">
-            Error message text to be used in i:validator element.
-        </xs:documentation>
-      </xs:annotation>
-      <xs:complexType mixed="true">
-      	<xs:attributeGroup ref="i:commonAttributes" />
-      </xs:complexType>
-    </xs:element>
-    
-    
     <xs:element name="visible">
     	<xs:annotation>
         <xs:documentation xml:lang="en">
@@ -1254,7 +1242,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       <xs:complexType>
         <xs:sequence>
         	<xs:element ref="i:param" minOccurs="0" maxOccurs="unbounded" />
-        	<xs:element ref="i:error" minOccurs="0" maxOccurs="1" />
         </xs:sequence>
         <xs:attributeGroup ref="i:commonAttributes" />
         <xs:attribute name="name" type="xs:token" use="required" />

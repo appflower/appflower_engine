@@ -19,15 +19,6 @@ class validatorParser extends XmlBaseElementParser {
 				}
 				self::add("fields/".$name."/validators/".$validator."/params/".self::$parser->get($n,"name"),$v);				
 			}
-			
-			// There might be more error modes in the future.. For now, there is only one message.
-			
-			$nodes = self::$parser->fetch("./i:error",$node);
-			
-			foreach($nodes as $n) { 
-				self::add("fields/".$name."/validators/".$validator."/error",self::$parser->get($n));				
-			}
-	
 		}
 
 		return true;
