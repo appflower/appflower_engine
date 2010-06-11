@@ -332,6 +332,7 @@ afApp.loadCenterWidget = function(widget) {
 		success : function(r) {
 			var json = Ext.util.JSON.decode(r.responseText);
 			json.load = json.load?json.load:'center';
+			json.title = json.title?json.title:'...';
 			//hash contains the value without #in front of the internal link
 			var futureHash=uri[0].replace(document.location.protocol+'//'+document.location.host,'')+futureTab;
 			var currentHash=document.location.href.replace(document.location.protocol+'//'+document.location.host+'/#','');
