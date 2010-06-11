@@ -56,6 +56,6 @@ class UrlUtil {
      */
     public static function url($url)
     {
-    	return sfContext::getInstance()->getController()->genUrl('/', true).'#'.$url;
+    	return sfContext::getInstance()->getRequest()->getUriPrefix().'/#'.$url;
     }
 }
