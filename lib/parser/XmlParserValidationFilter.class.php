@@ -11,21 +11,8 @@ class XmlParserValidationFilter extends sfExecutionFilter
 
 		$context = sfContext::getInstance();
 
-		$reflection = new ReflectionClass(get_class($actionInstance));
-
 		$errors = array();
 		$errorMessage = null;
-
-		$upload_status = array
-		(
-		1 => "File is too large!",
-		2 => "File is too large!",
-		3 => "Partial upload..",
-		4 => "No file was uploaded!",
-		6 => "Internal error (tmp folder is missing)",
-		7 => "Can't write file",
-		8 => "An extension stopped the upload process!"
-		);
 
 		if($actionInstance->getRequest()->getMethod() == sfRequest::POST) {
 			$index = substr(trim($actionInstance->getRequestParameter('form_index')),4);
@@ -66,6 +53,28 @@ class XmlParserValidationFilter extends sfExecutionFilter
 			if(!empty($errors)) {
 				self::renderErrors($errors, $errorMessage);
 			} else {
+				$this->checkFinalWizardStep();
+			}
+		}
+
+		return $filterChain->execute();
+	}
+
+	private function checkFinalWizardStep() {
+		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
+		$context = $this->context;
+
+		$reflection = new ReflectionClass(get_class($actionInstance));
+		$upload_status = array
+		(
+		1 => "File is too large!",
+		2 => "File is too large!",
+		3 => "Partial upload..",
+		4 => "No file was uploaded!",
+		6 => "Internal error (tmp folder is missing)",
+		7 => "Can't write file",
+		8 => "An extension stopped the upload process!"
+		);
 
 				if($reflection->getMethod("execute".ucfirst($actionInstance->getActionName()))->isFinal()) {
 
@@ -87,8 +96,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 					}
 
 					if($context->getActionName() == "saveJson") {
-						$filterChain->execute();
-						return true;
+						return;
 					}
 
 					$status = XmlParser::updateSession($step);
@@ -100,14 +108,9 @@ class XmlParserValidationFilter extends sfExecutionFilter
 					}
 
 
-					return $actionInstance->renderText(json_encode($result));
+					echo json_encode($result);
+					exit;
 				}
-			}
-
-		}
-
-		$filterChain->execute();
-
 	}
 
     /**
