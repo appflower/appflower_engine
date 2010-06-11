@@ -281,8 +281,11 @@ afApp.attachHrefWidgetLoad = function ()
 	Ext.select('a.widgetLoad').on('click', function(e){
 		e.stopEvent();
 		
-		var el = Ext.get(e.getTarget());	    
-	    afApp.loadCenterWidget(el.dom.href);
+		var el = Ext.get(e.getTarget());	
+
+		var href = el.dom.href || el.dom.parentNode.href;
+		 
+	    afApp.loadCenterWidget(href);
 	});
 }
 afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
