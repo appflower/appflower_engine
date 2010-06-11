@@ -616,12 +616,12 @@ Ext.ux.GridRowActions.onActionSuccess = function(response, options) {
 	if(response.message) {
 		Ext.Msg.alert('Success', response.message, function(){
 			if(response.redirect) {
-				window.location.href = response.redirect;
+				afApp.load(response.redirect,response.load);
 			}
 		});
 	} else {
 		if(response.redirect) {
-			window.location.href = response.redirect;
+			afApp.load(response.redirect,response.load);
 		}
 	}
 }
@@ -636,7 +636,7 @@ Ext.ux.GridRowActions.onActionFailure = function(response, options) {
 	var message = response.message || 'Unable to do the operation.';
 	Ext.Msg.alert('Failure', message, function(){
 		if(response.redirect) {
-			window.location.href = response.redirect;
+			afApp.load(response.redirect,response.load);
 		}
 	});
 }
