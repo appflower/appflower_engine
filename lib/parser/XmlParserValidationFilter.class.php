@@ -8,15 +8,23 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		$context = $this->context;
 		if($this->isFirstCall() && $context->getRequest()->getMethod() == sfRequest::POST) {
 			$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
+			$index = substr(trim($actionInstance->getRequestParameter('form_index')),4);
+
 			$validators = $this->getValidators($context);
 			if($validators === null) {
-				self::renderErrors(array(), 'The form is outdated. Please, refresh it.');
+				$edit = $actionInstance->getRequestParameter("edit[$index]");
+				if(!$edit) {
+					// Login and other normal forms don't have
+					// validators from the XML config.
+					$validators = array();
+				} else {
+					self::renderErrors(array(), 'The form is outdated. Please, refresh it.');
+				}
 			}
 
 			$errors = array();
 			$errorMessage = null;
 
-			$index = substr(trim($actionInstance->getRequestParameter('form_index')),4);
 			$keys = array_keys($validators);
 			$post_index = array();
 			$pattern = '/edit\['.$index.'\].*/';
