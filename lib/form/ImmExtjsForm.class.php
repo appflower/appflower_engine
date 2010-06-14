@@ -15,6 +15,7 @@ class ImmExtjsForm
 	
 	public $immExtjs=null;	
 	public $privateName=null;
+	private $validators = array();
 							
 	public function __construct($attributes=array())
 	{		
@@ -129,6 +130,14 @@ class ImmExtjsForm
 		$panel=new ImmExtjsPanel(array('html'=>'<div style="white-space:normal;">'.$html.'</div>','listeners'=>array('render'=>$this->immExtjs->asMethod(array("parameters"=>"panel","source"=>"if(panel.body){panel.body.dom.style.border='0px';panel.body.dom.style.background='transparent';}")))));
 		$this->attributes['listeners']['render']=$this->immExtjs->asMethod("var tb;if(this.getTopToolbar()&&this.getTopToolbar().items.items.length==0){tb = this.getTopToolbar();tb.addItem(".$panel->privateName.");}else{ tb = new Ext.Toolbar({renderTo: this.tbar,items: [".$panel->privateName."]});}if(tb&&tb.container){tb.container.addClass('tbarBottomBorderFix');}");
 		
+	}
+
+	public function addValidator($fieldName, $validatorCfg) {
+		$this->validators[$fieldName] = $validatorCfg;
+	}
+
+	public function getValidators() {
+		return $this->validators;
 	}
 	
 	public function end()

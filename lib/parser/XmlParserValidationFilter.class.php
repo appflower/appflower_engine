@@ -12,14 +12,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 
 			$validators = $this->getValidators($context);
 			if($validators === null) {
-				$edit = $actionInstance->getRequestParameter("edit[$index]");
-				if(!$edit) {
-					// Login and other normal forms don't have
-					// validators from the XML config.
-					$validators = array();
-				} else {
-					self::renderErrors(array(), 'The form is outdated. Please, refresh it.');
-				}
+				self::renderErrors(array(), 'The form is outdated. Please, refresh it.');
 			}
 
 			$errors = array();
@@ -69,10 +62,29 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		return $filterChain->execute();
 	}
 
+	/**
+	 * Returns the right validators for this form or null.
+	 */
 	private function getValidators($context) {
-		$uri = $context->getRequest()->getPathInfo();
-		$session = $context->getUser()->getAttributeHolder()->getAll('parser/validation');
-		return ArrayUtil::get($session, $uri, null);
+		//TODO: get site-wide secret
+		$secret = 'my1234';
+		$encoded = $context->getRequest()->getParameter('af_formcfg');
+		$formcfg = afAuthenticDatamaker::decode($encoded, $secret);
+		if($formcfg === null) {
+			return null;
+		}
+
+		$uri = $context->getRequest()->getUri();
+		if(self::stripHost($formcfg['url']) != self::stripHost($uri)) {
+			// The given formcfg is for a different form.
+			return null;
+		}
+
+		return $formcfg['validators'];
+	}
+
+	private function stripHost($url) {
+		return preg_replace('@^https?://[^/]*@', '', $url);
 	}
 
 	private function checkFinalWizardStep() {

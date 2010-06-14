@@ -2184,20 +2184,6 @@ class XmlParser extends XmlParserTools {
 	  	
 	}
 
-	private static function resetFormValidators($submitUrl) {
-		$ns = 'parser/validation';
-		$holder = sfContext::getInstance()->getUser()->getAttributeHolder();
-		$holder->set($submitUrl, array(), $ns);
-	}
-
-	private static function rememberFieldValidators($submitUrl, $field, $validators) {
-		$ns = 'parser/validation';
-		$holder = sfContext::getInstance()->getUser()->getAttributeHolder();
-		$formValidators = $holder->get($submitUrl, array(), $ns);
-		$formValidators[$field] = $validators;
-		$holder->set($submitUrl, $formValidators, $ns);
-	}
-	
 	private function escapeJString($str) {
 		
 		if(strstr($str,"\r\n")) {
@@ -2542,8 +2528,6 @@ class XmlParser extends XmlParserTools {
 					}
 				}	
 
-				$submitUrl = UrlUtil::abs($parse['form']);
-				self::resetFormValidators($submitUrl);
 				foreach($parse["fields"] as $setname => $set) {
 					
 					$this->is_floated = array();
@@ -2624,10 +2608,9 @@ class XmlParser extends XmlParserTools {
 						
 						$attributes['labelStyle'] = 'width:'.$parse['labelWidth'].'px;font-size:11px;font-weight:bold;padding:0 3px 3px 0;';
 						
-						// Put validators into session.
-						
+						// Put validators into af_formcfg.
 						if(isset($data['validators'])) {
-							self::rememberFieldValidators($submitUrl, $name, $data['validators']);
+							$form->addValidator($name, $data['validators']);
 						}
 						
 						$classname = $attributes["type"];

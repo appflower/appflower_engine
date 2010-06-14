@@ -58,6 +58,14 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 				{
 					$attributes['params']=array();
 				}
+				$attributes['params']['form_index'] = $submitContainerObject->attributes['name'];
+
+				//TODO: get a site-wide secret
+				$secret = 'my1234';
+				$formcfg = array('url'=>$attributes['action'],
+					'validators'=>$submitContainerObject->getValidators());
+				$attributes['params']['af_formcfg'] =
+					afAuthenticDatamaker::encode($formcfg, $secret);
 				
 				/**
 				 * timeout, sets the submit timeout action in milisecs, default to 300000ms(300s)
@@ -71,7 +79,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  									$this->immExtjs->asAnonymousClass(array(
 		  									'url'=>$attributes['action'],
 		  									'waitMsg'=>'loading...',
-		  									'params'=>array_merge($attributes['params'],array('form_index'=>$submitContainerObject->attributes['name'])),
+		  									'params'=>$attributes['params'],
 		  									
 		  									/**
 		  									 * set the timeout
