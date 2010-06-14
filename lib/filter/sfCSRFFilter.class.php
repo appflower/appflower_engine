@@ -42,6 +42,7 @@ class sfCSRFFilter extends sfFilter
 
 		// provide the token to anyone interested
 		$request->setAttribute('_csrf_token', md5($secret.session_id()));
+		$request->setAttribute('_csrf_secret', $secret);
 
 		// execute next filter
 		$filterChain->execute();

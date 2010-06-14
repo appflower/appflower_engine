@@ -66,16 +66,16 @@ class XmlParserValidationFilter extends sfExecutionFilter
 	 * Returns the right validators for this form or null.
 	 */
 	private function getValidators($context) {
-		//TODO: get site-wide secret
-		$secret = 'my1234';
-		$encoded = $context->getRequest()->getParameter('af_formcfg');
+		$request = $context->getRequest();
+		$secret = $request->getAttribute('_csrf_secret');
+		$encoded = $request->getParameter('af_formcfg');
 		$formcfg = afAuthenticDatamaker::decode($encoded, $secret);
 		if($formcfg === null) {
 			return null;
 		}
 
 		$uri = $context->getRequest()->getUri();
-		if(self::stripHost($formcfg['url']) != self::stripHost($uri)) {
+		if(self::stripHost($formcfg['url']) !== self::stripHost($uri)) {
 			// The given formcfg is for a different form.
 			return null;
 		}
