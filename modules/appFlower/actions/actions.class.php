@@ -119,7 +119,7 @@ class appFlowerActions extends sfActions
 		$config=$this->hasRequestParameter('config')?$this->getRequestParameter('config'):false;
 		$selections=$this->hasRequestParameter('selections')?json_decode($this->getRequestParameter('selections')):false;
 		$portalWidgets=$this->hasRequestParameter('portalWidgets')?$this->getRequestParameter('portalWidgets'):false;
-		
+		$selectedWidgets = array();
 		if($selections)
 		{
 			foreach ($selections as $selectionsParam)

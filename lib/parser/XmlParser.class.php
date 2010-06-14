@@ -1168,6 +1168,7 @@ class XmlParser extends XmlParserTools {
 					if(!$title || $tab["attributes"]["title"] == $title) {
 						if(isset($item["portalColumns"]))
 						foreach($item["portalColumns"] as $column) {
+							if(is_array($column))
 							foreach($column as $component) {
 								
 								
@@ -2229,6 +2230,7 @@ class XmlParser extends XmlParserTools {
 		foreach($content as $k => $data) {
 			if(isset($data["portalColumns"]))
 			foreach($data["portalColumns"] as $col) {
+				if(is_array($col))
 				foreach ($col as $widget){
 					if($widget->idxml == $name) {
 						$this->extobjects[$name] = $ext;
@@ -3731,7 +3733,7 @@ if(_win){
 					{
 						//instanciate a column
 						${'column'.$k}=${'tab'.$item}->startColumn(array('columnWidth'=>($portalColumnsSize[$k]/100)));
-						
+						if(is_array($widgets))
 						foreach ($widgets as $widget)
 						{
 							${'column'.$k}->addItem($this->extobjects[$widget->idxml]);
@@ -3787,6 +3789,7 @@ if(_win){
 			if($item !== $current_tab) {
 				if(isset($details["portalColumns"]))
 				foreach($details["portalColumns"] as $col => $widgets) {
+					if(is_array($widgets))
 					foreach($widgets as $widget) {
 						foreach($all_widgets as $ck => $category) {
 							foreach($category["widgets"] as $wk => $entry) {

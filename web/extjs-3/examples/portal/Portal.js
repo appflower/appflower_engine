@@ -353,12 +353,13 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 		
 		var treesm = new Ext.ux.CheckboxSelectionModel ();
 		var treegrid = new Ext.ux.maximgb.tg.GridPanel ({
-			loadMask: true,
+			loadMask: true,			
 			frame: false,
 			bodyStyle: "border: 1px solid #8db2e3;",
 			autoHeight: true,
 			forceFit: true,
 			select: true,
+			tree:true,
 			listeners: { 
 				render: function () { 
 					this.store.load({
@@ -366,8 +367,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 							portalWidgets:Ext.encode(obj.portalWidgets),
 							config:obj.getConfig()
 						}
-					});
-					
+					});					
 					var gcm = treegrid.getColumnModel();
 					
 					if(gcm.getColumnHeader(gcm.getColumnCount()-1) == '<div class="x-grid3-hd-checker" id="hd-checker">&#160;</div>'){

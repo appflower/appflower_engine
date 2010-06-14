@@ -109,7 +109,7 @@ class afPortalStatePeer extends BaseafPortalStatePeer
 	public static function updateWidgetsToState($config,$selectedWidgets,$unselectedWidgets)
 	{
 		$afPortalStateObj=self::retrieveByIdXml($config->idXml);
-		
+		$firstColumnWidgets = array();
 		if($afPortalStateObj)
 		{			
 			/**
