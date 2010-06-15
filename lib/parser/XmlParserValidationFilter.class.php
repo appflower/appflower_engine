@@ -21,11 +21,6 @@ class XmlParserValidationFilter extends sfExecutionFilter
 				$tmp_field = $field;
 				if(!$context->getRequest()->getParameterHolder()->has($field)) {
 					$tmp_field = substr($field,0,-1)."_value]";
-					if(!$context->getRequest()->getParameterHolder()->has($tmp_field)){
-						$errors[] = array($field,'This field is missing');
-						$errorMessage = 'Some form field(s) is missing';
-						break;
-					}
 				}
 
 				foreach($fieldValidators as $class => $args) {
