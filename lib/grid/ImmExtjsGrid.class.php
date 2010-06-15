@@ -932,7 +932,6 @@ class ImmExtjsGrid
 			$functionForUpdater = $updater->privateName.'.start();
 			'.$updater->privateName.'.on("finish",function(comet,response){
 				//var response = response.responseText;
-				console.log(response)
 				var grid = '.$grid->privateName.';
 				var store = grid.getStore();
 				if(store.proxy.conn.disableCaching === false) {
