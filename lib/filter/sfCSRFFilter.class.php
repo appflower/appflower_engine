@@ -15,6 +15,9 @@ class sfCSRFFilter extends sfFilter
 		}
 
 		$request = $this->getContext()->getRequest();
+		$moduleName = $this->context->getActionStack()->getLastEntry()->getModuleName();
+		$actionName = $this->context->getActionStack()->getLastEntry()->getActionName();
+			
 		// check only if request method is POST
 		if (sfRequest::POST === $request->getMethod())
 		{
@@ -24,9 +27,9 @@ class sfCSRFFilter extends sfFilter
 			if(!$request->isXmlHttpRequest())
 			{
 				$requestToken = $request->getParameter('_csrf_token');
-
+								
 				// error if no token or if token is not valid
-				if (!$requestToken || md5($secret.session_id()) != $requestToken)
+				if (!in_array($moduleName,sfConfig::get('app_csrf_token_deactivatedModules'))&&(!$requestToken || md5($secret.session_id()) != $requestToken))
 				{
 					throw new sfException('CSRF attack detected.');
 				}
@@ -34,7 +37,6 @@ class sfCSRFFilter extends sfFilter
 		}
 		else
 		{
-			$actionName = $this->context->getActionStack()->getLastEntry()->getActionName();
 			if (strpos($actionName, 'delete') === 0) {
 				throw new sfException('Only POST is allowed for write-making actions.');
 			}
