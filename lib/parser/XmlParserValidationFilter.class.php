@@ -8,7 +8,6 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		$context = $this->context;
 		if($this->isFirstCall() && $context->getRequest()->getMethod() == sfRequest::POST) {
 			$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
-			$index = substr(trim($actionInstance->getRequestParameter('form_index')),4);
 
 			$validators = $this->getValidators($context);
 			if($validators === null) {
@@ -18,15 +17,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 			$errors = array();
 			$errorMessage = null;
 
-			$keys = array_keys($validators);
-			$post_index = array();
-			$pattern = '/edit\['.$index.'\].*/';
-			foreach($keys as $value){
-				if(preg_match($pattern,$value)){
-					$post_index[] = $value;
-				}
-			}
-			foreach($post_index as $field){
+			foreach($validators as $field => $fieldValidators){
 				$tmp_field = $field;
 				if(!$context->getRequest()->getParameterHolder()->has($field)) {
 					$tmp_field = substr($field,0,-1)."_value]";
@@ -37,7 +28,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 					}
 				}
 
-				foreach($validators[$field] as $class => $args) {
+				foreach($fieldValidators as $class => $args) {
 					$params = ArrayUtil::get($args, 'params', array());
 					$validator = afValidatorFactory::createValidator(
 						$class, $params);

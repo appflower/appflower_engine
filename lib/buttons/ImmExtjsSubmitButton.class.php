@@ -58,8 +58,6 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 				{
 					$attributes['params']=array();
 				}
-				$attributes['params']['form_index'] = $submitContainerObject->attributes['name'];
-
 				$secret = sfContext::getInstance()->getRequest()->getAttribute('_csrf_secret');
 				$formcfg = array('url'=>$attributes['action'],
 					'validators'=>$submitContainerObject->getValidators());
