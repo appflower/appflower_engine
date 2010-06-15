@@ -35,9 +35,9 @@
 .patch-install { background-image:url( /images/famfamfam/plugin_go.png ) !important; }
 .patch-delete { background-image:url( /images/famfamfam/plugin_delete.png ) !important; }
 
-.icon-expand-row{background:url('/images/plus.png') no-repeat center left !important;}
+.icon-expand-row{background:url('/appFlowerPlugin/images/plus.png') no-repeat center left !important;}
 .icon-plus{background:url('/images/famfamfam/add.png') no-repeat center left !important;}
-.icon-collapse-row{background:url('/images/minus.png') no-repeat center left !important;}
+.icon-collapse-row{background:url('/appFlowerPlugin//images/minus.png') no-repeat center left !important;}
 .icon-comment-add {background-image:url('/images/famfamfam/comment_add.png') ! important;}
 .icon-delete{background:url('/appFlowerPlugin/images/delete.png') no-repeat center left !important;}
 .icon-tab-default{background:url('/appFlowerPlugin/images/tabs.gif') no-repeat center left !important;}

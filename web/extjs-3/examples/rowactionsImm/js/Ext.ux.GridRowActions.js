@@ -347,6 +347,7 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 			if(!a.message) a.message = a.confirmMsg;
 			//if(a.message) a.confirm = true;
 			if(!a.message) a.message = "Are you sure to perform this operation?";
+			
 			if(a.icon){
 				if(a.style)
 				a.style += ";background-image:url("+a.icon+");background-repeat:no-repeat;";
@@ -363,10 +364,19 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 			if(a.script){
 				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="#" onclick="'+a.script+'">') : '';
 			}else if(a.name&&a.name.match("_expand$")){
-				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a <tpl if="!'+a.confirm+'">class="widgetLoad"</tpl> href="{' + a.urlIndex + '}" <tpl if="'+a.confirm+'">onclick="Ext.Msg.confirm(\'Confirmation\',\''+a.message+'\', function(btn){if (btn==\'yes\'){ afApp.load(\'{' + a.urlIndex + '}\',\'{' + a.load + '}\'); return false; }else{ return true;}});return false;"</tpl>>') : '';
-				if(a.style)	a.style += ";background-image:url(/images/plus.png);background-position:center;background-repeat:no-repeat;";
-				else a.style = "background-image:url(/images/plus.png);background-position:center;background-repeat:no-repeat;";
-				a.iconCls = "imm-expand-row";
+				
+				/**
+				* add af-expand-row to current iconCls or create a new one
+				*/
+				if(a.iconCls)a.iconCls += " af-expand-row"
+				else a.iconCls = " af-expand-row";
+				/**
+				* add af-confirm-row to current iconCls, if is the be confirmed first
+				*/
+				if(a.confirm)a.iconCls += " af-confirm-row";
+				
+				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="{' + a.urlIndex + '}" confirmmsg="'+a.confirmMsg+'">') : '';
+				
 			}else{
 				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a <tpl if="!'+a.confirm+'">class="widgetLoad"</tpl> href="{' + a.urlIndex + '}" <tpl if="'+a.confirm+'">onclick="Ext.Msg.confirm(\'Confirmation\',\''+a.message+'\', function(btn){if (btn==\'yes\'){ afApp.load(\'{' + a.urlIndex + '}\',\'{' + a.load + '}\'); return false; }else{ return true;}});return false;"</tpl>>') : '';
 			}			
@@ -410,6 +420,7 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 				,hide:a.hideIndex ? '<tpl if="' + a.hideIndex + '">visibility:hidden;</tpl>' : (a.hide ? 'visibility:hidden;' : '')
 				,align:a.align || 'right'
 				,style:a.style ? a.style : ''
+				,confirmMsg:a.confirmMsg ? a.confirmMsg :''
 			};
 			acts.push(o);
 
@@ -448,8 +459,6 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 	 *  
 	 *  @author: Prakash Paudel
 	 */
-	,plusIcon: "/images/plus.png"
-	,minusIcon: "/images/minus.png"
 	,expandRequest:function(e){
 		e.stopEvent();
 		var row = e.getTarget('.x-grid3-row');	
@@ -457,6 +466,8 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 		var obj = this;
 		var url = e.getTarget().parentNode;
 		var link = e.getTarget();
+		var extlink= Ext.get(link);
+		
 		if(!this.isRowExpanded(row)){
 			var mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Getting data from server.....</b> <br>Please wait..",removeMask:true});
 			mask.show();
@@ -484,9 +495,9 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 				    }else{
 				    	Ext.DomHelper.append(row,{tag:"div",cls:"imm-row-expand",style:"padding:5px;",html:response.responseText})
 					}
-					link.style.backgroundImage = "url("+obj.minusIcon+")";
-					link.style.backgroundPosition = "center";
-					link.qtip = "Collapse";
+					
+					extlink.removeClass('icon-expand-row');
+					extlink.addClass('icon-collapse-row');										
 					mask.hide();
 				},
 				failure:function(){
@@ -498,12 +509,12 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 			var div = this.getExpandedDiv(row);
 			if(div.style.display != "none"){
 				div.style.display = "none";
-				link.style.backgroundImage = "url("+this.plusIcon+")";
-				link.qtip = "Expand";
+				extlink.addClass('icon-expand-row');
+				extlink.removeClass('icon-collapse-row');
 			}else{
 				div.style.display = "block";
-				link.style.backgroundImage = "url("+this.minusIcon+")";
-				link.qtip = "Collapse";				
+				extlink.removeClass('icon-expand-row');
+				extlink.addClass('icon-collapse-row');							
 			}
 		}
 		
@@ -541,12 +552,29 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 
 		// handle row action click
 		var row = e.getTarget('.x-grid3-row');
-		if(e.getTarget(".imm-expand-row")){this.expandRequest(e);return}
+		
+		if(e.getTarget(".af-expand-row")){
+			
+			if(e.getTarget(".af-confirm-row"))
+			{			
+				var obj=this;
+				
+				Ext.Msg.confirm('Confirmation',e.getTarget(".af-confirm-row").parentNode.getAttribute('confirmmsg'), function(btn){if (btn=='yes'){ obj.expandRequest(e); return false; }else{ return true;}});
+				
+				e.stopEvent();
+			}
+			else
+			{
+				this.expandRequest(e);return false;
+			}
+		}
+		
 		var col = view.findCellIndex(target.parentNode.parentNode);
 
 		var t = e.getTarget('.ux-row-action-item');
 		if(t) {
 			action = t.className.replace(/ux-row-action-item /, '');
+			
 			if(action) {
 				action = action.replace(/ ux-row-action-text/, '');
 				action = action.trim();
@@ -554,7 +582,7 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 		}
 		if(false !== row && false !== col && false !== action) {
 			var record = this.grid.store.getAt(row.rowIndex);
-
+			
 			// call callback if any
 			if(this.callbacks && 'function' === typeof this.callbacks[action]) {
 				this.callbacks[action](this.grid, record, action, row.rowIndex, col);
