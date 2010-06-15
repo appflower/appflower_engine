@@ -11,7 +11,14 @@ class XmlParserValidationFilter extends sfExecutionFilter
 
 			$validators = $this->getValidators($context);
 			if($validators === null) {
-				self::renderErrors(array(), 'The form is outdated. Please, refresh it.');
+				$edit = $actionInstance->getRequestParameter('edit');
+				if(!is_array($edit)) {
+					// Normal AJAX POST requests and plain forms don't have
+					// validators from the XML config.
+					$validators = array();
+				} else {
+					self::renderErrors(array(), 'The form is outdated. Please, refresh it.');
+				}
 			}
 
 			$errors = array();
