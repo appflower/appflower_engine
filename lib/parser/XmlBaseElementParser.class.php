@@ -109,16 +109,25 @@ class XmlBaseElementParser  {
 		
 		$attribute_holder = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->getVarHolder()->getAll();
 		
+		if(self::$parser) {
+			$action_holder = self::$parser->vars[self::$parser->currentUri];
+			$uri = self::$parser->currentUri;	
+		} else {
+			$action_holder = $attribute_holder;
+			$uri = "action's";
+		}
+		
 		if(strstr($value,"{")) {
 			preg_match_all("/(\{[^\}]+\})/",$value,$matches);
 			foreach($matches[1] as $tmp) {
 				$match = true;
 				$tmp = preg_replace("/[\{\}]+/","",$tmp);
-				if(array_key_exists($tmp,$attribute_holder)) {
+				
+				if(is_array($action_holder) && array_key_exists($tmp,$action_holder)) {
 					$ret[$tmp] = $attribute_holder[$tmp];
 					$node->parsed = true;	
 				} else {
-					throw new XmlParserException("The variable ".$tmp." cannot be found in attribute holder!");
+					throw new XmlParserException("The variable \"".$tmp."\" cannot be found among ".$uri." variables!");
 				}	
 			}	
 			

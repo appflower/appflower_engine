@@ -70,7 +70,9 @@ class XmlParser extends XmlParserTools {
 		$started = false;
 		
 	public 
-		$dschecked = false;
+		$dschecked = false,
+		$currentUri,
+		$vars = null;
 			
 	public static
 		$masterLayout;
@@ -128,6 +130,22 @@ class XmlParser extends XmlParserTools {
 		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
 		afConfigUtils::setDefaultActionVars($actionInstance);
 		$this->attribute_holder = $actionInstance->getVarHolder()->getAll();
+		
+		$this->currentUri = $actionInstance->getModuleName()."/".$actionInstance->getActionName();	
+		
+		if($build) {
+			$uri = $build;
+			$module = strtok($build,"/");
+			$action = strtok("/");
+			$this->currentUri = $module."/".$action;
+		} else {
+			$uri =  $actionInstance->getModuleName()."/".$actionInstance->getActionName();
+			$module =  $actionInstance->getModuleName();
+			$action =  $actionInstance->getActionName();
+		}
+		
+		$this->vars[$uri] = afConfigUtils::getConfigVars($module, $action, $this->context->getRequest());
+		
 		
 		if($build) {
 			$config_vars = afConfigUtils::getConfigVars(strtok($build,"/"), strtok("/"), $this->context->getRequest());
@@ -1331,6 +1349,8 @@ class XmlParser extends XmlParserTools {
 			if(count($tab["components"])>0){
 				foreach($tab["components"] as $name => $component) {
 					
+					$this->currentUri = $component['module']."/".$component['name'];
+					
 					$arg = 0;
 					
 					if(substr($name,0,4) != "tree") {						
@@ -1364,6 +1384,7 @@ class XmlParser extends XmlParserTools {
 						}
 						
 						$config_vars = afConfigUtils::getConfigVars($component['module'], $component['name'], $this->context->getRequest());
+						$this->vars[$component['module']."/".$component['name']] = $config_vars;
 						$attribute_holder->add($config_vars);
 							
 						$file = $this->root."/apps/".$this->application."/modules/".$component["module"]."/config/".$component["name"].".xml";
@@ -1445,7 +1466,7 @@ class XmlParser extends XmlParserTools {
 			}
 			
 		}
-			
+		
 		}
 		
 		
