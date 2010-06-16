@@ -308,10 +308,11 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 	finish = function(){
 		eval(json.source);				
 		
-		viewport.layout.center.panel.add(eval(json.center_panel_first));		
-		if(viewport.layout.center.panel.body.dom.childNodes.length>1)
-		viewport.layout.center.panel.body.dom.removeChild(viewport.layout.center.panel.body.dom.lastChild);
-		viewport.doLayout();				
+		var panel = viewport.layout.center.panel;
+		panel.removeAll();
+		panel.add(eval(json.center_panel_first));
+
+		panel.doLayout();
 				
 		mask.hide();
 	};
@@ -553,6 +554,7 @@ afApp.loadFirst = function()
 	
 	afApp.load(firstUri);
 }
+
 Ext.onReady(function(){
 
 	afApp.attachHrefWidgetLoad();
