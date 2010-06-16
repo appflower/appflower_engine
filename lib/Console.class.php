@@ -26,7 +26,7 @@ class Console {
         }
 
         $path = $_SERVER['REQUEST_URI'];
-        if(StringUtil::startsWith($path, '/parser/listjson')) {
+        if(strpos($path, 'af_format=json') !== false) {
             $memory = apc_fetch('Console::memory');
             if($memory !== false) {
                 list(self::$startedAt, self::$last) = $memory;
