@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__).'/../bootstrap/dbunit.php');
-$t = new lime_test(10, new lime_output_color());
+$t = new lime_test(11, new lime_output_color());
 
 function assertError($validator, $value, $expectedMsg) {
     global $t;
@@ -42,6 +42,12 @@ assertError($validator,
 $paramHolder = new sfParameterHolder();
 $paramHolder->set('edit', array(array('password'=>'hello', 're_password'=>'hello2')));
 $values = afValidatorFactory::prepareValue('edit[0][re_password]', $validator,
+    $paramHolder);
+$t->is($values, array('password'=>'hello', 're_password'=>'hello2'));
+
+$paramHolder = new sfParameterHolder();
+$paramHolder->set('edit', array('password'=>'hello', 're_password'=>'hello2'));
+$values = afValidatorFactory::prepareValue('edit[re_password]', $validator,
     $paramHolder);
 $t->is($values, array('password'=>'hello', 're_password'=>'hello2'));
 

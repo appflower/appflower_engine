@@ -28,7 +28,7 @@ class afValidatorFactory {
     public static function prepareValue($field, sfValidatorBase $validator, sfParameterHolder $requestParams) {
         if($validator instanceof sfValidatorSchemaCompare) {
             $values = array();
-            $prefix = preg_replace('/^(edit\[\d+\]).*/', '$1', $field);
+            $prefix = preg_replace('/\[[^\]]+\]$/', '', $field);
             self::fillValue($values, $prefix, 'left_field', $validator,
                 $requestParams);
             self::fillValue($values, $prefix, 'right_field', $validator,
