@@ -48,7 +48,7 @@ Ext.ux.MaximizeTool = function() {
                 hideBorders: true,
                 plain: true,
                 layout: 'fit',
-                autoScroll: false,
+                autoScroll: true,
                 border: false,
                 bodyBorder: false,
                 frame: true,
