@@ -36,7 +36,12 @@ class XmlParserTools {
 		
 			
 	}
-		
+
+	 public function getWidgetId() {
+
+        preg_match("/\/([^\/]+)\/config\/([^.]+.xml)/",$this->document->documentURI,$m);
+        return (strstr($m[2],"pages/")) ? str_replace(".xml",$m[2]) : $m[1]."/".str_replace(".xml","",$m[2]);
+     }
 		
 	public static function buildOutput($ret,$filter = array(),$type = self::DOUBLE_TREE) {
 		

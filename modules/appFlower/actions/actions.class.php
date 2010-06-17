@@ -43,16 +43,69 @@ class appFlowerActions extends sfActions
 	public function executePopupHelp() 
     {	
     	$idXml=$this->hasRequestParameter('idXml')?$this->getRequestParameter('idXml'):false;
+    
+    	if($idXml) {
+    		
+    		$info['html'] = "<table border='0' cellpadding='0' cellspacing='0' id='whelp'><tr><th colspan=3><strong>Widget Help</strong></th></tr>";
+    		
+    		$xp = XmlParser::readDocumentByUri($idXml);	
     	
-    	$info['html']='Help not found';
-    	
-    	if($idXml)
-    	{
-	    	$info['html']='some <b>html</b>';
-	    	$info['winConfig']['title']='some title';
+    		// View type
+    		
+    		$view = $xp->evaluate("//i:view")->item(0)->getAttribute("type");
+    		
+    		// Title
+    		
+    		$title = $xp->evaluate("//i:title")->item(0)->nodeValue;
+    		
+    		$wh = $xp->evaluate("//i:description");
+    
+    		if($wh->length) {
+    			$info['html'] .= "<tr><td colspan=3>".$wh->item(0)->nodeValue."</td></tr>";
+    		} else {
+    			$info['html'] .= "<tr><td colspan=3>Not available..</td></tr>";
+    		}
+    		
+    		if($view == "edit" || $view == "show") {
+	    		$fields = $xp->evaluate("//i:field[@type!='hidden']");
+	    		
+	    		$info['html'] .= "<tr><th><strong>Field</strong></th><th><strong>Description</strong></th><th><strong>Tip</strong></th></tr>";
+	    		
+	    		$tmp = array();
+	    		$found = false;
+	    		
+	    		foreach($fields as $t) {
+	    			$comment = $xp->evaluate("./i:comment",$t);
+	    			if($comment->length == 1) {
+	    				$c = $comment->item(0)->nodeValue;
+	    			} else {
+	    				$c = "";
+	    			}
+	    			
+	    			$tip = $xp->evaluate("./i:help",$t);
+	    			if($tip->length == 1) {
+	    				$h = $tip->item(0)->nodeValue;
+	    			} else {
+	    				$h = "";
+	    			}
+	    			
+	    			if(trim($c) || trim($h)) {	
+		    			$info['html'] .= "<tr><td>".$t->getAttribute("label")."</td><td>".$c."</td><td>".$h."</td></tr>";	
+		    			$found = true; 
+	    			}
+	    		} 
+	    		
+	    		if(!$found) {
+	    			$info['html'] .= "<tr><td colspan=2>Not available..</td></tr>";
+	    		}
+    		}
+ 
+    		$info['html'] .= "</table>";
+	    	$info['winConfig']['title']=$title." Help";
 	    	$info['winConfig']['width']=500;
-	    	$info['winConfig']['heigh']=300;
-    	}   	
+	    	$info['winConfig']['height']=300;
+    		
+    	}  	
     	
     	$info=json_encode($info);
 		

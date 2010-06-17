@@ -13,7 +13,9 @@ class ImmExtjsPanelLayout extends ImmExtjsLayout
 					      'minHeight'=>'0',
 					      'split'=>'true',
 					      'collapsible'=>'true',
-				          'tools'=>($tools?$tools->end():''));
+				          'tools'=>($tools?$tools->end():''),
+						  'idxml'=>isset($attributes['idxml'])?$attributes['idxml']:false,
+		);
 		
 		
 		if(isset($this->attributes['viewport']['south_panel'])&&count($this->attributes['viewport']['south_panel'])>0)
@@ -34,7 +36,8 @@ class ImmExtjsPanelLayout extends ImmExtjsLayout
 					          'frame'=>true,
 					          'collapsible'=>true,
 					          'style'=>'padding-right:0px;',
-					          //'tools'=>$tools->end()
+					          'tools'=>$tools->end(),
+							  'idxml'=>isset($attributes['idxml'])?$attributes['idxml']:false,
 			);
 			
 			

@@ -253,6 +253,7 @@ class XmlParser extends XmlParserTools {
 			// Create layout
 			
 			if($this->type === self::PANEL) {
+				$this->panelIdXml = $this->context->getModuleName()."/".$this->context->getActionName();
 				self::$masterLayout = null;
 				$this->layout = new ImmExtjsPanelLayout();
 			} else {
@@ -1594,10 +1595,16 @@ class XmlParser extends XmlParserTools {
 	private function buildParserData() {
 		
 		$elements = $this->fetch("//*[@parsable]|//*[@assignid]");
+		$profile = $this->user->getProfile();
 		$sortables = array();
 		
 		try {
 			foreach($elements as $e) { 		
+				if($profile) {
+                 	if($this->name($e) == "help" && $this->getWidgetId() != "appFlower/editHelpSettings" && $this->widgetHelpSettings->getHelpType() == 0) {
+                    	continue;
+                    }
+                }
 				if($this->has($e,"assignid")) {
 					if(!$this->has($e,"name")) {
 						throw new XmlParserException("The element: ".$this->name($e)." should have a name attribute!");
@@ -1808,7 +1815,17 @@ class XmlParser extends XmlParserTools {
 		} else {
 			$data["attributes"]["help"] = "";
 		}
-					
+		
+		
+		if($this->widgetHelpSettings->getHelpType()) {
+        	if($this->widgetHelpSettings->getHelpType() == 1) {
+            	$data["attributes"]["helpType"] = "comment";
+            } else {
+           		$data["attributes"]["helpType"] = "inline";
+            }
+        }
+
+        
 		if(isset($data["comment"])) {
 			if(!isset($data["attributes"]["comment"])) {
 				$data["attributes"]["comment"] = $data["comment"];	
@@ -2470,6 +2487,10 @@ class XmlParser extends XmlParserTools {
 			 */
 			
 			$tools=new ImmExtjsTools();
+			// Help popup
+            if($this->widgetHelpSettings && $this->widgetHelpSettings->getPopupHelpIsEnabled()) {
+            	$tools->addItem(array('id'=>'help','qtip'=>"Widget Help",'handler'=>array('parameters'=>'e,target,panel','source'=>"afApp.loadPopupHelp(panel.idxml);")));
+            }
 			if(isset($parse['params']) && isset($parse['params']['settings'])){
 				$tools->addItem(array('id'=>'gear','qtip'=>'Setting','handler'=>array('parameters'=>'e,target,panel','source'=>"ajax_widget_popup('".$parse['params']['settings']."','Settings',panel)")));
 			}		
@@ -2625,8 +2646,6 @@ class XmlParser extends XmlParserTools {
 						
 						$attributes = $data["attributes"];
 
-						
-						
 						$attributes['labelStyle'] = 'width:'.$parse['labelWidth'].'px;font-size:11px;font-weight:bold;padding:0 3px 3px 0;';
 						
 						// Put validators into af_formcfg.
@@ -2732,7 +2751,6 @@ class XmlParser extends XmlParserTools {
 								
 								if($view == "edit" || $attributes["type"] == "doubletree") {
 							
-									
 									$obj = new $tmp_name((isset($columnx)) ? $columnx : $form,$attributes);
 									
 									/*
@@ -2894,7 +2912,7 @@ class XmlParser extends XmlParserTools {
 					$this->layout->addItem($this->area_types[$current_area],$form);	
 					
 					if($this->area_types[$current_area] == "center") {
-						$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():'')));	
+						$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''),"idxml" => $this->panelIdXml));	
 					}
 				} else {
 					
@@ -2907,7 +2925,7 @@ class XmlParser extends XmlParserTools {
 					}	
 					
 				}
-			
+				
 	
 			} else if($view == "html") {
 
@@ -2967,7 +2985,6 @@ class XmlParser extends XmlParserTools {
 						'border'=>$parse["options"]["border"],
 						'header'=>$parse["options"]["header"],
 						'style'=>'',
-						'tools'=>$tools,
 						'autoHeight'=>$parse["options"]["autoHeight"],
 						'autoEnd'=>$parse["options"]["autoEnd"],
 						'portal'=>true));
@@ -2978,7 +2995,7 @@ class XmlParser extends XmlParserTools {
 							return $pn;
 						}
 					$this->layout->addItem("center",$pn);
-					$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():'')));	
+					$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''),"idxml" => $this->panelIdXml));	
 				}
 				
 			} else if($view == "info") {
@@ -3263,7 +3280,7 @@ class XmlParser extends XmlParserTools {
 					if(!$this->multi) {
 						$this->layout->addItem($this->area_types[$current_area],$grid);
 						if($this->area_types[$current_area] == "center") {
-							$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():'')));		
+							$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''),"idxml" => $this->panelIdXml));		
 						}
 					} else {
 						

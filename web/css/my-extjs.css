@@ -263,3 +263,22 @@ html, body {
     height:auto;
 }
 
+
+/* Widget Help Popup  */
+
+#whelp {
+   width: 100%;
+}
+
+#whelp th {
+	font-size: 1.2em; 
+	font-weight: bold !important;
+	background: #eee;
+	border-bottom: dashed 2px gray;
+	padding-left: 4px;
+	}
+
+#whelp td {
+	padding: 4px;	
+}
+

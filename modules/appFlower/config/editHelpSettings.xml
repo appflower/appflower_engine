@@ -14,24 +14,24 @@ xmlns:i="http://www.appflower.com/schema/" xmlns="http://www.w3.org/1999/xhtml" 
   </i:datasource>
   
   <i:fields url="appFlower/updateHelpSettings">
-	<i:radiogroup name="fieldhelp" label="">
+	<i:radiogroup name="fieldhelp" label="foo">
 		<i:field name="opt0" type="radio" label="No help" checked="{opt0checked}" value="0">
-			<i:comment>Help text shouldn't be displayed at all</i:comment>
+			<i:help>Help text shouldn't be displayed at all</i:help>
 		</i:field>
 		<i:field name="opt1" type="radio" label="Comment" checked="{opt1checked}" value="1">
-			<i:comment>Help text is displayed like this</i:comment>
+			<i:help>Help text is displayed like this</i:help>
 		</i:field>
 		<i:field name="opt2" type="radio" label="Inline" checked="{opt2checked}" value="2">
-			<i:comment>Help text should be displayed inline, next to label with icon tip</i:comment>
+			<i:help>Help text should be displayed inline, next to label with icon tip</i:help>
 		</i:field>
 	</i:radiogroup>
 	<i:field name="popup" type="checkbox" label="Popup">
 		<i:value type="orm"> <i:source name="getPopupHelpIsEnabled" /> </i:value>
-		<i:comment>Enables / disables help popup window, which contains help for each form field and the widget description</i:comment>
+		<i:help>Enables / disables help popup window, which contains help for each form field and the widget description</i:help>
 	</i:field>
   	<i:field name="widgethelp" label="Widget help" type="checkbox" state="editable" style="css" >
 		<i:value type="orm"> <i:source name="getWidgetHelpIsEnabled" /> </i:value>
-		<i:comment>Enables / Disables widget description at the top of each wiget</i:comment>	
+		<i:help>Enables / Disables widget description at the top of each wiget</i:help>	
 	</i:field>
   </i:fields>
   

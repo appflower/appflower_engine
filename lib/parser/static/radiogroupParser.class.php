@@ -22,7 +22,7 @@ class radiogroupParser extends XmlBaseElementParser {
 				$name = self::$parser->get($child,"name");
 				
 				if(self::$parser->has($child,"checked")) {
-					self::add("fields/".$name."/attributes/checked","true");	
+					//self::add("fields/".$name."/attributes/checked","true");	
 				}
 				
 				self::add("fields/".$name."/attributes/group",$group);
