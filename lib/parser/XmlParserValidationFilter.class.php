@@ -9,7 +9,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		if($this->isFirstCall() && $context->getRequest()->getMethod() == sfRequest::POST) {
 			$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
 
-			$validators = $this->getValidators($context);
+			$validators = self::getValidators($context);
 			if($validators === null) {
 				$edit = $actionInstance->getRequestParameter('edit');
 				if(!is_array($edit)) {
@@ -47,9 +47,15 @@ class XmlParserValidationFilter extends sfExecutionFilter
 			}
 			if(!empty($errors)) {
 				self::renderErrors($errors, $errorMessage);
-			} else {
-				$this->checkFinalWizardStep();
 			}
+
+			$this->checkFinalWizardStep();
+			/* Disabled for now. LogInspect NullFilter needs to be
+			 * able to accept non-array edit[] values first.
+			 *
+			self::removeIterationNumber(
+				$this->context->getRequest()->getParameterHolder());
+			 */
 		}
 
 		return $filterChain->execute();
@@ -58,7 +64,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 	/**
 	 * Returns the right validators for this form or null.
 	 */
-	private function getValidators($context) {
+	private static function getValidators($context) {
 		$request = $context->getRequest();
 		$secret = $request->getAttribute('_csrf_secret');
 		$encoded = $request->getParameter('af_formcfg');
@@ -76,7 +82,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		return $formcfg['validators'];
 	}
 
-	private function stripHost($url) {
+	private static function stripHost($url) {
 		return preg_replace('@^https?://[^/]*@', '', $url);
 	}
 
@@ -148,5 +154,28 @@ class XmlParserValidationFilter extends sfExecutionFilter
 
         echo json_encode($result);
         exit;
+    }
+
+    /**
+     * Copies values from edit[iterationNumber][] to edit[].
+     * It keeps edit[iterationNumber][] to be also present
+     * for backward compatibility.
+     */
+    private static function removeIterationNumber($paramHolder) {
+        $params =& $paramHolder->getAll();
+        if (!isset($params['edit']) || !is_array($params['edit'])) {
+            return;
+        }
+
+        $edit =& $params['edit'];
+        if(count($edit) === 1) {
+            $values = array_values($edit);
+            $submit = $values[0];
+            if(is_array($submit)) {
+                foreach($submit as $key => $value) {
+                    $edit[$key] = $value;
+                }
+            }
+        }
     }
 }
