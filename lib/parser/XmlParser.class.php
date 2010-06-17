@@ -3619,13 +3619,15 @@ if(_form){
 }				
 if(response.message) {
 	Ext.Msg.alert("Success", response.message, function(){
-		if(response.redirect && response.forceRedirect !== false) {
+		if(_win && response.redirect && response.forceRedirect === false){}
+		else if(response.redirect) {
 			window.location.href = response.redirect;
-		}
+		}		
 	});
 } else {
-	if(response.redirect && response.forceRedirect !== false) {
-		window.location.href = response.redirect;
+	if(_win && response.redirect && response.forceRedirect === false){}
+	else if(response.redirect) {
+		window.location.href = response.redirect;	
 	}
 }
 if(_win){		  								
