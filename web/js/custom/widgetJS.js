@@ -340,7 +340,7 @@ afApp.loadCenterWidget = function(widget) {
 			var futureHash=uri[0].replace(document.location.protocol+'//'+document.location.host,'')+futureTab;
 			var currentHash=document.location.href.replace(document.location.protocol+'//'+document.location.host+'/#','');
 			
-			if(json.redirect&&json.message)
+			if(json.redirect)
 			{
 				mask.hide();
 												
@@ -352,9 +352,7 @@ afApp.loadCenterWidget = function(widget) {
 				}
 				else
 				{
-					if(currentHash!=json.redirect){
-						afApp.load(json.redirect,json.load);
-					}
+					afApp.load(json.redirect,json.load);
 				}
 			}
 			else
