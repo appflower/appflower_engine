@@ -355,6 +355,9 @@ class ImmExtjsLayout
 		$this->immExtjs->public['getViewport'] = "return viewport;";
 		$this->immExtjs->public['getViewport'] = $this->immExtjs->asMethod($this->immExtjs->public['getViewport']);
 		
+		$this->immExtjs->public['getToolbar'] = "return toolbar;";
+		$this->immExtjs->public['getToolbar'] = $this->immExtjs->asMethod($this->immExtjs->public['getToolbar']);
+		
 		$this->immExtjs->init();
 	}
 }
