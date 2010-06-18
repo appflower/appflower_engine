@@ -46,9 +46,38 @@ class appFlowerActions extends sfActions
     
     	if($idXml) {
     		
+    		// Read doc
+    		
     		$info['html'] = "<table border='0' cellpadding='0' cellspacing='0' id='whelp'><tr><th colspan=3><strong>Widget Help</strong></th></tr>";
     		
     		$xp = XmlParser::readDocumentByUri($idXml);	
+    		
+    		// Parse variables..
+    		
+    		$module = strtok($idXml,"/");
+			$action = strtok("/");
+    	
+    		$vars = afConfigUtils::getConfigVars($module, $action, $this->getRequest());
+    		
+    		$ps = $xp->evaluate("/i:view/descendant::*[(local-name(.)='title' or local-name(.)='tooltip' or local-name(.)='help') and contains(.,'{') and contains(.,'}')]");
+    		
+    		foreach($ps as $node) {
+    			preg_match_all("/(\{[^\}]+\})/",$node->nodeValue,$matches);
+				foreach($matches[1] as $tmp) {
+					$match = true;
+					$tmp = preg_replace("/[\{\}]+/","",$tmp);
+					
+					if(array_key_exists($tmp,$vars)) {
+						$node->nodeValue = str_replace("{".$tmp."}",$vars[$tmp],$node->nodeValue);
+					} else {
+						$info = array("success" => false, "message" => "The variable \"".$tmp."\" cannot be found among ".$idXml." variables!");
+						$info=json_encode($info);
+						return $this->renderText($info);
+					}	
+				}	
+    			
+    		}
+    		
     	
     		// View type
     		
@@ -75,14 +104,14 @@ class appFlowerActions extends sfActions
 	    		$found = false;
 	    		
 	    		foreach($fields as $t) {
-	    			$comment = $xp->evaluate("./i:comment",$t);
+	    			$comment = $xp->evaluate("./i:help",$t);
 	    			if($comment->length == 1) {
 	    				$c = $comment->item(0)->nodeValue;
 	    			} else {
 	    				$c = "";
 	    			}
 	    			
-	    			$tip = $xp->evaluate("./i:help",$t);
+	    			$tip = $xp->evaluate("./i:tooltip",$t);
 	    			if($tip->length == 1) {
 	    				$h = $tip->item(0)->nodeValue;
 	    			} else {
