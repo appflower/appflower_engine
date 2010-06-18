@@ -58,11 +58,10 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 				{
 					$attributes['params']=array();
 				}
-				$secret = sfContext::getInstance()->getRequest()->getAttribute('_csrf_secret');
 				$formcfg = array('url'=>$attributes['action'],
 					'validators'=>$submitContainerObject->getValidators());
 				$attributes['params']['af_formcfg'] =
-					afAuthenticDatamaker::encode($formcfg, $secret);
+					afAuthenticDatamaker::encode($formcfg);
 				
 				/**
 				 * timeout, sets the submit timeout action in milisecs, default to 300000ms(300s)

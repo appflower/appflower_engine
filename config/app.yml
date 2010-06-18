@@ -4,6 +4,7 @@ all:
   appFlower:
     version: '1.0'
     loadingLogo: '/appFlowerPlugin/images/appFlowerAnimatedLogo.gif'
+    siteSecret: CHANGE_ME
   
   parser:
     panels:

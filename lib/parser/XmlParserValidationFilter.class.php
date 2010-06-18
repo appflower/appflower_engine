@@ -66,9 +66,8 @@ class XmlParserValidationFilter extends sfExecutionFilter
 	 */
 	private static function getValidators($context) {
 		$request = $context->getRequest();
-		$secret = $request->getAttribute('_csrf_secret');
 		$encoded = $request->getParameter('af_formcfg');
-		$formcfg = afAuthenticDatamaker::decode($encoded, $secret);
+		$formcfg = afAuthenticDatamaker::decode($encoded);
 		if($formcfg === null) {
 			return null;
 		}
