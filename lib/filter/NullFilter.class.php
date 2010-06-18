@@ -8,13 +8,17 @@ class NullFilter extends sfFilter
 {
     public function execute ($filterChain)
     {
-        if ($this->isFirstCall()) {
-            $holder = $this->context->getRequest()->getParameterHolder();
+        $request = $this->context->getRequest();
+        if($this->isFirstCall() && $request->getMethod() == sfRequest::POST) {
+            $holder = $request->getParameterHolder();
             $params =& $holder->getAll();
             if (isset($params['edit']) && is_array($params['edit'])) {
                 foreach ($params['edit'] as &$edit) {
-                    self::nullifyEmptyParams($edit);
+                    if (is_array($edit)) {
+                        self::nullifyEmptyParams($edit);
+                    }
                 }
+                self::nullifyEmptyParams($params['edit']);
             }
         }
 
