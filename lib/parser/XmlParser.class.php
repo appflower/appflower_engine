@@ -144,7 +144,7 @@ class XmlParser extends XmlParserTools {
 			$action =  $actionInstance->getActionName();
 		}
 		
-		$this->vars[$uri] = afConfigUtils::getConfigVars($module, $action, $this->context->getRequest());
+		$this->vars[$uri] = $this->attribute_holder;
 		
 		
 		if($build) {
