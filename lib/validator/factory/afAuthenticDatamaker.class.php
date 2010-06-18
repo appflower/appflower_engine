@@ -7,22 +7,32 @@ class afAuthenticDatamaker {
 
     /**
      * Signs the data to prevent their alternation.
+     * The signed result will be valid only for a limited number of hours.
      */
     public static function encode($data, $timestamp=null) {
         if(!$timestamp) {
             $timestamp = time();
         }
 
-        $key = self::getSiteSecret();
         $message = json_encode(array($timestamp, $data));
-        $hmac = self::hmacSha1($message, $key);
+        return self::plainEncode($message);
+    }
+
+    /**
+     * Signs the message with site secret and an extra key.
+     * Changing the site secret or the extra key will invalidate
+     * the signed message.
+     */
+    public static function plainEncode($message, $extraKey='') {
+        $key = self::getSiteSecret();
+        $hmac = self::hmacSha1($message, $key.$extraKey);
         return $hmac.','.$message;
     }
 
     /**
-     * Returns decoded valid data or null.
+     * Returns a decoded valid message or null.
      */
-    public static function decode($input) {
+    public static function plainDecode($input, $extraKey='') {
         $parts = explode(',', $input, 2);
         if(count($parts) !== 2) {
             return null;
@@ -30,8 +40,20 @@ class afAuthenticDatamaker {
 
         $key = self::getSiteSecret();
         list($hmac, $message) = $parts;
-        $expectedHmac = self::hmacSha1($message, $key);
+        $expectedHmac = self::hmacSha1($message, $key.$extraKey);
         if($hmac !== $expectedHmac) {
+            return null;
+        }
+
+        return $message;
+    }
+
+    /**
+     * Returns decoded valid data or null.
+     */
+    public static function decode($input) {
+        $message = self::plainDecode($input);
+        if($message === null) {
             return null;
         }
 
