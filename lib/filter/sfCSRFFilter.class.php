@@ -9,10 +9,7 @@ class sfCSRFFilter extends sfFilter
 	 */
 	public function execute($filterChain)
 	{
-		if (!$secret = $this->getParameter('secret'))
-		{
-			throw new sfConfigurationException('You must provide a "secret" option for the sfCSRFPlugin filter.');
-		}
+		$secret = afAuthenticDatamaker::getSiteSecret();
 
 		$request = $this->getContext()->getRequest();
 		$moduleName = $this->context->getActionStack()->getLastEntry()->getModuleName();

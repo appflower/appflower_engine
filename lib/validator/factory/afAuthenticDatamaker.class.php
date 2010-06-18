@@ -51,7 +51,7 @@ class afAuthenticDatamaker {
     public static function getSiteSecret() {
         $secret = sfConfig::get('app_appFlower_siteSecret');
         if (!$secret) {
-            throw new Exception('Configure app_appFlower_siteSecret.');
+            throw new sfConfigurationException('Configure app_appFlower_siteSecret.');
         }
         return $secret;
     }
