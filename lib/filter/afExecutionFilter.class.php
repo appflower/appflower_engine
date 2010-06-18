@@ -9,6 +9,12 @@ class afExecutionFilter extends sfExecutionFilter {
     protected function executeAction($actionInstance) {
         if(self::isListjsonRequest($actionInstance)) {
             $actionInstance->isPageComponent = true;
+        } elseif(self::isFirstPageRequest($actionInstance)) {
+            $request = $actionInstance->getRequest();
+            if($request->getAttribute('af_first_page_request') !== true) {
+                $request->setAttribute('af_first_page_request', true);
+                $actionInstance->forward('appFlower', 'firstPage');
+            }
         }
 
         $actionInstance->preExecute();
@@ -50,13 +56,20 @@ class afExecutionFilter extends sfExecutionFilter {
             return $viewName;
         }
 
-        $configPath = afConfigUtils::getPath($actionInstance->getModuleName(),
-            $actionInstance->getActionName());
-        if(file_exists($configPath)) {
+        if(self::isAppFlowerAction($actionInstance)) {
             $viewName = XmlParser::layoutExt($actionInstance);
         }
 
         return $viewName;
+    }
+
+    /**
+     * Returns true for actions with XML config.
+     */
+    private static function isAppFlowerAction($actionInstance) {
+        $configPath = afConfigUtils::getPath($actionInstance->getModuleName(),
+            $actionInstance->getActionName());
+        return file_exists($configPath);
     }
 
     private static function isListjsonRequest($actionInstance) {
@@ -66,6 +79,22 @@ class afExecutionFilter extends sfExecutionFilter {
 
     public static function getListjsonUrl($actionUrl) {
         return UrlUtil::abs($actionUrl.'?af_format=json');
+    }
+
+    /**
+     * All AppFlower actions should be rendered by AJAX widget load.
+     * Otherwise, it is assumed that it is a request for
+     * the first page with menu and toolbar.
+     *
+     * Bookmarks /#/module/action use the first page.
+     * The browser isn't sending the fragment to the server.
+     * So the first page is rendered instead.
+     */
+    private static function isFirstPageRequest($actionInstance) {
+        return ($actionInstance->getRequest()->isMethod('GET') &&
+            !$actionInstance->getRequest()->isXmlHttpRequest() &&
+            !ImmExtjsAjaxLoadWidgets::isWidgetRequest() &&
+            self::isAppFlowerAction($actionInstance));
     }
 }
 

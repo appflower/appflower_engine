@@ -11,7 +11,6 @@ class ImmExtjsLayout
 	public $attributes=array(), $layout='border';
 	static public $instance = null;	
 	public $immExtjs=null;
-	public $showFullCenter = false;	
 							
 	public function __construct($attributes=array())
 	{
@@ -74,7 +73,9 @@ class ImmExtjsLayout
 	
 	public function showFullCenter()
 	{
-		return (sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->getRequest()->isXmlHttpRequest()||$this->showFullCenter);
+		// The first page is optimized to show less than full center.
+		$request = sfContext::getInstance()->getRequest();
+		return $request->getAttribute('af_first_page_request') !== true;
 	}
 	
 	public function setTitle($title)

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:i="http://www.appflower.com/schema/" type="html">
+
+<i:title></i:title>
+
+<i:params>
+    <i:param name="html"></i:param>
+</i:params>
+
+</i:view>

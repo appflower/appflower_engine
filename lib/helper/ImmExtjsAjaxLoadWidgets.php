@@ -115,4 +115,10 @@ class ImmExtjsAjaxLoadWidgets{
 			return json_encode(array("center_panel_first"=>$this->getCenterPanelFirstSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource()));
 		}
 	}	
+
+	public static function isWidgetRequest() {
+		$request = sfContext::getInstance()->getRequest();
+		return ($request->getParameter('widget_load') ||
+			$request->getParameter('widget_popup_request'));
+	}
 }

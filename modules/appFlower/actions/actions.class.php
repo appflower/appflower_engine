@@ -600,4 +600,7 @@ class appFlowerActions extends sfActions
 		}
 		exit;
 	}	
+
+	public function executeFirstPage() {
+	}
 }

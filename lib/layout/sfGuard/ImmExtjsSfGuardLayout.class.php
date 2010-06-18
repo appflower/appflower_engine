@@ -7,8 +7,6 @@ class ImmExtjsSfGuardLayout extends ImmExtjsLayout
 {
 	public function start($attributes=array())
 	{		
-		$this->showFullCenter=true;
-		
 		$attributes['toolbar']=false;
 		$attributes['north']=false;
 		$attributes['west']=false;
