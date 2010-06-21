@@ -45,13 +45,7 @@ class afListRenderer {
         $gridData = new ImmExtjsGridData();
         $gridData->totalCount = $source->getTotalCount();
         $gridData->data = $rows;
-        return self::renderText($gridData->end());
-    }
-
-    private static function renderText($text) {
-        $response = sfContext::getInstance()->getResponse();
-        $response->setContent($response->getContent().$text);
-        return sfView::NONE;
+        return afOutput::renderText($gridData->end());
     }
 
     private static function escapeHtml(&$rows) {

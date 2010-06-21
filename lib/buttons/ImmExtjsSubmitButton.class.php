@@ -58,10 +58,9 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 				{
 					$attributes['params']=array();
 				}
-				$formcfg = array('url'=>$attributes['action'],
-					'validators'=>$submitContainerObject->getValidators());
 				$attributes['params']['af_formcfg'] =
-					afAuthenticDatamaker::encode($formcfg);
+					afEditRenderer::buildFormcfg($attributes['action'],
+						$submitContainerObject->getValidators());
 				
 				/**
 				 * timeout, sets the submit timeout action in milisecs, default to 300000ms(300s)

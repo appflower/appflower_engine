@@ -8,4 +8,13 @@ class afOutput {
         }
         return implode(',', $cells)."\n";
     }
+
+    /**
+     * Adds the text to the current response.
+     */
+    public static function renderText($text) {
+        $response = sfContext::getInstance()->getResponse();
+        $response->setContent($response->getContent().$text);
+        return sfView::NONE;
+    }
 }
