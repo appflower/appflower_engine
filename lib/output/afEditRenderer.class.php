@@ -4,7 +4,7 @@ class afEditRenderer {
     public static function renderEdit($request, $module, $action, afDomAccess $view) {
         $fields = $view->wrapAll('fields/field');
         $submitUrl = self::getSubmitUrl($module, $action, $view);
-        $validators = self::collectValidators($fields);
+        $validators = afEditView::getValidators($fields);
 
         $result = array();
         $result['af_formcfg'] = self::buildFormcfg($submitUrl, $validators);
@@ -23,15 +23,6 @@ class afEditRenderer {
                 "$module/$action");
         }
         return UrlUtil::abs($url);
-    }
-
-    private static function collectValidators($fields) {
-        #TODO: implement
-        $validators = array();
-        foreach($fields as $field) {
-
-        }
-        return $validators;
     }
 }
 
