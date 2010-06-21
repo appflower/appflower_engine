@@ -40,7 +40,7 @@ class afExecutionFilter extends sfExecutionFilter {
         }
 
         if(self::isListjsonRequest($actionInstance)) {
-            return afListRenderer::renderList(
+            return afRenderingRouter::render(
                 $actionInstance->getRequest(),
                 $actionInstance->getModuleName(),
                 $actionInstance->getActionName(),

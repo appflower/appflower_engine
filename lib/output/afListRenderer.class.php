@@ -11,10 +11,7 @@ class afListRenderer {
      * 3) It serves CVS export of a selection when
      *      af_format=csv and selections=[row,...].
      */
-    public static function renderList($request, $module, $action, $actionVars) {
-        $doc = afConfigUtils::getDoc($module, $action);
-        $view = afDomAccess::wrap($doc, 'view', new afVarScope($actionVars));
-
+    public static function renderList($request, $module, $action, afDomAccess $view) {
         $selections = $request->getParameter('selections');
         if($selections) {
             $source = new afSelectionSource(json_decode($selections, true));
