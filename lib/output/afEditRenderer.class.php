@@ -19,8 +19,8 @@ class afEditRenderer {
     private static function getSubmitUrl($module, $action, $view) {
         $url = $view->get('fields@url');
         if (!$url) {
-            sfLoader::loadHelpers('Url');
-            $url = url_for("$module/$action");
+            $url = sfContext::getInstance()->getController()->genUrl(
+                "$module/$action");
         }
         return UrlUtil::abs($url);
     }
