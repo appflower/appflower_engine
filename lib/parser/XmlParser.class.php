@@ -1055,7 +1055,7 @@ class XmlParser extends XmlParserTools {
 			$hash = sha1_file($path);
 			$obj = afValidatorCachePeer::inCache($path);
 		
-			if(!$obj || $obj->getSignature() != $hash) {
+			if($obj && $obj->getSignature() != $hash) {
 				$doc = new XmlValidator($path,$security,false,false,($page) ? $this->context->getModuleName()."/".$this->context->getActionName() : null);
 				$doc->validateXmlDocument();	
 				$this->document = $doc->getXmlDocument();

@@ -16,9 +16,15 @@ class afValidatorCachePeer extends BaseafValidatorCachePeer
 		
 		$c = new Criteria();
 		$c->add(self::PATH,$path);
+		$obj=self::doSelectOne($c);
 		
-		return self::doSelectOne($c);
-		
+		if($obj!=null)
+		{
+			return $obj;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	
@@ -32,8 +38,7 @@ class afValidatorCachePeer extends BaseafValidatorCachePeer
 		
 		$cache->setPath($path);
 		$cache->setSignature($hash);
-		$cache->save();
-	
+		$cache->save();	
 	}
 	
 }
