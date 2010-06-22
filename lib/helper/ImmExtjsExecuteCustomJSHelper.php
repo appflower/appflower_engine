@@ -112,19 +112,7 @@ function createPath($uri,$security=false){
 	}
 }
 function getHtmlSource($url) {
-	if (function_exists ("curl_init")) {
-		$curl = @curl_init ($url);
-		@curl_setopt ($curl, CURLOPT_HEADER, FALSE);
-		@curl_setopt ($curl, CURLOPT_RETURNTRANSFER, TRUE);
-		@curl_setopt ($curl, CURLOPT_FOLLOWLOCATION, TRUE);
-		@curl_setopt ($curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-
-		$source = @curl_exec ($curl);
-		@curl_close ($curl);
-		return $source;
-	} else {
-		return @file_get_contents ($url);
-	}
+	return @file_get_contents ($url);
 }
 
 
