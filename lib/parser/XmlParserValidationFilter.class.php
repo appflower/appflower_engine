@@ -12,7 +12,8 @@ class XmlParserValidationFilter extends sfExecutionFilter
 			$validators = self::getValidators($context);
 			if($validators === null) {
 				$edit = $actionInstance->getRequestParameter('edit');
-				if(!is_array($edit)) {
+				$apikey = $actionInstance->getRequestParameter('af_apikey');
+				if(!is_array($edit) && !$apikey) {
 					// Normal AJAX POST requests and plain forms don't have
 					// validators from the XML config.
 					$validators = array();
@@ -73,16 +74,12 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		}
 
 		$uri = $context->getRequest()->getUri();
-		if(self::stripHost($formcfg['url']) !== self::stripHost($uri)) {
+		if(UrlUtil::getPathPart($formcfg['url']) !== UrlUtil::getPathPart($uri)) {
 			// The given formcfg is for a different form.
 			return null;
 		}
 
 		return $formcfg['validators'];
-	}
-
-	private static function stripHost($url) {
-		return preg_replace('@^https?://[^/]*@', '', $url);
 	}
 
 	private function checkFinalWizardStep() {

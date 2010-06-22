@@ -34,6 +34,14 @@ class UrlUtil {
     }
 
     /**
+     * Returns the /path/to/something part.
+     * The protocol, host and GET params are stripped out.
+     */
+    public static function getPathPart($url) {
+        return preg_replace('@^https?://[^/]*([^?#]*).*$@', '$1', $url);
+    }
+
+    /**
      * A faster link_to() for simple usages.
      */
     public static function link($name, $url) {
