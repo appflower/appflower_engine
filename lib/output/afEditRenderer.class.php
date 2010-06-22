@@ -7,6 +7,7 @@ class afEditRenderer {
         $validators = afEditView::getValidators($fields);
 
         $result = array();
+        $result['af_url'] = $request->getUriPrefix().$submitUrl;
         $result['af_formcfg'] = self::buildFormcfg($submitUrl, $validators);
         return afOutput::renderText(json_encode($result));
     }
