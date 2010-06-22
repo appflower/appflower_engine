@@ -919,7 +919,7 @@ class ImmExtjsGrid
 					});
 				';
 			}else{
-				$successFunction = 'window.location.href="'.$action["attributes"]["url"].$requestParams;
+				$successFunction = 'afApp.load("'.$action["attributes"]["url"].$requestParams.')';
 			}
 		}
 		//popup = true will overwrite the successFunction

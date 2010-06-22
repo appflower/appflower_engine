@@ -51,7 +51,8 @@ class afConfigUtils {
      * for placeholders.
      */
     public static function getConfigVars($module, $action, $request) {
-        $context = sfContext::getInstance();
+    	
+    	$context = sfContext::getInstance();
         $moduleClass = $module.'Actions';
         if(!class_exists($moduleClass)) {
             require_once(self::getActionsPath($module));

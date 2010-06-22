@@ -339,6 +339,7 @@ class ImmExtjsLayout
 		    trackMouse: true
 		});
 		Ext.form.Field.prototype.msgTarget = 'side';
+		Ext.History.init();
 		";
 		
 		if(isset($this->immExtjs->private['toolbar']))

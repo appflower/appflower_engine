@@ -285,7 +285,7 @@ afApp.attachHrefWidgetLoad = function ()
 
 		var href = el.dom.href || el.dom.parentNode.href;
 		 
-	    afApp.loadCenterWidget(href);
+	    afApp.load(href);
 	});
 }
 afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
@@ -387,8 +387,6 @@ afApp.loadCenterWidget = function(widget) {
 					total_addons.push("/js/swfobject.js");
 				}
 							
-				document.location.hash=futureHash;
-				
 				//adding a referer param to all Ajax request in Ext objects
 				Ext.Ajax.extraParams = {
 				    'af_referer': futureHash
@@ -475,7 +473,9 @@ afApp.load = function (location, load, target, winProp)
 				window.open(location,target,winProp);
 				break;
 			case "center":
-			    afApp.loadCenterWidget(location);
+				//Ext History, also loads center widget
+				location=location.replace(document.location.protocol+'//'+document.location.host,'');
+			    Ext.History.add(location);
 			    break;
 		}
 	}
@@ -533,8 +533,9 @@ afApp.changeTabHash = function(tab)
 	uri[2]=tab.slug;
 	
 	var futureHash=uri[1]+'#'+uri[2];
-	
-	document.location.hash=futureHash;	
+
+	//Ext History
+	Ext.History.add(futureHash);	
 	
 	//adding a referer param to all Ajax request in Ext objects
 	Ext.Ajax.extraParams = {
@@ -552,11 +553,30 @@ afApp.loadFirst = function()
 	
 	var firstUri=uri[1]+uri[2];
 	
-	afApp.load(firstUri);
+	afApp.loadCenterWidget(firstUri);
 }
 
 Ext.onReady(function(){
 
 	afApp.attachHrefWidgetLoad();
 
+});
+//Ext History
+Ext.History.on('change', function(token){
+	//do not load the center widget if we are changing tabs
+	if(token)
+	{
+		if(token.indexOf('#')==-1)
+		{
+			afApp.loadCenterWidget(token);
+		}
+		else{
+			var viewport=App.getViewport();
+			var tabPanel=viewport.layout.center.panel.items.items[0].items.items[0];
+			if(tabPanel.getXType()=='tabpanel')
+			{
+				new Portals().onTabChange(tabPanel);
+			}
+		}
+	}
 });
