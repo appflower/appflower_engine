@@ -18,15 +18,12 @@ class sfCSRFFilter extends sfFilter
 		// check only if request method is POST
 		if (sfRequest::POST === $request->getMethod())
 		{
-			// Ajax calls are safe.
-			// The X_REQUESTED_WITH header cannot be set without doing an Ajax call.
-			// And Ajax calls cannot be cross-site.
-			if(!$request->isXmlHttpRequest())
+			if(self::isPossibleCrossSiteSessionRiding($request))
 			{
 				$requestToken = $request->getParameter('_csrf_token');
 								
 				// error if no token or if token is not valid
-				if (!in_array($moduleName,sfConfig::get('app_csrf_token_deactivatedModules'))&&(!$requestToken || md5($secret.session_id()) != $requestToken))
+				if (!in_array($moduleName,sfConfig::get('app_csrf_token_deactivatedModules', array()))&&(!$requestToken || md5($secret.session_id()) !== $requestToken))
 				{
 					throw new sfException('CSRF attack detected.');
 				}
@@ -44,5 +41,28 @@ class sfCSRFFilter extends sfFilter
 
 		// execute next filter
 		$filterChain->execute();
+	}
+
+	/**
+	 * Returns true if the request could be initiated
+	 * from another site and still using the user cookies.
+	 */
+	private static function isPossibleCrossSiteSessionRiding($request) {
+		// Ajax calls are safe.
+		// The X_REQUESTED_WITH header cannot be set without doing an Ajax call.
+		// And Ajax calls cannot be cross-site.
+		if($request->isXmlHttpRequest()) {
+			return false;
+		}
+
+		// REST calls with a valid API key are OK.
+		$apikey = $request->getParameter('af_apikey');
+		if($apikey) {
+			if (afApikeySecurityFilter::isCurrentUserKey($apikey)) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

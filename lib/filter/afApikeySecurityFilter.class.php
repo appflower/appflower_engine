@@ -49,6 +49,21 @@ class afApikeySecurityFilter extends sfFilter {
         return $guardUser;
     }
 
+    public static function isCurrentUserKey($apikey) {
+        $user = sfContext::getInstance()->getUser();
+        if (!$user->isAuthenticated()) {
+            return false;
+        }
+
+        $keyGuardUser = self::getApiUser($apikey);
+        if ($keyGuardUser === null) {
+            return false;
+        }
+
+        return ($keyGuardUser->getUsername() ===
+            $user->getGuardUser()->getUsername());
+    }
+
     /**
      * Returns API key usable for the given user.
      * The API key consists of "hmac,username".
