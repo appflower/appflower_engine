@@ -34,13 +34,22 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $submitUrl);
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HEADER, false);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
 debug('Sending data to: '.$submitUrl);
-if (curl_exec($ch) === false) {
+$result = curl_exec($ch);
+if ($result === false) {
     error('Unable to post data: '.curl_error($ch));
 }
 
 curl_close($ch);
 
+$json = json_decode($result, true);
+if ($json === null) {
+    error('Unable to decode the JSON result: '.$result);
+}
+
+debug('JSON result: '.var_export($json, true));
