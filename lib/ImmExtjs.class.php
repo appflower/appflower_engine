@@ -83,6 +83,10 @@ class ImmExtjs extends sfExtjs2Plugin
 	echo $this->source;
 	echo "// ]]>\n";
 	echo "</script>\n";
+	/**
+	 * fields required for history management
+	 */
+	echo '<form id="history-form" class="x-hidden"><input type="hidden" id="x-history-field" /><iframe id="x-history-frame"></iframe></form>';
 	
   }
 }
