@@ -40,4 +40,20 @@ class ArrayUtil {
     	
     }
     
+    
+	public static function queryStringToArray($input) {
+    	
+		$tmp = explode("&",$input);
+		
+		$ret = array();
+		
+		foreach($tmp as $var) {
+			$ret[strtok($var,"=")] = strtok("=");
+		}
+		
+    	return $ret;
+    	
+    }
+    
+    
 }
