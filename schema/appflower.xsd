@@ -562,9 +562,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
                 disabled    - Determines whether or not the field is disabled.
                 permissions - Access rights required to render the element.
                 plugin		- Reference to extra JS code to be loaded and applied to the field
-                url			- ???
-                module      - An SF module name
-                action      - An SF action (belongs to module)
+                url			- An SF internal URI
                
             </xs:documentation>
         </xs:annotation>
@@ -590,7 +588,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
  		<xs:attribute name="disabled" type="xs:boolean" use="optional" default="false" />
  		<xs:attribute name="permissions" type="i:permissionType" default="*" />        
  		<xs:attribute name="plugin" type="xs:token" use="optional" default="*" /> 
- 		<xs:attribute name="url" type="xs:token" use="optional" default="*" />
+ 		<xs:attribute name="url" type="i:internalUriType" use="optional" />
  		           
     </xs:attributeGroup>
     

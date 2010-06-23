@@ -85,8 +85,9 @@ class XmlParser extends XmlParserTools {
 
 	function __construct($type = self::PANEL, $dry_run = false, $step = false, $manual = false, $internal = false, $build = false) {
 		
-		
 		if($build) {
+			$build = strtok(substr($build,1),"?");
+			$build_params = ArrayUtil::queryStringToArray(strtok("?"));
 			$this->build = $build;
 		} else {
 			if(self::$instance) {
@@ -128,6 +129,7 @@ class XmlParser extends XmlParserTools {
 		$this->user = $this->context->getUser();
 		
 		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
+		
 		afConfigUtils::setDefaultActionVars($actionInstance);
 		$this->attribute_holder = $actionInstance->getVarHolder()->getAll();
 		
@@ -149,8 +151,13 @@ class XmlParser extends XmlParserTools {
 		
 		if($build) {
 			$config_vars = afConfigUtils::getConfigVars(strtok($build,"/"), strtok("/"), $this->context->getRequest());
+			if($build_params) {
+				foreach($build_params as $n => $p) {
+					$config_vars[$n] = $p;
+				}
+			}
+			$this->vars[$uri] = $config_vars;
 			$actionInstance->getVarHolder()->add($config_vars);
-				
 		}
 	
 		// Assign DOM Document..
@@ -165,6 +172,7 @@ class XmlParser extends XmlParserTools {
 	
 		$root = $this->document->getElementsByTagName("view")->item(0);
 		$view_type = $root->getAttribute("type"); 
+		$actionInstance->view = $view_type;
 		
 		$view_type = XmlBaseElementParser::parseValue($view_type,$root,true);
 		$this->set("type",$view_type,$root);
@@ -2775,7 +2783,8 @@ class XmlParser extends XmlParserTools {
 								}
 								
 							} else {
-								$prs = new XmlParser(self::PANEL,false,false,false,false,$attributes["module"].$attributes["action"]);
+								$prs = new XmlParser(self::PANEL,false,false,false,false,$attributes["url"]);
+								
 								if($columnx) {
 									$columnx->addMember($prs->getResult());	
 								} else {
@@ -3568,7 +3577,7 @@ if(response.message) {
 		ImmExtjsAjaxLoadWidgets::initialize($actionInstance,$type);
 		sfLoader::loadHelpers("Helper");
 		$parser = new XmlParser();
-		$actionInstance->layout = $parser->getLayout();		
+		$actionInstance->layout = $parser->getLayout();	
 		$actionInstance->setLayout("layoutExtjs");
 		self::setTemplateAppFlower($actionInstance);
 		return sfView::SUCCESS;
