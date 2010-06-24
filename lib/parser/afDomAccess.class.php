@@ -26,6 +26,19 @@ class afDomAccess {
         }
         return new afDomAccess(self::getElement($node, $path), $scope);
     }
+    
+    
+    public static function getByAttribute($wrapped,$attrName,$attrValue) {
+    	
+    	foreach($wrapped as $w) {
+    		if($w->get("@".$attrName) == $attrValue) {
+    			return $w;
+    		}
+    	}
+    
+    	return false;
+    }
+    
 
     /**
      * Wraps all elements on the given paths.

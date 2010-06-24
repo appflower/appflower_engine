@@ -16,5 +16,13 @@ class StringUtil {
         return false !== strstr($haystack, $needle);
     }
     
+	public static function hasTags($str) {
+		return preg_match("/<[\/]*[^>]+>/",$str);
+    }
+    
+	public static function removeTags($str) {
+		return preg_replace("/<[\/]*[^>]+>/","",$str);
+    }
+    
 }
 

@@ -6,11 +6,15 @@ class afDataFacade {
 
     public static function getDataSource($view, $requestParams) {
 
-        $source = self::createDataSource($view,
-            ArrayUtil::get($requestParams, 'filter', null));
-        self::setupDataSource($view, $source, $requestParams);
-        if($view->getBool('fields@tree')) {
-            $source->setLimit(null);
+    	$format = $requestParams["af_format"];
+    	
+        $source = self::createDataSource($view,ArrayUtil::get($requestParams, 'filter', null),$format);
+        
+        if($view->get("@type") == "list") {
+        	self::setupDataSource($view, ($format == "pdf") ? $source["result"] : $source, $requestParams);	
+	        if($view->getBool('fields@tree')) {
+	            $source->setLimit(null);
+	        }
         }
 
         return $source;
@@ -52,18 +56,30 @@ class afDataFacade {
         $selectedColumns = $listView->getSelectedColumns();
 
         //TODO: support also the file datasource
+        
         $sourceType = $view->get('datasource@type');
+        $viewType = $view->get('@type');
         if($sourceType === 'orm') {
-            list($callback, $params) = self::getDataSourceCallback($view);
+        	list($callback, $params) = self::getDataSourceCallback($view);
             list($peer, $method) = $callback;
-            $criteria = afCall::funcArray($callback, $params);
-            afFilterUtil::setFilters($peer, $criteria, $filters);
+            $result = afCall::funcArray($callback, $params);
 
-            $class = self::getClassFromPeerClass($peer);
-            $extractor = new afColumnExtractor($class, $selectedColumns,
-                $format);
-            $source = new afPropelSource($extractor);
-            $source->setCriteria($criteria);
+        	if($viewType == "list") {
+            
+	            afFilterUtil::setFilters($peer, $result, $filters);	
+	
+	            $class = self::getClassFromPeerClass($peer);
+	            $extractor = new afColumnExtractor($class, $selectedColumns,
+	                $format);
+	            $source = new afPropelSource($extractor);
+	            $source->setCriteria($result);
+	            
+	          	if($format == "pdf") {
+	          		$source = array("result" => $source, "columns" => $view->wrapAll("fields/column"));
+	          	}
+        	} else if($viewType == "edit" || $viewType == "show") {
+        		$source = array("object" => $result,"fields" => $view->wrapAll("fields/field"), "grouping" => $view->wrapAll("grouping/set"));
+        	}
         } else if($sourceType === 'static') {
             list($callback, $params) = self::getDataSourceCallback($view);
             $source = new afStaticSource($callback, $params);

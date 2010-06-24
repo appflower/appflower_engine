@@ -22,7 +22,7 @@ class afVarScope {
 
     private function _replace_callback($matches) {
         $name = $matches[1];
-        if(isset($this->vars[$name])) {
+        if(array_key_exists($name,$this->vars)) {
             return $this->vars[$name];
         }
         throw new XmlParserException(sprintf(

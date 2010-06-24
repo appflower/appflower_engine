@@ -6,8 +6,8 @@
  */
 class afExecutionFilter extends sfExecutionFilter {
 
-    protected function executeAction($actionInstance) {
-        if(self::isListjsonRequest($actionInstance)) {
+    protected function executeAction($actionInstance) {   	
+    	if(self::isListjsonRequest($actionInstance)) {
             $actionInstance->isPageComponent = true;
         } elseif(self::isFirstPageRequest($actionInstance)) {
             $request = $actionInstance->getRequest();
@@ -16,11 +16,11 @@ class afExecutionFilter extends sfExecutionFilter {
                 $actionInstance->forward('appFlower', 'firstPage');
             }
         }
-
+        
         $actionInstance->preExecute();
         $viewName = $actionInstance->execute($this->context->getRequest());
         $actionInstance->postExecute();
-
+        
         $viewName = is_null($viewName) ? sfView::SUCCESS : $viewName;
         $viewName = self::interpretView($actionInstance, $viewName);
         return is_null($viewName) ? sfView::SUCCESS : $viewName;
@@ -38,13 +38,25 @@ class afExecutionFilter extends sfExecutionFilter {
         if($viewName !== sfView::SUCCESS) {
             return $viewName;
         }
+        
+        $doc = afConfigUtils::getDoc($actionInstance->getModuleName(), $actionInstance->getActionName());
+        $view = afDomAccess::wrap($doc, 'view', new afVarScope($actionInstance->getVarHolder()->getAll()));
+        $format = $actionInstance->getRequestParameter('af_format');
+   
+        $viewType = $view->get("@type");
 
-        if(self::isListjsonRequest($actionInstance)) {
+        if($viewType == "list" && self::isListjsonRequest($actionInstance)) {
             return afRenderingRouter::render(
                 $actionInstance->getRequest(),
                 $actionInstance->getModuleName(),
                 $actionInstance->getActionName(),
-                $actionInstance->getVarHolder()->getAll());
+                $actionInstance->getVarHolder()->getAll(),$view);
+        } else if(($viewType == "edit" || $viewType == "show") && $format == "pdf") {
+        	return afEditShowRenderer::renderEditShow(
+                $actionInstance->getRequest(),
+                $actionInstance->getModuleName(),
+                $actionInstance->getActionName(),
+                $actionInstance->getVarHolder()->getAll(),$view); 
         }
 
         return self::layoutExtIfNeeded($actionInstance);
@@ -57,7 +69,7 @@ class afExecutionFilter extends sfExecutionFilter {
         }
 
         if(self::isAppFlowerAction($actionInstance)) {
-            $viewName = XmlParser::layoutExt($actionInstance);
+        	$viewName = XmlParser::layoutExt($actionInstance);
         }
 
         return $viewName;

@@ -28,15 +28,17 @@ class ArrayUtil {
     }
     
     
-    public static function arrayToQueryString(Array $input) {
+    public static function arrayToQueryString(Array $input,Array $exclusions = array()) {
     	
     	$str = "";
     	
     	foreach($input as $name => $data) {
-    		$str .= $name."=".$data."&";
+    		if(!in_array($name,$exclusions)) {
+    			$str .= $name."=".$data."&";	
+    		}
     	}
     	
-    	return $str;
+    	return trim($str,"&");
     	
     }
     

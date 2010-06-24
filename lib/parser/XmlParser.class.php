@@ -2499,6 +2499,14 @@ class XmlParser extends XmlParserTools {
             if($this->widgetHelpSettings && $this->widgetHelpSettings->getPopupHelpIsEnabled()) {
             	$tools->addItem(array('id'=>'help','qtip'=>"Widget Help",'handler'=>array('parameters'=>'e,target,panel','source'=>"afApp.loadPopupHelp(panel.idxml);")));
             }
+            //Print
+            
+            $request_params = $this->context->getRequest()->getParameterHolder()->getAll();
+            
+            $qstr = ArrayUtil::arrayToQueryString($request_params,array("module","action"));
+            
+            $tools->addItem(array('id'=>'print','qtip'=>"Printer friendly version",'handler'=>array('parameters'=>'e,target,panel','source'=>"window.open('/'+panel.idxml+'?af_format=pdf&".$qstr."','print');")));
+            
 			if(isset($parse['params']) && isset($parse['params']['settings'])){
 				$tools->addItem(array('id'=>'gear','qtip'=>'Setting','handler'=>array('parameters'=>'e,target,panel','source'=>"ajax_widget_popup('".$parse['params']['settings']."','Settings',panel)")));
 			}		
