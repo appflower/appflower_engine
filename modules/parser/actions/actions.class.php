@@ -847,12 +847,13 @@ class parserActions extends sfActions
 						if(isset($column["type"]) && $column["type"] == "TIMESTAMP") {
 							 $tmp = Tz::formatTime(strtotime($tmp));
 						}
-					}
+					}					
 					if(!preg_match("/^Link/",$column['phpname']) && !preg_match("/^Html/",$column['phpname'])){
 						$items[$i][$column["column"]] = htmlspecialchars($tmp);
 					}else{ 
 						$items[$i][$column["column"]] = $tmp;
 					}
+					$items[$i][$column["column"]] = html_entity_decode($items[$i][$column["column"]]);
 					/*
 					 * Modified by Prakash
 					 * overwrite by getHtmlMethods

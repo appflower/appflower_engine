@@ -119,17 +119,17 @@ class ImmExtjsFieldCombo extends ImmExtjsField
 		{
 			$options=array();
 			foreach ($attributes['options'] as $key=>$value)
-			{
+			{			
 				$tarray=null;
 				$tarray[]=$key;
 				if(is_array($value))
 				{				
 					foreach ($value as $k=>$v) {
-						$tarray[]=$v;
+						$tarray[]=addslashes($v);
 					}					
 				}
 				else {
-					$tarray[]=$value;
+					$tarray[]=addslashes($value);
 					$tarray[]='#FFFFFF';
 				}
 				

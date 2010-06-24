@@ -52,7 +52,7 @@ class ImmExtjsFieldDoubleMultiCombo extends ImmExtjsField
 			$options=array();
 			foreach ($attributes['options'] as $key=>$value)
 			{
-				$options[]="['".$key."','".$value."']";
+				$options[]="['".$key."','".addslashes($value)."']";
 			}
 			
 			$this->attributes['fromData']=$this->immExtjs->asVar("[ ".implode(',',$options)." ]");
@@ -112,7 +112,7 @@ class ImmExtjsFieldDoubleMultiCombo extends ImmExtjsField
 			
 			foreach ($this->selected_values as $key=>$value)
 			{
-				$options[]="['".$key."',".$value."]";
+				$options[]="['".$key."',".addslashes($value)."]";
 			}
 			
 			$this->attributes['toData']=$this->immExtjs->asVar("[ ".implode(',',$options)." ]");
