@@ -12,6 +12,10 @@ Ext.ux.SaveSearchState = function(grid,mode){
     this.saveUrl = '/appFlower/saveFilter';
     this.listUrl = '/appFlower/listFilter';
     this.removeUrl = '/appFlower/removeFilter';
+	this.updateBox = {		
+		id:'LogInspect-profile-filter-link',		
+		content:'&nbsp;<a href="/user/filters">[View Filters]</a>'
+	};
     this.save = function(){
     	var state = [];   
     	var list = this.list;
@@ -49,6 +53,7 @@ Ext.ux.SaveSearchState = function(grid,mode){
 		    			if(list && list.getStore()){
 		    				list.getStore().reload();
 		    			}
+						if(Ext.get(this.updateBox.id)) Ext.get(this.updateBox.id).update(this.updateBox.content);
 		    		},
 		    		failure:function(r){
 		    			
@@ -58,7 +63,8 @@ Ext.ux.SaveSearchState = function(grid,mode){
 		    			name: text,
 		    			state:json,
 		    			title:grid.name?grid.name:grid.path
-		    		}
+		    		},
+					scope:this
 		    	})
 		    }
 		},this)
