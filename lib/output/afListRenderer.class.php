@@ -51,6 +51,10 @@ class afListRenderer {
         $gridData = new ImmExtjsGridData();
         $gridData->totalCount = $source->getTotalCount();
         $gridData->data = $rows;
+        $additionalData = $source->getAdditionalData();
+        if ($additionalData) {
+            $gridData->additionalData = $additionalData;
+        }
         return afOutput::renderText($gridData->end());
     }
 

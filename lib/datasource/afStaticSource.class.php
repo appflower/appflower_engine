@@ -77,5 +77,7 @@ class afStaticSource implements afIDataSource {
             $this->totalCount = count($this->results);
         }
     }
+    
+    function getAdditionalData() {}
 }
 

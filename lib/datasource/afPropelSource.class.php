@@ -124,5 +124,8 @@ class afPropelSource implements afIDataSource {
         }
         return array();
     }
+
+    function getAdditionalData() {}
+
 }
 
