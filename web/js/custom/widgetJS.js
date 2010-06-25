@@ -312,9 +312,9 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		panel.removeAll();
 		panel.add(eval(json.center_panel_first));
 
-		if (window.console) { console.time('doLayout'); }
+		//if (window.console) { console.time('doLayout'); }
 		panel.doLayout();
-		if (window.console) { console.timeEnd('doLayout'); }
+		//if (window.console) { console.timeEnd('doLayout'); }
 				
 		mask.hide();
 	};
@@ -473,9 +473,16 @@ afApp.load = function (location, load, target, winProp)
 				window.open(location,target,winProp);
 				break;
 			case "center":
-				//Ext History, also loads center widget
 				location=location.replace(document.location.protocol+'//'+document.location.host,'');
-			    Ext.History.add(location);
+				//Ext History, also loads center widget if last loken is different from current one
+				if(Ext.History.getToken()!=location)
+				{
+			    	Ext.History.add(location);
+				}
+				else
+				{
+					afApp.loadCenterWidget(location);
+				}
 			    break;
 		}
 	}
@@ -534,8 +541,15 @@ afApp.changeTabHash = function(tab)
 	
 	var futureHash=uri[1]+'#'+uri[2];
 
-	//Ext History
-	Ext.History.add(futureHash);	
+	//Ext History, also loads center widget if last loken is different from current one
+	if(Ext.History.getToken()!=futureHash)
+	{
+    	Ext.History.add(futureHash);
+	}
+	else
+	{
+		afApp.loadCenterWidget(futureHash);
+	}	
 	
 	//adding a referer param to all Ajax request in Ext objects
 	Ext.Ajax.extraParams = {
