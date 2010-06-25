@@ -929,7 +929,7 @@ class ImmExtjsGrid
 			$action['attributes']['popupSettings']="";
 		}
 		
-		if(isset($action['attributes']['popup']) && $action['attributes']['popup'] && $action['attributes']['popup'] !=="false") $successFunction = 'ajax_widget_popup("'.$action["attributes"]["url"].'","","","'.$action['attributes']['popupSettings'].'");';
+		if(isset($action['attributes']['popup']) && $action['attributes']['popup'] && $action['attributes']['popup'] !=="false") $successFunction = 'afApp.widgetPopup("'.$action["attributes"]["url"].'","","","'.$action['attributes']['popupSettings'].'");';
 		if($action["attributes"]["confirm"] != "false"){
 			$confirmFunction = '
 				Ext.Msg.show({

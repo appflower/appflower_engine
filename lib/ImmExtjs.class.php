@@ -37,6 +37,8 @@ class ImmExtjs extends sfExtjs2Plugin
       	if(is_array($addons[$type]))
       	{
       		$this->addons[$type]=array_merge($this->addons[$type],$addons[$type]);
+      		
+      		$this->addons[$type]=array_unique($this->addons[$type]);
       	}
       }
     }

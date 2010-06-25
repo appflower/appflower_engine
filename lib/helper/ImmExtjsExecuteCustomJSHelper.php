@@ -43,7 +43,7 @@ function setHandler(&$action){
 	foreach($action['handlers'] as $key=>$value){		
 		$filename = $value['action'];
 		//$filename = substr($filename,1,strlen($filename));
-		//$action['attributes']['handlers'][$key] = array("parameters" => parameterForEvent($key),"source"=>"ajax_widget_popup('$filename','')");
+		//$action['attributes']['handlers'][$key] = array("parameters" => parameterForEvent($key),"source"=>"afApp.widgetPopup('$filename','')");
 		$action['attributes']['handlers'][$key] = array("parameters" => parameterForEvent($key),"source"=>createSourceForEvent($value));
 	}
 }
@@ -100,7 +100,7 @@ function preExecuteSource($file,$callback){
 	return $code;
 }
 function popup_widget($text,$widget,$title=''){
-	return '<a href="javascript:void(0)" onclick="ajax_widget_popup(\''.$widget.'\',\''.$title.'\')">'.$text.'</a>';
+	return '<a href="javascript:void(0)" onclick="afApp.widgetPopup(\''.$widget.'\',\''.$title.'\')">'.$text.'</a>';
 }
 function createPath($uri,$security=false){
 	$root = sfConfig::get("sf_root_dir");

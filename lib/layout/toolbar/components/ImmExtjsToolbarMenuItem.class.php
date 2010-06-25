@@ -25,7 +25,7 @@ class ImmExtjsToolbarMenuItem extends ImmExtjsToolbarComponent
 			$url = json_encode($attributes['url']);
 			$this->attributes['handler']=$this->immExtjs->asMethod(array(
   									'parameters'=>'b,e',
-									'source'=>"if(!e.ctrlKey&&!e.metaKey){afApp.load($url);}else{ajax_widget_popup($url);}"
+									'source'=>"if(!e.ctrlKey&&!e.metaKey){afApp.load($url);}else{afApp.widgetPopup($url);}"
   								));
 			
 			unset($attributes['url']);

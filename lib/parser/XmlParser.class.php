@@ -2508,7 +2508,7 @@ class XmlParser extends XmlParserTools {
             $tools->addItem(array('id'=>'print','qtip'=>"Printer friendly version",'handler'=>array('parameters'=>'e,target,panel','source'=>"window.open('/'+panel.idxml+'?af_format=pdf&".$qstr."','print');")));
             
 			if(isset($parse['params']) && isset($parse['params']['settings'])){
-				$tools->addItem(array('id'=>'gear','qtip'=>'Setting','handler'=>array('parameters'=>'e,target,panel','source'=>"ajax_widget_popup('".$parse['params']['settings']."','Settings',panel)")));
+				$tools->addItem(array('id'=>'gear','qtip'=>'Setting','handler'=>array('parameters'=>'e,target,panel','source'=>"afApp.widgetPopup('".$parse['params']['settings']."','Settings',panel)")));
 			}		
 			//$tools->addItem(array('id'=>'start-reload','handler'=>array('parameter'=>'e,target,panel','source'=>'this.id="stop-reload"')));	
 			$tools->addItem(array('id'=>'close','qtip'=>'Close','handler'=>array('parameters'=>'e,target,panel','source'=>"var portal=panel.ownerCt.ownerCt;panel.ownerCt.remove(panel, true);portal.onWidgetDrop();")));
@@ -3684,7 +3684,7 @@ if(response.message) {
 		
 		if(isset($attributes['popup']) && $attributes['popup'] && $attributes['popup'] !=="false") 
 		{
-			$attributes['handlerSource'] = 'ajax_widget_popup("'.$attributes["url"].'","","","'.$attributes['popupSettings'].'");';
+			$attributes['handlerSource'] = 'afApp.widgetPopup("'.$attributes["url"].'","","","'.$attributes['popupSettings'].'");';
 		}
 		
 		unset($attributes['popupSettings']);

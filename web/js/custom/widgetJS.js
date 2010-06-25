@@ -60,7 +60,7 @@ Array.prototype.in_array = function (needle, argStrict) {
     return false;
 }
 
-function executeAddons(addons,json,mask,title,superClass,winConfig){
+afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 	
 	var counter = 0;
 	var backup = new Array();
@@ -75,7 +75,7 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 		
 		var nextAddon=addons[counter++];
 		
-		createAddon(nextAddon,false,load);
+		afApp.createAddon(nextAddon,false,load);
 	};
 
 	finish = function(){
@@ -163,7 +163,7 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 
 	load();
 }
-function createAddon(filename, filetype, callback) {
+afApp.createAddon = function(filename, filetype, callback) {
 	if(!filetype)
 	{
 		var f = filename.split('.');
@@ -199,7 +199,7 @@ function createAddon(filename, filetype, callback) {
 	}
 	
 }
-function ajax_widget_popup(widget,title,superClass,winConfig) {
+afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 	
 	if(!winConfig)
 	{
@@ -236,35 +236,35 @@ function ajax_widget_popup(widget,title,superClass,winConfig) {
 			}
 			else
 			{			
-				var scripts_srcs = new Array(),styles_hrefs = new Array(),total_addons = new Array();
-				/**************************************************************************************/
-				/**
-				 * SCRIPTS AND STYLES FROM GLOBAL VARS
-				 */
-				scripts_srcs = GLOBAL_JS_VAR;
-				styles_hrefs = GLOBAL_CSS_VAR;
-				/*************************************************************************************/
+				var total_addons = new Array();
+				
 				if(json.addons && json.addons.js)
-				for ( var i = 0; i < json.addons.js.length; i++) {
-					var addon = json.addons.js[i];
-					if(!in_array(addon,scripts_srcs)){
-						if(addon != null)
-						total_addons.push(addon);			
+				{
+					for ( var i = 0; i < json.addons.js.length; i++) {
+						var addon = json.addons.js[i];
+						if(!in_array(addon,GLOBAL_JS_VAR)){
+							if(addon != null)
+							total_addons.push(addon);			
+						}
 					}
 				}
 				if(json.addons && json.addons.css)
+				{
 					for ( var i = 0; i < json.addons.css.length; i++) {
 						var addon = json.addons.css[i];
-						if(!in_array(addon,styles_hrefs)){
+						if(!in_array(addon,GLOBAL_CSS_VAR)){
 							if(addon != null)
 							total_addons.push(addon);
 						}
 					}
-				if(json.public_source)
-				if(!in_array("swfobject.js",scripts_srcs)){
-					total_addons.push("/js/swfobject.js");
 				}
-				executeAddons(total_addons,json,mask,title,superClass,winConfig);		
+				if(json.public_source)
+				{
+					if(!in_array("swfobject.js",GLOBAL_JS_VAR)){
+						total_addons.push("/js/swfobject.js");
+					}
+				}
+				afApp.executeAddons(total_addons,json,mask,title,superClass,winConfig);		
 			}			
 		},
 		params : {
@@ -302,7 +302,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		
 		var nextAddon=addons[counter++];
 		
-		createAddon(nextAddon,false,load);
+		afApp.createAddon(nextAddon,false,load);
 	};
 
 	finish = function(){
@@ -357,34 +357,33 @@ afApp.loadCenterWidget = function(widget) {
 			}
 			else
 			{				
-				var scripts_srcs = new Array(),styles_hrefs = new Array(),total_addons = new Array();
+				var total_addons = new Array();
 				
-				/**************************************************************************************/
-				/**
-				 * SCRIPTS AND STYLES FROM GLOBAL VARS
-				 */
-				scripts_srcs = GLOBAL_JS_VAR;
-				styles_hrefs = GLOBAL_CSS_VAR;
-				/*************************************************************************************/
 				if(json.addons && json.addons.js)
-				for ( var i = 0; i < json.addons.js.length; i++) {
-					var addon = json.addons.js[i];
-					if(!in_array(addon,scripts_srcs)){
-						if(addon != null)
-						total_addons.push(addon);	
+				{
+					for ( var i = 0; i < json.addons.js.length; i++) {
+						var addon = json.addons.js[i];
+						if(!in_array(addon,GLOBAL_JS_VAR)){
+							if(addon != null)
+							total_addons.push(addon);	
+						}
 					}
 				}
 				if(json.addons && json.addons.css)
+				{
 					for ( var i = 0; i < json.addons.css.length; i++) {
 						var addon = json.addons.css[i];
-						if(!in_array(addon,styles_hrefs)){
+						if(!in_array(addon,GLOBAL_CSS_VAR)){
 							if(addon != null)
 							total_addons.push(addon);
 						}
 					}
+				}
 				if(json.public_source)
-				if(!in_array("swfobject.js",scripts_srcs)){
-					total_addons.push("/js/swfobject.js");
+				{
+					if(!in_array("swfobject.js",GLOBAL_JS_VAR)){
+						total_addons.push("/js/swfobject.js");
+					}
 				}
 							
 				//adding a referer param to all Ajax request in Ext objects
@@ -546,11 +545,7 @@ afApp.changeTabHash = function(tab)
 	{
     	Ext.History.add(futureHash);
 	}
-	else
-	{
-		afApp.loadCenterWidget(futureHash);
-	}	
-	
+		
 	//adding a referer param to all Ajax request in Ext objects
 	Ext.Ajax.extraParams = {
 	    'af_referer': futureHash

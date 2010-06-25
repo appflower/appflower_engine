@@ -85,9 +85,9 @@ Ext.ux.form.ComboWButton = Ext.extend(Ext.form.Field,  {
 		 * Even using a singel edit[99][] form, we need to change the action for the respective widget, since
 		 * it listens to edit[0][].
 		 * 
-		 * Now using the ajax_widget_popup will use the edit[0][] for every form and actions need not be changed.
+		 * Now using the afApp.widgetPopup will use the edit[0][] for every form and actions need not be changed.
 		 */
-		ajax_widget_popup(this.windowConfig.component,this.windowConfig.title?this.windowConfig.title:'Add combo option',this)			
+		afApp.widgetPopup(this.windowConfig.component,this.windowConfig.title?this.windowConfig.title:'Add combo option',this)			
 	},
 	
 	onHide: function(window){
