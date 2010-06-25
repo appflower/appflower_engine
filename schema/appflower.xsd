@@ -1096,6 +1096,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
             This element describes the data source of a grid, edit or show view.
             
             type			- Type of data source. See docs.
+            className                   - PHP custom class name to be used as data source
             lister			- Must be set to true in case of file data source. See Docs.
             
             
@@ -1108,6 +1109,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 			</xs:sequence>
         	<xs:attributeGroup ref="i:commonAttributes" />
         	<xs:attribute name="type" type="i:valueType" use="required" />
+        	<xs:attribute name="className" type="xs:token" use="optional" />
         	<xs:attribute name="lister" type="xs:boolean" use="optional" default="false" />
         	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
         	<xs:attribute name="container" type="xs:boolean" fixed="true" />

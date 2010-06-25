@@ -56,33 +56,29 @@ class afDataFacade {
         $selectedColumns = $listView->getSelectedColumns();
 
         //TODO: support also the file datasource
-        
         $sourceType = $view->get('datasource@type');
-        $viewType = $view->get('@type');
+        $className = $view->get('datasource@className');
+        
         if($sourceType === 'orm') {
-        	list($callback, $params) = self::getDataSourceCallback($view);
+            list($callback, $params) = self::getDataSourceCallback($view);
             list($peer, $method) = $callback;
-            $result = afCall::funcArray($callback, $params);
+            $criteria = afCall::funcArray($callback, $params);
+            afFilterUtil::setFilters($peer, $criteria, $filters);
 
-        	if($viewType == "list") {
-            
-	            afFilterUtil::setFilters($peer, $result, $filters);	
-	
-	            $class = self::getClassFromPeerClass($peer);
-	            $extractor = new afColumnExtractor($class, $selectedColumns,
-	                $format);
-	            $source = new afPropelSource($extractor);
-	            $source->setCriteria($result);
-	            
-	          	if($format == "pdf") {
-	          		$source = array("result" => $source, "columns" => $view->wrapAll("fields/column"));
-	          	}
-        	} else if($viewType == "edit" || $viewType == "show") {
-        		$source = array("object" => $result,"fields" => $view->wrapAll("fields/field"), "grouping" => $view->wrapAll("grouping/set"));
-        	}
+            $class = self::getClassFromPeerClass($peer);
+            $extractor = new afColumnExtractor($class, $selectedColumns,
+                $format);
+            if ($className == '') {
+                $className = 'afPropelSource';
+            }
+            $source = new $className($extractor);
+            $source->setCriteria($criteria);
         } else if($sourceType === 'static') {
             list($callback, $params) = self::getDataSourceCallback($view);
-            $source = new afStaticSource($callback, $params);
+            if ($className == '') {
+                $className = 'afStaticSource';
+            }
+            $source = new $className($callback, $params);
         } else {
             throw new XmlParserException(
                 'Unsupported datasource type: '.$sourceType);
