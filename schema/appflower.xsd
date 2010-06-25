@@ -462,7 +462,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 				any URL. 
 			</xs:documentation>
 		</xs:annotation>
-		<xs:union  memberTypes="i:internalUriType xs:anyURI" />
+		<xs:union  memberTypes="i:internalUriType i:varType xs:anyURI" />
 	</xs:simpleType>
 	
 	<xs:simpleType name="dbNameType">
