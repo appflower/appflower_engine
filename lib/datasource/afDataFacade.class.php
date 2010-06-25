@@ -59,8 +59,10 @@ class afDataFacade {
         
         $sourceType = $view->get('datasource@type');
         $viewType = $view->get('@type');
+        $className = $view->get('datasource@className');
+
         if($sourceType === 'orm') {
-        	list($callback, $params) = self::getDataSourceCallback($view);
+            list($callback, $params) = self::getDataSourceCallback($view);
             list($peer, $method) = $callback;
             $result = afCall::funcArray($callback, $params);
 
@@ -71,7 +73,10 @@ class afDataFacade {
 	            $class = self::getClassFromPeerClass($peer);
 	            $extractor = new afColumnExtractor($class, $selectedColumns,
 	                $format);
-	            $source = new afPropelSource($extractor);
+                    if ($className == '') {
+                        $className = 'afPropelSource';
+                    }
+                    $source = new $className($extractor);
 	            $source->setCriteria($result);
 	            
 	          	if($format == "pdf") {
@@ -82,7 +87,10 @@ class afDataFacade {
         	}
         } else if($sourceType === 'static') {
             list($callback, $params) = self::getDataSourceCallback($view);
-            $source = new afStaticSource($callback, $params);
+            if ($className == '') {
+                $className = 'afStaticSource';
+            }
+            $source = new $className($callback, $params);
         } else {
             throw new XmlParserException(
                 'Unsupported datasource type: '.$sourceType);

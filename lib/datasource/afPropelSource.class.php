@@ -4,13 +4,19 @@ class afPropelSource implements afIDataSource {
     private
         $class,
         $extractor,
-        $criteria,
         $start = 0,
         $limit = null,
-        $pager = null,
+        $pager = null;
+
+    protected
         $sortColumn = null,
         $sortDir = 'ASC',
         $initialized = false;
+
+    /**
+     * @var Criteria
+     */
+    protected $criteria;
 
     public function __construct($extractor) {
         $this->class = $extractor->getClass();
@@ -64,12 +70,8 @@ class afPropelSource implements afIDataSource {
         return $this->extractor->extractColumns($objects);
     }
 
-    private function init() {
-        if($this->initialized) {
-            return;
-        }
-        $this->initialized = true;
-
+    protected function doSort()
+    {
         if($this->sortColumn) {
             $this->criteria->clearOrderByColumns();
             if($this->sortDir === 'DESC') {
@@ -78,6 +80,16 @@ class afPropelSource implements afIDataSource {
                 $this->criteria->addAscendingOrderByColumn($this->sortColumn);
             }
         }
+    }
+
+    private function init() {
+        if($this->initialized) {
+            return;
+        }
+        $this->initialized = true;
+
+
+        $this->doSort();
 
         $this->pager = new sfPropelPager($this->class, $this->limit);
         $this->pager->setCriteria($this->criteria);
