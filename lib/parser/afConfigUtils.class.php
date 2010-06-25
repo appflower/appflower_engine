@@ -41,9 +41,14 @@ class afConfigUtils {
      */
     public static function getDoc($module, $action) {
         $path = self::getPath($module, $action);
-        $doc = new DOMDocument();
-        $doc->load($path);
-        return $doc;
+       	if(file_exists($path)) {
+        	$doc = new DOMDocument();
+	        $doc->load($path);
+	        return $doc;	
+        } else {
+        	return null;
+        }
+       
     }
 
     /**
