@@ -8,6 +8,7 @@ class afOutput {
         }
         return implode(',', $cells)."\n";
     }
+    
 
     /**
      * Adds the text to the current response.

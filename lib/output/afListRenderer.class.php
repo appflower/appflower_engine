@@ -1,6 +1,6 @@
 <?php
 
-class afListRenderer {
+class afListRenderer {	
     /**
      * Gets and renders the rows for the given module/action.
      * The output is written directly to the response.
@@ -11,7 +11,9 @@ class afListRenderer {
      * 3) It serves CVS export of a selection when
      *      af_format=csv and selections=[row,...].
      */
-    public static function renderList($request, $module, $action, afDomAccess $view) {
+
+	public static function renderList($request, $module, $action, afDomAccess $view) {
+
         $selections = $request->getParameter('selections');
         if($selections) {
             $source = new afSelectionSource(json_decode($selections, true));
@@ -19,7 +21,7 @@ class afListRenderer {
             $source = afDataFacade::getDataSource($view,
                 $request->getParameterHolder()->getAll());
         }
-
+        
         // For backward compatibility, the session is not closed
         // before calling a static datasource.
         if($source instanceof afPropelSource) {
@@ -27,9 +29,13 @@ class afListRenderer {
         }
 
         $format = $request->getParameter('af_format');
+        
         if($format === 'csv') {
             return self::renderCsv($action, $source);
+        } else if($format === 'pdf') {
+        	return self::renderPdf($view,$source);
         }
+        
         return self::renderJson($view, $source);
     }
 
@@ -114,6 +120,22 @@ class afListRenderer {
 
         exit;
     }
+    
+    
+	private static function renderPdf($view, $source) {
+		
+        $rows = $source["result"]->getRows();
+        if(count($rows) > 0) {
+        	
+            $pdf = new afSimplePdf($view);
+		 	$pdf->renderList($rows,$source["columns"]);
+		 	$pdf->push();
+            exit();
+        }
+
+        exit;
+    }
+    
 
     /**
      * Removes _* keys from the list of keys.
