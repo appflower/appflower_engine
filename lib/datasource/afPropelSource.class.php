@@ -66,8 +66,13 @@ class afPropelSource implements afIDataSource {
         }
 
         $this->init();
-        $objects = $this->pager->getResults();
+        $objects = $this->doGetRows();
         return $this->extractor->extractColumns($objects);
+    }
+
+    protected function doGetRows()
+    {
+         return $this->pager->getResults();
     }
 
     protected function doSort()
