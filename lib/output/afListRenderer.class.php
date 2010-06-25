@@ -127,9 +127,10 @@ class afListRenderer {
         $rows = $source["result"]->getRows();
         if(count($rows) > 0) {
         	
-            $pdf = new afSimplePdf($view);
-		 	$pdf->renderList($rows,$source["columns"]);
-		 	$pdf->push();
+        	$orientation = (sizeof($source["columns"]) > 10) ? "L" : "P";
+        	
+            $pdf = new afSimplePdf($view,$orientation);
+		 	$pdf->render(array($rows,$source["columns"]));
             exit();
         }
 

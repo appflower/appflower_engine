@@ -3,19 +3,41 @@
 class afSimplePdf {
 	
 	private
-		$pdf;
+		$pdf,
+		$width,
+		$view,
+		$orientation,
+		$group_field,
+		$headers;
 	
-	function __construct($view) {
+	public function __construct($view) {
 		
 		$path = sfConfig::get("sf_root_dir")."/plugins/appFlowerPlugin/lib/output/fpdf";
 		
 		require($path.'/fpdf.php');
-	
-		$this->pdf=new afPDF();
+		
+		$this->view = $view;
+		
+	}
+
+	public function render(Array $data) {
+		
+		$orientation = "P";
+		
+		if($this->view->get("@type") == "list") {
+			$this->removeJunkColumns($data[0],$data[1]);
+			if(count($this->headers) > 8) {
+				$orientation = "L";
+			}
+		}
+		
+		$this->width = ($orientation == "P") ? 190 : 277;
+		
+		$this->pdf=new afPDF($orientation);
 		$this->pdf->AliasNbPages();
 		
-		$this->pdf->widget["title"] = $view->get("title");
-		$this->pdf->widget["view"] = $view->get("@type");
+		$this->pdf->widget["title"] = $this->view->get("title");
+		$this->pdf->widget["view"] = $this->view->get("@type");
 		
 		$this->pdf->af_version = sfConfig::get("app_appFlower_version");
 		
@@ -27,51 +49,78 @@ class afSimplePdf {
 		
 		$this->pdf->AddPage();
 		
+		$method = "render".ucfirst($this->view->get("@type"));
+		
+		call_user_func_array(array($this,$method),$data);
+		
+		$this->push();
+		
+		
 	}
 	
 	
-	public function renderList(Array $rows,Array $columns) {
+	private function removeJunkColumns(Array &$rows,Array $columns) {
 		
-
 		// Set headers and find group by..
 		
-		$headers = array();
-		$group_field = null;
+		$hiddens = array();
 		
 		foreach($columns as $col) {
-			$headers[$col->get("@name")] = $col->get("@label");
+			$this->headers[$col->get("@name")] = $col->get("@label");
+			$colname = $col->get("@name");
 			if($col->get("@groupField")) {
-				$group_field = $col->get("@name");
+				$this->group_field = $colname;
 			}
-		}
+			if($col->get("@hidden")) {
+				$hiddens[] = $colname;
+			}
+		}	
 		
-		// Remove HTML-only columns..
+		// Remove HTML-only and hidden columns..
 		
 		foreach($rows as $k => $row) {
 			$i = 0;
 			foreach($row as $name => &$item) {
 				$html = StringUtil::hasTags($item);
 				$item =  StringUtil::removeTags($item);
-				if(!trim($item) && $html) {
+				if(((!trim($item) && $html) || !array_key_exists($name,$this->headers) || 
+				in_array($name,$hiddens)) && $name != $this->group_field) {
 					unset($rows[$k][$name]);
-					unset($headers[$name]);
-				}
-				if(!array_key_exists($name,$headers)) {
-					unset($rows[$k][$name]);
+					unset($this->headers[$name]);
 				}
 				$i++;
 			}
-		}		
+		}
+	}
+	
+	
+	private function groupItems($rows) {
+		
+		$ret = array();
+		
+		foreach($rows as &$row) {
+			$key = $row[$this->group_field];
+			unset($row[$key]);
+			$ret[$key][] = $row;
+		}
+		
+		return $ret;
+		
+		
+	}
+	
+	private function renderList(Array $rows,Array $columns) {
+		
 	
 		// Set column width..
 		
-		$col_width = 190 / count($headers);
+		$col_width = $this->width / count($this->headers);
 		
 		$this->pdf->SetFont('Arial','B',12);
 		$this->pdf->setFillColor(220,220,220);
 		$header_dim = $borders = array();
 		
-		foreach($headers as $header) {
+		foreach($this->headers as $header) {
 			$header_dim[] = $col_width;
 			$borders[] = 1;
 			$this->pdf->Cell($col_width,8,$header,1,0,"L",1);
@@ -84,13 +133,28 @@ class afSimplePdf {
 		$this->pdf->SetFont('Arial','',11);
 		$this->pdf->setFillColor(255,255,255);
 		
-		foreach($rows as $row) {
-			$tmp = array();
-			foreach($row as $name => $cell) {
-				$tmp[] = StringUtil::removeTags($cell);
-			}
-			$this->pdf->Row($tmp,false,array(),0.2,10);
+		if(!$this->group_field) {
+			$items = array($rows);
+		} else {
+			$items = $this->groupItems($rows);
 		}
+		
+		foreach($items as $group => $rows) {
+			if($group) {
+				$this->pdf->SetFont('Arial','B',12);
+				$this->pdf->setFillColor(240,240,240);
+				$this->pdf->Cell(0,8,$group,1,1,"L",1);
+				$this->pdf->SetFont('Arial','',11);
+			}
+			foreach($rows as $row) {
+				$tmp = array();
+				foreach($row as $name => $cell) {
+					$tmp[] = StringUtil::removeTags($cell);
+				}
+				$this->pdf->Row($tmp,false,array(),0.2,10);
+			}
+		}
+		
 	}
 	
 	
@@ -166,7 +230,7 @@ class afSimplePdf {
 	}
 	
 	
-	public function renderEdit(Array $data) {
+	private function renderEdit($object, Array $fields, Array $grouping) {
 		
 		$exclude = array
 		(
@@ -181,12 +245,12 @@ class afSimplePdf {
 		$this->pdf->setAligns(array("R","L"));
 		//$this->pdf->setFills(array(array(220,220,220)));
 		
-		if($data["grouping"]) {
-			foreach($data["grouping"] as $set) {
+		if($grouping) {
+			foreach($grouping as $set) {
 				$printable = array();
 				$refs = $set->wrapAll("ref");
 				foreach($refs as $ref) {
-					$field = afDomAccess::getByAttribute($data["fields"],"name",$ref->get("@to"));
+					$field = afDomAccess::getByAttribute($fields,"name",$ref->get("@to"));
 					if($field && !in_array($field->get("@type"),$exclude)) {
 						$printable[] = $field;
 					}
@@ -194,7 +258,7 @@ class afSimplePdf {
 				if(!empty($printable)) {
 					$this->printFieldSetTitle($set);
 					foreach($printable as $field) {
-						$this->pdf->Row(array(str_replace("*","",$field->get("@label")).":","  ".StringUtil::removeTags($this->getFieldValue($field,$data["object"]))),true,array(), 0.5,10);	
+						$this->pdf->Row(array(str_replace("*","",$field->get("@label")).":","  ".StringUtil::removeTags($this->getFieldValue($field,$object))),true,array(), 0.5,10);	
 					}
 				}
 			}
@@ -202,10 +266,10 @@ class afSimplePdf {
 			
 			$this->printFieldSetTitle();
 			
-			foreach($data["fields"] as $k => $field) {
+			foreach($fields as $k => $field) {
 				
 				if(!in_array($field->get("@type"),$exclude)) {
-					$this->pdf->Row(array(str_replace("*","",$field->get("@label")).":","  ".StringUtil::removeTags($this->getFieldValue($field,$data["object"]))),true,array(), 0.5,10);
+					$this->pdf->Row(array(str_replace("*","",$field->get("@label")).":","  ".StringUtil::removeTags($this->getFieldValue($field,$object))),true,array(), 0.5,10);
 					$this->pdf->setLineWidth(0.2);
 				}	
 			
@@ -219,12 +283,12 @@ class afSimplePdf {
 	
 	
 	
-	public function renderShow(Array $data) {
+	private function renderShow(Array $data) {
 		$this->renderEdit($data);
 	}
 	
 	
-	public function push($download = false) {
+	private function push($download = false) {
 		
 		$this->pdf->Output("",($download) ? "D" : "");
 	

@@ -13,7 +13,11 @@ class afDataFacade {
         if($view->get("@type") == "list") {
         	self::setupDataSource($view, ($format == "pdf") ? $source["result"] : $source, $requestParams);	
 	        if($view->getBool('fields@tree')) {
-	            $source->setLimit(null);
+	            if($format == "pdf") {
+	            	$source["result"]->setLimit(null);
+	            } else {
+	            	$source->setLimit(null);	
+	            }
 	        }
         }
 
@@ -91,6 +95,12 @@ class afDataFacade {
                 $className = 'afStaticSource';
             }
             $source = new $className($callback, $params);
+        	
+            if($viewType == "list") {
+	             if($format == "pdf") {
+		         	$source = array("result" => $source, "columns" => $view->wrapAll("fields/column"));
+		         }	
+            }
         } else {
             throw new XmlParserException(
                 'Unsupported datasource type: '.$sourceType);

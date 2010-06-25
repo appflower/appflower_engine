@@ -6,8 +6,7 @@ class afEditShowRenderer {
  		   	
     	$source = afDataFacade::getDataSource($view,$request->getParameterHolder()->getAll());
 	    $pdf = new afSimplePdf($view);
-	 	$pdf->renderEdit($source);
-	 	$pdf->push();
+	    $pdf->render($source);
 	    exit();
        
     }

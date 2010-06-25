@@ -40,23 +40,27 @@ class afExecutionFilter extends sfExecutionFilter {
         }
         
         $doc = afConfigUtils::getDoc($actionInstance->getModuleName(), $actionInstance->getActionName());
-        $view = afDomAccess::wrap($doc, 'view', new afVarScope($actionInstance->getVarHolder()->getAll()));
-        $format = $actionInstance->getRequestParameter('af_format');
-   
-        $viewType = $view->get("@type");
-
-        if($viewType == "list" && self::isListjsonRequest($actionInstance)) {
-            return afRenderingRouter::render(
-                $actionInstance->getRequest(),
-                $actionInstance->getModuleName(),
-                $actionInstance->getActionName(),
-                $actionInstance->getVarHolder()->getAll(),$view);
-        } else if(($viewType == "edit" || $viewType == "show") && $format == "pdf") {
-        	return afEditShowRenderer::renderEditShow(
-                $actionInstance->getRequest(),
-                $actionInstance->getModuleName(),
-                $actionInstance->getActionName(),
-                $actionInstance->getVarHolder()->getAll(),$view); 
+        
+        if($doc) {
+        	$view = afDomAccess::wrap($doc, 'view', new afVarScope($actionInstance->getVarHolder()->getAll()));	
+       
+	        $format = $actionInstance->getRequestParameter('af_format');
+	   
+	        $viewType = $view->get("@type");
+	
+	        if($viewType == "list" && self::isListjsonRequest($actionInstance)) {
+	            return afRenderingRouter::render(
+	                $actionInstance->getRequest(),
+	                $actionInstance->getModuleName(),
+	                $actionInstance->getActionName(),
+	                $actionInstance->getVarHolder()->getAll(),$view);
+	        } else if(($viewType == "edit" || $viewType == "show") && $format == "pdf") {
+	        	return afEditShowRenderer::renderEditShow(
+	                $actionInstance->getRequest(),
+	                $actionInstance->getModuleName(),
+	                $actionInstance->getActionName(),
+	                $actionInstance->getVarHolder()->getAll(),$view); 
+	        }
         }
 
         return self::layoutExtIfNeeded($actionInstance);

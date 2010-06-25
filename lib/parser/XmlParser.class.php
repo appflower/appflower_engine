@@ -2379,6 +2379,15 @@ class XmlParser extends XmlParserTools {
 	}
 	
 	
+	private function getQueryString() {
+		
+		 $request_params = $this->context->getRequest()->getParameterHolder()->getAll();
+		 
+         return ArrayUtil::arrayToQueryString($request_params,array("module","action"));
+		
+	}
+	
+	
 	private function showAttributes(&$attributes) {
 		
 		$filter = array
@@ -2501,11 +2510,10 @@ class XmlParser extends XmlParserTools {
             }
             //Print
             
-            $request_params = $this->context->getRequest()->getParameterHolder()->getAll();
+            //if($parse["view"] != "list") {
+            	$tools->addItem(array('id'=>'print','qtip'=>"Printer friendly version",'handler'=>array('parameters'=>'e,target,panel','source'=>"window.open('/'+panel.idxml+'?af_format=pdf&".$this->getQueryString()."','print');")));	
+            //}
             
-            $qstr = ArrayUtil::arrayToQueryString($request_params,array("module","action"));
-            
-            $tools->addItem(array('id'=>'print','qtip'=>"Printer friendly version",'handler'=>array('parameters'=>'e,target,panel','source'=>"window.open('/'+panel.idxml+'?af_format=pdf&".$qstr."','print');")));
             
 			if(isset($parse['params']) && isset($parse['params']['settings'])){
 				$tools->addItem(array('id'=>'gear','qtip'=>'Setting','handler'=>array('parameters'=>'e,target,panel','source'=>"afApp.widgetPopup('".$parse['params']['settings']."','Settings',panel)")));
@@ -3202,7 +3210,7 @@ class XmlParser extends XmlParserTools {
 				if(isset($export_config["enabled"]) && $export_config["enabled"] === true && $parse["exportable"] == "true") {
 					
 					if(isset($parse["pager"]) && $parse["pager"] === "true") {
-						$grid->addMenuActionsItem(array('label'=>'Export Page as CSV', 'icon'=>'/images/famfamfam/database_save.png','listeners'=>array('click'=> array('parameters'=>'','source'=>'window.location.href='.$grid->getCsvExportJsUrl('page')))));
+						$grid->addMenuActionsItem(array('label'=>'Export Page as CSV', 'icon'=>'/images/famfamfam/database_save.png','listeners'=>array('click'=> array('parameters'=>'','source'=>'window.location.href='.$grid->getFileExportJsUrl('page')))));
 					}
 					
 					if($parse["tree"] === "false") {
@@ -3212,7 +3220,7 @@ class XmlParser extends XmlParserTools {
 								   msg: "Are you sure you want export '. sfConfig::get("app_parser_max_items").' items? This may take a while..",
 								   buttons: Ext.Msg.YESNO,
 								   fn: function(buttonId){if(buttonId == "yes"){'.
-								   'window.location.href='.$grid->getCsvExportJsUrl('all').'}},
+								   'window.location.href='.$grid->getFileExportJsUrl('all').'}},
 								   icon: Ext.MessageBox.QUESTION								   
 								});
 							';
@@ -3235,7 +3243,7 @@ class XmlParser extends XmlParserTools {
 							$grid->addMenuActionsItem(array('label'=>'Export Selected as CSV', 'forceSelection' => "true",
 							'icon'=>'/images/famfamfam/database_save.png','listeners'=>array('click'=> array('parameters'=>'','source'=>
 							"frm = document.createElement('form'); field = document.createElement('input'); field.setAttribute('type','hidden'); field.setAttribute('name','selections'); field.value = ".
-							$grid->privateName.".getSelectionModel().getSelectionsJSON(); frm.appendChild(field); frm.action = ".$grid->getCsvExportJsUrl('selected')."+'&_csrf_token=".$this->context->getRequest()->getAttribute("_csrf_token")."'; frm.method='POST'; frm.name='frm1'; document.body.appendChild(frm); ".$noItemsSelectedFunction." frm.submit();"))));
+							$grid->privateName.".getSelectionModel().getSelectionsJSON(); frm.appendChild(field); frm.action = ".$grid->getFileExportJsUrl('selected')."+'&_csrf_token=".$this->context->getRequest()->getAttribute("_csrf_token")."'; frm.method='POST'; frm.name='frm1'; document.body.appendChild(frm); ".$noItemsSelectedFunction." frm.submit();"))));
 						}
 					}
 					
@@ -3295,6 +3303,10 @@ class XmlParser extends XmlParserTools {
 				if($build === false) {
 					
 					if(!$this->multi) {
+						
+						// Add print button with params TODO: 
+						//$tools->addItem(array('id'=>'print','qtip'=>"Printer friendly version",'handler'=>array('parameters'=>'e,target,panel','source'=>"window.open(".$grid->getFileExportJsUrl('page','pdf')."+'&".$this->getQueryString()."','print');")));	
+						
 						$this->layout->addItem($this->area_types[$current_area],$grid);
 						if($this->area_types[$current_area] == "center") {
 							$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''),"idxml" => $this->panelIdXml));		
