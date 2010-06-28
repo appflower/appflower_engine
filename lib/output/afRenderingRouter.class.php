@@ -9,13 +9,19 @@ class afRenderingRouter {
         if ($viewType === 'list') {
             return afListRenderer::renderList($request, $module, $action,
                 $view);
-        } elseif ($viewType === 'edit') {
-            return afEditRenderer::renderEdit($request, $module, $action,
-                $view);
-        } else {
-            throw new XmlParserException(
-                'Unsupported view type for af_format rendering: '.$viewType);
+        } elseif ($viewType === 'edit' || $viewType === 'show') {
+            $format = $request->getParameter('af_format');
+            if ($format === 'pdf') {
+                return afEditShowRenderer::renderEditShow(
+                    $request, $module, $action, $view);
+            } elseif ($viewType === 'edit') {
+                return afEditRenderer::renderEdit(
+                    $request, $module, $action, $view);
+            }
         }
+
+        throw new XmlParserException(
+            'Unsupported view type for af_format rendering: '.$viewType);
     }
 }
 

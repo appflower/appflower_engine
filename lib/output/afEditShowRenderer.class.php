@@ -2,7 +2,7 @@
 
 class afEditShowRenderer {	
    
-    public static function renderEditShow($request, $module, $action, $actionVars, $view) {
+    public static function renderEditShow($request, $module, $action, $view) {
  		   	
 	    $pdf = new afSimplePdf($view);
         $result = self::fetchDataInstance($view);
