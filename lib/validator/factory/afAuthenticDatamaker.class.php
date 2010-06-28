@@ -25,7 +25,7 @@ class afAuthenticDatamaker {
      */
     public static function plainEncode($message, $extraKey='') {
         $key = self::getSiteSecret();
-        $hmac = self::hmacSha1($message, $key.$extraKey);
+        $hmac = self::hmacHash($message, $key.$extraKey);
         return $hmac.','.$message;
     }
 
@@ -40,7 +40,7 @@ class afAuthenticDatamaker {
 
         $key = self::getSiteSecret();
         list($hmac, $message) = $parts;
-        $expectedHmac = self::hmacSha1($message, $key.$extraKey);
+        $expectedHmac = self::hmacHash($message, $key.$extraKey);
         if($hmac !== $expectedHmac) {
             return null;
         }
@@ -79,6 +79,16 @@ class afAuthenticDatamaker {
     }
 
     /**
+     * Returns a binary hmac wrapped in URL-safe base64.
+     */
+    private static function hmacHash($data, $key) {
+        $binary = self::hmacSha1($data, $key, true);
+        $base64 = base64_encode($binary);
+        $base64 = rtrim($base64, '=');
+        return strtr($base64, '+/', '-_');
+    }
+
+    /**
      * A hmac function for PHP installations without hash_hmac().
      */
     private static function hmacSha1($data, $key, $raw_output=false) {
@@ -99,8 +109,6 @@ class afAuthenticDatamaker {
             $ipad[$i] = $ipad[$i] ^ $key[$i];
         }
 
-        $output = $algo($opad.pack($pack, $algo($ipad.$data)));
-
-        return ($raw_output) ? pack($pack, $output) : $output;
+        return $algo($opad.pack($pack, $algo($ipad.$data)), $raw_output);
     }
 }

@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 
 $formUrl = 'https://localhost/networkmonitor_snmp/editSnmpPackage';
-$apikey = '44f42038bd8fc208f4e8fe269161e78a9da264c7,admin';
+$apikey = 'RPQgOL2Pwgj06P4mkWHnip2iZMc,admin';
 
 function debug($msg) {
     file_put_contents('php://stderr', $msg."\n");
