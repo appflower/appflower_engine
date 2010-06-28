@@ -46,7 +46,8 @@ class afConfigUtils {
 	        $doc->load($path);
 	        return $doc;	
         } else {
-        	return null;
+            throw new XmlParserException(
+                sprintf('No such XML config: %s/%s', $module, $action));
         }
        
     }
