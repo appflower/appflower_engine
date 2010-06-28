@@ -830,8 +830,9 @@ class ImmExtjsGrid
 		/******************************************************************************/	
 	}
 
-	public function getCsvExportJsUrl($exportType='page') {
-		$params = array('af_format'=>'csv');
+	
+	public function getFileExportJsUrl($exportType='page',$af_format = "csv") {
+		$params = array('af_format'=>$af_format);
 		if($exportType === 'all') {
 			$params['start'] = 0;
 			$params['limit'] = sfConfig::get("app_parser_max_items");
@@ -839,6 +840,8 @@ class ImmExtjsGrid
 
 		return 'Ext.urlAppend('.$this->privateName.'.store.proxy.url, Ext.urlEncode(Ext.applyIf('.json_encode($params).', '.$this->privateName.'.store.proxy.lastParams||{})))';
 	}
+	
+	
 
 	public function getListenerParams(&$action,$type,$iteration='',$select="false"){		
 		$grid =$this;
