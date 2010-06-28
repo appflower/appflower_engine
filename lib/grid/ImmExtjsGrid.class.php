@@ -14,6 +14,7 @@ class ImmExtjsGrid
 	public $contextMenu = array();
 	public $actionsObject=null,$columns=null,$filters=array(),$proxy=null;
 	public $gridType = null, $menuactions_items=array();
+        public $dataLoadedHandler = null;
 	public $filter_types = array("boolean","numeric","list","string","combo","date");						
 	public function __construct($attributes=array())
 	{		
@@ -25,6 +26,9 @@ class ImmExtjsGrid
 		if(isset($attributes['datasource']))
 		{
 			$this->gridType = $attributes['datasource']['type'];
+                        if (isset($attributes['datasource']['dataLoadedHandler'])) {
+                            $this->dataLoadedHandler = $attributes['datasource']['dataLoadedHandler'];
+                        }
 			unset($attributes['datasource']);
 		}
 		$this->privateName='grid_'.Util::makeRandomKey();
@@ -252,7 +256,7 @@ class ImmExtjsGrid
 		}
 		
 		if(isset($this->proxy['url'])&&count($this->columns)>0)
-		{			
+		{
 			$filtersPrivateName='filters_'.Util::makeRandomKey();
 			$storePrivateName='store_'.Util::makeRandomKey();
 			$readerPrivateName='reader_'.Util::makeRandomKey();
@@ -463,13 +467,14 @@ class ImmExtjsGrid
 																			"source"=>$beforeloadListener
 																	));
 			}
+
 			$this->attributes[$storePrivateName]['listeners']['load']=$this->immExtjs->asMethod(array(
 																			"parameters"=>"object,records,options",
 																			"source"=>
 																			'if(records.length>0&&records[0].json.redirect&&records[0].json.message&&records[0].json.load){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){afApp.load(rec.redirect,rec.load);});}else{if('.$this->privateName.'.canMask()){'.$this->privateName.'.getEl().unmask();}}
 																			'.$this->privateName.'.ownerCt.ownerCt.doLayout();'
+                                                                                                                                                        .($this->dataLoadedHandler != '' ? "{$this->dataLoadedHandler}(object);" : '')
 																	));
-																	
 			$this->attributes[$storePrivateName]['listeners']['loadexception']=$this->immExtjs->asMethod(array(
 																			"parameters"=>"",
 																			"source"=>

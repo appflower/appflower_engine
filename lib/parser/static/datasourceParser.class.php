@@ -10,7 +10,14 @@ class datasourceParser extends XmlBaseElementParser {
 		
 		self::add("datasource/type",self::$parser->get($element,"type"));
 		self::add("datasource/lister",self::$parser->get($element,"lister"));
-		
+
+                if (self::$parser->has($node,"className")) {
+                    self::add("datasource/className",self::$parser->get($element,"className"));
+                }
+                if (self::$parser->has($node,"dataLoadedHandler")) {
+                    self::add("datasource/dataLoadedHandler",self::$parser->get($element,"dataLoadedHandler"));
+                }
+
 		if(self::$parser->has($node,null,"statement")) {
 			return true;
 		}
