@@ -6,18 +6,12 @@ class afDataFacade {
 
     public static function getDataSource($view, $requestParams) {
 
-    	$format = $requestParams["af_format"];
-    	
-        $source = self::createDataSource($view,ArrayUtil::get($requestParams, 'filter', null),$format);
+        $source = self::createDataSource($view,ArrayUtil::get($requestParams, 'filter', null));
         
         if($view->get("@type") == "list") {
-        	self::setupDataSource($view, ($format == "pdf") ? $source["result"] : $source, $requestParams);	
+        	self::setupDataSource($view, $source, $requestParams);	
 	        if($view->getBool('fields@tree')) {
-	            if($format == "pdf") {
-	            	$source["result"]->setLimit(null);
-	            } else {
-	            	$source->setLimit(null);	
-	            }
+                $source->setLimit(null);	
 	        }
         }
 
@@ -83,9 +77,6 @@ class afDataFacade {
                     $source = new $className($extractor);
 	            $source->setCriteria($result);
 	            
-	          	if($format == "pdf") {
-	          		$source = array("result" => $source, "columns" => $view->wrapAll("fields/column"));
-	          	}
         	} else if($viewType == "edit" || $viewType == "show") {
         		$source = array("object" => $result,"fields" => $view->wrapAll("fields/field"), "grouping" => $view->wrapAll("grouping/set"));
         	}
@@ -95,12 +86,6 @@ class afDataFacade {
                 $className = 'afStaticSource';
             }
             $source = new $className($callback, $params);
-        	
-            if($viewType == "list") {
-	             if($format == "pdf") {
-		         	$source = array("result" => $source, "columns" => $view->wrapAll("fields/column"));
-		         }	
-            }
         } else {
             throw new XmlParserException(
                 'Unsupported datasource type: '.$sourceType);

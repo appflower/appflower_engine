@@ -128,13 +128,14 @@ class afListRenderer {
     
 	private static function renderPdf($view, $source) {
 		
-        $rows = $source["result"]->getRows();
+        $rows = $source->getRows();
         if(count($rows) > 0) {
+            $columns = $view->wrapAll("fields/column");
         	
-        	$orientation = (sizeof($source["columns"]) > 10) ? "L" : "P";
+        	$orientation = (sizeof($columns) > 10) ? "L" : "P";
         	
             $pdf = new afSimplePdf($view,$orientation);
-		 	$pdf->render(array($rows,$source["columns"]));
+		 	$pdf->render(array($rows,$columns));
             exit();
         }
 
