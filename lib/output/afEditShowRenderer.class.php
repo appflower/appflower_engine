@@ -4,12 +4,16 @@ class afEditShowRenderer {
    
     public static function renderEditShow($request, $module, $action, $actionVars, $view) {
  		   	
-    	$source = afDataFacade::getDataSource($view,$request->getParameterHolder()->getAll());
 	    $pdf = new afSimplePdf($view);
-	    $pdf->render($source);
+        $result = self::fetchDataInstance($view);
+        $data = array("object" => $result,"fields" => $view->wrapAll("fields/field"), "grouping" => $view->wrapAll("grouping/set"));
+	    $pdf->render($data);
 	    exit();
-       
     }
 
+    private static function fetchDataInstance($view) {
+        list($callback, $params) = afDataFacade::getDataSourceCallback($view);
+        return afCall::funcArray($callback, $params);
+    }
 }
 

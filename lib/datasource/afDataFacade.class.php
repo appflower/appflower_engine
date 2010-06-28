@@ -5,14 +5,15 @@ class afDataFacade {
         DEFAULT_PROXY_LIMIT = 20;
 
     public static function getDataSource($view, $requestParams) {
+        if($view->get('@type') !== 'list') {
+            throw new XmlParserException('Only list views are expected.');
+        }
 
         $source = self::createDataSource($view,ArrayUtil::get($requestParams, 'filter', null));
         
-        if($view->get("@type") == "list") {
-        	self::setupDataSource($view, $source, $requestParams);	
-	        if($view->getBool('fields@tree')) {
-                $source->setLimit(null);	
-	        }
+        self::setupDataSource($view, $source, $requestParams);	
+        if($view->getBool('fields@tree')) {
+            $source->setLimit(null);	
         }
 
         return $source;
@@ -36,7 +37,7 @@ class afDataFacade {
     private static function getSortColumn($view, $sortColumn) {
         $columns = $view->wrapAll('fields/column');
         foreach($columns as $column) {
-            if($column->get('@name') == $sortColumn) {
+            if($column->get('@name') === $sortColumn) {
                 $sortIndex = $column->get('@sortIndex');
                 if($sortIndex) {
                     return constant($sortIndex);
@@ -56,7 +57,6 @@ class afDataFacade {
         //TODO: support also the file datasource
         
         $sourceType = $view->get('datasource@type');
-        $viewType = $view->get('@type');
         $className = $view->get('datasource@className');
 
         if($sourceType === 'orm') {
@@ -64,25 +64,19 @@ class afDataFacade {
             list($peer, $method) = $callback;
             $result = afCall::funcArray($callback, $params);
 
-        	if($viewType == "list") {
-            
-	            afFilterUtil::setFilters($peer, $result, $filters);	
-	
-	            $class = self::getClassFromPeerClass($peer);
-	            $extractor = new afColumnExtractor($class, $selectedColumns,
-	                $format);
-                    if ($className == '') {
-                        $className = 'afPropelSource';
-                    }
-                    $source = new $className($extractor);
-	            $source->setCriteria($result);
-	            
-        	} else if($viewType == "edit" || $viewType == "show") {
-        		$source = array("object" => $result,"fields" => $view->wrapAll("fields/field"), "grouping" => $view->wrapAll("grouping/set"));
-        	}
+            afFilterUtil::setFilters($peer, $result, $filters);	
+
+            $class = self::getClassFromPeerClass($peer);
+            $extractor = new afColumnExtractor($class, $selectedColumns,
+                $format);
+            if ($className === '') {
+                $className = 'afPropelSource';
+            }
+            $source = new $className($extractor);
+            $source->setCriteria($result);
         } else if($sourceType === 'static') {
             list($callback, $params) = self::getDataSourceCallback($view);
-            if ($className == '') {
+            if ($className === '') {
                 $className = 'afStaticSource';
             }
             $source = new $className($callback, $params);
@@ -94,7 +88,7 @@ class afDataFacade {
         return $source;
     }
 
-    private static function getDataSourceCallback($view) {
+    public static function getDataSourceCallback($view) {
         $args = array();
         $params = $view->wrapAll('datasource/method/param');
         foreach($params as $param) {
