@@ -9,6 +9,10 @@ class afEditRenderer {
         $result = array();
         $result['af_url'] = $request->getUriPrefix().$submitUrl;
         $result['af_formcfg'] = self::buildFormcfg($submitUrl, $validators);
+        $instance = afEditShowRenderer::fetchDataInstance($view);
+        foreach(self::getFieldValues($instance, $fields) as $name => $value) {
+            $result[sprintf('edit[%s]', $name)] = $value;
+        }
         return afOutput::renderText(json_encode($result));
     }
 
@@ -24,6 +28,14 @@ class afEditRenderer {
                 "$module/$action");
         }
         return UrlUtil::abs($url);
+    }
+
+    private static function getFieldValues($instance, $fields) {
+        $values = array();
+        foreach($fields as $field) {
+            $values[$field->get('@name')] = afEditView::getFieldValue($field, $instance);
+        }
+        return $values;
     }
 }
 

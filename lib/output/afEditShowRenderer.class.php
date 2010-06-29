@@ -11,7 +11,7 @@ class afEditShowRenderer {
 	    exit();
     }
 
-    private static function fetchDataInstance($view) {
+    public static function fetchDataInstance($view) {
         list($callback, $params) = afDataFacade::getDataSourceCallback($view);
         return afCall::funcArray($callback, $params);
     }
