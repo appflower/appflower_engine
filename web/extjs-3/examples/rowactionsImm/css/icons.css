@@ -81,18 +81,8 @@
 .icon-tree-post {
 	background-image:url(/images/famfamfam/page_white.png) ! important;
 }
-.icon-plus {
-	background-image:url(/images/famfamfam/add.png) ! important;
-}
-.icon-minus {
-	background-image:url(/images/famfamfam/delete.png) ! important;
-}
-.icon-house {
-	background-image:url(../img/icons/house_16.png) ! important;
-}
-.icon-user {
-	background-image:url(../img/icons/user2_16.png) ! important;
-}
+
+
 .icon-trash-empty {
 	background-image:url(/images/famfamfam/bin_empty.png) ! important;
 }
@@ -204,9 +194,7 @@
 .icon-clock {
 	background-image:url(/images/famfamfam/clock.png) ! important;
 }
-.icon-zoom {
-	background-image:url(/images/famfamfam/zoom.png) ! important;
-}
+
 .icon-print {
 	background-image:url(/images/famfamfam/printer.png) ! important;
 }
