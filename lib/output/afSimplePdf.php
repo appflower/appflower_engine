@@ -8,7 +8,6 @@ class afSimplePdf {
 		$view,
 		$orientation,
 		$group_field,
-		$filename,
 		$headers;
 	
 	public function __construct($view) {
@@ -35,12 +34,10 @@ class afSimplePdf {
 		$this->width = ($orientation == "P") ? 190 : 277;
 		
 		$this->pdf=new afPDF($orientation);
-		$this->pdf->orientation = $orientation;
 		$this->pdf->AliasNbPages();
 		
 		$this->pdf->widget["title"] = $this->view->get("title");
 		$this->pdf->widget["view"] = $this->view->get("@type");
-		$this->filename = $this->getFileName();
 		
 		$this->pdf->af_version = sfConfig::get("app_appFlower_version");
 		
@@ -59,11 +56,6 @@ class afSimplePdf {
 		$this->push();
 		
 		
-	}
-	
-	
-	private function getFileName() {
-		return strtolower(preg_replace("/[[:space:]]+|[^a-zA-Z0-9]+/","_",$this->pdf->widget["title"]))."_".date("YmdHis").".pdf";
 	}
 	
 	
@@ -166,50 +158,8 @@ class afSimplePdf {
 	}
 	
 	
-	private function getFieldValue($field,$object) {
-		
-		
-		$value = $field->get("@value");
-		$selected = $field->get("@selected");
-		
-		if(!$value) {
-			if($field->get("@type") == "checkbox" || $field->get("@type") == "radio") {
-				$value = ($field->get("@checked")) ? "yes" : "no";
-			} else {
-				$source = $field->wrapAll("value");
-				if(!empty($source)) {
-					$orm = $source[0]->get("source@name");
-					if($orm) {
-						$method = "get".sfInflector::camelize($field->get("@name"));
-						if(method_exists($object,$method)) {
-							$value = $object->$method();	
-						}
-					} else {
-						$class = $source[0]->get("class");
-						$method = $source[0]->get("method@name");
-						$tmp = $source[0]->wrapAll("method/param");
-						$params = array();
-						
-						foreach($tmp as $t) {
-							$params[] = $t->get("");
-						}
-						
-						$result = call_user_func_array(array($class,$method),$params);
-						
-						if($field->get("@type") == "combo" || $field->get("@type") == "extendedCombo" || $field->get("@type") == "multicombo") {
-							if(isset($result[$selected])) {
-								$value = $result[$selected];	
-							}
-						} else if($field->get("@type") == "doublemulticombo" || $field->get("@type") == "doubletree") {
-							foreach($result[1] as $r) {
-								$value .= $r.",";
-							}
-							$value = trim($value,",");
-						}
-					}
-				}
-			}
-		}
+	private static function getFieldValue($field,$object) {
+		$value = afEditView::getFieldValue($field, $object);
 		
 		if($field->get("@type") == "static" && substr($value,0,4) == "<img") {
 			// Image..
@@ -217,6 +167,7 @@ class afSimplePdf {
 
 		return $value;
 	}
+	
 	
 	private function printFieldSetTitle($set = null) {
 		
@@ -297,7 +248,7 @@ class afSimplePdf {
 	
 	private function push($download = false) {
 		
-		$this->pdf->Output($this->filename,($download) ? "D" : "I");
+		$this->pdf->Output("",($download) ? "D" : "");
 	
 	}
 	
