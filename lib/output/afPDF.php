@@ -8,10 +8,43 @@ class afPDF extends FPDF {
 	$widths,
 	$borders,
 	$fills,
+	$orientation,
 	$aligns;
+	
+	
+	private function getMMValue($pixels) {
+		return ($pixels/72)*25.4;
+	}
+	
 	
 	public function Header()
 	{
+		
+		$logos = array(
+		"af" => sfConfig::get("app_appFlower_logo"),
+		"partner" => sfConfig::get("app_pdf_logo")
+		);
+		
+		if(!$logos["af"] || !file_exists($logos["af"]["file"])) {
+			$logos["af"]["file"] = sfConfig::get("sf_root_dir")."/plugins/appFlowerPlugin/web/images/logo.png";
+		}
+		
+		$ps = ($this->orientation == "P") ? 210 : 297;
+		$this->Image($logos["af"]["file"],10,5,0,0,'',$logos["af"]["url"]);
+		
+		$p1 = getimagesize($logos["af"]["file"]);
+		
+		if($logos["partner"] && file_exists($logos["partner"]["file"])) {
+			$p2 = getimagesize($logos["partner"]["file"]);
+			$this->Image($logos["partner"]["file"],$ps-$this->getMMValue($p2[0])-10,5,0,0,'',$logos["partner"]["url"]);
+		} else {
+			$p2 = array(0,0);
+		}
+		
+		$mh = max(array($p1[1],$p2[1]));	
+	
+		$this->setY((($mh/72)*25.4)+5);
+		
 	    $this->SetFont('Arial','B',10);
 	    $this->Cell(0,10,ucwords($this->widget["title"])." Widget","B",1,"L");
 	    $this->Ln(5);

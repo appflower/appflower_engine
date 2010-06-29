@@ -8,6 +8,7 @@ class afSimplePdf {
 		$view,
 		$orientation,
 		$group_field,
+		$filename,
 		$headers;
 	
 	public function __construct($view) {
@@ -34,10 +35,12 @@ class afSimplePdf {
 		$this->width = ($orientation == "P") ? 190 : 277;
 		
 		$this->pdf=new afPDF($orientation);
+		$this->pdf->orientation = $orientation;
 		$this->pdf->AliasNbPages();
 		
 		$this->pdf->widget["title"] = $this->view->get("title");
 		$this->pdf->widget["view"] = $this->view->get("@type");
+		$this->filename = $this->getFileName();
 		
 		$this->pdf->af_version = sfConfig::get("app_appFlower_version");
 		
@@ -56,6 +59,11 @@ class afSimplePdf {
 		$this->push();
 		
 		
+	}
+	
+	
+	private function getFileName() {
+		return strtolower(preg_replace("/[[:space:]]+|[^a-zA-Z0-9]+/","_",$this->pdf->widget["title"]))."_".date("YmdHis").".pdf";
 	}
 	
 	
@@ -210,7 +218,6 @@ class afSimplePdf {
 		return $value;
 	}
 	
-	
 	private function printFieldSetTitle($set = null) {
 		
 		if($set) {
@@ -290,7 +297,7 @@ class afSimplePdf {
 	
 	private function push($download = false) {
 		
-		$this->pdf->Output("",($download) ? "D" : "");
+		$this->pdf->Output($this->filename,($download) ? "D" : "I");
 	
 	}
 	
