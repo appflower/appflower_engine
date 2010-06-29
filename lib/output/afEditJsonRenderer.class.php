@@ -1,6 +1,6 @@
 <?php
 
-class afEditRenderer {
+class afEditJsonRenderer {
     public static function renderEdit($request, $module, $action, afDomAccess $view) {
         $fields = $view->wrapAll('fields/field');
         $submitUrl = self::getSubmitUrl($module, $action, $view);

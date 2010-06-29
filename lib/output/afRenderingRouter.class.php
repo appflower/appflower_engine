@@ -15,7 +15,7 @@ class afRenderingRouter {
                 return afEditShowRenderer::renderEditShow(
                     $request, $module, $action, $view);
             } elseif ($viewType === 'edit') {
-                return afEditRenderer::renderEdit(
+                return afEditJsonRenderer::renderEdit(
                     $request, $module, $action, $view);
             }
         }
