@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 
-$formUrl = 'https://localhost/networkmonitor_snmp/editSnmpPackage';
+$formUrl = 'https://localhost/networkmonitor_snmp/editSnmpGroup?id=1';
 $apikey = 'RPQgOL2Pwgj06P4mkWHnip2iZMc,admin';
 
 function debug($msg) {
@@ -13,7 +13,15 @@ function error($reason) {
     exit(1);
 }
 
-$url = $formUrl.'?af_format=json&af_apikey='.urlencode($apikey);
+function prepareForParams($url) {
+    if (false === strpos($url, '?')) {
+        return $url.'?';
+    } else {
+        return $url.'&';
+    }
+}
+
+$url = prepareForParams($formUrl).'af_format=json&af_apikey='.urlencode($apikey);
 debug("Fetching: $url");
 $response = file_get_contents($url);
 if ($response === false) {
@@ -27,7 +35,7 @@ if ($json === null) {
 
 debug('JSON response: '.var_export($json, true));
 
-$submitUrl = $json['af_url'].'?af_apikey='.urlencode($apikey);
+$submitUrl = prepareForParams($json['af_url']).'af_apikey='.urlencode($apikey);
 $data = $json;
 
 $ch = curl_init();
