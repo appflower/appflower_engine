@@ -21,7 +21,7 @@ function prepareForParams($url) {
     }
 }
 
-$url = prepareForParams($formUrl).'af_format=json&af_apikey='.$apikey;
+$url = prepareForParams($formUrl).'af_format=json&af_apikey='.urlencode($apikey);
 debug("Fetching: $url");
 $response = file_get_contents($url);
 if ($response === false) {
@@ -35,7 +35,7 @@ if ($json === null) {
 
 debug('JSON response: '.var_export($json, true));
 
-$submitUrl = prepareForParams($json['af_submitUrl']).'af_apikey='.$apikey;
+$submitUrl = prepareForParams($json['af_submitUrl']).'af_apikey='.urlencode($apikey);
 $data = $json;
 
 $ch = curl_init();
