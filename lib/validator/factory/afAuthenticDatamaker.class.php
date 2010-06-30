@@ -5,6 +5,8 @@ class afAuthenticDatamaker {
     // We don't want to accept form submissions with old validators.
     private static $MAX_AGE_SECONDS = 172800;
 
+    const MSG_SEPARATOR = '~';
+
     /**
      * Signs the data to prevent their alternation.
      * The signed result will be valid only for a limited number of hours.
@@ -26,14 +28,14 @@ class afAuthenticDatamaker {
     public static function plainEncode($message, $extraKey='') {
         $key = self::getSiteSecret();
         $hmac = self::hmacHash($message, $key.$extraKey);
-        return $hmac.','.$message;
+        return $hmac.self::MSG_SEPARATOR.$message;
     }
 
     /**
      * Returns a decoded valid message or null.
      */
     public static function plainDecode($input, $extraKey='') {
-        $parts = explode(',', $input, 2);
+        $parts = explode(self::MSG_SEPARATOR, $input, 2);
         if(count($parts) !== 2) {
             return null;
         }

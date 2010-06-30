@@ -16,5 +16,5 @@ $t->is(afAuthenticDatamaker::decode(''), null);
 
 sfConfig::set('app_appFlower_siteSecret', 'CHANGE_ME');
 $apikey = afApikeySecurityFilter::getApiKey(sfGuardUserPeer::retrieveByPk(1));
-$t->is($apikey, 'RPQgOL2Pwgj06P4mkWHnip2iZMc,admin');
+$t->is($apikey, 'RPQgOL2Pwgj06P4mkWHnip2iZMc~admin');
 

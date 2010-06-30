@@ -7,7 +7,7 @@ class afEditJsonRenderer {
         $validators = afEditView::getValidators($fields);
 
         $result = array();
-        $result['af_url'] = $request->getUriPrefix().$submitUrl;
+        $result['af_submitUrl'] = $request->getUriPrefix().$submitUrl;
         $result['af_formcfg'] = self::buildFormcfg($submitUrl, $validators);
         $instance = afEditShowRenderer::fetchDataInstance($view);
         foreach(self::getFieldValues($instance, $fields) as $name => $value) {

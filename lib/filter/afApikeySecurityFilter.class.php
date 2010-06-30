@@ -29,7 +29,7 @@ class afApikeySecurityFilter extends sfFilter {
      * or null.
      */
     private static function getApiUser($apikey) {
-        $parts = explode(',', $apikey, 2);
+        $parts = explode(afAuthenticDatamaker::MSG_SEPARATOR, $apikey, 2);
         if(count($parts) !== 2) {
             return null;
         }
