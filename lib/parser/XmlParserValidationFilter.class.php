@@ -51,12 +51,8 @@ class XmlParserValidationFilter extends sfExecutionFilter
 			}
 
 			$this->checkFinalWizardStep();
-			/* Disabled for now. LogInspect NullFilter needs to be
-			 * able to accept non-array edit[] values first.
-			 *
 			self::removeIterationNumber(
 				$this->context->getRequest()->getParameterHolder());
-			 */
 		}
 
 		return $filterChain->execute();
@@ -173,5 +169,25 @@ class XmlParserValidationFilter extends sfExecutionFilter
                 }
             }
         }
+
+        self::supportOldEdit0($paramHolder);
+    }
+
+    /**
+     * Adds the edit[0][] array if it is missing.
+     * Some old actions could be expecting it instead of edit[].
+     */
+    private static function supportOldEdit0($paramHolder) {
+        $params =& $paramHolder->getAll();
+        if (!isset($params['edit']) || !is_array($params['edit'])) {
+            return;
+        }
+
+        if(isset($params['edit'][0])) {
+            return;
+        }
+
+        $copy = $params['edit'];
+        $params['edit'][0] = $copy;
     }
 }
