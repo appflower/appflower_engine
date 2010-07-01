@@ -70,17 +70,6 @@ class afConfigUtils {
         $instance->execute($request);
         $instance->postExecute();
 
-        self::setDefaultActionVars($instance);
         return $instance->getVarHolder()->getAll();
-    }
-
-    public static function setDefaultActionVars($actionInstance) {
-        $defaultVars = array('anode');
-        foreach($defaultVars as $name) {
-            if(!isset($actionInstance->$name)) {
-                $actionInstance->$name = $actionInstance->getRequestParameter(
-                    $name, null);
-            }
-        }
     }
 }

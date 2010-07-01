@@ -130,7 +130,6 @@ class XmlParser extends XmlParserTools {
 		
 		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
 		
-		afConfigUtils::setDefaultActionVars($actionInstance);
 		$this->attribute_holder = $actionInstance->getVarHolder()->getAll();
 		
 		$this->currentUri = $actionInstance->getModuleName()."/".$actionInstance->getActionName();	
