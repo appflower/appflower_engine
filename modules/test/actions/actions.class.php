@@ -217,7 +217,7 @@ class testActions extends CustomActions
 	public function executeHtml()
 	{
 		 
-		$this->getVarHolder()->add(array("html" => "<b>this is bold</b>"));
+		$this->getVarHolder()->add(array("html" => "<b>this is bold<br />foo<br>bar<br /><br/>foobar</b>"));
 		 
 		return XmlParser::layoutExt($this);
 

@@ -77,6 +77,12 @@ class afPDF extends FPDF {
 	    $this->borders=$b;
 	}
 	
+	function SetFontInfo($f)
+	{
+	    //Set the array of font data
+	    $this->fontdata=$f;
+	}
+	
 	function SetFills($f)
 	{
 	    //Set the array of borders
@@ -112,6 +118,11 @@ class afPDF extends FPDF {
 	    //Draw the cells of the row
 	    for($i=0;$i<count($data);$i++)
 	    {
+	    	
+	    	if(isset($this->fontdata[$i])) {
+				$this->SetFont($this->fontdata[$i][0],$this->fontdata[$i][1],$this->fontdata[$i][2]);
+			}
+		
 	        $w=$this->widths[$i];
 	        $a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'L';
 	        $B=isset($this->borders[$i]) ? $this->borders[$i] : 0;
@@ -143,10 +154,25 @@ class afPDF extends FPDF {
 	       		 $this->Rect($x,$y,$w,$h,$F); 	
 	        }
 	       
-	        //Print the text
-	        $this->MultiCell($w,$cell_height,$data[$i],$B,$a,$form);
+	    	if(strstr($data[$i],"afpdf_image")) {
+				$data[$i] = trim(str_replace("afpdf_image:","",$data[$i]));
+				$image = getimagesize($data[$i]);
+				$ox = $this->getX();
+				$oy = $this->getY();
+				$h = $this->getMMValue($image[1]);
+			} else {
+				$image = null;
+			}
+	
+			$this->MultiCell($w,($image) ? $h : $cell_height,($image) ? "" : $data[$i],$B,$a,$form);
+
+			if($image) {
+				$this->Image($data[$i],$ox+$border_width,$oy,0,0);
+			}
+			
 	        //Put the position to the right of the cell
 	        $this->SetXY($x+$w,$y);
+	  
 	    }
 	    //Go to the next line
 	    $this->Ln($h);

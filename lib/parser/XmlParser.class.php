@@ -2507,12 +2507,12 @@ class XmlParser extends XmlParserTools {
             if($this->widgetHelpSettings && $this->widgetHelpSettings->getPopupHelpIsEnabled()) {
             	$tools->addItem(array('id'=>'help','qtip'=>"Widget Help",'handler'=>array('parameters'=>'e,target,panel','source'=>"afApp.loadPopupHelp(panel.idxml);")));
             }
-            //Print
             
-            //if($parse["view"] != "list") {
-            	$tools->addItem(array('id'=>'print','qtip'=>"Printer friendly version",'handler'=>array('parameters'=>'e,target,panel','source'=>"window.open('/'+panel.idxml+'?af_format=pdf&".$this->getQueryString()."','print');")));	
-            //}
+            //Print - for grids it is added later due parameters.
             
+            if($parse["view"] != "list") {
+            	$tools->addItem(array('id'=>'print','qtip'=>"Printer friendly version",'handler'=>array('parameters'=>'e,target,panel','source'=>"window.open('/'+panel.idxml+'?af_format=pdf&".$this->getQueryString()."','print');")));		
+            }
             
 			if(isset($parse['params']) && isset($parse['params']['settings'])){
 				$tools->addItem(array('id'=>'gear','qtip'=>'Setting','handler'=>array('parameters'=>'e,target,panel','source'=>"afApp.widgetPopup('".$parse['params']['settings']."','Settings',panel)")));
@@ -3289,6 +3289,11 @@ class XmlParser extends XmlParserTools {
 						}
 					}					
 				}
+				
+				// Printing for grids..
+				
+				$grid->updateTools($tools->addItem(array('id'=>'print','qtip'=>"Printer friendly version",'handler'=>array('parameters'=>'e,target,panel','source'=>"window.open(".$grid->getFileExportJsUrl('page','pdf')."+'&".$this->getQueryString()."','print');")),"item"));	
+						
 				$grid->end();
 				
 				if($this->type == self::PAGE && $current_area["attributes"]["type"] == "content") {
@@ -3302,9 +3307,6 @@ class XmlParser extends XmlParserTools {
 				if($build === false) {
 					
 					if(!$this->multi) {
-						
-						// Add print button with params TODO: 
-						//$tools->addItem(array('id'=>'print','qtip'=>"Printer friendly version",'handler'=>array('parameters'=>'e,target,panel','source'=>"window.open(".$grid->getFileExportJsUrl('page','pdf')."+'&".$this->getQueryString()."','print');")));	
 						
 						$this->layout->addItem($this->area_types[$current_area],$grid);
 						if($this->area_types[$current_area] == "center") {

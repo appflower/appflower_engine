@@ -9,6 +9,7 @@ class afSimplePdf {
 		$orientation,
 		$group_field,
 		$filename,
+		$root,
 		$headers;
 	
 	public function __construct($view) {
@@ -18,6 +19,7 @@ class afSimplePdf {
 		require($path.'/fpdf.php');
 		
 		$this->view = $view;
+		$this->root = sfConfig::get("sf_root_dir")."/web";
 		
 	}
 
@@ -54,7 +56,11 @@ class afSimplePdf {
 		
 		$method = "render".ucfirst($this->view->get("@type"));
 		
-		call_user_func_array(array($this,$method),$data);
+		if($this->view->get("@type") != "html") {
+			call_user_func_array(array($this,$method),$data);	
+		} else {
+			call_user_func(array($this,$method),$data);
+		}
 		
 		$this->push();
 		
@@ -168,15 +174,29 @@ class afSimplePdf {
 	
 	private function getFieldValue($field,$object) {
 		$value = afEditView::getFieldValue($field, $object);
-		
-		if($field->get("@type") == "static" && substr($value,0,4) == "<img") {
-			// Image..
+		if(preg_match("/<img[^s]*src=\"([^\"]+)\"[^>]*>/i",$value,$match)) {
+			$value = $this->root;
+			if(substr($match[1],0,1) != "/") {
+				$match[1] = "/".$match[1];
+			}
+			$value .= $match[1];
+			
+			if(!file_exists($value)) {
+				$value = "";
+			} else {
+				$value = "afpdf_image:".$value;
+			}
+			
+		} else {
+			$value = StringUtil::removeTags($value);
 		}
 
 		return $value;
 	}
 	
 	private function printFieldSetTitle($set = null) {
+		
+		$this->pdf->SetFont("Arial","B",11);
 		
 		if($set) {
 			$title = ($set->get("@tabtitle")) ? $set->get("@tabtitle") : $set->get("@title"); 
@@ -195,6 +215,7 @@ class afSimplePdf {
 	}
 	
 	
+	
 	private function renderEdit($object, Array $fields, Array $grouping) {
 		
 		$exclude = array
@@ -208,6 +229,7 @@ class afSimplePdf {
 		$this->pdf->setWidths(array(90,90));
 		$this->pdf->setBorders(array(0,"L"));
 		$this->pdf->setAligns(array("R","L"));
+		$this->pdf->SetFontInfo(array(array("Arial","B",11),array("Arial","",11)));
 		//$this->pdf->setFills(array(array(220,220,220)));
 		
 		if($grouping) {
@@ -223,7 +245,7 @@ class afSimplePdf {
 				if(!empty($printable)) {
 					$this->printFieldSetTitle($set);
 					foreach($printable as $field) {
-						$this->pdf->Row(array(str_replace("*","",$field->get("@label")).":","  ".StringUtil::removeTags($this->getFieldValue($field,$object))),true,array(), 0.5,10);	
+						$this->pdf->Row(array(str_replace("*","",$field->get("@label")).":","  ".$this->getFieldValue($field,$object)),true,array(), 0.5,10);	
 					}
 				}
 			}
@@ -234,7 +256,7 @@ class afSimplePdf {
 			foreach($fields as $k => $field) {
 				
 				if(!in_array($field->get("@type"),$exclude)) {
-					$this->pdf->Row(array(str_replace("*","",$field->get("@label")).":","  ".StringUtil::removeTags($this->getFieldValue($field,$object))),true,array(), 0.5,10);
+					$this->pdf->Row(array(str_replace("*","",$field->get("@label")).":","  ".$this->getFieldValue($field,$object)),true,array(), 0.5,10);
 					$this->pdf->setLineWidth(0.2);
 				}	
 			
@@ -250,6 +272,17 @@ class afSimplePdf {
 	
 	private function renderShow(Array $data) {
 		$this->renderEdit($data);
+	}
+	
+	private function renderHtml(Array $data) {
+		
+		$html = $data["request_params"][$data["params"][0]->get("@name")];
+		$html = StringUtil::removeTags(preg_replace("/<br[\s\/]*>/","\n",$html));
+	
+		$this->pdf->SetFont('Arial','',11);
+		
+		$this->pdf->MultiCell(0,5,$html);
+		
 	}
 	
 	

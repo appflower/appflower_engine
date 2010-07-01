@@ -15,7 +15,9 @@ class ImmExtjsGrid
 	public $actionsObject=null,$columns=null,$filters=array(),$proxy=null;
 	public $gridType = null, $menuactions_items=array();
         public $dataLoadedHandler = null;
-	public $filter_types = array("boolean","numeric","list","string","combo","date");						
+	public $filter_types = array("boolean","numeric","list","string","combo","date");
+
+	
 	public function __construct($attributes=array())
 	{		
 		$this->immExtjs=ImmExtjs::getInstance();
@@ -159,6 +161,19 @@ class ImmExtjsGrid
 	public function addFilter($attributes=array())
 	{
 		$this->filters[]=$attributes;
+	}
+	
+	public function updateTools($item,$key = false) {
+		
+		if($key === false) {
+			if(isset($this->attributes["tools"])) {
+				$key = sizeof($this->attributes["tools"]);
+			} else {
+				$key = 0;
+			}	
+		}
+		
+		$this->attributes["tools"][$key] = $item;
 	}
 	
 	public function addButton($button)

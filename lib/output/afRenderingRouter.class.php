@@ -18,6 +18,11 @@ class afRenderingRouter {
                 return afEditJsonRenderer::renderEdit(
                     $request, $module, $action, $view);
             }
+        } elseif ($viewType === 'html') {
+        	$format = $request->getParameter('af_format');
+            if ($format === 'pdf') {
+            	return afHtmlRenderer::renderHtml($actionVars,$module,$action,$view);
+            }
         }
 
         throw new XmlParserException(

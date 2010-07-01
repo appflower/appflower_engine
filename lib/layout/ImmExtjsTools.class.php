@@ -13,7 +13,7 @@ class ImmExtjsTools
 		$this->immExtjs=ImmExtjs::getInstance();
 	}
 	
-	public function addItem($attributes=array())
+	public function addItem($attributes=array(), $return = "key")
 	{
 		if(isset($attributes['handler'])&&isset($attributes['handler']['source']))
 		{
@@ -25,8 +25,18 @@ class ImmExtjsTools
 		          		
 		}
 		
-		$this->attributes['items'][]=$this->immExtjs->asAnonymousClass($attributes);
+		$this->attributes['items'][]=$this->immExtjs->asAnonymousClass($attributes);	
+		
+		$key = sizeof($this->attributes['items'])-1;
+		
+		return ($return === "key") ? $key : $this->attributes["items"][$key];
+		
 	}
+	
+	public function getAsExtJsVar($attributes) {
+		return $this->immExtjs->asAnonymousClass($attributes);
+	}
+	
 	
 	public function end()
 	{
