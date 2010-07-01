@@ -1,7 +1,7 @@
 <?php
 
 /**
- * A set of function to limit the number of failed submits of a form.
+ * A set of functions to limit the number of failed submits of a form.
  * The attacker is identified by his IP address.
  */
 class afRateLimit {
