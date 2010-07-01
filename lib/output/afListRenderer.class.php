@@ -25,7 +25,7 @@ class afListRenderer {
         // For backward compatibility, the session is not closed
         // before calling a static datasource.
         if($source instanceof afPropelSource) {
-            Newsroom::closeSessionWriteLock();
+            afOutput::closeSessionWriteLock();
         }
 
         $format = $request->getParameter('af_format');

@@ -18,4 +18,19 @@ class afOutput {
         $response->setContent($response->getContent().$text);
         return sfView::NONE;
     }
+
+
+    /**
+     * Closes a write lock opened by a session_start().
+     * The lock should not be hold while waiting.
+     */
+    public static function closeSessionWriteLock()
+    {
+        $user = sfContext::getInstance()->getUser();
+        if($user) {
+            $user->shutdown();
+        } else {
+            session_write_close();
+        }
+    }
 }
