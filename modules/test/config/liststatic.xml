@@ -9,8 +9,6 @@ xmlns:i="http://www.appflower.com/schema/" type="list">
 		<i:param name="maxperpage">1</i:param>
 	</i:params>
 	
-	<i:proxy url="parser/listjson" />
-	
 	<i:datasource type="static">
 		<i:class>ServerPeer</i:class>
 		<i:method name="staticFetch" type="static">

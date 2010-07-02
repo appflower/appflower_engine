@@ -9,8 +9,6 @@ xmlns:i="http://www.appflower.com/schema/" type="list">
 		<i:param name="maxperpage">20</i:param>
 	</i:params>
 	
-	<i:proxy url="parser/listjson" />
-
 	<i:datasource type="orm">
 		<i:class>TimeZonesPeer</i:class>
 		<i:method name="fetchEm" type="static">
