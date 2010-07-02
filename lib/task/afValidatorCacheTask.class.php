@@ -22,7 +22,7 @@ class afValidatorCacheTask extends sfPropelBaseTask
 	
   private
   	$basedir, 
-  	$dirs = array("modules","config/pages"),
+  	$dirs,
   	$log = "/usr/www/manager/log/validation.log",
   	$dbmanager,
   	$validator,
@@ -91,6 +91,10 @@ EOF;
   	$project = ProjectConfiguration::getActive();
   	$this->basedir = $project->getRootDir();
   	
+  	// Add plugin dirs..
+  	
+  	$this->dirs = XmlParser::getPluginDirs($this->basedir."/plugins");
+  	
   	// DB
   	$configuration = ProjectConfiguration::getApplicationConfiguration($arguments['application'], 'prod', true);
     $this->dbmanager = new sfDatabaseManager($configuration);
@@ -110,7 +114,8 @@ EOF;
     
     if($arguments["reporting"] != "file" && $arguments["src"] == null) {
     	foreach($this->dirs as $dir) {
-    		$this->readConfigs($this->basedir."/apps/".$arguments['application']."/".$dir);	
+    		$scan = (substr($dir,0,1) == "/") ? $dir : $this->basedir."/apps/".$arguments['application']."/".$dir; 
+    		$this->readConfigs($scan);	
     	}	
     } else {
     	$this->validator->readXmlDocument($arguments["src"],true);
@@ -131,7 +136,6 @@ EOF;
     
   }
   
-  
   private function hasXmlFiles($data) {
   	
   	foreach($data as $tmp) {
@@ -148,7 +152,7 @@ EOF;
   	
   	$input = scandir($dir);
   	
-  	if(substr($dir,strrpos($dir,"/")+1) == "config") {
+  	if(substr($dir,strrpos($dir,"/")+1) == "config" || substr($dir,strrpos($dir,"/")+1) == "pages") {
   		$this->logSection("\n\nValidating configuration data in: ".$dir."\n",null);	
 	  	if(!$this->hasXmlFiles($input)) {
 	  			$this->logSection("","No config files found, skipping..");

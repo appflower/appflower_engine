@@ -1011,17 +1011,56 @@ class XmlParser extends XmlParserTools {
 	}
 	
 	
+  public static function getPluginDirs($basedir) {
+
+  	$ret = array("modules","config/pages");
+  	
+  	$tmp = scandir($basedir);
+  	
+  	foreach($tmp as $file) {
+  		if($file == "." || $file == ".." || $file == ".svn" || substr($file,0,1) == ".") {
+  			continue;
+  		}
+  		if(is_dir($basedir."/".$file."/modules")) {
+  			$ret[] = $basedir."/".$file."/modules";	
+  		}
+  		
+  		if(is_dir($basedir."/".$file."/config/pages")) {
+  			$ret[] = $basedir."/".$file."/config/pages";	
+  		}
+  	}
+  	
+  	return $ret;
+  	
+  }
+
+  
+  private function findWidget($module,$action) {
+  	
+  	$dirs = self::getPluginDirs($this->root."/plugins");
+  	
+  	foreach($dirs as $dir) {
+  		
+  		$path = array();
+  		$path[] = $this->root."/apps/".$this->application."/".$dir."/".$action.".xml";
+  		$path[] = $this->root."/apps/".$this->application."/".$dir."/".$module."/config/".$action.".xml";
+  		$path[] = $dir."/".$module."/config/".$action.".xml";
+  		$path[] = $dir."/".$action.".xml";
+  		
+  		foreach($path as $p) {
+  			if(file_exists($p)) {
+	  			return $p;
+	  		}	
+  		}
+  		
+  	}	
+  	
+  	return false;
+  	
+  }
+  	
 	
-	public function readXmlDocument($path = null,$security = false,$uri = false) {
-		
-		try {
-			if($path !== null && !file_exists($path)) {
-				throw new XmlParserException("The input xml document couldn't be read! Path: ".$path);
-			} 
-		}
-		catch(Exception $e) {
-			throw $e;
-		}	
+	public function readXmlDocument($path = null,$security = false,$uri = false) {	
 		
 		$page = false;
 		
@@ -1034,47 +1073,31 @@ class XmlParser extends XmlParserTools {
 		}
 		
 		if($path === null) {
-			$path = $this->root."/apps/".$this->application."/config/pages/".$action.".xml";
-			if(!file_exists($path)) {
-				$path = $this->root."/plugins/appFlowerPlugin/config/pages/".$action.".xml";
-			}
 			
-			if(!file_exists($path)) {
-				$path = null;
-			} else {
-				$page = true;	
+			$path = $this->findWidget($module,$action);
+			
+			if($path && strstr($path,"page")) {
+				$page = true;
 			}
 			
 		}
-		
-		if($path === null) {
-            $path = $this->root."/apps/".$this->application."/modules/".$module."/config/".$action.".xml";
-			if(!file_exists($path)) {
-				$path = $this->root."/plugins/appFlowerPlugin/modules/".$module."/config/".$action.".xml";
-			} 
-
-			if(!file_exists($path)) {
-				throw new XmlParserException("Unable to read config file: ".$path);
-			}
+		   			
+		if(!$path || !file_exists($path)) {
+			throw new XmlParserException("Unable to read config file: ".$path);
 		}
 		
-		if(!$uri) {
-			$hash = sha1_file($path);
-			$obj = afValidatorCachePeer::inCache($path);
+		$hash = sha1_file($path);
+		$obj = afValidatorCachePeer::inCache($path);
 		
-			if($obj && $obj->getSignature() != $hash) {
-				$doc = new XmlValidator($path,$security,false,false,($page) ? $this->context->getModuleName()."/".$this->context->getActionName() : null);
-				$doc->validateXmlDocument();	
-				$this->document = $doc->getXmlDocument();
-				$this->validator = $doc;
-			} else {
-				$this->document = new DOMDocument();
-				$this->document->load($path);
-			}	
+		if(!$obj || $obj->getSignature() != $hash) {
+			$doc = new XmlValidator($path,$security,false,false,($page) ? $this->context->getModuleName()."/".$this->context->getActionName() : null);
+			$doc->validateXmlDocument();	
+			$this->document = $doc->getXmlDocument();
+			$this->validator = $doc;
 		} else {
 			$this->document = new DOMDocument();
-			$this->document->load($path);
-		}
+			$this->document->load($path);	
+		} 
 		
 		
 		parent::setNamespace($security);
