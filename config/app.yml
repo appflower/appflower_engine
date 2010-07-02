@@ -19,7 +19,7 @@ all:
     max_chunk_size: 2000000
     max_items: 10000
     default_layout: "[100]"
-    export: { enabled: true, separator: ";", root: "/storage/exports" }
+    export: { enabled: true, separator: ";" }
     host_type: "https://"
      
   sfCombinePlugin:
