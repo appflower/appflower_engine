@@ -19,8 +19,8 @@ xmlns:i="http://www.appflower.com/schema/" type="show">
 			<i:source name="getHostname" />
 		</i:value>
 
-	<i:help>This is some help for the username field</i:help>
-	<i:comment>This is some comment about the username field</i:comment>
+	<i:tooltip>This is some help for the username field</i:tooltip>
+	<i:help>This is some comment about the username field</i:help>
 
 	<i:handler type="focus" action="alert(1);" />
 	<i:handler type="blur" action="alert(2);" />
@@ -32,8 +32,8 @@ xmlns:i="http://www.appflower.com/schema/" type="show">
 			<i:source name="getDomain" />
 		</i:value>
 	
-	<i:help>This is some help for the password field</i:help>
-	<i:comment>This is some comment about the password field</i:comment>
+	<i:tooltip>This is some help for the password field</i:tooltip>
+	<i:help>This is some comment about the password field</i:help>
 	
 	<i:handler type="click" action="alert('password');" />
 	
@@ -51,8 +51,8 @@ xmlns:i="http://www.appflower.com/schema/" type="show">
 		<i:value type="orm">
 			<i:source name="getMultiCombo" />
 		</i:value>
-		<i:help>FOOBAR!</i:help>
-		<i:comment>Hello world...</i:comment>
+		<i:tooltip>FOOBAR!</i:tooltip>
+		<i:help>Hello world...</i:help>
 	</i:field>
 	<i:field name="mco" label="Choices" type="doubletree" state="editable" style="css">
 	
@@ -62,8 +62,8 @@ xmlns:i="http://www.appflower.com/schema/" type="show">
 			</i:method>
 	</i:value>
 	
-	<i:help>This is some help for the double field</i:help>
-	<i:comment>This is some comment about the double field</i:comment>
+	<i:tooltip>This is some help for the double field</i:tooltip>
+	<i:help>This is some comment about the double field</i:help>
 
 	</i:field>
 	<i:field name="la2" type="date" label="date">
@@ -120,8 +120,8 @@ xmlns:i="http://www.appflower.com/schema/" type="show">
 			<i:value type="orm">
 				<i:source name="getCheckbox" />
 			</i:value>
+			<i:tooltip>This is some help for CHECKBOX</i:tooltip>
 			<i:help>This is some help for CHECKBOX</i:help>
-			<i:comment>This is some help for CHECKBOX</i:comment>
 			<i:handler type="check" action="alert(checked);" />
 		</i:field>
 		<i:field name="chk2" type="checkbox" label="box 2" />

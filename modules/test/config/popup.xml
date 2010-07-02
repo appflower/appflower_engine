@@ -15,8 +15,8 @@ xmlns:i="http://www.appflower.com/schema/" type="edit">
 <i:fields url="test/dummy">
 	<i:field name="myfield" label="Field1" state="editable" style="css" >
 
-	<i:help>This is some help for me</i:help>
-	<i:comment>This is some comment about nothing</i:comment>
+	<i:tooltip>This is some help for me</i:tooltip>
+	<i:help>This is some comment about nothing</i:help>
 
 	<i:validator name="myValidatorTest">
 		<i:param name="max">20</i:param>
@@ -28,8 +28,8 @@ xmlns:i="http://www.appflower.com/schema/" type="edit">
 	</i:field>
 	<i:field name="mypass" label="MyPass" type="password" state="editable" style="css" >
 	
-	<i:help>This is some help</i:help>
-	<i:comment>This is some comment</i:comment>
+	<i:tooltip>This is some help</i:tooltip>
+	<i:help>This is some comment</i:help>
 	
 	<i:validator name="sfStringValidator">
 		<i:param name="max">20</i:param>
@@ -44,8 +44,8 @@ xmlns:i="http://www.appflower.com/schema/" type="edit">
 			<i:source name="getIsActive" />
 		</i:value>
 		
-		<i:help>This is the help</i:help>
-		<i:comment>This is the comment</i:comment>
+		<i:tooltip>This is the help</i:tooltip>
+		<i:help>This is the comment</i:help>
 	</i:field>
 	<i:field name="timezone_id" label="Time Zone" type="combo" state="editable" style="css">
 		
@@ -54,8 +54,8 @@ xmlns:i="http://www.appflower.com/schema/" type="edit">
 			<i:method name="getAll">
 			</i:method> 
 		</i:value>
-		<i:help>This is the help</i:help> 
-		<i:comment>This is the comment</i:comment>
+		<i:tooltip>This is the help</i:tooltip> 
+		<i:help>This is the comment</i:help>
 		
 		<i:validator name="testValidator" />
 		 
