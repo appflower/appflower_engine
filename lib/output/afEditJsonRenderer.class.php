@@ -7,12 +7,13 @@ class afEditJsonRenderer {
         $validators = afEditView::getValidators($fields);
 
         $result = array();
+        $result['success'] = true;
         $result['af_submitUrl'] = $request->getUriPrefix().$submitUrl;
-        $result['af_formcfg'] = self::buildFormcfg($submitUrl, $validators);
         $instance = afEditShowRenderer::fetchDataInstance($view);
         foreach(self::getFieldValues($instance, $fields) as $name => $value) {
             $result[sprintf('edit[%s]', $name)] = $value;
         }
+        $result['af_formcfg'] = self::buildFormcfg($submitUrl, $validators);
         return afOutput::renderText(json_encode($result));
     }
 
@@ -33,7 +34,11 @@ class afEditJsonRenderer {
     private static function getFieldValues($instance, $fields) {
         $values = array();
         foreach($fields as $field) {
-            $values[$field->get('@name')] = afEditView::getFieldValue($field, $instance);
+            if (StringUtil::endsWith(strtolower($field->get('@type')), 'combo')) {
+                $values[$field->get('@name').'_value'] = $field->get('@selected', null);
+            } else {
+                $values[$field->get('@name')] = afEditView::getFieldValue($field, $instance);
+            }
         }
         return $values;
     }

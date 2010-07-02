@@ -17,6 +17,9 @@ class afApikeySecurityFilter extends sfFilter {
                 $guardUser = self::getApiUser($apikey);
                 if ($guardUser !== null) {
                     $context->getUser()->signIn($guardUser);
+                } else {
+                    echo json_encode(array('success'=>false, 'message'=>'Wrong API key.'));
+                    exit;
                 }
             }
         }

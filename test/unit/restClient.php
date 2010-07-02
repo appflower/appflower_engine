@@ -17,6 +17,10 @@ if ($json === null) {
     throw new Exception('Unable to decode the JSON response: '.$response);
 }
 
+if (!isset($json['success']) || $json['success'] !== true) {
+    throw new Exception('A form display error: '.$response);
+}
+
 $submitUrl = $json['af_submitUrl'].'?af_apikey='.urlencode($apikey);
 $data = $json;
 $data['edit[name]'] = 'Changed name';
