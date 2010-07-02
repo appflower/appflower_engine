@@ -603,4 +603,23 @@ class appFlowerActions extends sfActions
 
 	public function executeFirstPage() {
 	}
+	
+	/**
+	 * used in loading ajax west content
+	 *
+	 * @param sfWebRequest $request
+	 * @author radu
+	 */
+	public function executeLoadWestContent(sfWebRequest $request)
+	{
+		$loadClass=$request->hasParameter('loadClass')?$request->getParameter('loadClass'):false;
+		$loadMethod=$request->hasParameter('loadMethod')?$request->getParameter('loadMethod'):false;
+		
+		if($loadClass&&$loadMethod)
+		{
+			$response = call_user_func_array(array($loadClass,$loadMethod),array('json'));
+			
+			return $this->renderText($response);
+		}
+	}
 }

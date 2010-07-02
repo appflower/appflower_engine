@@ -600,3 +600,43 @@ Ext.History.on('change', function(token){
 		}
 	}
 });
+//used for triggering loading of latest content for some west panel item
+afApp.loadWestWidget = function(widget)
+{
+	var viewport=App.getViewport();
+	var westItems=viewport.layout.west.items;
+	var panelItems=viewport.layout.west.panel.items.items;
+	
+	for(var i=0;i<westItems.length;i++){
+		if(westItems[i].id == widget)
+		{
+			var westItem=westItems[i];
+			var panelItem=panelItems[i];
+
+			if(westItem.loadClass&&westItem.loadMethod)
+			{
+				var mask = new Ext.LoadMask(panelItem.getEl(), {msg: "<b>Loading</b> <br>Please Wait...",removeMask:true});
+				mask.show();
+				var ajax = Ext.Ajax.request( {
+					url : '/appFlower/loadWestContent',
+					method : "POST",		
+					success : function(r) {
+						var response = Ext.util.JSON.decode(r.responseText);
+						
+						if(response.title)
+						panelItem.setTitle(response.title);
+						
+						if(response.html)
+						panelItem.body.dom.innerHTML=response.html;
+						
+						mask.hide();
+					},
+					params : {
+						loadClass : westItem.loadClass,
+						loadMethod : westItem.loadMethod
+					}
+				});
+			}
+		}
+	}
+}

@@ -126,6 +126,10 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  							if(load_widgets && load_widgets.length>0)
 		  							afApp.reloadGridsData(load_widgets);				  							
 		  							
+		  							/*executeAfter - can execute a js code after submit, the js code comes from json response*/
+		  							var executeAfter=action.result.executeAfter || false;
+		  							if(executeAfter)eval(executeAfter);
+		  							
 		  							var confirm=action.result.confirm ||action.options.params.confirm; 
 		  							var ajax=action.result.ajax ||action.options.params.ajax;
 		  							var message=action.result.message ||action.options.params.message;
