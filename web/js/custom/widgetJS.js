@@ -102,11 +102,22 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 					var win = new Ext.Window( winConfig );
 				}
 				if(title) win.setTitle(title);
-				win.on("show",function(win){var pos = win.getPosition(); if(pos[1]<0) win.setPosition(pos[0],0);});
+				win.on("show",function(win){
+					/** pack logic **/
+					var childs = win.findBy(function(component,container){
+						return true;
+					});
+					if(childs && childs[0]){
+						var firstChild = childs[0];
+						win.setSize(firstChild.getBox().width+35,firstChild.getBox().height+35);
+						win.center();
+					}
+					var pos = win.getPosition(); if(pos[1]<0) win.setPosition(pos[0],0);
+				});
 				//win.items.items[0].items.items[0].frame = false;
 				win.doLayout()
 				win.show();				
-				
+				win.center();
 				win.on("render",function(win){eval(json.public_source);});
 				win.on("move",function(win,x,y){
 					if(y<0) win.setPosition(x,0);
@@ -454,11 +465,11 @@ afApp.reloadGridsData = function (idXmls)
 * page/widget loader
 */
 afApp.load = function (location, load, target, winProp)
-{
+{	
 	load = load || 'center';
 	target = target || '_self';
 	winProp = winProp || null;
-	
+	if(winProp && winProp.isPopup && !winProp.forceRedirect){ return false;}	
 	if(target!='_self')
 	{
 		load='page';

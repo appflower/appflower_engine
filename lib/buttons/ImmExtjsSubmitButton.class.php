@@ -86,6 +86,41 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  									'success'=>$this->immExtjs->asMethod(array(
 		  												'parameters'=>'form,action',
 		  												'source'=>'
+									/**
+		  							* Test for popuped window
+		  							*/
+		  							var _form = Ext.getCmp("'.$submitContainerObject->attributes['id'].'");
+		  							
+		  							var _win = null;
+		  							if(_form){
+		  								_win = _form.findParentByType("window");		  								
+		  							}	  							
+		  							/*************************************************************/
+		  							var showInstantNotification = function(){
+										if(message){
+											if(showInWindow){
+												var w = new Ext.Window({
+													html:message,
+													title:"Success",
+													bodyStyle:"padding:10px",
+													autoScroll:true,
+													frame:true,		  										
+													resizable:true,
+													maximizable:true		  										
+												}).show();		  									
+												if(w.getBox().width > 600) w.setWidth(600);
+												if(w.getBox().height > 400){ w.setHeight(400);w.setWidth(w.getWidth()+20)}
+												w.center();		  									
+											}else{
+												new Ext.ux.InstantNotification({title:"Success",message:message});
+											}
+										}
+		  								if(_win){		  								
+		  									if(winProp.hidePopup === false) return;
+		  									_win.close();		  									  									
+		  									return false;
+		  								}
+		  							}
 		  							/*reload load_widgets store*/
 		  							var load_widgets=action.result.load_widgets ||action.options.params.load_widgets;
 		  							if(load_widgets && load_widgets.length>0)
@@ -98,8 +133,15 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  							var target=action.result.target ||action.options.params.target;
 		  							var winProp=action.result.winProp ||action.options.params.winProp;
 		  							var load=action.result.load || "center";
-		  							var win;
-		  										
+									
+									var showInWindow=action.result.window ||action.options.params.window;
+									var forceRedirect = action.result.forceRedirect;
+		  							if(forceRedirect !== false) forceRedirect = true;		  							
+		  							winProp = Ext.util.JSON.decode(winProp);		  							
+		  							winProp = winProp || {};		  							
+		  							Ext.apply(winProp,{forceRedirect:forceRedirect,isPopup:_win});
+									
+		  							var win;		  										
 		  							if(message){
 		  							
 		  								if(confirm){
@@ -119,13 +161,14 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 																	return;
 				  												}
 				  												if(response.message){
-				  													Ext.Msg.alert("Success",response.message);
+				  													Ext.Msg.alert("Success",response.message);																	
 				  												}
 				  											}
 			  											});
 			  										}
 			  										else
 			  										{
+														showInstantNotification();
 			  											afApp.load(redirect,load,target,winProp);				
 			  										}
 			  										
@@ -136,48 +179,31 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 												}
 											});
 		  								}
-		  								else{
-		  								
-		  									/*
-		  									* If redirection is present but not the confirmation, the message dialog can be replaced 
-		  									* with a confirmation dialog to provide the user the options to redirect or not to redirect.
-		  									* Since user has to click one OK on message dialog anyway, if it is replaced with confirmation
-		  									* the OK on confirmation will act as OK on message dialog, with an extra option not to redirect
-		  									* by clicking CANCEL. User can add multiple items without being redirected.
-		  									*
-		  									* This is useful for the case of ajax widget popups, for example in combo box widget popups, where
-		  									* after adding item it automatically redirects the page, making popups useless.
-		  									*/
+		  								else{	  									
 		  									if(redirect && (!confirm || confirm == "undefined")){
-		  										Ext.Msg.buttonText = {yes: "Ok",no: "Stay Here"}
-		  										Ext.Msg.show({
-												   title:"Success",
-												   msg: message,
-												   buttons: Ext.Msg.YESNO,
-												   
-												   fn: function(btn){		  									
-													   if (btn=="yes"&&redirect&&redirect!="undefined"){
-													   	   afApp.load(redirect,load,target,winProp);
-														   return false; 
-													   }else{ 
-													  	 return true;
-													   }
-												   },												  
-												   icon: Ext.MessageBox.QUESTION
-												});
+												showInstantNotification();		  										
+		  										if(redirect&&redirect!="undefined"){
+													afApp.load(redirect,load,target,winProp);
+													return false; 
+												}else{ 
+													return true;
+												}												
 												Ext.Msg.buttonText = {yes: "Yes",no: "No"}		  										
 		  									}else{
-		  										Ext.Msg.alert("Success", message, function(){
+												showInstantNotification();
+		  										/*Ext.Msg.alert("Success", message, function(){
 													if(!confirm||confirm=="undefined"){
 														if(redirect){
 															afApp.load(redirect,"center",target,winProp);
 														}'.(isset($attributes['afterSuccess'])?$attributes['afterSuccess']:'').'
 													}
-												});
+												});*/
+												'.(isset($attributes['afterSuccess'])?$attributes['afterSuccess']:'').'
 		  									}
 		  								}		  								
 		  							}else{
 		  								if(redirect){
+											showInstantNotification();
 		  									afApp.load(redirect,load,target,winProp);
 										}'.(isset($attributes['afterSuccess'])?$attributes['afterSuccess']:'').'
 		  							} '
