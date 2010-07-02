@@ -48,12 +48,9 @@ class afEditView {
             } else {
                 $source = $field->wrapAll("value");
                 if(!empty($source)) {
-                    $orm = $source[0]->get("source@name");
-                    if($orm) {
-                        $method = "get".sfInflector::camelize($field->get("@name"));
-                        if(method_exists($object,$method)) {
-                            $value = $object->$method();    
-                        }
+                    $method = $source[0]->get("source@name");
+                    if($method) {
+                        $value = $object->$method();
                     } else {
                         $class = $source[0]->get("class");
                         $method = $source[0]->get("method@name");
