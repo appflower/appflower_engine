@@ -9,7 +9,7 @@ Ext.ux.Notification = Ext.extend(Ext.Window, {
 	notificationType:'ERROR',
 	initComponent : function(){
 		Ext.apply(this, {
-			iconCls: this.iconCls || 'icon-notification-info',
+			//iconCls: this.iconCls || 'icon-notification-info',
 			autoHeight: true,
 			closeAction:'close',			
 			plain: false,
@@ -27,9 +27,9 @@ Ext.ux.Notification = Ext.extend(Ext.Window, {
 	setMessage : function(msg){
 		this.body.update(msg);
 	},
-	setTitle : function(title, iconCls){
+	/*setTitle : function(title, iconCls){
         Ext.ux.Notification.superclass.setTitle.call(this, title, iconCls||this.iconCls);
-    },
+    },*/
     onRender : function(ct, position) {
 		Ext.ux.Notification.superclass.onRender.call(this, ct, position);
 	},
