@@ -618,6 +618,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
             	sortType	- Specifies sorting method to be used by type of data in the column. See docs.
             	sortIndex	- Specifies index to use for sorting. See docs.
             	contextMenu - NOT IMPLEMENTED.	
+            	edit		- For backward compability. Ignored.
                
             </xs:documentation>
         </xs:annotation>
@@ -643,6 +644,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         <xs:attribute name="sortType" type="xs:token" default="none" use="optional" />
         <xs:attribute name="sortIndex" type="xs:token" use="optional" />
         <xs:attribute name="contextMenu" type="xs:token" use="optional" />
+        <xs:attribute name="edit" type="xs:boolean" use="optional" default="false" />
     </xs:attributeGroup>
 
 	<xs:attributeGroup name="showAttributes">
