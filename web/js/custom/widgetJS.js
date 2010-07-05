@@ -352,6 +352,12 @@ afApp.loadCenterWidget = function(widget) {
 			var futureHash=uri[0].replace(document.location.protocol+'//'+document.location.host,'')+futureTab;
 			var currentHash=document.location.href.replace(document.location.protocol+'//'+document.location.host+'/#','');
 			
+			if(json.success === false) {
+				mask.hide();
+				Ext.Msg.alert('Failure', json.message);
+				return;
+			}
+
 			if(json.redirect)
 			{
 				mask.hide();
