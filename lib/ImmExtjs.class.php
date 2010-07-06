@@ -22,7 +22,6 @@ class ImmExtjs extends sfExtjs2Plugin
   
   public function __construct()
   {
-      afLayout::registerLayout($this);
   }
   
   /**
