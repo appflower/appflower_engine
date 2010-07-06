@@ -46,9 +46,6 @@ class fieldsParser extends XmlBaseElementParser {
 		if(self::$parser->has($node,"remoteLoad")) {
 			self::add("remoteLoad",self::$parser->get($node,"remoteLoad"));		
 		}
-		if(self::$parser->has($node,"exportFrom")) {
-			self::add("exportFrom",self::$parser->get($node,"exportFrom"));		
-		}
 		
 		if(self::$parser->has($node,"iconCls")) {
 			self::add("iconCls",self::$parser->get($node,"iconCls"));		
