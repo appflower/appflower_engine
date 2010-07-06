@@ -27,7 +27,13 @@ Ext.ux.Notification = Ext.extend(Ext.Window, {
 	setMessage : function(msg){
 		this.body.update(msg);
 	},
-	/*setTitle : function(title, iconCls){
+	/**
+	* Comment this section for now. Since for window when setting iconClass frame is checked, 
+	* which is currently overridden to avoid, that may result double icons in window title. 
+	* Whenever we decide not to override that, we may want to keep this method.
+	* Because I saw that the overriden section is refactored in latest version of extjs.
+	 
+	setTitle : function(title, iconCls){
         Ext.ux.Notification.superclass.setTitle.call(this, title, iconCls||this.iconCls);
     },*/
     onRender : function(ct, position) {

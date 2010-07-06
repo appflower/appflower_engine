@@ -46,14 +46,16 @@ Ext.override(Ext.Panel, {
 		var old = this.iconCls;
 		this.iconCls = cls;		
 		if(this.rendered && this.header){
-			/*if(this.frame){
+			/**
+			* Skip frame check to fix window icon issue...
+			*
+			if(this.frame){
 				this.header.addClass('x-panel-icon');
 				this.header.replaceClass(old, this.iconCls);				
 			}else*/
 			{
 				var hd = this.header.dom;				
-				var img = hd.firstChild && String(hd.firstChild.tagName).toLowerCase() == 'img' ? hd.firstChild : null;
-				console.log(hd.firstChild);
+				var img = hd.firstChild && String(hd.firstChild.tagName).toLowerCase() == 'img' ? hd.firstChild : null;				
 				if(img){
 					Ext.fly(img).replaceClass(old, this.iconCls);
 				}else{
