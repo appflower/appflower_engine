@@ -118,7 +118,7 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 				win.doLayout()
 				win.show();				
 				win.center();
-				win.on("render",function(win){eval(json.public_source);});
+				win.on("render",function(win){eval(json.public_source);},null,{single:true});
 				win.on("move",function(win,x,y){
 					if(y<0) win.setPosition(x,0);
 					if(x < 100-win.getWidth()) win.setPosition(100-win.getWidth(),y);
