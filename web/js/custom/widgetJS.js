@@ -491,10 +491,11 @@ afApp.load = function (location, load, target, winProp)
 				break;
 			case "center":
 				location=location.replace(document.location.protocol+'//'+document.location.host,'');
+												
 				//Ext History, also loads center widget if last loken is different from current one
 				if(Ext.History.getToken()!=location)
 				{
-			    	Ext.History.add(location);
+					Ext.History.add(location);
 				}
 				else
 				{
