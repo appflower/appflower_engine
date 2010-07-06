@@ -53,6 +53,19 @@ class afConfigUtils {
     }
 
     /**
+     * Returns the XML config DOM document or null.
+     */
+    public static function getOptionalDoc($module, $action) {
+        $path = self::getPath($module, $action);
+        if(file_exists($path)) {
+            $doc = new DOMDocument();
+            $doc->load($path);
+            return $doc;
+        }
+        return null;
+    }
+
+    /**
      * Executes the given action to get its variables
      * for placeholders.
      */

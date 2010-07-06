@@ -79,12 +79,10 @@ class afExecutionFilter extends sfExecutionFilter {
     private static function isWidgetAction($actionInstance) {
         $module = $actionInstance->getModuleName();
         $action = $actionInstance->getActionName();
-        $configPath = afConfigUtils::getPath($module, $action);
-        if (!file_exists($configPath)) {
+        $doc = afConfigUtils::getOptionalDoc($module, $action);
+        if (!$doc) {
             return false;
         }
-
-        $doc = afConfigUtils::getDoc($module, $action);
         $view = afDomAccess::wrap($doc, 'view',
             new afVarScope($actionInstance->getVarHolder()->getAll()));
         return $view->get('@type') !== 'wizard';
