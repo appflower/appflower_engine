@@ -72,6 +72,24 @@ class afExecutionFilter extends sfExecutionFilter {
         return file_exists($configPath);
     }
 
+    /**
+     * Returns true if the given action could be loaded as with widget_load.
+     * Wizards do not support that. They want to be displayed without menus.
+     */
+    private static function isWidgetAction($actionInstance) {
+        $module = $actionInstance->getModuleName();
+        $action = $actionInstance->getActionName();
+        $configPath = afConfigUtils::getPath($module, $action);
+        if (!file_exists($configPath)) {
+            return false;
+        }
+
+        $doc = afConfigUtils::getDoc($module, $action);
+        $view = afDomAccess::wrap($doc, 'view',
+            new afVarScope($actionInstance->getVarHolder()->getAll()));
+        return $view->get('@type') !== 'wizard';
+    }
+
     private static function isListjsonRequest($actionInstance) {
         $format = $actionInstance->getRequestParameter('af_format');
         return !!$format;
@@ -94,7 +112,7 @@ class afExecutionFilter extends sfExecutionFilter {
         return ($actionInstance->getRequest()->isMethod('GET') &&
             !$actionInstance->getRequest()->isXmlHttpRequest() &&
             !ImmExtjsAjaxLoadWidgets::isWidgetRequest() &&
-            self::isAppFlowerAction($actionInstance));
+            self::isWidgetAction($actionInstance));
     }
 }
 
