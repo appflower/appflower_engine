@@ -2975,7 +2975,6 @@ class XmlParser extends XmlParserTools {
 				
 	
 			} else if($view == "html") {
-
 				if(!isset($parse["options"])) {
 					$parse["options"]["autoScroll"] = true;
 					$parse["options"]["border"] = false;
@@ -3010,7 +3009,7 @@ class XmlParser extends XmlParserTools {
 						}
 					}
 					
-					$pn->addMember(array('html'=>$parse["params"][0]));
+					$pn->addMember(self::defineHtmlComponent($parse['params']));
 					$pn->end();
 					
 					if($this->type != self::PAGE) {
@@ -3035,7 +3034,7 @@ class XmlParser extends XmlParserTools {
 						'autoHeight'=>$parse["options"]["autoHeight"],
 						'autoEnd'=>$parse["options"]["autoEnd"],
 						'portal'=>true));
-						$pn->addMember(array('html'=>$parse["params"][0]));
+						$pn->addMember(self::defineHtmlComponent($parse['params']));
 						$pn->end();
 						if($build) {
 							$this->result = $pn;
@@ -3676,6 +3675,19 @@ if(response.message) {
 			}
 		}
 		return $url;
+	}
+
+	private static function defineHtmlComponent($params) {
+		$options = array('html'=>$params['html']);
+		if (isset($params['initJs'])) {
+			$options['listeners'] = array(
+				'afterrender'=> array(
+					'fn'=>ImmExtjs::asVar(
+						sprintf('function(){%s}', $params['initJs'])),
+					'single'=>true));
+		}
+
+		return $options;
 	}
 
 	private static function fillTooltip(&$attributes) {

@@ -327,7 +327,6 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		panel.doLayout();
 		//if (window.console) { console.timeEnd('doLayout'); }
 				
-		eval(json.public_source);
 		mask.hide();
 	};
 	
