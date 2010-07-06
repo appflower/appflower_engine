@@ -20,8 +20,20 @@ class StringUtil {
 		return preg_match("/<[\/]*[^>]+>/",$str);
     }
     
+	public static function hasEntities($str) {
+		return preg_match("/\&[a-z0-9]+;/",$str);
+    }
+    
 	public static function removeTags($str) {
 		return preg_replace("/<[\/]*[^>]+>/","",$str);
+    }
+    
+	public static function removeTagsAndEntities($str) {
+		return preg_replace("/(<[\/]*[^>]+>)|(\&[a-z0-9]+;)/","",$str);
+    }
+    
+	public static function removeNewlines($str) {
+		return str_replace("\n","",$str);
     }
     
 }

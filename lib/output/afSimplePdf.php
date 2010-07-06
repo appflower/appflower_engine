@@ -95,8 +95,13 @@ class afSimplePdf {
 		foreach($rows as $k => $row) {
 			$i = 0;
 			foreach($row as $name => &$item) {
-				$html = StringUtil::hasTags($item);
-				$item =  StringUtil::removeTags($item);
+				$html = (StringUtil::hasTags($item) || StringUtil::hasEntities($item));
+				if($html) {
+					$item = StringUtil::removeNewlines($item);
+				}
+				$item = str_replace("&nbsp;"," ",$item);
+				$item = StringUtil::removeTagsAndEntities($item);
+				$rows[$k][$name] = $item;
 				if(((!trim($item) && $html) || !array_key_exists($name,$this->headers) || 
 				in_array($name,$hiddens)) && $name != $this->group_field) {
 					unset($rows[$k][$name]);
