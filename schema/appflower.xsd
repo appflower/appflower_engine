@@ -619,7 +619,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
             	sortIndex	- Specifies index to use for sorting. See docs.
             	contextMenu - NOT IMPLEMENTED.	
             	edit		- For backward compability. Ignored.
-               
+                action		- The action accepts any rowaction name, and this rowaction is moved to that column.
             </xs:documentation>
         </xs:annotation>
         <xs:attribute name="name" type="i:dbNameType" use="optional" />
