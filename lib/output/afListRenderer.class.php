@@ -90,18 +90,27 @@ class afListRenderer {
 
             foreach($rows as &$row) {
                 if(!$condition || self::isRowActionEnabled($condition, $row)) {
-                    $urlParams = array();
-                    foreach($params as $param) {
-                        if(isset($row[$param])) {
-                            $urlParams[$param] = $row[$param];
-                        }
-                    }
-
-                    $rowurl = UrlUtil::addParams($url, $urlParams);
-                    $row['action'.$actionNumber] = $rowurl;
+                    self::addRowAction($row, $url, $params, $actionNumber);
                 }
             }
         }
+    }
+
+    /**
+     * Adds a row action if all its params are defined on the row.
+     */
+    private static function addRowAction(&$row, $url, $params, $actionNumber) {
+        $urlParams = array();
+        foreach($params as $param) {
+            if(!isset($row[$param])) {
+                return;
+            }
+
+            $urlParams[$param] = $row[$param];
+        }
+
+        $rowurl = UrlUtil::addParams($url, $urlParams);
+        $row['action'.$actionNumber] = $rowurl;
     }
 
     private static function isRowActionEnabled($condition, $row) {
