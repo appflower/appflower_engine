@@ -460,6 +460,8 @@ afApp.reloadGridsData = function (idXmls)
 */
 afApp.load = function (location, load, target, winProp)
 {	
+	if(location=='/false'||!location)return false;
+	
 	load = load || 'center';
 	target = target || '_self';
 	winProp = winProp || null;
