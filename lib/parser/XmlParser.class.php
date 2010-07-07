@@ -470,6 +470,13 @@ class XmlParser extends XmlParserTools {
 		return true;
 	}
 	
+	/**
+	 * Returns PAGE, PANEL or WIZARD type.
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
 	public function getLayout() {
 		return $this->layout;
 	}
@@ -3610,14 +3617,14 @@ if(response.message) {
 		}
 	}
 
-	public static function layoutExt($actionInstance, $type = XmlParser::PANEL) {
+	public static function layoutExt($actionInstance) {
 		
 		if($actionInstance->isPageComponent){
 			return sfView::SUCCESS;
 		}
 
 		//used in ajax loading widgets
-		ImmExtjsAjaxLoadWidgets::initialize($actionInstance,$type);
+		ImmExtjsAjaxLoadWidgets::initialize($actionInstance);
 		sfLoader::loadHelpers("Helper");
 		$parser = new XmlParser();
 		$actionInstance->layout = $parser->getLayout();	

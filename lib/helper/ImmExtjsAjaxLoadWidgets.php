@@ -3,12 +3,8 @@ class ImmExtjsAjaxLoadWidgets{
 	private $layout = null;	
 	private $type = false;
 	
-	function __construct($layout=null,$type=false){		
-		$this->type = $type;			
-		if($layout != null){
-			$this->layout = $layout;
-						
-		}else $this->init($type);		
+	function __construct(){		
+		$this->init();
 	}
 	public function setLayout($layout){
 		$this->layout = $layout;
@@ -20,15 +16,16 @@ class ImmExtjsAjaxLoadWidgets{
 	public function getType(){
 		return $this->type;
 	}
-	private function init($type){		
-		$popup = new XmlParser($type);		
+	private function init(){		
+		$popup = new XmlParser();		
+		$this->type = $popup->getType();
 		$this->layout = $popup->getLayout();
 		if(method_exists($this->layout,'beforeEnd'))
 		{
 			$this->layout->beforeEnd();
 		}
 	}
-	public static function initialize($action,$type=false,$layout=null){		
+	public static function initialize($action){		
 		
 		//Check for the widget load request
 		if($action->getRequestParameter("widget_load")){	
@@ -36,7 +33,7 @@ class ImmExtjsAjaxLoadWidgets{
 			if(!$action->isPageComponent){		
 				sfConfig::set('app_parser_panels', array());
 				sfConfig::set('app_parser_skip_toolbar', true);
-				$w = new ImmExtjsAjaxLoadWidgets($layout,$type);				
+				$w = new ImmExtjsAjaxLoadWidgets();				
 				echo $w->getSourceForCenterLoad();
 				exit;
 			}
@@ -46,7 +43,7 @@ class ImmExtjsAjaxLoadWidgets{
 			if(!$action->isPageComponent){		
 				sfConfig::set('app_parser_panels', array());
 				sfConfig::set('app_parser_skip_toolbar', true);
-				$w = new ImmExtjsAjaxLoadWidgets($layout,$type);				
+				$w = new ImmExtjsAjaxLoadWidgets();				
 				echo $w->getSourceForPopupLoad();
 				exit;
 			}
