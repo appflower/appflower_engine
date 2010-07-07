@@ -22,8 +22,6 @@ class appFlowerActions extends sfActions
 		$this->opt0checked = ($type == 0) ? "true" : "false";
 		$this->opt1checked = ($type == 1) ? "true" : "false";
 		$this->opt2checked = ($type == 2) ? "true" : "false";
-		
-		return XmlParser::layoutExt($this);		
 	}
 		
 	public function executeUpdateHelpSettings() 

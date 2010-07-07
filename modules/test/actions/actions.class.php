@@ -118,9 +118,6 @@ class testActions extends CustomActions
 		 
 		$this->foobar = 2;
 		$this->bar = "lalla";
-		 
-		return XmlParser::layoutExt($this);
-
 	}
 
 
@@ -218,9 +215,6 @@ class testActions extends CustomActions
 	{
 		 
 		$this->getVarHolder()->add(array("html" => "<b>this is bold<br />foo<br>bar<br /><br/>foobar</b>"));
-		 
-		return XmlParser::layoutExt($this);
-
 	}
 
 
