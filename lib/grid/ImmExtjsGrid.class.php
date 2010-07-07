@@ -359,7 +359,7 @@ class ImmExtjsGrid
 								$credential = 1;//Credential::urlHasCredential($action['url']);								
 								$temp_column['renderer']=$this->immExtjs->asMethod(array(
 									"parameters"=>"value, metadata, record",
-									"source"=>"if(!".intval($credential).") return value;var action = record.get('".$urlIndex."'); if(!action) return value; var m = action.toString().match(/.*?\?(.*)/);return '<a href=\"".$action['url']."?'+m[1]+'\" qtip=\"Click to edit\">'+ value + '</a>';"
+									"source"=>"if(!".intval($credential).") return value;var action = record.get('".$urlIndex."'); if(!action) return value; var m = action.toString().match(/.*?\?(.*)/);return '<a class=\'widgetLoad\' href=\"".$action['url']."?'+m[1]+'\" qtip=\"Click to edit\">'+ value + '</a>';"
 								));							
 								$this->actionsObject = $this->actionsObject->changeProperty($action['name'],'hidden',true);
 								if(isset(ImmExtjs::getInstance()->private[$this->actionsObject->privateName]))
