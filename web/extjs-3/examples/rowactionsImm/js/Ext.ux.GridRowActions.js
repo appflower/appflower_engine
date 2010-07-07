@@ -239,6 +239,14 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 	 * @param {Ext.grid.GridPanel} grid Grid this plugin is in
 	 */
 	,init:function(grid) {
+		/**
+		 * Find the effective actions		 * 
+		 */
+		var effectiveActionsCount = 0;			
+		for(var i=0;i<this.actions.length;i++){
+			if(this.actions[i].hidden) continue; effectiveActionsCount++
+		};
+		
 		this.grid = grid;
 		/**
 		 * Change the renderer method of the conditional_row_action  
@@ -267,10 +275,12 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 		} // eo template setup
 		// }}}
 		//console.log(this.tpl);
+		// calculate width		
 		// calculate width
-		if(this.autoWidth) {
-			this.width =  this.widthSlope * this.actions.length + this.widthIntercept;
+		if(this.autoWidth) {			
+			this.width =  this.widthSlope * effectiveActionsCount + this.widthIntercept;			
 			this.fixed = true;
+			if(this.width < 45) this.width = 45;
 		}
 
 		// body click handler
@@ -338,7 +348,7 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 
 		// actions loop
 		Ext.each(actions, function(a, i) {
-						
+			if(a.hidden) return;
 			// save callback
 			if(a.iconCls && 'function' === typeof (a.callback || a.cb)) {
 				this.callbacks = this.callbacks || {};

@@ -11,8 +11,8 @@ class ImmExtjsGridActions
 	public $attributes=array();
 	
 	public $immExtjs=null;	
-	public $privateName=null;
-							
+	public $privateName=null;	
+	public $actions = array();						
 	public function __construct($attributes=array())
 	{		
 		$this->immExtjs=ImmExtjs::getInstance();
@@ -47,10 +47,43 @@ class ImmExtjsGridActions
 		else{
 			$attributes['popupSettings']='';
 		}
-		
+		array_push($this->actions,$attributes);
 		array_push($this->attributes['actions'],$this->immExtjs->asAnonymousClass($attributes));
 	}
-	
+	public function getActions(){
+		return $this->actions;
+	}
+	public function removeAction($name){
+		$toRemove = null;
+		foreach($this->actions as $key=>$action){
+			if($action['name'] == $name){
+				$toRemove = $key;
+			}
+		}
+		if($toRemove !== null){
+			unset($this->actions[$toRemove]);
+		}
+		$this->attributes['actions'] = $this->immExtjs->asAnonymousClass($this->actions);
+		return $this;
+	}
+	public function changeProperty($name,$propKey,$propVal){	
+			
+		$toChange = null;
+		foreach($this->actions as $key=>$action){
+			if($action['name'] == $name){
+				$toChange = $key;
+			}
+		}		
+		if($toChange !== null){
+			if(isset($this->actions[$toChange][$propKey])){
+				$this->actions[$toChange][$propKey] = $propVal;
+			}else{
+				$this->actions[$toChange][$propKey] = $propVal;
+			}
+		}		
+		$this->attributes['actions'][$toChange] = $this->immExtjs->asAnonymousClass($this->actions[$toChange]);
+		return $this;
+	}
 	public function end()
 	{
 		$this->privateName='grid_actions_'.Util::makeRandomKey();

@@ -645,6 +645,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         <xs:attribute name="sortIndex" type="xs:token" use="optional" />
         <xs:attribute name="contextMenu" type="xs:token" use="optional" />
         <xs:attribute name="edit" type="xs:boolean" use="optional" default="false" />
+		<xs:attribute name="action" type="xs:token" use="optional"/>
     </xs:attributeGroup>
 
 	<xs:attributeGroup name="showAttributes">

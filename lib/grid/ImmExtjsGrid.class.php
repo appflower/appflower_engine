@@ -14,7 +14,8 @@ class ImmExtjsGrid
 	public $contextMenu = array();
 	public $actionsObject=null,$columns=null,$filters=array(),$proxy=null;
 	public $gridType = null, $menuactions_items=array();
-        public $dataLoadedHandler = null;
+    public $dataLoadedHandler = null;
+	public $movedRowActions = 0;
 	public $filter_types = array("boolean","numeric","list","string","combo","date");
 
 	
@@ -330,6 +331,46 @@ class ImmExtjsGrid
 				$temp_column['hidden']=isset($column['hidden'])?$column['hidden']:false;
 				$temp_column['hideable']=isset($column['hideable'])?$column['hideable']:true;
 				$temp_column['align']=isset($column['align'])?$column['align']:'left';
+				
+				/**
+				 * Edit link at defined column
+				 * Please comment this block if the edit should be under the Actions column.
+				 * This section looks the edit="true" in the xml columns. If found, and if 
+				 * there is a row actions matching the name or label with edit, this will
+				 * be transformed to the edit="true" column
+				 */								
+				if(((isset($column['edit']) && $column['edit'])) || (isset($column['action']))){				
+					//print_r($this->actionsObject);					
+					if($this->actionsObject){
+						$actions = $this->actionsObject->getActions();									
+						//print_r($actions);
+						if(is_array($actions))						
+						foreach($actions as $key=>$action){							
+							if(
+								(isset($column['action']) && preg_match("/list[0-9]+_".preg_replace("/^\//","",$column['action'])."$/",$action['name'])) 
+								||
+								(
+									isset($column['edit']) 
+									&& 
+									(preg_match("/_edit$/",$action['name']) || preg_match("/edit$/i",$action['label']) || preg_match("/_modify$/",$action['name']) || preg_match("/modify$/i",$action['label']) || preg_match("/_update$/",$action['name']) || preg_match("/update$/i",$action['label']))
+								)
+							){
+								$urlIndex = $action['urlIndex'];															
+								$credential = 1;//Credential::urlHasCredential($action['url']);								
+								$temp_column['renderer']=$this->immExtjs->asMethod(array(
+									"parameters"=>"value, metadata, record",
+									"source"=>"if(!".intval($credential).") return value;var action = record.get('".$urlIndex."'); if(!action) return value; var m = action.toString().match(/.*?\?(.*)/);return '<a href=\"".$action['url']."?'+m[1]+'\" qtip=\"Click to edit\">'+ value + '</a>';"
+								));							
+								$this->actionsObject = $this->actionsObject->changeProperty($action['name'],'hidden',true);
+								if(isset(ImmExtjs::getInstance()->private[$this->actionsObject->privateName]))
+								unset(ImmExtjs::getInstance()->private[$this->actionsObject->privateName]);
+								$this->actionsObject->end();
+								$this->movedRowActions++;
+							}						
+						}
+					}
+				}
+				
 				/*
 				 * check for context menu
 				 */
@@ -588,7 +629,12 @@ class ImmExtjsGrid
 		
 		if($count_actions>0)
 		{
-			$this->attributes['columns'][]=$this->immExtjs->asVar($this->actionsObject->privateName);
+			if($this->movedRowActions){
+				if(($count_actions - $this->movedRowActions)>0)
+				$this->attributes['columns'][]=$this->immExtjs->asVar($this->actionsObject->privateName);
+			}else{
+				$this->attributes['columns'][]=$this->immExtjs->asVar($this->actionsObject->privateName);
+			}			
 			$this->attributes['plugins'][]=$this->immExtjs->asVar($this->actionsObject->privateName);
 		}
 		$this->attributes['store']=$this->immExtjs->asVar($storePrivateName);
