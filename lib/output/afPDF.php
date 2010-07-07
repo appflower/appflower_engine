@@ -34,9 +34,16 @@ class afPDF extends FPDF {
 		
 		$p1 = getimagesize($logos["af"]["file"]);
 		
-		if($logos["partner"] && file_exists($logos["partner"]["file"])) {
-			$p2 = getimagesize($logos["partner"]["file"]);
-			$this->Image($logos["partner"]["file"],$ps-$this->getMMValue($p2[0])-10,5,0,0,'',$logos["partner"]["url"]);
+		if($logos["partner"]) {
+			if(substr($logos["partner"]["file"],0,1) != "/") {
+				$logos["partner"]["file"] = sfConfig::get("sf_root_dir")."/web/".$logos["partner"]["file"];
+			}
+			if(file_exists($logos["partner"]["file"]) && is_file($logos["partner"]["file"])) {
+				$p2 = getimagesize($logos["partner"]["file"]);
+				$this->Image($logos["partner"]["file"],$ps-$this->getMMValue($p2[0])-10,5,0,0,'',$logos["partner"]["url"]);	
+			} else {
+				$p2 = array(0,0);
+			}
 		} else {
 			$p2 = array(0,0);
 		}
