@@ -42,6 +42,7 @@ class ImmExtjsGrid
 			
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'grid/Ext.ux.GridColorView.js',$this->immExtjs->getExamplesDir().'grid/Ext.ux.GroupingColorView.js')));
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'grid/Ext.ux.Grid.GroupingStoreOverride.js')));
+		
 				
 		if(isset($attributes['action'])&&$attributes['action'] !='n/a'){
 			$attributes['url'] = $attributes['action'];			
@@ -311,9 +312,10 @@ class ImmExtjsGrid
 						foreach($actions as $key=>$action){
 							if(preg_match("/_edit$/",$action['name']) || preg_match("/edit$/i",$action['label']) || preg_match("/_modify$/",$action['name']) || preg_match("/modify$/i",$action['label']) || preg_match("/_update$/",$action['name']) || preg_match("/update$/i",$action['label'])){
 								$urlIndex = $action['urlIndex'];															
+								$credential = Credential::urlHasCredential($action['url']);								
 								$temp_column['renderer']=$this->immExtjs->asMethod(array(
 									"parameters"=>"value, metadata, record",
-									"source"=>"var action = record.get('".$urlIndex."'); if(!action) return value; var m = action.toString().match(/.*?\?(.*)/);return '<a href=\"".$action['url']."?'+m[1]+'\" qtip=\"Click to edit\">'+ value + '</a>';"
+									"source"=>"if(!".intval($credential).") return value;var action = record.get('".$urlIndex."'); if(!action) return value; var m = action.toString().match(/.*?\?(.*)/);return '<a href=\"".$action['url']."?'+m[1]+'\" qtip=\"Click to edit\">'+ value + '</a>';"
 								));							
 								$this->actionsObject = $this->actionsObject->changeProperty($action['name'],'hidden',true);
 								if(isset(ImmExtjs::getInstance()->private[$this->actionsObject->privateName]))
@@ -914,8 +916,7 @@ class ImmExtjsGrid
 		}
 		if(!isset($action['attributes']['icon']))$action['attributes']['icon'] = ""; 
 		if(!isset($action['attributes']['iconCls']))$action['attributes']['iconCls'] = "";
-		if(!isset($action['attributes']['url']))$action['attributes']['url'] = "#";
-		
+		if(!isset($action['attributes']['url']))$action['attributes']['url'] = "#";		
 		if(!isset($action["attributes"]["label"]))
 		$action["attributes"]["label"] = ucfirst($action["attributes"]["name"]);						
 		$action["attributes"]["name"] = $iteration."_".$action["attributes"]["name"];
@@ -1051,9 +1052,9 @@ class ImmExtjsGrid
 			'icon' => $action["attributes"]["icon"],			
 			'iconCls' => $action["attributes"]["iconCls"],
 			'listeners'=>$handlersForMoreActions
-		);
+		);		
 		//echo print_r($parameterForButton);
-		return $parameterForButton;
+		return Credential::filter($parameterForButton,$action['attributes']['url']);
 	}
 	private function formatNumberColumn(&$column){
 		if(in_array($column['sortType'],array("asSize","htmlAsSize","asInt","htmlAsInt","asFloat","htmlAsFloat"))){

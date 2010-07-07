@@ -85,7 +85,7 @@ function executeAddons(addons,json,mask,title,superClass,winConfig){
 				}else{
 					var win = new Ext.Window( winConfig );
 				}
-				if(title) win.setTitle(title);
+				if(title){ win.setTitle(title); win.setIconClass("icon-accept");}
 				win.on("show",function(win){var pos = win.getPosition(); if(pos[1]<0) win.setPosition(pos[0],0);});
 				//win.items.items[0].items.items[0].frame = false;
 				win.doLayout()

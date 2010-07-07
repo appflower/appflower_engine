@@ -9,14 +9,13 @@ Ext.ux.Notification = Ext.extend(Ext.Window, {
 	notificationType:'ERROR',
 	initComponent : function(){
 		Ext.apply(this, {
-			iconCls: this.iconCls || 'icon-notification-info',
+			//iconCls: this.iconCls || 'icon-notification-info',
 			autoHeight: true,
 			closeAction:'close',			
 			plain: false,
 			draggable: false,
 			bodyStyle: 'text-align:left;padding:10px;',
-			resizable: false,
-			shadow:false
+			resizable: false
 		});
 		if(this.autoDestroy){
 			this.task = new Ext.util.DelayedTask(this.close, this);
@@ -28,9 +27,15 @@ Ext.ux.Notification = Ext.extend(Ext.Window, {
 	setMessage : function(msg){
 		this.body.update(msg);
 	},
+	/**
+	* Comment this section for now. Since for window when setting iconClass frame is checked, 
+	* which is currently overridden to avoid, that may result double icons in window title. 
+	* Whenever we decide not to override that, we may want to keep this method.
+	* Because I saw that the overriden section is refactored in latest version of extjs.
+	 
 	setTitle : function(title, iconCls){
         Ext.ux.Notification.superclass.setTitle.call(this, title, iconCls||this.iconCls);
-    },
+    },*/
     onRender : function(ct, position) {
 		Ext.ux.Notification.superclass.onRender.call(this, ct, position);
 	},

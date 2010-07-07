@@ -97,4 +97,31 @@ Ext.override(Ext.PagingToolbar,{
         this.updateInfo();
         this.fireEvent('change', this, d);
     }
-})
+});
+
+Ext.override(Ext.Panel, {
+	setIconClass : function(cls){	
+		var old = this.iconCls;
+		this.iconCls = cls;		
+		if(this.rendered && this.header){
+			/**
+			* Skip frame check to fix window icon issue...
+			*
+			if(this.frame){
+				this.header.addClass('x-panel-icon');
+				this.header.replaceClass(old, this.iconCls);				
+			}else*/
+			{
+				var hd = this.header.dom;				
+				var img = hd.firstChild && String(hd.firstChild.tagName).toLowerCase() == 'img' ? hd.firstChild : null;				
+				if(img){
+					Ext.fly(img).replaceClass(old, this.iconCls);
+				}else{
+					Ext.DomHelper.insertBefore(hd.firstChild, {
+						tag:'img', src: Ext.BLANK_IMAGE_URL, cls:'x-panel-inline-icon '+this.iconCls
+					});
+				 }
+			}
+		}
+	}
+});

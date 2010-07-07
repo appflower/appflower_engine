@@ -16,7 +16,6 @@ class ImmExtjsGridActions
 	public function __construct($attributes=array())
 	{		
 		$this->immExtjs=ImmExtjs::getInstance();
-
 		if(count($this->attributes)>0)
 		$attributes=array_merge($this->attributes,$attributes);
 		
@@ -27,11 +26,12 @@ class ImmExtjsGridActions
 	}
 	
 	public function addAction($attributes=array())
-	{
-		
+	{	
 		if(!isset($this->attributes['actions']))
-		$this->attributes['actions']=array();
-		
+		$this->attributes['actions']=array();	
+		/** Check Credential ***/
+		Credential::setAction("hidden");
+		if(!Credential::urlHasCredential($attributes['url'])) return;			
 		$count_actions=count($this->attributes['actions']);
 		$attributes['urlIndex']='action'.($count_actions+1);
 		$attributes['hideIndex']='hide'.($count_actions+1);
