@@ -326,8 +326,7 @@ class appFlowerActions extends sfActions
 									
 			$afPortalStateObj=afPortalStatePeer::createOrUpdateState($config);
 						
-			/*$result=array('message'=>'Portal state was saved successfuly!');*/
-			$result=array();
+			$result=array('redirect'=>$this->getRequestParameter('af_referer'));
 		}
 		else {
 			$result=array('message'=>'There was an error while sending the data!');

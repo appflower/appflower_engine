@@ -592,6 +592,8 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
     //create a panel for layout selector, sending a column, some items, and a layout configuration array
     createLayoutSelectorColumn:function(column,items,layout)
     {
+    	var obj=this;
+    	
     	var p = new Ext.Panel({
 		    layout:'column',
 		    hideBorders:true,
@@ -627,8 +629,11 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 						method:"post", 
 						params:{"config":config}, 
 						success:function(response, options){
-						/*	response=Ext.decode(response.responseText);if(response.message){Ext.Msg.alert("Success",response.message);}*/
-							window.location.href=window.location.href;
+							
+							obj.layoutSelectorWindow.hide();
+							
+							response=Ext.decode(response.responseText);
+							if(response.redirect){afApp.load(response.redirect);}
 						},
 						failure: function(response,options) {
 							if(response.message){Ext.Msg.alert("Failure",response.message);}
