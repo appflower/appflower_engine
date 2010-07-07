@@ -84,6 +84,20 @@ class ImmExtjsPanel
 		$this->attributes['items'][]=$this->immExtjs->asAnonymousClass($item);
 	}
 	
+	public function addButton($button)
+	{
+		if(!isset($this->attributes['tbar']))
+		$this->attributes['tbar']=array();
+		
+		if(is_object($button))
+		{
+			array_push($this->attributes['tbar'],$this->immExtjs->asVar($button->end()));
+		}
+		else {
+			array_push($this->attributes['tbar'],$this->immExtjs->asAnonymousClass($button));
+		}
+	}
+	
 	public function end()
 	{			
 		$this->immExtjs->private[$this->privateName]=$this->immExtjs->Panel($this->attributes);
