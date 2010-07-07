@@ -186,6 +186,8 @@ class XmlParser extends XmlParserTools {
 			$this->type = self::PANEL;
 		}
 		
+		
+		
 		// Is this a layout?
 		
 		$this->page = $view_type;
@@ -704,6 +706,7 @@ class XmlParser extends XmlParserTools {
 		// Calling the parser..
 		
 		$this->parseXmlDocument();
+		
 		
 		// If layout is view, parse xmls
 		
@@ -1844,7 +1847,7 @@ class XmlParser extends XmlParserTools {
 	
 	
 	private function childToAttribute(&$data,$key) {
-				
+		
 		if(isset($data["help"])) {
 			if(!isset($data["attributes"]["help"])) {
 				$data["attributes"]["help"] = $data["help"];	
@@ -2034,12 +2037,14 @@ class XmlParser extends XmlParserTools {
 		
 		// Handlers
 		
-	
-					
 		if(isset($data["handlers"])) {
-			
-	
-			
+			$this->getHandlers($data);													
+		}
+						
+	}
+
+	private function getHandlers(&$data) {
+		
 			$data["attributes"]["handlers"] = array();
 						
 			foreach($data["handlers"] as $handler => $value) {
@@ -2098,11 +2103,9 @@ class XmlParser extends XmlParserTools {
 				$data["attributes"]["handlers"][$handler] = array("parameters" => $params, "source" => $value["action"]);
 
 			}
-											
-		}
-						
+		
 	}
-
+	
 	private function isSSL(){
 	
 	  if(isset($_SERVER['https']) && $_SERVER['https'] == 1) /* Apache */ {
@@ -2527,7 +2530,7 @@ class XmlParser extends XmlParserTools {
 		}
 		
 		foreach($this->process["parses"] as $it => $parse) {
-
+			
 			/*
 			 * Moved the tools in this loop to have different tools on different portlets depending upon their types.
 			 */
@@ -2598,7 +2601,8 @@ class XmlParser extends XmlParserTools {
 				$wizard_group = $this->layout->startGroup();
 			}
 			
-			if($view == "edit" || $view == "show") {				
+			if($view == "edit" || $view == "show") {
+
 				$formoptions["action"] = $host.url_for($parse["form"]);
 				$formoptions["name"] = "form".$it;
 				$formoptions["classic"] = ($parse["classic"] !== "false");
@@ -2840,7 +2844,7 @@ class XmlParser extends XmlParserTools {
 							
 							
 						}
-												
+														
 						if($parse["isgrouped"]) {
 							$columns->endColumn($columnx);	
 						}
@@ -2916,6 +2920,7 @@ class XmlParser extends XmlParserTools {
 					
 				}
 				
+				
 				if(isset($parse["actions"]) && $this->type !== self::WIZARD) {					
 					foreach($parse["actions"] as $aname => $action) {
 						
@@ -2927,8 +2932,13 @@ class XmlParser extends XmlParserTools {
 						$action["attributes"]["name"] = $this->view.$this->iteration."_".$action["attributes"]["name"];
 						$action["attributes"]["url"] = url_for($action["attributes"]["url"]);
 						
-						$temp_grid = new ImmExtjsGrid();
-						$params = $temp_grid->getListenerParams($action,"action");
+						//$temp_grid = new ImmExtjsGrid();
+						//$params = $temp_grid->getListenerParams($action,"action");
+						// TODO:foo
+	
+						if(isset($action["handlers"])) {
+							$this->getHandlers($action);
+						}
 						
 						if($action["attributes"]["post"] === "true"){
 							$this->prepareButton($form, $action['attributes']);
@@ -2941,7 +2951,6 @@ class XmlParser extends XmlParserTools {
 						}
 					}	
 				}
-
 				
 				if(isset($tabs)) {
 					$form->endTabs($tabs);	
@@ -3330,8 +3339,8 @@ class XmlParser extends XmlParserTools {
 				}
 				
 				// Printing for grids..
-				
-				$grid->updateTools($tools->addItem(array('id'=>'print','qtip'=>"Printer friendly version",'handler'=>array('parameters'=>'e,target,panel','source'=>"window.open(".$grid->getFileExportJsUrl('page','pdf')."+'&".$this->getQueryString()."','print');")),"item"));	
+							
+				$grid->updateTools($tools->addItem(array('id'=>'print','qtip'=>"Printer friendly version",'handler'=>array('parameters'=>'e,target,panel','source'=>"window.open(".$grid->getFileExportJsUrl('page','pdf')."+'&".$this->getQueryString()."','print');")),"item"));		
 						
 				$grid->end();
 				
