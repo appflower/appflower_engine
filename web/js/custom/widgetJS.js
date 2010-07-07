@@ -269,12 +269,6 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 						}
 					}
 				}
-				if(json.public_source)
-				{
-					if(!in_array("swfobject.js",GLOBAL_JS_VAR)){
-						total_addons.push("/js/swfobject.js");
-					}
-				}
 				afApp.executeAddons(total_addons,json,mask,title,superClass,winConfig);		
 			}			
 		},
@@ -394,12 +388,6 @@ afApp.loadCenterWidget = function(widget) {
 							if(addon != null)
 							total_addons.push(addon);
 						}
-					}
-				}
-				if(json.public_source)
-				{
-					if(!in_array("swfobject.js",GLOBAL_JS_VAR)){
-						total_addons.push("/js/swfobject.js");
 					}
 				}
 							
