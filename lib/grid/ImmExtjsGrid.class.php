@@ -48,7 +48,8 @@ class ImmExtjsGrid
 			
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'grid/Ext.ux.GridColorView.js',$this->immExtjs->getExamplesDir().'grid/Ext.ux.GroupingColorView.js')));
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'grid/Ext.ux.Grid.GroupingStoreOverride.js')));
-				
+		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'plugins/Ext.ux.ExportUI.js')));
+		
 		if(isset($attributes['action'])&&$attributes['action'] !='n/a'){
 			$attributes['url'] = $attributes['action'];			
 		}
@@ -209,6 +210,29 @@ class ImmExtjsGrid
 	public function addMenuActionsItem($attributes)
 	{			
 		$this->menuactions_items[]=$attributes;			
+	}
+	
+	/**
+	 * Add the export button to the grid's more action
+	 *
+	 */
+	public function addMenuActionsExportButton($exportConfig)
+	{			
+		$h = '';
+		$labels = array("csv"=>"CSV","firstx"=>"First 10000 records","current"=>"Current page","selected"=>"Selected records","pdf"=>"PDF");
+		foreach($exportConfig as $k=>$v){
+			foreach($v as $a=>$b){
+				$h.=$k.$a.": function(){".$b."},";
+				$exportConfig[$k][$a] = '';
+			}
+		} 
+		$this->addMenuActionsItem(array('label'=>'Exports', 'icon'=>'/images/famfamfam/database_save.png','listeners'=>array('click'=> array('parameters'=>'','source'=>'
+			new Ext.ux.ExportUI({
+				width:400,'.$h.'							
+				exportConfig:'.json_encode($exportConfig).',
+				labels:'.json_encode($labels).'
+			}).show();
+		'))));		
 	}
 	
 	/**

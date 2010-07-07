@@ -27,7 +27,7 @@ Ext.override(Ext.form.Checkbox, {
 /**
  * Fix for the radio focus visible
  */
-Ext.override(Ext.form.Radio, {
+/*Ext.override(Ext.form.Radio, {
 	onFocus: function(){
 		var wrap = this.wrap;
 		if(!wrap) return
@@ -43,7 +43,7 @@ Ext.override(Ext.form.Radio, {
 		wrap.setStyle("border","0px solid #7eadd9")
 	}
 });
-
+*/
 
 /**
  * Fix for the button focus visible, looks like mouse overed when focused
