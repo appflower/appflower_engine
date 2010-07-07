@@ -7,6 +7,12 @@ import re
 import sys
 import logging
 
+# For layoutExt() removal.
+SUBS = [
+    (re.compile(r"(?m)^\s*return\s*XmlParser::layoutExt\(\$this(,\s*true)?\);\s*^"), ""),
+    ]
+
+# For i:comment renaming.
 SUBS = [
     (re.compile(r"i:help\s*>"), "i:tooltip>"),
     (re.compile(r"i:comment\s*>"), "i:help>"),
