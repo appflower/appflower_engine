@@ -13,6 +13,7 @@ Ext.ux.Notification = Ext.extend(Ext.Window, {
 			autoHeight: true,
 			closeAction:'close',			
 			plain: false,
+			shadow:false,
 			draggable: false,
 			bodyStyle: 'text-align:left;padding:10px;',
 			resizable: false

@@ -351,16 +351,19 @@ class ImmExtjsGrid
 								(isset($column['action']) && preg_match("/list[0-9]+_".preg_replace("/^\//","",$column['action'])."$/",$action['name'])) 
 								||
 								(
-									isset($column['edit']) 
+									isset($column['edit'])
+									&& 
+									$column['edit'] === "true"
 									&& 
 									(preg_match("/_edit$/",$action['name']) || preg_match("/edit$/i",$action['label']) || preg_match("/_modify$/",$action['name']) || preg_match("/modify$/i",$action['label']) || preg_match("/_update$/",$action['name']) || preg_match("/update$/i",$action['label']))
 								)
 							){
+								
 								$urlIndex = $action['urlIndex'];															
-								$credential = 1;//Credential::urlHasCredential($action['url']);								
+								$credential = ComponentCredential::urlHasCredential($action['url']);								
 								$temp_column['renderer']=$this->immExtjs->asMethod(array(
 									"parameters"=>"value, metadata, record",
-									"source"=>"if(!".intval($credential).") return value;var action = record.get('".$urlIndex."'); if(!action) return value; var m = action.toString().match(/.*?\?(.*)/);return '<a class=\'widgetLoad\' href=\"".$action['url']."?'+m[1]+'\" qtip=\"Click to edit\">'+ value + '</a>';"
+									"source"=>"if(!".intval($credential).") return value;var action = record.get('".$urlIndex."'); if(!action) return value; var m = action.toString().match(/.*?\?(.*)/);return '<a class=\'widgetLoad\' href=\"".$action['url']."?'+m[1]+'\" qtip=\"".(isset($action['tooltip'])?$action['tooltip']:'')."\">'+ value + '</a>';"
 								));							
 								$this->actionsObject = $this->actionsObject->changeProperty($action['name'],'hidden',true);
 								if(isset(ImmExtjs::getInstance()->private[$this->actionsObject->privateName]))
@@ -1064,7 +1067,7 @@ class ImmExtjsGrid
 			'listeners'=>$handlersForMoreActions
 		);
 		//echo print_r($parameterForButton);
-		return $parameterForButton;
+		return ComponentCredential::filter($parameterForButton,$action['attributes']['url']);
 	}
 }
 ?>
