@@ -41,4 +41,4 @@ all:
     url: /appFlower/notifications
     notify: [PRODUCT,SERVICE,AUDIT,USERS,GENERAL]
       
-    
+  enable_firephp_query_logger: false

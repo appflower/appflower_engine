@@ -630,3 +630,11 @@ sfConfig::set('Ext.ux.GMapPanel',
 
 // normal sfExecutionFilter is used even when sfCompat10Plugin is enabled
 sfConfig::set('sf_execution_filter', array('afExecutionFilter', array('execution')));
+
+if (sfConfig::get('app_enable_firephp_query_logger')) {
+    if (isset($_SERVER['REQUEST_URI'])) {
+        $queryLogger = FirePHPQueryLogger::getInstance();
+        $this->dispatcher->connect('application.log', array($queryLogger, 'applicationLog'));
+    }
+    
+}
