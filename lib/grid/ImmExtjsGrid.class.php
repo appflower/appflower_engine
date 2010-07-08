@@ -218,7 +218,8 @@ class ImmExtjsGrid
 	 *
 	 */
 	public function addMenuActionsExportButton($exportConfig)
-	{			
+	{		
+		if(empty($exportConfig)) return;
 		$h = '';
 		$labels = array("csv"=>"CSV","firstx"=>"First 10000 records","current"=>"Current page","selected"=>"Selected records","pdf"=>"PDF");
 		foreach($exportConfig as $k=>$v){
