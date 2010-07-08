@@ -61,12 +61,12 @@ Ext.override(Ext.Button, {
  * Fix for enter key press form submit
  */
 Ext.override(Ext.form.Field,{
-	fireKeys : function(e) {	
+	fireKeys : function(e) {		
 	    if(((Ext.isIE && e.type == 'keydown') || e.type == 'keypress') && e.isSpecialKey()) {
 	    	if(e.getKey() == e.ENTER){
 	    		if(this.getXType() != "textarea"){
 		    		var form = this.findParentByType('form');
-		    		this.fireEvent("specialkey",this);
+		    		//this.fireEvent("specialkey",this);
 		    		if(form){	    			
 			    		Ext.each(form.buttons,function(button){	    			
 			    			if(button.url && button.url == form.url){	    				
