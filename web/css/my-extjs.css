@@ -1,66 +1,66 @@
 /* for icons, please name icon-imageaction */
-.icon-selected-view { background:url('/images/famfamfam/bullet_black.png') no-repeat center left !important; }
-.icon-expanded-view { background:url('/images/famfamfam/application_split.png') no-repeat center left !important; }
-.icon-list-view { background:url('/images/famfamfam/application_view_columns.png') no-repeat center left !important; }
-.icon-engine { background:url('/images/famfamfam/cog_go.png') no-repeat center left !important; }
-.icon-connect { background:url('/images/famfamfam/connect.png') no-repeat center left !important; }
-.icon-addnetwork { background:url('/images/famfamfam/chart_organisation_add.png') no-repeat center left !important; }
-.icon-addmonitor { background:url('/images/famfamfam/monitor_add.png') no-repeat center left !important; }
-.icon-checkpatch { background:url('/images/famfamfam/brick_go.png') no-repeat center left !important; }
-.icon-import { background:url('/images/famfamfam/table_row_insert.png') no-repeat center left !important; }
-.icon-share { background:url('/images/famfamfam/arrow_out.png') no-repeat center left !important; }
-.icon-export { background:url('/images/famfamfam/table_save.png') no-repeat center left !important; }
-.icon-go { background:url('/images/famfamfam/arrow_switch.png') no-repeat center left !important; }
-.icon-stop { background:url('/images/famfamfam/cancel.png') no-repeat center left !important; }
-.icon-showgraph { background:url('/images/famfamfam/chart_curve.png') no-repeat center left !important; }
-.icon-addgraph { background:url('/images/famfamfam/chart_curve_add.png') no-repeat center left !important; }
-.icon-editgraph { background:url('/images/famfamfam/chart_curve_edit.png') no-repeat center left !important; }
-.icon-deletegraph { background:url('/images/famfamfam/chart_curve_delete.png') no-repeat center left !important; }
-.icon-showprocesses { background:url('/images/famfamfam/application_cascade.png') no-repeat center left !important; }
-.icon-showsoftware { background:url('/images/famfamfam/plugin.png') no-repeat center left !important; }
-.icon-edit { background:url('/images/famfamfam/table_edit.png') no-repeat center left !important; }
-.upload-icon { background: url('/appFlowerPlugin/extjs-3/examples/shared/icons/fam/image_add.png') no-repeat center left !important; }
-.settings { background-image: url( /appFlowerPlugin/extjs-3/examples/shared/icons/fam/folder_wrench.png ) !important; }
-.nav { background-image:url( /appFlowerPlugin/extjs-3/examples/shared/icons/fam/folder_go.png ) !important; }
-.calendar { background-image:url( /images/famfamfam/calendar.png ) !important; }
-.user { background-image:url( /images/famfamfam/user.png ) !important; }
-.server { background-image:url( /images/famfamfam/server.png ) !important; }
-.server-edit { background-image:url( /images/famfamfam/server_edit.png ) !important; }
-.server-delete { background-image:url( /images/famfamfam/server_delete.png ) !important; }
-.report { background-image:url( /images/famfamfam/page_white.png ) !important; }
-.report-edit { background-image:url( /images/famfamfam/page_white_edit.png ) !important; }
-.report-delete { background-image:url( /images/famfamfam/page_white_delete.png ) !important; }
-.report-generate { background-image:url( /images/famfamfam/page_white_gear.png ) !important; }
-.nade-add { background-image:url( /images/famfamfam/add.png ) !important; }
-.patch-install { background-image:url( /images/famfamfam/plugin_go.png ) !important; }
-.patch-delete { background-image:url( /images/famfamfam/plugin_delete.png ) !important; }
+.icon-selected-view {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -0px !important;}
+.icon-expanded-view {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -16px !important;}
+.icon-list-view {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -32px !important;}
+.icon-engine {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -48px !important;}
+.icon-connect {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -64px !important;}
+.icon-addnetwork {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -80px !important;}
+.icon-addmonitor {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -96px !important;}
+.icon-checkpatch {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -112px !important;}
+.icon-import {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -128px !important;}
+.icon-share {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -144px !important;}
+.icon-export {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -160px !important;}
+.icon-go {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -176px !important;}
+.icon-stop {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -192px !important;}
+.icon-showgraph {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -208px !important;}
+.icon-addgraph {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -224px !important;}
+.icon-editgraph {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -240px !important;}
+.icon-deletegraph {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -256px !important;}
+.icon-showprocesses {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -272px !important;}
+.icon-showsoftware {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -288px !important;}
+.icon-edit {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -304px !important;}
+.upload-icon {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -320px !important;}
+.settings {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -336px !important;}
+.nav {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -352px !important;}
+.calendar {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -368px !important;}
+.user {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -384px !important;}
+.server {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -400px !important;}
+.server-edit {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -416px !important;}
+.server-delete {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -432px !important;}
+.report {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -448px !important;}
+.report-edit {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -464px !important;}
+.report-delete {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -480px !important;}
+.report-generate {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -496px !important;}
+.nade-add {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -512px !important;}
+.patch-install {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -528px !important;}
+.patch-delete {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -544px !important;}
 
-.icon-expand-row{background:url('/appFlowerPlugin/images/plus.png') no-repeat center left !important;}
-.icon-plus{background:url('/images/famfamfam/add.png') no-repeat center left !important;}
-.icon-collapse-row{background:url('/appFlowerPlugin//images/minus.png') no-repeat center left !important;}
-.icon-comment-add {background-image:url('/images/famfamfam/comment_add.png') ! important;}
-.icon-delete{background:url('/appFlowerPlugin/images/delete.png') no-repeat center left !important;}
-.icon-tab-default{background:url('/appFlowerPlugin/images/tabs.gif') no-repeat center left !important;}
+.icon-expand-row {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -560px !important;}
+.icon-plus{background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -574px !important;}
+.icon-collapse-row {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -590px !important;}
+.icon-comment-add {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -604px !important;}
+.icon-delete {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -620px !important;}
+.icon-tab-default {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -636px !important;}
 
-.icon-search{background:url('/images/famfamfam/find.png') no-repeat center left !important;}
-.icon-clock{background:url('/images/famfamfam/clock.png') no-repeat center left !important;}
-.icon-clock-add{background:url('/images/famfamfam/clock_add.png') no-repeat center left !important;}
-.icon-clock-edit{background:url('/images/famfamfam/clock_edit.png') no-repeat center left !important;}
-.icon-bug-add{background:url('/images/famfamfam/bug_add.png') no-repeat center left !important;}
+.icon-search {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -652px !important;}
+.icon-clock {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -668px !important;}
+.icon-clock-add {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -684px !important;}
+.icon-clock-edit {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -700px !important;}
+.icon-bug-add {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -716px !important;}
 /*
 * Settings icons
 */
-.icon-font{background:url('/images/famfamfam/style.png') no-repeat center left !important;}
-.icon-graph{background:url('/images/famfamfam/chart_bar.png') no-repeat center left !important;}
-.icon-default{background:url('/images/famfamfam/arrow_undo.png') no-repeat center left !important;}
-.icon-reload{background:url('/images/famfamfam/arrow_refresh.png') no-repeat center left !important;}
+.icon-font {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -732px !important;}
+.icon-graph {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -748px !important;}
+.icon-default {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -764px !important;}
+.icon-reload {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -780px !important;}
 
 /*
 * Notification icons
 */
-.icon-notification-error{background:url('/appFlowerPlugin/images/error.png') no-repeat center left !important;}
-.icon-notification-info{background:url('/appFlowerPlugin/images/information.png') no-repeat center left !important;}
-.icon-notification-warning{background:url('/appFlowerPlugin/images/warning.png') no-repeat center left !important;}
+.icon-notification-error {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -796px !important;}
+.icon-notification-info {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -812px !important;}
+.icon-notification-warning {background:url("/appFlowerPlugin/images/sprite.gif") no-repeat 0 -0px !important;}
 
 /*
 * Css for the ListField
