@@ -277,13 +277,13 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 		}
 	});
 }
-//just add widgetLoad class to any internal a href, and that url will be loaded inside the cemter panel
+//just add afApp.load to any a tag that doesn't have externalUrl css class name, and that url will be loaded inside the cemter panel
 afApp.attachHrefWidgetLoad = function ()
 {
 	//remove all listeners before adding, because it might add the same listener multiple times
-	Ext.select('a.widgetLoad').removeAllListeners();
+	Ext.select('a[class!=externalUrl]').removeAllListeners();
 	
-	Ext.select('a.widgetLoad').on('click', function(e){
+	Ext.select('a[class!=externalUrl]').on('click', function(e){
 		e.stopEvent();
 		
 		var el = Ext.get(e.getTarget());	
