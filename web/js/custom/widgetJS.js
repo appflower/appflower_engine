@@ -277,22 +277,28 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 		}
 	});
 }
+
 //just add afApp.load to any a tag that doesn't have externalUrl css class name, and that url will be loaded inside the cemter panel
-afApp.attachHrefWidgetLoad = function ()
+afApp.attachHrefWidgetLoad = (function ()
 {
-	//remove all listeners before adding, because it might add the same listener multiple times
-	Ext.select('a[class!=externalUrl]').removeAllListeners();
-	
-	Ext.select('a[class!=externalUrl]').on('click', function(e){
+	var listener = function(e) {
 		e.stopEvent();
 		
 		var el = Ext.get(e.getTarget());	
 
 		var href = el.dom.href || el.dom.parentNode.href;
 		 
-	    afApp.load(href);
-	});
-}
+		afApp.load(href);
+	};
+
+	return function() {
+		//remove the listener before adding, because it might add the same listener multiple times
+		var internalUrls = Ext.select('a.widgetLoad');
+		internalUrls.un('click', listener);
+		internalUrls.on('click', listener);
+	};
+})();
+
 afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 	
 	var counter = 0;
