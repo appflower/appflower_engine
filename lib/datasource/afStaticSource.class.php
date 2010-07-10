@@ -1,9 +1,10 @@
 <?php
 
 class afStaticSource implements afIDataSource {
-    private
+    protected
         $callback,
-        $params,
+        $params;
+    private
         $start = 0,
         $limit = null,
         $sortColumn = null,
@@ -66,7 +67,7 @@ class afStaticSource implements afIDataSource {
             return;
         }
 
-        $response = afCall::funcArray($this->callback, $this->params);
+        $response = $this->getResponse();
         if(isset($response['rows']) && is_array($response['rows'])) {
             $this->results = array_values($response['rows']);
             $this->totalCount = $response['totalCount'];
@@ -76,6 +77,11 @@ class afStaticSource implements afIDataSource {
             $this->results = array_values($response);
             $this->totalCount = count($this->results);
         }
+    }
+
+    protected function getResponse()
+    {
+        return afCall::funcArray($this->callback, $this->params);
     }
     
     function getAdditionalData() {}
