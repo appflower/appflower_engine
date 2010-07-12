@@ -100,6 +100,11 @@ class ImmExtjsButton
 		
 	public function end()
 	{
+		/**
+		 * don't use the hidden attribute
+		 */
+		unset($this->attributes['hidden']);
+		
 		$this->privateName='button_'.Util::makeRandomKey();
 		
 		if(isset($this->attributes['listeners'])&&count($this->attributes['listeners'])>0)
