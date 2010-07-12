@@ -42,10 +42,10 @@ class ComponentCredential{
 		$module = isset($array[0])?$array[0]:null;
 		$action = isset($array[1])?$array[1]:null;	
 		if(strpos($action,"?") !== false){
-			$temp = explode("\?",$action);
+			$temp = explode("?",$action);
 			$action = $temp[0];
-		}		
-		if(!$module || !$action) return true;
+		}				
+		if(!$module || !$action) return true;		
 		return self::actionHasCredential($module,$action);
 	}
 	
