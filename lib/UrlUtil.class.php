@@ -50,6 +50,14 @@ class UrlUtil {
     }
 
     /**
+     * Returns an <a> tag to open the given widget.
+     */
+    public static function widgetLink($name, $url) {
+        $url = self::abs($url);
+        return '<a href="/#'.$url.'">'.htmlspecialchars($name).'</a>';
+    }
+
+    /**
      * Returns an /absolute URL.
      */
     public static function abs($url) {
