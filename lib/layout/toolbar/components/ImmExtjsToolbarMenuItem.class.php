@@ -30,6 +30,13 @@ class ImmExtjsToolbarMenuItem extends ImmExtjsToolbarComponent
 			
 			unset($attributes['url']);
 		}
+		if(isset($attributes['source']))
+		{			
+			$this->attributes['handler']=$this->immExtjs->asMethod(array(
+				'parameters'=>'',
+				'source'=>$attributes["source"]
+			));
+		}
 		
 		parent::__construct($containerObject,$attributes);
 	}
