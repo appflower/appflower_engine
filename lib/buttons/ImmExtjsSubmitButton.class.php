@@ -15,6 +15,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 	public function __construct($containerObject,$attributes=array(),$submitContainerObject=false)
 	{		
 		$this->immExtjs=ImmExtjs::getInstance();		
+		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'submit/RobustSubmitAction.js')));
 		$pe = isset($attributes['preExecute'])?$attributes['preExecute']:'';
 		if(isset($attributes['label']))
 		{
@@ -70,7 +71,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 					$attributes['timeout']='300000';
 				}
 			
-				$source = 'Ext.getCmp("'.$submitContainerObject->attributes['id'].'").getForm().submit('.
+				$source = 'Ext.getCmp("'.$submitContainerObject->attributes['id'].'").getForm().doAction("robustsubmit", '.
 		  									$this->immExtjs->asAnonymousClass(array(
 		  									'url'=>$attributes['action'],
 		  									'waitMsg'=>'loading...',
