@@ -244,46 +244,50 @@ class appFlowerActions extends sfActions
 					$checked=afPortalStatePeer::searchForWidgetInState($config,$widget);
 					
 					$path = sfConfig::get("sf_root_dir").'/apps/'.$this->context->getConfiguration()->getApplication().'/modules/'.$ma[1].'/config/'.$ma[2].'.xml';
-					$dom = new DOMDocument();
-					if($dom->load($path))
-					{
-						foreach ($dom->documentElement->childNodes as $oChildNode) {
-							if($oChildNode->nodeName=='i:title')
-							{
-								$title=trim($oChildNode->nodeValue);
+					
+					if(file_exists($path))
+					{					
+						$dom = new DOMDocument();
+						if($dom->load($path))
+						{
+							foreach ($dom->documentElement->childNodes as $oChildNode) {
+								if($oChildNode->nodeName=='i:title')
+								{
+									$title=trim($oChildNode->nodeValue);
+								}
+								if($oChildNode->nodeName=='i:description')
+								{
+									$description=trim($oChildNode->nodeValue);	
+									$image=$oChildNode->getAttribute('image');								
+								}							
 							}
-							if($oChildNode->nodeName=='i:description')
-							{
-								$description=trim($oChildNode->nodeValue);	
-								$image=$oChildNode->getAttribute('image');								
-							}							
+							/**
+							 * if image exists ok, but the images are saved in /images/widgets 
+							 * same as the widget title, so try to get image
+							 */					
+							if(empty($image) && file_exists(sfConfig::get("sf_root_dir")."/web/images/widgets/".$title.".PNG")){
+								$image = "/images/widgets/".$title.".PNG";
+							}						
+							if(!isset($description)) {
+								$description = "";
+							}						
+							$image=(empty($image)?'/appFlowerPlugin/images/defaultWidget.gif':$image);
+							$image='<img src="'.$image.'" style="margin-right:5px; border:1px solid #99bbe8; padding:3px;float:left;">';
 						}
-						/**
-						 * if image exists ok, but the images are saved in /images/widgets 
-						 * same as the widget title, so try to get image
-						 */					
-						if(empty($image) && file_exists(sfConfig::get("sf_root_dir")."/web/images/widgets/".$title.".PNG")){
-							$image = "/images/widgets/".$title.".PNG";
-						}						
-						if(!isset($description)) {
-							$description = "";
-						}						
-						$image=(empty($image)?'/appFlowerPlugin/images/defaultWidget.gif':$image);
-						$image='<img src="'.$image.'" style="margin-right:5px; border:1px solid #99bbe8; padding:3px;float:left;">';
-					}
-					
-					$result['rows'][$j]['title']=$title;
-					$result['rows'][$j]['image']=$image;
-					$result['rows'][$j]['widget']=$widget;
-					$result['rows'][$j]['description']=$description;
-					$result['rows'][$j]['_selected']=$checked;
-					$result['rows'][$j]['_is_leaf']=true;
-					$result['rows'][$j]['_parent']=$i;
-					$result['rows'][$j]['_id']=$j;
-					
-					if($checked)
-					{
-						$parentChecked=true;
+						
+						$result['rows'][$j]['title']=$title;
+						$result['rows'][$j]['image']=$image;
+						$result['rows'][$j]['widget']=$widget;
+						$result['rows'][$j]['description']=$description;
+						$result['rows'][$j]['_selected']=$checked;
+						$result['rows'][$j]['_is_leaf']=true;
+						$result['rows'][$j]['_parent']=$i;
+						$result['rows'][$j]['_id']=$j;
+						
+						if($checked)
+						{
+							$parentChecked=true;
+						}
 					}
 				}
 				
