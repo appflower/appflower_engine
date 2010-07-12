@@ -42,3 +42,6 @@ all:
     notify: [PRODUCT,SERVICE,AUDIT,USERS,GENERAL]
       
   enable_firephp_query_logger: false
+  
+  cdn:
+    url: 'http://c0019995.cdn1.cloudfiles.rackspacecloud.com/'
