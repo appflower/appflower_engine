@@ -44,4 +44,5 @@ all:
   enable_firephp_query_logger: false
   
   cdn:
+    active: false
     url: 'http://c0019995.cdn1.cloudfiles.rackspacecloud.com/'

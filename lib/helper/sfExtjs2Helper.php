@@ -452,7 +452,7 @@ class sfExtjs2Plugin {
 
 	    // add javascript sources for ext all
 	    $debug = (sfConfig::get('sf_web_debug', false)) ? '-debug' : ''; // if in web_debug mode, also use debug-extjs source
-	    $response->addJavascript(sfConfig::get('app_cdn_url').'ext-all'.$debug.'.js', 'first');
+	    $response->addJavascript((sfConfig::get('app_cdn_active')?sfConfig::get('app_cdn_url'):sfConfig::get('sf_extjs'.$extjsVersion.'_js_dir')).'ext-all'.$debug.'.js', 'first');
 	    $this->jsVar[] = sfConfig::get('sf_extjs'.$extjsVersion.'_js_dir').'ext-all'.$debug.'.js';
 	}
 	
