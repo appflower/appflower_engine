@@ -13,7 +13,7 @@ class ImmExtjsGrid
 	public $privateName=null;
 	public $contextMenu = array();
 	public $actionsObject=null,$columns=null,$filters=array(),$proxy=null;
-	public $gridType = null, $menuactions_items=array();
+	public $menuactions_items=array();
     public $dataLoadedHandler = null;
 	public $movedRowActions = 0;
 	public $filter_types = array("boolean","numeric","list","string","combo","date");
@@ -28,7 +28,6 @@ class ImmExtjsGrid
 		sfLoader::loadHelpers(array('ImmExtjsContextMenu'));
 		if(isset($attributes['datasource']))
 		{
-			$this->gridType = $attributes['datasource']['type'];
                         if (isset($attributes['datasource']['dataLoadedHandler'])) {
                             $this->dataLoadedHandler = $attributes['datasource']['dataLoadedHandler'];
                         }
@@ -578,11 +577,6 @@ class ImmExtjsGrid
 			{
 				$this->attributes[$pagingToolbarPrivateName]['store']=$this->immExtjs->asVar($storePrivateName);
 				$this->attributes[$pagingToolbarPrivateName]['displayInfo']=true;
-				if($this->gridType == "file"){
-										
-					$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'grid/Ext.ux.plugins.FilePagingInfo.js')));
-					$this->attributes[$pagingToolbarPrivateName]['plugins'][]="Ext.ux.plugins.FilePagingInfo";
-				}
 				$this->attributes[$pagingToolbarPrivateName]['pageSize']=isset($this->proxy['limit'])?$this->proxy['limit']:20;
 							
 				if(isset($this->proxy['stateId']))
