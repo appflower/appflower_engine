@@ -13,6 +13,7 @@ class afDataFacade {
         
         self::setupDataSource($view, $source, $requestParams);	
         if($view->getBool('fields@tree')) {
+            $source->setStart(0);
             $source->setLimit(null);	
         }
 
