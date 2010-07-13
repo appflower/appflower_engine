@@ -78,11 +78,14 @@ class ImmExtjsGrid
 				$this->immExtjs->setAddons(array('css' => array($this->immExtjs->getExamplesDir().'plugins/grid-row-order/row-up-down.css') ));
 				$this->attributes['plugins'][]='new Ext.ux.plugins.GridRowOrder()';
 			}
-			if(preg_match('/custom:/',$attributes['plugin'])){
-				
-				$plugin = str_replace("custom:","",$attributes['plugin']);				
+			if(preg_match('/^custom:(.*)$/', $attributes['plugin'], $match)){
+				$plugin = $match[1];
 				$this->immExtjs->setAddons(array('js' => array("/appFlowerPlugin/js/custom/".$plugin.".js") ));			
-				$this->immExtjs->setAddons(array('css' => array("/appFlowerPlugin/css/".$plugin.".css") ));								
+
+				$css = 'css/'.$plugin.'.css';
+				if(file_exists(sfConfig::get('sf_root_dir').'/plugins/appFlowerPlugin/web/'.$css)) {
+					$this->immExtjs->setAddons(array('css' => array('/appFlowerPlugin/'.$css)));
+				}
 				$this->attributes['plugins'][]='new '.$plugin.'()';
 			}
 		}
