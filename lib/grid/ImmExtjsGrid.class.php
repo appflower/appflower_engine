@@ -374,6 +374,7 @@ class ImmExtjsGrid
 					}
 				}
 				
+				
 				/*
 				 * check for context menu
 				 */
@@ -400,6 +401,8 @@ class ImmExtjsGrid
 							"source"=>"var qtip = value;  return '<span qtip=\"' + qtip + '\" $style>$arrowSpan' + value + '</span>';"
 					));
 				}
+				//If numeric data, right align while rendering...
+				$this->handleNumericColumns($temp_column);
 				
 				// Add filter here
 				ImmExtjsGridFilter::add($this,$column,$temp_column,$temp_field);
@@ -448,6 +451,7 @@ class ImmExtjsGrid
 				}
 				
 				$this->attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass($temp_field);
+								
 			}
 			
 			/*
@@ -1062,6 +1066,25 @@ class ImmExtjsGrid
 		);
 		//echo print_r($parameterForButton);
 		return ComponentCredential::filter($parameterForButton,$action['attributes']['url']);
+	}
+	
+	/**
+	* The numeric data in grids are right aligned
+	* @author: prakash paudel
+	*
+	* Caution: Every data in grid's cell that are numeric will be right aligned
+	* it may be mixed align for same column
+	*/
+	private function handleNumericColumns(&$temp_column){		
+		$headerRight = '
+			var cm = '.$this->privateName.'.getColumnModel();
+			cm.setColumnHeader(colIndex,"<div align=\"right\">"+cm.getColumnHeader(colIndex)+"</div>");
+		';
+		$preRenderer = isset($temp_column['renderer'])?"value = ".$temp_column['renderer']."();":"";				
+		$temp_column['renderer']=$this->immExtjs->asMethod(array(
+			"parameters"=>"value, metaData, record, rowIndex, colIndex, store",
+			"source"=>$preRenderer." if(!value) return value; var stripped = value.toString().replace(/<\S[^><]*>/g,'').replace(/^\s+/g, '').replace(/\s+$/g, ''); var regex = /^(\d|-)?(\d|,)*\.?\d*$/ ;if(regex.test(stripped)){ ".$headerRight." return '<div align=\"right\">'+value+'</div>';} return value;"
+		));					
 	}
 }
 ?>
