@@ -66,6 +66,14 @@ class ImmExtjsForm
 		$this->attributes=array_merge($this->attributes,$attributes);
 	}
 	
+	public function addScripts(Array $scripts) {
+		
+		foreach($scripts as $script) {
+			$this->immExtjs->setAddons(array('js'=>array($script)));
+		}
+		
+	}
+	
 	public function startFieldset($attributes=array())
 	{
 		return new ImmExtjsFieldset($attributes);		

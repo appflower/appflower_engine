@@ -21,6 +21,7 @@ class XmlParser extends XmlParserTools {
 		$page,
 		$step,
 		$forms,
+		$jslist,
 		$context,
 		$attribute_holder,
 		$tree,
@@ -122,11 +123,27 @@ class XmlParser extends XmlParserTools {
 			
 		$this->context = sfContext::getInstance();
 		
+		// Read JS source list..
+		
+		$this->js_sources = unserialize(file_get_contents($this->root."/data/jslist")); 
+		
+		// Set Application..
+	
 		$this->application = $this->context->getConfiguration()->getApplication();
 		
 		// Set user
 		
 		$this->user = $this->context->getUser();
+		
+		// Add JS file list 
+		
+		if(!file_exists($this->root."/data/jslist")) {
+			throw new Exception("JS cache doesn't exist!");
+		} else {
+			$this->jslist = unserialize(file_get_contents($this->root."/data/jslist"));
+		}
+		
+		// Action attributes..
 		
 		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
 		
@@ -1021,7 +1038,7 @@ class XmlParser extends XmlParserTools {
 	}
 	
 	
-  public static function getPluginDirs($basedir) {
+  public static function getPluginDirs($basedir,$ret = null) {
 
   	$ret = array("modules","config/pages");
   	
@@ -2038,12 +2055,12 @@ class XmlParser extends XmlParserTools {
 		// Handlers
 		
 		if(isset($data["handlers"])) {
-			$this->getHandlers($data);													
+			self::getHandlers($data);													
 		}
 						
 	}
 
-	private function getHandlers(&$data) {
+	public static function getHandlers(&$data) {
 		
 			$data["attributes"]["handlers"] = array();
 						
@@ -2471,6 +2488,26 @@ class XmlParser extends XmlParserTools {
 		
 	}
 
+	private function parseScripts(Array &$data) {
+		
+		$scripts = array_unique(explode(",", $data["scripts"]));
+		
+		$data["scripts"] = array();
+		
+		foreach($scripts as $script) {
+			if(substr($script,0,1) != "/") {
+				foreach($this->jslist as $path => $dir) {
+					if(in_array($script.".js",$dir)) {
+						$data["scripts"][] = uri_for($path."/".$script.".js");
+					}
+				}	
+			} else {
+				$data["scripts"][] = uri_for($script);
+			}
+		}
+		
+	}
+	
 	
 	private function postProcess($build = false,$uri = null) {
 		
@@ -2479,13 +2516,14 @@ class XmlParser extends XmlParserTools {
 			$this->process["parses"][$this->iteration]["component_name"] = strtok("/");
 		}
 		
+		
 		Console::profile('postProcess');
 		
 		/*
 		 * Create widgets in advanced for the text link script (widget launcher)
 		 */
 	
-		sfLoader::loadHelpers(array("Helper","Url"));
+		sfLoader::loadHelpers(array("Helper","Url","afUrl"));
 		
 		// Update session if needed..
 		
@@ -2530,6 +2568,13 @@ class XmlParser extends XmlParserTools {
 		}
 		
 		foreach($this->process["parses"] as $it => $parse) {
+			
+			
+			// Parse additional scripts..
+		
+			if(array_key_exists("scripts", $parse)) {
+				$this->parseScripts($parse);	
+			}
 			
 			/*
 			 * Moved the tools in this loop to have different tools on different portlets depending upon their types.
@@ -2639,7 +2684,7 @@ class XmlParser extends XmlParserTools {
 						
 					} else if(!isset($tabs)) {
 						$set["attributes"]["isSetting"] = $parse['isSetting'];											
-						$set["attributes"]["description"] = $parse['description'];
+						$set["attributes"]["description"] = isset($parse['description']) ? $parse['description'] : "";
 						$set["attributes"]["title"] = $parse['title'];
 						$tabs = $form->startTabs($set["attributes"]);
 					}
@@ -2927,18 +2972,17 @@ class XmlParser extends XmlParserTools {
 						if(!self::toggleAction($aname,$action)) {
 							continue;
 						}
+						if(array_key_exists("handlers", $action)) {
+							self::getHandlers($action);
+						}
 						
 						$action["attributes"]["label"] = ucfirst($action["attributes"]["name"]);
 						$action["attributes"]["name"] = $this->view.$this->iteration."_".$action["attributes"]["name"];
 						$action["attributes"]["url"] = url_for($action["attributes"]["url"]);
 						
-						//$temp_grid = new ImmExtjsGrid();
-						//$params = $temp_grid->getListenerParams($action,"action");
+						$temp_grid = new ImmExtjsGrid();
+						$params = $temp_grid->getListenerParams($action,"action");
 						// TODO:foo
-	
-						if(isset($action["handlers"])) {
-							$this->getHandlers($action);
-						}
 						
 						if($action["attributes"]["post"] === "true"){
 							$this->prepareButton($form, $action['attributes']);
@@ -2954,6 +2998,10 @@ class XmlParser extends XmlParserTools {
 				
 				if(isset($tabs)) {
 					$form->endTabs($tabs);	
+				}
+				
+				if(array_key_exists("scripts", $parse)) {
+					$form->addScripts($parse["scripts"]);	
 				}
 				
 				if(!$this->multisubmit) {
@@ -3218,6 +3266,7 @@ class XmlParser extends XmlParserTools {
 					$actions = $grid->startRowActions(array('header'=>'Actions'));
 					$cnt = 1;
 					foreach($parse["rowactions"] as $action_name => $action) {						
+
 						self::addConfirmation($action_name, $action['attributes']);
 						self::fillTooltip($action["attributes"]);
 				
@@ -3308,6 +3357,10 @@ class XmlParser extends XmlParserTools {
 							continue;
 						}
 						
+						if(isset($action["handlers"])) {
+							self::getHandlers($action);	
+						}
+						
 						$parameterForButton = $grid->getListenerParams($action,"moreactions",$this->view.$this->iteration,$parse["select"]);						
 						$grid->addMenuActionsItem($parameterForButton);															
 					}
@@ -3316,13 +3369,14 @@ class XmlParser extends XmlParserTools {
 				//...........................................................................
 				
 				if(isset($parse["actions"])) {
-					
+			
 					foreach($parse["actions"] as $aname => $action) {
 						
 						if(!self::toggleAction($aname,$action)) {
 							continue;
 						}
-						$parameterForButton = $grid->getListenerParams($action,"actions",$this->view.$this->iteration,$parse["select"]);
+						
+						$parameterForButton = $grid->getListenerParams($action,"actions",$this->view.$this->iteration,$parse["select"]);					
 						$obj = new ImmExtjsButton($grid,$parameterForButton);
 					}
 				}
@@ -3341,7 +3395,13 @@ class XmlParser extends XmlParserTools {
 				// Printing for grids..
 							
 				$grid->updateTools($tools->addItem(array('id'=>'print','qtip'=>"Printer friendly version",'handler'=>array('parameters'=>'e,target,panel','source'=>"window.open(".$grid->getFileExportJsUrl('page','pdf')."+'&".$this->getQueryString()."','print');")),"item"));		
-						
+
+				// Add extra scripts..
+				
+				if(array_key_exists("scripts", $parse)) {
+					$grid->addScripts($parse["scripts"]);	
+				}
+				
 				$grid->end();
 				
 				if($this->type == self::PAGE && $current_area["attributes"]["type"] == "content") {

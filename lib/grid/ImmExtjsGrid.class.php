@@ -142,6 +142,15 @@ class ImmExtjsGrid
 		$this->attributes=array_merge($this->attributes,$attributes);
 	}
 	
+	
+	public function addScripts(Array $scripts) {
+		
+		foreach($scripts as $script) {
+			$this->immExtjs->setAddons(array('js'=>array($script)));
+		}
+		
+	}
+	
 	public function startRowActions($attributes=array())
 	{
 		return new ImmExtjsGridActions($attributes);		

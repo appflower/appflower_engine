@@ -400,7 +400,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 			</xs:documentation>
 		</xs:annotation>
 		 <xs:restriction base="xs:token">
-		  	<xs:pattern value="/[A-Za-z0-9/\-_]+\.[a-z]{1,4}"/>
+		  	<xs:pattern value="/?[A-Za-z0-9/-_]+\.[a-z]{1,4}"/>
 		  	<xs:whiteSpace value="collapse"/>
 		  </xs:restriction>
 	</xs:simpleType>
@@ -527,6 +527,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 					<xs:enumeration value="beforepush" />
 					<xs:enumeration value="beforesync" />
 					<xs:enumeration value="push" />
+					<xs:enumeration value="mouseover" />
+					<xs:enumeration value="mouseout" />
+					<xs:enumeration value="mousedown" />
 					<xs:enumeration value="sync" />
 					<xs:whiteSpace value="collapse"/>
 				</xs:restriction>
@@ -1296,6 +1299,22 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       </xs:complexType>
     </xs:element>
     
+    <xs:element name="scripts">
+    	<xs:annotation>
+        <xs:documentation xml:lang="en">
+            The element can be used to include external JS source files for a widget.
+            
+            The node value should be a comma separated list of filenames (with .js extension),
+            or absolute paths pointing to JS files.
+            
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+      	<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+    
     <xs:element name="field">
     	<xs:annotation>
         <xs:documentation xml:lang="en">
@@ -1778,7 +1797,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  		params			- The parameters to be added to the rowaction URL. Their values are taken from the row columns. Use commas to separate them.
 	  		pk				- One param to add to the rowaction URL. It is deprecated. Use the params instead.
 	  		condition		- When to hide this action? See docs
-	  		script			- Cyustom JS to be executed
+	  		script			- Custom JS to be executed
 	  		icon			- An image to attach to the button / menu item as icon (normal and moreactions)
 	  		iconCls			- A CSS class name that adds icon image to the button / menu item. (normal and moreactions)
 	  		tooltip			- Text to be shown when hovering over action icon (rowactions)
@@ -1791,7 +1810,6 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  		updater			- Whether or not a comet-like request should be initiated?
 	  		popup			- Opens a popup layer and loads URL in this "window". By default URL will be loaded in main content area. 
 	  		permissions 	-  Access rights required to render the element.
-	  		
 	  		
 	  	</xs:documentation>
 	  </xs:annotation>
@@ -2011,6 +2029,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 				<xs:choice minOccurs="1" maxOccurs="1">
 					<xs:choice minOccurs="0" maxOccurs="unbounded" i:view="edit">
 							<xs:sequence>
+								<xs:element ref="i:scripts" minOccurs="0" maxOccurs="1" />
 								<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
 								<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
 								<xs:element ref="i:datasource" minOccurs="0" maxOccurs="1" />
@@ -2023,6 +2042,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 					</xs:choice>
 					<xs:choice minOccurs="0" maxOccurs="1" i:view="list">
 						<xs:sequence>
+							<xs:element ref="i:scripts" minOccurs="0" maxOccurs="1" />
 							<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
 							<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
 							<xs:element ref="i:params" minOccurs="0" maxOccurs="1" />
@@ -2041,6 +2061,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 					</xs:choice>
 				<xs:choice minOccurs="0" maxOccurs="1" i:view="show">
 					<xs:sequence>
+						<xs:element ref="i:scripts" minOccurs="0" maxOccurs="1" />
 						<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
 						<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
 						<xs:element ref="i:datasource" minOccurs="0" maxOccurs="1" />
@@ -2067,6 +2088,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 				</xs:choice>
 				<xs:choice minOccurs="0" maxOccurs="1" i:view="html">
 					<xs:sequence>
+						<xs:element ref="i:scripts" minOccurs="0" maxOccurs="1" />
 						<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
 						<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
 						<xs:element ref="i:params" minOccurs="1" maxOccurs="1" />
