@@ -414,7 +414,8 @@ class ImmExtjsGrid
 					));
 				}
 				//If numeric data, right align while rendering...
-				$this->handleNumericColumns($temp_column);
+				// Disabled for now. JS error: "record is undefined"
+				//$this->handleNumericColumns($temp_column);
 				
 				// Add filter here
 				ImmExtjsGridFilter::add($this,$column,$temp_column,$temp_field);
