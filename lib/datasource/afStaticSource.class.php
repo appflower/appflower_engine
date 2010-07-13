@@ -3,12 +3,12 @@
 class afStaticSource implements afIDataSource {
     protected
         $callback,
-        $params;
-    private
+        $params,
         $start = 0,
         $limit = null,
         $sortColumn = null,
-        $sortDir = 'ASC',
+        $sortDir = 'ASC';
+    private
         $fullResponse = false,
         $totalCount = null,
         $results = null;
