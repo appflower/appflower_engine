@@ -539,7 +539,7 @@ afApp.loadPopupHelp = function(widget) {
 					if(x < 100-win.getWidth()) win.setPosition(100-win.getWidth(),y);
 					if(x > Ext.getBody().getWidth()-100) win.setPosition(Ext.getBody().getWidth()-100,y);
 					if(y > Ext.getBody().getHeight()-100) win.setPosition(x,Ext.getBody().getHeight()-100);
-				})
+				});
 				
 				mask.hide();
 			}				
