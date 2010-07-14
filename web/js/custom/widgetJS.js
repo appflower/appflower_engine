@@ -405,6 +405,12 @@ afApp.loadCenterWidget = function(widget) {
 				afApp.executeAddonsLoadCenterWidget(viewport,total_addons,json,mask);	
 			}				
 		},
+		failure : function(response) {
+			mask.hide();
+			var msg =  'Unable to load the content: ' +
+				response.status + ' ' + response.statusText;
+			Ext.Msg.alert('Failure', msg);
+		},
 		params : {
 			widget_load : true
 		}
