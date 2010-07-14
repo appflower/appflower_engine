@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__).'/../bootstrap/dbunit.php');
-$t = new lime_test(11, new lime_output_color());
+$t = new lime_test(13, new lime_output_color());
 
 $t->is(afCall::evaluate('5 + 3', array()), 8);
 $t->is(afCall::evaluate('"good"." day"', array()), 'good day');
@@ -29,3 +29,22 @@ $t->is(afCall::rewriteIfOldCondition(
 $t->is(afCall::rewriteIfOldCondition(
     'MyPeer,isEnabled', array()),
     'MyPeer::isEnabled(array())');
+
+try {
+    afCall::evaluate('5 + all', array());
+    $t->fail();
+} catch(Exception $e) {
+    $t->pass();
+}
+
+function raiseException($msg) {
+    throw new Exception($msg);
+}
+
+try {
+    afCall::evaluate('raiseException("hello")', array());
+    $t->fail();
+} catch(Exception $e) {
+    $t->is($e->getMessage(), 'hello');
+}
+
