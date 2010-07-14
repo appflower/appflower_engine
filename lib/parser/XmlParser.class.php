@@ -438,7 +438,7 @@ class XmlParser extends XmlParserTools {
 		$view = $this->get($root->item(0),"type");
 		
 		foreach($ifs as $if) {
-			$condition = str_replace("&amp;","&",$this->get($if,"test"));
+			$condition = $this->get($if,'test');
 			
 			$parent = $if->parentNode;
 		
