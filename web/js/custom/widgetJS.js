@@ -317,11 +317,12 @@ afApp.initLoadingProgress = function(el){
 		pb.show();
 	}	
 }
-afApp.loadingProgress = function(el,percent){	
+afApp.loadingProgress = function(el,percent){
+console.log(percent);	
 	var pb = Ext.getCmp("progress-bar");	
 	pb.updateProgress(percent,Math.ceil(percent*100)+"% complete...");
 	if(!pb.isVisible()) pb.show();
-	if(percent >= .9) {el.unmask();pb.hide();}
+	if(percent >= 1) {el.unmask();setTimeout(function(){pb.hide();},500)}
 }
 
 afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
