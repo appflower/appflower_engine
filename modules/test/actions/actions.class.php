@@ -553,16 +553,4 @@ class testActions extends CustomActions
 
 		return $this->renderText($grid_data->end());
 	}
-
-	public function executeFormatted()
-	{
-		$this->pager = new immFilePager('/storage/chroot/logs/IP/10.211.55.3/20090612/20081229',8500);
-		$this->pager->setPage($this->getRequestParameter('page',1));
-		$this->pager->init();
-		
-		echo $this->pager->getNbResults();
-		exit();
-		
-	}
-
 }
