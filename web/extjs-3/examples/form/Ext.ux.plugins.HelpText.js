@@ -9,7 +9,7 @@ Ext.ux.plugins.HelpText = {
         Ext.apply(container, {
             onRender: container.onRender.createSequence(function(ct, position){
                 // if there is helpText create a div and display the text below the field
-                if (typeof this.helpText == 'string') {
+                if (typeof this.helpText == 'string') {														
 	                switch (this.helpType)
 	                {
 	                	case "comment":                
@@ -22,22 +22,28 @@ Ext.ux.plugins.HelpText = {
 		                        style: typeof this.helpTextStyle != 'undefined' ? this.helpTextStyle : 'clear: right; font-size: 11px; color: #888888;',
 		                        html: this.helpText
 		                    });
-			            break;
+			            break;						
 			            
 			            case "inline":
+							var el = this.getEl();
+							var enc = el.findParent('.x-form-item');
+							if(enc){
+								var els = Ext.select('label',true,enc);								
+								label = els.elements[0];
+							}							
+							var style="padding-left:2px;";
+							if(!label) break;
 			            	switch(this.xtype)
 			            	{
-			            		case "radio":
-			            			var label=this.ownerCt.body.dom.firstChild.childNodes[1].firstChild;
-			            			var style="padding-left:2px;";
+			            		case "radio":			            			
+			            			label = els.elements[1];
 			            			break;
-			            		default:
-			            			var label=this.ownerCt.body.dom.firstChild.firstChild;
-			            			var style="float:left;padding-right:2px;";
+			            		default:			            			
+			            			var style="padding-right:2px;float:left";
 			            			break;
 			            	}			            	
-			            	
-			            	Ext.DomHelper.append(label,{
+			            	this.helpText = (this.helpText+'').replace(/[\\"']/g, '\'');
+			            	Ext.DomHelper.insertFirst(label,{
 		                        tag: 'span',
 		                        style: style,
 		                        html: '<img src="/appFlowerPlugin/images/help.png" qtip="'+this.helpText+'">'

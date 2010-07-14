@@ -29,7 +29,10 @@ class ImmExtjsFieldRadio extends ImmExtjsField
 			
 			unset($attributes['name']);
 		}
-		
+		$this->attributes['listeners']['check']=array(
+			'parameters'=>'field',
+			'source'=>'field.blur();'
+		);
 		parent::__construct($containerObject,$attributes);
 	}
 }
