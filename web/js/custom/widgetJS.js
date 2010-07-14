@@ -61,7 +61,7 @@ Array.prototype.in_array = function (needle, argStrict) {
 }
 
 afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
-	
+	var viewport=App.getViewport();
 	var counter = 0;
 	var backup = new Array();
 	var finish;
@@ -71,8 +71,8 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 			return;
 		}
 		mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.",removeMask:true});
-		mask.show();		
-		
+		//mask.show();		
+		afApp.loadingProgress(viewport.layout.center.panel.getEl(),(counter+1)/addons.length);
 		var nextAddon=addons[counter++];
 		
 		afApp.createAddon(nextAddon,false,load);
@@ -125,7 +125,7 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 					if(x > Ext.getBody().getWidth()-100) win.setPosition(Ext.getBody().getWidth()-100,y);
 					if(y > Ext.getBody().getHeight()-100) win.setPosition(x,Ext.getBody().getHeight()-100);
 				});
-				
+				afApp.loadingProgress(viewport.layout.center.panel.getEl(),1);
 				mask.hide();			
 				
 				win.on("hide",function(){	
@@ -211,7 +211,7 @@ afApp.createAddon = function(filename, filetype, callback) {
 	
 }
 afApp.widgetPopup = function(widget,title,superClass,winConfig) {
-	
+	var viewport=App.getViewport();
 	if(!winConfig)
 	{
 		var winConfig = {};
@@ -232,7 +232,8 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 		}return widget;
 	}
 	var mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Opening widget</b> <br>Please Wait...",removeMask:true});
-	mask.show();
+	//mask.show();
+	afApp.initLoadingProgress(viewport.layout.center.panel.getEl());
 	var ajax = Ext.Ajax.request( {
 		url : widget,
 		method : "GET",		
@@ -270,7 +271,8 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 					}
 				}
 				afApp.executeAddons(total_addons,json,mask,title,superClass,winConfig);		
-			}			
+			}
+			mask.hide();
 		},
 		params : {
 			widget_popup_request : true
@@ -298,9 +300,32 @@ afApp.attachHrefWidgetLoad = (function ()
 		internalUrls.on('click', listener);
 	};
 })();
+afApp.initLoadingProgress = function(el){	
+	el.mask();
+	var pb = Ext.getCmp("progress-bar");	
+	var pbEl = Ext.get('progress-bar-el');
+	if(!pbEl){	
+		pbEl = Ext.DomHelper.append(el,{tag:'div',id:'progress-bar-el',style:'z-index:1000;position:absolute;top:40%;left:40%;width:20%'});
+	}else{
+		pbEl = Ext.get('progress-bar-el');
+	}
+	if(!pb){
+		pb = new Ext.ProgressBar({id:'progress-bar',text:"Loading.... Please wait....."});
+		pb.render(pbEl);
+	}else{
+		pb.updateProgress(0,"Loading.... Please wait.....");
+		pb.show();
+	}	
+}
+afApp.loadingProgress = function(el,percent){	
+	var pb = Ext.getCmp("progress-bar");	
+	pb.updateProgress(percent,Math.ceil(percent*100)+"% complete...");
+	if(!pb.isVisible()) pb.show();
+	if(percent >= .9) {el.unmask();pb.hide();}
+}
 
 afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
-	
+	var pb;
 	var counter = 0;
 	var finish;
 	var load = function(){	
@@ -308,9 +333,15 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 			finish();
 			return;
 		}
-		mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.",removeMask:true});
-		mask.show();		
 		
+		if(!Ext.getCmp("progress-bar")){
+			pb = new Ext.ProgressBar();		
+		}else{
+			pb = Ext.getCmp('progress-bar');
+		}
+		//mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.<span id='progress-bar'></span>",removeMask:true});
+		//mask.show();
+		afApp.loadingProgress(viewport.layout.center.panel.getEl(),(counter+1)/addons.length);
 		var nextAddon=addons[counter++];
 		
 		afApp.createAddon(nextAddon,false,load);
@@ -326,7 +357,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		//if (window.console) { console.time('doLayout'); }
 		panel.doLayout();
 		//if (window.console) { console.timeEnd('doLayout'); }
-				
+		afApp.loadingProgress(viewport.layout.center.panel.getEl(),1);	
 		mask.hide();
 	};
 	
@@ -339,7 +370,8 @@ afApp.loadCenterWidget = function(widget) {
 	var futureTab=uri[1]?'#'+uri[1]:'';
 	var viewport=App.getViewport();
 	var mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading</b> <br>Please Wait...",removeMask:true});
-	mask.show();
+	//mask.show();
+	afApp.initLoadingProgress(viewport.layout.center.panel.getEl());
 	var ajax = Ext.Ajax.request( {
 		url : uri[0],
 		method : "GET",		
