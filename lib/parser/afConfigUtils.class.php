@@ -33,6 +33,12 @@ class afConfigUtils {
         if(!file_exists($path)) {
             $path = "$root/plugins/appFlowerPlugin/modules/$module/actions/actions.class.php";
         }
+
+        if(!file_exists($path)) {
+            throw new XmlParserException(
+                sprintf('No such module actions: %s', $module));
+        }
+
         return $path;
     }
 
