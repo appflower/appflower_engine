@@ -54,10 +54,12 @@ class ComponentCredential{
 	*/
 	public static function actionHasCredential($module,$action){
 		$class = $module."Actions";
-		require_once(sfConfig::get("sf_root_dir")."/apps/frontend/modules/".$module."/actions/actions.class.php");
-		$obj = new $class(sfContext::getInstance(),$module,$action);	
-		if(sfContext::getInstance()->getUser()->hasCredential($obj->getCredential())) return true;
-		return false;
+		if(file_exists(sfConfig::get("sf_root_dir")."/apps/frontend/modules/".$module."/actions/actions.class.php")){
+			require_once(sfConfig::get("sf_root_dir")."/apps/frontend/modules/".$module."/actions/actions.class.php");
+			$obj = new $class(sfContext::getInstance(),$module,$action);	
+			if(sfContext::getInstance()->getUser()->hasCredential($obj->getCredential())) return true;
+		}
+		return false;		
 	}
 	
 	/**
