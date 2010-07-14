@@ -58,6 +58,14 @@ class UrlUtil {
     }
 
     /**
+     * Returns an <a> tag with the given HTML content.
+     */
+    public static function widgetHtmlLink($html, $url) {
+        $url = self::abs($url);
+        return '<a href="/#'.$url.'">'.$html.'</a>';
+    }
+
+    /**
      * Returns an /absolute URL.
      */
     public static function abs($url) {
