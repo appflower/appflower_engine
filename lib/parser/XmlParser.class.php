@@ -2055,73 +2055,11 @@ class XmlParser extends XmlParserTools {
 		// Handlers
 		
 		if(isset($data["handlers"])) {
-			self::getHandlers($data);													
+			ExtEvent::attachAll($data);													
 		}
 						
 	}
 
-	public static function getHandlers(&$data) {
-		
-			$data["attributes"]["handlers"] = array();
-						
-			foreach($data["handlers"] as $handler => $value) {
-				
-				if($handler == "beforestaterestore" || $handler == "beforestatesave" ||
-				$handler == "staterestore" || $handler == "statesave") {
-					$params = "component,state";
-				} else if($handler == "change") {
-					$params = "field,newValue,oldValue";
-				} else if($handler == "blur" || $handler == "focus" || $handler == "valid") {
-					$params = "field";
-				} else if($handler == "invalid") {
-					$params = "field,msg";
-				} else if($handler == "move") {
-					$params = "component,x,y";
-				} else if($handler == "resize") {
-					$params = "component,adjWidth,adjHeight,rawWidth,rawHeight";
-				} else if($handler == "specialkey") {
-					$params = "field,e";
-				} else if($handler == "check") {
-					$params = "field,checked";
-				} else if($handler == "autosize") {
-					$params = "field,width";
-				} else if($handler == "beforequery") {
-					$params = "queryEvent";
-				} else if($handler == "beforeselect" || $handler == "select") {
-					$params = "combo,record,index";
-				} else if($handler == "collapse" || $handler == "expand") {
-					$params = "combo";
-				} else if($handler == "keydown" || $handler == "keypress" || $handler == "keyup") {
-					$params = "field,e";
-				} else if($handler == "beforepush" || $handler == "beforesync" || $handler == "push" || $handler == "sync") {
-					$params = "HtmlEditor,html";
-				} else if($handler == "editmodechange") {
-					$params = "HtmlEditor,sourceEdit";
-				} else if($handler == "activate" || $handler == "initialize") {
-					$params = "HtmlEditor";
-				} else {
-					$params = "component";
-				}
-				
-				// Adding params..
-				
-				if(isset($value["params"])) {;
-					if(!isset($params)) {
-						$params = "";
-					} else {
-						$params .= ",";
-					}
-					foreach($value["params"] as $p) {
-						$params .= "'".$p."',";
-					}
-					$params = trim($params,",");
-				} 
-				
-				$data["attributes"]["handlers"][$handler] = array("parameters" => $params, "source" => $value["action"]);
-
-			}
-		
-	}
 	
 	private function isSSL(){
 	
@@ -2973,15 +2911,15 @@ class XmlParser extends XmlParserTools {
 							continue;
 						}
 						if(array_key_exists("handlers", $action)) {
-							self::getHandlers($action);
+							ExtEvent::attachAll($action);
 						}
 						
 						$action["attributes"]["label"] = ucfirst($action["attributes"]["name"]);
 						$action["attributes"]["name"] = $this->view.$this->iteration."_".$action["attributes"]["name"];
 						$action["attributes"]["url"] = url_for($action["attributes"]["url"]);
 						
-						$temp_grid = new ImmExtjsGrid();
-						$params = $temp_grid->getListenerParams($action,"action");
+						//$temp_grid = new ImmExtjsGrid();
+						//$params = $temp_grid->getListenerParams($action,"action");
 						// TODO:foo
 						
 						if($action["attributes"]["post"] === "true"){
@@ -3346,6 +3284,7 @@ class XmlParser extends XmlParserTools {
 					$grid->addMenuActionsExportButton($exportConfig);					
 				}
 				
+				
 				if(isset($parse["moreactions"])) {												
 					
 					$parse["select"] = "true";
@@ -3358,7 +3297,7 @@ class XmlParser extends XmlParserTools {
 						}
 						
 						if(isset($action["handlers"])) {
-							self::getHandlers($action);	
+							ExtEvent::attachAll($action);
 						}
 						
 						$parameterForButton = $grid->getListenerParams($action,"moreactions",$this->view.$this->iteration,$parse["select"]);						
@@ -3374,6 +3313,10 @@ class XmlParser extends XmlParserTools {
 						
 						if(!self::toggleAction($aname,$action)) {
 							continue;
+						}
+						
+						if(isset($action["handlers"])) {
+							ExtEvent::attachAll($action);
 						}
 						
 						$parameterForButton = $grid->getListenerParams($action,"actions",$this->view.$this->iteration,$parse["select"]);					

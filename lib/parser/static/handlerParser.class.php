@@ -16,15 +16,9 @@ class handlerParser extends XmlBaseElementParser {
 		$handlerParams = self::$parser->fetch("./i:param",$node);
 		$data = array("script"=>self::$parser->get($node,"action"));
 
-		$parentNodeName = self::$parser->name($parent);
-		
-		if($parentNodeName == "action") {
-			$k = "actions";
-		} else {
-			$k = "fields";
-		}
+		//$parentNodeName = self::$parser->name($parent);
 	
-		$k = $k."/".$name."/handlers/".$handlerType;
+		$k = self::$parser->name($parent->parentNode)."/".$name."/handlers/".$handlerType;
 	
 		attributeParser::parse($node,$parent,$k);
 		

@@ -1059,15 +1059,17 @@ class ImmExtjsGrid
 				)
 			);
 		if(isset($action["handlers"])){
-			sfLoader::loadHelpers(array('ImmExtjsExecuteCustomJS'));
-			setHandler($action);
-			$handlersForMoreActions = array_merge(array(
-					'click'=>array(
-						'parameters'=>'field,event',
-						'source'=>(isset($action['attributes']['script'])?$action['attributes']['script']:'').";".$sourceForButton
-					)
-				),$action["attributes"]["handlers"]
-			);
+			//sfLoader::loadHelpers(array('ImmExtjsExecuteCustomJS'));
+			//setHandler($action);
+			
+			if(!isset($action["attributes"]["handlers"]["click"])) {
+				$action["attributes"]["handlers"]["click"] = array('parameters'=>'field,event','source'=>(isset($action['attributes']['script'])?$action['attributes']['script']:'').";".$sourceForButton);
+			} else {
+				$action["attributes"]["handlers"]["click"]["source"] .= ((isset($action['attributes']['script'])?$action['attributes']['script']:'').";".$sourceForButton);
+			}
+			
+			$handlersForMoreActions = $action["attributes"]["handlers"];
+			
 		}						
 		//echo "<pre>";print_r($action);
 		$parameterForButton = array(
