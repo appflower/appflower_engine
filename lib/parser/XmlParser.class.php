@@ -442,7 +442,7 @@ class XmlParser extends XmlParserTools {
 			
 			$parent = $if->parentNode;
 		
-			if(!eval("return (".$condition.");")) {
+			if(!afCall::evaluate($condition, array())) {
 				
 				$childnodes = $this->fetch("child::*",$if);
 				

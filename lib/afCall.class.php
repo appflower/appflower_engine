@@ -18,7 +18,24 @@ class afCall {
      * Evaluates the given expression in the given context.
      * It returns the evaluted value.
      */
-    public static function evaluate($_expression, $_vars) {
+    public static function evaluate($expression, $vars) {
+        $handler = new afErrorHandler("Unable to eval($expression): ");
+        set_error_handler(array($handler, 'handler'));
+
+        $e = null;
+        try {
+            $result = self::tryToEvaluate($expression, $vars);
+        } catch(Exception $e) {
+        }
+
+        restore_error_handler();
+        if ($e) {
+            throw $e;
+        }
+        return $result;
+    }
+
+    private static function tryToEvaluate($_expression, $_vars) {
         foreach($_vars as $_var => $_value) {
             $$_var = $_value;
         }
