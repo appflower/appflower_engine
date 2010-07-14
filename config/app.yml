@@ -16,7 +16,6 @@ all:
     filepager_nohelp: 10000
     filepager_help: 8500
     filepager_all: 40000
-    max_chunk_size: 2000000
     max_items: 10000
     default_layout: "[100]"
     export: { enabled: true, separator: ";" }
