@@ -317,8 +317,7 @@ afApp.initLoadingProgress = function(el){
 		pb.show();
 	}	
 }
-afApp.loadingProgress = function(el,percent){
-console.log(percent);	
+afApp.loadingProgress = function(el,percent){	
 	var pb = Ext.getCmp("progress-bar");	
 	pb.updateProgress(percent,Math.ceil(percent*100)+"% complete...");
 	if(!pb.isVisible()) pb.show();
