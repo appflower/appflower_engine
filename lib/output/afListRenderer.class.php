@@ -41,11 +41,6 @@ class afListRenderer {
 
     private static function renderJson($view, $source) {
         $rows = $source->getRows();
-        // To support existing static datasources,
-        // html escaping is disabled for them.
-        if($source instanceof afPropelSource) {
-            self::escapeHtml($rows);
-        }
         self::addRowActionSuffixes($view, $rows);
 
         $gridData = new ImmExtjsGridData();
@@ -56,20 +51,6 @@ class afListRenderer {
             $gridData->additionalData = $additionalData;
         }
         return afOutput::renderText($gridData->end());
-    }
-
-    private static function escapeHtml(&$rows) {
-        foreach($rows as &$row) {
-            foreach($row as $column => &$value) {
-                if($value instanceof sfOutputEscaperSafe) {
-                    $value = (string)$value;
-                }
-                else if(is_string($value) &&
-                    preg_match('/^html|^link/i', $column) === 0) {
-                    $value = htmlspecialchars($value);
-                }
-            }
-        }
     }
 
     /**

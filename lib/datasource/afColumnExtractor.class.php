@@ -4,12 +4,16 @@ class afColumnExtractor {
     private
         $class,
         $selectedColumns,
-        $formatMethodPrefix;
+        $formatMethodPrefix,
+        $formatConversion;
 
     public function __construct($class, $selectedColumns, $format='html') {
         $this->class = $class;
         $this->selectedColumns = $selectedColumns;
-        $this->formatMethodPrefix = 'get'.sfInflector::camelize($format);
+        $camelFormat = sfInflector::camelize($format);
+        $this->formatMethodPrefix = 'get'.$camelFormat;
+        $this->formatConversion = call_user_func(
+            array('afTo'.$camelFormat.'Conversion', 'getInstance'));
     }
 
     public function getClass() {
@@ -35,8 +39,7 @@ class afColumnExtractor {
             $col = $tableMap->getColumn($column);
             if($col->getRelatedTableName()) {
                 $methodName = afMetaDb::getRelatedMethodName($col);
-                $getter = $this->createMethodGetter($methodName,
-                    afToStringConversion::getInstance());
+                $getter = $this->createMethodGetter($methodName);
             } else {
                 $methodName = 'get'.$col->getPhpName();
                 if($col->isTemporal()) {
@@ -52,13 +55,16 @@ class afColumnExtractor {
         return $getter;
     }
 
-    private function createMethodGetter($methodName, $conversion=null) {
+    private function createMethodGetter($methodName) {
         $formatMethod = preg_replace('/^get/',
             $this->formatMethodPrefix, $methodName, 1);
         if(method_exists($this->class, $formatMethod)) {
             $methodName = $formatMethod;
-            $conversion = afToEscaperSafeConversion::getInstance();
+            $conversion = null;
+        } else {
+            $conversion = $this->formatConversion;
         }
+
         return new afMethodGetter($methodName, $conversion);
     }
 

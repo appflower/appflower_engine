@@ -1,9 +1,9 @@
 <?php
 
 /**
- * A conversion to a string value.
+ * A conversion to an escaped HTML.
  */
-class afToStringConversion {
+class afToHtmlConversion {
     private static
         $instance = null;
 
@@ -14,7 +14,18 @@ class afToStringConversion {
         if($value === null) {
             return null;
         }
-        return (string)$value;
+
+        if($value instanceof sfOutputEscaperSafe) {
+            return (string)$value;
+        }
+
+        if(is_object($value)) {
+            $value = (string)$value;
+        }
+        if(is_string($value)) {
+            $value = htmlspecialchars($value);
+        }
+        return $value;
     }
 
     public static function getInstance() {
