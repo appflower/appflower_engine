@@ -42,6 +42,7 @@ class afValidatorCacheTask extends sfPropelBaseTask
       new sfCommandArgument('reporting', sfCommandArgument::REQUIRED, 'Error reporting mode'),
       new sfCommandArgument('rebuild', sfCommandArgument::OPTIONAL, 'Wheter to rebuild cache','no'),
       new sfCommandArgument('src', sfCommandArgument::OPTIONAL, 'The xml file to validate',null),
+      new sfCommandArgument('log', sfCommandArgument::OPTIONAL, 'The path to custom log file',null),
     ));
     
   	
@@ -61,7 +62,11 @@ The task has 3 arguments: reporting, rebuild and src.
  * The rebuild param should be set to "yes" or "no", and it determines wheter you want to rebuild the full cache or just add
    new items.  
    
- * The src attribute is always a path to an xml file. It must be used only if reporting is set to 'file', otherwise it is optional
+ * The src attribute is always a path to an xml file. It must be used only if reporting is set to 'file', otherwise it is optional.
+   If you don't want to define it, omit it or set it to "none".
+ 
+ * The log argument is a path to a log file. Errors will be saved to this file in "full" reporting mode. If omitted, the default
+   (_YOURSFPROJECT_/logs/validation.log) will be used.
    
 EOF;
 
@@ -75,6 +80,10 @@ EOF;
    */
   public function execute($arguments = array(), $options = array())
   {
+  	
+  	if($arguments["src"] === "none") {
+  		$arguments["src"] = null;
+  	}
   	
   	
   	if($arguments["reporting"] != "full" && $arguments["reporting"] != "incremental" && $arguments["reporting"] != "cache" && $arguments["reporting"] != "file") {
@@ -104,6 +113,10 @@ EOF;
    
     if($arguments["rebuild"] == "yes") {
     	afValidatorCachePeer::clearCache();	
+    }
+    
+    if($arguments["log"] !== null) {
+    	$this->log = $arguments["log"];
     }
     
     $this->args = $arguments;
@@ -220,7 +233,7 @@ EOF;
   		$handle = @fopen($this->log,"wr");
   		
   		if(!$handle) {
-  			throw new Exception("Unable to write validation log file!");
+  			throw new Exception("Unable to write validation log file: \"".$this->log."\"!");
   		}
   		
   		$buffer = "";
@@ -232,7 +245,7 @@ EOF;
   		fwrite($handle,$buffer,strlen($buffer));
   		fclose($handle);
   		
-  		$this->logSection("The log file has been successfully created!\n",null);
+  		$this->logSection("Log file \"".$this->log."\" has been successfully created!\n",null);
   		
   	}
   	
