@@ -16,11 +16,7 @@ xmlns:i="http://www.appflower.com/schema/" type="list">
 			<i:param name="ikmin">12122</i:param>
 		</i:method>
 	</i:datasource>
-	
-	<i:display>
-		<i:visible>foo,bar,foobar</i:visible>
-	</i:display>
-	
+
 	<i:fields>
 		<i:column label="Stuff" name="foo" isid="true" />
 		<i:column label="Other" name="bar" sortable="true"/>

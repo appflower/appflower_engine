@@ -15,11 +15,7 @@ xmlns:i="http://www.appflower.com/schema/" type="list">
 		<i:class>ServerPeer</i:class>
 		<i:method name="fetchData" type="static" />
 	</i:datasource>
-	
-	<i:display>
-		<i:visible>company</i:visible>
-	</i:display>
-	
+
 	<i:fields tree="true" title="The root" pager="false">
 		<i:column label="Company." name="company" sortable="true" hidden="false" hideable="true" />
 	</i:fields>

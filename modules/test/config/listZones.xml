@@ -14,11 +14,7 @@ xmlns:i="http://www.appflower.com/schema/" type="list">
 		<i:method name="fetchEm" type="static">
 		</i:method>
 	</i:datasource>
-	
-	<i:display>
-		<i:visible>id,name,offset</i:visible>
-	</i:display>
-	
+
 	<i:fields>
 		<i:column label="No." name="id" isid="true" filter="[type:numeric]" />
 		<i:column label="Name" name="name" sortable="true" filter="[type:string]" />

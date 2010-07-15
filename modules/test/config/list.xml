@@ -20,11 +20,7 @@ xmlns:i="http://www.appflower.com/schema/" type="list">
 			<i:param name="ikmin">12122</i:param>
 		</i:method>
 	</i:datasource>
-	
-	<i:display>
-		<i:visible>id,name,hostname,domain,server_type_id,server_group_id,server_interface_id</i:visible>
-	</i:display>
-	
+
 	<i:fields>
 		<i:column label="No." name="id" isid="true" />
 		<i:column label="Name" name="name" sortable="true"/>

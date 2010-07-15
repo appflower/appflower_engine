@@ -12,6 +12,11 @@ SUBS = [
     (re.compile(r"(?m)^\s*return\s*XmlParser::layoutExt\(\$this(,\s*true)?\);\s*^"), ""),
     ]
 
+# For i:display removal.
+SUBS = [
+        (re.compile(r"(?m)^\s*<i:display.*</i:display>\s*$", re.DOTALL), ""),
+    ]
+
 # For i:comment renaming.
 SUBS = [
     (re.compile(r"i:help\s*>"), "i:tooltip>"),
