@@ -29,7 +29,8 @@ class StringUtil {
     }
     
 	public static function removeTagsAndEntities($str) {
-		return preg_replace("/(<[\/]*[^>]+>)|(\&[a-z0-9]+;)/","",$str);
+		$str = preg_replace('/(<[^>]+>)/','',$str);
+		return html_entity_decode($str, ENT_QUOTES);
     }
     
 	public static function removeNewlines($str) {

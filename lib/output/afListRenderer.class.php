@@ -166,7 +166,7 @@ class afListRenderer {
     private static function extractValues($row, $keys) {
         $values = array();
         foreach($keys as $key) {
-            $values[] = ArrayUtil::get($row, $key, '');
+            $values[] = StringUtil::removeTagsAndEntities(ArrayUtil::get($row, $key, ''));
         }
         return $values;
     }
