@@ -81,6 +81,9 @@ class afDataFacade {
                 $className = 'afStaticSource';
             }
             $source = new $className($callback, $params);
+            if (method_exists($source, 'setFilters')) {
+                $source->setFilters($filters);
+            }
         } else {
             throw new XmlParserException(
                 'Unsupported datasource type: '.$sourceType);
