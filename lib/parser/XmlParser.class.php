@@ -436,13 +436,14 @@ class XmlParser extends XmlParserTools {
 		$root = $this->fetch("/i:view");
 		
 		$view = $this->get($root->item(0),"type");
+		$vars = $this->vars[$this->currentUri];
 		
 		foreach($ifs as $if) {
 			$condition = $this->get($if,'test');
 			
 			$parent = $if->parentNode;
 		
-			if(!afCall::evaluate($condition, array())) {
+			if(!afCall::evaluate($condition, $vars)) {
 				
 				$childnodes = $this->fetch("child::*",$if);
 				
