@@ -88,26 +88,20 @@ class appFlowerActions extends sfActions
     		$wh = $xp->evaluate("//i:description");
     
     		if($wh->length) {
-    			$info['html'] .= "<tr><td colspan=3>".$wh->item(0)->nodeValue."</td></tr>";
+    			$info['html'] .= "<tr><td colspan=2>".$wh->item(0)->nodeValue."</td></tr>";
     		} else {
-    			$info['html'] .= "<tr><td colspan=3>Not available..</td></tr>";
+    			$info['html'] .= "<tr><td colspan=2>Not available..</td></tr>";
     		}
     		
     		if($view == "edit" || $view == "show") {
 	    		$fields = $xp->evaluate("//i:field[@type!='hidden']");
 	    		
-	    		$info['html'] .= "<tr><th><strong>Field</strong></th><th><strong>Description</strong></th><th><strong>Tip</strong></th></tr>";
+	    		$info['html'] .= "<tr><th><strong>Field</strong></th><th><strong>Tip</strong></th></tr>";
 	    		
 	    		$tmp = array();
 	    		$found = false;
 	    		
 	    		foreach($fields as $t) {
-	    			$comment = $xp->evaluate("./i:help",$t);
-	    			if($comment->length == 1) {
-	    				$c = $comment->item(0)->nodeValue;
-	    			} else {
-	    				$c = "";
-	    			}
 	    			
 	    			$tip = $xp->evaluate("./i:tooltip",$t);
 	    			if($tip->length == 1) {
@@ -116,8 +110,8 @@ class appFlowerActions extends sfActions
 	    				$h = "";
 	    			}
 	    			
-	    			if(trim($c) || trim($h)) {	
-		    			$info['html'] .= "<tr><td>".$t->getAttribute("label")."</td><td>".$c."</td><td>".$h."</td></tr>";	
+	    			if(trim($h)) {	
+		    			$info['html'] .= "<tr><td>".$t->getAttribute("label")."</td><td>".$h."</td></tr>";	
 		    			$found = true; 
 	    			}
 	    		} 
