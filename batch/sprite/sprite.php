@@ -15,7 +15,10 @@ class Sprite{
 	public $spriteImage = "sprite";
 	public $spriteCss = "sprite";
 	public $preCss ;
-	public $css;
+	public $css = 'body{font-size:10px;font-family:verdana;}';
+	public $html = '
+		<link type="text/css" rel="stylesheet" href="batch/sprite/sprite.css"/>
+	';
 	public $lookCss = array();
 	function add($image){
 		if(!file_exists($image)) return;
@@ -88,7 +91,7 @@ class Sprite{
 		foreach($this->images[$type] as $image){
 			$temp = $image[0];				
 			imagecopyresampled($canvas, $temp, 0, $dstY, 0, 0, imagesx($temp),imagesy($temp), imagesx($temp),imagesy($temp));
-			$this->createCss($image[1],$type,array(0,$dstY));
+			$this->createCss($image[1],$type,array(0,$dstY,imagesx($temp),imagesy($temp)));
 			$dstY+=imagesy($temp)+$this->imageGap;
 		}		
 		imagecolorallocatealpha($canvas, 0, 0, 0, 127);
@@ -106,6 +109,9 @@ class Sprite{
 		$this->createXXX("jpeg");		
 		file_put_contents($this->spriteCss.".css",$this->css);
 		print "Sprite image and css created successfully.....\n";
+		
+		file_put_contents("demo-sprite.html",$this->html);
+		print "Sprite image demo html created successfully.....\n";
 	}
 	public function createCss($img,$type,$dim){
 		$name = $img;
@@ -116,7 +122,8 @@ class Sprite{
 		$name = preg_replace('/[^a-zA-Z0-9]/',"-",$name);
 		$k = str_replace($this->webDir,"",$img);
 		$className = isset($this->preCss[$k])?$this->preCss[$k]:"icon-".$name;
-		$this->css .= ".".$className.' {background:url("/'.$this->spriteImage.'.'.$type.'") no-repeat '.$dim[0].' -'.$dim[1].'px !important;}
+		$this->html .= '<img src="web/extjs-3/resources/images/default/s.gif" class="'.$className.'" width="'.$dim[2].'" height="'.$dim[3].'"/> '."\t".$dim[0].'px '.$dim[1].'px '."\t | class:".$className."\t | file:".$img."<hr>";
+		$this->css .= ".".$className.' {background:url("../../'.$this->spriteImage.'.'.$type.'") no-repeat '.$dim[0].' -'.$dim[1].'px !important;}
 ';		
 	}
 	public function addFromDir($dir){
