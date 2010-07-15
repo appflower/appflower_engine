@@ -56,13 +56,17 @@ class afColumnExtractor {
     }
 
     private function createMethodGetter($methodName) {
-        $formatMethod = preg_replace('/^get/',
-            $this->formatMethodPrefix, $methodName, 1);
-        if(method_exists($this->class, $formatMethod)) {
-            $methodName = $formatMethod;
+        if(StringUtil::startsWith($methodName, $this->formatMethodPrefix)) {
             $conversion = null;
         } else {
-            $conversion = $this->formatConversion;
+            $formatMethod = preg_replace('/^get/',
+                $this->formatMethodPrefix, $methodName, 1);
+            if(method_exists($this->class, $formatMethod)) {
+                $methodName = $formatMethod;
+                $conversion = null;
+            } else {
+                $conversion = $this->formatConversion;
+            }
         }
 
         return new afMethodGetter($methodName, $conversion);
