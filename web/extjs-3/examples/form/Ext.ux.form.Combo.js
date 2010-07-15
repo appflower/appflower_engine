@@ -495,7 +495,9 @@ Ext.ux.form.ComboBox = Ext.extend(Ext.form.ComboBox,  {
         if(this.typeAhead){
             this.taTask = new Ext.util.DelayedTask(this.onTypeAhead, this);
         }
-        if(this.editable !== false){
+        //enableKeyUpEvent used for custom code
+        //added by radu
+        if(this.enableKeyUpEvent!==false&&this.editable !== false){
             this.el.on("keyup", this.onKeyUp, this);
         }
         if(this.forceSelection){
@@ -935,6 +937,7 @@ Ext.ux.form.ComboBox = Ext.extend(Ext.form.ComboBox,  {
         if(this.isExpanded() || !this.hasFocus){
             return;
         }
+        
         this.list.alignTo(this.wrap, this.listAlign);
         this.list.show();
         this.innerList.setOverflow('auto'); // necessary for FF 2.0/Mac
