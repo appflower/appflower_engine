@@ -198,6 +198,7 @@ class appFlowerActions extends sfActions
 	 */
 	public function executeRetrieveWidgetsInfo()
 	{
+		
 		$config=$this->hasRequestParameter('config')?$this->getRequestParameter('config'):false;
 		$portalWidgets=$this->hasRequestParameter('portalWidgets')?$this->getRequestParameter('portalWidgets'):false;
 		
@@ -240,18 +241,19 @@ class appFlowerActions extends sfActions
 					$path = sfConfig::get("sf_root_dir").'/apps/'.$this->context->getConfiguration()->getApplication().'/modules/'.$ma[1].'/config/'.$ma[2].'.xml';
 					
 					if(file_exists($path))
-					{					
+					{			
+						$action_config_vars = afConfigUtils::getConfigVars($ma[1], $ma[2], $this->getRequest());		
 						$dom = new DOMDocument();
 						if($dom->load($path))
 						{
 							foreach ($dom->documentElement->childNodes as $oChildNode) {
 								if($oChildNode->nodeName=='i:title')
 								{
-									$title=trim($oChildNode->nodeValue);
+									$title=XmlBaseElementParser::parseValue(trim($oChildNode->nodeValue), $oChildNode, false, $action_config_vars);
 								}
 								if($oChildNode->nodeName=='i:description')
 								{
-									$description=trim($oChildNode->nodeValue);	
+									$description=XmlBaseElementParser::parseValue(trim($oChildNode->nodeValue), $oChildNode, false, $action_config_vars);	
 									$image=$oChildNode->getAttribute('image');								
 								}							
 							}

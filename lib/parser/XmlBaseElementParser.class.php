@@ -139,14 +139,19 @@ class XmlBaseElementParser  {
 	}
 	
 	
-	public static function parseValue($value,$node,$mode = false) {
+	public static function parseValue($value,$node,$mode = false,$vars = null) {
 		
-		$vars = self::parseVariables($value,$node,$mode);
+		if(is_null($vars)) {
+			$vars = self::parseVariables($value,$node,$mode);	
+		}
 		
 		if(strstr($value,"{")) {
 			
 			foreach($vars as $varname => $varvalue) {
-				$value = str_replace("{".$varname."}",$varvalue,$value);
+				if(!is_array($varvalue)) {
+					$value = str_replace("{".$varname."}",$varvalue,$value);
+				}
+				
 			}
 			
 		} 
