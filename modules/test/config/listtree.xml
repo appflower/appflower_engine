@@ -16,7 +16,7 @@ xmlns:i="http://www.appflower.com/schema/" type="list">
 		<i:method name="fetchData" type="static" />
 	</i:datasource>
 
-	<i:fields tree="true" title="The root" pager="false">
+	<i:fields tree="true" pager="false">
 		<i:column label="Company." name="company" sortable="true" hidden="false" hideable="true" />
 	</i:fields>
 	
