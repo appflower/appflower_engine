@@ -6,7 +6,7 @@ class UrlUtil {
      */
     public static function addParam($url, $param, $value) {
         $url = self::prepareForParams($url);
-        return $url.sprintf('%s=%s', $param, urlencode($value));
+        return $url.http_build_query(array($param=>$value));
     }
 
     /**
@@ -14,15 +14,7 @@ class UrlUtil {
      */
     public static function addParams($url, $params) {
         $url = self::prepareForParams($url);
-        $first = true;
-        foreach($params as $param => $value) {
-            if(!$first) {
-                $url .= '&';
-            }
-            $url .= sprintf('%s=%s', $param, urlencode($value));
-            $first = false;
-        }
-        return $url;
+        return $url.http_build_query($params);
     }
 
     private static function prepareForParams($url) {
