@@ -73,7 +73,7 @@ class afExecutionFilter extends sfExecutionFilter {
     }
 
     /**
-     * Returns true if the given action could be loaded as with widget_load.
+     * Returns true if the given action could be loaded with widget_load.
      * Wizards do not support that. They want to be displayed without menus.
      */
     private static function isWidgetAction($actionInstance) {
