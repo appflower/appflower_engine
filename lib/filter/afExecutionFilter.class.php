@@ -7,7 +7,7 @@
 class afExecutionFilter extends sfExecutionFilter {
 
     protected function executeAction($actionInstance) {   	
-    	if(self::isListjsonRequest($actionInstance)) {
+    	if(self::isExportRequest($actionInstance)) {
             $actionInstance->isPageComponent = true;
         } elseif(self::isFirstPageRequest($actionInstance)) {
             $request = $actionInstance->getRequest();
@@ -39,7 +39,7 @@ class afExecutionFilter extends sfExecutionFilter {
             return $viewName;
         }
 
-        if(self::isListjsonRequest($actionInstance)) {
+        if(self::isExportRequest($actionInstance)) {
             return afRenderingRouter::render(
                 $actionInstance->getRequest(),
                 $actionInstance->getModuleName(),
@@ -88,7 +88,7 @@ class afExecutionFilter extends sfExecutionFilter {
         return $view->get('@type') !== 'wizard';
     }
 
-    private static function isListjsonRequest($actionInstance) {
+    private static function isExportRequest($actionInstance) {
         $format = $actionInstance->getRequestParameter('af_format');
         return !!$format;
     }
