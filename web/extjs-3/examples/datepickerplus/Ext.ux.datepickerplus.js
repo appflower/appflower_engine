@@ -2188,6 +2188,12 @@ if (Ext.form && Ext.form.DateField) {
 					this.trigger.dom[this.tooltipType] = this.tooltip;
 				}
 			}
+
+			function removeDuplicatedParams(url) {
+				var parts = /([^?]*\?)(.*)/.exec(url);
+				var params = Ext.urlDecode(parts[2], true);
+				return parts[1] + Ext.urlEncode(params);
+			}
 			
 			//radu
 			this.on('select',function(a,b){
@@ -2197,8 +2203,10 @@ if (Ext.form && Ext.form.DateField) {
 				
 				if(hidden_value&&hidden_value!='-'&&this.url)
 				{
-					//radu: redirect to some specific url based on hidden value
-					document.location.href=this.url+hidden_value;					
+					//radu: redirect to some specific url suffix based on hidden value
+					var target = Ext.urlAppend(document.location.href,
+						this.url + hidden_value);
+					document.location.href = removeDuplicatedParams(target);
 				}
 				
 			},this);	
