@@ -85,14 +85,10 @@ xmlns:i="http://www.appflower.com/schema/" type="show">
 		<i:help>FOOBAR!</i:help>
 		<i:handler type="activate" action="alert(1);" />
 	</i:field>
-	<i:linkbutton name="keke" label="External Url" icon="/images/famfamfam/accept.png" action="http://www.google.com" />
-	<i:linkbutton name="internal" label="Internal Uri" action="test/edit" />
 	<i:button name="cic" label="Normal button" icon="/images/famfamfam/cancel.png" action="test/edit">
 		<i:handler type="click" action="alert('You clicked me!');" />
 	</i:button>
 	<!--
-	<i:linkbutton name="keke" label="External Url" icon="/images/famfamfam/accept.png" action="http://www.google.com" />
-	<i:linkbutton name="internal" label="Internal Uri" action="test/edit" />
 	<i:button name="cic" label="Normal button" icon="/images/famfamfam/cancel.png" action="test/edit">
 		<i:handler type="click" action="alert('You clicked me!');" />
 	</i:button>
