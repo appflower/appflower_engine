@@ -19,10 +19,10 @@ xmlns:i="http://www.appflower.com/schema/" xmlns="http://www.w3.org/1999/xhtml" 
 			<i:help>Help text shouldn't be displayed at all</i:help>
 		</i:field>
 		<i:field name="opt1" type="radio" label="Comment" checked="{opt1checked}" value="1">
-			<i:help>Help text is displayed like this</i:help>
+			<i:help>Help text is displayed under a field</i:help>
 		</i:field>
 		<i:field name="opt2" type="radio" label="Inline" checked="{opt2checked}" value="2">
-			<i:help>Help text should be displayed inline, next to label with icon tip</i:help>
+			<i:help>Help text is displayed as a tooltip</i:help>
 		</i:field>
 	</i:radiogroup>
 	<i:field name="popup" type="checkbox" label="Popup">
