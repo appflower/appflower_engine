@@ -1018,6 +1018,12 @@ class ImmExtjsGrid
 								   icon: Ext.MessageBox.INFO
 								});															
 							}
+							else
+							{
+								if(response.redirect){
+									afApp.load(response.redirect,response.load);
+								}
+							}
 						},
 						failure: function(response,options) {
 							if(response.message){
