@@ -994,6 +994,7 @@ class ImmExtjsGrid
 				$params = 'params:{"selections":'.$grid->privateName.'.getSelectionModel().getSelectionsJSON()}, ';
 			} 
 		}
+	
 		$successFunction='';
 		if($action["attributes"]["updater"] != "true"){
 			if($action["attributes"]["post"] != "false"){
@@ -1033,7 +1034,14 @@ class ImmExtjsGrid
 					});
 				';
 			}else{
-				$successFunction = 'afApp.load("'.$action["attributes"]["url"].$requestParams.')';
+				if($action["attributes"]["loadas"] == "widget") {
+					$successFunction = 'afApp.load("'.$action["attributes"]["url"].$requestParams.')';	
+				} else {
+					$successFunction = 'location.href = "'.$action["attributes"]["url"].'?widget_load=false";';
+				}
+				
+				
+				
 			}
 		}
 		//popup = true will overwrite the successFunction

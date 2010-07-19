@@ -28,7 +28,7 @@ class ImmExtjsAjaxLoadWidgets{
 	public static function initialize($action){		
 		
 		//Check for the widget load request
-		if($action->getRequestParameter("widget_load")){	
+		if($action->getRequestParameter("widget_load") && $action->getRequestParameter("widget_load") != "false"){	
 				
 			if(!$action->isPageComponent){		
 				sfConfig::set('app_parser_panels', array());

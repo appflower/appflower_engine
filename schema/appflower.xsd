@@ -120,6 +120,28 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	</xs:simpleType>
 	
 	
+	<xs:simpleType name="loadType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				This defiens how to load an URL. 
+				
+				page   - load it without ajax, new location.
+				widget - load it using ajax, this is the default for all actions / buttons.
+				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="i:varType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="page"/>
+					<xs:enumeration value="widget"/>
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	
+	
 	<xs:simpleType name="buttonType">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">
@@ -1808,6 +1830,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  		forceSelection	- Action will be performed if at least 1 item is selected in the grid
 	  		confirmMsg		- Action will be performed only if users confirms it.
 	  		updater			- Whether or not a comet-like request should be initiated?
+	  		loadas			- How the URL of this action should be loaded?
 	  		popup			- Opens a popup layer and loads URL in this "window". By default URL will be loaded in main content area. 
 	  		permissions 	-  Access rights required to render the element.
 	  		
@@ -1833,6 +1856,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		<xs:attribute name="confirmMsg" type="xs:string" use="optional" />
 		<xs:attribute name="confirm" type="xs:boolean" use="optional" />
 		<xs:attribute name="updater" type="xs:boolean" use="optional" default="false" />
+		<xs:attribute name="loadas" type="i:loadType" use="optional" default="widget" />
 		<xs:attribute name="popup" type="xs:boolean" use="optional" default="false" />
 		<xs:attribute name="permissions" type="i:permissionType" default="*" />
 	  </xs:complexType>
