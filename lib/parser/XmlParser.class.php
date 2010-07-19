@@ -123,10 +123,6 @@ class XmlParser extends XmlParserTools {
 			
 		$this->context = sfContext::getInstance();
 		
-		// Read JS source list..
-		
-		$this->js_sources = unserialize(file_get_contents($this->root."/data/jslist")); 
-		
 		// Set Application..
 	
 		$this->application = $this->context->getConfiguration()->getApplication();
