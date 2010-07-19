@@ -19,7 +19,7 @@ class ImmExtjsLinkButton extends ImmExtjsButton
 		
 		if(isset($attributes['url']))
 		{	
-			if($attributes["loadas"] == "widget") {
+			if(!isset($attributes["loadas"]) || $attributes["loadas"] == "widget") {
 				$source = 'afApp.load("'.preg_replace('/js=([a-zA-Z0-9]+)\.js/','',$attributes['url']).'","'.$attributes['load'].'");';	
 			} else {
 				$source = 'location.href="'.$attributes['url'].'?widget_load=false"';
