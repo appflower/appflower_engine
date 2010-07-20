@@ -645,6 +645,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
             	contextMenu - NOT IMPLEMENTED.	
             	edit		- For backward compability. Ignored.
                 action		- The action accepts any rowaction name, and this rowaction is moved to that column.
+				summaryType	- The grid's data summary ex. count, average, sum, min, max. You can add your own.
             </xs:documentation>
         </xs:annotation>
         <xs:attribute name="name" type="i:dbNameType" use="optional" />
@@ -671,6 +672,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         <xs:attribute name="contextMenu" type="xs:token" use="optional" />
         <xs:attribute name="edit" type="xs:boolean" use="optional" default="false" />
 		<xs:attribute name="action" type="xs:token" use="optional"/>
+		<xs:attribute name="summaryType" type="xs:token" use="optional"/>
     </xs:attributeGroup>
 
 	<xs:attributeGroup name="showAttributes">

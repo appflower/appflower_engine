@@ -63,7 +63,7 @@ class ImmExtjsGridUtil{
 	public static function grid($url){
 		$id = "inline-grid-id-".rand(1,10000)."-".rand(1,10000)."-".rand(1,10000)."-".rand(1,10000);		 
 		$html = '<div id="'.$id.'"></div>';
-		$script = "afApp.widgetPopup('".$url."','',null,\"'width':'100%','autoHeight':true,'frame':false,'plain':true,'applyTo':'".$id."'\");";
+		$script = "afApp.widgetPopup('".$url."','',null,\"'autoWidth':true,'autoHeight':true,'frame':false,'plain':true,'applyTo':'".$id."'\");";
 		$return = array("success"=>true,"script"=>$script,"html"=>$html);
 		return json_encode($return);		
 	}

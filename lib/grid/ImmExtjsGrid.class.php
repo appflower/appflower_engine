@@ -50,6 +50,10 @@ class ImmExtjsGrid
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'grid/Ext.ux.Grid.GroupingStoreOverride.js')));
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'plugins/Ext.ux.ExportUI.js')));
 		
+		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'gridsummary/gridsummary.js')));
+		$this->immExtjs->setAddons(array('css'=>array($this->immExtjs->getExamplesDir().'gridsummary/gridsummary.css')));
+					
+		
 		if(isset($attributes['action'])&&$attributes['action'] !='n/a'){
 			$attributes['url'] = $attributes['action'];			
 		}
@@ -288,6 +292,17 @@ class ImmExtjsGrid
 		
 	public function end()
 	{		
+		$this->attributes['listeners']['render']['source']="
+			var tb = this.getTopToolbar();
+			if(!tb) return;
+			var el = tb.getEl();
+			var parent = el.dom.parentNode;
+			if(el && el.dom){
+				el.dom.style.width = '100%'
+			}
+			if(parent) parent.style.width = '100%';
+			
+		";
 		$this->attributes['canMask']=$this->immExtjs->asMethod(array("parameters"=>"","source"=>"return !Ext.isIE&&!".$this->privateName.".disableLoadMask&&!Ext.get('loading');"));
 		
 		if(!$this->attributes['tree'])
@@ -320,10 +335,9 @@ class ImmExtjsGrid
 			$wasSort=false;
 			$firstSortableCol=null;
 			
-			
+			$summaryPlugin = false;
 			foreach ($this->columns as $column)
-			{				
-				
+			{								
 				$temp_column=null;
 				$temp_field=null;
 				$temp_name='Header '.Util::makeRandomKey();
@@ -333,6 +347,13 @@ class ImmExtjsGrid
 				$temp_field['name']=isset($column['name'])?$column['name']:Util::stripText($temp_name);
 				//$temp_field['type']=isset($column['type'])?$column['type']:'auto';
 				$temp_field['sortType']=isset($column['sortType'])?$column['sortType']:'asText';
+
+				//Grid summary plugin				
+				$temp_column['summaryType']=isset($column['summaryType'])?$column['summaryType']:null;				
+				if(!$summaryPlugin && $temp_column['summaryType']!=null){					
+					$this->attributes['plugins'][]="new Ext.ux.grid.GridSummary";
+					$summaryPlugin = true;
+				}
 						
 				$temp_column['header']=isset($column['label'])?$column['label']:$temp_name;				
 				$temp_column['sortable']=isset($column['sortable'])?$column['sortable']:true;
@@ -759,16 +780,16 @@ class ImmExtjsGrid
 			$initialize .= "contextMenus['".$key."'] = ".$value.";";	
 		}
 		$this->attributes['listeners']['click'] = "function(e){		
-			var t = e.getTarget();										
+			var t = e.getTarget();													
 			if(t.className != 'x-grid3-header'){
 	            var r = e.getRelatedTarget();
 	            var v = this.view;
 	            var ci = v.findCellIndex(t.parentNode);
-	            var ri = v.findRowIndex(t);	
-	            
+	            var ri = v.findRowIndex(t);		            
 	            var grid = this;
 	            //alert(ci); alert(ri);            
 	            if(ci === false || ri === false) return ;
+				if(ci === -1 || ri === -1) return ;
 	            var cell = this.getView().getCell(ri,ci);
 	          
 	            if(t.className == 'interactive-arrow-a'){
@@ -830,6 +851,7 @@ class ImmExtjsGrid
 	            var ci = v.findCellIndex(t);
 	            var ri = v.findRowIndex(t);	            
 	            if(ci === false || ri === false) return ;
+				if(ci === -1 || ri === -1) return ;
 	            var cell = this.getView().getCell(ri,ci);
 	            if(cell){		            
 	            	
@@ -859,6 +881,7 @@ class ImmExtjsGrid
 	            var ri = v.findRowIndex(t);
 	           
 	            if(ci === false || ri === false) return ;
+				if(ci === -1 || ri === -1) return ;
 	            var cell = this.getView().getCell(ri,ci);		           		           
 	            if(cell){		            
 	            	
