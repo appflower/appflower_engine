@@ -9,6 +9,9 @@ class afCall {
         // See http://bugs.php.net/bug.php?id=51329
         if(is_array($callback) && isset($callback[0]) && is_string($callback[0])) {
             class_exists($callback[0]);
+        } else {
+            $explodedCallback = explode(':', $callback);
+            class_exists($explodedCallback[0]);
         }
 
         return call_user_func_array($callback, $args);
