@@ -59,7 +59,47 @@ Array.prototype.in_array = function (needle, argStrict) {
 
     return false;
 }
-
+/**
+* pack logic for window
+*/
+afApp.pack = function(win,winConfig){
+	var winConfig = winConfig || {};
+	var viewport=App.getViewport();
+	win.on("show",function(win){
+		if(winConfig.applyTo) return;		
+		var childs = win.findBy(function(component,container){
+			return true;
+		});
+		if(childs && childs[0]){
+			var firstChild = childs[0];
+			var vpWidth = viewport.getBox().width;
+			var vpHeight = viewport.getBox().height;
+			var winWidth = firstChild.getBox().width+35;
+			var winHeight = firstChild.getBox().height+35;
+			winWidth = winWidth>vpWidth?(0.7*vpWidth):winWidth;
+			winHeight = winHeight>vpHeight?(0.7*vpHeight):winHeight;
+			win.setSize(winWidth,winHeight);
+			win.center();
+		}
+		/*
+		* By some reason if the window head moved out of 
+		* viewport visibility range, bring back it.
+		*/
+		var pos = win.getPosition(); 
+		if(pos[1]<0) win.setPosition(pos[0],0);
+		
+		/*
+		* On window move, do not let the window to completely go out of 
+		* viewport range, keep some portion of window always visible
+		*/
+		win.on("move",function(win,x,y){
+			if(y<0) win.setPosition(x,0);
+			if(x < 100-win.getWidth()) win.setPosition(100-win.getWidth(),y);
+			if(x > Ext.getBody().getWidth()-100) win.setPosition(Ext.getBody().getWidth()-100,y);
+			if(y > Ext.getBody().getHeight()-100) win.setPosition(x,Ext.getBody().getHeight()-100);
+		});
+	});
+}
 afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 	var viewport=App.getViewport();
 	var counter = 0;
@@ -80,8 +120,7 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 
 	finish = function(){
 				backupForms();
-				eval(json.source);				
-				
+				eval(json.source);								
 				Ext.applyIf(winConfig, {
 					autoScroll : true,
 					maximizable : true,
@@ -89,42 +128,31 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 					closeAction:'hide',
 					
 					items : new Ext.Panel( {
-						frame : true,	
+						frame : winConfig.applyTo?false:true,	
 						width:"auto",
 						layout:"form",
-						items : eval(json.center_panel)
+						items : (function(){ return eval(json.center_panel) })()
 					})
 				});
 				
-				if(winConfig.applyTo){					
+				if(winConfig.applyTo){
+					winConfig = Ext.apply(winConfig,{
+						frame:false
+					});
 					var win = new Ext.Panel( winConfig );					
 				}else{
 					var win = new Ext.Window( winConfig );
 				}
 				if(title) win.setTitle(title);
-				win.on("show",function(win){
-					/** pack logic **/
-					var childs = win.findBy(function(component,container){
-						return true;
-					});
-					if(childs && childs[0]){
-						var firstChild = childs[0];
-						win.setSize(firstChild.getBox().width+35,firstChild.getBox().height+35);
-						win.center();
-					}
-					var pos = win.getPosition(); if(pos[1]<0) win.setPosition(pos[0],0);
-				});
-				//win.items.items[0].items.items[0].frame = false;
-				win.doLayout()
-				win.show();				
-				win.center();
+				
+				/* window resize, pack and onmove adjustments */
+				afApp.pack(win,winConfig);
+				
+				if(win.doLayout) win.doLayout()
+				if(win.show) win.show();				
+				if(win.center) win.center();
 				win.on("render",function(win){eval(json.public_source);},null,{single:true});
-				win.on("move",function(win,x,y){
-					if(y<0) win.setPosition(x,0);
-					if(x < 100-win.getWidth()) win.setPosition(100-win.getWidth(),y);
-					if(x > Ext.getBody().getWidth()-100) win.setPosition(Ext.getBody().getWidth()-100,y);
-					if(y > Ext.getBody().getHeight()-100) win.setPosition(x,Ext.getBody().getHeight()-100);
-				});
+				
 				afApp.loadingProgress(viewport.layout.center.panel.getEl(),1);
 				mask.hide();			
 				
