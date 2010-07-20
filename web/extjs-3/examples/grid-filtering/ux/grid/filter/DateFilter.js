@@ -3,8 +3,8 @@ Ext.ux.grid.filter.DateFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	pickerOpts: {},
 	
 	
-    beforeText: 'Before',
-    afterText:  'After',
+    beforeText: 'To',
+    afterText:  'From',
     onText:     'On',
 	
 	init: function(){
@@ -19,7 +19,7 @@ Ext.ux.grid.filter.DateFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 			'after':  new Ext.menu.CheckItem({text: this.afterText, menu: new Ext.menu.DateMenu(opts)}),
 			'on':     new Ext.menu.CheckItem({text: this.onText, menu: new Ext.menu.DateMenu(opts)})};
 				
-		this.menu.add(dates.before, dates.after, "-", dates.on);
+		this.menu.add( dates.after, dates.before , "-", dates.on);
 		
 		for(var key in dates){
 			var date = dates[key];
@@ -107,9 +107,9 @@ Ext.ux.grid.filter.DateFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	},
 	getDisplayValue: function(){		
 		if(this.getValue().on) return this.getFormatedDate(this.getValue().on);		
-		if(this.getValue().after && this.getValue().before) return "After: "+this.getFormatedDate(this.getValue().after)+", Before: "+this.getFormatedDate(this.getValue().before);
-		if(this.getValue().after) return "After: "+this.getFormatedDate(this.getValue().after)
-		if(this.getValue().before) return "Before: "+this.getFormatedDate(this.getValue().before)
+		if(this.getValue().after && this.getValue().before) return "From: "+this.getFormatedDate(this.getValue().after)+", To: "+this.getFormatedDate(this.getValue().before);
+		if(this.getValue().after) return "From: "+this.getFormatedDate(this.getValue().after)
+		if(this.getValue().before) return "To: "+this.getFormatedDate(this.getValue().before)
 		
 	},
 	getFormatedDate: function(d){

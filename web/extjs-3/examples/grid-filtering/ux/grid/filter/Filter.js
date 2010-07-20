@@ -39,6 +39,7 @@ Ext.ux.grid.filter.Filter = function(config){
 		this.setActive(config.active !== false, true);
 		delete config.value;
 	}
+	this.hideTask = new Ext.util.DelayedTask(this.hideMenu, this);
 };
 Ext.extend(Ext.ux.grid.filter.Filter, Ext.util.Observable, {
 	/**
@@ -68,6 +69,10 @@ Ext.extend(Ext.ux.grid.filter.Filter, Ext.util.Observable, {
 	 * Initialize the filter and install required menu items.
 	 */
 	init: Ext.emptyFn,
+	
+	hideMenu: function(){
+		this.menu.hide(true);
+	},
 	
 	fireUpdate: function(){
 		this.value = this.item.getValue();
@@ -99,6 +104,7 @@ Ext.extend(Ext.ux.grid.filter.Filter, Ext.util.Observable, {
 			if(suppressEvent !== true)
 				this.fireEvent(active ? 'activate' : 'deactivate', this);
 		}
+		this.hideTask.delay(2000);
 	},
 	
 	/**
