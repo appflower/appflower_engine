@@ -30,8 +30,8 @@ class ImmExtjsGridActions
 		if(!isset($this->attributes['actions']))
 		$this->attributes['actions']=array();	
 		/** Check Credential ***/
-		Credential::setAction("hidden");
-		if(!Credential::urlHasCredential($attributes['url'])) return;			
+		ComponentCredential::setAction("hidden");
+		if(!ComponentCredential::urlHasCredential($attributes['url'])) return;			
 		$count_actions=count($this->attributes['actions']);
 		$attributes['urlIndex']='action'.($count_actions+1);
 		$attributes['hideIndex']='hide'.($count_actions+1);

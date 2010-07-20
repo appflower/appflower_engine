@@ -312,7 +312,7 @@ class ImmExtjsGrid
 						foreach($actions as $key=>$action){
 							if(preg_match("/_edit$/",$action['name']) || preg_match("/edit$/i",$action['label']) || preg_match("/_modify$/",$action['name']) || preg_match("/modify$/i",$action['label']) || preg_match("/_update$/",$action['name']) || preg_match("/update$/i",$action['label'])){
 								$urlIndex = $action['urlIndex'];															
-								$credential = Credential::urlHasCredential($action['url']);								
+								$credential = ComponentCredential::urlHasCredential($action['url']);								
 								$temp_column['renderer']=$this->immExtjs->asMethod(array(
 									"parameters"=>"value, metadata, record",
 									"source"=>"if(!".intval($credential).") return value;var action = record.get('".$urlIndex."'); if(!action) return value; var m = action.toString().match(/.*?\?(.*)/);return '<a href=\"".$action['url']."?'+m[1]+'\" qtip=\"Click to edit\">'+ value + '</a>';"
@@ -326,7 +326,6 @@ class ImmExtjsGrid
 						}
 					}
 				}
-				
 				/*
 				 * check for context menu
 				 */
@@ -1054,7 +1053,7 @@ class ImmExtjsGrid
 			'listeners'=>$handlersForMoreActions
 		);		
 		//echo print_r($parameterForButton);
-		return Credential::filter($parameterForButton,$action['attributes']['url']);
+		return ComponentCredential::filter($parameterForButton,$action['attributes']['url']);
 	}
 	private function formatNumberColumn(&$column){
 		if(in_array($column['sortType'],array("asSize","htmlAsSize","asInt","htmlAsInt","asFloat","htmlAsFloat"))){

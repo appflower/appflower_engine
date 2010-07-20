@@ -283,7 +283,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 	
 	/** private **/
 	onRefresh: function(view){
-		this.updateColumnHeadings(view);
+		this.updateColumnHeadings(view);		
 	},
 	
 	/** private **/

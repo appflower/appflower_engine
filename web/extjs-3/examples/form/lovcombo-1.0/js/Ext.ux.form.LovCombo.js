@@ -117,6 +117,7 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
                 this.el.dom.value = v;
             }
         });
+		this.hideTask = new Ext.util.DelayedTask(this.hideList, this);
  
     } // e/o function initComponent
     // }}}
@@ -255,8 +256,14 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
             }            
             this.fireEvent('select', this, record, index);
         }
+		
+		this.hideTask.delay(3000);
     } // eo function onSelect
     // }}}
+	
+	,hideList: function(){
+		this.list.hide();
+	}
     // {{{
     /**
      * Sets the value of the LovCombo
