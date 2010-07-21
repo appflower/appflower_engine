@@ -35,6 +35,9 @@ class fieldsParser extends XmlBaseElementParser {
 		
 		if(self::$parser->has($node,"expandButton")) {
 			self::add("expandButton",self::$parser->get($node,"expandButton"));		
+		}
+		if(self::$parser->has($node,"pagerTemplate")) {
+			self::add("pagerTemplate",self::$parser->get($node,"pagerTemplate"));		
 		}		
 		if(self::$parser->has($node,"plugin")) {
 			self::add("plugin",self::$parser->get($node,"plugin"));		

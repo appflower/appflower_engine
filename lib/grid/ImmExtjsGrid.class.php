@@ -292,17 +292,14 @@ class ImmExtjsGrid
 		
 	public function end()
 	{		
-		$this->attributes['listeners']['render']['source']="
-			var tb = this.getTopToolbar();
-			if(!tb) return;
-			var el = tb.getEl();
-			var parent = el.dom.parentNode;
-			if(el && el.dom){
-				el.dom.style.width = '100%'
-			}
-			if(parent) parent.style.width = '100%';
-			
-		";
+		/*$this->attributes['listeners']['afterrender']=$this->immExtjs->asMethod(array(
+			"parameters"=>"value, metadata, record",
+			"source"=>"var tb = this.getTopToolbar();
+			if(!tb) return;	
+			var box = this.getBox();
+			tb.setWidth(box.width);	"
+		));	
+		*/
 		$this->attributes['canMask']=$this->immExtjs->asMethod(array("parameters"=>"","source"=>"return !Ext.isIE&&!".$this->privateName.".disableLoadMask&&!Ext.get('loading');"));
 		
 		if(!$this->attributes['tree'])
@@ -615,6 +612,9 @@ class ImmExtjsGrid
 			{
 				$this->attributes[$pagingToolbarPrivateName]['store']=$this->immExtjs->asVar($storePrivateName);
 				$this->attributes[$pagingToolbarPrivateName]['displayInfo']=true;
+				if(isset($this->attributes['pagerTemplate'])){
+					$this->attributes[$pagingToolbarPrivateName]['displayMsg']=$this->parsePagerTemplate($this->attributes['pagerTemplate']);
+				}
 				$this->attributes[$pagingToolbarPrivateName]['pageSize']=isset($this->proxy['limit'])?$this->proxy['limit']:20;
 							
 				if(isset($this->proxy['stateId']))
@@ -1137,6 +1137,18 @@ class ImmExtjsGrid
 			"parameters"=>"value, metaData, record, rowIndex, colIndex, store",
 			"source"=>$preRenderer." if(!value) return value; var stripped = value.toString().replace(/<\S[^><]*>/g,'').replace(/^\s+/g, '').replace(/\s+$/g, ''); var regex = /^(\d|-)?(\d|,)*\.?\d*$/ ;if(regex.test(stripped)){ ".$headerRight." return '<div align=\"right\">'+value+'</div>';} return value;"
 		));					
+	}
+	private function parsePagerTemplate($template){
+		$replacement = array(
+			"(start)"=>"{0}",
+			"(end)"=>"{1}",
+			"(total)"=>"{2}"
+		);
+		foreach($replacement as $key=>$value){
+			$template = str_replace($key,$value,$template);
+		}
+		$return = isset($template)?$template:'Displaying {0}-{1} of {2}';
+		return $return;
 	}
 }
 ?>

@@ -3106,7 +3106,6 @@ class XmlParser extends XmlParserTools {
 				
 				
 			} else if($view == "list") {
-				
 				if(isset($parse["params"]["name"])){
 					$formoptions['name'] = $parse["params"]["name"];
 				}
@@ -3114,7 +3113,10 @@ class XmlParser extends XmlParserTools {
 				{
 					$formoptions["remoteSort"] = ($parse["remoteSort"]=="false") ? false : true;
 				}
-		
+				if(isset($parse["pagerTemplate"]))
+				{
+					$formoptions["pagerTemplate"] = $parse["pagerTemplate"];
+				}		
 				$formoptions["autoHeight"] = true;
 				$formoptions["clearGrouping"] = false;
 				$formoptions["frame"] = false;
