@@ -3152,7 +3152,10 @@ class XmlParser extends XmlParserTools {
 				}
 				
 				if(!isset($formoptions["title"])) {
-					$formoptions["title"] = ($current_area == "footer") ? " " : $parse["title"];
+					if($current_area == "footer")
+						$formoptions["title"] =  " ";
+					else if(isset($parse["title"]))
+						$formoptions["title"] =  $parse["title"];
 				}
 				
 				
