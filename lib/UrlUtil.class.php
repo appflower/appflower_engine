@@ -68,10 +68,10 @@ class UrlUtil {
     }
     
     /**
-     * Return absolute url for appFlower trunk
+     * Return url for appFlower trunk, with /#
      */
-    public static function url($url)
+    public static function url($url,$absolute=true)
     {
-    	return sfContext::getInstance()->getRequest()->getUriPrefix().'/#'.$url;
+    	return ($absolute?sfContext::getInstance()->getRequest()->getUriPrefix():'').'/#'.$url;
     }
 }
