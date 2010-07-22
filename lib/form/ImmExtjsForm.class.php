@@ -15,6 +15,7 @@ class ImmExtjsForm
 	
 	public $immExtjs=null;	
 	public $privateName=null;
+	public $menuactions_items=array();
 	private $validators = array();
 							
 	public function __construct($attributes=array())
@@ -66,6 +67,34 @@ class ImmExtjsForm
 		$this->attributes=array_merge($this->attributes,$attributes);
 	}
 	
+	public function addMenuActionsItem($attributes)
+	{			
+		$this->menuactions_items[]=$attributes;			
+	}
+	
+	public function addMenuActions()
+	{
+		
+		if(count($this->menuactions_items)>0)
+		{		
+			/**
+			 * Fill to move menuactions button to the right
+			 */
+			new ImmExtjsToolbarFill($this,array("moreaction" => true));
+			
+			$menuactions_button=new ImmExtjsToolbarButton($this,array('label'=>'More Actions'));
+			$menuactions_menu=new ImmExtjsToolbarMenu($menuactions_button);		
+			
+			foreach ($this->menuactions_items as $attributes)
+			{
+				$item=new ImmExtjsToolbarMenuItem($menuactions_menu,$attributes);$item->end();
+			}		
+			
+			$menuactions_menu->end();
+			$menuactions_button->end();
+		}
+	}
+	
 	public function addScripts(Array $scripts) {
 		
 		foreach($scripts as $script) {
@@ -104,12 +133,21 @@ class ImmExtjsForm
 		$this->attributes['items'][]=$tabsObj->end();
 	}
 	
+	
 	public function addButton($button)
 	{
-		if(!isset($this->attributes['buttons']))
-		$this->attributes['buttons']=array();
-		
-		array_push($this->attributes['buttons'],$this->immExtjs->asVar($button->end()));
+		if(is_array($button)) {
+			if(!isset($this->attributes['tbar']))
+			$this->attributes['tbar']=array();
+			
+			array_push($this->attributes['tbar'],$this->immExtjs->asAnonymousClass($button));
+		} else {
+			if(!isset($this->attributes['buttons']))
+			$this->attributes['buttons']=array();
+	
+			array_push($this->attributes['buttons'],$this->immExtjs->asVar($button->end()));	
+		}		
+
 	}
 	
 	public function addMember($item)
@@ -148,6 +186,7 @@ class ImmExtjsForm
 		return $this->validators;
 	}
 	
+	
 	public function end()
 	{			
 		foreach ($this->attributes['items'] as $k=>$item)
@@ -155,6 +194,10 @@ class ImmExtjsForm
 			if($item==null)
 			unset($this->attributes['items'][$k]);
 		}
+		
+		// Add moreactions
+		
+		$this->addMenuActions();
 		
 		if(isset($this->attributes['classic'])&&$this->attributes['classic'])
 		{

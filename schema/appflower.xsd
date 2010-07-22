@@ -94,6 +94,26 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 			</xs:simpleType>
 		</xs:union>
 	</xs:simpleType>
+	
+	<xs:simpleType name="menuType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				The type of a i:menu. It determines how the contents should be parsed.
+				
+				application 	- Main menu of the application. This is the default.
+				content 		- A tree like menu system somwhere in center, shouth or west panels.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="i:varType">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="application"/>
+					<xs:enumeration value="content"/>
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
   
   
 	<xs:simpleType name="alignType">
@@ -238,6 +258,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 				wizard 		- A wizard view (Windows-like wizards)
 				html 		- A HTML view (custom HTML content, messages)
 				layout 		- A component glueing view (Pages)
+				menu 		- Main menu of the application
 				
 			</xs:documentation>
 		</xs:annotation>
@@ -251,6 +272,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 					<xs:enumeration value="html" />
 					<xs:enumeration value="wizard" />
 					<xs:enumeration value="info" />
+					<xs:enumeration value="menu" />
 					<xs:whiteSpace value="collapse"/>
 				</xs:restriction>
 			</xs:simpleType>
@@ -2020,12 +2042,15 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	<xs:element name="node">
 	  <xs:annotation>
 	  	<xs:documentation xml:lang="en">
-	  		This one is an elmenet of the tree. It may define a section (branch)
-	  		or an item (link). A node may contain other nodes.
+	  		This is a menu item or an node in a tree.
+	  		It may contain other i:node elements.
 	  		
-	  		name			- Name of the node
-	  		text			- Label text
-	  		href			- URL to point to, if node is a link
+	  		name			- A unique name of the node
+	  		label			- Label text
+	  		target			- URL to point to or javascript that loads an URL.
+	  		icon			- An icon to be attached to the menu item.
+	  		tooltip			- Text of tooltip.
+	  		tiptitle		- Title of the tooltip area (will be rendered in bold)
 	  		
 	  	</xs:documentation>
 	  </xs:annotation>
@@ -2033,13 +2058,39 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	<xs:sequence>
       		<xs:element ref="i:node" minOccurs="0" maxOccurs="unbounded"/>
       	</xs:sequence>
-      	<xs:attribute name="text" type="xs:token" use="required" />
+      	<xs:attribute name="label" type="xs:token" use="required" />
+      	<xs:attribute name="traget" type="xs:token" use="required" />
       	<xs:attribute name="name" type="xs:token" use="optional" />
-	  	<xs:attribute name="href" type="i:combinedUriType" use="optional" />
-	  	<xs:attribute name="container" type="xs:boolean" fixed="true" />
-      	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+	  	<xs:attribute name="icon" type="i:combinedUriType" use="optional" />
+	  	<xs:attribute name="tooltip" type="xs:token" use="optional" />
+	  	<xs:attribute name="tiptitle" type="xs:token" use="optional" />
 	  </xs:complexType>
 	</xs:element>
+	
+	
+	<xs:element name="menu">
+	  <xs:annotation>
+	  	<xs:documentation xml:lang="en">
+	  		This is the container of the main menu of an AF application.
+	  		It may contain any number of i:node elements.
+	  		
+	  		title				- Title text
+	  		name				- Name of the tree
+	  		column				- The number of column the tree should placed into. Applies to Pages with multiple columns
+	  		permissions 		- Access rights required to render the element.
+	  		
+	  	</xs:documentation>
+	  </xs:annotation>
+	  <xs:complexType>
+      	<xs:sequence>
+      		<xs:element ref="i:node" minOccurs="0" maxOccurs="unbounded"/>
+      	</xs:sequence>
+      	<xs:attribute name="type" type="i:menuType" default="application" />
+      	<xs:attribute name="permissions" type="i:permissionType" default="*" />
+	  </xs:complexType>
+	</xs:element>
+	
+	
 	
 	<xs:element name="view">
     	<xs:annotation>
@@ -2054,6 +2105,11 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       </xs:annotation>
       <xs:complexType>
 				<xs:choice minOccurs="1" maxOccurs="1">
+					<xs:choice minOccurs="0" maxOccurs="unbounded" i:view="menu">
+							<xs:sequence>
+								<xs:element ref="i:menu" minOccurs="1" maxOccurs="1" />
+							</xs:sequence>
+					</xs:choice>
 					<xs:choice minOccurs="0" maxOccurs="unbounded" i:view="edit">
 							<xs:sequence>
 								<xs:element ref="i:scripts" minOccurs="0" maxOccurs="1" />
@@ -2120,6 +2176,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 						<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
 						<xs:element ref="i:params" minOccurs="1" maxOccurs="1" />
 						<xs:element ref="i:options" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:actions" minOccurs="0" maxOccurs="1" />
+						<xs:element ref="i:moreactions" minOccurs="0" maxOccurs="1" />
 						<xs:element ref="i:description" minOccurs="0" maxOccurs="1" />
 						<xs:element ref="i:alternateDescriptions" minOccurs="0" maxOccurs="1" />
 					</xs:sequence>

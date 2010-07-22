@@ -9,6 +9,7 @@ class ImmExtjsPanel
 	 * default attributes for the window
 	 */
 	public $attributes=array('border'=>false,'header'=>false,'style'=>'padding:5px;','idxml'=>false);
+	public $menuactions_items = array();
 	
 	public $immExtjs=null;	
 	public $privateName=null;
@@ -68,6 +69,35 @@ class ImmExtjsPanel
 		}
 	}
 	
+	public function addMenuActionsItem($attributes)
+	{			
+		$this->menuactions_items[]=$attributes;			
+	}
+	
+	public function addMenuActions()
+	{
+		
+		if(count($this->menuactions_items)>0)
+		{		
+			
+			/**
+			 * Fill to move menuactions button to the right
+			 */
+			new ImmExtjsToolbarFill($this);
+			
+			$menuactions_button=new ImmExtjsToolbarButton($this,array('label'=>'More Actions'));
+			$menuactions_menu=new ImmExtjsToolbarMenu($menuactions_button);		
+			
+			foreach ($this->menuactions_items as $attributes)
+			{
+				$item=new ImmExtjsToolbarMenuItem($menuactions_menu,$attributes);$item->end();
+			}		
+			
+			$menuactions_menu->end();
+			$menuactions_button->end();
+		}
+	}
+	
 	public function addHelp($html)
 	{
 		if(!isset($this->attributes['tbar']))
@@ -95,11 +125,13 @@ class ImmExtjsPanel
 		}
 		else {
 			array_push($this->attributes['tbar'],$this->immExtjs->asAnonymousClass($button));
+			//print_r($this->attributes);
 		}
 	}
 	
 	public function end()
 	{			
+		$this->addMenuActions();
 		$this->immExtjs->private[$this->privateName]=$this->immExtjs->Panel($this->attributes);
 	}
 }

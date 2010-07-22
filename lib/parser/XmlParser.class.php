@@ -326,6 +326,13 @@ class XmlParser extends XmlParserTools {
 			 */
 			$this->widgetHelpSettings=afWidgetHelpSettingsPeer::retrieveCurrent();
 			
+			// Application menu..
+				
+			if($this->context->getRequest()->getAttribute("af_first_page_request")) {
+				//$this->parseMenu(null,$this->layout->toolbar);
+				//sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsToolbar'));
+			}
+			
 			if(!$manual) {
 				$this->runParser(1,"content");	
 			}
@@ -391,6 +398,76 @@ class XmlParser extends XmlParserTools {
 		
 		
 		$this->elements = array();
+		
+	}
+	
+	
+	private function getMenuForNode($node,$menus) {
+		
+		if($node->getParent()->getName() == "menu") {
+			$x = $node->getNode();
+		} else {
+			$x = $node->getParent()->getNode();
+		}
+		
+		
+		foreach($menus as $menu) {
+			if($menu["node"]->getNode() === $x) {
+				return $menu;
+			}
+		}	
+
+	}
+	
+	
+	private function parseMenu(Array $nodes = null, ImmExtjsToolbar $toolbar = null,Array $menus = null,Array $buttons = null) {
+		
+		if($nodes === null) {
+			$doc = $this->readDocumentByPath($this->root."/apps/".$this->application."/config/menu.xml",false);
+			$view = afDomAccess::wrap($doc, 'view', new afVarScope($this->attribute_holder));
+			
+			$nodes = $view->wrapAll("menu/node");
+		}
+		
+		
+		foreach($nodes as $node) {
+				
+			$childnodes = $node->wrapAll("node");
+			
+			$menu = ($menus) ? $this->getMenuForNode($node,$menus) : null;
+			
+			if($node->getParent()->getName() == "menu") {
+				$buttons[] = array("button" => new ImmExtjsToolbarButton($toolbar,array("label" => $node->get("@label"), "handler" => $node->get("@handler"),
+				"tooltip" => array("text" => $node->get("@tooltip"), "title" => $node->get("@tiptitle")))), 
+				"node" => $node, "last" => count($childnodes) ? $childnodes[count($childnodes)-1] : null);
+			} else {
+				if(count($childnodes)) {
+					$buttons[] = array("button" => new ImmExtjsToolbarMenuItem($menu["menu"],array("label" => $node->get("@label"), "url" => 
+					$node->get("@target"))),"node" => $node, "last" => $childnodes[count($childnodes)-1]);
+				}
+			} 
+			
+			$button = $this->getMenuForNode($node,$buttons);
+			
+			if(count($childnodes)) {
+				$menus[] = array("menu" => new ImmExtjsToolbarMenu($button["button"]),"node" => $node, "last" => $childnodes[count($childnodes)-1]);
+				$this->parseMenu($childnodes,$toolbar,$menus,$buttons);	
+			} else {
+				if($menus) {
+					if($menu) {
+						$item = new ImmExtjsToolbarMenuItem($menu["menu"],array("label" => $node->get("@label"), "url" => $node->get("@target")));
+						$item->end();
+						if($node->getNode() === $menu["last"]->getNode()) {
+							$menu["menu"]->end();	
+						}	
+					}	
+				}
+			}
+			if(!$button["last"] || $node->getNode() === $button["last"]->getNode()) {
+				$button["button"]->end();	
+			}
+			
+		}
 		
 	}
 	
@@ -2928,7 +3005,24 @@ class XmlParser extends XmlParserTools {
 						} else {
 							$obj = $this->prepareButton($form, $action['attributes']);
 						}
-					}	
+					}
+
+					if(isset($parse["moreactions"])) {																					
+						
+						foreach($parse["moreactions"] as $aname => $action) {	
+							
+							if(!self::toggleAction($aname,$action)) {
+								continue;
+							}
+							
+							if(isset($action["handlers"])) {
+								ExtEvent::attachAll($action);
+							}
+							
+							$parameterForButton = ExtEvent::getButtonParams($action,"moreactions",$this->view.$this->iteration,$parse["select"]);						
+							$form->addMenuActionsItem($parameterForButton);															
+						}
+					}
 				}
 				
 				if(isset($tabs)) {
@@ -3007,8 +3101,26 @@ class XmlParser extends XmlParserTools {
 							$pn->addHelp($html);	
 						}
 					}
-					
 					$pn->addMember(self::defineHtmlComponent($parse['params']));
+					
+					
+					if(isset($parse["moreactions"])) {
+					
+						foreach($parse["moreactions"] as $aname => $action) {
+							
+							if(!self::toggleAction($aname,$action)) {
+								continue;
+							}
+							
+							if(isset($action["handlers"])) {
+								ExtEvent::attachAll($action);
+							}
+							
+							$parameterForButton =  ExtEvent::getButtonParams($action,"moreactions",$this->view.$this->iteration,false);					
+							$pn->addMenuActionsItem($parameterForButton);	;
+						}
+					}
+					
 					$pn->end();
 					
 					if($this->type != self::PAGE) {
@@ -3034,7 +3146,26 @@ class XmlParser extends XmlParserTools {
 						'autoEnd'=>$parse["options"]["autoEnd"],
 						'portal'=>true));
 						$pn->addMember(self::defineHtmlComponent($parse['params']));
+						
+						if(isset($parse["moreactions"])) {
+					
+							foreach($parse["moreactions"] as $aname => $action) {
+								
+								if(!self::toggleAction($aname,$action)) {
+									continue;
+								}
+								
+								if(isset($action["handlers"])) {
+									ExtEvent::attachAll($action);
+								}
+								
+								$parameterForButton =  ExtEvent::getButtonParams($action,"moreactions",$this->view.$this->iteration,false);					
+								$pn->addMenuActionsItem($parameterForButton);	;
+							}
+						}
+						
 						$pn->end();
+						
 						if($build) {
 							$this->result = $pn;
 							return $pn;
@@ -3218,7 +3349,7 @@ class XmlParser extends XmlParserTools {
 							$parse["conditions"]["rowaction".$cnt] = $action["attributes"]["condition"]; 
 						}
 						
-						$parameterForRowAction = $grid->getListenerParams($action,"rowactions",$this->view.$this->iteration,$parse["select"]);	
+						$parameterForRowAction =  ExtEvent::getButtonParams($action,"rowactions",$this->view.$this->iteration,$parse["select"],$grid);	
 						$actions->addAction($action["attributes"]);	
 						$cnt++;
 					}
@@ -3302,7 +3433,7 @@ class XmlParser extends XmlParserTools {
 							ExtEvent::attachAll($action);
 						}
 						
-						$parameterForButton = $grid->getListenerParams($action,"moreactions",$this->view.$this->iteration,$parse["select"]);						
+						$parameterForButton = ExtEvent::getButtonParams($action,"moreactions",$this->view.$this->iteration,$parse["select"],$grid);						
 						$grid->addMenuActionsItem($parameterForButton);															
 					}
 				}
@@ -3321,7 +3452,7 @@ class XmlParser extends XmlParserTools {
 							ExtEvent::attachAll($action);
 						}
 						
-						$parameterForButton = $grid->getListenerParams($action,"actions",$this->view.$this->iteration,$parse["select"]);					
+						$parameterForButton = ExtEvent::getButtonParams($action,"actions",$this->view.$this->iteration,$parse["select"],$grid);					
 						$obj = new ImmExtjsButton($grid,$parameterForButton);
 					}
 				}
