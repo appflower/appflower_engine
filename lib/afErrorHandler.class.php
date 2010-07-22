@@ -5,33 +5,21 @@
  */
 class afErrorHandler {
     private $intro;
-    private $debug;
 
-    public function __construct($intro, $debug=false) {
+    public function __construct($intro) {
         $this->intro = $intro;
-        $this->debug = $debug;
     }
 
     public function handler($errno, $errstr, $errfile, $errline) {
-        if ($this->debug) {
-            $errstr .= "\n in $errfile line $errline:";
-            $errstr .= "\n".self::getLine($errfile, $errline);
-        }
-        throw new Exception($this->intro . $errstr);
+        throw new afPhpErrorException($this->intro . $errstr,
+            $errfile, $errline);
     }
+}
 
-    private static function getLine($file, $line) {
-        $fd = fopen($file, 'r');
-        if ($fd === false) {
-            return '';
-        }
-
-        for ($i = 1; $i < $line; $i++) {
-            fgets($fd);
-        }
-
-        $line = fgets($fd);
-        fclose($file);
-        return $line;
+class afPhpErrorException extends Exception {
+    public function __construct($message, $file, $line) {
+        parent::__construct($message);
+        $this->file = $file;
+        $this->line = $line;
     }
 }
