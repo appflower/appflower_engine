@@ -59,8 +59,12 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 				{
 					$attributes['params']=array();
 				}
+				$submitUrl = $attributes['action'];
+				if (!StringUtil::startsWith($submitUrl, 'http')) {
+					$submitUrl = sfContext::getInstance()->getRequest()->getUriPrefix().$submitUrl;
+				}
 				$attributes['params']['af_formcfg'] =
-					afEditJsonRenderer::buildFormcfg($attributes['action'],
+					afEditJsonRenderer::buildFormcfg($submitUrl,
 						$submitContainerObject->getValidators());
 				
 				/**
