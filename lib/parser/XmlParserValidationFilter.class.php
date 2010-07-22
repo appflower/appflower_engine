@@ -98,13 +98,14 @@ class XmlParserValidationFilter extends sfExecutionFilter
 
 			$post = $context->getRequest()->getParameterHolder()->getAll();
 			$url = "/".$post["module"]."/".$post["action"]."?";
+			$ignoredParams = array('module', 'action', 'edit', 'widget_load',
+                'selections', 'af_formcfg');
 
 			foreach($post as $key => $value) {
-				if($key == "module" || $key == "action" || $key == "edit" ||  $key == "selections") {
-					continue;
+				if(!StringUtil::startsWith($key, '_') &&
+						!in_array($key, $ignoredParams, true)) {
+					$url = UrlUtil::addParam($url, $key, $value);
 				}
-				$url .= $key."=".$value."&";
-
 			}
 
 			if(!isset($post["step"])) {
@@ -120,7 +121,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 			$status = XmlParser::updateSession($step);
 
 			if($status === true || $status === 0) {
-				$result = array('success' => true, 'message' => false, 'redirect' => $url);
+				$result = array('success' => true, 'message' => false, 'redirect' => $url, 'load'=>'page');
 			} else {
 				$result = array('success' => false, 'message' => "A file upload error has been detected: ".$upload_status[$status]."!");
 			}
