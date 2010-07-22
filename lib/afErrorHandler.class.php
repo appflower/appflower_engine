@@ -11,6 +11,10 @@ class afErrorHandler {
     }
 
     public function handler($errno, $errstr, $errfile, $errline) {
+        if (error_reporting() === 0 ) {
+            return false;
+        }
+
         throw new afPhpErrorException($this->intro . $errstr,
             $errfile, $errline);
     }
