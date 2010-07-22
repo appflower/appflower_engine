@@ -3492,7 +3492,7 @@ if(response.message) {
 						$preExecute = $file;
 					}					
 					if($this->page["actions"][$key]["attributes"]["post"] === "false" || !$value) {
-						new ImmExtjsLinkButton($this->layout,array('preExecute'=>$preExecute,'label'=>$key,'url'=>$this->page["actions"][$key]["attributes"]["url"], 'icon' => (isset($icon)) ? $icon : $this->page["actions"][$key]["attributes"]["icon"]));
+						new ImmExtjsLinkButton($this->layout,array('preExecute'=>$preExecute,'label'=>$key,'loadas'=>'page','url'=>$this->page["actions"][$key]["attributes"]["url"], 'icon' => (isset($icon)) ? $icon : $this->page["actions"][$key]["attributes"]["icon"]));
 								
 					} else {
 						new ImmExtjsSubmitButton($this->layout,array('preExecute'=>$preExecute,'label'=>$key,'icon' => (isset($icon)) ? $icon : 
@@ -3701,7 +3701,7 @@ if(response.message) {
 		$request = sfContext::getInstance()->getRequest();
 		foreach($request->getParameterHolder()->getAll() as $key => $value) {
 			if(!StringUtil::startsWith($key, '_') &&
-					!in_array($key, $ignoredParams)) {
+					!in_array($key, $ignoredParams, true)) {
 				$url = UrlUtil::addParam($url, $key, $value);
 			}
 		}
