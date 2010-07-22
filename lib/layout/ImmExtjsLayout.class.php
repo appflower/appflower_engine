@@ -333,7 +333,9 @@ class ImmExtjsLayout
 				)
 		);
 		
-		@$this->immExtjs->public['init'] .= "
+        $this->immExtjs->public['init'] = ArrayUtil::get(
+            $this->immExtjs->public, 'init', '');
+		$this->immExtjs->public['init'] .= "
 	    Ext.QuickTips.init();
 	    Ext.apply(Ext.QuickTips.getQuickTip(), {
 		    trackMouse: true
