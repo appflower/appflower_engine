@@ -419,6 +419,7 @@ afApp.loadCenterWidget = function(widget) {
 
 			if(json.redirect)
 			{
+				afApp.loadingProgress(viewport.layout.center.panel.getEl(),1);
 				mask.hide();
 												
 				if(json.message)

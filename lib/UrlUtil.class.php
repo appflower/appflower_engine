@@ -68,9 +68,25 @@ class UrlUtil {
     }
     
     /**
+     * returns relative internal url with /#
+     */
+    public static function widgetUrl($url)
+    {
+    	return '/#'.$url;
+    }
+    
+    /**
+     * return absolute internal url with /#
+     */
+    public static function widgetAbsoluteUrl($url)
+    {
+    	return sfContext::getInstance()->getRequest()->getUriPrefix().'/#'.$url;
+    }
+    
+    /**
      * Return url for appFlower trunk, with /#
      */
-    public static function url($url,$absolute=true)
+    public static function url($url,$absolute=false)
     {
     	return ($absolute?sfContext::getInstance()->getRequest()->getUriPrefix():'').'/#'.$url;
     }
