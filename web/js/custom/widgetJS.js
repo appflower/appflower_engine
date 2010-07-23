@@ -521,7 +521,7 @@ afApp.reloadGridsData = function (idXmls)
 	            if(col.items) {
 	                for(var s = 0; s < col.items.getCount(); s++) {
 	                	var widget=col.items.get(s);
-	                	if(idXmls.in_array(widget.idxml))
+	                	if(idXmls.in_array(widget.idxml)&&widget.getEl()&&widget.getXType().toLowerCase().indexOf('grid')!=-1)
 	                	{
 	                		widget.store.reload();
 	                	}
