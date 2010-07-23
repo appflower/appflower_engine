@@ -116,10 +116,6 @@ class XmlParserValidationFilter extends sfExecutionFilter
 				$step = $post["step"];
 			}
 
-			if($context->getActionName() == "saveJson") {
-				return;
-			}
-
 			$status = XmlParser::updateSession($step);
 
 			if($status === true || $status === 0) {
