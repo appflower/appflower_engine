@@ -366,13 +366,16 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 			}
 			// data for intermediate template
 			
+			//load attribute
+			a.load = a.load? a.load : 'center';
+			
 			/*
 			 * Add expand action in row action
 			 * row action containing name expand triggers is action
 			 */
 			
 			if(a.script){
-				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="#" onclick="'+a.script+'">') : '';
+				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="javascript:void(0);" onclick="'+a.script+'">') : '';
 			}else if(a.name&&a.name.match("_expand$")){
 				
 				/**
@@ -388,7 +391,7 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="{' + a.urlIndex + '}" confirmmsg="'+a.confirmMsg+'">') : '';
 				
 			}else{
-				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a <tpl if="!'+a.confirm+'">class="widgetLoad"</tpl> href="{' + a.urlIndex + '}" <tpl if="'+a.confirm+'">onclick="Ext.Msg.confirm(\'Confirmation\',\''+a.message+'\', function(btn){if (btn==\'yes\'){ afApp.load(\'{' + a.urlIndex + '}\',\'{' + a.load + '}\'); return false; }else{ return true;}});return false;"</tpl>>') : '';
+				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="<tpl if="!'+a.confirm+'&&this.isLoadCenter(\''+a.load+'\')">/#</tpl>{' + a.urlIndex + '}" <tpl if="'+a.confirm+'">onclick="Ext.Msg.confirm(\'Confirmation\',\''+a.message+'\', function(btn){if (btn==\'yes\'){ afApp.load(\'{' + a.urlIndex + '}\',\'{' + a.load + '}\'); return false; }else{ return true;}});return false;"</tpl>>') : '';
 			}			
 			
 			/*
@@ -448,6 +451,10 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 				isUrl : function(url)
 				{
 					if(url.length>0){return true;}else{return false;}
+				},
+				isLoadCenter :function(load)
+				{
+					if(load=='center'){return true;}else{return false;}
 				}
 			}
 		);
