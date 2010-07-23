@@ -3612,21 +3612,22 @@ if(response.message) {
 
 					$preExecute = '';					
 					//$file = 'appFlowerPlugin/js/custom/'.self::isRequest($this->page["actions"][$key]["attributes"]["url"],'js').".js";					
-				
+					$file = '';
 					if(isset($this->page["actions"][$key]["attributes"]["script"])) {
-						$file = 'appFlowerPlugin/js/custom/'.$this->page["actions"][$key]["attributes"]["script"].".js";	
-					} else {
-						$file = "";
+						if(file_exists(sfConfig::get('sf_root_dir')."/plugins/appFlowerPlugin/web/js/custom/".$this->page["actions"][$key]["attributes"]["script"].".js"))
+						$file = 'appFlowerPlugin/js/custom/'.$this->page["actions"][$key]["attributes"]["script"].".js";
+						else
+						$file = '/js/custom/'.$this->page["actions"][$key]["attributes"]["script"].".js";
 					}
-					
-					if(file_exists($file) && !is_dir($file)){
+					//if(file_exists($file) && !is_dir($file))
+					{
 						$preExecute = $file;
 					}					
 					if($this->page["actions"][$key]["attributes"]["post"] === "false" || !$value) {
 						new ImmExtjsLinkButton($this->layout,array('preExecute'=>$preExecute,'label'=>$key,'loadas'=>'page','url'=>$this->page["actions"][$key]["attributes"]["url"], 'icon' => (isset($icon)) ? $icon : $this->page["actions"][$key]["attributes"]["icon"]));
 								
 					} else {
-						new ImmExtjsSubmitButton($this->layout,array('preExecute'=>$preExecute,'label'=>$key,'icon' => (isset($icon)) ? $icon : 
+						new ImmExtjsSubmitButton($this->layout,array('loadas'=>'page','preExecute'=>$preExecute,'label'=>$key,'icon' => (isset($icon)) ? $icon : 
 						"/images/famfamfam/accept.png", 'action'=>$this->page["actions"][$key]["attributes"]["url"]),$this->forms[0]);
 					}	
 				}	

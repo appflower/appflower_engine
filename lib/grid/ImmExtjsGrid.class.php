@@ -66,33 +66,11 @@ class ImmExtjsGrid
 			$this->attributes['plugins'][]="new Ext.ux.plugins.AddExpandListButton";
 			if(!isset($this->attributes['tbar']))$this->attributes['tbar']=array();
 			unset($attributes['expandButton']);
-		}
-		
-		/**
-		 * Plugins for the grid
-		 */
-		
-		if(isset($attributes['plugin']) && $attributes['plugin']){
-			if($attributes['plugin'] == "index_search"){
-				$this->immExtjs->setAddons(array('js' => array($this->immExtjs->getExamplesDir().'grid/Ext.ux.plugins.IndexSearch.js') ));
-				$this->attributes['plugins'][]="new Ext.ux.plugins.IndexSearch";
-			}
-			if($attributes['plugin'] == "row_order"){
-				$this->immExtjs->setAddons(array('js' => array($this->immExtjs->getExamplesDir().'plugins/grid-row-order/Ext.ux.plugins.GridRowOrder.js') ));
-				$this->immExtjs->setAddons(array('css' => array($this->immExtjs->getExamplesDir().'plugins/grid-row-order/row-up-down.css') ));
-				$this->attributes['plugins'][]='new Ext.ux.plugins.GridRowOrder()';
-			}
-			if(preg_match('/^custom:(.*)$/', $attributes['plugin'], $match)){
-				$plugin = $match[1];
-				$this->immExtjs->setAddons(array('js' => array("/appFlowerPlugin/js/custom/".$plugin.".js") ));			
-
-				$css = 'css/'.$plugin.'.css';
-				if(file_exists(sfConfig::get('sf_root_dir').'/plugins/appFlowerPlugin/web/'.$css)) {
-					$this->immExtjs->setAddons(array('css' => array('/appFlowerPlugin/'.$css)));
-				}
-				$this->attributes['plugins'][]='new '.$plugin.'()';
-			}
-		}
+		}	
+		/*
+		* custom plugins...
+		*/
+		$this->addCustomPlugin($attributes);
 		/*
 		 * Grid Remote Search Test
 		 */	
@@ -389,10 +367,14 @@ class ImmExtjsGrid
 							){
 								
 								$urlIndex = $action['urlIndex'];															
-								$credential = ComponentCredential::urlHasCredential($action['url']);								
+								$credential = ComponentCredential::urlHasCredential($action['url']);
+								$actionUrl = UrlUtil::url($action['url']);
+								if(isset($action['loadas']) && $action['loadas'] == "page"){
+									$actionUrl = $action['url'];
+								}								
 								$temp_column['renderer']=$this->immExtjs->asMethod(array(
 									"parameters"=>"value, metadata, record",
-									"source"=>"if(!".intval($credential).") return value;var action = record.get('".$urlIndex."'); if(!action) return value; var m = action.toString().match(/.*?\?(.*)/);return '<a class=\'widgetLoad\' href=\"".$action['url']."?'+m[1]+'\" qtip=\"".(isset($action['tooltip'])?$action['tooltip']:'')."\">'+ value + '</a>';"
+									"source"=>"if(!".intval($credential).") return value;var action = record.get('".$urlIndex."'); if(!action) return value; var m = action.toString().match(/.*?\?(.*)/);return '<a  href=\"".$actionUrl."?'+m[1]+'\" qtip=\"".(isset($action['tooltip'])?$action['tooltip']:'')."\">'+ value + '</a>';"
 								));							
 								$this->actionsObject = $this->actionsObject->changeProperty($action['name'],'hidden',true);
 								if(isset(ImmExtjs::getInstance()->private[$this->actionsObject->privateName]))
@@ -993,6 +975,38 @@ class ImmExtjsGrid
 		}
 		$return = isset($template)?$template:'Displaying {0}-{1} of {2}';
 		return $return;
+	}
+	private function addCustomPlugin($attributes){
+		/**
+		 * Plugins for the grid
+		 */
+		
+		if(isset($attributes['plugin']) && $attributes['plugin']){
+			/*if($attributes['plugin'] == "index_search"){
+				$this->immExtjs->setAddons(array('js' => array($this->immExtjs->getExamplesDir().'grid/Ext.ux.plugins.IndexSearch.js') ));
+				$this->attributes['plugins'][]="new Ext.ux.plugins.IndexSearch";
+			}*/
+			if($attributes['plugin'] == "row_order"){
+				$this->immExtjs->setAddons(array('js' => array($this->immExtjs->getExamplesDir().'plugins/grid-row-order/Ext.ux.plugins.GridRowOrder.js') ));
+				$this->immExtjs->setAddons(array('css' => array($this->immExtjs->getExamplesDir().'plugins/grid-row-order/row-up-down.css') ));
+				$this->attributes['plugins'][]='new Ext.ux.plugins.GridRowOrder()';
+			}
+			if(preg_match('/^custom:(.*)$/', $attributes['plugin'], $match)){
+				$plugin = $match[1];
+				if(file_exists(sfConfig::get('sf_root_dir')."/web/js/custom/".$plugin.".js")){
+					$this->immExtjs->setAddons(array('js' => array("/js/custom/".$plugin.".js") ));			
+				}else if(file_exists(sfConfig::get('sf_root_dir')."/plugins/appFlowerPlugin/web/js/custom/".$plugin.".js")){
+					$this->immExtjs->setAddons(array('js' => array("/appFlowerPlugin/js/custom/".$plugin.".js") ));			
+				}
+				
+				if(file_exists(sfConfig::get('sf_root_dir')."/web/css/".$plugin.".css")){
+					$this->immExtjs->setAddons(array('css' => array("/css/".$plugin.".css") ));			
+				}else if(file_exists(sfConfig::get('sf_root_dir')."/plugins/appFlowerPlugin/web/css/".$plugin.".css")){
+					$this->immExtjs->setAddons(array('css' => array("/appFlowerPlugin/css/".$plugin.".css") ));			
+				}			
+				$this->attributes['plugins'][]='new '.$plugin.'()';
+			}
+		}
 	}
 }
 ?>
