@@ -20,12 +20,13 @@ class ImmExtjsToolbarMenuItem extends ImmExtjsToolbarComponent
 			unset($attributes['label']);
 		}
 		
+		$attributes['load'] = isset($attributes['load'])?$attributes['load']:'center';
+		
 		if(isset($attributes['url']))
-		{
-			$url = json_encode($attributes['url']);
+		{			
 			$this->attributes['handler']=$this->immExtjs->asMethod(array(
   									'parameters'=>'b,e',
-									'source'=>"if(!e.ctrlKey&&!e.metaKey){afApp.load($url);}else{afApp.widgetPopup($url);}"
+									'source'=>"if(!e.ctrlKey&&!e.metaKey){afApp.load(\"".$attributes['url']."\",\"".$attributes['load']."\");}else{afApp.widgetPopup(\"".$attributes['url']."\");}"
   								));
 			
 			unset($attributes['url']);
