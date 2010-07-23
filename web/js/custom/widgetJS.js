@@ -395,6 +395,9 @@ afApp.loadCenterWidget = function(widget) {
 	
 	var uri=widget.split('#');
 	uri[0]=uri[0] || '/';
+	
+	afApp.currentCenterWidget = uri[0];
+	
 	var futureTab=uri[1]?'#'+uri[1]:'';
 	var viewport=App.getViewport();
 	var mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading</b> <br>Please Wait...",removeMask:true});
@@ -656,11 +659,14 @@ Ext.History.on('change', function(token){
 	//do not load the center widget if we are changing tabs
 	if(token)
 	{
-		if(token.indexOf('#')==-1)
+		var tokenS=token.split('#');
+		
+		if(afApp.currentCenterWidget!=tokenS[0])
 		{
 			afApp.loadCenterWidget(token);
 		}
-		else{
+		//this means that the center contains tabs
+		else if(tokenS[1]){
 			var viewport=App.getViewport();
 			var tabPanel=viewport.layout.center.panel.items.items[0].items.items[0];
 			if(tabPanel.getXType()=='tabpanel')
@@ -710,3 +716,5 @@ afApp.loadWestWidget = function(widget)
 		}
 	}
 }
+//used to set/get current widget in center content
+afApp.currentCenterWidget = false;
