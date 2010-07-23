@@ -96,6 +96,8 @@ class XmlParserValidationFilter extends sfExecutionFilter
 
 		if($reflection->getMethod("execute".ucfirst($actionInstance->getActionName()))->isFinal()) {
 
+			afWizard::takeStep();
+
 			$post = $context->getRequest()->getParameterHolder()->getAll();
 			$url = "/".$post["module"]."/".$post["action"]."?";
 			$ignoredParams = array('module', 'action', 'edit', 'widget_load',
