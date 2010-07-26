@@ -3627,7 +3627,8 @@ if(response.message) {
 						new ImmExtjsLinkButton($this->layout,array('preExecute'=>$preExecute,'label'=>$key,'loadas'=>'page','url'=>$this->page["actions"][$key]["attributes"]["url"], 'icon' => (isset($icon)) ? $icon : $this->page["actions"][$key]["attributes"]["icon"]));
 								
 					} else {
-						new ImmExtjsSubmitButton($this->layout,array('wizard'=>true,'preExecute'=>$preExecute,'label'=>$key,'icon' => (isset($icon)) ? $icon : 
+						$wizardSubmit = ArrayUtil::get($parse, 'params', 'wizard_submit', 'true') === 'true';
+						new ImmExtjsSubmitButton($this->layout,array('wizard'=>$wizardSubmit,'preExecute'=>$preExecute,'label'=>$key,'icon' => (isset($icon)) ? $icon : 
 						"/images/famfamfam/accept.png", 'action'=>$this->page["actions"][$key]["attributes"]["url"]),$this->forms[0]);
 					}	
 				}	
