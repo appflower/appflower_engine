@@ -49,6 +49,11 @@ class ImmExtjsGridActions
 		else{
 			$attributes['popupSettings']='';
 		}
+
+		if(isset($attributes['loadas'])) {
+			$attributes['load'] = $attributes['loadas'];
+			unset($attributes['loadas']);
+		}
 		array_push($this->actions,$attributes);
 		array_push($this->attributes['actions'],$this->immExtjs->asAnonymousClass($attributes));
 	}

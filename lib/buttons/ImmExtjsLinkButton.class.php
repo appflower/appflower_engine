@@ -15,15 +15,15 @@ class ImmExtjsLinkButton extends ImmExtjsButton
 	{		
 		$this->immExtjs=ImmExtjs::getInstance();
 		
+		if(isset($attributes['loadas'])) {
+			$attributes['load'] = $attributes['loadas'];
+			unset($attributes['loadas']);
+		}
 		$attributes['load'] = isset($attributes['load'])?$attributes['load']:'center';
 		
 		if(isset($attributes['url']))
 		{	
-			if(!isset($attributes["loadas"]) || $attributes["loadas"] == "widget") {
-				$source = 'afApp.load("'.preg_replace('/js=([a-zA-Z0-9]+)\.js/','',$attributes['url']).'","'.$attributes['load'].'");';	
-			} else {
-				$source = 'location.href="'.$attributes['url'].'?widget_load=false"';
-			}
+			$source = 'afApp.load("'.preg_replace('/js=([a-zA-Z0-9]+)\.js/','',$attributes['url']).'","'.$attributes['load'].'");';	
 			
 			if(isset($attributes['preExecute']) && $attributes['preExecute']){	
 				$pe_file = isset($attributes['preExecute'])?$attributes['preExecute']:'';

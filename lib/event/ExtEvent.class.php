@@ -136,10 +136,10 @@ class ExtEvent {
 					});
 				';
 			} else {
-				if(isset($action["attributes"]["loadas"])&&$action["attributes"]["loadas"] == "widget") {
+				if(isset($action["attributes"]["loadas"])&&$action["attributes"]["loadas"] !== "page") {
 					$successFunction = 'afApp.load("'.$action["attributes"]["url"].$requestParams.')';	
 				} else {
-					$successFunction = 'location.href = "'.$action["attributes"]["url"].'?widget_load=false";';
+					$successFunction = 'location.href = "'.$action["attributes"]["url"].'";';
 				}	
 			}
 		}		

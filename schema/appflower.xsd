@@ -146,7 +146,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 				This defiens how to load an URL. 
 				
 				page   - load it without ajax, new location.
-				widget - load it using ajax, this is the default for all actions / buttons.
+				center - load it using ajax, this is the default for all actions / buttons.
 				
 			</xs:documentation>
 		</xs:annotation>
@@ -154,7 +154,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 			<xs:simpleType>
 				<xs:restriction base="xs:token">
 					<xs:enumeration value="page"/>
-					<xs:enumeration value="widget"/>
+					<xs:enumeration value="center"/>
 					<xs:whiteSpace value="collapse"/>
 				</xs:restriction>
 			</xs:simpleType>
@@ -1881,7 +1881,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		<xs:attribute name="confirmMsg" type="xs:string" use="optional" />
 		<xs:attribute name="confirm" type="xs:boolean" use="optional" />
 		<xs:attribute name="updater" type="xs:boolean" use="optional" default="false" />
-		<xs:attribute name="loadas" type="i:loadType" use="optional" default="widget" />
+		<xs:attribute name="loadas" type="i:loadType" use="optional" default="center" />
 		<xs:attribute name="popup" type="xs:boolean" use="optional" default="false" />
 		<xs:attribute name="permissions" type="i:permissionType" default="*" />
 	  </xs:complexType>

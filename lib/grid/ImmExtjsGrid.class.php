@@ -369,7 +369,7 @@ class ImmExtjsGrid
 								$urlIndex = $action['urlIndex'];															
 								$credential = ComponentCredential::urlHasCredential($action['url']);
 								$actionUrl = UrlUtil::url($action['url']);
-								if(isset($action['loadas']) && $action['loadas'] == "page"){
+								if(isset($action['load']) && $action['load'] == "page"){
 									$actionUrl = $action['url'];
 								}								
 								$temp_column['renderer']=$this->immExtjs->asMethod(array(
