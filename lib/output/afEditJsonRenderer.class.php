@@ -17,8 +17,11 @@ class afEditJsonRenderer {
         return afOutput::renderText(json_encode($result));
     }
 
-    public static function buildFormcfg($submitUrl, $validators) {
+    public static function buildFormcfg($submitUrl, $validators, $wizard=false) {
         $formcfg = array('url'=>$submitUrl, 'validators'=>$validators);
+        if ($wizard) {
+            $formcfg['wizard'] = true;
+        }
         return afAuthenticDatamaker::encode($formcfg);
     }
 

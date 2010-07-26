@@ -3627,7 +3627,7 @@ if(response.message) {
 						new ImmExtjsLinkButton($this->layout,array('preExecute'=>$preExecute,'label'=>$key,'loadas'=>'page','url'=>$this->page["actions"][$key]["attributes"]["url"], 'icon' => (isset($icon)) ? $icon : $this->page["actions"][$key]["attributes"]["icon"]));
 								
 					} else {
-						new ImmExtjsSubmitButton($this->layout,array('loadas'=>'page','preExecute'=>$preExecute,'label'=>$key,'icon' => (isset($icon)) ? $icon : 
+						new ImmExtjsSubmitButton($this->layout,array('wizard'=>true,'preExecute'=>$preExecute,'label'=>$key,'icon' => (isset($icon)) ? $icon : 
 						"/images/famfamfam/accept.png", 'action'=>$this->page["actions"][$key]["attributes"]["url"]),$this->forms[0]);
 					}	
 				}	
@@ -3637,7 +3637,7 @@ if(response.message) {
 			if(!$finish && isset($this->attribute_holder["last"])) {
 				$id = '';
 				if(isset($this->attribute_holder["id"])) $id = $this->attribute_holder["id"];
-				new ImmExtjsSubmitButton($this->layout,array('label'=>'Finish','action'=>"/wizard/finalize?last=".$this->current.
+				new ImmExtjsSubmitButton($this->layout,array('wizard'=>true,'label'=>'Finish','action'=>"/wizard/finalize?last=".$this->current.
 				"&end=".$this->attribute_holder["end"]."&id=".$id."&add=".$add),$this->forms[0]);
 			}
 

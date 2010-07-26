@@ -9,17 +9,20 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		if($this->isFirstCall() && $context->getRequest()->getMethod() == sfRequest::POST) {
 			$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
 
-			$validators = self::getValidators($context);
-			if($validators === null) {
+			$formcfg = self::getFormConfig($context);
+			if($formcfg === null) {
 				$edit = $actionInstance->getRequestParameter('edit');
 				$apikey = $actionInstance->getRequestParameter('af_apikey');
 				if(!is_array($edit) && !$apikey) {
 					// Normal AJAX POST requests and plain forms don't have
 					// validators from the XML config.
 					$validators = array();
+					$formcfg = array();
 				} else {
 					self::renderErrors(array(), 'The form is outdated. Please, refresh it.');
 				}
+			} else {
+				$validators = $formcfg['validators'];
 			}
 
 			$errors = array();
@@ -50,7 +53,9 @@ class XmlParserValidationFilter extends sfExecutionFilter
 				self::renderErrors($errors, $errorMessage);
 			}
 
-			$this->checkFinalWizardStep();
+			if(ArrayUtil::get($formcfg, 'wizard', false)) {
+				$this->updateWizardState();
+			}
 			self::removeIterationNumber(
 				$this->context->getRequest()->getParameterHolder());
 		}
@@ -59,9 +64,9 @@ class XmlParserValidationFilter extends sfExecutionFilter
 	}
 
 	/**
-	 * Returns the right validators for this form or null.
+	 * Returns a valid af_formcfg for this form or null.
 	 */
-	private static function getValidators($context) {
+	private static function getFormConfig($context) {
 		$request = $context->getRequest();
 		$encoded = $request->getParameter('af_formcfg');
 		$formcfg = afAuthenticDatamaker::decode($encoded);
@@ -75,10 +80,10 @@ class XmlParserValidationFilter extends sfExecutionFilter
 			return null;
 		}
 
-		return $formcfg['validators'];
+		return $formcfg;
 	}
 
-	private function checkFinalWizardStep() {
+	private function updateWizardState() {
 		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
 		$context = $this->context;
 
@@ -94,40 +99,37 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		8 => "An extension stopped the upload process!"
 		);
 
-		if($reflection->getMethod("execute".ucfirst($actionInstance->getActionName()))->isFinal()) {
+		afWizard::takeStep();
 
-			afWizard::takeStep();
+		$post = $context->getRequest()->getParameterHolder()->getAll();
+		$url = "/".$post["module"]."/".$post["action"]."?";
+		$ignoredParams = array('module', 'action', 'edit', 'widget_load',
+			'selections', 'af_formcfg');
 
-			$post = $context->getRequest()->getParameterHolder()->getAll();
-			$url = "/".$post["module"]."/".$post["action"]."?";
-			$ignoredParams = array('module', 'action', 'edit', 'widget_load',
-                'selections', 'af_formcfg');
-
-			foreach($post as $key => $value) {
-				if(!StringUtil::startsWith($key, '_') &&
-						!in_array($key, $ignoredParams, true)) {
-					$url = UrlUtil::addParam($url, $key, $value);
-				}
+		foreach($post as $key => $value) {
+			if(!StringUtil::startsWith($key, '_') &&
+					!in_array($key, $ignoredParams, true)) {
+				$url = UrlUtil::addParam($url, $key, $value);
 			}
-
-			if(!isset($post["step"])) {
-				$step = $post["last"];
-			} else {
-				$step = $post["step"];
-			}
-
-			$status = XmlParser::updateSession($step);
-
-			if($status === true || $status === 0) {
-				$result = array('success' => true, 'message' => false, 'redirect' => $url, 'load'=>'page');
-			} else {
-				$result = array('success' => false, 'message' => "A file upload error has been detected: ".$upload_status[$status]."!");
-			}
-
-
-			echo json_encode($result);
-			exit;
 		}
+
+		if(!isset($post["step"])) {
+			$step = $post["last"];
+		} else {
+			$step = $post["step"];
+		}
+
+		$status = XmlParser::updateSession($step);
+
+		if($status === true || $status === 0) {
+			$result = array('success' => true, 'message' => false, 'redirect' => $url, 'load'=>'page');
+		} else {
+			$result = array('success' => false, 'message' => "A file upload error has been detected: ".$upload_status[$status]."!");
+		}
+
+
+		echo json_encode($result);
+		exit;
 	}
 
     /**
