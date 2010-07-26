@@ -53,7 +53,8 @@ class XmlParserValidationFilter extends sfExecutionFilter
 				self::renderErrors($errors, $errorMessage);
 			}
 
-			if(ArrayUtil::get($formcfg, 'wizard', false)) {
+			if(ArrayUtil::get($formcfg, 'wizard', false) &&
+					$actionInstance->getRequestParameter('af_wizard') !== 'false') {
 				$this->updateWizardState();
 			}
 			self::removeIterationNumber(
