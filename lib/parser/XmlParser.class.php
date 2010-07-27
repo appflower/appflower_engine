@@ -329,8 +329,23 @@ class XmlParser extends XmlParserTools {
 			// Application menu..
 				
 			if($this->context->getRequest()->getAttribute("af_first_page_request")) {
-				//$this->parseMenu(null,$this->layout->toolbar);
-				//sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsToolbar'));
+				/*$this->parseMenu(null,$this->layout->toolbar);
+				
+				print_r($this->buttons);
+				exit();
+				
+				foreach($this->buttons as $button) {
+					if(isset($button["menus"])) {
+						for($i = sizeof($button["menus"])-1; $i >= 0; $i--) {
+							$button["menus"][$i]->end();
+						}
+					}
+					$button["button"]->end();
+				}
+				
+				sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsToolbar'));
+				*/
+	
 			}
 			
 			if(!$manual) {
@@ -420,20 +435,45 @@ class XmlParser extends XmlParserTools {
 	}
 	
 	
-	private function parseMenu(Array $nodes = null, ImmExtjsToolbar $toolbar = null,Array $menus = null,Array $buttons = null) {
+	private function parseMenu(Array $nodes = null,$menu = null) {
 		
 		if($nodes === null) {
 			$doc = $this->readDocumentByPath($this->root."/apps/".$this->application."/config/menu.xml",false);
 			$view = afDomAccess::wrap($doc, 'view', new afVarScope($this->attribute_holder));
 			
 			$nodes = $view->wrapAll("menu/node");
+			
 		}
 		
-		
+		/*
 		foreach($nodes as $node) {
 				
 			$childnodes = $node->wrapAll("node");
+			$top = ($node->getParent()->getName() == "menu");
 			
+			if($top) {
+				$button = new ImmExtjsToolbarButton($this->layout->toolbar,array("label" => $node->get("@label"), "handler" => $node->get("@handler"),
+				"tooltip" => array("text" => $node->get("@tooltip"), "title" => $node->get("@tiptitle"))));
+				$this->buttons[$button->attributes["text"]] = array();
+			}
+			
+			if(count($childnodes)) {
+				if(!$top) {
+					$button = new ImmExtjsToolbarMenuItem($menu,array("label" => $node->get("@label"), "url" => $node->get("@target")));
+					$this->buttons[$button->attributes["text"]] = array();
+				}
+				$menu = new ImmExtjsToolbarMenu($button);
+				$this->parseMenu($childnodes,$menu);		
+			} else {
+				if(!$top) {
+					$this->buttons[$menu->containerObject->attributes["text"]][] =  $node->get("@label");
+					$item = new ImmExtjsToolbarMenuItem($menu,array("label" => $node->get("@label"), "url" => $node->get("@target")));
+					$item->end();	
+				}
+				
+			}
+			
+	
 			$menu = ($menus) ? $this->getMenuForNode($node,$menus) : null;
 			
 			if($node->getParent()->getName() == "menu") {
@@ -468,6 +508,8 @@ class XmlParser extends XmlParserTools {
 			}
 			
 		}
+		
+		*/
 		
 	}
 	
@@ -2697,7 +2739,6 @@ class XmlParser extends XmlParserTools {
 					} else if(!isset($tabs)) {
 						$set["attributes"]["isSetting"] = $parse['isSetting'];											
 						$set["attributes"]["description"] = isset($parse['description']) ? $parse['description'] : "";
-						$set["attributes"]["title"] = $parse['title'];
 						$tabs = $form->startTabs($set["attributes"]);
 					}
 					
