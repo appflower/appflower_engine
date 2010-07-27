@@ -45,6 +45,7 @@ class afWizard {
      */
     public static function takeStep() {
         $steps = self::getValidSteps();
+        $holder = sfContext::getInstance()->getUser()->getAttributeHolder();
         $holder->set('steps', $steps, self::$SESSION_NS);
     }
 
