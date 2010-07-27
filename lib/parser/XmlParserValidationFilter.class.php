@@ -25,6 +25,10 @@ class XmlParserValidationFilter extends sfExecutionFilter
 				$validators = $formcfg['validators'];
 			}
 
+			if(ArrayUtil::get($formcfg, 'wizard', false)) {
+				afWizard::checkStepOrRenderError();
+			}
+
 			$errors = array();
 			$errorMessage = null;
 

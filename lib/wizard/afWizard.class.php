@@ -1,5 +1,8 @@
 <?php
 
+class afValidationException extends Exception {
+}
+
 class afWizard {
     private static $SESSION_NS = 'af/wizard';
 
@@ -25,15 +28,32 @@ class afWizard {
     }
 
     /**
-     * Remembers the taken step.
+     * Checks that the current update action is expected.
      * It renders an JSON error if the form is out of the wizard sequence.
      */
+    public static function checkStepOrRenderError() {
+        try {
+            self::getValidSteps();
+        } catch (afValidationException $e) {
+            self::renderError($e->getMessage());
+        }
+    }
+
+    /**
+     * Remembers the taken step.
+     * It should be called after successful validation.
+     */
     public static function takeStep() {
+        $steps = self::getValidSteps();
+        $holder->set('steps', $steps, self::$SESSION_NS);
+    }
+
+    private static function getValidSteps() {
         $holder = sfContext::getInstance()->getUser()->getAttributeHolder();
         $path = $holder->get('path', null, self::$SESSION_NS);
         if ($path === null) {
             // To support not-yet-migrated wizards.
-            return;
+            return array();
         }
 
         $module = sfContext::getInstance()->getModuleName();
@@ -44,18 +64,18 @@ class afWizard {
         if (count($steps) >= count($path)) {
             Console::debug('extra updateAction:', $updateAction,
                 'steps:', $steps, 'path:', $path);
-            self::renderError('The wizard is already finished!');
+            throw new afValidationException('The wizard is already finished!');
         }
 
         $steps = self::getStepsTo($steps, $updateAction);
         for($i = 0, $len = count($steps); $i < $len; $i++) {
             if ($steps[$i] !== $path[$i]) {
                 Console::debug('wrong steps:', $steps, 'path:', $path);
-                self::renderError('It is not possible to skip a wizard step.');
+                throw new afValidationException('It is not possible to skip a wizard step.');
             }
         }
 
-        $holder->set('steps', $steps, self::$SESSION_NS);
+        return $steps;
     }
 
     /**
@@ -82,3 +102,4 @@ class afWizard {
         exit;
     }
 }
+
