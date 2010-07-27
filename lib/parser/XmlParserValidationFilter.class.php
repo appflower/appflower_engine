@@ -84,10 +84,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 	}
 
 	private function updateWizardState() {
-		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
 		$context = $this->context;
-
-		$reflection = new ReflectionClass(get_class($actionInstance));
 		$upload_status = array
 		(
 		1 => "File is too large!",
@@ -102,16 +99,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 		afWizard::takeStep();
 
 		$post = $context->getRequest()->getParameterHolder()->getAll();
-		$url = "/".$post["module"]."/".$post["action"]."?";
-		$ignoredParams = array('module', 'action', 'edit', 'widget_load',
-			'selections', 'af_formcfg');
-
-		foreach($post as $key => $value) {
-			if(!StringUtil::startsWith($key, '_') &&
-					!in_array($key, $ignoredParams, true)) {
-				$url = UrlUtil::addParam($url, $key, $value);
-			}
-		}
+		$url = $context->getRequest()->getUri();
 
 		if(!isset($post["step"])) {
 			$step = $post["last"];
