@@ -697,6 +697,13 @@ class XmlParser extends XmlParserTools {
 			else {
 				$tabIconCls = null;
 			}
+			if($this->has($node,"icon")) {
+				$tabIcon = $this->get($node,"icon");	
+			}
+			else {
+				$tabIcon = null;
+			}
+			
 			
 			if($this->tabbedWizard && $tabname) {
 				$name = $tabname;
@@ -713,7 +720,7 @@ class XmlParser extends XmlParserTools {
 				}
 				
 				$this->process["parses"][$this->iteration]["fields"][$name]["attributes"] = array("title" => $name, 
-				"collapsed" => ($collapsed == "false") ? false : true,"columns" => $columns, "float" => $float,"tabHeight"=>$tabHeight,"tabIconCls"=>$tabIconCls);
+				"collapsed" => ($collapsed == "false") ? false : true,"columns" => $columns, "float" => $float,"tabHeight"=>$tabHeight,"tabIconCls"=>$tabIconCls, "tabIcon" => $tabIcon);
 								
 				if($tabname != null) {
 					$this->process["parses"][$this->iteration]["fields"][$name]["attributes"]["tabtitle"] = $tabname;
@@ -2771,7 +2778,14 @@ class XmlParser extends XmlParserTools {
 					
 					
 					if(isset($set["attributes"]["tabtitle"])) {
-						$tabx = $tabs->startTab(array('title'=>$set["attributes"]["tabtitle"],'height'=>$set["attributes"]["tabHeight"],'iconCls'=>$set["attributes"]["tabIconCls"]));
+						$tabattrs = array('title'=>$set["attributes"]["tabtitle"],'height'=>$set["attributes"]["tabHeight"],"iconCls" => $set["attributes"]["tabIconCls"]);
+						
+						if($set["attributes"]["tabIcon"] && file_exists($this->root."/web".$set["attributes"]["tabIcon"])) {
+							$tabattrs["icon"] = $set["attributes"]["tabIcon"];
+							unset($tabattrs["iconCls"]);
+						}
+							
+						$tabx = $tabs->startTab($tabattrs);
 						$fieldset = $tabx->startFieldset($attributes);
 									
 					} else {

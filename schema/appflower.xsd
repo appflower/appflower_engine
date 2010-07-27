@@ -1673,6 +1673,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	<xs:attribute name="collapsed" type="xs:boolean" use="optional" default="false" />
       	<xs:attribute name="tabHeight" type="xs:positiveInteger" use="optional" default="225" />
       	<xs:attribute name="iconCls" type="xs:token" use="optional"/>
+      	<xs:attribute name="icon" type="i:absoluteUriType" use="optional"/>
 	  </xs:complexType>
 	</xs:element>
 	
@@ -2126,7 +2127,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 					<xs:choice minOccurs="0" maxOccurs="1" i:view="list">
 						<xs:sequence>
 							<xs:element ref="i:scripts" minOccurs="0" maxOccurs="1" />
-							<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
+							<xs:element ref="i:title" minOccurs="0" maxOccurs="1" />
 							<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
 							<xs:element ref="i:params" minOccurs="0" maxOccurs="1" />
 							<xs:element ref="i:proxy" minOccurs="0" maxOccurs="1" />
