@@ -42,6 +42,14 @@ class UrlUtil {
     }
 
     /**
+     * A link with an HTML in the name.
+     */
+    public static function htmlLink($name, $url) {
+        $url = self::abs($url);
+        return '<a href="'.$url.'">'.$name.'</a>';
+    }
+
+    /**
      * Returns an <a> tag to open the given widget.
      */
     public static function widgetLink($name, $url) {
