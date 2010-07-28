@@ -2,15 +2,16 @@
 /**
  * This class will log executed queries
  * It works with every HTTP request so it is ajax friendly.
- * For this to work make sure that:
- *  * DebugPDO connection class is used instead of PropelPDO (databases.yml) - or just switch to dev environment
- *  * FirePHP library is available withing include_path (FirePHPCore/FirePHP.class.php) - it should be if You install FirePHP through PEAR
- *  * Firebug and FirePHP extensions for firefox are installed and "Net" panel in firebug is enabled
- *  * enable query logging in app.yml:
+ * For this to work switch to dev environment and make sure that Firebug and FirePHP extensions for firefox are installed and "Net" panel in firebug is enabled
+ * If You want to use it in other environment You must also make sure that:
+ *  * DebugPDO connection class is used instead of PropelPDO (databases.yml)
+ *  * You have enabled it in app.yml like below:
 all:
   enable_firephp_query_logger: true
  *
  * When You do everything correct You should notice queries being logged to Firebug console.
+ *
+ * You can also force this class NOT to log queries even in dev environment by switching above app.yml setting to false
  *
  * @author Łukasz Wojciechowski <luwo@appflower.com>
  */
@@ -73,14 +74,12 @@ class FirePHPQueryLogger
           }
         }
 
-        if (@include_once('FirePHPCore/FirePHP.class.php')) {
-            $fp = firePHP::getInstance(true);
-            $fp->group('Queries ('.count($this->queries).')', array('Collapsed'=>true));
-            foreach ($this->queries as $index => $query) {
-                $fp->log(($index+1).'. '.$query);
-            }
-            $fp->groupEnd();
+        $fp = FirePHP::getInstance(true);
+        $fp->group('Queries ('.count($this->queries).')', array('Collapsed'=>true));
+        foreach ($this->queries as $index => $query) {
+            $fp->log(($index+1).'. '.$query);
         }
+        $fp->groupEnd();
     }
 
 }
