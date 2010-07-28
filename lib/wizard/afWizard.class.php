@@ -16,10 +16,15 @@ class afWizard {
             throw new Exception('The wizard path has to have a initial page and a final page.');
         }
 
-        $holder = sfContext::getInstance()->getUser()->getAttributeHolder();
+        $context = sfContext::getInstance();
+        $holder = $context->getUser()->getAttributeHolder();
         $holder->removeNamespace(self::$SESSION_NS);
         $holder->set('path', $path, self::$SESSION_NS);
         $holder->set('steps', array($path[0]), self::$SESSION_NS);
+
+        // For backward compability with XmlParser.
+        $action = $context->getActionStack()->getLastEntry()->getActionInstance();
+        $action->init = true;
     }
 
     public static function redefinePath($path) {
