@@ -3694,7 +3694,7 @@ if(response.message) {
 				$id = '';
 				if(isset($this->attribute_holder["id"])) $id = $this->attribute_holder["id"];
 				new ImmExtjsSubmitButton($this->layout,array('wizard'=>true,'label'=>'Finish','action'=>"/wizard/finalize?last=".$this->current.
-				"&end=".$this->attribute_holder["end"]."&id=".$id."&add=".$add),$this->forms[0]);
+				"&end=".urlencode($this->attribute_holder['end'])."&id=".$id."&add=".$add),$this->forms[0]);
 			}
 
 			
