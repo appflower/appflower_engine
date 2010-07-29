@@ -92,9 +92,15 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 	{
 		this.updateMsg(r);
 		
+		var updater = this;
 		r.hideAfter = (r.hideAfter*1000) || 2000;
-		this.msg.hide.defer(r.hideAfter,this.msg);
-		this.msg = null;
+		window.setTimeout(function() {
+			updater.msg.hide();
+			updater.msg = null;
+			if (r.redirect) {
+				afApp.load(r.redirect);
+			}
+		}, r.hideAfter);
 	},
 	
 	updateMsg : function(r)
