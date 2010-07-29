@@ -58,8 +58,8 @@ class afWizard {
         $holder = sfContext::getInstance()->getUser()->getAttributeHolder();
         $path = $holder->get('path', null, self::$SESSION_NS);
         if ($path === null) {
-            // To support not-yet-migrated wizards.
-            return array();
+            throw new afValidationException(
+                "No wizard was started yet!");
         }
 
         $module = sfContext::getInstance()->getModuleName();
