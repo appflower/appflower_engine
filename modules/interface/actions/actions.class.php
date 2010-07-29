@@ -492,25 +492,25 @@ class interfaceActions extends CustomActions
   public function executeTestUpdater()
   {   	  	
   	Util::serverPush(array('step'=>'start','title'=>'Tasks','msg'=>'Starting task1 '.date("H:i:s"),'percent'=>'0'));
-  	Util::serverPush(array('step'=>'in','msg'=>'Task1 almost completed','percent'=>'50'),2000000);
-  	Util::serverPush(array('step'=>'in','msg'=>'Task1 completed '.date("H:i:s"),'percent'=>'100'),2000000);
+  	Util::serverPush(array('step'=>'in','msg'=>'Task1 almost completed','percent'=>'50'));
+  	Util::serverPush(array('step'=>'in','msg'=>'Task1 completed '.date("H:i:s"),'percent'=>'100'));
   	
-  	//Util::serverPush(array('step'=>'error','msg'=>'SOME ERROR APPEARED !'),2000000);
-  	Util::serverPush(array('step'=>'in','msg'=>'Task2 starting '.date("H:i:s"),'percent'=>'0'),2000000);
+  	//Util::serverPush(array('step'=>'error','msg'=>'SOME ERROR APPEARED !'));
+  	Util::serverPush(array('step'=>'in','msg'=>'Task2 starting '.date("H:i:s"),'percent'=>'0'));
   	for ($i=1;$i<80;$i++)
   	{
-  		Util::serverPush(array('step'=>'in','msg'=>'Task2 running','percent'=>($i/4)),250000);
+  		Util::serverPush(array('step'=>'in','msg'=>'Task2 running','percent'=>($i/4)));
   	}
-  	Util::serverPush(array('step'=>'in','msg'=>'Task2 running','percent'=>'20'),2000000);
-  	Util::serverPush(array('step'=>'in','msg'=>'Task2 running','percent'=>'40'),2000000);
-  	Util::serverPush(array('step'=>'in','msg'=>'Task2 running','percent'=>'60'),2000000);
-  	Util::serverPush(array('step'=>'in','msg'=>'Task2 running','percent'=>'80'),2000000);
-  	Util::serverPush(array('step'=>'in','msg'=>'Task2 finished '.date("H:i:s"),'percent'=>'100'),2000000);
+  	Util::serverPush(array('step'=>'in','msg'=>'Task2 running','percent'=>'20'));
+  	Util::serverPush(array('step'=>'in','msg'=>'Task2 running','percent'=>'40'));
+  	Util::serverPush(array('step'=>'in','msg'=>'Task2 running','percent'=>'60'));
+  	Util::serverPush(array('step'=>'in','msg'=>'Task2 running','percent'=>'80'));
+  	Util::serverPush(array('step'=>'in','msg'=>'Task2 finished '.date("H:i:s"),'percent'=>'100'));
   	
-  	Util::serverPush(array('step'=>'in','msg'=>'Task3 starting '.date("H:i:s"),'percent'=>'0'),2000000);
-  	Util::serverPush(array('step'=>'in','msg'=>'Task3 running','percent'=>'40'),2000000);
-  	Util::serverPush(array('step'=>'in','msg'=>'Task3 running','percent'=>'80'),2000000);
-  	Util::serverPush(array('step'=>'in','msg'=>'Task3 finished '.date("H:i:s"),'percent'=>'100'),2000000);
+  	Util::serverPush(array('step'=>'in','msg'=>'Task3 starting '.date("H:i:s"),'percent'=>'0'));
+  	Util::serverPush(array('step'=>'in','msg'=>'Task3 running','percent'=>'40'));
+  	Util::serverPush(array('step'=>'in','msg'=>'Task3 running','percent'=>'80'));
+  	Util::serverPush(array('step'=>'in','msg'=>'Task3 finished '.date("H:i:s"),'percent'=>'100'));
   	  	  	
   	Util::serverPush(array('step'=>'stop','msg'=>'Tasks finished '.date("H:i:s"),'percent'=>'100','hideAfter'=>3));
   	

@@ -975,23 +975,19 @@ class Util {
 	 * prints to response an json string
 	 *
 	 * @param array $array
-	 * @param int $timeout in microseconds || false
 	 * @initial author: tamas
 	 * @current author: radu
 	 */
 
-	public static function serverPush($array=false,$timeout = false) {
-
-		if($array)
-		print json_encode($array)."\n";
+	public static function serverPush($array=false) {
+		// It is needed to use a content type ignored by mod_deflate.
+		// See AddOutputFilterByType configuration in in web/.htaccess.
+		@header('Content-Type: application/json');
+		if($array) {
+			print json_encode($array)."\n";
+		}
 
 		self::forceFlush();
-
-		if(!$timeout) {
-			sleep(1);
-		} else {
-			usleep($timeout);
-		}
 	}
 
 	public static function forceFlush() {
