@@ -11,7 +11,6 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 	url:null,
 	interval:200, //in miliseconds
 	timeout:300000, //in miliseconds
-	noStep:false,
 	width:250,
 	errors:{
 		noStep: null,
@@ -22,97 +21,55 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 	{
 		this.comet = new Ext.Comet({url:this.url, interval:this.interval, timeout:this.timeout});
 		this.comet.on("receive", this.onReceive, this);
-		this.comet.start(this);
+		this.comet.start();
+		this.updateMsg({title:'Waiting...',msg:'Waiting for server response !',percent:'0'});
 	},
 			
 	onReceive : function(r)
 	{
-		//console.log('Updater:',r);
-		//console.log(r.msg);		
-		
 		var nbInfos = r.length;
-		var delay=0;
 		for (i = 0; i < nbInfos; i++) {
-			if (r[i] === "") { continue; }
-			
-			try {
-				r[i] = eval("("+r[i]+")");
-				if (!r[i]) { r[i] = r[i]; }
-			} catch(ex) {
-				r[i] = r[i];
-			}		
-		
-			delay+=2000;
-									
 			if(!r[i].step)
 			{
 				this.errors.noStep = this.errors.noStep || 'There is an error in the Updater! No step defined !';
 				
 				this.createErrorMsg({msg:this.errors.noStep});
-				
-				this.noStep=true;
+                continue;
 			}
 					
-			if(Ext.isIE)
+			if(r[i].step=='start')
 			{
-				if(!this.noStep) 
-				{
-					if(r[i].step=='start')
-					{
-						this.createMsg.defer(delay,this,[r[i]]);	
-					}
-					else if(r[i].step=='in')
-					{
-						this.updateMsg.defer(delay,this,[r[i]]);
-					}
-					else if(r[i].step=='error')
-					{
-						this.createErrorMsg.defer(delay,this,[r[i]]);
-					}
-					else if(r[i].step=='stop')
-					{
-						this.hideMsg.defer(delay,this,[r[i]]);
-					}
-				}
+				this.updateMsg(r[i]);	
 			}
-			else
+			else if(r[i].step=='in')
 			{
-				if(!this.noStep) 
-				{
-					if(r[i].step=='start')
-					{
-						this.createMsg(r[i]);	
-					}
-					else if(r[i].step=='in')
-					{
-						this.updateMsg(r[i]);
-					}
-					else if(r[i].step=='error')
-					{
-						this.createErrorMsg(r[i]);	
-					}
-					else if(r[i].step=='stop')
-					{
-						this.percentText+=' done';
-						
-						this.hideMsg(r[i]);
-					}
-				}
+				this.updateMsg(r[i]);
+			}
+			else if(r[i].step=='error')
+			{
+				this.createErrorMsg(r[i]);	
+			}
+			else if(r[i].step=='stop')
+			{
+				this.hideMsg(r[i]);
 			}
 		}
 	},
 	
 	createMsg : function(r)
 	{		
-		if(r.title&&r.msg&&r.percent)
-		{
-			this.percentText=this.getPercentText(r);
-			this.percentValue=this.getPercentValue(r);
-			
-			Ext.MessageBox.minProgressWidth=this.width;
-			
-			this.msg=Ext.Msg.progress(r.title,r.msg,this.percentText);
-		}
+		var percentText=this.getPercentText(r);
+		var percentValue=this.getPercentValue(r);
+		this.msg=Ext.Msg.show({
+			title: r.title,
+			msg: r.msg,
+			buttons: false,
+			progress: true,
+			closable: false,
+			minWidth: this.width,
+			progressText: percentText
+		});
+		this.msg.updateProgress(percentValue, percentText, r.msg);
 	},
 	
 	createErrorMsg : function(r)
@@ -126,9 +83,6 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 		if(r.msg)
 		{
 			this.errors.title = this.errors.title || 'Error';
-			
-			Ext.MessageBox.minProgressWidth='250';
-			
 			Ext.Msg.alert(this.errors.title, r.msg);
 		}		
 		
@@ -136,35 +90,25 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 	
 	hideMsg : function(r)
 	{
-		if(this.msg&&r.msg&&r.percent)
-		{
-			this.percentText=this.getPercentText(r);
-			this.percentValue=this.getPercentValue(r);
-			
-			if(this.percentValue==1)
-			this.percentText+=' done';
-			
-			this.msg.updateProgress(this.percentValue,this.percentText,r.msg);
-			
-			r.hideAfter = (r.hideAfter*1000) || 2000;
-			
-			Ext.MessageBox.minProgressWidth='250';
-						
-			this.msg.hide.defer(r.hideAfter,this.msg);
-		}
+		this.updateMsg(r);
+		
+		r.hideAfter = (r.hideAfter*1000) || 2000;
+		this.msg.hide.defer(r.hideAfter,this.msg);
 	},
 	
 	updateMsg : function(r)
 	{
-		if(this.msg&&r.msg&&r.percent)
-		{
-			this.percentText=this.getPercentText(r);
-			this.percentValue=this.getPercentValue(r);
+		if(!this.msg) {
+			this.createMsg(r);
+		} else {
+			var percentText=this.getPercentText(r);
+			var percentValue=this.getPercentValue(r);
 			
-			if(this.percentValue==1)
-			this.percentText+=' done';
+			if(percentValue==1) {
+				percentText+=' done';
+			}
 			
-			this.msg.updateProgress(this.percentValue,this.percentText,r.msg);
+			this.msg.updateProgress(percentValue,percentText,r.msg);
 		}
 	},
 	

@@ -21,18 +21,11 @@ Ext.extend(Ext.Comet, Ext.util.Observable, {
 	reconnectIntervalOnFailure : 5000,
 	url : null,
 	timeout : 30000, //in miliseconds
-	external: null,
 
-	start : function(external) {
-		this.external=external;
-		if(Ext.isIE)
-		{
-			this.external.percentText=this.external.getPercentText({percent:'0'});
-			this.external.createMsg({title:'Waiting...',msg:'Waiting for server response !',percent:'0'});
-		}
-		Ext.Ajax.timeout=this.timeout;
+	start : function() {
 		this.request = Ext.Ajax.request({
 			url:this.url,
+			timeout:this.timeout,
 			callback:this.requestCallback,
 			scope:this
 		});
@@ -41,7 +34,6 @@ Ext.extend(Ext.Comet, Ext.util.Observable, {
 	},
 
 	requestCallback : function(o, success, r) {
-		//console.log("End :", o, success, r);
 		this.watch();
 		this.stop();
 		if (this.autoReconnect) {
@@ -62,33 +54,19 @@ Ext.extend(Ext.Comet, Ext.util.Observable, {
 			this.lastTextPosition = text.length;
 			var lasts = last.split("\n");
 			var nbInfos = lasts.length;
-			//console.log(lasts);
+			var steps = new Array();
 			for (i = 0; i < nbInfos; i++) {
 				if (lasts[i] === "") { continue; }
-				o = "";
-				try {
-					o = eval("("+lasts[i]+")");
-					if (!o) { o = lasts[i]; }
-				} catch(ex) {
-					o = lasts[i];
-				}
+				steps.push(Ext.util.JSON.decode(lasts[i]));
 			}
 			
-			if(!Ext.isIE)
-			{
-				this.fireEvent("receive", new Array(o));				
-			}
-			else
-			{
-				this.fireEvent("receive", lasts);
-			}
+			this.fireEvent("receive", steps);
 		}
 	},
 		
 	stop : function() {
 		clearInterval(this._intervalId);
 		this.request.conn.abort();
-		Ext.Ajax.timeout=30000;
 	}
 
 
