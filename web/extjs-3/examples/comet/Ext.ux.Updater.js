@@ -77,7 +77,7 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 		if(this.msg)
 		{
 			this.msg.hide();
-			delete this.msg;
+			this.msg = null;
 		}
 		
 		if(r.msg)
@@ -94,6 +94,7 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 		
 		r.hideAfter = (r.hideAfter*1000) || 2000;
 		this.msg.hide.defer(r.hideAfter,this.msg);
+		this.msg = null;
 	},
 	
 	updateMsg : function(r)
