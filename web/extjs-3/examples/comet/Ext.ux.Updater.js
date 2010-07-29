@@ -110,6 +110,9 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 			}
 			
 			this.msg.updateProgress(percentValue,percentText,r.msg);
+			if(r.title) {
+				this.msg.getDialog().setTitle(r.title);
+			}
 		}
 	},
 	
