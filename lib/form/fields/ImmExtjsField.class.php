@@ -78,7 +78,7 @@ class ImmExtjsField
 					 */
 					if (isset($type_params['parameters'])&&$type_params['parameters']!=''&&isset($type_params['source'])&&!is_array($type_params['source']))
 					{
-						$this->attributes['listeners'][$type]=(array('parameters'=>$type_params['parameters'],'source'=>$type_params['source'].$attributes['handlers'][$type]['source']));
+						$this->attributes['listeners'][$type]=(array('parameters'=>$type_params['parameters'],'source'=>$type_params['source'].((isset($attributes['handlers'][$type])) ? $attributes['handlers'][$type]['source'] : "")));
 					}
 				}
 			}

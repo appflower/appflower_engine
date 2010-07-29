@@ -56,7 +56,6 @@ class XmlBaseElementParser  {
 		self::$parser = $parser;
 	}
 	
-	
 	private static function entityReplace(&$val) {
 		
 		$entities = array("&" => "&amp;","<" => "&lt;",">" => "&gt;", "\"" => "&quot;", "'" => "&#39;");
@@ -66,6 +65,27 @@ class XmlBaseElementParser  {
 		}
 		
 	} 
+	
+	
+	public static function parseNodes(DOMNodeList $nodes,&$result,&$selected) {
+		
+		foreach($nodes as $child) {
+			
+			$children =  self::$parser->fetch("./i:node",$child);
+			
+			if($children->length) {
+				self::parseNodes($children, $result, $selected);
+			} else {
+				$key = self::$parser->get($child);
+				$value = self::$parser->get($child,"label");
+				$result[$key] = $value;
+				if(self::$parser->get($child,"selected") === "true") {
+					$selected[$value] = $key;
+				}	
+			}
+		}
+		
+	}
 	
 	public static final function add($key,$value) {
 		

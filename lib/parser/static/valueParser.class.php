@@ -9,6 +9,25 @@ class valueParser extends XmlBaseElementParser {
 		$process = self::$parser->getProcess();
 		$iteration = self::$parser->getIteration();
 		
+		$default = self::$parser->fetch("./i:default",$node);
+		$defvalue = $selected = "";
+		
+		if($default->length) {
+			$default = $default->item(0);
+			$children = self::$parser->fetch("./i:node",$default);
+			if($children->length) {
+				parent::parseNodes($children,$defvalue,$selected);
+				if($selected) {
+					self::add("fields/".$name."/value/default/selected",$selected);
+				}
+			} else {
+				$defvalue = self::$parser->get($default);	
+			}
+			
+			self::add("fields/".$name."/value/default/value",$defvalue);
+		}
+
+		
 		if(self::$parser->find($node,"source")) {
 
 			self::add("fields/".$name."/value/type","1");

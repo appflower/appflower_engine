@@ -2022,116 +2022,139 @@ class XmlParser extends XmlParserTools {
 		} else if(isset($data["value"])) {
 			
 			
-			
-			try {
-				
-				if(!class_exists($data["value"]["class"])) {
-					throw new XmlParserException("Class ".$data["value"]["class"]." doesn't exists!");
-				} 
-				
-				
-				if($data["value"]["type"] == 1 && $data["value"]["class"] == $this->process["parses"][$key]["datasource"]["class"]) {
-					$params = isset($this->process["parses"][$key]["datasource"]["method"]["params"])?$this->process["parses"][$key]["datasource"]["method"]["params"]: array(null);
-					$class = afCall::funcArray(array($data["value"]["class"],$this->process["parses"][$key]["datasource"]["method"]["name"]),$params);
-					if(!$class || !is_object($class)) {
-						if($this->view == "show") {
-							throw new XmlParserException("Invalid id was specified, non-object value has been returned!");	
+			if(isset($data["value"]["default"]) && (!isset($this->attribute_holder["id"]) || !$this->attribute_holder["id"])) {
+				if($data["attributes"]["type"] == "doubletree") {
+					
+				} else if($data["attributes"]["type"] == "combo" || $data["attributes"]["type"] == "multicombo" || 
+				$data["attributes"]["type"] == "doublemulticombo" || $data["attributes"]["type"] == "itemSelectorAutoSuggest") {
+					$data["attributes"]["options"] = $data["value"]["default"]["value"];
+					if(isset($data["value"]["default"]["selected"])) {
+						if($data["attributes"]["type"] == "doublemulticombo") {
+							$data["attributes"]["selected"] = array_flip($data["value"]["default"]["selected"]);
 						} else {
-							$class = "";
+							$data["attributes"]["selected"] = trim(implode(",",$data["value"]["default"]["selected"]),",");
 						}
-					}
-					$params = array();
-				} 
-								
-				
-				if(!isset($class)) { 
-					$class = $data["value"]["class"];
-					$params = (isset($data["value"]["method"]["params"])) ? $data["value"]["method"]["params"] : array();
-					
-					
-					if(isset($data["attributes"]["selected"]) && $data["attributes"]["selected"]) {
-						$params[] = $data["attributes"]["selected"];
-					}
-				}
-				
-				
-				$method = (is_array($data["value"]["method"])) ? $data["value"]["method"]["name"] : $data["value"]["method"];
-				
-				if($class && !method_exists($class,$method)) {
-					throw new XmlParserException("The method ".$method." doesn't exist in class ".((is_string($class)) ? $class : get_class($class))."!");
-				}
-				
-				if($class) {
-				
-					$value = afCall::funcArray(array($class,$method),$params);	
-					if(isset($data["attributes"]["content"])) {
-						$value = $data["attributes"]["content"];
+						
 					}
 				} else {
-					$value = "";
-				}
-				
-				if(!is_numeric($value) && !is_array($value) && !is_string($value) && !is_bool($value) && get_class($value) != 
-				"Collection" && $value !== null && !($value instanceof sfExtjs2Var)) {
-					throw new XmlParserException("Invalid value has been returned by ".$data["value"]["class"]."->".
-					$data["value"]["method"].", number, array, object, booelan or string expected, but ".gettype($value)." given!");
-				}	
-				
-				if(isset($data["attributes"]["type"]) && $data["attributes"]["type"] == "checkbox") {
-					if(!isset($data["attributes"]["checked"])) {
-						if($value) {
-							$data["attributes"]["checked"] = true;
-						} else {
-							$data["attributes"]["checked"] = false;
-						}	
+					if($data["attributes"]["type"] == "checkbox") {
+						$data["attributes"]["checked"] = true;
 					}
-					
-				}
-				
-			}
-			catch(Exception $e) {
-				throw $e;
-			}
+					$data["attributes"]["value"] = $data["value"]["default"]["value"];
+				}	
+			} else {
 			
-			if(@get_class($value) != "Collection") {
-				if(isset($data["attributes"]["type"])) {
+			
+				try {
 					
-					if($data["attributes"]["type"] == "itemSelectorAutoSuggest" || $data["attributes"]["type"] == "doublemulticombo"  || $data["attributes"]["type"] == "doubletree") {
-						
-						if(isset($value[1])) {
-							$data["attributes"]["selected"] = $value[1];
-							foreach($value[1] as $k => $v) {
-								if($data["attributes"]["type"] == "doubletree") {
-									foreach($v["children"] as $kk => $c) {
-										if(($idx = array_search($c,$value[0][$k]["children"])) !== false) {
-											unset($value[0][$k]["children"][$idx]);
-											$value[0][$k]["children"] = array_merge($value[0][$k]["children"],array());
-										}	
-									}
-									if(empty($value[0][$k]["children"])) {
-										unset($value[0][$k]);
-										$value[0] = array_merge($value[0],array());
-									}
-								} else {
-									if(isset($value[0][$k])) {
-										unset($value[0][$k]);
-									}	
-								}
-								
+					if(!class_exists($data["value"]["class"])) {
+						throw new XmlParserException("Class ".$data["value"]["class"]." doesn't exists!");
+					} 
+					
+					
+					if($data["value"]["type"] == 1 && $data["value"]["class"] == $this->process["parses"][$key]["datasource"]["class"]) {
+						$params = isset($this->process["parses"][$key]["datasource"]["method"]["params"])?$this->process["parses"][$key]["datasource"]["method"]["params"]: array(null);
+						$class = afCall::funcArray(array($data["value"]["class"],$this->process["parses"][$key]["datasource"]["method"]["name"]),$params);
+						if(!$class || !is_object($class)) {
+							if($this->view == "show") {
+								throw new XmlParserException("Invalid id was specified, non-object value has been returned!");	
+							} else {
+								$class = "";
 							}
 						}
-						$data["attributes"]["options"] = $value[0];	
-					} else {
-						$data["attributes"][(is_array($value)) ? "options" : "value"] = $value;	
+						$params = array();
+					} 
+									
+					
+					if(!isset($class)) { 
+						$class = $data["value"]["class"];
+						$params = (isset($data["value"]["method"]["params"])) ? $data["value"]["method"]["params"] : array();
+						
+						
+						if(isset($data["attributes"]["selected"]) && $data["attributes"]["selected"]) {
+							$params[] = $data["attributes"]["selected"];
+						}
 					}
 					
-				} 
 					
-			} else {
-				$data["attributes"]["options"] = $value->getArray();
-				$data["attributes"]["selected"] = $value->getSelected();
+					$method = (is_array($data["value"]["method"])) ? $data["value"]["method"]["name"] : $data["value"]["method"];
+					
+					if($class && !method_exists($class,$method)) {
+						throw new XmlParserException("The method ".$method." doesn't exist in class ".((is_string($class)) ? $class : get_class($class))."!");
+					}
+					
+					if($class) {
+					
+						$value = afCall::funcArray(array($class,$method),$params);	
+						if(isset($data["attributes"]["content"])) {
+							$value = $data["attributes"]["content"];
+						}
+					} else {
+						$value = "";
+					}
+					
+					if(!is_numeric($value) && !is_array($value) && !is_string($value) && !is_bool($value) && get_class($value) != 
+					"Collection" && $value !== null && !($value instanceof sfExtjs2Var)) {
+						throw new XmlParserException("Invalid value has been returned by ".$data["value"]["class"]."->".
+						$data["value"]["method"].", number, array, object, booelan or string expected, but ".gettype($value)." given!");
+					}	
+					
+					if(isset($data["attributes"]["type"]) && $data["attributes"]["type"] == "checkbox") {
+						if(!isset($data["attributes"]["checked"])) {
+							if($value) {
+								$data["attributes"]["checked"] = true;
+							} else {
+								$data["attributes"]["checked"] = false;
+							}	
+						}
+						
+					}
+					
+				}
+				catch(Exception $e) {
+					throw $e;
+				}
+				
+				if(@get_class($value) != "Collection") {
+					if(isset($data["attributes"]["type"])) {
+						
+						if($data["attributes"]["type"] == "itemSelectorAutoSuggest" || $data["attributes"]["type"] == "doublemulticombo"  || $data["attributes"]["type"] == "doubletree") {
+							
+							if(isset($value[1])) {
+								$data["attributes"]["selected"] = $value[1];
+								foreach($value[1] as $k => $v) {
+									if($data["attributes"]["type"] == "doubletree") {
+										foreach($v["children"] as $kk => $c) {
+											if(($idx = array_search($c,$value[0][$k]["children"])) !== false) {
+												unset($value[0][$k]["children"][$idx]);
+												$value[0][$k]["children"] = array_merge($value[0][$k]["children"],array());
+											}	
+										}
+										if(empty($value[0][$k]["children"])) {
+											unset($value[0][$k]);
+											$value[0] = array_merge($value[0],array());
+										}
+									} else {
+										if(isset($value[0][$k])) {
+											unset($value[0][$k]);
+										}	
+									}
+									
+								}
+							}
+							$data["attributes"]["options"] = $value[0];	
+						} else {
+							$data["attributes"][(is_array($value)) ? "options" : "value"] = $value;	
+						}
+						
+					} 
+						
+				} else {
+					$data["attributes"]["options"] = $value->getArray();
+					$data["attributes"]["selected"] = $value->getSelected();
+				}
+				  
 			}
-			  
 		}
 		
 		if($this->type === self::WIZARD) {
@@ -3158,6 +3181,22 @@ class XmlParser extends XmlParserTools {
 					}
 					$pn->addMember(self::defineHtmlComponent($parse['params']));
 					
+					/*if(isset($parse["actions"])) {
+				
+						foreach($parse["actions"] as $aname => $action) {
+							
+							if(!self::toggleAction($aname,$action)) {
+								continue;
+							}
+							
+							if(isset($action["handlers"])) {
+								ExtEvent::attachAll($action);
+							}
+							
+							$parameterForButton = ExtEvent::getButtonParams($action,"actions",$this->view.$this->iteration,$parse["select"]);			
+							$obj = new ImmExtjsButton($pn,$parameterForButton);
+						}
+					}*/
 					
 					if(isset($parse["moreactions"])) {
 					
@@ -3201,6 +3240,25 @@ class XmlParser extends XmlParserTools {
 						'autoEnd'=>$parse["options"]["autoEnd"],
 						'portal'=>true));
 						$pn->addMember(self::defineHtmlComponent($parse['params']));
+						
+						
+						/*if(isset($parse["actions"])) {
+					
+							foreach($parse["actions"] as $aname => $action) {
+								
+								if(!self::toggleAction($aname,$action)) {
+									continue;
+								}
+								
+								if(isset($action["handlers"])) {
+									ExtEvent::attachAll($action);
+								}
+								
+								$parameterForButton = ExtEvent::getButtonParams($action,"actions",$this->view.$this->iteration,false);			
+								$obj = new ImmExtjsButton($pn,$parameterForButton);
+							}
+						}
+						*/
 						
 						if(isset($parse["moreactions"])) {
 					

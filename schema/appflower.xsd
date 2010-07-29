@@ -1100,6 +1100,21 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       </xs:complexType>
     </xs:element>
     
+     <xs:element name="default">
+    	<xs:annotation>
+        <xs:documentation xml:lang="en">
+            This one defines the default value of an i:field.
+            It may contain text, or i:node elements.
+            
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+          <xs:sequence>
+        	<xs:element ref="i:node" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+    
     <xs:element name="value">
     	<xs:annotation>
         <xs:documentation xml:lang="en">
@@ -1120,7 +1135,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 			
         </xs:documentation>
       </xs:annotation>
-      <xs:complexType>
+      <xs:complexType mixed="true">
 		<xs:sequence minOccurs="1" maxOccurs="1">
         	<xs:choice>
 				<xs:sequence minOccurs="0" maxOccurs="1">
@@ -1134,6 +1149,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 					<xs:element ref="i:item" minOccurs="1" maxOccurs="unbounded" />
 				</xs:sequence>
 			</xs:choice>
+			<xs:element ref="i:default" minOccurs="0" maxOccurs="1" />
 		</xs:sequence>
 		<xs:attributeGroup ref="i:commonAttributes" />
         <xs:attribute name="type" type="i:valueType" use="required" />
@@ -2047,6 +2063,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  		It may contain other i:node elements.
 	  		
 	  		name			- A unique name of the node
+	  		selected		- A boolean value, set to true if this node is used inside i:default and the item should be selected.
 	  		label			- Label text
 	  		target			- URL to point to or javascript that loads an URL.
 	  		icon			- An icon to be attached to the menu item.
@@ -2055,12 +2072,13 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  		
 	  	</xs:documentation>
 	  </xs:annotation>
-	  <xs:complexType>
+	  <xs:complexType mixed="true">
       	<xs:sequence>
       		<xs:element ref="i:node" minOccurs="0" maxOccurs="unbounded"/>
       	</xs:sequence>
       	<xs:attribute name="label" type="xs:token" use="required" />
-      	<xs:attribute name="traget" type="xs:token" use="required" />
+      	<xs:attribute name="selected" type="xs:boolean" use="optional" default="false" />
+      	<xs:attribute name="traget" type="xs:token" use="optional" />
       	<xs:attribute name="name" type="xs:token" use="optional" />
 	  	<xs:attribute name="icon" type="i:combinedUriType" use="optional" />
 	  	<xs:attribute name="tooltip" type="xs:token" use="optional" />
