@@ -42,8 +42,6 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 				r[i] = r[i];
 			}*/		
 		
-			delay+=2000;
-					
 			//console.log(r[i]);
 					
 			if(!r[i].step)

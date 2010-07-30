@@ -22,7 +22,6 @@ Ext.extend(Ext.Comet, Ext.util.Observable, {
 	url : null,
 	timeout : 30000, //in miliseconds
 	external: null,
-	task:null,
 	lastTaskPercentValue:0,
 
 	start : function(external) {
@@ -31,16 +30,6 @@ Ext.extend(Ext.Comet, Ext.util.Observable, {
 		//{
 			this.external.percentText=this.external.getPercentText({percent:'0'});
 			this.external.createMsg({title:'Waiting...',msg:'Waiting for server response !',percent:'0'});
-			this.task = {
-			    run: function(){
-			        this.external.msg.updateProgress(this.lastTaskPercentValue,'0%','Waiting for server response !');
-			        this.lastTaskPercentValue=(this.lastTaskPercentValue==0)?100:0;
-			    },
-			    scope: this,
-			    interval: 1000 //1 second
-			}
-			Ext.TaskMgr.start(this.task);
-			
 		//}
 		//console.log(this.timeout);
 		Ext.Ajax.timeout=this.timeout;
@@ -100,7 +89,6 @@ Ext.extend(Ext.Comet, Ext.util.Observable, {
 		clearInterval(this._intervalId);
 		this.request.conn.abort();
 		Ext.Ajax.timeout=30000;
-		Ext.TaskMgr.stop(this.task);
 	}
 
 
