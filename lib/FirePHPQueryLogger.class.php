@@ -5,6 +5,7 @@
  * For this to work switch to dev environment and make sure that Firebug and FirePHP extensions for firefox are installed and "Net" panel in firebug is enabled
  * If You want to use it in other environment You must also make sure that:
  *  * DebugPDO connection class is used instead of PropelPDO (databases.yml)
+ *  * You are using debug mode: $configuration = ProjectConfiguration::getApplicationConfiguration('frontend', 'prod', true);
  *  * You have enabled it in app.yml like below:
 all:
   enable_firephp_query_logger: true
