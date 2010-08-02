@@ -2338,9 +2338,10 @@ class XmlParser extends XmlParserTools {
 			  				}
 			  				
 			  				if($k == "tmp_name") {
+			  					$tmp_dir = sfConfig::get('app_tmp_dir')?sfConfig::get('app_tmp_dir'):'/usr/www/tmp/';
 			  					$tx = substr($value[2][key($value[2])],strrpos($value[2][key($value[2])],"/")+1);
-			  					copy($value[2][key($value[2])],"/usr/www/tmp/".$tx);
-			  					$txval = "/usr/www/tmp/".$tx;
+			  					copy($value[2][key($value[2])],$tmp_dir.$tx);
+			  					$txval = $tmp_dir.$tx;
 			  				} else {
 			  					$txval = $value[2][key($value[2])];
 			  				}

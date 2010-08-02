@@ -1257,13 +1257,16 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
             
         </xs:documentation>
       </xs:annotation>
-      <xs:complexType>
-        	<xs:attributeGroup ref="i:commonAttributes" />
-        	<xs:attribute name="to" type="i:pathType" use="required" />
-        	<xs:attribute name="name" type="xs:token" use="required" />
-        	<xs:attribute name="overwrite" type="xs:boolean" use="optional" default="false" />
-        	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
-      </xs:complexType>
+    	<xs:complexType>
+    		<xs:attributeGroup ref="i:commonAttributes" />
+    		<xs:attribute name="to" type="i:pathType" use="required" />
+    		<xs:attribute name="name" type="xs:token" use="required" />
+    		<xs:attribute name="overwrite" type="xs:boolean"
+    			use="optional" default="false" />
+    		<xs:attribute name="parsable" type="xs:boolean"
+    			fixed="true" />
+    		<xs:attribute name="json" type="xs:string"></xs:attribute>
+    	</xs:complexType>
     </xs:element>
     
 	<xs:element name="params">
