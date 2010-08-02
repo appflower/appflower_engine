@@ -76,9 +76,12 @@ class ImmExtjs extends sfExtjs2Plugin
 	 * Add notification plugin to the system
 	 */
 	$this->source .= Notification::getPluginSource();
+	$favicon = sfConfig::get("app_favicon")?sfConfig::get("app_favicon"):"/favicon.ico";
+	echo '<link rel="shortcut icon" href="'.$favicon.'" type="image/x-icon">';
+	
 	/**
 	 * add html loading mask
-	 */
+	 */	
 	echo sprintf('<div id="loading-mask" style=""></div><div id="loading"><div class="loading-indicator"><img src="%s" width="32" height="32" style="margin-right:8px;" align="absmiddle"/>Loading AppFlower v%s</div></div>%s', sfConfig::get('app_appFlower_loadingLogo'), sfConfig::get('app_appFlower_version'), self::LBR);
 	echo "<script type='text/javascript'>\n";
 	echo "// <![CDATA[\n";	
