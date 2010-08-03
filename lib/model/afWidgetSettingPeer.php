@@ -29,94 +29,10 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 		asort($fonts);
 		return $fonts;
 	}
-
-	public static function buildCriteria()
-	{
-		$criteria = new Criteria();
-		$user = sfContext::getInstance()->getUser()->isAuthenticated()?sfContext::getInstance()->getUser()->getGuardUser()->getId():'';
-		$criteria->add(self::USER,$user);
-		return $criteria;
-	}
-
-	public static function getEventSetting()
-	{
-		$criteria = self::buildCriteria();
-		$criteria->add(self::NAME,'/eventmanagement/showEventGraph');
-		return self::doSelectOne($criteria);
-	}
-
-	public static function getSyslogSetting()
-	{
-		$criteria = self::buildCriteria();
-		$criteria->add(self::NAME,'/eventmanagement/syslogGraph');
-		return self::doSelectOne($criteria);
-	}
-
-	public static function getSyslogTotalSetting()
-	{
-		$criteria = self::buildCriteria();
-		$criteria->add(self::NAME,'/eventmanagement/syslogGraphCountSize');
-		return self::doSelectOne($criteria);
-	}
-
-	public static function getTopSuccessSetting()
-	{
-		$criteria = self::buildCriteria();
-		$criteria->add(self::NAME,'/eventmanagement/topSuccessUser');
-		return self::doSelectOne($criteria);
-	}
-
-	public static function getTopFailedSetting()
-	{
-		$criteria = self::buildCriteria();
-		$criteria->add(self::NAME,'/eventmanagement/topFailedUser');
-		return self::doSelectOne($criteria);
-	}	
-	public static function getFirewallSetting()
-  	{
-	    $criteria = self::buildCriteria();
-	    $criteria->add(self::NAME,'/netflow/showFirewallGraph');
-	    return self::doSelectOne($criteria);
-  	}
-	public static function getDefaultSettingByName($name){
-		switch ($name){
-			case "/eventmanagement/showEventGraph":
-			case "/eventmanagement/syslogGraph":
-				return array(
-  					"basic" => array("graph_type_value" => "ImmAmLine",	"text_color" => "#000000","text_font_value" => "Arial","text_size_value" => "11","bg_color" => "#FFFFFF", "height" => 380),	
-			        "emergency" => array("show" => true, "text" => "Emergency", "color" => "#F8A281", "hover_color" => "#ff0000"),
-					"alert" => array("show" => true, "text" => "Alert", "color" => "#FCC698", "hover_color" => "#ff0000"),	
-					"critical" => array("show" => true, "text" => "Critical", "color" => "#FFE2A1", "hover_color" => "#ff0000"),	
-			        "error" => array("show" => true, "text" => "Error", "color" => "#F6F3A7", "hover_color" => "#ff0000"),
-		            "warning" => array("show" => true, "text" => "Warning", "color" => "#C5E0A4", "hover_color" => "#ff0000"),
-					"notice" => array("show" => true, "text" => "Notice", "color" => "#A0C999", "hover_color" => "#ff0000"),
-					"info" => array("show" => true, "text" => "Info", "color" => "#9DC4C6", "hover_color" => "#ff0000"),
-					"debug" => array("show" => true, "text" => "Debug", "color" => "#A4BCE2", "hover_color" => "#ff0000"),
-			        "reload" => array("started" => false, "interval" => 60));
-				break;
-			case "/eventmanagement/syslogGraphCountSize":
-				return array(
-					"basic" => array("graph_type_value" => "ImmAmLine", "text_color" => "#000000","text_font_value" => "Arial", "text_size_value" => "11","bg_color" => "#FFFFFF", "height" => 380),
-					"count" => array("show" => true, "text" => "Log Count", "color" => "#B57B34", "hover_color" => "#ff0000"),
-				 	"size" => array("show" => true, "text" => "Log Size", "color" => "#BC845E", "hover_color" => "#ff0000"),	
-		         	"reload" => array("started" => false, "interval" => 60));
-				break;
-			case "/eventmanagement/topSuccessUser":
-			case "/eventmanagement/topFailedUser":
-				return array(
-					"basic" => array("graph_type_value" => "ImmAmPie","text_color" => "#000000", "text_font_value" => "Arial","text_size_value" => "11", "bg_color" => "#FFFFFF", "height" => "380"),
-	            	"reload" => array("started" => false, "interval" => 60));
-			case "/netflow/showFirewallGraph":
-				return array(
-					"basic" => array("graph_type_value" => "ImmAmLine", "text_color" => "#000000","text_font_value" => "Arial", "text_size_value" => "11","bg_color" => "#FFFFFF", "height" => 380),	
-			        "granted" => array("show" => true, "text" => "Granted", "color" => "#B57B34", "hover_color" => "#ff0000"),
-					"blocked" => array("show" => true, "text" => "Blocked", "color" => "#BC845E", "hover_color" => "#ff0000"),	
-			        "reload" => array("started" => false, "interval" => 60));	
-		}
-	}
 	public static function renderUI($action){		
 		$action->user_id = $action->getUser()->getGuardUser()->getId();
-		$setting = self::getDefaultSettingByName($action->name);
+		if(class_exists("GraphUtil"))
+		$setting = GraphUtil::getDefaultSettingByName($action->name);
 		$action->id = '';
 		$c = new Criteria();
 		$c->add(afWidgetSettingPeer::USER,$action->user_id);
@@ -144,7 +60,8 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 	public static function updateSettings($action){
 		$setting = array();
 		$posted = $action->getRequestParameter("edit[0]");
-		$setting = self::getDefaultSettingByName($posted['name']);
+		if(class_exists("GraphUtil"))
+		$setting = GraphUtil::getDefaultSettingByName($posted['name']);
 		if(!isset($posted['default'])){
 			$userSetting = array();
 			foreach($setting as $key=>$value){
@@ -166,5 +83,26 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 		$obj->save();
 		$message='Settings successfully saved';
 		return $action->renderText(json_encode(array('success' => true, 'message' =>$message)));
+	}
+	public static function getSettingByName($name){
+		$user_id = sfContext::getInstance()->getUser()->getGuardUser()->getId();
+		$setting = GraphUtil::getDefaultSettingByName($name);		
+		$c = new Criteria();
+		$c->add(afWidgetSettingPeer::USER,$user_id);
+		$c->add(afWidgetSettingPeer::NAME,$name);
+		$obj = afWidgetSettingPeer::doSelectOne($c);
+		if($obj){			
+			$setting = json_decode($obj->getSetting(),true);
+		}
+		return $setting;
+	}
+	public static function getOriginalGraphTitle($name,$title){
+		$settings = self::getSettingByName($name);
+		foreach($settings as $key=>$setting){
+			if(isset($setting['text']) && $setting['text'] == $title){
+				return $key;
+			}
+		}
+		return $title;
 	}
 }

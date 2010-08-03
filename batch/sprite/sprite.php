@@ -15,7 +15,7 @@ class Sprite{
 	public $spriteImage = "sprite";
 	public $spriteCss = "sprite";
 	public $preCss ;
-	public $css = 'body{font-size:10px;font-family:verdana;}';
+	public $css = "body{font-size:10px;font-family:verdana;}\n";
 	public $html = '
 		<link type="text/css" rel="stylesheet" href="batch/sprite/sprite.css"/>
 	';
@@ -122,7 +122,7 @@ class Sprite{
 		$name = preg_replace('/[^a-zA-Z0-9]/',"-",$name);
 		$k = str_replace($this->webDir,"",$img);
 		$className = isset($this->preCss[$k])?$this->preCss[$k]:"icon-".$name;
-		$this->html .= '<img src="web/extjs-3/resources/images/default/s.gif" class="'.$className.'" width="'.$dim[2].'" height="'.$dim[3].'"/> '."\t".$dim[0].'px '.$dim[1].'px '."\t | class:".$className."\t | file:".$img."<hr>";
+		$this->html .= '<img src="web/extjs-3/resources/images/default/s.gif" class="'.$className.'" width="'.$dim[2].'" height="'.$dim[3].'"/> '."\t".$dim[0].'px -'.$dim[1].'px '."\t | class:".$className."\t | file:".$img."<hr>";
 		$this->css .= ".".$className.' {background:url("../../'.$this->spriteImage.'.'.$type.'") no-repeat '.$dim[0].' -'.$dim[1].'px !important;}
 ';		
 	}
