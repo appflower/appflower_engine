@@ -125,3 +125,45 @@ Ext.override(Ext.Panel, {
 		}
 	}
 });
+
+Ext.override(Ext.TabPanel, {
+	onRender : function(ct, position){
+        Ext.TabPanel.superclass.onRender.call(this, ct, position);
+
+        if(this.plain){
+            var pos = this.tabPosition == 'top' ? 'header' : 'footer';
+            this[pos].addClass('x-tab-panel-'+pos+'-plain');
+        }
+
+        var st = this[this.stripTarget];
+
+        this.stripWrap = st.createChild({cls:'x-tab-strip-wrap', cn:{
+            tag:'ul', cls:'x-tab-strip x-tab-strip-'+this.tabPosition}});
+
+        var beforeEl = (this.tabPosition=='bottom' ? this.stripWrap : null);
+        st.createChild({cls:'x-tab-strip-spacer'}, beforeEl);
+        this.strip = new Ext.Element(this.stripWrap.dom.firstChild);
+
+        
+        this.edge = this.strip.createChild({tag:'li', cls:'x-tab-edge', cn: [{tag: 'span', cls: 'x-tab-strip-text', cn: '&#160;'}]});
+        this.strip.createChild({cls:'x-clear'});
+
+        this.body.addClass('x-tab-panel-body-'+this.tabPosition);
+
+        
+        //if(!this.itemTpl)
+		{
+            var tt = new Ext.Template(
+                 '<li class="{cls}" id="{id}"><a class="x-tab-strip-close"></a>',
+                 '<a class="x-tab-right" href="#"><em class="x-tab-left">',
+                 '<span class="x-tab-strip-inner"><img src="'+Ext.BLANK_IMAGE_URL+'" class="x-tab-strip-text {iconCls}" width="16" height="16" style="float:left"><span class="x-tab-strip-text">{text}</span></span>',
+                 '</em></a></li>'
+            );
+            tt.disableFormats = true;
+            tt.compile();
+            Ext.TabPanel.prototype.itemTpl = tt;
+        }
+
+        this.items.each(this.initTab, this);
+    }
+});
