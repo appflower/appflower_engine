@@ -13,24 +13,31 @@ class ExceptionCatchingFilter extends sfFilter
 		if($request->isXmlHttpRequest() && $this->isFirstCall())
 		{
                     
+                    $debugMode = sfConfig::get('sf_debug');
 			try {
 				$filterChain->execute();
 			} catch (sfException $e) {
 				throw $e;
 			} catch (PropelException $e) {
                             $cause = $e->getCause();
-                            $debugMode = sfConfig::get('sf_debug');
                             if ($cause->getCode() == 23000) {
                                 if (!$debugMode) {
                                     $message = 'You are probably trying to delete or update a record that have other related records.';
                                 }
+                            } else if ($debugMode) {
+                                $message = 'Database error occured.';
                             }
                             if (!isset($message)) {
                                 $message = $e->getMessage();
                             }
                             $this->injectErrorIntoResponse($message);
 			} catch (Exception $e) {
-                            $this->injectErrorIntoResponse($e->getMessage());
+                            if ($debugMode) {
+                                $errorMessage = $e->getMessage();
+                            } else {
+                                $errorMessage = 'Some unexpected error occured.';
+                            }
+                            $this->injectErrorIntoResponse($errorMessage);
 			}
 		} else {
 			$filterChain->execute();
@@ -39,9 +46,15 @@ class ExceptionCatchingFilter extends sfFilter
 
         private function injectErrorIntoResponse($errorMessage)
         {
+            $debugMode = sfConfig::get('sf_debug');
+            if ($debugMode) {
+                $errorMessage = 'Unable to do the action.<br/>Reason: '.$errorMessage;
+            } else {
+                $errorMessage .= '<br/><br/>If You believe You found a bug - please let us know about it.';
+            }
+
             $response = $this->context->getResponse();
-            $params = array('success' => false,
-                    'message' => 'Unable to do the action.<br/>Reason: '.$errorMessage);
+            $params = array('success' => false, 'message' => $errorMessage);
             $response->setContent(json_encode($params));
         }
 }
