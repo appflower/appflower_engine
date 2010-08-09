@@ -50,7 +50,7 @@ class ExceptionCatchingFilter extends sfFilter
             if ($debugMode) {
                 $errorMessage = 'Unable to do the action.<br/>Reason: '.$errorMessage;
             } else {
-                $errorMessage .= '<br/><br/>If You believe You found a bug - please let us know about it.';
+                $errorMessage .= '<br/><br/>If you believe you found a bug - please let us know about it.';
             }
 
             $response = $this->context->getResponse();
