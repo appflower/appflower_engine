@@ -1,7 +1,7 @@
 <?php
 
 /**
- * A filter that catches all exceptions in POST requests
+ * A filter that catches all exceptions in AJAX requests
  * and converts them to a JSON error response.
  */
 class ExceptionCatchingFilter extends sfFilter
@@ -24,8 +24,9 @@ class ExceptionCatchingFilter extends sfFilter
                                 if (!$debugMode) {
                                     $message = 'You are probably trying to delete or update a record that have other related records.';
                                 }
-                            } else if ($debugMode) {
-                                $message = 'Database error occured.';
+                            } else if (!$debugMode) {
+                                error_log('PropelException: '.$e->getMessage());
+                                $message = 'A database error occured.';
                             }
                             if (!isset($message)) {
                                 $message = $e->getMessage();
@@ -35,6 +36,7 @@ class ExceptionCatchingFilter extends sfFilter
                             if ($debugMode) {
                                 $errorMessage = $e->getMessage();
                             } else {
+                                error_log('Exception: '.$e->getMessage());
                                 $errorMessage = 'Some unexpected error occured.';
                             }
                             $this->injectErrorIntoResponse($errorMessage);
