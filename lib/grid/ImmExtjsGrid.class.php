@@ -544,7 +544,9 @@ class ImmExtjsGrid
 				'listeners'=>array(
 					'beforeload'=>$this->immExtjs->asMethod(array(
 						'parameters'=>'proxy,params',
-						'source'=>'proxy.lastParams=params')))
+						'source'=>'proxy.lastParams=params')),
+					'exception'=>self::getJsExceptionListener(
+						$this->immExtjs, $this->privateName))
 				));
 			
 			$beforeloadListener = "
@@ -1008,5 +1010,28 @@ class ImmExtjsGrid
 			}
 		}
 	}
+
+	private static function getJsExceptionListener($immExtjs, $gridPrivateName) {
+		return $immExtjs->asMethod(array(
+			'parameters'=>'proxy,type,action,options,response',
+			'source'=>'
+	var message = "Unable to load the data.";
+	var onClose = undefined;
+	try {
+		if(response.responseText){
+			var json = Ext.decode(response.responseText);
+			message = json.message || message;
+			if(json.redirect) {
+				onClose = function(){afApp.load(json.redirect,json.load);};
+			}
+		}
+	} catch(expected) {
+	}
+
+	if('.$gridPrivateName.'.canMask()){
+		'.$gridPrivateName.'.getEl().unmask();
+	}
+	Ext.Msg.alert("Failure", message, onClose);
+	'));
+	}
 }
-?>
