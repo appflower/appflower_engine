@@ -69,7 +69,24 @@ Ext.override(Ext.Panel, {
 });
 Ext.override(Ext.TabPanel, {	
     initTab : function(item, index){
-    	
+		var tt = new Ext.Template(
+			'<li class="{cls}" id="{id}" style="overflow:hidden">',
+			    '<tpl if="closable">',
+			       '<a class="x-tab-strip-close"></a>',
+			    '</tpl>',
+			    '<a class="x-tab-right" href="#" style="padding-left:6px">',
+			       '<em class="x-tab-left">',
+			           '<span class="x-tab-strip-inner">',
+			               '<img src="{src}" style="float:left;margin:3px 3px 0 0">',
+			               '<span  class="x-tab-strip-text {iconCls}">{text} {extra}</span>',
+			           '</span>',
+			       '</em>',
+			   '</a>',
+		   '</li>'
+		);
+		tt.disableFormats = true;
+		tt.compile();
+		Ext.TabPanel.prototype.itemTpl = tt;
     	/**
     	 * Fixes for iconCls, icon with sprite image
     	 */
@@ -82,7 +99,8 @@ Ext.override(Ext.TabPanel, {
     	if(item.iconCls && item.iconCls != ''){
     		iconCls = "{iconCls}";
     	}    	
-    	if(item.icon || item.iconCls){
+    	if(item.icon || item.iconCls)
+    	{
 	    	var tt = new Ext.Template(
 	    		'<li class="{cls}" id="{id}" style="overflow:hidden">',
 	    	         '<tpl if="closable">',
@@ -92,7 +110,7 @@ Ext.override(Ext.TabPanel, {
 	    	            '<em class="x-tab-left">',
 	    	                '<span class="x-tab-strip-inner">',
 	    	                    '<img src="'+src+'" class="x-tab-strip-text '+iconCls+'" width="16" height="16" style="padding:0px;float:left;margin-top:2px; margin-right:4px">',
-	    	                    '<span style="'+(!iconCls?"margin-left:20px":"")+'" class="x-tab-strip-text ">{text} {extra}</span>',
+	    	                    '<span style="'+(item.icon?"margin-left:20px":"")+'" class="x-tab-strip-text ">{text} {extra}</span>',
 	    	                '</span>',
 	    	            '</em>',
 	    	        '</a>',
