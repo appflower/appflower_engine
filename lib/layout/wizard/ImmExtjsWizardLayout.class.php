@@ -37,6 +37,7 @@ class ImmExtjsWizardLayout extends ImmExtjsLayout
 	public function end()
 	{
 		$this->attributes['buttonAlign']='center';
+		$this->attributes['autoScroll']=true;
 				
 		if(isset($this->attributes['centerType'])&&$this->attributes['centerType']=='group')
 		{
