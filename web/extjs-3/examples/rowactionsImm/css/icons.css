@@ -3,9 +3,6 @@
 .icon-ob {
 	background-image:url(../img/icons/ob_16.png) ! important;
 }
-.icon-graph {
-	background-image:url(/images/famfamfam/chart_curve.png) ! important;
-}
 .icon-chart {
 	background-image:url(/images/famfamfam/chart_bar.png) ! important;
 }
@@ -81,9 +78,7 @@
 .icon-tree-post {
 	background-image:url(/images/famfamfam/page_white.png) ! important;
 }
-.icon-minus {
-	background-image:url(/images/famfamfam/delete.png) ! important;
-}
+
 .icon-house {
 	background-image:url(../img/icons/house_16.png) ! important;
 }
