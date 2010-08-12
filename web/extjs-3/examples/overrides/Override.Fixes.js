@@ -77,7 +77,7 @@ Ext.override(Ext.TabPanel, {
 			    '<a class="x-tab-right" href="#" style="padding-left:6px">',
 			       '<em class="x-tab-left">',
 			           '<span class="x-tab-strip-inner">',
-			               '<img src="{src}" style="float:left;margin:3px 3px 0 0">',
+			               '<img src="'+Ext.BLANK_IMAGE_URL+'" style="float:left;margin:3px 3px 0 0">',
 			               '<span  class="x-tab-strip-text {iconCls}">{text} {extra}</span>',
 			           '</span>',
 			       '</em>',
