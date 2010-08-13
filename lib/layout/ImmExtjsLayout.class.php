@@ -150,8 +150,14 @@ class ImmExtjsLayout
 		elseif(!isset($attributes['west'])||(isset($attributes['west'])&&$attributes['west']!=false)){
 			
 			$logoScript = "";
-			if(sfConfig::get("app_avatar_logo",false)){
-				$logo = '<div style="background-color:#d9e7f8;border-right:1px solid #99bbe8;border-left:1px solid #99bbe8;border-bottom:1px solid #99bbe8; padding:2px 0px 0px 0px; margin:0px;text-align:center;"><img src="'.sfConfig::get("app_avatar_logo").'"/></div>';
+                        $appConf = sfApplicationConfiguration::getActive();
+                        if (method_exists($appConf, 'configGet')) {
+                            $avatarLogo = sfApplicationConfiguration::getActive()->configGet("app_avatar_logo",false);
+                        } else {
+                            $avatarLogo = sfConfig::get('app_avatar_logo',false);
+                        }
+			if($avatarLogo){
+				$logo = '<div style="background-color:#d9e7f8;border-right:1px solid #99bbe8;border-left:1px solid #99bbe8;border-bottom:1px solid #99bbe8; padding:2px 0px 0px 0px; margin:0px;text-align:center;"><img src="'.$avatarLogo.'"/></div>';
 				$logoScript = '
 					var logoDiv = Ext.DomHelper.insertBefore(comp.bwrap,{tag:"div",html:"'.addslashes($logo).'"});								
 					this.on("bodyresize",function(comp,w,h){

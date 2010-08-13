@@ -19,10 +19,15 @@ class afPDF extends FPDF {
 	
 	public function Header()
 	{
-		
+                $appConf = sfApplicationConfiguration::getActive();
+                if (method_exists($appConf, 'configGet')) {
+                    $pdfLogo = $appConf->configGet('app_pdf_logo');
+                } else {
+                    $pdfLogo = sfConfig::get('app_pdf_logo');
+                }
 		$logos = array(
-		"af" => sfConfig::get("app_appFlower_logo"),
-		"partner" => sfConfig::get("app_pdf_logo")
+                    "af" => sfConfig::get("app_appFlower_logo"),
+                    "partner" => $pdfLogo
 		);
 		
 		if(!$logos["af"] || !file_exists($logos["af"]["file"])) {
