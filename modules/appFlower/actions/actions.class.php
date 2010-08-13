@@ -587,7 +587,8 @@ class appFlowerActions extends sfActions
 		echo json_encode($return);		
 		exit;
 	}	
-	public function executeNotificationDetails(){		
+	public function executeNotificationDetails(){	
+		$gu = new ImmExtjsGridUtil();		
 		if($this->getRequest()->getMethod() == sfRequest::POST){
 			$id = $this->getRequestParameter("id");
 			$obj = afNotificationPeer::retrieveByPk($id);
