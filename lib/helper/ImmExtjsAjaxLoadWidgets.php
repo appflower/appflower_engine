@@ -18,7 +18,7 @@ class ImmExtjsAjaxLoadWidgets{
 	}
 	private function init(){		
 		$popup = new XmlParser();		
-		$this->type = $popup->getType();
+		$this->type = $popup->getType();		
 		$this->layout = $popup->getLayout();
 		if(method_exists($this->layout,'beforeEnd'))
 		{
@@ -110,7 +110,7 @@ class ImmExtjsAjaxLoadWidgets{
 		}
 		if($this->type == XmlParser::PAGE){
 			return json_encode(array("center_panel_first"=>$this->getCenterPanelFirstSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource()));
-		}
+		}		
 	}	
 
 	public static function isWidgetRequest() {

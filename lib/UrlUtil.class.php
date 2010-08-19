@@ -30,7 +30,7 @@ class UrlUtil {
      * The protocol, host and GET params are stripped out.
      */
     public static function getPathPart($url) {
-        return preg_replace('@^https?://[^/]*([^?#]*).*$@', '$1', $url);
+		return preg_replace('@^https?://[^/]*([^?#]*).*$@', '$1', $url);
     }
 
     /**
@@ -39,6 +39,14 @@ class UrlUtil {
     public static function link($name, $url) {
         $url = self::abs($url);
         return '<a href="'.$url.'">'.htmlspecialchars($name).'</a>';
+    }
+	
+	/**
+    * A faster link_to() for simple usages. For html content
+    */
+    public static function linkHtml($name, $url) {
+        $url = self::abs($url);
+        return '<a href="'.$url.'">'.($name).'</a>';
     }
 
     /**

@@ -131,8 +131,9 @@ class XmlBaseElementParser  {
 		
 		if(self::$parser) {
 			$action_holder = self::$parser->vars[self::$parser->currentUri];
-			$uri = self::$parser->currentUri;	
-		} else {
+			$uri = self::$parser->currentUri;			
+		} 
+		else {
 			$action_holder = $attribute_holder;
 			$uri = "action's";
 		}

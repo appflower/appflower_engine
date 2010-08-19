@@ -41,6 +41,8 @@ class ImmExtjsLayout
 		 */
 		$this->immExtjs->setAddons(array('js'=>array('/appFlowerPlugin/js/custom/keyMaps.js')));
 		
+		$this->immExtjs->setAddons(array('js'=>array('/js/custom/Ext.ux.NeedHelp.js')));
+		
 		/*
 		 * Add overrides
 		 */

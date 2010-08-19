@@ -96,7 +96,7 @@ Ext.override(Ext.layout.BorderLayout, {
 
             }
 
-    
+			
 
             if(n && n.isVisible()){
 
@@ -119,7 +119,7 @@ Ext.override(Ext.layout.BorderLayout, {
             }
 
             if(s && s.isVisible()){
-
+				
                 var b = s.getSize();
 
                 var m = s.getMargins();

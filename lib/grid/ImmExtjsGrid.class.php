@@ -45,7 +45,10 @@ class ImmExtjsGrid
 			$this->attributes['plugins'] = $attributes['plugins'];
 			unset($attributes['plugins']);
 		}
-			
+		$this->immExtjs->setAddons(array(
+			'js' => array($this->immExtjs->getExamplesDir().'superboxselect/SuperBoxSelect.js'),
+			'css'=>array($this->immExtjs->getExamplesDir().'superboxselect/superboxselect.css')
+		));	
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'grid/Ext.ux.GridColorView.js',$this->immExtjs->getExamplesDir().'grid/Ext.ux.GroupingColorView.js')));
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'grid/Ext.ux.Grid.GroupingStoreOverride.js')));
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'plugins/Ext.ux.ExportUI.js')));

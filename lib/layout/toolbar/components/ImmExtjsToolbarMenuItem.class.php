@@ -28,7 +28,6 @@ class ImmExtjsToolbarMenuItem extends ImmExtjsToolbarComponent
   									'parameters'=>'b,e',
 									'source'=>"if(!e.ctrlKey&&!e.metaKey){afApp.load(\"".$attributes['url']."\",\"".$attributes['load']."\");}else{afApp.widgetPopup(\"".$attributes['url']."\");}"
   								));
-			
 			unset($attributes['url']);
 		}
 		if(isset($attributes['source']))

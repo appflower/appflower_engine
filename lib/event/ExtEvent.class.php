@@ -61,8 +61,13 @@ class ExtEvent {
 		if(!isset($action['attributes']['url']))$action['attributes']['url'] = "#";
 		
 		if(!isset($action["attributes"]["label"]))
-		$action["attributes"]["label"] = ucfirst($action["attributes"]["name"]);						
+		$action["attributes"]["label"] = isset($action["attributes"]["text"])?$action["attributes"]["text"]:ucfirst($action["attributes"]["name"]);						
 		$action["attributes"]["name"] = $iteration."_".$action["attributes"]["name"];
+		
+		//Evaluate real script
+		if(isset($action['attributes']['script'])){
+			$action['attributes']['script'] = self::getRealScript($action['attributes']['script']);
+		}
 		
 		$confirmMsg = $action["attributes"]["confirmMsg"] == ""?"Are you sure to perform this operation?":$action["attributes"]["confirmMsg"];
 		$noItemsSelectedFunction='';
@@ -199,7 +204,15 @@ class ExtEvent {
 		return ComponentCredential::filter($parameterForButton,$action['attributes']['url']);
 	}
 	
-	
+	private static function getRealScript($script){
+		$content = null;
+		if(file_exists(sfConfig::get('sf_root_dir')."/web/js/custom/".$script.".js")){
+			$content = file_get_contents(sfConfig::get('sf_root_dir')."/web/js/custom/".$script.".js");
+		}else if(file_exists(sfConfig::get('sf_root_dir')."/plugins/appFlowerPlugin/web/js/custom/".$script.".js")){
+			$content = file_get_contents(sfConfig::get('sf_root_dir')."/plugins/appFlowerPlugin/web/js/custom/".$script.".js");
+		}
+		return $content?$content:$script;
+	}
 	public static function getEventSource($event) {
 		
 		$variables = '';

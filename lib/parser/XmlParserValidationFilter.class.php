@@ -11,7 +11,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 
 			$formcfg = self::getFormConfig($context);
 			if($formcfg === null) {
-				$edit = $actionInstance->getRequestParameter('edit');
+				$edit = $actionInstance->getRequestParameter('edit');				
 				$apikey = $actionInstance->getRequestParameter('af_apikey');
 				if(!is_array($edit) && !$apikey) {
 					// Normal AJAX POST requests and plain forms don't have

@@ -54,7 +54,7 @@ Ext.override(Ext.form.Field,{
 	fireKeys : function(e) {		
 	    if(((Ext.isIE && e.type == 'keydown') || e.type == 'keypress') && e.isSpecialKey()) {
 	    	if(e.getKey() == e.ENTER){
-	    		if(this.getXType() != "textarea"){
+	    		if(this.getXType() != "textarea" && this.getXType() != "superboxselect"){
 		    		var form = this.findParentByType('form');
 		    		//this.fireEvent("specialkey",this);
 		    		if(form){	    			

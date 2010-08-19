@@ -1,0 +1,194 @@
+<?php
+/**
+ * extJs Form Field Combo
+ */
+class ImmExtjsFieldSuperBoxSelect extends ImmExtjsField
+{
+	public function __construct($containerObject,$attributes=array())
+	{
+		$this->attributes['triggerAction']='all';
+		$this->immExtjs=ImmExtjs::getInstance();
+		{
+			$this->immExtjs->setAddons(array(
+				'js' => array($this->immExtjs->getExamplesDir().'superboxselect/SuperBoxSelect.js'),
+				'css'=>array($this->immExtjs->getExamplesDir().'superboxselect/superboxselect.css')
+			));
+			GraphUtil::dump($attributes);			
+			$this->attributes['xtype']='superboxselect';						
+			$this->attributes['resizable']=true;
+			$this->attributes['anchor']='95%';
+			$this->attributes['allowAddNewData']=true;
+			$this->attributes['mode']='remote';
+			$this->attributes['displayField']= 'name';
+			$this->attributes['minChars']= 1;
+			$this->attributes['valueField']='id';			
+			$template = '<tpl for="."><div class="x-combo-list-item">{name} <span style="color:#888;margin-left:5px;font-size:11px">{description}</span></div></tpl>';
+			$this->attributes['tpl'] = 	$this->immExtjs->asVar("new Ext.XTemplate('".$template."')");
+
+
+			if(isset($attributes['url']))
+			{
+				/**
+				 * autocomplete combo config
+				 */
+				$storePrivateName='store_'.Util::makeRandomKey();
+				$readerPrivateName='reader_'.Util::makeRandomKey();
+				$proxyPrivateName='proxy_'.Util::makeRandomKey();
+
+				$attributes[$readerPrivateName]['totalProperty']='totalCount';
+				$attributes[$readerPrivateName]['root']='rows';
+				$attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass(array('name'=>"id"));
+				$attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass(array('name'=>"name"));
+				$attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass(array('name'=>"description"));
+				$attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass(array('name'=>'url'));
+
+
+				$this->immExtjs->private[$readerPrivateName]=$this->immExtjs->JsonReader($attributes[$readerPrivateName]);
+				unset($attributes[$readerPrivateName]);
+
+				$attributes[$proxyPrivateName]['url']=$attributes['url'];
+
+				$this->immExtjs->private[$proxyPrivateName]=$this->immExtjs->HttpProxy($attributes[$proxyPrivateName]);
+				unset($attributes[$proxyPrivateName]);
+
+				$attributes[$storePrivateName]['reader']=$this->immExtjs->asVar($readerPrivateName);
+				$attributes[$storePrivateName]['proxy']=$this->immExtjs->asVar($proxyPrivateName);
+
+				$this->immExtjs->private[$storePrivateName]=$this->immExtjs->Store($attributes[$storePrivateName]);
+				unset($attributes[$storePrivateName]);
+
+				$this->attributes['loadingText']='Searching...';
+				$this->attributes['store']=$this->immExtjs->asVar($storePrivateName);
+
+			}
+		}
+
+		/**
+		 * the options attribute, an assoc array for now
+		 */
+		if(isset($attributes['options'])&&count($attributes['options'])>0)
+		{
+			$options=array();
+			foreach ($attributes['options'] as $key=>$value)
+			{
+				$tarray=null;
+				$tarray[]=$key;
+				if(is_array($value))
+				{
+					foreach ($value as $k=>$v) {
+						$tarray[]=$v;
+					}
+				}
+				else {
+					$tarray[]=$value;
+					$tarray[]='#FFFFFF';
+				}
+
+				$options[]=$tarray;
+			}
+
+			/**
+			 * options will be an array of arrays like ($key,$text,$color)
+			 */
+
+			$this->attributes['store']=$this->immExtjs->asVar(json_encode($options));
+
+			unset($attributes['options']);
+		}
+
+
+
+		/**
+		 * selected attribute is the same as the value attribute, you can use either of them
+		 */
+		if(isset($attributes['selected']))
+		{
+			$this->attributes['value']=$attributes['selected'];
+
+			unset($attributes['selected']);
+		}
+
+		if(isset($attributes['name']))
+		{
+			$this->attributes['hiddenName']=(substr($attributes['name'],-1)==']')?substr_replace($attributes['name'],'_value]',-1):$attributes['name'].'_value';
+		}
+
+
+
+		parent::__construct($containerObject,$attributes);
+	}
+	private function addCommentInterface(){
+		return 'var newObj = null,tip=null;
+			var textfield = new Ext.form.TextField({
+				listeners: {
+					specialkey: function(field, e){
+						if (e.getKey() == e.ENTER) {
+							v = v.slice(0,1).toUpperCase() + v.slice(1).toLowerCase();
+							var newObj = {
+								id: v,
+								name: v,
+								description:field.getValue()
+							};
+							bs.addItem(newObj);
+							if(tip) tip.hide();
+							bs.getEl().focus();
+						}
+					}
+				}
+			})
+			var panel = new Ext.Panel({
+				title:"Comment: "+v,
+				frame:true,
+				width:200,
+				layout:"fit",							
+				items:[textfield]
+			});
+			tip = new Ext.ToolTip({
+				autoShow:true,
+				anchor:"top",							
+				autoHide:false
+			});	
+			tip.add(panel);
+			tip.showAt([bs.getEl().getX(),bs.getEl().getY()+bs.wrapEl.getHeight()+10]);
+			textfield.focus();';
+	}
+	public function end(){
+		$this->attributes['listeners']['newitem']['parameters']='bs,v';
+		$this->attributes['listeners']['newitem']['source']='			
+			v = v.slice(0,1).toUpperCase() + v.slice(1).toLowerCase();
+			var newObj = {
+				id: v,
+				name: v
+			};
+			bs.addItem(newObj);			
+			'
+        ;
+        
+        $this->attributes['listeners']['render'] = array("parameters"=>"ct","source"=>'
+			new Ext.ToolTip({
+			    target : ct.wrapEl,
+			    delegate : "li.x-superboxselect-item",
+			    //trackMouse : true,
+			    anchor:"top",
+			    animCollapse:true,
+			    hideDelay:1000,
+			    renderTo : document.body,
+			    listeners : {
+			        "beforeshow" : {
+			           fn : function(tip) {
+			                var rec = this.findSelectedRecord(tip.triggerElement);
+			                if(rec && rec.get("description"))
+			                tip.body.dom.innerHTML = rec.get("description");
+			                else
+			                //tip.body.dom.innerHTML = "<div style=\"font-style:italic\">Not Available</div>";
+			                tip.setVisible(false);
+			           },
+			           scope : this
+			       }
+			    }
+			});
+		');
+        parent::end();
+	}
+}
+?>

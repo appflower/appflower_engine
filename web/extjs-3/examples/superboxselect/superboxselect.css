@@ -1,0 +1,29 @@
+@charset "utf-8";
+.x-superboxselect {position:relative; height: auto !important; min-height:18px;margin: 0px; overflow: hidden; padding:2px; display:block; outline: none !important;}
+.x-superboxselect ul {overflow: hidden; cursor: text;}
+.x-superboxselect-display-btns {padding-right: 33px !important;}
+.x-superboxselect-btns {position: absolute; right: 0px; top: 0; overflow:hidden; padding:0px;}
+.x-superboxselect-btns div {float: left; width: 17px; height: 22px; margin-top: 0px;}
+.x-form-focus .x-superboxselect-btn-clear {background: url(clearfocus.png) no-repeat scroll left 0px;}
+.x-form-invalid .x-superboxselect-btn-clear {background: url(clearinvalid.png) no-repeat scroll left 0px;}
+.x-superboxselect-btn-clear {background: url(clear.png) no-repeat scroll left 0px;}
+.x-form-focus .x-superboxselect-btn-expand {background: url(expandfocus.png) no-repeat scroll left 0px;}
+.x-form-invalid .x-superboxselect-btn-expand {background: url(expandinvalid.png) no-repeat scroll left 0px;}
+.x-superboxselect-btn-expand {background: url(expand.png) no-repeat scroll left 0px;}
+.x-superboxselect-btn-over {background-position: left -22px}
+.x-superboxselect-btn-hide {display:none;}
+.x-superboxselect li {cursor:pointer;float: left; margin-left: 1px; margin-bottom:1px;padding: 0;line-height: 14px;}
+.x-superboxselect-stacked li {float: none !important;}
+.x-superboxselect-input input { border: none; outline: none; margin-top: 1px; margin-bottom: 1px;}
+body.ext-ie .x-superboxselect-input input {background: none; border: none; margin-top: 0px;}
+.x-superboxselect-item {position: relative; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; o-border-radius: 3px; khtml-border-radius: 3px; border: 1px solid #CAD8F3; background-color: #DEE7F8; padding: 1px 15px 1px 2px !important; }
+body.ext-ie7 .x-superboxselect-item {margin: 2px 1px 2px 1px; line-height: 1.2em; padding: 2px 17px 4px 2px !important;}
+body.ext-ie6 .x-superboxselect-item {margin: 2px 1px 2px 1px; line-height: 1.2em; padding: 2px 19px 4px 2px !important;}
+.x-superboxselect-item-hover {background: #BBCEF1; border: 1px solid #6D95E0;}
+.x-superboxselect-item-focus {border-color: #598BEC; background: #598BEC; color: #fff;}
+.x-superboxselect-item-close {background: url(close.png) no-repeat scroll left 0px; border: none; cursor: default; font-size: 1px; height: 16px;padding:0; position: absolute; right: 0px; top: 0px; width: 13px;display:block;cursor:pointer;}
+
+.x-superboxselect-item-close:hover, .x-superboxselect-item-close:active  { background-position: left -12px;}
+.x-superboxselect-item-focus .x-superboxselect-item-close{ background-position: left -24px}
+.x-item-disabled .x-superboxselect-item-close{ background-position: left -36px}
+.x-item-disabled .x-superboxselect-input input {background: none !important}

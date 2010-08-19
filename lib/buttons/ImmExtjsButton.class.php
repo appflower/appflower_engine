@@ -26,7 +26,7 @@ class ImmExtjsButton
 		{
 			$this->attributes['cls']='x-btn-text-icon';
 		}
-		
+		//print_r($attributes);
 		if(isset($attributes['icon'])&&isset($attributes['iconPosition']))
 		{
 			if($attributes['iconPosition']=='right')

@@ -26,8 +26,7 @@ Ext.ux.form.ComboWButton = Ext.extend(Ext.form.Field,  {
     },
 
     onRender: function(ct, position){
-        Ext.ux.form.ComboWButton.superclass.onRender.call(this, ct, position);
-
+        Ext.ux.form.ComboWButton.superclass.onRender.call(this, ct, position);		
         this.comboConfig = this.comboConfig || {};
         Ext.applyIf(this.comboConfig, {
 			forceSelection: this.forceSelection,
@@ -49,7 +48,7 @@ Ext.ux.form.ComboWButton = Ext.extend(Ext.form.Field,  {
 			click: {scope:this,fn:this.onClick}
 		});
 		this.windowConfig = this.windowConfig || {};		
-		this.combo = new Ext.form.ComboBox(this.comboConfig);
+		this.combo = new Ext.form.ComboBox(this.comboConfig);		
 		var p = new Ext.Panel({
             bodyStyle:this.bodyStyle,
             border:this.border,
@@ -63,9 +62,9 @@ Ext.ux.form.ComboWButton = Ext.extend(Ext.form.Field,  {
 		var comboDiv = Ext.DomHelper.append(mainDiv, {tag: 'div', style:'float:left;margin:0px; padding:0px'});
 		var buttonDiv = Ext.DomHelper.append(mainDiv, {tag: 'div', style:'float:left; margin:0px; margin-left:8px; padding:0px'});
 		Ext.DomHelper.append(mainDiv, {tag: 'div', style:'clear:both;'});
-		
-		this.combo.render(comboDiv)
-		this.button.render(buttonDiv)
+		//this.mainDiv = mainDiv;
+		this.combo.render(comboDiv);
+		this.button.render(buttonDiv);
        // p.add(this.combo);
         //p.add({html:'&nbsp;&nbsp;'});
         //p.add(this.button);
@@ -75,6 +74,66 @@ Ext.ux.form.ComboWButton = Ext.extend(Ext.form.Field,  {
        /// var tb = p.body.first();
        // this.el.setWidth(p.body.getWidth());
        // p.body.removeClass();
+    },
+	markInvalid : function(msg){	
+        //don't set the error icon if we're not rendered or marking is prevented
+		
+		/*
+		* Fix for the mark invalid red border and icon
+		*/
+		this.el = this.combo.getEl();		
+		//*********************************************/
+        if (this.rendered && !this.preventMark) {
+            msg = msg || this.invalidText;
+            var mt = this.getMessageHandler();			
+            if(mt){
+                mt.mark(this, msg);				
+				/*
+				* Fix for the mark invalid red border and icon
+				*/
+				var errorIcon = Ext.select(".x-form-invalid-icon",false,this.getErrorCt().dom);				
+				if(errorIcon && errorIcon.elements && errorIcon.elements[0]){
+					errorIcon.elements[0].style.left = errorIcon.elements[0].offsetLeft + 47 +"px";
+					errorIcon.elements[0].style.display = "block";
+					this.eI = errorIcon.elements[0];
+				}				
+				//*********************************************/
+            }else if(this.msgTarget){			
+                this.el.addClass(this.invalidClass);
+                var t = Ext.getDom(this.msgTarget);
+                if(t){
+                    t.innerHTML = msg;
+                    t.style.display = this.msgDisplay;
+                }
+            }
+        }        
+        this.setActiveError(msg);
+    },
+	clearInvalid : function(){
+        //don't remove the error icon if we're not rendered or marking is prevented
+		if(this.eI){
+			this.eI.style.display="none";
+			
+		}
+		this.el = this.combo.getEl();			
+        if (this.rendered && !this.preventMark) {
+            this.el.removeClass(this.invalidClass);
+            var mt = this.getMessageHandler();
+            if(mt){
+                mt.clear(this);	
+				mt.clear(this.combo);
+				
+            }else if(this.msgTarget){
+                this.el.removeClass(this.invalidClass);
+                var t = Ext.getDom(this.msgTarget);
+                if(t){
+                    t.innerHTML = '';
+                    t.style.display = 'none';
+                }
+            }
+        }		
+       
+        this.unsetActiveError();
     },
     
     initValue:Ext.emptyFn,

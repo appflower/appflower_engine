@@ -40,6 +40,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 				date     				- Date input            (YYYY-MM-DD)
 				color					- Displays an input field with a color picker.
 				include                 - Included another widget, can be used only with forms.
+				superBoxSelect          - The hotmail like email typing field.
 				
 			</xs:documentation>
 		</xs:annotation>
@@ -66,6 +67,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 					<xs:enumeration value="color"/>
 					<xs:enumeration value="date"/>
 					<xs:enumeration value="include"/>
+					<xs:enumeration value="superBoxSelect"/>
 					<xs:whiteSpace value="collapse"/>
 				</xs:restriction>
 			</xs:simpleType>	

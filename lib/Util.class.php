@@ -379,14 +379,14 @@ class Util {
 			"event_query" => array("eventmanagementActions", "sf_admin/event/filters"),
 			"netflow_query" => array("netflowActions", "sf_admin/log_firewall/filters"),
 			"log_query" => array("loganalysisActions", "sf_admin/log_search/filters")
-		);
-
-		$isReporting = is_numeric($rid);
+		);	
+		$isReporting = is_numeric($rid);		
 		$specialActions = false;
+		
 		if (!$isReporting) {
 			// The report id is not provided, let's work online.
 			$context = sfContext::getInstance();
-			$filters = $context->getUser()->getAttributeHolder()->getAll($data[$type][1]);
+			$filters = $context->getUser()->getAttributeHolder()->getAll($data[$type][1]);						
 			if(strstr($context->getActionName(),"pdf") || strstr($context->getActionName(),"run") || $context->getActionName() == "getCustomLog") {
 				$specialActions = true;
 			}

@@ -32,7 +32,7 @@ Ext.ux.CheckboxSelectionModel = Ext.extend(Ext.grid.CheckboxSelectionModel, {
     // private
     initEvents : function(){
         Ext.grid.CheckboxSelectionModel.superclass.initEvents.call(this);
-        this.grid.on('render', function(){
+        this.grid.on('render', function(){		
             var view = this.grid.getView();
             view.mainBody.on('mousedown', this.onMouseDown, this);
             Ext.fly(view.innerHd).on('mousedown', this.onHdMouseDown, this);   
@@ -57,10 +57,9 @@ Ext.ux.CheckboxSelectionModel = Ext.extend(Ext.grid.CheckboxSelectionModel, {
             
 				record = store.getAt(index);
 				
-
 			//console.info('Cliked on: ');							 			
 			//console.info(record);
-				
+			
 			if(target){            	
             	if(this.isSelected(index)){
                     this.myDeselectRow(record);
@@ -84,14 +83,15 @@ Ext.ux.CheckboxSelectionModel = Ext.extend(Ext.grid.CheckboxSelectionModel, {
                     }
                 }
             }
-        }
+        }		
     },
 
     // private
     onHdMouseDown : function(e, t){
         if(t.className == 'x-grid3-hd-checker'){
             e.stopEvent();
-            var hd = Ext.fly(t.parentNode);            
+            var hd = Ext.fly(t.parentNode); 
+			if(!hd) return;
             var isChecked = hd.hasClass('x-grid3-hd-checker-on');
             if(isChecked){
                 hd.removeClass('x-grid3-hd-checker-on');
@@ -302,7 +302,7 @@ Ext.ux.CheckboxSelectionModel = Ext.extend(Ext.grid.CheckboxSelectionModel, {
      * @param {Number} row The index of the row to select
      * @param {Boolean} keepExisting (optional) True to keep existing selections
      */
-    selectRow : function(index, keepExisting, preventViewNotify){    	
+    selectRow : function(index, keepExisting, preventViewNotify){  	
     	if(this.locked || (index < 0 || index >= this.grid.store.getCount()) || this.isSelected(index)) return;
         var r = this.grid.store.getAt(index);
         
@@ -320,7 +320,7 @@ Ext.ux.CheckboxSelectionModel = Ext.extend(Ext.grid.CheckboxSelectionModel, {
             /**
             * if rows has _selected attribute, then select them after html render
             */
-            if(this.grid.select&&r.data[this.grid.store.selected_field_name])
+          /*  if(this.grid.select&&r.data[this.grid.store.selected_field_name])
             {
 	            this.grid.getView().on('rowsinserted', function(){
 	            	            	
@@ -328,7 +328,7 @@ Ext.ux.CheckboxSelectionModel = Ext.extend(Ext.grid.CheckboxSelectionModel, {
 	            	
 	            }, this);
             }
-                        
+                       */ 
             this.fireEvent("rowselect", this, index, r);
             this.fireEvent("selectionchange", this);
         }

@@ -42,7 +42,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  									'url'=>$attributes['action'],
 		  									'method'=>$attributes['method']
 		  									))
-		  									.');';
+		  									.');';		  									
 				if(isset($attributes['preExecute']) && $attributes['preExecute']){	
 					$pe_file = isset($attributes['preExecute'])?$attributes['preExecute']:'';
 					sfLoader::loadHelpers("ImmExtjsExecuteCustomJS");				
@@ -54,7 +54,6 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  								));
 			}
 			else {				
-				
 				if(!isset($attributes['params']))
 				{
 					$attributes['params']=array();

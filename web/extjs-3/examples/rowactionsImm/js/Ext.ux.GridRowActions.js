@@ -381,12 +381,12 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 				/**
 				* add af-expand-row to current iconCls or create a new one
 				*/
-				if(a.iconCls)a.iconCls += " af-expand-row"
-				else a.iconCls = " af-expand-row";
+				if(a.iconCls)a.iconCls += " icon-expand-row af-expand-row"
+				else a.iconCls = " icon-expand-row af-expand-row";
 				/**
 				* add af-confirm-row to current iconCls, if is the be confirmed first
 				*/
-				if(a.confirm)a.iconCls += " af-confirm-row";
+				if(a.confirm)a.iconCls += "  af-confirm-row";
 				
 				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="{' + a.urlIndex + '}" confirmmsg="'+a.confirmMsg+'">') : '';
 				

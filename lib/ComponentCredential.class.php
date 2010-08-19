@@ -54,8 +54,12 @@ class ComponentCredential{
 	*/
 	public static function actionHasCredential($module,$action){
 		$class = $module."Actions";
-		if(file_exists(sfConfig::get("sf_root_dir")."/apps/frontend/modules/".$module."/actions/actions.class.php")){
-			require_once(sfConfig::get("sf_root_dir")."/apps/frontend/modules/".$module."/actions/actions.class.php");
+		$file = sfConfig::get("sf_root_dir")."/apps/frontend/modules/".$module."/actions/actions.class.php";
+		if(!file_exists($file)){
+			$file = sfConfig::get("sf_root_dir")."/plugins/appFlowerPlugin/modules/".$module."/actions/actions.class.php";
+		}
+		if(file_exists($file)){
+			require_once($file);
 			$obj = new $class(sfContext::getInstance(),$module,$action);	
 			if(sfContext::getInstance()->getUser()->hasCredential($obj->getCredential())) return true;
 		}
