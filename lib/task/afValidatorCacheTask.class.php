@@ -17,7 +17,7 @@
 /**
  * This task displays a list of exisiting job queues.
  */
-class afValidatorCacheTask extends sfPropelBaseTask
+class afValidatorCacheTask extends sfBaseTask
 {
 	
   private
@@ -105,8 +105,7 @@ EOF;
   	$this->dirs = XmlParser::getPluginDirs($this->basedir."/plugins");
   	
   	// DB
-  	$configuration = ProjectConfiguration::getApplicationConfiguration($arguments['application'], 'prod', true);
-    $this->dbmanager = new sfDatabaseManager($configuration);
+    $this->dbmanager = new sfDatabaseManager($this->configuration);
     // XML Validator
     $this->validator = new XmlValidator(null,false,true,($arguments["reporting"] == "cache"));
     // Truncating cache
@@ -146,7 +145,8 @@ EOF;
     if($arguments["reporting"] == "full") {
     	$this->printTotal();
     }
-    
+
+    return 0;
   }
   
   private function hasXmlFiles($data) {
