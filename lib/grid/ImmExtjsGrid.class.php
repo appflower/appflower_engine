@@ -23,8 +23,7 @@ class ImmExtjsGrid
 	{		
 		$this->immExtjs=ImmExtjs::getInstance();
 		//for test
-		$this->attributes['tbar']=array();	
-		
+		$this->attributes['tbar']=array();		
 		$this->attributes['stripeRows']=true;
 		sfLoader::loadHelpers(array('ImmExtjsContextMenu'));
 		if(isset($attributes['datasource']))
@@ -106,7 +105,7 @@ class ImmExtjsGrid
 		
 		if(isset($attributes['portal'])&&$attributes['portal']==true)
 		{
-			$this->attributes=array_merge($this->attributes,array('anchor'=> '100%',
+			$this->attributes=array_merge($this->attributes,array('anchor'=> '-19',
 															'frame'=>true,
 															'collapsible'=>true,
 															'draggable'=>true,
@@ -132,7 +131,14 @@ class ImmExtjsGrid
 	}
 	
 	private function resizeToolBars(){
-		return 'if('.$this->privateName.' && '.$this->privateName.'.getTopToolbar() && '.$this->privateName.'.getTopToolbar().ownerCt) '.$this->privateName.'.getTopToolbar().ownerCt.setWidth("100%");';
+		return '		
+		if('.$this->privateName.' && '.$this->privateName.'.getTopToolbar() && '.$this->privateName.'.getTopToolbar().ownerCt) '.$this->privateName.'.getTopToolbar().ownerCt.setWidth("100%");
+		if(Ext.isIE){
+			var oc = '.$this->privateName.'
+			if(oc.ownerCt.getEl().dom.offsetHeight < oc.getHeight())
+			oc.setWidth(oc.getWidth()-18);
+			'.$this->privateName.'.getView().refresh();
+		}';
 	}
 	public function addScripts(Array $scripts) {
 		
