@@ -6,13 +6,13 @@ function context_menu($what='',$options=''){
 	foreach($whats as $what){
 		$what = trim($what);
 		if($what == "ip_address"){				
-			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'Ping Address','url'=>'/netflow/updateConnectivity?edit[0][test_action_value]=0','ajax'=>'true','param'=>'edit[0][host]'));$ping->end();
-			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'Trace Route','url'=>'/netflow/updateConnectivity?edit[0][test_action_value]=1','ajax'=>'true','param'=>'edit[0][host]'));$ping->end();
-			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'DNS Lookup','url'=>'/netflow/updateConnectivity?edit[0][test_action_value]=2','ajax'=>'true','param'=>'edit[0][host]'));$ping->end();
-			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'FWSource Query','url'=>'/netflow/updateConnectivity?edit[0][test_action_value]=3','ajax'=>'true','param'=>'edit[0][host]'));$ping->end();
-			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'FWDestination Qquery','url'=>'/netflow/updateConnectivity?edit[0][test_action_value]=4','ajax'=>'true','param'=>'edit[0][host]'));$ping->end();
-			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'Sans IP Query','url'=>'/netflow/updateConnectivity?edit[0][test_action_value]=5','ajax'=>'true','param'=>'edit[0][host]'));$ping->end();
-			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'WhoIs Query','url'=>'/netflow/updateConnectivity?edit[0][test_action_value]=6','ajax'=>'true','param'=>'edit[0][host]'));$ping->end();
+			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'Ping Address','url'=>'/netflow/updateConnectivity?query[test_action_value]=0','ajax'=>'true','param'=>'query[host]'));$ping->end();
+			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'Trace Route','url'=>'/netflow/updateConnectivity?query[test_action_value]=1','ajax'=>'true','param'=>'query[host]'));$ping->end();
+			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'DNS Lookup','url'=>'/netflow/updateConnectivity?query[test_action_value]=2','ajax'=>'true','param'=>'query[host]'));$ping->end();
+			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'FWSource Query','url'=>'/netflow/updateConnectivity?query[test_action_value]=3','ajax'=>'true','param'=>'query[host]'));$ping->end();
+			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'FWDestination Qquery','url'=>'/netflow/updateConnectivity?query[test_action_value]=4','ajax'=>'true','param'=>'query[host]'));$ping->end();
+			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'Sans IP Query','url'=>'/netflow/updateConnectivity?query[test_action_value]=5','ajax'=>'true','param'=>'query[host]'));$ping->end();
+			$ping = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'WhoIs Query','url'=>'/netflow/updateConnectivity?query[test_action_value]=6','ajax'=>'true','param'=>'query[host]'));$ping->end();
 			$wcount++;
 			if($wcount <count($whats)){
 				$cmenu_ip_address->addMember("-");
@@ -28,8 +28,8 @@ function context_menu($what='',$options=''){
 			}			
 		}
 		if($what == "port"){				
-			$menu = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'FwPort Query','url'=>'/netflow/portLookUp?edit[0][action_value]=0','ajax'=>'true','param'=>'edit[0][port]'));$menu->end();
-			$menu = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'Sans Port Query','url'=>'/netflow/portLookUp?edit[0][action_value]=1','ajax'=>'true','param'=>'edit[0][port]'));$menu->end();			
+			$menu = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'FwPort Query','url'=>'/netflow/portLookUp?query[action_value]=0','ajax'=>'true','param'=>'query[port]'));$menu->end();
+			$menu = new ImmExtjsMenuItem($cmenu_ip_address,array('label'=>'Sans Port Query','url'=>'/netflow/portLookUp?query[action_value]=1','ajax'=>'true','param'=>'query[port]'));$menu->end();			
 			$wcount++;
 			if($wcount <count($whats)){
 				$cmenu_ip_address->addMember("-");
