@@ -159,7 +159,8 @@ class ImmExtjsLayout
                             $avatarLogo = sfConfig::get('app_avatar_logo',false);
                         }
 			if($avatarLogo){
-				$logo = '<div style="background-color:#d9e7f8;border-right:1px solid #99bbe8;border-left:1px solid #99bbe8;border-bottom:1px solid #99bbe8; padding:2px 0px 0px 0px; margin:0px;text-align:center;"><img src="'.$avatarLogo.'"/></div>';
+				$clickAction = 'onClick="var aboutWin = null;if(aboutWin = Ext.getCmp(\'about-window\')){aboutWin.show();aboutWin.center();}" style="cursor:pointer"';				
+				$logo = '<div style="background-color:#d9e7f8;border-right:1px solid #99bbe8;border-left:1px solid #99bbe8;border-bottom:1px solid #99bbe8; padding:2px 0px 0px 0px; margin:0px;text-align:center;"><img '.$clickAction.' src="'.$avatarLogo.'"/></div>';
 				$logoScript = '
 					var logoDiv = Ext.DomHelper.insertBefore(comp.bwrap,{tag:"div",html:"'.addslashes($logo).'"});								
 					this.on("bodyresize",function(comp,w,h){
