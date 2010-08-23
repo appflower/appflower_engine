@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__).'/../bootstrap/dbunit.php');
-$t = new lime_test(10, new lime_output_color());
+$t = new lime_test(9, new lime_output_color());
 
 $t->is(UrlUtil::addParam('http://hello', 'token', '1234'),
     'http://hello?token=1234');
