@@ -21,5 +21,4 @@ $t->is(UrlUtil::getPathPart('http://example.com/server/listServer?id=1'),
     '/server/listServer');
 $t->is(UrlUtil::getPathPart('http://example.com'), '');
 $t->is(UrlUtil::getPathPart('https://example.com/hello#world'), '/hello');
-$t->is(UrlUtil::getPathPart('/wizard/eventCorr3?step=2&id=new&&_csrf_token=5851dfb783b8938116856fcc9997518c'),
-    '/wizard/eventCorr3');
+
