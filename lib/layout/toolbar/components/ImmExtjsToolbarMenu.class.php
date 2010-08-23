@@ -28,7 +28,9 @@ class ImmExtjsToolbarMenu
 	}
 	
 	public function end()
-	{						
+	{	
+		if(!isset($this->attributes['url']) && !isset($this->attributes['handler']))
+		$this->attributes['ignoreParentClicks'] = true;	
 		$this->containerObject->addMember($this->attributes);
 	}
 }
