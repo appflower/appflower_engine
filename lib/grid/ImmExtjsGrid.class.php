@@ -334,7 +334,8 @@ class ImmExtjsGrid
 				$temp_field['name']=isset($column['name'])?$column['name']:Util::stripText($temp_name);
 				//$temp_field['type']=isset($column['type'])?$column['type']:'auto';
 				$temp_field['sortType']=isset($column['sortType'])?$column['sortType']:'asText';
-
+				$temp_column['sortType']=isset($column['sortType'])?$column['sortType']:'asText';
+				
 				//Grid summary plugin				
 				$temp_column['summaryType']=isset($column['summaryType'])?$column['summaryType']:null;				
 				if(!$summaryPlugin && $temp_column['summaryType']!=null){					
@@ -349,9 +350,8 @@ class ImmExtjsGrid
 					$temp_column['width']=$column['width'];
 				}
 				$temp_column['hidden']=isset($column['hidden'])?$column['hidden']:false;
-				$temp_column['hideable']=isset($column['hideable'])?$column['hideable']:true;
-				$temp_column['align']=isset($column['align'])?$column['align']:'left';
-				
+				$temp_column['hideable']=isset($column['hideable'])?$column['hideable']:true;				
+				$temp_column = $this->formatNumberColumn($temp_column);
 				/**
 				 * Edit link at defined column
 				 * Please comment this block if the edit should be under the Actions column.
@@ -1046,5 +1046,11 @@ class ImmExtjsGrid
 	}
 	Ext.Msg.alert("Failure", message, onClose);
 	'));
+	}
+	private function formatNumberColumn(&$column){
+		if(in_array($column['sortType'],array("asSize","htmlAsSize","asInt","htmlAsInt","asFloat","htmlAsFloat"))){
+			$column['align'] = "right";
+		}
+		return $column;
 	}
 }
