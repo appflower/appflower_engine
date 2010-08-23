@@ -25,6 +25,7 @@ class ImmExtjsGrid
 		//for test
 		$this->attributes['tbar']=array();	
 		
+		$this->attributes['stripeRows']=true;
 		sfLoader::loadHelpers(array('ImmExtjsContextMenu'));
 		if(isset($attributes['datasource']))
 		{
@@ -100,7 +101,7 @@ class ImmExtjsGrid
 		
 		$attributes['pager']=(!isset($attributes['pager'])?true:$attributes['pager']);
 		
-		$attributes['forceFit']=(!isset($attributes['forceFit'])?true:$attributes['forceFit']);
+		$attributes['forceFit']=(!isset($attributes['forceFit'])?true:$attributes['forceFit']);		
 		$attributes['remoteSort']=(!isset($attributes['remoteSort'])?false:$attributes['remoteSort']);
 		
 		if(isset($attributes['portal'])&&$attributes['portal']==true)
@@ -130,7 +131,9 @@ class ImmExtjsGrid
 		$this->attributes=array_merge($this->attributes,$attributes);
 	}
 	
-	
+	private function resizeToolBars(){
+		return 'if('.$this->privateName.' && '.$this->privateName.'.getTopToolbar() && '.$this->privateName.'.getTopToolbar().ownerCt) '.$this->privateName.'.getTopToolbar().ownerCt.setWidth("100%");';
+	}
 	public function addScripts(Array $scripts) {
 		
 		foreach($scripts as $script) {
@@ -578,7 +581,8 @@ class ImmExtjsGrid
 																			"source"=>
 																			'if(records.length>0&&records[0].json.redirect&&records[0].json.message&&records[0].json.load){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){afApp.load(rec.redirect,rec.load);});}else{if('.$this->privateName.'.canMask()){'.$this->privateName.'.getEl().unmask();}}
 																			'.$this->privateName.'.ownerCt.ownerCt.doLayout();'
-                                                                                                                                                        .($this->dataLoadedHandler != '' ? "{$this->dataLoadedHandler}($this->privateName);" : '')
+                                                                             .($this->dataLoadedHandler != '' ? "{$this->dataLoadedHandler}($this->privateName);" : '')
+                                                                             .$this->resizeToolBars()                                                                             
 																	));
 			$this->attributes[$storePrivateName]['listeners']['loadexception']=$this->immExtjs->asMethod(array(
 																			"parameters"=>"",
