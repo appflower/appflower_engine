@@ -23,7 +23,7 @@ class ImmExtjsGrid
 	{		
 		$this->immExtjs=ImmExtjs::getInstance();
 		//for test
-		$this->attributes['tbar']=array();		
+		$this->attributes['tbar']=array();			
 		$this->attributes['stripeRows']=true;
 		sfLoader::loadHelpers(array('ImmExtjsContextMenu'));
 		if(isset($attributes['datasource']))
@@ -131,14 +131,10 @@ class ImmExtjsGrid
 	}
 	
 	private function resizeToolBars(){
-		return '		
-		if('.$this->privateName.' && '.$this->privateName.'.getTopToolbar() && '.$this->privateName.'.getTopToolbar().ownerCt) '.$this->privateName.'.getTopToolbar().ownerCt.setWidth("100%");
-		if(Ext.isIE){
-			var oc = '.$this->privateName.'
-			if(oc.ownerCt.getEl().dom.offsetHeight < oc.getHeight())
-			oc.setWidth(oc.getWidth()-18);
-			'.$this->privateName.'.getView().refresh();
-		}';
+		return '	
+		var oc = '.$this->privateName.';		
+		if(oc && oc.getTopToolbar()) oc.getTopToolbar().setWidth(oc.getWidth());
+		if(oc && oc.getBottomToolbar()) oc.getBottomToolbar().setWidth(oc.getWidth());';		
 	}
 	public function addScripts(Array $scripts) {
 		
@@ -289,7 +285,7 @@ class ImmExtjsGrid
 			var box = this.getBox();
 			tb.setWidth(box.width);	"
 		));	
-		*/
+		*/	
 		$this->attributes['canMask']=$this->immExtjs->asMethod(array("parameters"=>"","source"=>"return !Ext.isIE&&!".$this->privateName.".disableLoadMask&&!Ext.get('loading');"));
 		
 		if(!$this->attributes['tree'])
