@@ -13,7 +13,7 @@ class ImmExtjsFieldSuperBoxSelect extends ImmExtjsField
 				'js' => array($this->immExtjs->getExamplesDir().'superboxselect/SuperBoxSelect.js'),
 				'css'=>array($this->immExtjs->getExamplesDir().'superboxselect/superboxselect.css')
 			));
-			GraphUtil::dump($attributes);			
+				
 			$this->attributes['xtype']='superboxselect';						
 			$this->attributes['resizable']=true;
 			$this->attributes['anchor']='95%';

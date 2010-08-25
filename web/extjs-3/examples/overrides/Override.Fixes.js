@@ -255,3 +255,122 @@ Ext.Loader = Ext.apply({}, {
         return script;
     }
 });
+
+/**
+ * Fixes for the IE portal page, where the vertical scrollbar introduces a horizontal one too.
+ */
+var pxMatch = /(\d+(?:\.\d+)?)px/;
+Ext.override(Ext.Element, {
+        getViewSize : function(contentBox){
+            var doc = document,
+                me = this,
+                d = me.dom,
+                extdom = Ext.lib.Dom,
+                isDoc = (d == doc || d == doc.body),
+                isBB, w, h, tbBorder = 0, lrBorder = 0,
+                tbPadding = 0, lrPadding = 0;
+            if (isDoc) {
+                return { width: extdom.getViewWidth(), height: extdom.getViewHeight() };
+            }
+            isBB = me.isBorderBox();
+            tbBorder = me.getBorderWidth('tb');
+            lrBorder = me.getBorderWidth('lr');
+            tbPadding = me.getPadding('tb');
+            lrPadding = me.getPadding('lr');
+
+            // Width calcs
+            // Try the style first, then clientWidth, then offsetWidth
+            if (w = me.getStyle('width').match(pxMatch)){
+                if ((w = Math.round(w[1])) && isBB){
+                    // Style includes the padding and border if isBB
+                    w -= (lrBorder + lrPadding);
+                }
+                if (!contentBox){
+                    w += lrPadding;
+                }
+                // Minimize with clientWidth if present
+                d.clientWidth && (d.clientWidth < w) && (w = d.clientWidth);
+            } else {
+                if (!(w = d.clientWidth) && (w = d.offsetWidth)){
+                    w -= lrBorder;
+                }
+                if (w && contentBox){
+                    w -= lrPadding;
+                }
+            }
+
+            // Height calcs
+            // Try the style first, then clientHeight, then offsetHeight
+            if (h = me.getStyle('height').match(pxMatch)){
+                if ((h = Math.round(h[1])) && isBB){
+                    // Style includes the padding and border if isBB
+                    h -= (tbBorder + tbPadding);
+                }
+                if (!contentBox){
+                    h += tbPadding;
+                }
+                // Minimize with clientHeight if present
+                d.clientHeight && (d.clientHeight < h) && (h = d.clientHeight);
+            } else {
+                if (!(h = d.clientHeight) && (h = d.offsetHeight)){
+                    h -= tbBorder;
+                }
+                if (h && contentBox){
+                    h -= tbPadding;
+                }
+            }
+
+            return {
+                width : w,
+                height : h
+            };
+        }
+});
+Ext.override(Ext.layout.ColumnLayout, {
+    onLayout : function(ct, target, targetSize){
+        var cs = ct.items.items, len = cs.length, c, i;
+
+        if(!this.innerCt){
+            // the innerCt prevents wrapping and shuffling while
+            // the container is resizing
+            this.innerCt = target.createChild({cls:'x-column-inner'});
+            this.innerCt.createChild({cls:'x-clear'});
+        }
+        this.renderAll(ct, this.innerCt);
+
+        var size = targetSize || target.getViewSize(true);
+
+        if(size.width < 1 && size.height < 1){ // display none?
+            return;
+        }
+
+        var w = size.width - this.scrollOffset,
+            h = size.height,
+            pw = w;
+
+        this.innerCt.setWidth(w);
+
+        // some columns can be percentages while others are fixed
+        // so we need to make 2 passes
+
+        for(i = 0; i < len; i++){
+            c = cs[i];
+            if(!c.columnWidth){
+                pw -= (c.getSize().width + c.getPositionEl().getMargins('lr'));
+            }
+        }
+
+        pw = pw < 0 ? 0 : pw;
+
+        for(i = 0; i < len; i++){
+            c = cs[i];
+            if(c.columnWidth){
+                c.setSize(Math.floor(c.columnWidth * pw) - c.getPositionEl().getMargins('lr'));
+            }
+        }
+        // Do a second pass if the layout resulted in a vertical scrollbar (changing the available width)
+        if (!targetSize && ((size = target.getViewSize(true)).width != w)) {
+            this.onLayout(ct, target, size);
+        }
+    }
+});

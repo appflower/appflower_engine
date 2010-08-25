@@ -105,7 +105,7 @@ class ImmExtjsGrid
 		
 		if(isset($attributes['portal'])&&$attributes['portal']==true)
 		{
-			$this->attributes=array_merge($this->attributes,array('anchor'=> '-19',
+			$this->attributes=array_merge($this->attributes,array('anchor'=> '100%',
 															'frame'=>true,
 															'collapsible'=>true,
 															'draggable'=>true,
