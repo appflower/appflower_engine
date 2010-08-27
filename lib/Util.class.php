@@ -68,7 +68,7 @@ class Util {
 				myAuditLogger::logMessage(count($items)." record has deleted from ".str_replace("Peer","",$class));	
 			}
 
-			$result = array('success' => true, 'message' => $msg, 'redirect' => $redirect);
+			$result = array('success' => true,  'redirect' => $redirect);
 			return $result = json_encode($result);		
 	}
 	static public function createJson($eventInfoId = null)
