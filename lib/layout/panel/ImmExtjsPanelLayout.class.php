@@ -40,7 +40,7 @@ class ImmExtjsPanelLayout extends ImmExtjsLayout
 							  'idxml'=>isset($attributes['idxml'])?$attributes['idxml']:false,
 			);
 			
-			
+			$attributes['plugins'][] = 'new Ext.ux.MaximizeTool()';
 			if(isset($this->attributes['viewport']['center_panel'])&&count($this->attributes['viewport']['center_panel'])>0)
 			$attributes=array_merge($attributes,$this->attributes['viewport']['center_panel']);
 					          
