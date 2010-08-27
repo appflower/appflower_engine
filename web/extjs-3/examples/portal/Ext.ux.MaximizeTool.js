@@ -18,6 +18,18 @@ Ext.ux.MaximizeTool = function() {
          * Add maximize just before last tool
          * Just to allow a close tool to be at the last. if any
          */
+        var tmp;
+        if(ct.tools.length > 0){
+        	for(var k in ct.tools){
+        		if(ct.tools[k].id == 'close'){
+        			tmp = ct.tools[k];
+        			ct.tools.splice(k,1);
+        		}
+        	}
+        }
+        if(tmp){
+        	ct.tools[ct.tools.length] = tmp;
+        }
         if(ct.tools.length > 0){
 	        var lastTool = ct.tools[ct.tools.length-1];
 	        if(lastTool.id == 'close'){
