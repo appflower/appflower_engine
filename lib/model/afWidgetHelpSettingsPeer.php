@@ -4,6 +4,7 @@ class afWidgetHelpSettingsPeer extends BaseafWidgetHelpSettingsPeer
 {
 	public static function retrieveCurrent()
 	{
+		if(!sfContext::getInstance()->getUser()->isAuthenticated()) return new afWidgetHelpSettings();
 		$userId=sfContext::getInstance()->getUser()->getGuardUser()->getId();
 		
 		$c=new Criteria();
