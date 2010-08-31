@@ -22,8 +22,8 @@ class afCall {
      * It returns the evaluted value.
      */
     public static function evaluate($expression, $vars) {
-        $handler = new afErrorHandler("Unable to eval($expression): ");
-        set_error_handler(array($handler, 'handler'));
+        afErrorHandler::raiseExceptionsOnErrors(
+            "Unable to eval($expression): ");
 
         $e = null;
         try {
