@@ -6,7 +6,7 @@
 class afErrorHandler {
     private $intro;
 
-    public function __construct($intro) {
+    private function __construct($intro) {
         $this->intro = $intro;
     }
 
@@ -17,6 +17,13 @@ class afErrorHandler {
 
         throw new afPhpErrorException($this->intro . $errstr,
             $errfile, $errline);
+    }
+
+    /**
+     * Installs an exception raising error handler.
+     */
+    public static function raiseExceptionsOnErrors($intro='Error: ') {
+        set_error_handler(array(new afErrorHandler($intro), 'handler'));
     }
 }
 
