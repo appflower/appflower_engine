@@ -165,6 +165,7 @@ class ImmExtjsFieldSuperBoxSelect extends ImmExtjsField
         ;
         
         $this->attributes['listeners']['render'] = array("parameters"=>"ct","source"=>'
+        	return;
 			new Ext.ToolTip({
 			    target : ct.wrapEl,
 			    delegate : "li.x-superboxselect-item",
