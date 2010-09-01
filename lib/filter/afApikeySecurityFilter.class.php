@@ -46,6 +46,7 @@ class afApikeySecurityFilter extends sfFilter {
         $extraKey = $guardUser->getPassword();
         $username = afAuthenticDatamaker::plainDecode($apikey, $extraKey);
         if ($username === null) {
+            //Console::debug('expected API key:', self::getApikey($guardUser));
             return null;
         }
 
