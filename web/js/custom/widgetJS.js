@@ -400,6 +400,7 @@ afApp.loadCenterWidget = function(widget) {
 	uri[0]=uri[0] || '/';
 	
 	afApp.currentCenterWidget = uri[0];
+	afApp.observable.fireEvent('beforeload', uri[0]);
 	
 	var futureTab=uri[1]?'#'+uri[1]:'';
 	var viewport=App.getViewport();
@@ -721,3 +722,4 @@ afApp.loadWestWidget = function(widget)
 }
 //used to set/get current widget in center content
 afApp.currentCenterWidget = false;
+afApp.observable = new Ext.util.Observable();
