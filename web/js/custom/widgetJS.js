@@ -311,7 +311,7 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 	});
 }
 
-//just add afApp.load to any a tag that doesn't have externalUrl css class name, and that url will be loaded inside the cemter panel
+//just add afApp.load to any a tag that has widgetLoad CSS class, and that url will be loaded inside the cemter panel
 afApp.attachHrefWidgetLoad = (function ()
 {
 	var listener = function(e) {
