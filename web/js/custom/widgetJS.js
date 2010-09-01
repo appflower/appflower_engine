@@ -145,6 +145,9 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 				}
 				if(title) win.setTitle(title);
 				
+				if(win.doLayout) win.doLayout()
+				if(win.show) win.show();
+				
 				/* window resize, pack and onmove adjustments */
 				afApp.pack(win,winConfig);
 				
