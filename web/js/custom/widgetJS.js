@@ -466,9 +466,8 @@ afApp.loadCenterWidget = function(widget) {
 				}
 							
 				//adding a referer param to all Ajax request in Ext objects
-				Ext.Ajax.extraParams = {
-				    'af_referer': futureHash
-				};
+				Ext.Ajax.extraParams = Ext.Ajax.extraParams || {};
+				Ext.Ajax.extraParams['af_referer'] = futureHash;
 				
 				afApp.executeAddonsLoadCenterWidget(viewport,total_addons,json,mask);	
 			}				
@@ -635,9 +634,8 @@ afApp.changeTabHash = function(tab)
 	}
 		
 	//adding a referer param to all Ajax request in Ext objects
-	Ext.Ajax.extraParams = {
-	    'af_referer': futureHash
-	};
+	Ext.Ajax.extraParams = Ext.Ajax.extraParams || {};
+	Ext.Ajax.extraParams['af_referer'] = futureHash;
 }
 /**
 * load first request made to browser directly
