@@ -311,7 +311,7 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 	});
 }
 
-//just add afApp.load to any a tag that has widgetLoad CSS class, and that url will be loaded inside the cemter panel
+// <a/> tags with widgetLoad CSS class will be loaded inside the center panel.
 afApp.attachHrefWidgetLoad = (function ()
 {
 	var listener = function(e) {
