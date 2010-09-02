@@ -2626,8 +2626,6 @@ class XmlParser extends XmlParserTools {
 			self::updateSession(false,"parser/wizard",null,$this->datastore,$this->process);
 		}
 		
-		$host = ($this->isSSL()? 'https' : 'http')."://".$this->context->getRequest()->getHost();
-		
 		if(!$build) {
 			$pageHelp = ($this->type !== self::WIZARD && isset($this->process["parses"][0]["extra"]) && $this->widgetHelpSettings->getWidgetHelpIsEnabled());	
 		} else {
@@ -2733,7 +2731,7 @@ class XmlParser extends XmlParserTools {
 			
 			if($view == "edit" || $view == "show") {
 
-				$formoptions["action"] = $host.url_for($parse["form"]);
+				$formoptions["action"] = url_for($parse["form"]);
 				$formoptions["name"] = "form".$it;
 				$formoptions["classic"] = ($parse["classic"] !== "false");
 				$formoptions["labelWidth"] = isset($parse['labelWidth'])?$parse['labelWidth']:'75';
@@ -2896,8 +2894,7 @@ class XmlParser extends XmlParserTools {
 							
 						} else if($attributes["type"] == "linkButton" || $attributes["type"] == "button") {
 							
-							$attributes["url"] = (strstr($attributes["action"],"://")) ? $attributes["action"] : 
-							$host.url_for($attributes["action"]);
+							$attributes["url"] = $attributes["action"];
 							$tmp_name = "ImmExtjs".ucfirst($classname); 
 							$obj = new $tmp_name($form,$attributes);	
 							
