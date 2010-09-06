@@ -62,7 +62,7 @@ class UrlUtil {
      */
     public static function widgetLink($name, $url) {
         $url = self::abs($url);
-        return '<a href="/#'.$url.'">'.htmlspecialchars($name).'</a>';
+        return '<a href="'.sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/#'.$url.'">'.htmlspecialchars($name).'</a>';
     }
 
     /**
@@ -70,7 +70,7 @@ class UrlUtil {
      */
     public static function widgetHtmlLink($html, $url) {
         $url = self::abs($url);
-        return '<a href="/#'.$url.'">'.$html.'</a>';
+        return '<a href="'.sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/#'.$url.'">'.$html.'</a>';
     }
 
     /**
@@ -88,7 +88,7 @@ class UrlUtil {
      */
     public static function widgetUrl($url)
     {
-    	return '/#'.$url;
+    	return sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/#'.$url;
     }
     
     /**
@@ -96,7 +96,7 @@ class UrlUtil {
      */
     public static function widgetAbsoluteUrl($url)
     {
-    	return sfContext::getInstance()->getRequest()->getUriPrefix().'/#'.$url;
+    	return sfContext::getInstance()->getRequest()->getUriPrefix().sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/#'.$url;
     }
     
     /**
@@ -104,6 +104,6 @@ class UrlUtil {
      */
     public static function url($url,$absolute=false)
     {
-    	return ($absolute?sfContext::getInstance()->getRequest()->getUriPrefix():'').'/#'.$url;
+    	return ($absolute?sfContext::getInstance()->getRequest()->getUriPrefix():'').sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/#'.$url;
     }
 }

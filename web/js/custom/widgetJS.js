@@ -206,6 +206,9 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 	load();
 }
 afApp.createAddon = function(filename, filetype, callback) {
+	
+	filename = afApp.urlPrefix + filename;
+	
 	if(!filetype)
 	{
 		var f = filename.split('.');
@@ -398,6 +401,7 @@ afApp.loadCenterWidget = function(widget) {
 	
 	var uri=widget.split('#');
 	uri[0]=uri[0] || '/';
+	uri[0]=afApp.urlPrefix+uri[0];
 	
 	afApp.currentCenterWidget = uri[0];
 	afApp.observable.fireEvent('beforeload', uri[0]);

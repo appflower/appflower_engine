@@ -307,6 +307,8 @@ class ImmExtjsGrid
 		
 		if(isset($this->proxy['url'])&&count($this->columns)>0)
 		{
+			$this->proxy['url']=sfContext::getInstance()->getRequest()->getRelativeUrlRoot().$this->proxy['url'];
+			
 			$filtersPrivateName='filters_'.Util::makeRandomKey();
 			$storePrivateName='store_'.Util::makeRandomKey();
 			$readerPrivateName='reader_'.Util::makeRandomKey();

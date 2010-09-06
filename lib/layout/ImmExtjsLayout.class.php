@@ -362,7 +362,9 @@ class ImmExtjsLayout
 			Ext.get('loading').remove();
 	        Ext.get('loading-mask').fadeOut({remove:true});
 	    ".(!$this->showFullCenter()?"afApp.loadFirst();":"")."        
-	    }, 250);";
+	    }, 250);
+	    afApp.urlPrefix = '".sfContext::getInstance()->getRequest()->getRelativeUrlRoot()."';
+	    ";
 
 		
 		$this->immExtjs->public['getViewport'] = "return viewport;";
