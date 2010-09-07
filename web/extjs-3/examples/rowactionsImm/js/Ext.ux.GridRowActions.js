@@ -388,10 +388,10 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 				*/
 				if(a.confirm)a.iconCls += "  af-confirm-row";
 				
-				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="{' + a.urlIndex + '}" confirmmsg="'+a.confirmMsg+'">') : '';
+				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="'+afApp.urlPrefix+'{' + a.urlIndex + '}" confirmmsg="'+a.confirmMsg+'">') : '';
 				
 			}else{
-				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="<tpl if="!'+a.confirm+'&&this.isLoadCenter(\''+a.load+'\')">'+afApp.urlPrefix+'/#</tpl>{' + a.urlIndex + '}" <tpl if="'+a.confirm+'">onclick="Ext.Msg.confirm(\'Confirmation\',\''+a.message+'\', function(btn){if (btn==\'yes\'){ afApp.load(\'{' + a.urlIndex + '}\',\'' + a.load + '\'); return false; }else{ return true;}});return false;"</tpl>>') : '';
+				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="<tpl if="!'+a.confirm+'&&this.isLoadCenter(\''+a.load+'\')">'+afApp.urlPrefix+'/#</tpl>{' + a.urlIndex + '}" <tpl if="'+a.confirm+'">onclick="Ext.Msg.confirm(\'Confirmation\',\''+a.message+'\', function(btn){if (btn==\'yes\'){ afApp.load(\''+afApp.urlPrefix+'{' + a.urlIndex + '}\',\'' + a.load + '\'); return false; }else{ return true;}});return false;"</tpl>>') : '';
 			}			
 			
 			/*
@@ -402,13 +402,13 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 			
 			if(a.post && a.name && !a.name.match("_expand")){
 				ajaxCall = 'Ext.Ajax.request({'+ 
-						'url: "{'+a.urlIndex+'}",'+
+						'url: "'+afApp.urlPrefix+'{'+a.urlIndex+'}",'+
 						'method:"post",'+						
 						'success: Ext.ux.GridRowActions.onActionSuccess,'+
 						'failure: Ext.ux.GridRowActions.onActionFailure'+
 					'});'+
 				';';
-				urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="{'+a.urlIndex+'}" <tpl if="!'+a.confirm+'">onclick=\''+ajaxCall+'; return false;\'</tpl><tpl if="'+a.confirm+'">onclick=\'Ext.Msg.confirm("Confirmation","'+a.message+'", function(btn){if (btn=="yes"){ '+ajaxCall+' }}); return false;\'</tpl>>') : '';
+				urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="'+afApp.urlPrefix+'{'+a.urlIndex+'}" <tpl if="!'+a.confirm+'">onclick=\''+ajaxCall+'; return false;\'</tpl><tpl if="'+a.confirm+'">onclick=\'Ext.Msg.confirm("Confirmation","'+a.message+'", function(btn){if (btn=="yes"){ '+ajaxCall+' }}); return false;\'</tpl>>') : '';
 			}
 			
 			
@@ -419,7 +419,7 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 				
 				a.popupSettings=escape(a.popupSettings);
 				
-				urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="{'+a.urlIndex+'}" <tpl if="!'+a.confirm+'">onclick=\'afApp.widgetPopup("{'+a.urlIndex+'}","","","'+a.popupSettings+'"); return false;\'</tpl><tpl if="'+a.confirm+'">onclick=\'Ext.Msg.confirm("Confirmation","'+a.message+'", function(btn){if (btn=="yes"){ afApp.widgetPopup("{'+a.urlIndex+'}"); }}); return false;\'</tpl>>') : '';
+				urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="'+afApp.urlPrefix+'{'+a.urlIndex+'}" <tpl if="!'+a.confirm+'">onclick=\'afApp.widgetPopup("'+afApp.urlPrefix+'{'+a.urlIndex+'}","","","'+a.popupSettings+'"); return false;\'</tpl><tpl if="'+a.confirm+'">onclick=\'Ext.Msg.confirm("Confirmation","'+a.message+'", function(btn){if (btn=="yes"){ afApp.widgetPopup("'+afApp.urlPrefix+'{'+a.urlIndex+'}"); }}); return false;\'</tpl>>') : '';
 			}
 			/***************************************************************************/
 			

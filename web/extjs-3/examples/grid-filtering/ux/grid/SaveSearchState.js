@@ -9,9 +9,9 @@ Ext.ux.SaveSearchState = function(grid){
     var filtersObj = grid.filters;    
     if(!filtersObj) return;
     var p = new Ext.state.Provider();
-    this.saveUrl = '/appFlower/saveFilter';
-    this.listUrl = '/appFlower/listFilter';
-    this.removeUrl = '/appFlower/removeFilter';
+    this.saveUrl = afApp.urlPrefix+'/appFlower/saveFilter';
+    this.listUrl = afApp.urlPrefix+'/appFlower/listFilter';
+    this.removeUrl = afApp.urlPrefix+'/appFlower/removeFilter';
     this.save = function(){
     	var state = [];   
     	var list = this.list;
