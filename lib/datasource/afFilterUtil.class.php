@@ -43,6 +43,9 @@ class afFilterUtil {
 								case 'eq' : 
 									$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::EQUAL); 
 									break;
+								case 'ne' : 
+									$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::NOT_EQUAL); 
+									break;
 								case 'lt' : 
 									$critNumeric[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::LESS_THAN); 
 									break;
@@ -55,14 +58,14 @@ class afFilterUtil {
 							switch ($filters[$i]['data']['comparison']) {
 								case 'eq' : 
 									//$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::EQUAL);
-									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::GREATER_EQUAL);
-									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])+(24*60*60)),Criteria::LESS_THAN);
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d H:i:s',strtotime($filters[$i]['data']['value'])),Criteria::GREATER_EQUAL);
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d H:i:s',strtotime($filters[$i]['data']['value'])+(24*60*60)),Criteria::LESS_THAN);
 									break;
 								case 'lt' : 
-									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])+(24*60*60)),Criteria::LESS_THAN);
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d H:i:s',strtotime($filters[$i]['data']['value'])+(24*60*60)),Criteria::LESS_THAN);
 									break;
 								case 'gt' : 
-									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::GREATER_EQUAL);
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d H:i:s',strtotime($filters[$i]['data']['value'])),Criteria::GREATER_EQUAL);
 									break;
 							}
 						break;
