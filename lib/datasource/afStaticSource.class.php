@@ -7,9 +7,9 @@ class afStaticSource implements afIDataSource {
         $start = 0,
         $limit = null,
         $sortColumn = null,
-        $sortDir = 'ASC';
+        $sortDir = 'ASC',
+        $fullResponse = false;
     private
-        $fullResponse = false,
         $totalCount = null,
         $results = null;
 
