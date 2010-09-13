@@ -154,7 +154,7 @@ class ImmExtjsLayout
 			$logoScript = "";
                         $appConf = sfApplicationConfiguration::getActive();
                         if (class_exists('ConfigPeer')) {
-                            $avatarLogo = ConfigPeer::get("avatar_logo",false);
+                            $avatarLogo = ConfigPeer::get("avatar_logo_file",false);
                         } else {
                             $avatarLogo = sfConfig::get('app_avatar_logo',false);
                         }
