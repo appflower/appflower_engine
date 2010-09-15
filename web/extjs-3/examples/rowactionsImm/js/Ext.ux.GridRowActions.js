@@ -657,6 +657,11 @@ Ext.ux.GridRowActions.onActionSuccess = function(response, options) {
 	if(!response.success) {
 		return Ext.ux.GridRowActions.onActionFailure(response, options);
 	}
+	
+	if(response.executeAfter)
+	{
+		eval(response.executeAfter);
+	}
 
 	if(response.message) {
 		Ext.Msg.alert('Success', response.message, function(){

@@ -420,8 +420,7 @@ afApp.loadCenterWidget = function(widget) {
 			json.title = json.title?json.title:'...';
 			//hash contains the value without #in front of the internal link
 			var futureHash=uri[0].replace(document.location.protocol+'//'+document.location.host,'')+futureTab;
-			var currentHash=document.location.href.replace(document.location.protocol+'//'+document.location.host+'/#','');
-			
+			var currentHash=document.location.href.replace(document.location.protocol+'//'+document.location.host+'/#','');			
 			if(json.success === false) {
 				mask.hide();
 				Ext.Msg.alert('Failure', json.message);
@@ -475,6 +474,11 @@ afApp.loadCenterWidget = function(widget) {
 				
 				afApp.executeAddonsLoadCenterWidget(viewport,total_addons,json,mask);	
 			}				
+			
+			if(json.executeAfter)
+			{
+				eval(json.executeAfter);
+			}
 		},
 		failure : function(response) {
 			mask.hide();
