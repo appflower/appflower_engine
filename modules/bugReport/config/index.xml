@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+        xmlns:i="http://www.appflower.com/schema/" type="edit">
+
+    <i:title>Report a bug</i:title>
+
+    <i:fields url="/bugReport/update">
+
+        <i:field name="subject" label="Subject" type="input" state="editable" style="css">
+        	<i:validator name="immValidatorRequired" />
+        	<i:help>One line summary of the problem.</i:help>
+        </i:field>
+        
+        <i:field name="comment" label="Comment" type="textarea" rich="true" state="editable" style="css">
+        	<i:validator name="immValidatorRequired" />
+        	<i:help>Full description.</i:help>
+        </i:field>
+
+        <i:field name="email" label="Email" type="input" state="editable" style="css">
+        	<i:validator name="sfValidatorEmail">
+				<i:param name="invalid_error">Only valid email address is accepted.</i:param>
+			</i:validator>
+			<i:help>Your email address.</i:help>
+        </i:field>
+    </i:fields>
+
+    <i:description>
+        <![CDATA[This form allows you to submit Bug Reports. ]]>
+    </i:description>
+</i:view>
+
