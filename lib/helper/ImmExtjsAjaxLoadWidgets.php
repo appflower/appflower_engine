@@ -27,6 +27,12 @@ class ImmExtjsAjaxLoadWidgets{
 	}
 	public static function initialize($action){		
 		
+		$widgetLoadJson=$action->hasRequestParameter("widget_load_json")?$action->getRequestParameter("widget_load_json"):"true";
+		if(!in_array($widgetLoadJson,array("true","false")))
+		{
+			$widgetLoadJson="true";
+		}
+		
 		//Check for the widget load request
 		if($action->getRequestParameter("widget_load") && $action->getRequestParameter("widget_load") != "false"){	
 				
@@ -34,7 +40,7 @@ class ImmExtjsAjaxLoadWidgets{
 				sfConfig::set('app_parser_panels', array());
 				sfConfig::set('app_parser_skip_toolbar', true);
 				$w = new ImmExtjsAjaxLoadWidgets();				
-				echo $w->getSourceForCenterLoad();
+				echo $widgetLoadJson=='true'?json_encode($w->getSourceForCenterLoad()):print_r($w->getSourceForCenterLoad());
 				exit;
 			}
 		}
@@ -44,7 +50,7 @@ class ImmExtjsAjaxLoadWidgets{
 				sfConfig::set('app_parser_panels', array());
 				sfConfig::set('app_parser_skip_toolbar', true);
 				$w = new ImmExtjsAjaxLoadWidgets();				
-				echo $w->getSourceForPopupLoad();
+				echo $widgetLoadJson=='true'?json_encode($w->getSourceForPopupLoad()):print_r($w->getSourceForPopupLoad());
 				exit;
 			}
 		}
@@ -98,18 +104,18 @@ class ImmExtjsAjaxLoadWidgets{
 	}
 	public function getSourceForPopupLoad(){
 		if($this->type == XmlParser::PANEL){
-			return json_encode(array("center_panel"=>$this->getCenterPanelSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource()));
+			return array("center_panel"=>$this->getCenterPanelSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource());
 		}
 		if($this->type == XmlParser::PAGE){
-			return json_encode(array("center_panel"=>$this->getPortalCenterPanelSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource()));
+			return array("center_panel"=>$this->getPortalCenterPanelSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource());
 		}
 	}
 	public function getSourceForCenterLoad(){
 		if($this->type == XmlParser::PANEL){
-			return json_encode(array("center_panel_first"=>$this->getCenterPanelFirstSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource()));
+			return array("center_panel_first"=>$this->getCenterPanelFirstSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource());
 		}
 		if($this->type == XmlParser::PAGE){
-			return json_encode(array("center_panel_first"=>$this->getCenterPanelFirstSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource()));
+			return array("center_panel_first"=>$this->getCenterPanelFirstSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource());
 		}		
 	}	
 
