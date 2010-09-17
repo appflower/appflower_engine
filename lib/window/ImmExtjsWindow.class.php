@@ -12,6 +12,7 @@ class ImmExtjsWindow
 							'width'    => 'auto',
 							'height'   => '500',
 							'closeAction'=>'hide',
+							'shadow'=>false,
 							'plain'=>true,
 							'modal'=>true);
 	
