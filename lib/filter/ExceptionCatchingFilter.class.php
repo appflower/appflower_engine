@@ -52,7 +52,7 @@ class ExceptionCatchingFilter extends sfFilter
             if ($debugMode) {
                 $errorMessage = 'Unable to do the action.<br/>Reason: '.$errorMessage;
             } else {
-                $errorMessage .= '<br/><br/>If you believe you found a bug - <a href="javascript:void();" onclick="afApp.widgetPopup("/bugReport/index","Send us a Bug Report",null,"iconCls: \'icon-bug-add\',width:650,height:328,maximizable: false");">please let us know about it</a>.';
+                $errorMessage .= '<br/><br/>If you believe you found a bug - <a href="javascript:void();" onclick="afApp.widgetPopup(\'/bugReport/index\',\'Send us a Bug Report\',null,\'iconCls: \\\'icon-bug-add\\\',width:650,height:328,maximizable: false\');">please let us know about it</a>.';
             }
 
             $response = $this->context->getResponse();
