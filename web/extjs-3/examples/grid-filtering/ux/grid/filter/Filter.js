@@ -66,6 +66,11 @@ Ext.extend(Ext.ux.grid.filter.Filter, Ext.util.Observable, {
 	menu: null,
 	
 	/**
+	 * Initialize the filter options
+	 * /
+	filterOptions: null,
+	
+	/**
 	 * Initialize the filter and install required menu items.
 	 */
 	init: Ext.emptyFn,
@@ -76,7 +81,6 @@ Ext.extend(Ext.ux.grid.filter.Filter, Ext.util.Observable, {
 	
 	fireUpdate: function(){
 		this.value = this.item.getValue();
-		
 		if(this.active)
 			this.fireEvent("update", this);
 			
@@ -136,5 +140,25 @@ Ext.extend(Ext.ux.grid.filter.Filter, Ext.util.Observable, {
 	 * 
 	 * @return {Boolean} True if the record is valid with in the bounds of the filter, false otherwise.
 	 */
-	 validateRecord: function(){return true;}
+	 validateRecord: function(){return true;},
+	 
+	 /**
+	  * Set the options to filters
+	  *
+	  * added by Prakash Paudel
+	  *
+	  * The filter options are set by Ext.ux.FilterOption
+	  */
+	 setFilterOptions: function(options) {
+		this.filterOptions = options;
+	 },
+	 
+	 /**
+	  * Globally get the filter options for each filter
+	  *
+	  * added by Prakash Paudel
+	  */
+	 getFilterOptions: function(){
+		return this.filterOptions;
+	 }
 });

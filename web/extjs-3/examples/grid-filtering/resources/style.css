@@ -38,6 +38,10 @@
 	background-image: url(/appFlowerPlugin/extjs-3/examples/grid-filtering/resources/equals.png);
 }
 
+.ux-rangemenu-ne {
+	background-image: url(/appFlowerPlugin/extjs-3/examples/grid-filtering/resources/ne.png);
+}
+
 .ux-grid-filter{
 	color:#000000;
 	text-decoration:none;
@@ -60,7 +64,8 @@
 	padding:1px;
 	float:left;
 	overflow: auto;
-	width: 100%
+	width: 100%;
+	background-color:#d3e1f1;
 }
 .ux-grid-filter-info-box{
 	padding:3px;

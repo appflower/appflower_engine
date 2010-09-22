@@ -89,7 +89,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 	* 2. title -for displaying filter info in grid title
 	* 3. false -for not displaying filter info
 	*/	
-	showFilterInfo: 'title',
+	showFilterInfo: 'panel',
 
 	init: function(grid){	
 		if(grid instanceof Ext.grid.GridPanel){
@@ -450,7 +450,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 	 * 
 	 * @return {Class}
 	 */
-	getFilterClass: function(type){
+	getFilterClass: function(type){	    
 		return Ext.ux.grid.filter[type.substr(0, 1).toUpperCase() + type.substr(1) + 'Filter'];
 	}
 });

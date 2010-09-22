@@ -38,6 +38,10 @@ Ext.ux.menu.EditableItem = Ext.extend(Ext.menu.BaseItem, {
 		{
 			s.dom.firstChild.style.margin='60px 7px 2px 2px';
 		}
+		else if(this.iconCls&&this.iconCls=='ux-rangemenu-ne')
+		{
+			s.dom.firstChild.style.margin='83px 7px 2px 2px';
+		}
 			
 		this.editor.el.setStyle('marginLeft','0px');	
 			

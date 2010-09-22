@@ -6,7 +6,7 @@ Ext.ux.grid.filter.StringFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 		var value = this.value = new Ext.ux.menu.EditableItem({iconCls: this.icon});
 		value.on('keyup', this.onKeyUp, this);
 		this.menu.add(value);
-		
+		this.options = new Ext.ux.FilterOption(this,"string");
 		this.updateTask = new Ext.util.DelayedTask(this.fireUpdate, this);
 	},
 	
@@ -43,7 +43,7 @@ Ext.ux.grid.filter.StringFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	},
 	
 	serialize: function(){
-		var args = {type: 'string', value: this.getValue()};
+		var args = {type: 'string', value: this.getValue(), options: this.getFilterOptions()};
 		this.fireEvent('serialize', args, this);
 		return args;
 	},
@@ -70,3 +70,4 @@ Ext.ux.grid.filter.StringFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 		//return val.toLowerCase().indexOf(this.getValue().toLowerCase()) > -1;
 	}
 });
+

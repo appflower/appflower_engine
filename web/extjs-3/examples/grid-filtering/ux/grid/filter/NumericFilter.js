@@ -12,7 +12,7 @@ Ext.ux.grid.filter.NumericFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	
 	isActivatable: function(){
 		var value = this.menu.getValue();
-		return value.eq !== undefined || value.gt !== undefined || value.lt !== undefined;
+		return value.eq !== undefined || value.gt !== undefined || value.lt !== undefined || value.ne !== undefined;
 	},
 	
 	setValue: function(value){		
@@ -50,6 +50,7 @@ Ext.ux.grid.filter.NumericFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	},
 	getDisplayValue: function(){		
 		if(this.getValue().eq) return this.getValue().eq;		
+		if(this.getValue().ne) return "!= "+this.getValue().ne;
 		if(this.getValue().gt && this.getValue().lt) return this.getValue().gt+" &lt; x &lt; "+this.getValue().lt;
 		if(this.getValue().gt) return "&gt;"+this.getValue().gt;
 		if(this.getValue().lt) return "&lt;"+this.getValue().lt;
