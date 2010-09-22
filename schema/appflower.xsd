@@ -612,7 +612,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
                 permissions - Access rights required to render the element.
                 plugin		- Reference to extra JS code to be loaded and applied to the field
                 url			- An SF internal URI
-               
+                dateFormat  - date() compliant format string. Used by date* fields only.
+                timeFormat  - date() compliant format string for time part. Used by date* fields only.
+                
             </xs:documentation>
         </xs:annotation>
         <xs:attribute name="name" type="xs:token" use="required" />
@@ -632,6 +634,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         <xs:attribute name="action" type="xs:token" use="optional" />
  		<xs:attribute name="fromLegend" type="xs:token" use="optional" default="Options" />
  		<xs:attribute name="toLegend" type="xs:token" use="optional" default="Selected" />
+ 		<xs:attribute name="dateFormat" type="xs:token" use="optional" />
+ 		<xs:attribute name="timeFormat" type="xs:token" use="optional" />
  		<xs:attribute name="clear" type="xs:boolean" use="optional" default="true" /> 
  		<xs:attribute name="session" type="xs:boolean" use="optional" default="false" />
  		<xs:attribute name="disabled" type="xs:boolean" use="optional" default="false" />
@@ -1117,6 +1121,21 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       </xs:complexType>
     </xs:element>
     
+     <xs:element name="static">
+    	<xs:annotation>
+        <xs:documentation xml:lang="en">
+            This defines a fixed static value for an i:field.
+            It may contain text, or i:node elements.
+            
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+          <xs:sequence>
+        	<xs:element ref="i:node" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+    
     <xs:element name="value">
     	<xs:annotation>
         <xs:documentation xml:lang="en">
@@ -1149,6 +1168,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 				</xs:sequence>
 				<xs:sequence minOccurs="0" maxOccurs="1">
 					<xs:element ref="i:item" minOccurs="1" maxOccurs="unbounded" />
+				</xs:sequence>
+				<xs:sequence minOccurs="0" maxOccurs="1">
+					<xs:element ref="i:static" minOccurs="1" maxOccurs="1" />
 				</xs:sequence>
 			</xs:choice>
 			<xs:element ref="i:default" minOccurs="0" maxOccurs="1" />
@@ -1619,7 +1641,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  		This element applies a condition. If expression in "test" attribute evalutes to false,
 	  		the contents of i:if won't be parsed.
 	  		
-	  		Any valid PHP expression is supported. Function calles must be made to built-in or static functions only.
+	  		Any valid PHP expression is supported. Function calls must be made to built-in or static functions only.
 	  		
 	  		strstr(...)
 	  		or
@@ -1645,6 +1667,11 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 					</xs:choice>
 					<xs:choice minOccurs="0" maxOccurs="unbounded">
 						<xs:element ref="i:action" minOccurs="1" maxOccurs="unbounded"/>
+					</xs:choice>
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element ref="i:component" minOccurs="1" maxOccurs="unbounded"/>
+						<xs:element ref="i:tab" minOccurs="1" maxOccurs="unbounded"/>
+						<xs:element ref="i:area" minOccurs="1" maxOccurs="unbounded"/>
 					</xs:choice>
       	</xs:choice>
       	<xs:attributeGroup ref="i:commonAttributes" />
@@ -1962,15 +1989,24 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  </xs:annotation>
 	  <xs:complexType>
       	<xs:choice minOccurs="1" maxOccurs="1">
-      		<xs:sequence>
-      			<xs:element ref="i:component" minOccurs="1" maxOccurs="unbounded"/>
-      			<xs:element ref="i:params" minOccurs="0" maxOccurs="1"/>
-      		</xs:sequence>
+  			<xs:sequence>
+  				<xs:choice maxOccurs="unbounded">
+					<xs:element ref="i:component" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element ref="i:params" minOccurs="0" maxOccurs="1"/>
+					<xs:element ref="i:if" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:choice>
+  			</xs:sequence>
       		<xs:sequence>
       			<xs:element ref="i:tree" minOccurs="1" maxOccurs="1"/>
       		</xs:sequence>
-      		<xs:sequence>
-      			<xs:element ref="i:tab" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:sequence>
+				<xs:choice maxOccurs="unbounded">
+					<xs:element ref="i:if" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element ref="i:tab" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:sequence>
+      			<xs:element ref="i:if" minOccurs="1" maxOccurs="unbounded"/>
       		</xs:sequence>
       	</xs:choice>
       	<xs:attribute name="type" type="i:areaType" use="required" />
@@ -1996,11 +2032,17 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  <xs:complexType>
       	<xs:choice minOccurs="1" maxOccurs="1">
       		<xs:sequence>
-      			<xs:element ref="i:component" minOccurs="1" maxOccurs="unbounded"/>
-      			<xs:element ref="i:params" minOccurs="0" maxOccurs="1"/>
+      			<xs:choice maxOccurs="unbounded">
+      				<xs:element ref="i:component" minOccurs="1" maxOccurs="unbounded"/>
+	      			<xs:element ref="i:params" minOccurs="0" maxOccurs="1"/>
+	      			<xs:element ref="i:if" minOccurs="0" maxOccurs="unbounded"/>
+      			</xs:choice>
       		</xs:sequence>
       		<xs:sequence>
       			<xs:element ref="i:tree" minOccurs="1" maxOccurs="1"/>
+      		</xs:sequence>
+      		<xs:sequence>
+      			<xs:element ref="i:if" minOccurs="1" maxOccurs="unbounded"/>
       		</xs:sequence>
       	</xs:choice>
       	<xs:attribute name="title" type="xs:token" use="required" />
@@ -2186,7 +2228,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 						<xs:element ref="i:title" minOccurs="1" maxOccurs="1" />
 						<xs:element ref="i:confirm" minOccurs="0" maxOccurs="1" />
 						<xs:element ref="i:datastore" minOccurs="0" maxOccurs="1" />
-						<xs:element ref="i:area" minOccurs="1" maxOccurs="unbounded" />
+						<xs:element ref="i:area" minOccurs="1" maxOccurs="unbounded" />						
 						<xs:element ref="i:actions" minOccurs="0" maxOccurs="1" />
 						<xs:element ref="i:grouping" minOccurs="0" maxOccurs="1" />
 						<xs:element ref="i:widgetCategories" minOccurs="0" maxOccurs="1" />
@@ -2219,6 +2261,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     	</xs:choice>
         <xs:attribute name="type" type="i:viewType" use="required" />
         <xs:attribute name="tabbed" type="xs:boolean" use="optional" />
+        <xs:attribute name="dynamic" type="xs:boolean" use="optional" default="false"  />
       </xs:complexType>
     </xs:element>
 	
