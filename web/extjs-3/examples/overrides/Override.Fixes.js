@@ -374,3 +374,12 @@ Ext.override(Ext.layout.ColumnLayout, {
         }
     }
 });
+Ext.isJsonString = function(string){
+	var rc = null;
+	try{
+		rc=new RegExp('^("(\\\\.|[^"\\\\\\n\\r])*?"|[,:{}\\[\\]0-9.\\-+Eaeflnr-u \\n\\r\\t])+?$')
+	}catch(z){
+		rc=/^(true|false|null|\[.*\]|\{.*\}|".*"|\d+|\d+\.\d+)$/
+	}
+	return rc.test(string);
+}

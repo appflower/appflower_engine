@@ -11,7 +11,7 @@
 class ImmExtjsGridFilter{
 	
 	// Defines the default filter types supported
-	public static $ftypes = array("boolean","numeric","list","string","combo","date");
+	public static $ftypes = array("boolean","numeric","list","string","combo","date","text");
 	
 	public static function add($grid,$column,$temp_column,$temp_field){		
 		if(isset($column['filter'])){

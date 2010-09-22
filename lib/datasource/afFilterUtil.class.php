@@ -22,8 +22,57 @@ class afFilterUtil {
 				} else {
 					switch($filters[$i]['data']['type'])
 					{					
-						case 'string' :					
-							$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],"%".$filters[$i]['data']['value']."%",Criteria::LIKE); 
+						case 'string' :
+							if(isset($filters[$i]['data']['options'])){
+								switch($filters[$i]['data']['options']){
+									case 'exact':
+										$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value'],Criteria::EQUAL);
+										break;
+									case 'starts':
+										$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],$filters[$i]['data']['value']."%",Criteria::LIKE);
+										break;
+									case 'ends':
+										$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],"%".$filters[$i]['data']['value'],Criteria::LIKE);
+										break;
+									case 'nc':
+										$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],"%".$filters[$i]['data']['value']."%",Criteria::NOT_LIKE);
+										break;
+									default:
+										$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],"%".$filters[$i]['data']['value']."%",Criteria::LIKE);
+										break;										
+								}
+							}
+							break;
+						case 'text':
+							$valArr = json_decode($filters[$i]['data']['value'],true);
+							if(!is_array($valArr)){
+								$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],"%".$filters[$i]['data']['value']."%",Criteria::LIKE);
+								break;
+							}
+							foreach($valArr as $va){
+								$keys = $va['keys'];
+								switch ($va['type']){
+									case "and":
+										foreach($keys as $key){
+											$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],"%".$key."%",Criteria::LIKE);
+										}
+										break;
+									case "or":
+										$tempCriterion = $criteria->getNewCriterion($filters[$i]['field'],"%".$keys[0]."%",Criteria::LIKE);
+										if(count($keys) >1){											
+											for($m = 1;$m<count($keys); $m++){
+												$tempCriterion->addOr($criteria->getNewCriterion($filters[$i]['field'],"%".$keys[$m]."%",Criteria::LIKE));
+											}
+										}										
+										$critAnd[] = $tempCriterion;
+										break;
+									case "not":
+										foreach($keys as $key){
+											$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],"%".$key."%",Criteria::NOT_LIKE);
+										}
+										break;
+								}
+							}							
 							break;
 						case 'list' : 
 						case 'combo':
