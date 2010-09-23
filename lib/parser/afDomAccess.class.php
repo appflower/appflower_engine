@@ -53,6 +53,37 @@ class afDomAccess {
         return $wrappers;
     }
 
+    
+ 	public function getParent() {
+        return new afDomAccess($this->node->parentNode, $this->scope);
+    }
+    
+    
+	public function getName() {
+		
+		return $this->node->localName;
+		
+    }
+    
+	public function getNode() {
+		
+		return $this->node;
+		
+    }
+    
+	public function getChildren($path) {
+		
+		return $this->wrapAll($path);
+		
+    }
+    
+	public function isLastSibling() {
+		
+		$siblings =  $this->getParent()->wrapAll($this->getName());
+		return ($this->node === $siblings[count($siblings)-1]->getNode());
+		
+    }
+    
     /**
      * Returns a text value at the given path.
      * The path could be a path/to/element or a path/to@attribute.
