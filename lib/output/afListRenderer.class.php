@@ -40,8 +40,12 @@ class afListRenderer {
     }
 
     private static function renderJson($view, $source) {
-        $rows = $source->getRows();
+        $rows = $source->getRows(); 
         self::addRowActionSuffixes($view, $rows);
+        
+    	if($view->getBool('@dynamic')) {
+        	self::changeEditLinks($rows);
+    	}
 
         $gridData = new ImmExtjsGridData();
         $gridData->totalCount = $source->getTotalCount();
@@ -53,6 +57,20 @@ class afListRenderer {
         return afOutput::renderText($gridData->end());
     }
 
+    private static function changeEditLinks(&$rows) {
+
+    	$module = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->getModuleName();
+   	
+    	foreach($rows as $key => &$row) {
+    		foreach($row as $col => &$value) {
+    			if(preg_match("/\/([a-zA-Z0-9]+\/edit[a-zA-Z]*)/",$value,$matches)) {
+	    			$value = str_replace($matches[1],$module."/edit",$value);
+	    		}	
+    		}
+    	}
+    }
+    
+    
     /**
      * Adds row action urls to the rows.
      */

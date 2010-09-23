@@ -672,6 +672,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
             	sortIndex	- Specifies index to use for sorting. See docs.
             	contextMenu - NOT IMPLEMENTED.	
             	edit		- For backward compability. Ignored.
+            	link        - Boolean value used by admin generator. If it's true, the field will be rendered in Lists as a link to Edit View.
                 action		- The action accepts any rowaction name, and this rowaction is moved to that column.
 				summaryType	- The grid's data summary ex. count, average, sum, min, max. You can add your own.				
             </xs:documentation>
@@ -698,6 +699,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         <xs:attribute name="sortType" type="xs:token" default="none" use="optional" />
         <xs:attribute name="sortIndex" type="xs:token" use="optional" />
         <xs:attribute name="contextMenu" type="xs:token" use="optional" />
+        <xs:attribute name="link" type="xs:boolean" use="optional" default="false"/>
         <xs:attribute name="edit" type="xs:boolean" use="optional" default="false" />
 		<xs:attribute name="action" type="xs:token" use="optional"/>
 		<xs:attribute name="summaryType" type="xs:token" use="optional"/>		

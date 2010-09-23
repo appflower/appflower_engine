@@ -8,8 +8,8 @@ class afDataFacade {
         if($view->get('@type') !== 'list') {
             throw new XmlParserException('Only list views are expected.');
         }
-
-        $source = self::createDataSource($view,ArrayUtil::get($requestParams, 'filter', null));
+        
+        $source = self::createDataSource($view,ArrayUtil::get($requestParams, 'filter',null));
         
         self::setupDataSource($view, $source, $requestParams);	
         if($view->getBool('fields@tree')) {
@@ -52,7 +52,8 @@ class afDataFacade {
 
 
     private static function createDataSource($view, $filters, $format='html') {
-        $listView = new afListView($view);
+    	
+    	$listView = new afListView($view);
         $selectedColumns = $listView->getSelectedColumns();
 
         //TODO: support also the file datasource
@@ -63,10 +64,15 @@ class afDataFacade {
         if($sourceType === 'orm') {
             list($callback, $params) = self::getDataSourceCallback($view);
             list($peer, $method) = $callback;
+            
             $result = afCall::funcArray($callback, $params);
 
             afFilterUtil::setFilters($peer, $result, $filters);	
 
+            if($peer == "afGenerator") {
+            	$peer = $params[0];
+            }
+            
             $class = self::getClassFromPeerClass($peer);
             $extractor = new afColumnExtractor($class, $selectedColumns,
                 $format);

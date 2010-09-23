@@ -1,0 +1,15 @@
+generator:
+  class: sfPropelGenerator
+  param:
+##CONFIG##
+    default_actions: true
+    pager:           true
+
+    config:
+      actions: ~
+      fields:  ~
+      list:    ~
+      filter:  ~
+      form:    ~
+      edit:    ~
+      new:     ~

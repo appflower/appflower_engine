@@ -95,6 +95,11 @@ class XmlParserTools {
 		
 		return $this->document;
 	}
+	
+	public function getXPath() {
+		
+		return $this->xpath;
+	}
 		
 	protected function setXmlDocument($xml) {
 			

@@ -110,7 +110,7 @@ class XmlParser extends XmlParserTools {
 		if(!defined("PAIRS")) {
 			define("PAIRS",4);	
 		}
-		
+	
 		$this->root = sfConfig::get("sf_root_dir");
 		$this->schemaLocation = $this->root."/plugins/appFlowerPlugin/schema/appflower.xsd";
 		
@@ -145,6 +145,16 @@ class XmlParser extends XmlParserTools {
 		
 		$this->attribute_holder = $actionInstance->getVarHolder()->getAll();
 		
+		// Request
+		
+		$this->request = $actionInstance->getRequest()->getParameterHolder()->getAll();
+		
+		foreach($this->request as $param => $value) {
+			if(!array_key_exists($param, $this->attribute_holder)) {
+				$this->attribute_holder[$param] = $value;
+			}
+		}
+		
 		$this->currentUri = $actionInstance->getModuleName()."/".$actionInstance->getActionName();	
 		
 		if($build) {
@@ -154,12 +164,11 @@ class XmlParser extends XmlParserTools {
 			$this->currentUri = $module."/".$action;
 		} else {
 			$uri =  $actionInstance->getModuleName()."/".$actionInstance->getActionName();
-			$module =  $actionInstance->getModuleName();
-			$action =  $actionInstance->getActionName();
+			$module = $actionInstance->getModuleName();
+			$action = $actionInstance->getActionName();
 		}
 		
 		$this->vars[$uri] = $this->attribute_holder;
-		
 		
 		if($build) {
 			$config_vars = afConfigUtils::getConfigVars(strtok($build,"/"), strtok("/"), $this->context->getRequest());
@@ -182,12 +191,23 @@ class XmlParser extends XmlParserTools {
 		
 		parent::__construct($this->document);
 	
+		
 		$root = $this->document->getElementsByTagName("view")->item(0);
-		$view_type = $root->getAttribute("type"); 
+		$view_type = $root->getAttribute("type");
+		$dynamic = $root->getAttribute("dynamic"); 
 		$actionInstance->view = $view_type;
 		
 		$view_type = XmlBaseElementParser::parseValue($view_type,$root,true);
 		$this->set("type",$view_type,$root);
+		
+		// Is this a Dynamic widget? If so, let's create update XML DOM.
+		
+		$this->namespace = $this->document->lookupNamespaceUri("i");
+		
+		if($dynamic === "true") {
+			$this->buildXmlDocument($module,$view_type);
+		}
+		
 		
 		// Parser type
 		
@@ -316,6 +336,7 @@ class XmlParser extends XmlParserTools {
 				
 				
 			}
+		
 			
 			$this->manualMode = $manual;
 			
@@ -347,6 +368,7 @@ class XmlParser extends XmlParserTools {
 				*/
 	
 			}
+		
 			
 			if(!$manual) {
 				$this->runParser(1,"content");	
@@ -365,7 +387,6 @@ class XmlParser extends XmlParserTools {
 	private function parseXmlDocument() {
         Console::profile('parseXmlDocument');
         
-		
 		$this->fields = array();
 		
 		try {
@@ -432,6 +453,490 @@ class XmlParser extends XmlParserTools {
 			}
 		}	
 
+	}
+	
+	private function parseYmlFields($data,$fieldname,$table,$pager = true) {
+		
+		$xpath = $this->getXPath();
+		
+		$fields = $xpath->evaluate("//i:fields")->item(0);
+		$new = $this->document->createElementNS($this->namespace, "fields");
+		if($fields->getAttribute("url")) {
+			$new->setAttribute("url", $fields->getAttribute("url"));	
+		}
+		if($fieldname != "field" && !$pager) {
+			$new->setAttribute("pager", "false");
+		}
+		$fields->parentNode->replaceChild($new,$fields);
+		
+		
+		$fields = $new;
+		
+		$skip = array
+		(
+		"attributes",
+		"credentials",
+		"renderer",
+		"renderer_arguments"
+		);
+		
+		
+		foreach($data as $name => $field) {
+			
+			if(is_array($field)) {
+				$tmp_field = $this->document->createElementNS($this->namespace, $fieldname);
+				$tmp_field->setAttribute("name", $name);
+				if($fieldname == "field") {
+					$tmp_field->appendChild($this->fieldvalues[$name]);	
+					
+					if(array_key_exists("foreignTable", $table[$name])) {
+						$tmp_field->setAttribute("selected", "{".$name."}");
+					}
+				}
+				
+				foreach($field as $attrname => $attrvalue) {
+					
+					if(in_array($attrname, $skip)) {
+						continue;
+					} 
+					
+					if($attrname == "date_format") {
+						$format = preg_split("/[\s]{1}/", $attrvalue);
+						$tmp_field->setAttribute("dateFormat",$format[0]);
+						if(isset($format[1])) {
+							$tmp_field->setAttribute("timeFormat",$format[1]);
+						}
+					}
+					
+					if($attrname == "tooltip" || $attrname == "help") {
+						$child = $this->document->createElementNS($this->namespace, $attrname,$attrvalue);
+						$tmp_field->appendChild($child);
+						continue;
+					} 
+
+					if($attrname == "filter") {
+						$attrvalue = "[".implode(",", $attrvalue)."]";
+						
+					}
+					
+					if($tmp_field->hasAttribute($attrname)) {
+						$tmp_field->setAttribute($attrname,$attrvalue);
+					} else {
+						$attr = $this->document->createAttribute($attrname);
+						$attr->nodeValue = $attrvalue;
+						$tmp_field->appendChild($attr);
+					}
+					
+					
+					
+				}
+				$fields->appendChild($tmp_field);
+			}
+		}	
+	}
+	
+	
+	private function parseYmlDisplay($data,$view,$params = array()) {
+		
+		$xpath = $this->getXPath();
+		
+		if($view == "list") {
+			$columns = $xpath->evaluate("//i:fields/i:column");
+			foreach($columns as $col) {
+				if(!in_array($col->getAttribute("name"), $data)) {
+					//$col->parentNode->removeChild($col);
+					$col->setAttribute("hidden","true");
+				}
+			}
+		} else {
+		
+			$grouping = $this->document->createElementNS($this->namespace, "grouping");
+			
+			foreach($data as $setname => $members) {
+				$set = $this->document->createElementNS($this->namespace, "set");
+				if(strstr($setname,"+") !== false) {
+					$setname = str_replace("+","",$setname);
+					$set->setAttribute("tabtitle", $setname);
+				}	
+				$set->setAttribute("title", $setname);
+				foreach($members as $member) {
+					$ref = $this->document->createElementNS($this->namespace, "ref");
+					if(substr($member,0,1) == "-") {
+						$set->setAttribute("float","true");
+						$ref->setAttribute("break","true");
+						$member = substr($member,1);
+					}
+					$ref->setAttribute("to",$member);
+					$set->appendChild($ref);
+				}
+				$grouping->appendChild($set);
+			}
+			
+			$this->document->documentElement->appendChild($grouping);
+		
+		}
+		
+	}
+	
+	
+	private function parseYmlHide($data,$view) {
+		
+		$xpath = $this->getXPath();
+		
+		foreach($data as $col) {
+			$remove = $xpath->evaluate("//i:fields/i:column[@name='".$col."']")->item(0);
+			//$remove->parentNode->removeChild($remove);
+			$remove->setAttribute("hidden","true");
+		}
+		
+	}
+	
+	
+	private function parseYmlSimpleElements($data,$args) {
+		
+		$xpath = $this->getXPath();
+		
+		foreach($args as $item) {
+			if(isset($data[$item[0]])) {
+				$element = $xpath->evaluate($item[1])->item(0);
+				$element->nodeValue = $data[$item[0]];	
+			}	
+		}
+	}
+	
+	private function parseYmlActions($data,$default_actions = true) {
+		
+		$xpath = $this->getXPath();
+		
+		$actions = array("actions" => "actions","batch_actions" => "moreactions","object_actions" => "rowactions");
+		
+		foreach($actions as $type => $action) {
+			if(is_array($data[$type])) {
+				$fields = $xpath->evaluate("//i:".$action);
+				$new = $this->document->createElementNS($this->namespace, $action);
+				if($fields->length) {
+					$fields = $fields->item(0);
+					if($default_actions) {	
+						foreach($fields->childNodes as $child) {
+							$new->appendChild($child->cloneNode(true));
+						} 
+					}
+					$fields->parentNode->replaceChild($new,$fields);	
+				} else {
+					$this->document->documentElement->appendChild($new);
+				}
+				
+				$fields = $new;
+		
+				foreach($data[$type] as $name => $item) {
+					$action =  $this->document->createElementNS($this->namespace, "action");
+					$action->setAttribute("name",$name);
+					foreach($item as $key => $value) {
+						if($key == "action") {
+							$key = "url";
+						} else if($key == "label") {
+							$key = "text";
+						} else if($key == "cerdentials") {
+							continue;
+						}
+						$attr = $this->document->createAttribute($key);
+						$attr->nodeValue = $value;
+						$action->appendChild($attr);
+					}
+					$fields->appendChild($action);	
+				}
+			}	
+		}
+		
+	}
+	
+	
+	public static function createValueElement($data,$document,$namespace,$args = array()) {
+		
+		$value = $document->createElementNS($namespace,"value");
+		
+		
+		if(!isset($data["static"])) {
+			$value->setAttribute("type",$data["type"]);
+			if(isset($data["source"])) {
+	   			$source = $document->createElementNS($namespace,"source");
+	   			$source->setAttribute("name",$data["source"]);
+	   			$value->appendChild($source);
+			} else {
+	   			$vchild = $document->createElementNS($namespace,"class",$data["class"]);
+	   			$value->appendChild($vchild);
+	   			$vchild = $document->createElementNS($namespace,"method");
+	   			$vchild->setAttribute("name",$data["method"]);
+	   			
+	   			if(isset($data["params"])) {
+		   			$args = $data["params"];
+	   			}
+	   			
+	   			foreach($args as $name => $par) {
+	   				$param = $document->createElementNS($namespace,"param",$par);
+		   			$param->setAttribute("name",$name);
+		   			$vchild->appendChild($param);
+	   			}	
+	   			
+	   			$value->appendChild($vchild);
+	   		
+			}
+
+			if(isset($data["default"])) {
+				$vchild = $document->createElementNS($namespace,"default",$data["default"]);
+				$value->appendChild($vchild);
+			}
+			
+		} else {
+			$value->setAttribute("type","static");
+			$vchild = $document->createElementNS($namespace,"static",$data["static"]);
+			$value->appendChild($vchild);
+		}
+		
+		
+		return $value;
+		
+	}
+	
+	
+	private function parseYmlFieldChildren($data, $type = "validators") {
+		
+		if(!isset($data[$type])) {
+			return false;
+		}
+		
+		$element = ($type == "validators") ? "validator" : "handler";
+		
+		foreach($data[$type] as $field => $child) {
+			$field = $this->xpath->evaluate("//i:fields/i:field[@name='".$field."']")->item(0);
+			foreach($child as $item) {
+				$new = $this->document->createElementNS($this->namespace, $element);
+				foreach($item as $attrname => $attrvalue) {
+					if(!is_array($attrvalue)) {
+						$new->setAttribute($attrname,$attrvalue);
+					} else {
+						foreach($attrvalue as $pname => $pvalue) {
+							$param = $this->document->createElementNS($this->namespace, "param",$pvalue);
+							$param->setAttribute("name",$pname);
+							$new->appendChild($param);
+						}
+					}	
+				}
+				$field->appendChild($new);
+			}
+		}
+		
+		if($type == "validators" && isset($data["handlers"])) {
+			$this->parseYmlFieldChildren($data,"handlers");
+		}
+		
+	}
+	
+	
+	private function buildXmlDocument($module,$view) {
+
+		
+		$default = true;
+		
+		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
+		
+		$file = $this->root."/apps/".$this->application."/modules/".$module."/config/generator.yml";
+		
+		if(!file_exists($file)) {
+			throw new XmlParserException("Couldn't read ".$file);
+		}
+		
+		$current =  sfYaml::load(file_get_contents($file));	
+		$schema = SchemaUtil::readSchema(true);
+		
+		// Default generator.yml, nothing to do..
+		
+		$params = $current["generator"]["param"];
+		$default_actions = (isset($params["default_actions"]) && $params["default_actions"] !== false);
+		$pager = (isset($params["pager"]) && $params["pager"] !== false);
+		
+		$table = SchemaUtil::getSchemaDataForModel($params["model_class"], $schema); 
+		
+		// Determine primary key
+				
+		if(($pk = SchemaUtil::getPrimaryKey($table)) === false) {
+			throw new XmlParserException("Couldn't determine primary key of ".$module."!");
+		}
+		
+		$data = $params["config"];
+		
+		unset($params["config"]);
+		
+		foreach($data as $section => $value) {
+			if($value) {
+				$default = false;
+				break;
+			}
+		}
+		
+		if($view == "list") {
+			$fieldname = "column";
+			$section = "list";
+		} else if($view == "edit") {
+			$fieldname = "field";
+			$section = "form";
+		} else {
+			throw new XmlParserException("Invalid view type!");
+		}
+		
+		if(isset($data[$section]["credentials"])) {
+			if($this->user->hasCredential($data[$section]["credentials"]) === false) {
+				$actionInstance->forward("pages","insufficientCredentials");
+				return false;
+			}
+		}
+		
+		if(!$default) {
+			$xpath = $this->getXPath();
+			
+			if(isset($data[$section]["scripts"]) && $data[$section]["scripts"] !== false) {
+				$new = $this->document->createElementNS($this->namespace, "scripts");
+				$new->nodeValue = implode(",",$data[$section]["scripts"]);
+				$title = $xpath->evaluate("//i:title")->item(0);
+				$this->document->documentElement->insertBefore($new,$title);
+			}
+			
+			// Fields and columns
+			
+			$fields = $data["fields"];
+			
+			if(isset($data[$section]["fields"])) {
+				
+				foreach($data[$section]["fields"] as $key => $value) {
+					foreach($value as $attr => $attrvalue) {
+						$fields[$key][$attr] = $attrvalue;	
+					}
+				}
+			}
+			
+			// Add primary key if not listed in yml..
+			
+			if(!isset($fields[$pk])) {
+				$fields[$pk] = array("type" => "hidden");
+			}
+			
+			// Rearrange columns for lists and remove non-visible columns from edit view..
+			
+			if(isset($data[$section]["display"])) {
+				
+				if($fieldname == "column") {
+					$tmp = array();
+					foreach($data[$section]["display"] as $colname) {
+						$tmp[$colname] = $fields[$colname];
+					}
+					
+					foreach($fields as $colname => $col)  {
+						if(!array_key_exists($colname, $tmp)) {
+							$col["hidden"] = "true";
+							$tmp[$colname] = $col;
+						}
+					}
+					
+					$fields = $tmp;
+					
+				} else {
+					foreach($fields as $colname => $col)  {
+						$found = false;
+						foreach($data[$section]["display"] as $set)  {
+							foreach($set as $ref) {
+								if($ref == $colname || $ref == "-".$colname) {
+									$found = true;
+									break;	
+								}
+							}
+						}
+						if(!$found && $colname != $pk) {
+							unset($fields[$colname]);
+						}	
+					}
+				}
+				
+			} 
+			
+			// Custom values
+			if($fieldname == "field") {
+				
+				// Save value tags for later use..
+				
+				$tmp = $xpath->evaluate("//i:fields/i:field/i:value");
+				
+				foreach($tmp as $value) {
+					$this->fieldvalues[$value->parentNode->getAttribute("name")] = $value->cloneNode(true);	
+				}
+				
+				if(isset($data[$section]["values"])) {
+					foreach($data[$section]["values"] as $fname => $value) {	
+						$params = array();
+						if(isset($fields[$fname]["renderer"])) {
+							$value = $fields[$fname]["renderer"];
+						}
+						if(isset($fields[$fname]["renderer_arguments"])) {
+							$params = $fields[$fname]["renderer_arguments"];
+						}
+						$this->fieldvalues[$fname] = self::createValueElement($value,$this->document,$this->namespace,$params);
+					} 
+				}
+			}
+			
+			// Fields / columns and inheritance..
+			
+			$this->parseYmlFields($fields, $fieldname, $table, $pager);
+			
+			
+			// Validator and handlers..
+			
+			if($fieldname == "field") {
+				$this->parseYmlFieldChildren($data[$section]);	
+			}
+			
+			// Title, max_per_page
+			
+			$this->parseYmlSimpleElements($data[$section], array(
+				array("title","//i:title"),
+				array("max_per_page","//i:params/i:param[@name='maxperpage']")
+				)
+			);
+			
+			// Display and hide..
+			
+			$key = false;
+			
+			if(isset($data[$section]["display"])) {
+				$key = "display";	
+			} else if(isset($data[$section]["hide"])) {
+				$key = "hide"; 
+			}
+			
+			if($key != "parseYml") {
+				call_user_func_array(array($this,"parseYml".ucfirst($key)),array($data[$section][$key],$view,$params));
+			}
+			
+			// Actions, rowactions and moreactions..
+			
+			$this->parseYmlActions($data[$section],$default_actions);
+			
+			// Default sorting..
+			
+			if(isset($data[$section]["sort"])) {
+				$field = $xpath->evaluate("//i:fields/i:column[@name='".$data[$section]["sort"][0]."']");
+				
+				if(!$field->length) {
+					throw new XmlParserException("Invalid field name");
+				}
+				
+				$field = $field->item(0);
+				$field->setAttribute("sort",strtoupper($data[$section]["sort"][1]));
+			}
+			
+		}
+		
+		//$this->document->save("/tmp/12.xml");
+		
 	}
 	
 	
@@ -842,6 +1347,7 @@ class XmlParser extends XmlParserTools {
 		// Do pre-processing...
 	
 		$this->preProcess();
+		
 	
 		// Calling the parser..
 		
@@ -1135,6 +1641,7 @@ class XmlParser extends XmlParserTools {
 		return $xpath;
 		
 	} 
+	
 	
 	public static function buildDocument($path,$xpath = true,Array $ns = array()) {
 		
@@ -2022,17 +2529,24 @@ class XmlParser extends XmlParserTools {
 		} else if(isset($data["value"])) {
 			
 			
-			if(isset($data["value"]["default"]) && (!isset($this->attribute_holder["id"]) || !$this->attribute_holder["id"])) {
+			if((isset($data["value"]["default"]) && (!isset($this->attribute_holder["id"]) || !$this->attribute_holder["id"])) || 
+			isset($data["value"]["static"])) {
+				if(!isset($data["value"]["static"])) {
+					$akey = "default";
+				} else {
+					$akey = "static";
+				}
+				
 				if($data["attributes"]["type"] == "doubletree") {
 					
 				} else if($data["attributes"]["type"] == "combo" || $data["attributes"]["type"] == "multicombo" || 
 				$data["attributes"]["type"] == "doublemulticombo" || $data["attributes"]["type"] == "itemSelectorAutoSuggest") {
-					$data["attributes"]["options"] = $data["value"]["default"]["value"];
-					if(isset($data["value"]["default"]["selected"])) {
+					$data["attributes"]["options"] = $data["value"][$akey]["value"];
+					if(isset($data["value"][$akey]["selected"])) {
 						if($data["attributes"]["type"] == "doublemulticombo") {
-							$data["attributes"]["selected"] = array_flip($data["value"]["default"]["selected"]);
+							$data["attributes"]["selected"] = array_flip($data["value"][$akey]["selected"]);
 						} else {
-							$data["attributes"]["selected"] = trim(implode(",",$data["value"]["default"]["selected"]),",");
+							$data["attributes"]["selected"] = trim(implode(",",$data["value"][$akey]["selected"]),",");
 						}
 						
 					}
@@ -2040,7 +2554,7 @@ class XmlParser extends XmlParserTools {
 					if($data["attributes"]["type"] == "checkbox") {
 						$data["attributes"]["checked"] = true;
 					}
-					$data["attributes"]["value"] = $data["value"]["default"]["value"];
+					$data["attributes"]["value"] = $data["value"][$akey]["value"];
 				}	
 			} else {
 			
@@ -2902,7 +3416,11 @@ class XmlParser extends XmlParserTools {
 							
 							if($attributes["type"] == "date" || $attributes["type"] == "datetime") {
 								$classname = "dateTime";
-								$attributes["dateFormat"] = "Y-m-d";
+								
+								if(!isset($attributes["dateFormat"])) {
+									$attributes["dateFormat"] = "Y-m-d";	
+								}
+								
 								
 							}
 							

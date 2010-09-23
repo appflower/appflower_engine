@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="list" dynamic="true">
+	
+	<i:title>##TITLE##</i:title>
+
+	<i:params>
+		<i:param name="maxperpage">20</i:param>
+	</i:params>
+	
+	<i:proxy url="parser/listjson" />
+
+	<i:datasource type="orm">
+		<i:class>afGenerator</i:class>
+		<i:method name="fetchData" type="static">
+		  <i:param name="peer">##DATACLASS##</i:param>
+		</i:method>
+	</i:datasource>
+	
+	<i:display>
+		<i:visible>##VISIBLE##</i:visible>
+	</i:display>
+	
+	<i:fields select="true">
+	</i:fields>
+	
+	<i:rowactions>
+        <i:action name="delete" iconCls="icon-minus" url="##DELETE_URL##"/>
+    </i:rowactions>
+	
+	<i:actions>
+        <i:action name="add" text="##ADD_TITLE##" iconCls="icon-plus" url="##ADD_URL##" />
+    </i:actions>
+    
+    <i:moreactions>
+        <i:action name="delall" text="Delete all" url="##DELETE_URL##/all/1" confirmMsg="Do you really wish to delete ALL items??" iconCls="icon-minus" />
+        <i:action name="delsel" text="delete selected" url="##DELETE_URL##" post="true" forceSelection="true" iconCls="icon-minus" />
+    </i:moreactions>
+	
+</i:view>
