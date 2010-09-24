@@ -60,7 +60,12 @@ Ext.ux.DrillFilter = function(grid,e){
 	if(filter.type == "list"){
 		finalValue =[finalValue];
 	}
-	
+	if(filter.type == "text"){
+		filter.makeChanges("and",[finalValue]);
+		filter.execute();
+		filter.setActive(true);
+		return;
+	}
 	//Start filter	
 	filter.setValue(finalValue);	
 	filter.setActive(true);
