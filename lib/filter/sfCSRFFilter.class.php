@@ -21,9 +21,9 @@ class sfCSRFFilter extends sfFilter
 			if(self::isPossibleCrossSiteSessionRiding($request))
 			{
 				$requestToken = $request->getParameter('_csrf_token');
-								
+				
 				// error if no token or if token is not valid
-				if (!in_array($moduleName,sfConfig::get('app_csrf_token_deactivatedModules', array()))&&(!$requestToken || md5($secret.session_id()) !== $requestToken))
+				if (!$this->getContext()->getUser()->isTimedOut()&&!in_array($moduleName,sfConfig::get('app_csrf_token_deactivatedModules', array()))&&(!$requestToken || md5($secret.session_id()) !== $requestToken))
 				{
 					throw new sfException('CSRF attack detected.');
 				}
