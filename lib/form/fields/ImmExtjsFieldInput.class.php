@@ -17,8 +17,9 @@ class ImmExtjsFieldInput extends ImmExtjsField
 					$this->immExtjs->setAddons(array('js' => array($this->immExtjs->getExamplesDir().'form/adv-color-picker/code/ColorPickerWin.js')));
 		if(isset($attributes['plugin'])){			
 			if($attributes['plugin'] == 'colorfield'){
-					
-					$this->attributes['xtype'] = "colorfield";
+				if (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false))
+				$this->attributes['xtype'] = "textfield";
+				else $this->attributes['xtype'] = 'colorfield';
 			}
 			unset($attributes['plugin']);
 		}

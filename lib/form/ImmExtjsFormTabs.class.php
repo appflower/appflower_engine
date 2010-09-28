@@ -12,7 +12,7 @@ class ImmExtjsFormTabs
 							//'plain'=>true,
 							'activeTab'=>0,
 							//'height'=>235,
-							'frame'=>true,
+							'frame'=>false,
 							'items'=>array(),'enableTabScroll'=>true);
 	public $immExtjs=null;						
 							
@@ -29,11 +29,11 @@ class ImmExtjsFormTabs
 		$ah = array('autoHeight'=>$attributes['tabHeight']?false:true);
 		if(isset($attributes['tabHeight'])) $attributes['height'] = $attributes['tabHeight'];
 		$ah = array('height'=>$attributes['tabHeight']?false:true);
-		$this->attributes['defaults']=$this->immExtjs->asAnonymousClass(array_merge(array('iconCls'=>'icon-tab-default','bodyStyle'=>'padding:10px;','hideMode'=>'offsets','autoWidth'=>true),$ah));
+		$this->attributes['defaults']=$this->immExtjs->asAnonymousClass(array_merge(array('iconCls'=>'icon-tab-default','bodyStyle'=>'padding:10px;','hideMode'=>'offsets'),$ah));
 		
 		$this->attributes['listeners']['tabchange']=$this->immExtjs->asMethod(array(
 				          	      	'parameters'=>'tabPanel,tab',
-				          	      	'source'=>"tabPanel.doLayout();"));
+				          	      	'source'=>"tabPanel.doLayout(true);"));
 		/**
 		 * Tabs cheats for Ext 3
 		 */
@@ -48,6 +48,7 @@ class ImmExtjsFormTabs
 								                	var tp = tabPanel.getActiveTab().nextSibling();								                	
 								                	if(!tp) break;
 								                	tabPanel.activate(tp);
+											tp.doLayout();
 								                }
 								                tabPanel.setActiveTab(0);
 								                tabPanel.getEl().unmask();
