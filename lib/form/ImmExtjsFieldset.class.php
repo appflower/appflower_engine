@@ -11,7 +11,7 @@ class ImmExtjsFieldset
 	public $attributes=array('collapsible'=>'true',
 	  						'autoHeight'=>'true',
 							'layout'=>'fit', //this creates an issue on login screen!							
-	  						'width'=>'98%');
+	  						'width'=>'95%');
 	
 	public $immExtjs=null;						
 							

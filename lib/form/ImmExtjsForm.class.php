@@ -8,7 +8,7 @@ class ImmExtjsForm
 	/**
 	 * default attributes for the form
 	 */
-	public $attributes=array('width'      => '100%',
+	public $attributes=array('width'      => '98%',
 							'bodyStyle'=>'padding:0px',
 							'idxml'=>false
 							/*'fileUpload'=>true*/);
