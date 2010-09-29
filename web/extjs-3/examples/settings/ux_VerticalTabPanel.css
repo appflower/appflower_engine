@@ -23,7 +23,9 @@
 .ux-vertical-tabs, .ux-vertical-tabs .x-tab-panel-bwrap, .ux-vertical-tabs .x-tab-panel-body{
   height:100%;
 }
-
+.ux-vertical-tabs ul{
+  width:150px;
+}
 .ux-vertical-tabs ul.x-tab-strip li {
   border-bottom:1px solid #8DB2E3;
   margin: 0;

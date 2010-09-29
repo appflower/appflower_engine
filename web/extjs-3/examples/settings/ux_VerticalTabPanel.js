@@ -46,6 +46,7 @@ Ext.extend(Ext.ux.VerticalTabPanel, Ext.TabPanel, {
       this.header.setWidth(this.tabWidth);
       this.header.setHeight(this.height || this.container.getHeight());
     }
+    this.stripWrap.dom.style.width="100%";
   },
 
 
@@ -63,6 +64,7 @@ Ext.extend(Ext.ux.VerticalTabPanel, Ext.TabPanel, {
         //of the panels so I dont know how to calculate it; please let me know if you have any idea what's going on here
         this.bwrap.setWidth(w );
       }
+      
       return w;
     }
     else {

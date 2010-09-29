@@ -12,7 +12,7 @@ class ImmExtjsFormTabs
 							//'plain'=>true,
 							'activeTab'=>0,
 							//'height'=>235,
-							'frame'=>false,
+							'frame'=>true,
 							'items'=>array(),'enableTabScroll'=>true);
 	public $immExtjs=null;						
 							
@@ -33,7 +33,7 @@ class ImmExtjsFormTabs
 		
 		$this->attributes['listeners']['tabchange']=$this->immExtjs->asMethod(array(
 				          	      	'parameters'=>'tabPanel,tab',
-				          	      	'source'=>"tabPanel.doLayout(true);"));
+				          	      	'source'=>"tabPanel.doLayout();"));
 		/**
 		 * Tabs cheats for Ext 3
 		 */
@@ -48,7 +48,7 @@ class ImmExtjsFormTabs
 								                	var tp = tabPanel.getActiveTab().nextSibling();								                	
 								                	if(!tp) break;
 								                	tabPanel.activate(tp);
-											tp.doLayout();
+											//tp.doLayout();
 								                }
 								                tabPanel.setActiveTab(0);
 								                tabPanel.getEl().unmask();
@@ -66,7 +66,8 @@ class ImmExtjsFormTabs
 			$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'settings/Ext.ux.Settings.js')));
 			$this->immExtjs->setAddons(array('css'=>array($this->immExtjs->getExamplesDir().'settings/ux_VerticalTabPanel.css')));
 			$this->attributes['xtype'] = 'settings';
-			$this->attributes['autoHeight'] = 'true';				
+			$this->attributes['autoHeight'] = 'true';
+			$this->attributes['tabWidth'] = 150;
 			$this->attributes['user'] = sfContext::getInstance()->getUser()->getGuardUser()->getUsername();
 		}		
 	}
