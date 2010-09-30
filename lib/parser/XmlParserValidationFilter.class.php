@@ -32,9 +32,12 @@ class XmlParserValidationFilter extends sfExecutionFilter
 			$errors = array();
 			$errorMessage = null;
 
+            $requestParameters = new sfParameterHolder13;
+            $requestParameters->add($context->getRequest()->getParameterHolder()->getAll());
+            
 			foreach($validators as $field => $fieldValidators){
 				$tmp_field = $field;
-				if(!$context->getRequest()->getParameterHolder()->has($field)) {
+				if(!$requestParameters->has($field)) {
 					$tmp_field = substr($field,0,-1)."_value]";
 				}
 
@@ -43,8 +46,9 @@ class XmlParserValidationFilter extends sfExecutionFilter
 					$validator = afValidatorFactory::createValidator(
 						$class, $params);
 
+
 					$value = afValidatorFactory::prepareValue($tmp_field,
-						$validator, $context->getRequest()->getParameterHolder());
+						$validator, $requestParameters);
 					try {
 						$validator->clean($value);
 					}

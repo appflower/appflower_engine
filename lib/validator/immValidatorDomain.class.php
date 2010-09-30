@@ -18,7 +18,7 @@ class immValidatorDomain extends sfValidatorBase
 		$this->addOption('match');
 		
 		$this->addMessage('match','"%value%" is not a valid Domain Name');
-		self::setRequiredMessage('This field is required!');
+		self::setDefaultMessage('required', 'This field is required!');
 	}
 
 	protected function doClean($value)

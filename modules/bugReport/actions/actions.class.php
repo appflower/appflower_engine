@@ -11,10 +11,12 @@ class bugReportActions extends CustomActions
 	public function executeUpdate()
 	{
   		if($this->getRequest()->getMethod()==sfRequest::POST) {
+            $formData = $this->getRequestParameter('edit');
+            $formData = $formData[0];
   			$parameters = array(
-                    'report_subject'  => $this->getRequestParameter('edit[0][subject]'),
-                    'report_comment'  => $this->getRequestParameter('edit[0][comment]'),
-  					'report_email'    => $this->getRequestParameter('edit[0][email]'),
+                    'report_subject'  => $formData['subject'],
+                    'report_comment'  => $formData['comment'],
+  					'report_email'    => $formData['email'],
                     'email'    => sfConfig::get('app_bug_report_email'),
                     'subject'  => 'Bug Report',
                     'from'     => 'Seedcontrol'

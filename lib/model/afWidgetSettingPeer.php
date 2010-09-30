@@ -59,7 +59,8 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 	}
 	public static function updateSettings($action){
 		$setting = array();
-		$posted = $action->getRequestParameter("edit[0]");
+        $formData = $action->getRequestParameter("edit");
+		$posted = $formData[0];
 		if(class_exists("GraphUtil"))
 		$setting = GraphUtil::getDefaultSettingByName($posted['name']);
 		if(!isset($posted['default'])){

@@ -1,7 +1,7 @@
   public function executeUpdate(sfWebRequest $request)
   {
-  
-  	$id = $request->getParameter("edit[0][id]");
+    $formData = $request->getParameter("edit");
+  	$id = $formData[0]["id"];
   
     $this-><?php echo $this->getSingularName() ?> = $this->getObject($id);
     $this->form = $this->configuration->getForm($this-><?php echo $this->getSingularName() ?>);

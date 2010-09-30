@@ -348,8 +348,10 @@ class testActions extends CustomActions
 		{
 				
 			$x = new TimeZones();
-			$x->setName($this->getRequestParameter("edit[2][name]"));
-			$x->setOffset($this->getRequestParameter("edit[2][offset]"));
+            $formData = $this->getRequestParameter("edit");
+            $formData = $formData[2];
+			$x->setName($formData['name']);
+			$x->setOffset($formData['offset']);
 			$x->save();
 
 			$result = array('success' => true);

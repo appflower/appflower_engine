@@ -17,7 +17,7 @@ class immValidatorInteger extends sfValidatorBase
 		$this->addOption('match');
 		
 		$this->addMessage('match','"%value%" is not a valid integer');
-		$this->setRequiredMessage('This field is required!');
+		$this->setDefaultMessage('required', 'This field is required!');
 	}
 	
 	protected function doClean($value)

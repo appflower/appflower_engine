@@ -39,13 +39,13 @@ $t->is($validator->getOption('operator'), '==');
 assertError($validator,
     array('password'=>'hello', 're_password'=>'hello2'), 'myInvalidError');
 
-$paramHolder = new sfParameterHolder();
+$paramHolder = new sfParameterHolder13();
 $paramHolder->set('edit', array(array('password'=>'hello', 're_password'=>'hello2')));
 $values = afValidatorFactory::prepareValue('edit[0][re_password]', $validator,
     $paramHolder);
 $t->is($values, array('password'=>'hello', 're_password'=>'hello2'));
 
-$paramHolder = new sfParameterHolder();
+$paramHolder = new sfParameterHolder13();
 $paramHolder->set('edit', array('password'=>'hello', 're_password'=>'hello2'));
 $values = afValidatorFactory::prepareValue('edit[re_password]', $validator,
     $paramHolder);

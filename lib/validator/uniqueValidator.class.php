@@ -3,9 +3,9 @@ class uniqueValidator extends sfPropelUniqueValidator
 {
 	public function execute(&$value, &$error)
 	{		 
-		
-		$id = sfContext::getInstance()->getRequest()->getParameter("edit[0][id]",false);
-		if(!$id) $id = sfContext::getInstance()->getRequest()->getParameter("edit[1][id]",false);
+		$formData = sfContext::getInstance()->getRequest()->getParameter("edit");
+		$id = $formData[0]['id'];
+		if(!$id) $id = $formData[1]['id'];
 		
 		if ($id)
 		{

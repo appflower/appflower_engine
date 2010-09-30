@@ -25,7 +25,7 @@ class afValidatorFactory {
     /**
      * Returns a value to be validated by the given validator.
      */
-    public static function prepareValue($field, sfValidatorBase $validator, sfParameterHolder $requestParams) {
+    public static function prepareValue($field, sfValidatorBase $validator, Serializable $requestParams) {
         if($validator instanceof sfValidatorSchemaCompare) {
             $values = array();
             $prefix = preg_replace('/\[[^\]]+\]$/', '', $field);

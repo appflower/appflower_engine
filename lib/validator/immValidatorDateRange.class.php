@@ -16,7 +16,7 @@ class immValidatorDateRange extends sfValidatorBase
 		$this->addOption('op');
 		
 		$this->addMessage('other','Invalid date range!');
-		$this->setRequiredMessage('This field is required!');
+		$this->setDefaultMessage('required', 'This field is required!');
 	}
 	
 	protected function doClean($value)
