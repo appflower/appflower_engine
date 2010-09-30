@@ -25,7 +25,7 @@ class ImmExtjsGrid
 		//for test
 		$this->attributes['tbar']=array();			
 		$this->attributes['stripeRows']=true;
-		sfLoader::loadHelpers(array('ImmExtjsContextMenu'));
+		sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsContextMenu'));
 		if(isset($attributes['datasource']))
 		{
                         if (isset($attributes['datasource']['dataLoadedHandler'])) {

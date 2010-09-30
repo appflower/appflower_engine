@@ -5,7 +5,7 @@ class scriptsParser extends XmlBaseElementParser {
 	public static function parse($node,$parent,$key = null) {
 		
 		
-		sfLoader::loadHelpers(array('afUrl'));
+        sfProjectConfiguration::getActive()->loadHelpers(array('afUrl'));
 	
 		$value = self::$parser->get($node);
 		

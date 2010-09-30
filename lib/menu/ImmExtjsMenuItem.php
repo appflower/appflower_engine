@@ -25,7 +25,7 @@ class ImmExtjsMenuItem extends ImmExtjsToolbarComponent
 			$param = $containerObject->privateName.'.stack["text"]';
 			$cellDiv = $containerObject->privateName.'.stack["cellDiv"]';
 			if(isset($attributes['ajax'])){
-				sfLoader::loadHelpers(array('ImmExtjsContextMenu'));
+				sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsContextMenu'));
 				$source = ajax_source($url.'"+'.$param);				
 			}else{
 				$source = 'window.location.href="'.$url.'"+'.$param;

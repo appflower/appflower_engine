@@ -180,7 +180,7 @@ class ExtEvent {
 				)
 			);
 		if(isset($action["handlers"])){
-			//sfLoader::loadHelpers(array('ImmExtjsExecuteCustomJS'));
+			//sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsExecuteCustomJS'));
 			//setHandler($action);
 			
 			if(!isset($action["attributes"]["handlers"]["click"])) {

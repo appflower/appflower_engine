@@ -177,7 +177,7 @@ EOF;
   
   }
   
-  private function runTask(Array $data,$arguments = array(), $options = array()) {
+  protected function runTask(Array $data,$arguments = array(), $options = array()) {
   	
   	if($data[1]) {
   		$this->logBlock($data[1],"QUESTION");	

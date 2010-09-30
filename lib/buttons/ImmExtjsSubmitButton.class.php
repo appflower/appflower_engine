@@ -45,7 +45,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  									.');';		  									
 				if(isset($attributes['preExecute']) && $attributes['preExecute']){	
 					$pe_file = isset($attributes['preExecute'])?$attributes['preExecute']:'';
-					sfLoader::loadHelpers("ImmExtjsExecuteCustomJS");				
+					sfProjectConfiguration::getActive()->loadHelpers("ImmExtjsExecuteCustomJS");
 					$source = preExecuteSource($pe_file,$source);
 				}	
 				$this->attributes['handler']=$this->immExtjs->asMethod(array(
@@ -223,7 +223,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 		  									.');';
 				if(isset($attributes['preExecute']) && $attributes['preExecute']){	
 					$pe_file = isset($attributes['preExecute'])?$attributes['preExecute']:'';
-					sfLoader::loadHelpers("ImmExtjsExecuteCustomJS");				
+					sfProjectConfiguration::getActive()->loadHelpers("ImmExtjsExecuteCustomJS");
 					$source = preExecuteSource($pe_file,$source);
 				}	
 				$this->attributes['handler']=$this->immExtjs->asMethod(array(
