@@ -12,7 +12,7 @@ class afCompat10ValidatorAdapter extends sfValidatorBase {
     }
 
     protected function isEmpty($value) {
-        // The handling of require values is left
+        // The handling of required values is left
         // on the given sfValidator.
         return false;
     }
