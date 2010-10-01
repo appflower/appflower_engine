@@ -489,7 +489,7 @@ class XmlParser extends XmlParserTools {
 				if($fieldname == "field") {
 					$tmp_field->appendChild($this->fieldvalues[$name]);	
 					
-					if(array_key_exists("foreignTable", $table[$name])) {
+					if(is_array($table[$name])&&array_key_exists("foreignTable", $table[$name])) {
 						$tmp_field->setAttribute("selected", "{".$name."}");
 					}
 				}
@@ -611,7 +611,7 @@ class XmlParser extends XmlParserTools {
 		$actions = array("actions" => "actions","batch_actions" => "moreactions","object_actions" => "rowactions");
 		
 		foreach($actions as $type => $action) {
-			if(is_array($data[$type])) {
+			if(isset($data[$type])&&is_array($data[$type])) {
 				$fields = $xpath->evaluate("//i:".$action);
 				$new = $this->document->createElementNS($this->namespace, $action);
 				if($fields->length) {
@@ -3122,7 +3122,7 @@ class XmlParser extends XmlParserTools {
 		 * Create widgets in advanced for the text link script (widget launcher)
 		 */
 	
-		sfProjectConfiguration::getActive()->loadHelpers(array("Helper","Url","afUrl"));
+		sfLoader::loadHelpers(array("Helper","Url","afUrl"));
 		
 		// Update session if needed..
 		
@@ -4411,7 +4411,7 @@ if(response.message) {
 
 		//used in ajax loading widgets
 		ImmExtjsAjaxLoadWidgets::initialize($actionInstance);
-		sfProjectConfiguration::getActive()->loadHelpers("Helper");
+		sfLoader::loadHelpers("Helper");
 		$parser = new XmlParser();
 		$actionInstance->layout = $parser->getLayout();	
 		$actionInstance->setLayout("layoutExtjs");
