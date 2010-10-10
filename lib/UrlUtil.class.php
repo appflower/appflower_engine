@@ -68,9 +68,10 @@ class UrlUtil {
     /**
      * Returns an <a> tag with the given HTML content.
      */
-    public static function widgetHtmlLink($html, $url) {
+    public static function widgetHtmlLink($html, $url, $ajax = true) {
         $url = self::abs($url);
-        return '<a href="'.sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/#'.$url.'">'.$html.'</a>';
+        return '<a href="'.sfContext::getInstance()->getRequest()->getRelativeUrlRoot().(($ajax) ? '/#' : '').$url.'">'.$html.'</a>';
+        
     }
 
     /**
