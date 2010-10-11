@@ -1,0 +1,39 @@
+If you trying to move on to newest version of symfony with appFlower based application this readme is for you.
+
+I was updating everything in seedControl project context so needed changes can be different in other projects.
+
+Generally the most important step is to follow this article:
+http://www.symfony-project.org/tutorial/1_4/en/upgrade
+
+You should probably look for symfony plugins you are using in your project.
+This can be the most difficult part unless you have luck and all plugins have newer version perpared for sf1.3/1.4
+
+After you'll make sure about plugins it should be correct to switch to current
+AF trunk version before next steps.
+
+Below is description of steps that I made when upgrading.
+1. Switch you ProjectConfiguration to sf 1.3
+   It is correct to have AF updated to trunk and use 1.3 version. This will probably
+   allow you to run your app event that it has deprecated methods used.
+2. Run "./symfony project:upgrade1.3
+
+There is a chance that right now everything will work.
+If no - resolve any errors you'll get.
+
+3. Run "./symfony project:validate" - this will give you some places you need to change.
+I got mainly to do following changes:
+- replace sfLoader::loadHelpers() calls to sfProjectConfiguration::getActive()->loadHelpers()
+- change $this->getRequest()->hasParameter('edit[0][id]') calls to
+"
+$formData = $this->getRequest()->hasParameter('edit');
+$formData = $formData[0];
+$form['id']
+"
+-
+
+After that you should switch your ProjectConfiguration to use sf1.4
+And that's all :)
+
+
+--
+Lukasz Wojciechowski
