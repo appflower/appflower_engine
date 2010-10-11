@@ -3122,7 +3122,7 @@ class XmlParser extends XmlParserTools {
 		 * Create widgets in advanced for the text link script (widget launcher)
 		 */
 	
-		sfLoader::loadHelpers(array("Helper","Url","afUrl"));
+		sfApplicationConfiguration::getActive()->loadHelpers(array("Helper","Url","afUrl"));
 		
 		// Update session if needed..
 		
@@ -4411,7 +4411,7 @@ if(response.message) {
 
 		//used in ajax loading widgets
 		ImmExtjsAjaxLoadWidgets::initialize($actionInstance);
-		sfLoader::loadHelpers("Helper");
+		sfApplicationConfiguration::getActive()->loadHelpers("Helper");
 		$parser = new XmlParser();
 		$actionInstance->layout = $parser->getLayout();	
 		$actionInstance->setLayout("layoutExtjs");
