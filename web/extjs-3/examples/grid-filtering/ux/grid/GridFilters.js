@@ -201,7 +201,9 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 			//console.log(state)
 			return state;
 		}		
-		return {};
+		return {
+		    filters: []
+		};
 		
 	/******************************************/
 	},
