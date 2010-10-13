@@ -57,8 +57,7 @@ class Util {
 			
 				foreach ($items as $item){
 					/******* Delete individual ***************/
-					preg_match("/id=([0-9]+)/",$item['action1'],$matches);
-					$id = preg_replace("/id=([0-9]+)/","$1",$matches[0]);	
+					$id = $item['id'];
 					$c = new Criteria();					
 					$c->add(constant($class."::ID"),$id);
 					call_user_func($class."::doDelete",$c);	
