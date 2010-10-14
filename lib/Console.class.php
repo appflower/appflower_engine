@@ -25,7 +25,11 @@ class Console {
             return;
         }
 
-        $path = $_SERVER['REQUEST_URI'];
+        $path = "";
+        if(isset($_SERVER['REQUEST_URI'])) {
+            $path = $_SERVER['REQUEST_URI'];
+        }
+
         if(strpos($path, 'af_format=json') !== false) {
             $memory = apc_fetch('Console::memory');
             if($memory !== false) {
