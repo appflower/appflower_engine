@@ -1061,6 +1061,11 @@ class XmlParser extends XmlParserTools {
 		foreach($ifs as $if) {
 			$condition = $this->get($if,'test');
 			
+			if(substr($condition,0,1) == "[") {
+				$c = sfYaml::load($condition);
+				$condition = ($this->user->hasCredential($c,is_array($c[0]))) ? "true" : "false";
+			} 
+			
 			$parent = $if->parentNode;
 		
 			if(!afCall::evaluate($condition, $vars)) {

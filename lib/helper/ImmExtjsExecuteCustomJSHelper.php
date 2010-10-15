@@ -102,6 +102,12 @@ function preExecuteSource($file,$callback){
 function popup_widget($text,$widget,$title=''){
 	return '<a href="javascript:void(0)" onclick="afApp.widgetPopup(\''.$widget.'\',\''.$title.'\')">'.$text.'</a>';
 }
+
+function ajaxlink($text,$url,$title=''){
+	return '<a href="#'.$url.'" title="'.$title.'">'.$text.'</a>';
+}
+
+
 function createPath($uri,$security=false){
 	$root = sfConfig::get("sf_root_dir");
 	$app = sfContext::getInstance()->getConfiguration()->getApplication();
