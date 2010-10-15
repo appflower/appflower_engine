@@ -1350,7 +1350,7 @@ Ext.ux.DatePickerPlus = Ext.extend(Ext.DatePicker, {
 			if (this.undoBtn){
 				this.undoBtn.destroy();			
 			}
-			this.eventEl.destroy();
+			this.eventEl.remove();
 		}
 	},
 
