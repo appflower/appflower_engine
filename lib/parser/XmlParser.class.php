@@ -3605,7 +3605,7 @@ class XmlParser extends XmlParserTools {
 							$obj = $this->prepareButton($form, $action['attributes']);
 						}
 					}
-
+					
 					if(isset($parse["moreactions"])) {																					
 						
 						foreach($parse["moreactions"] as $aname => $action) {	

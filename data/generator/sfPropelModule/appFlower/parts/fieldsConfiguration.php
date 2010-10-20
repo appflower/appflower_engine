@@ -16,6 +16,18 @@
 <?php unset($this->config['list']['title']) ?>
   }
 
+ public function getListCredentials()
+  {
+    return <?php echo $this->asPhp(isset($this->config['list']['credentials']) ? $this->config['list']['credentials'] : array()); ?>;
+<?php unset($this->config['list']['credentials']) ?>
+  }
+  
+ public function getListScripts()
+  {
+    return <?php echo $this->asPhp(isset($this->config['list']['scripts']) ? $this->config['list']['scripts'] : array()); ?>;
+<?php unset($this->config['list']['scripts']) ?>
+  }
+
   public function getEditTitle()
   {
     return '<?php echo isset($this->config['edit']['title']) ? $this->config['edit']['title'] : 'Edit '.sfInflector::humanize($this->getModuleName()) ?>';
@@ -32,6 +44,42 @@
   {
     return <?php echo $this->asPhp(isset($this->config['filter']['display']) ? $this->config['filter']['display'] : array()) ?>;
 <?php unset($this->config['filter']['display']) ?>
+  }
+  
+  public function getFormTitle()
+  {
+    return '<?php echo isset($this->config['form']['title']) ? $this->config['form']['title'] : 'New / Edit '.sfInflector::humanize($this->getModuleName()) ?>';
+<?php unset($this->config['form']['title']) ?>
+  }
+
+ public function getFormCredentials()
+  {
+    return <?php echo $this->asPhp(isset($this->config['form']['credentials']) ? $this->config['form']['credentials'] : array()); ?>;
+<?php unset($this->config['form']['credentials']) ?>
+  }
+  
+  public function getFormHandlers()
+  {
+    return <?php echo $this->asPhp(isset($this->config['form']['handlers']) ? $this->config['form']['handlers'] : array()); ?>;
+<?php unset($this->config['form']['handlers']) ?>
+  }
+  
+ public function getFormValidators()
+  {
+    return <?php echo $this->asPhp(isset($this->config['form']['validators']) ? $this->config['form']['validators'] : array()); ?>;
+<?php unset($this->config['form']['validators']) ?>
+  }
+  
+ public function getFormValues()
+  {
+    return <?php echo $this->asPhp(isset($this->config['form']['values']) ? $this->config['form']['values'] : array()); ?>;
+<?php unset($this->config['form']['values']) ?>
+  }
+
+ public function getFormScripts()
+  {
+    return <?php echo $this->asPhp(isset($this->config['form']['scripts']) ? $this->config['form']['scripts'] : array()); ?>;
+<?php unset($this->config['form']['scripts']) ?>
   }
 
   public function getFormDisplay()

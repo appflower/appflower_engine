@@ -13,6 +13,7 @@ require_once(dirname(__FILE__).'/../lib/Base<?php echo ucfirst($this->moduleName
  */
 class <?php echo $this->getGeneratedModuleName() ?>Actions extends CustomActions
 {
+
   public function preExecute()
   {
     $this->configuration = new <?php echo $this->getModuleName() ?>GeneratorConfiguration();
@@ -25,6 +26,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends CustomActions
     $this->dispatcher->notify(new sfEvent($this, 'admin.pre_execute', array('configuration' => $this->configuration)));
 
     $this->helper = new <?php echo $this->getModuleName() ?>GeneratorHelper();
+    
   }
 
 

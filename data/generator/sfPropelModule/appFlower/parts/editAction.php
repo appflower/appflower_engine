@@ -23,8 +23,14 @@
   	
   	$this->form = $this->configuration->getForm();
     $this-><?php echo $this->getSingularName() ?> = $this->form->getObject();
-  
-  	if($request->getMethodName() == "POST") {
+ 
+ 	if(method_exists($request,"getMethodName")) {
+ 		$method = "getMethodName";
+ 	} else {
+ 		$method = "getMethod";
+ 	}
+ 	
+  	if($request->$method() == "POST") {
   		$this->processForm($request, $this->form);
   	}
   	
