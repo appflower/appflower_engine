@@ -61,7 +61,18 @@ class ComponentCredential{
 		if(file_exists($file)){
 			require_once($file);
 			$obj = new $class(sfContext::getInstance(),$module,$action);	
-			if(sfContext::getInstance()->getUser()->hasCredential($obj->getCredential())) return true;
+			$credentials = $obj->getCredential();
+			/**
+			 * the action might not have any credentials set, so allow access
+			 */
+			if($credentials==null)
+			{
+				return true;
+			}
+			elseif(sfContext::getInstance()->getUser()->hasCredential($credentials))
+			{
+				return true;
+			}
 		}
 		return false;		
 	}

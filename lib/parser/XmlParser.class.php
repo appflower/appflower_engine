@@ -1437,6 +1437,11 @@ class XmlParser extends XmlParserTools {
 		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
 		$path = $this->getPath(($module === null) ? $this->context->getModuleName() : $module, true);
 		
+		/**
+		 * quick fix for symfony credentials
+		 */
+		return ComponentCredential::actionHasCredential($module,$action_name);
+		
 		if(!file_exists($path)) {
 			return true;
 		}
@@ -4300,6 +4305,7 @@ if(response.message) {
 						
 						foreach ($widgets as $widget)
 						{
+							if(isset($this->extobjects[$widget->idxml]))
 							${'column'.$k}->addItem($this->extobjects[$widget->idxml]);
 						}
 						
@@ -4322,6 +4328,7 @@ if(response.message) {
 					
 					foreach ($widgets as $widget)
 					{				
+						if(isset($this->extobjects[$widget->idxml]))
 						${'column'.$k}->addItem($this->extobjects[$widget->idxml]);
 					}
 					
