@@ -129,7 +129,7 @@ class XmlBaseElementParser  {
 		
 		$attribute_holder = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->getVarHolder()->getAll();
 		
-		if(self::$parser) {
+		if(self::$parser&&isset(self::$parser->vars[self::$parser->currentUri])) {
 			$action_holder = self::$parser->vars[self::$parser->currentUri];
 			$uri = self::$parser->currentUri;			
 		} 
