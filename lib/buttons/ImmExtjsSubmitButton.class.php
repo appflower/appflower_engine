@@ -60,8 +60,8 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 				}
 				$submitUrl = $attributes['action'];
 				if (!StringUtil::startsWith($submitUrl, 'http')) {
-					$submitUrl = sfContext::getInstance()->getRequest()->getUriPrefix().$submitUrl;
-				}
+					$submitUrl = sfContext::getInstance()->getRequest()->getUriPrefix().sfContext::getInstance()->getRequest()->getRelativeUrlRoot().$submitUrl;
+				}				
 				$attributes['params']['af_formcfg'] =
 					afEditJsonRenderer::buildFormcfg($submitUrl,
 						$submitContainerObject->getValidators(),
@@ -78,7 +78,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 			
 				$source = 'Ext.getCmp("'.$submitContainerObject->attributes['id'].'").getForm().doAction("robustsubmit", '.
 		  									$this->immExtjs->asAnonymousClass(array(
-		  									'url'=>$attributes['action'],
+		  									'url'=>$submitUrl,
 		  									'waitMsg'=>'loading...',
 		  									'params'=>$attributes['params'],
 		  									

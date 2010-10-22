@@ -165,7 +165,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
     	var config=this.getConfig();
 		    	
 		Ext.Ajax.request({ 
-			url: "/appFlower/savePortalState", 
+			url: afApp.urlPrefix + "/appFlower/savePortalState", 
 			method:"post", 
 			params:{"config":config}, 
 			success:function(response, options){
@@ -332,7 +332,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 			reader: treereader,
 			remoteSort: false,
 			proxy: new Ext.data.HttpProxy ({
-				url: "/appFlower/retrieveWidgetsInfo",
+				url: afApp.urlPrefix + "/appFlower/retrieveWidgetsInfo",
 				method: "POST",
 				disableCaching: false
 			}),
@@ -439,7 +439,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 											handler: function () { 
 												
 												formPanel.getForm().submit({
-													url:'/appFlower/changePortalWidgets',
+													url: afApp.urlPrefix + '/appFlower/changePortalWidgets',
 													method:'POST',
 													params:{"selections":treegrid.getSelectionModel().getSelectionsJSON(["widget"])},
 													waitMsg:'loading...',
@@ -625,7 +625,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 		        	var config=this.getConfig();
 		        	
 		        	Ext.Ajax.request({ 
-						url: "/appFlower/savePortalState", 
+						url: afApp.urlPrefix + "/appFlower/savePortalState", 
 						method:"post", 
 						params:{"config":config}, 
 						success:function(response, options){

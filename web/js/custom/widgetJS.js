@@ -269,7 +269,7 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 	//mask.show();
 	afApp.initLoadingProgress(viewport.layout.center.panel.getEl());
 	var ajax = Ext.Ajax.request( {
-		url : widget,
+		url : afApp.urlPrefix + widget,
 		method : "GET",		
 		success : function(r) {
 			var json = Ext.util.JSON.decode(r.responseText);
@@ -587,7 +587,7 @@ afApp.loadPopupHelp = function(widget) {
 	var mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading help</b> <br>Please Wait...",removeMask:true});
 	mask.show();
 	var ajax = Ext.Ajax.request( {
-		url : '/appFlower/popupHelp?idXml='+widget,
+		url : afApp.urlPrefix + '/appFlower/popupHelp?idXml='+widget,
 		method : "GET",		
 		success : function(r) {
 			var json = Ext.util.JSON.decode(r.responseText);
@@ -704,7 +704,7 @@ afApp.loadWestWidget = function(widget)
 				var mask = new Ext.LoadMask(panelItem.getEl(), {msg: "<b>Loading</b> <br>Please Wait...",removeMask:true});
 				mask.show();
 				var ajax = Ext.Ajax.request( {
-					url : '/appFlower/loadWestContent',
+					url : afApp.urlPrefix + '/appFlower/loadWestContent',
 					method : "POST",		
 					success : function(r) {
 						var response = Ext.util.JSON.decode(r.responseText);

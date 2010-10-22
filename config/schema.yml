@@ -86,16 +86,16 @@ propel:
     duration: { type: integer}
     category: { type: integer }
     persistent: { type: integer }
-    created_by: { type: integer, foreignTable: sf_guard_user, foreignReference:id }
-    created_for: { type: integer, foreignTable: sf_guard_user, foreignReference:id }
+    created_by: { type: integer, foreignTable: sf_guard_user, foreignReference: id }
+    created_for: { type: integer, foreignTable: sf_guard_user, foreignReference: id }
     remote_ip: { type: varchar(255) }
     created_at:
 
   af_notified_for:
     _attributes: { phpName: afNotifiedFor }
     id: 
-    user: { type: integer, foreignTable: sf_guard_user, foreignReference:id, onDelete: cascade }
-    notification_id: { type: integer, foreignTable: af_notification, foreignReference:id, onDelete: cascade }
+    user: { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade }
+    notification_id: { type: integer, foreignTable: af_notification, foreignReference: id, onDelete: cascade }
     created_at:
     
   ############################################################################
