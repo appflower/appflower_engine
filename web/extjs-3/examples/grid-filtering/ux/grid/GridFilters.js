@@ -137,7 +137,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 		if(state && state.filters)
 			for(var key in state.filters){
 				var filter = this.filters.get(key);
-				if(filter){						
+				if(filter){				    
 					filter.setValue(state.filters[key]);					
 					filter.setActive(true);
 				}
@@ -191,15 +191,20 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 					if(filter.type == "string"){
 						cookie_obj[key] = cookie_obj[key].toString().replace(/\+/g," ");
 					}
+					if(filter.type == "numeric"){
+					    var n = [];
+					    n['eq'] = cookie_obj[key].toString().replace(/\+/g," ");
+					    cookie_obj[key] = n;
+					}
 				}
 			}			
 			var state = {
 				filters: cookie_obj
 			}
 			//cp.set("log_index_search","");
-			//return false;
-			//console.log(state)
+			//return false;			
 			return state;
+		    
 		}		
 		return {
 		    filters: []
