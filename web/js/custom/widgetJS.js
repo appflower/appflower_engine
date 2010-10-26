@@ -401,8 +401,7 @@ afApp.loadCenterWidget = function(widget) {
 	
 	var uri=widget.split('#');
 	uri[0]=uri[0] || '/';
-	uri[0]=afApp.urlPrefix+uri[0];
-	
+		
 	afApp.currentCenterWidget = uri[0];
 	afApp.observable.fireEvent('beforeload', uri[0]);
 	
@@ -412,14 +411,14 @@ afApp.loadCenterWidget = function(widget) {
 	//mask.show();
 	afApp.initLoadingProgress(viewport.layout.center.panel.getEl());
 	var ajax = Ext.Ajax.request( {
-		url : uri[0],
+		url : afApp.urlPrefix+uri[0],
 		method : "GET",		
 		success : function(r) {
 			var json = Ext.util.JSON.decode(r.responseText);
 			json.load = json.load?json.load:'center';
 			json.title = json.title?json.title:'...';
 			//hash contains the value without #in front of the internal link
-			var futureHash=uri[0].replace(document.location.protocol+'//'+document.location.host,'')+futureTab;
+			var futureHash=uri[0].replace(document.location.protocol+'//'+document.location.host+afApp.urlPrefix,'')+futureTab;
 			var currentHash=document.location.href.replace(document.location.protocol+'//'+document.location.host+'/#','');			
 			if(json.success === false) {
 				mask.hide();
