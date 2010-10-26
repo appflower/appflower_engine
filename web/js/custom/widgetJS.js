@@ -399,6 +399,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 }
 afApp.loadCenterWidget = function(widget) {
 	
+	widget = widget.replace(document.location.protocol+'//'+document.location.host+afApp.urlPrefix,'');
 	var uri=widget.split('#');
 	uri[0]=uri[0] || '/';
 		
@@ -418,7 +419,7 @@ afApp.loadCenterWidget = function(widget) {
 			json.load = json.load?json.load:'center';
 			json.title = json.title?json.title:'...';
 			//hash contains the value without #in front of the internal link
-			var futureHash=uri[0].replace(document.location.protocol+'//'+document.location.host+afApp.urlPrefix,'')+futureTab;
+			var futureHash=uri[0]+futureTab;
 			var currentHash=document.location.href.replace(document.location.protocol+'//'+document.location.host+'/#','');			
 			if(json.success === false) {
 				mask.hide();
