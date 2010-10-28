@@ -13,7 +13,7 @@ xmlns:i="http://www.appflower.com/schema/" xmlns="http://www.w3.org/1999/xhtml" 
     </i:method>
   </i:datasource>
   
-  <i:fields url="appFlower/updateHelpSettings">
+  <i:fields url="/appFlower/updateHelpSettings">
 	<i:radiogroup name="fieldhelp" label="foo">
 		<i:field name="opt0" type="radio" label="No help" checked="{opt0checked}" value="0">
 			<i:help>Help text shouldn't be displayed at all</i:help>
