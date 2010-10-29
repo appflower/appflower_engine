@@ -419,7 +419,7 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 				
 				a.popupSettings=escape(a.popupSettings);
 				
-				urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="'+afApp.urlPrefix+'{'+a.urlIndex+'}" <tpl if="!'+a.confirm+'">onclick=\'afApp.widgetPopup("'+afApp.urlPrefix+'{'+a.urlIndex+'}","","","'+a.popupSettings+'"); return false;\'</tpl><tpl if="'+a.confirm+'">onclick=\'Ext.Msg.confirm("Confirmation","'+a.message+'", function(btn){if (btn=="yes"){ afApp.widgetPopup("'+afApp.urlPrefix+'{'+a.urlIndex+'}"); }}); return false;\'</tpl>>') : '';
+				urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="'+afApp.urlPrefix+'{'+a.urlIndex+'}" <tpl if="!'+a.confirm+'">onclick=\'afApp.widgetPopup("{'+a.urlIndex+'}","","","'+a.popupSettings+'"); return false;\'</tpl><tpl if="'+a.confirm+'">onclick=\'Ext.Msg.confirm("Confirmation","'+a.message+'", function(btn){if (btn=="yes"){ afApp.widgetPopup("'+afApp.urlPrefix+'{'+a.urlIndex+'}"); }}); return false;\'</tpl>>') : '';
 			}
 			/***************************************************************************/
 			
