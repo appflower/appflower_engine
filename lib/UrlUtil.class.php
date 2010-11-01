@@ -87,9 +87,9 @@ class UrlUtil {
     /**
      * returns relative internal url with /#
      */
-    public static function widgetUrl($url)
+    public static function widgetUrl($url,$layout='')
     {
-    	return sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/#'.$url;
+    	return sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/'.$layout.'#'.$url;
     }
     
     /**

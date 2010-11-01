@@ -27,7 +27,7 @@ class ImmExtjsGmap
 		$this->attributes['mapConfOpts']=array('enableScrollWheelZoom','enableDoubleClickZoom','enableDragging');
 		$this->attributes['mapControls']=array('GSmallMapControl', 'GScaleControl','GMapTypeControl','NonExistantControl');
 		
-		$this->immExtjs->setAddons(array ('js' => array($this->immExtjs->getExamplesDir().'window/Ext.ux.GMapPanel.js','http://maps.google.com/maps?file=api&amp;v=2.x&amp;key='.sfConfig::get('app_gmaps_key')) ));
+		$this->immExtjs->setAddons(array ('js' => array($this->immExtjs->getExamplesDir().'window/Ext.ux.GMapPanel.js','http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key='.sfConfig::get('app_gmaps_key')) ));
 				
 		if(isset($attributes['tools']))
 		{
@@ -74,15 +74,15 @@ class ImmExtjsGmap
 			$centerMarker['marker']=$this->immExtjs->asAnonymousClass($centerMarker['marker']);
 			$this->attributes['setCenter']=$this->immExtjs->asAnonymousClass($centerMarker);
 			
-			$markers=$this->attributes['markers'];
+			/*$markers=$this->attributes['markers'];
 			unset($this->attributes['markers']);
-			
+						
 			foreach ($markers as $k=>$attributes)
 			{
 				if(isset($markers[$k]['marker']))
 				$markers[$k]['marker']=$this->immExtjs->asAnonymousClass($markers[$k]['marker']);
 				$this->attributes['markers'][$k]=$this->immExtjs->asAnonymousClass($markers[$k]);
-			}
+			}*/
 		}
 		
 		$this->immExtjs->private[$this->privateName]=$this->immExtjs->GmapPanel($this->attributes);

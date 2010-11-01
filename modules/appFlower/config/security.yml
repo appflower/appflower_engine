@@ -1,2 +1,2 @@
 all:
-  is_secure: on
+  is_secure: true

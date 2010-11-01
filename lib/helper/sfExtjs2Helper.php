@@ -274,7 +274,7 @@ class sfExtjs2Plugin {
    * @return string source
    */
   public static function getExtObject($class, $params = array())
-  {
+  {  	
     $name = $lbr = null;
     $attributes = $parameters = $datas = array();
 
