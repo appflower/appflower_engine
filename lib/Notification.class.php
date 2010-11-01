@@ -130,7 +130,7 @@ class Notification{
 		}
 		return $source;
 	}
-	private static function getUser(){
+	public static function getUser(){
 		// A sfJob could also try to add a notification.
 		if(!sfContext::hasInstance()) {
 			return null;

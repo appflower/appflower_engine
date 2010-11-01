@@ -539,9 +539,20 @@ class parserActions extends sfActions
 		
 		if(empty($args)) {
 			if(!isset($parser["uid"]) || $parser["uid"] != $uid) {
-				$result = array('success'=>true,'totalCount'=>1,'rows'=>array(array('message' => "This page has expired! It will be refreshed automatically!", 'redirect' => $this->getRequest()->getReferer())));
+				if($this->getUser()->getAttribute('page_has_expired')){
+					return $this->renderText(json_encode(array('success'=>false)));
+				}else{
+					$this->getUser()->setAttribute('page_has_expired',true);					
+					Notification::add(json_encode(array("title"=>"Page Expired","message"=>"The page has expired. If some content is not loaded or not working properly, please refresh the page","created_by"=>null,"persistent"=>false,"created_for"=>Notification::getUser(),"category"=>5)));
+					return $this->renderText(json_encode(array('success'=>false)));
+					$result = array('success'=>true,'totalCount'=>1,'rows'=>array(array('message' => "The page has expired. If some content is not loaded or not working properly, please refresh the page",'redirect'=>'#')));
+					$result = json_encode($result);
+					return $this->renderText($result);
+				}
+				/*Notification::add("Page Expired","Page has expired");
+				$result = array('success'=>true,'totalCount'=>1,'rows'=>array(array('message' => "The page has expired. If some content is not loaded or not working properly, please refresh the page",'redirect'=>'#')));
 				$result = json_encode($result);
-				return $this->renderText($result);
+				return $this->renderText($result);*/
 			}
 		} else {
 			if(isset($parser["uid"]) && $parser["uid"] != $uid)

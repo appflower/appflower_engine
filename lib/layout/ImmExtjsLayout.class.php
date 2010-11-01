@@ -53,6 +53,8 @@ class ImmExtjsLayout
 		// Plugin to maximize portlets
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'portal/Ext.ux.MaximizeTool.js')));
 		
+		//reset the page expire session
+		sfContext::getInstance()->getUser()->setAttribute("page_has_expired",false);
 		$this->start($attributes);
 		
 		self::setInstance($this);
