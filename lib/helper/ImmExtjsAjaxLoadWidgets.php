@@ -17,9 +17,9 @@ class ImmExtjsAjaxLoadWidgets{
 		return $this->type;
 	}
 	private function init(){		
-		$popup = new XmlParser();		
-		$this->type = $popup->getType();		
-		$this->layout = $popup->getLayout();
+		$parser = new XmlParser();		
+		$this->type = $parser->getType();		
+		$this->layout = $parser->getLayout();
 		if(method_exists($this->layout,'beforeEnd'))
 		{
 			$this->layout->beforeEnd();
@@ -56,28 +56,7 @@ class ImmExtjsAjaxLoadWidgets{
 		}
 		return false;
 		/*************************************************************/
-	}
-	public function getImmExtjsPrivateSource(){
-		$sourcePrivate = '';
-		if(isset($this->getLayout()->immExtjs->private['toolbar'])) unset($this->getLayout()->immExtjs->private['toolbar']);
-		if(isset($this->getLayout()->immExtjs->private['north_panel'])) unset($this->getLayout()->immExtjs->private['north_panel']);
-		if(isset($this->getLayout()->immExtjs->private['south_panel'])) unset($this->getLayout()->immExtjs->private['south_panel']);
-		if(isset($this->getLayout()->immExtjs->private['center_panel'])) unset($this->getLayout()->immExtjs->private['center_panel']);
-		if(isset($this->getLayout()->immExtjs->private['center_panel_first'])) unset($this->getLayout()->immExtjs->private['center_panel_first']);
-		foreach ($this->getLayout()->immExtjs->private as $key => $value){			
-			$sourcePrivate .= sprintf("%svar %s = %s;", ImmExtjs::LBR, $key, ImmExtjs::_quote($key, $value));
-	    }
-		return $sourcePrivate;		
-	}
-	public function getImmExtjsPublicSource(){
-		$sourcePublic = '';
-		if($this->getLayout()->immExtjs->public) {
-			foreach ($this->getLayout()->immExtjs->public as $key => $value){
-				$sourcePublic .= $value."\n";
-	   		}
-		}
-	    return $sourcePublic;		
-	}
+	}	
 	public function getCenterPanelSource(){	
 		if(isset($this->getLayout()->attributes['viewport']['center_panel']['tbar'])){
 			//if(count($this->getLayout()->attributes['viewport']['center_panel']['tbar']) > 1)
@@ -104,18 +83,18 @@ class ImmExtjsAjaxLoadWidgets{
 	}
 	public function getSourceForPopupLoad(){
 		if($this->type == XmlParser::PANEL){
-			return array("center_panel"=>$this->getCenterPanelSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource());
+			return array("center_panel"=>$this->getCenterPanelSource(),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
 		}
 		if($this->type == XmlParser::PAGE){
-			return array("center_panel"=>$this->getPortalCenterPanelSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource());
+			return array("center_panel"=>$this->getPortalCenterPanelSource(),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
 		}
 	}
 	public function getSourceForCenterLoad(){
 		if($this->type == XmlParser::PANEL){
-			return array("center_panel_first"=>$this->getCenterPanelFirstSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource());
+			return array("center_panel_first"=>$this->getCenterPanelFirstSource(),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
 		}
 		if($this->type == XmlParser::PAGE){
-			return array("center_panel_first"=>$this->getCenterPanelFirstSource(),"source"=>$this->getImmExtjsPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getImmExtjsPublicSource());
+			return array("center_panel_first"=>$this->getCenterPanelFirstSource(),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
 		}		
 	}	
 

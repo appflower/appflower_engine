@@ -207,7 +207,10 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 }
 afApp.createAddon = function(filename, filetype, callback) {
 	
-	filename = afApp.urlPrefix + filename;
+	if(filename.indexOf('http://')!=-1)
+	{
+		filename = afApp.urlPrefix + filename;
+	}
 	
 	if(!filetype)
 	{
@@ -377,7 +380,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		//mask.show();
 		afApp.loadingProgress(viewport.layout.center.panel.getEl(),(counter+1)/addons.length);
 		var nextAddon=addons[counter++];
-		
+			
 		afApp.createAddon(nextAddon,false,load);
 	};
 
@@ -467,7 +470,7 @@ afApp.loadCenterWidget = function(widget) {
 						}
 					}
 				}
-							
+										
 				//adding a referer param to all Ajax request in Ext objects
 				Ext.Ajax.extraParams = Ext.Ajax.extraParams || {};
 				Ext.Ajax.extraParams['af_referer'] = futureHash;

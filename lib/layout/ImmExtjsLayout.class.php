@@ -269,6 +269,42 @@ class ImmExtjsLayout
 		@$this->immExtjs->public['init'] .= $source;
 	}
 	
+	public function getPrivateSource()
+	{
+		$sourcePrivate = '';
+		if(isset($this->immExtjs->private['toolbar'])) unset($this->immExtjs->private['toolbar']);
+		if(isset($this->immExtjs->private['north_panel'])) unset($this->immExtjs->private['north_panel']);
+		if(isset($this->immExtjs->private['south_panel'])) unset($this->immExtjs->private['south_panel']);
+		if(isset($this->immExtjs->private['center_panel'])) unset($this->immExtjs->private['center_panel']);
+		if(isset($this->immExtjs->private['center_panel_first'])) unset($this->immExtjs->private['center_panel_first']);
+		foreach ($this->immExtjs->private as $key => $value){			
+			$sourcePrivate .= sprintf("%svar %s = %s;", ImmExtjs::LBR, $key, ImmExtjs::_quote($key, $value));
+	    }
+		return $sourcePrivate;		
+	}
+	
+	public function getPublicSource(){
+		$sourcePublic = '';
+		if($this->immExtjs->public) {
+			foreach ($this->immExtjs->public as $key => $value){
+				$sourcePublic .= $value."\n";
+	   		}
+		}
+	    return $sourcePublic;		
+	}
+	
+	public function setCenterWidget($widget)
+	{
+		$attributesPanel['items'][]=$this->immExtjs->asVar($widget->privateName);
+		$attributesPanel['border']=false;
+		$attributesPanel['bodyBorder']=false;
+		$attributesPanel['layout']='fit';						
+		$attributesPanel['id']='center_panel_first';
+		$center_panel_first=$this->immExtjs->Panel($attributesPanel);		
+		
+		echo json_encode(array("center_panel_first"=>$center_panel_first,"source"=>$this->getPrivateSource(),"addons"=>$this->immExtjs->addons,"public_source"=>$this->getPublicSource()));
+	}
+	
 	public function end()
 	{
 		/**

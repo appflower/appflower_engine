@@ -27,7 +27,7 @@ class ImmExtjsGmap
 		$this->attributes['mapConfOpts']=array('enableScrollWheelZoom','enableDoubleClickZoom','enableDragging');
 		$this->attributes['mapControls']=array('GSmallMapControl', 'GScaleControl','GMapTypeControl','NonExistantControl');
 		
-		$this->immExtjs->setAddons(array ('js' => array($this->immExtjs->getExamplesDir().'window/Ext.ux.GMapPanel.js','http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key='.sfConfig::get('app_gmaps_key')) ));
+		$this->immExtjs->setAddons(array ('js' => array($this->immExtjs->getExamplesDir().'window/Ext.ux.GMapPanel.js') ));
 				
 		if(isset($attributes['tools']))
 		{
@@ -84,6 +84,8 @@ class ImmExtjsGmap
 				$this->attributes['markers'][$k]=$this->immExtjs->asAnonymousClass($markers[$k]);
 			}*/
 		}
+		
+		//print_r($this->attributes);
 		
 		$this->immExtjs->private[$this->privateName]=$this->immExtjs->GmapPanel($this->attributes);
 	}
