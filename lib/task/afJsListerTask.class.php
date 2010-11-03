@@ -121,7 +121,7 @@ EOF;
   	if($this->arguments["path"]) {
 		$this->result = $this->arguments["path"];
 	} else {
-		$this->result = $this->root."/data/".$this->result;
+		$this->result = $this->root."/cache/".$this->result;
 	}
 	
 	$handle = @fopen($this->result,"wr");

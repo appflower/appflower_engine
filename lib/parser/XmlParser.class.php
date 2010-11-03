@@ -132,12 +132,7 @@ class XmlParser extends XmlParserTools {
 		$this->user = $this->context->getUser();
 		
 		// Add JS file list 
-		
-		if(!file_exists($this->root."/data/jslist")) {
-			throw new Exception("JS cache doesn't exist!");
-		} else {
-			$this->jslist = unserialize(file_get_contents($this->root."/data/jslist"));
-		}
+		$this->loadJSFilesList();
 		
 		// Action attributes..
 		
@@ -4550,6 +4545,27 @@ if(response.message) {
 		}
 		return $obj;
 	}
+
+    /**
+     * Tries to load JS files list
+     * When they don't exist we are running appropriate task that creates it.
+     */
+    private function loadJSFilesList() {
+        if (!file_exists($this->root . "/cache/jslist")) {
+            $curDir = getcwd();
+            chdir($this->root);
+            $task = new afJsListerTask($this->context->getEventDispatcher(), new sfFormatter);
+            $task->run(array('ext' => 'js'));
+            chdir($curDir);
+        }
+
+        if (!file_exists($this->root . "/cache/jslist")) {
+            throw new Exception("JS cache doesn't exist! - It should be created automatically but for some reason that did not happened. :(");
+        }
+
+        $this->jslist = unserialize(file_get_contents($this->root . "/cache/jslist"));
+    }
+
 }
 
 ?>
