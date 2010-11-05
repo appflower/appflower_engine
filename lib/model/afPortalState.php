@@ -149,9 +149,12 @@ class afPortalState extends BaseafPortalState
 	
 	public function save(PropelPDO $con = null)
 	{
-		if($this->user_id==null)
-		$this->setUserId(sfContext::getInstance()->getUser()->isAuthenticated()?sfContext::getInstance()->getUser()->getGuardUser()->getId():0);
-		
-		parent::save($con);
+		if($this->user_id==null) {
+            $afUser = sfContext::getInstance()->getUser()->getAppFlowerUser();
+            if (!$afUser->isAnonymous()) {
+                $this->setUserId($afUser->getId());
+                parent::save($con);
+            }
+        }
 	}
 }

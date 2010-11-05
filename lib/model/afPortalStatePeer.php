@@ -274,11 +274,11 @@ class afPortalStatePeer extends BaseafPortalStatePeer
         
         public static function retrieveForCurrentUserByIdXml($idXml)
         {
-            $guardUser = sfContext::getInstance()->getUser()->getGuardUser();
-            if ($guardUser) {
+            $afUser = sfContext::getInstance()->getUser()->getAppFlowerUser();
+            if (!$afUser->isAnonymous()) {
                 $c=new Criteria();
                 $c->add(self::ID_XML,$idXml);
-                $c->add(self::USER_ID,$guardUser->getId());
+                $c->add(self::USER_ID,$afUser->getId());
                 return afPortalStatePeer::doSelectOne($c);
             }
         }
