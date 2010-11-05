@@ -2847,6 +2847,20 @@ class XmlParser extends XmlParserTools {
 			  				
 			  				if($k == "error") {
 			  					if($value[2][key($value[2])] != 0) {
+			  						$tmp_data = afAuthenticDatamaker::decode($post["af_formcfg"]);
+			  						$field_data = $tmp_data["validators"]["edit[2][file]"];
+			  						
+			  						if($value[2][key($value[2])] == 4) {
+			  							if(array_key_exists("immValidatorRequired", $field_data) ||
+			  							(array_key_exists("sfValidatorFile", $field_data) && 
+			  							$field_data["sfValidatorFile"]["params"]["required"] === "true") ) {
+			  								return 4;
+			  							} else {
+			  								return 0;
+			  							}
+			  						}
+			  						
+			  						
 			  						return $value[2][key($value[2])];	
 			  					}
 			  					
