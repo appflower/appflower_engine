@@ -259,27 +259,28 @@ class afPortalStatePeer extends BaseafPortalStatePeer
 		return $exist;
 	}
 	
-	public static function retrieveByIdXml($idXml,$userId=0)
+	public static function retrieveByIdXml($idXml)
 	{
-		$c=new Criteria();
-		$c->add(self::ID_XML,$idXml);
-		$c->add(self::USER_ID,((sfContext::getInstance()->getUser()->isAuthenticated()&&sfContext::getInstance()->getUser()->getGuardUser()!=null)?sfContext::getInstance()->getUser()->getGuardUser()->getId():$userId));
-		$afPortalStateObj=afPortalStatePeer::doSelectOne($c);
-		
-		if($afPortalStateObj!=null)
-		{
-			return $afPortalStateObj;
-		}
-		else return false;
+            return self::retrieveForCurrentUserByIdXml($idXml);
 	}
 	
-	public static function deleteByIdXml($idXml,$userId=0)
+	public static function deleteByIdXml($idXml)
 	{
-		$c=new Criteria();
-		$c->add(self::ID_XML,$idXml);
-		$c->add(self::USER_ID,((sfContext::getInstance()->getUser()->isAuthenticated()&&sfContext::getInstance()->getUser()->getGuardUser()!=null)?sfContext::getInstance()->getUser()->getGuardUser()->getId():$userId));
-		$c->setLimit(1);
-		return afPortalStatePeer::doDelete($c);
+            $portalState = self::retrieveForCurrentUserByIdXml($idXml);
+            if ($portalState) {
+                $portalState->delete();
+            }
 	}
+        
+        public static function retrieveForCurrentUserByIdXml($idXml)
+        {
+            $guardUser = sfContext::getInstance()->getUser()->getGuardUser();
+            if ($guardUser) {
+                $c=new Criteria();
+                $c->add(self::ID_XML,$idXml);
+                $c->add(self::USER_ID,$guardUser->getId());
+                return afPortalStatePeer::doSelectOne($c);
+            }
+        }
 	
 }
