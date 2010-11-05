@@ -401,6 +401,7 @@ class ImmExtjsLayout
 	    ".(!$this->showFullCenter()?"afApp.loadFirst();":"")."        
 	    }, 250);
 	    afApp.urlPrefix = '".sfContext::getInstance()->getRequest()->getRelativeUrlRoot()."';
+	    afApp.sharpPrefix = '".sfConfig::get('app_appflower_sharpPrefix')."';
 	    ";
 
 		

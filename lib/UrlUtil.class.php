@@ -62,7 +62,7 @@ class UrlUtil {
      */
     public static function widgetLink($name, $url) {
         $url = self::abs($url);
-        return '<a href="'.sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/#'.$url.'">'.htmlspecialchars($name).'</a>';
+        return '<a href="'.sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/'.sfConfig::get('app_appflower_sharpPrefix').'#'.$url.'">'.htmlspecialchars($name).'</a>';
     }
 
     /**
@@ -70,7 +70,7 @@ class UrlUtil {
      */
     public static function widgetHtmlLink($html, $url, $ajax = true) {
         $url = self::abs($url);
-        return '<a href="'.sfContext::getInstance()->getRequest()->getRelativeUrlRoot().(($ajax) ? '/#' : '').$url.'">'.$html.'</a>';
+        return '<a href="'.sfContext::getInstance()->getRequest()->getRelativeUrlRoot().(($ajax) ? '/'.sfConfig::get('app_appflower_sharpPrefix').'#' : '').$url.'">'.$html.'</a>';
         
     }
 
@@ -87,9 +87,9 @@ class UrlUtil {
     /**
      * returns relative internal url with /#
      */
-    public static function widgetUrl($url,$layout='')
+    public static function widgetUrl($url)
     {
-    	return sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/'.$layout.'#'.$url;
+    	return sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/'.sfConfig::get('app_appflower_sharpPrefix').'#'.$url;
     }
     
     /**
@@ -97,7 +97,7 @@ class UrlUtil {
      */
     public static function widgetAbsoluteUrl($url)
     {
-    	return sfContext::getInstance()->getRequest()->getUriPrefix().sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/#'.$url;
+    	return sfContext::getInstance()->getRequest()->getUriPrefix().sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/'.sfConfig::get('app_appflower_sharpPrefix').'#'.$url;
     }
     
     /**
@@ -105,6 +105,6 @@ class UrlUtil {
      */
     public static function url($url,$absolute=false)
     {
-    	return ($absolute?sfContext::getInstance()->getRequest()->getUriPrefix():'').sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/#'.$url;
+    	return ($absolute?sfContext::getInstance()->getRequest()->getUriPrefix():'').sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/'.sfConfig::get('app_appflower_sharpPrefix').'#'.$url;
     }
 }
