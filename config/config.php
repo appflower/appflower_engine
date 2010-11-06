@@ -1,15 +1,5 @@
 <?php
 /**
- * Config to skip the certain table columns being logged in notificaiton...
- */
-sfConfig::set('notification_skip_table_column',
-	array(
-		"sf_guard_user"=>array("algorithm","salt","password")
-	)
-);
-
-
-/**
  * appFlower config
  */
 sfConfig::set('sf_extjs2_comment', true);

@@ -72,10 +72,6 @@ class ImmExtjs extends sfExtjs2Plugin
 	
 	$this->initApplication ( 'App' );
 	$this->end ('',false);
-	/*
-	 * Add notification plugin to the system
-	 */
-	$this->source .= Notification::getPluginSource();
 	$favicon = sfConfig::get("app_favicon")?sfConfig::get("app_favicon"):"/favicon.ico";
 	echo '<link rel="shortcut icon" href="'.$favicon.'" type="image/x-icon">';
 	
