@@ -19,7 +19,7 @@ propel:
     _attributes: { phpName: afPortalState }
     id:
     id_xml: varchar(255)
-    user_id: { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade }
+    user_id: { type: integer }
     layout_type: varchar(255)
     content: LONGVARCHAR
     created_at:
@@ -34,7 +34,7 @@ propel:
     _attributes:               { phpName: afWidgetSetting }
     id:
     name:                      { type: varchar(255) }
-    user:                      { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade }
+    user:                      { type: integer }
     setting:                   { type: longvarchar }
     
   ############################################################################
@@ -71,7 +71,7 @@ propel:
     _attributes: { phpName: afSaveFilter }
     id:
     name: { type: varchar(255) }
-    user: { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade }
+    user: { type: integer }
     path: { type: varchar(255) }
     title: { type: varchar(255) }
     filter: { type: longvarchar }
@@ -86,15 +86,15 @@ propel:
     duration: { type: integer}
     category: { type: integer }
     persistent: { type: integer }
-    created_by: { type: integer, foreignTable: sf_guard_user, foreignReference: id }
-    created_for: { type: integer, foreignTable: sf_guard_user, foreignReference: id }
+    created_by: { type: integer }
+    created_for: { type: integer }
     remote_ip: { type: varchar(255) }
     created_at:
 
   af_notified_for:
     _attributes: { phpName: afNotifiedFor }
     id: 
-    user: { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade }
+    user: { type: integer }
     notification_id: { type: integer, foreignTable: af_notification, foreignReference: id, onDelete: cascade }
     created_at:
     
@@ -105,7 +105,7 @@ propel:
   af_widget_help_settings:
     _attributes: { phpName: afWidgetHelpSettings }
     id:
-    user_id: { type: integer, foreignTable: sf_guard_user, foreignReference: id, onDelete: cascade }
+    user_id: { type: integer }
     widget_help_is_enabled:     { type: boolean, default: true }
     popup_help_is_enabled:      { type: boolean, default: true }
     help_type:                  { type: tinyint, default: 1 }

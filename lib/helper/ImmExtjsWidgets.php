@@ -69,8 +69,9 @@ class ImmExtjsWidgets{
 			return array();
 		}
 
-		if(sfContext::getInstance()->getUser() && sfContext::getInstance()->getUser()->getGuardUser()) {
-			$userId = sfContext::getInstance()->getUser()->getGuardUser()->getId();
+        $afUser = sfContext::getInstance()->getUser()->getAppFlowerUser();
+		if(!$afUser->isAnonymous()) {
+			$userId = $afUser->getId();
 		} else {
 			return array();
 		}

@@ -2287,12 +2287,12 @@ class XmlParser extends XmlParserTools {
 	private function buildParserData() {
 		
 		$elements = $this->fetch("//*[@parsable]|//*[@assignid]");
-		$profile = $this->user->getProfile();
+        $afUser = $this->user->getAppFlowerUser();
 		$sortables = array();
 		
 		try {
 			foreach($elements as $e) { 		
-				if($profile) {
+				if(!$afUser->isAnonymous()) {
                  	if($this->name($e) == "help" && $this->getWidgetId() != "appFlower/editHelpSettings" && $this->widgetHelpSettings->getHelpType() == 0) {
                     	continue;
                     }
