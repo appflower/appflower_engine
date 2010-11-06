@@ -11,12 +11,13 @@
 class afApikeySecurityFilter extends sfFilter {
     public function execute($filterChain) {
         $context = $this->getContext();
-        if ($this->isFirstCall() && !$context->getUser()->isAuthenticated()) {
+        $user = $context->getUser();
+        if ($this->isFirstCall() && !$user->isAuthenticated()) {
             $apikey = $context->getRequest()->getParameter('af_apikey');
             if ($apikey) {
-                $guardUser = self::getApiUser($apikey);
-                if ($guardUser !== null) {
-                    $context->getUser()->signIn($guardUser);
+                $afUser = self::getApiUser($apikey);
+                if ($afUser !== null) {
+                    $context->getUser()->signIn($afUser);
                 } else {
                     echo json_encode(array('success'=>false, 'message'=>'Wrong API key.'));
                     exit;
@@ -28,7 +29,7 @@ class afApikeySecurityFilter extends sfFilter {
     }
 
     /**
-     * Returns an active sfGuardUser for a valid key
+     * Returns an active AppFlowerUser for a valid key
      * or null.
      */
     private static function getApiUser($apikey) {
@@ -38,19 +39,20 @@ class afApikeySecurityFilter extends sfFilter {
         }
 
         list($hmac, $username) = $parts;
-        $guardUser = sfGuardUserPeer::retrieveByUsername($username);
-        if ($guardUser === null) {
+        $userQuery = sfProjectConfiguration::getActive()->getAppFlowerUserQuery();
+        $afUser = $userQuery->findOneByUsername($username);
+        if ($afUser === null) {
             return null;
         }
 
-        $extraKey = $guardUser->getPassword();
+        $extraKey = $afUser->getPassword();
         $username = afAuthenticDatamaker::plainDecode($apikey, $extraKey);
         if ($username === null) {
-            //Console::debug('expected API key:', self::getApikey($guardUser));
+            //Console::debug('expected API key:', self::getApikey($afUser));
             return null;
         }
 
-        return $guardUser;
+        return $afUser;
     }
 
     public static function isCurrentUserKey($apikey) {
@@ -59,22 +61,22 @@ class afApikeySecurityFilter extends sfFilter {
             return false;
         }
 
-        $keyGuardUser = self::getApiUser($apikey);
-        if ($keyGuardUser === null) {
+        $afUser = self::getApiUser($apikey);
+        if ($afUser === null) {
             return false;
         }
 
-        return ($keyGuardUser->getUsername() ===
-            $user->getGuardUser()->getUsername());
+        return ($afUser->getUsername() ===
+            $user->getAppFlowerUser()->getUsername());
     }
 
     /**
      * Returns API key usable for the given user.
      * The API key consists of "hmac,username".
      */
-    public static function getApikey($guardUser) {
-        $extraKey = $guardUser->getPassword();
-        return afAuthenticDatamaker::plainEncode($guardUser->getUsername(),
+    public static function getApikey($afUser) {
+        $extraKey = $afUser->getPassword();
+        return afAuthenticDatamaker::plainEncode($afUser->getUsername(),
             $extraKey);
     }
 }

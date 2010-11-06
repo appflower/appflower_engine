@@ -63,7 +63,7 @@ class ImmExtjsFormTabs
 			$this->immExtjs->setAddons(array('css'=>array($this->immExtjs->getExamplesDir().'settings/ux_VerticalTabPanel.css')));
 			$this->attributes['xtype'] = 'settings';
 			$this->attributes['enableTabScroll'] = 'false';	
-			$this->attributes['user'] = sfContext::getInstance()->getUser()->getGuardUser()->getUsername();
+			$this->attributes['user'] = sfContext::getInstance()->getUser()->getAppFlowerUser()->getUsername();
 		}		
 	}
 	public function addMember($item)

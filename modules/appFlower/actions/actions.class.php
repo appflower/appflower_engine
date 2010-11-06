@@ -514,7 +514,7 @@ class appFlowerActions extends sfActions
 	public function executeSaveFilter(){		
 		$success = false;
 		if($this->getRequest()->getMethod() == sfRequest::POST){
-			$user = $this->getUser()->getGuardUser()->getId();
+			$user = $this->getUser()->getAppFlowerUser()->getId();
 			$name = $this->getRequestParameter("name");
 			$path = $this->getRequestParameter("path");
 			$title = $this->getRequestParameter("title");
@@ -545,7 +545,7 @@ class appFlowerActions extends sfActions
 		$success = false;
 		$data = array();
 		if($this->getRequest()->getMethod() == sfRequest::POST){
-			$user = $this->getUser()->getGuardUser()->getId();
+			$user = $this->getUser()->getAppFlowerUser()->getId();
 			$title = $this->getRequestParameter("path");
 			$c = new Criteria();
 			$c->add(afSaveFilterPeer::USER,$user);

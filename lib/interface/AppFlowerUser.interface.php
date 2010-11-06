@@ -10,5 +10,6 @@ interface AppFlowerUser {
     function isWidgetHelpEnabled();
     function isAnonymous();
     function getId();
+    function getPassword();
 }
 ?>

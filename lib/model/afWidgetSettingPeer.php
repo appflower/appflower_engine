@@ -30,7 +30,7 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 		return $fonts;
 	}
 	public static function renderUI($action){		
-		$action->user_id = $action->getUser()->getGuardUser()->getId();
+		$action->user_id = $action->getUser()->getAppFlowerUser()->getId();
 		if(class_exists("GraphUtil"))
 		$setting = GraphUtil::getDefaultSettingByName($action->name);
 		$action->id = '';
@@ -77,7 +77,7 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 		$obj = afWidgetSettingPeer::retrieveByPK($posted['id']);
 		if(!$obj){
 			$obj = new afWidgetSetting();
-			$obj->setUser($action->getUser()->getGuardUser()->getId());
+			$obj->setUser($action->getUser()->getAppFlowerUser()->getId());
 			$obj->setName($posted['name']);
 		}
 		$obj->setSetting(json_encode($setting));
@@ -86,7 +86,7 @@ class afWidgetSettingPeer extends BaseafWidgetSettingPeer
 		return $action->renderText(json_encode(array('success' => true, 'message' =>$message)));
 	}
 	public static function getSettingByName($name){
-		$user_id = sfContext::getInstance()->getUser()->getGuardUser()->getId();
+		$user_id = sfContext::getInstance()->getUser()->getAppFlowerUser()->getId();
 		$setting = GraphUtil::getDefaultSettingByName($name);		
 		$c = new Criteria();
 		$c->add(afWidgetSettingPeer::USER,$user_id);
