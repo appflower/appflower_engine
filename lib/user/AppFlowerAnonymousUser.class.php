@@ -30,5 +30,10 @@ class AppFlowerAnonymousUser implements AppFlowerUser{
     {
         return null;
     }
+
+    function getPassword()
+    {
+        return null;
+    }
 }
 ?>
