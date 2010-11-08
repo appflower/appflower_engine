@@ -20,6 +20,7 @@ all:
     default_layout: "[100]"
     export: { enabled: true, separator: ";" }
     host_type: "https://"
+    skip_toolbar: true
      
   sfCombinePlugin:
     enabled:        false    # enabling the plugin will combine script and css files into a single file
@@ -36,5 +37,5 @@ all:
     client_cache_max_age: 5  # enable the browser to keep a copy of the files for x days (false to disable)     
     
   cdn:
-    active: true
+    active: false
     url: 'http://c0019995.cdn1.cloudfiles.rackspacecloud.com/'
