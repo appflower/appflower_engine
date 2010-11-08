@@ -101,6 +101,11 @@ function ajax_source($url){
 			   		if(json.title) title = json.title;
 			   		if(json.success){
 			   			w = new Ext.Window({boxMaxHeight:400,boxMaxWidth:600,boxMinHeight:200,boxMinWidth:600,bodyStyle:"padding:10px;",title:title,html:json.message}).show();w.center();
+						if(w.getWidth() > 600) w.setWidth(600);
+						if(w.getHeight() > 400) w.setHeight(400);
+						if(w.getWidth() < 400) w.setWidth(400);
+						if(w.getHeight() < 200) w.setHeight(200);
+						w.center();
 			   		}else{
 			   			w = new Ext.Window({width:600,height:400,title:"Error",html:json.message}).show();w.center();
 			   			mask.hide();
