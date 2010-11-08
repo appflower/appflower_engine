@@ -21,6 +21,7 @@ all:
     export: { enabled: true, separator: ";" }
     host_type: "https://"
     skip_toolbar: true
+    skip_west: true
      
   sfCombinePlugin:
     enabled:        false    # enabling the plugin will combine script and css files into a single file

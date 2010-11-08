@@ -69,7 +69,9 @@ class ImmExtjsPanelLayout extends ImmExtjsLayout
 	{
 		$this->addSouthComponent();
 		
-		sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsWest'));
+        if(!sfConfig::get('app_parser_skip_west')){
+    		sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsWest'));
+        }
 		
 		parent::end();
 	}
