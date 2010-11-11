@@ -26,9 +26,9 @@ class immValidatorUnique extends sfValidatorBase
 	{
         $formData = sfContext::getInstance()->getRequest()->getParameter("edit");
 		$id = $formData[0]['id'];
-		if(!$id) $id = $formData[1]['id'];
-		if(!$id) $id = $formData[2]['id'];
-		if(!$id) $id = $formData['id'];
+		if(!$id && isset($formData[1])) $id = $formData[1]['id'];
+		if(!$id && isset($formData[2])) $id = $formData[2]['id'];
+		if(!$id && isset($formData['id'])) $id = $formData['id'];
 		
 		$c = new Criteria();
 		$c->add(constant($this->getOption('class')."Peer::".strtoupper($this->getOption('column'))),$value);
