@@ -44,13 +44,13 @@ Ext.ux.DrillFilter = function(grid,e){
 	
 	var valueNode = Ext.DomQuery.selectNode(".ux-grid-filter-hidden-value",grid.getView().getCell(rowIndex,colIndex)); 
 	
-	var text = new Ext.Imm.SelectedText();
-	text = text.toString();
+	var text =  Ext.Imm.SelectedText();
     
     //Return if not value node and not text
     if(!text && !valueNode) return;
-    
-	var finalValue = text?text:valueNode.innerHTML; 
+        var finalValue = '';
+	finalValue = text?text:valueNode.innerHTML;
+	
 	//Re-format data
 	if(filter.type == "numeric"){
 		finalValue = {
@@ -68,15 +68,16 @@ Ext.ux.DrillFilter = function(grid,e){
 }
 Ext.ns("Ext.Imm");
 Ext.Imm.SelectedText = function(){	
-	var txt = null;
+	var txt = false;
 	if(window.getSelection){
 		txt = window.getSelection();
 	}else if(document.getSelection){
 		txt = document.getSelection();
 	}else if(document.selection){
 		txt = document.selection.createRange().text;
+		
 	}else{
-		return;
+		return false;
 	}
 	return txt;	
 }
