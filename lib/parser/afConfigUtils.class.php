@@ -6,12 +6,11 @@ class afConfigUtils {
      */
     public static function getPath($module, $action) {
         $context = sfContext::getInstance();
+
         $root = sfConfig::get('sf_root_dir');
         $application = $context->getConfiguration()->getApplication();
-        $path = "$root/apps/$application/modules/$module/config/$action.xml";
-        if(!file_exists($path)) {
-            $path = "$root/plugins/appFlowerPlugin/modules/$module/config/$action.xml";
-        }
+        $modulePath = self::getModulePath($module);
+        $path = "$modulePath/config/$action.xml";
         
         if(!file_exists($path)) {
             $path = "$root/apps/$application/config/pages/$action.xml";
@@ -26,13 +25,8 @@ class afConfigUtils {
     }
 
     private static function getActionsPath($module) {
-        $context = sfContext::getInstance();
-        $root = sfConfig::get('sf_root_dir');
-        $application = $context->getConfiguration()->getApplication();
-        $path = "$root/apps/$application/modules/$module/actions/actions.class.php";
-        if(!file_exists($path)) {
-            $path = "$root/plugins/appFlowerPlugin/modules/$module/actions/actions.class.php";
-        }
+        $path = self::getModulePath($moduleName);
+        $path .= "/actions/actions.class.php";
 
         if(!file_exists($path)) {
             throw new XmlParserException(
@@ -40,6 +34,28 @@ class afConfigUtils {
         }
 
         return $path;
+    }
+
+    /**
+     * Returns directory path for given module
+     * Also looks in plugins directory
+     *
+     * @param string $module
+     * @return string Path to plugin "base" directory
+     */
+    private static function getModulePath($moduleName)
+    {
+        $context = sfContext::getInstance();
+        $dirs = $context->getConfiguration()->getControllerDirs($moduleName);
+        foreach ($dirs as $dir => $checkEnabled)
+        {
+          $module_file = $dir.'/actions.class.php';
+          if (is_readable($module_file)) {
+              return dirname($dir);
+          }
+        }
+
+        return null;
     }
 
     /**
