@@ -1,0 +1,18 @@
+I have recently (between ~1040 and ~1070 revisions) made some changes in AppFlowerPlugin and sfGuardPlugin.
+I introduced few interfaces so from now on an application that is using
+AppFlowerPlugin must implement those interfaces for AppFlowerPlugin to work correctly.
+
+Steps that needs to be taken when moving from "old" AF version to current
+ - alter your app.yml to contain correct values for:
+   parser_skip_toolbar, parser_skip_west and cdn_active options
+   defaults for those options has changed
+ - change your application configuration class to implement AppFlowerApplicationInterface
+ - change your app lib/myUser class to implement AppFlowerSecurityUser interface
+
+Additionally for "security" related things you may need to go through following tasks.
+afGuardPlugin (you should get rid of sfGuardPlugin and start to use afGuardPlugin instead - look into README file in afGuardPlugin for more informations):
+ - make sure it is enabled and that sfGuardPlugin is gone and disabled
+ - replace all calls to sfGuardUser and make them calls to afGuardUser
+ - change sfGuardBasicSecurityFilter to afGuardBasicSecurityFilter in filters.yml
+ - change login_module in settings.yml to afGuardAuth and change enabled_modules accordingly
+ - change your app lib/myUser class to extend afGuardSecurityUser
