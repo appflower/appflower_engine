@@ -45,7 +45,6 @@ Ext.ux.DrillFilter = function(grid,e){
 	var valueNode = Ext.DomQuery.selectNode(".ux-grid-filter-hidden-value",grid.getView().getCell(rowIndex,colIndex)); 
 	
 	var text =  Ext.Imm.SelectedText();
-	
 	text = text.toString();
     //Return if not value node and not text
     if(!text && !valueNode) return;
@@ -79,5 +78,5 @@ Ext.Imm.SelectedText = function(){
 	}else{
 		return false;
 	}
-	return txt;	
+	return txt.toString();	
 }

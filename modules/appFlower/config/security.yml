@@ -3,3 +3,6 @@ all:
 
 removeFilter:
   credentials: user_data
+  
+notificationDetails:
+  credentials: user_data
