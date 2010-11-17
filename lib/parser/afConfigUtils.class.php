@@ -24,13 +24,13 @@ class afConfigUtils {
         return $path;
     }
 
-    private static function getActionsPath($module) {
+    private static function getActionsPath($moduleName) {
         $path = self::getModulePath($moduleName);
         $path .= "/actions/actions.class.php";
 
         if(!file_exists($path)) {
             throw new XmlParserException(
-                sprintf('No such module actions: %s', $module));
+                sprintf('No such module actions: %s', $moduleName));
         }
 
         return $path;
