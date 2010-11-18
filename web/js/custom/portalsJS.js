@@ -141,16 +141,18 @@ function Portals()
 		this.window.show();
 	}
 	
-	this.onTabChange = function (tabPanel){
+	this.onTabChange = function (tabPanel, url){
 		tabPanel.afterLayoutOnceEvent=true;
-		var uri=document.location.href.split('#');
+		if(url==null) {
+			url=document.location.href.split('#');
+		}
       	var toActivate=0;
       	
       	for(var i=0;i<tabPanel.items.items.length;i++){
-  	      	if(tabPanel.items.items[i].slug==uri[uri.length-1]){
-  	      		toActivate=i;      	      		
+  	      	if(tabPanel.items.items[i].slug==url[url.length-1]){
+  	      		toActivate=i;
   	      	}
-  	    }      	
-      	tabPanel.activate(toActivate);
+  	    }
+      	tabPanel.setActiveTab(toActivate);
 	}
 }
