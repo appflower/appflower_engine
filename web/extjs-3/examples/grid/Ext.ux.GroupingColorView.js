@@ -168,7 +168,7 @@ var grid = new Ext.grid.GridPanel({
 
     // private
     renderUI : function(){
-        Ext.ux.GroupingColorView.superclass.renderUI.call(this);
+       /* Ext.ux.GroupingColorView.superclass.renderUI.call(this);
         this.mainBody.on('mousedown', this.interceptMouse, this);
 
         if(this.enableGroupingMenu && this.hmenu){
@@ -189,7 +189,29 @@ var grid = new Ext.grid.GridPanel({
                 });
             }
             this.hmenu.on('beforeshow', this.beforeMenuShow, this);
+        }*/
+        var markup = Ext.grid.GroupingView.superclass.renderUI.call(this);
+
+        if(this.enableGroupingMenu && this.hmenu){
+            this.hmenu.add('-',{
+                itemId:'groupBy',
+                text: this.groupByText,
+                handler: this.onGroupByClick,
+                scope: this,
+                iconCls:'x-group-by-icon'
+            });
+            if(this.enableNoGroups){
+                this.hmenu.add({
+                    itemId:'showGroups',
+                    text: this.showGroupsText,
+                    checked: true,
+                    checkHandler: this.onShowGroupsClick,
+                    scope: this
+                });
+            }
+            this.hmenu.on('beforeshow', this.beforeMenuShow, this);
         }
+        return markup;
     },
 
     // private

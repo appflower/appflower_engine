@@ -388,9 +388,12 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		eval(json.source);				
 		
 		var panel = viewport.layout.center.panel;
-		panel.removeAll();
 		panel.add(eval(json.center_panel_first));
-
+		
+		//radu: remove the first added div after addition, workaround for extjs 3.3.0
+		var divs = Ext.query('div[id=center_panel_first]');
+		if(divs[0]){Ext.fly(divs[0]).remove();}
+		
 		//if (window.console) { console.time('doLayout'); }
 		panel.doLayout();
 		//if (window.console) { console.timeEnd('doLayout'); }
