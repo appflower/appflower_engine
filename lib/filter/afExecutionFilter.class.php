@@ -67,9 +67,8 @@ class afExecutionFilter extends sfExecutionFilter {
      * Returns true for actions with XML config.
      */
     private static function isAppFlowerAction($actionInstance) {
-        $configPath = afConfigUtils::getPath($actionInstance->getModuleName(),
-            $actionInstance->getActionName());
-        return file_exists($configPath);
+        $afCU = new afConfigUtils($actionInstance->getModuleName());
+        return $afCU->getConfigFilePath($actionInstance->getActionName().".xml");
     }
 
     /**
@@ -113,4 +112,3 @@ class afExecutionFilter extends sfExecutionFilter {
             self::isWidgetAction($actionInstance));
     }
 }
-

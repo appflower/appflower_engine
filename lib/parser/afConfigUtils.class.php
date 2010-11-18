@@ -1,68 +1,98 @@
 <?php
 
+/**
+ * This class works in context of symfony module.
+ * When you create instance of afConfigUtils for some module you can then easy
+ * fetch paths for any config file or action file within that module.
+ *
+ * All possible places for module file are searched.
+ * Additionally when you will look for conifig file config/pages from application and AF plugin will be searched too
+ *
+ * There are some static methods here - we should move them somewhere probably in the future.
+ */
 class afConfigUtils {
-    /**
-     * Returns the path to the $module/config/$action.xml
-     */
-    public static function getPath($module, $action) {
-        $context = sfContext::getInstance();
 
-        $root = sfConfig::get('sf_root_dir');
-        $application = $context->getConfiguration()->getApplication();
-        $modulePath = self::getModulePath($module);
-        $path = "$modulePath/config/$action.xml";
-        
-        if(!file_exists($path)) {
-            $path = "$root/apps/$application/config/pages/$action.xml";
-        }
-        
-     	if(!file_exists($path)) {
-            $path =  "$root/plugins/appFlowerPlugin/config/pages/$action.xml";
-        }
-        
-        
-        return $path;
+    private $moduleName;
+
+    function __construct($moduleName)
+    {
+        $this->moduleName = $moduleName;
+
+        $this->findModulePaths();
     }
 
-    private static function getActionsPath($moduleName) {
-        $path = self::getModulePath($moduleName);
-        $path .= "/actions/actions.class.php";
+    private function getActionsPath() {
+        $file = "actions.class.php";
+        $path = $this->getActionFilePath($file);
 
-        if(!file_exists($path)) {
+        if(!$path) {
             throw new XmlParserException(
-                sprintf('No such module actions: %s', $moduleName));
+                sprintf('No such module actions: %s', $this->moduleName));
         }
 
         return $path;
     }
-
+    
     /**
-     * Returns directory path for given module
-     * Also looks in plugins directory
-     *
-     * @param string $module
-     * @return string Path to plugin "base" directory
+     * Fetches and remembers in a property all possible module directories
      */
-    private static function getModulePath($moduleName)
+    private function findModulePaths()
     {
         $context = sfContext::getInstance();
-        $dirs = $context->getConfiguration()->getControllerDirs($moduleName);
-        foreach ($dirs as $dir => $checkEnabled)
-        {
-          $module_file = $dir.'/actions.class.php';
-          if (is_readable($module_file)) {
-              return dirname($dir);
-          }
+        $dirsAsKeys = $context->getConfiguration()->getControllerDirs($this->moduleName);
+        $dirs = array();
+        foreach ($dirsAsKeys as $dir => $junk) {
+            $dirs[] = dirname($dir);
+        }
+        $this->modulePaths = $dirs;
+    }
+
+    function getConfigFilePath($fileName)
+    {
+        $path = $this->getFilePath('config/'.$fileName);
+        if ($path) {
+            return $path;
         }
 
-        return null;
+
+        $additionalPaths = array();
+        $context = sfContext::getInstance();
+        $root = sfConfig::get('sf_root_dir');
+        $application = $context->getConfiguration()->getApplication();
+
+        $additionalPaths[] = "$root/apps/$application/config/pages";
+        $additionalPaths[] = "$root/plugins/appFlowerPlugin/config/pages";
+
+        return $this->getFilePath($fileName, $additionalPaths);
+    }
+
+    function getActionFilePath($fileName)
+    {
+        return $this->getFilePath('actions/'.$fileName);
+    }
+
+    private function getFilePath($filePath, $customPaths = array())
+    {
+        if (count($customPaths) > 0) {
+            $paths = $customPaths;
+        } else {
+            $paths = $this->modulePaths;
+        }
+
+        foreach ($paths as $path) {
+            $fullFilePath = $path.'/'.$filePath;
+            if (is_readable($fullFilePath)) {
+                return $fullFilePath;
+            }
+        }
     }
 
     /**
      * Returns the XML config DOM document.
      */
     public static function getDoc($module, $action) {
-        $path = self::getPath($module, $action);
+        $afCU = new afConfigUtils($module);
+        $path = $afCU->getConfigFilePath("{$action}.xml");
        	if(file_exists($path)) {
         	$doc = new DOMDocument();
 	        $doc->load($path);
@@ -78,8 +108,9 @@ class afConfigUtils {
      * Returns the XML config DOM document or null.
      */
     public static function getOptionalDoc($module, $action) {
-        $path = self::getPath($module, $action);
-        if(file_exists($path)) {
+        $afCU = new afConfigUtils($module);
+        $path = $afCU->getConfigFilePath("{$action}.xml");
+        if($path) {
             $doc = new DOMDocument();
             $doc->load($path);
             return $doc;
@@ -96,7 +127,8 @@ class afConfigUtils {
     	$context = sfContext::getInstance();
         $moduleClass = $module.'Actions';
         if(!class_exists($moduleClass)) {
-            require_once(self::getActionsPath($module));
+            $afCU = new afConfigUtils($module);
+            require_once($afCU->getActionsPath());
         }
 
         $instance = new $moduleClass($context, $module, $action);
@@ -107,4 +139,5 @@ class afConfigUtils {
 
         return $instance->getVarHolder()->getAll();
     }
+
 }
