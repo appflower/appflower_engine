@@ -21,9 +21,6 @@ class FirePHPQueryLogger
     static $instance;
 
     private $queries = array();
-    private $bindings = array();
-    private $lastStatementIndex = null;
-    private $statementsIndexes = array();
 
     static function getInstance()
     {
@@ -37,21 +34,11 @@ class FirePHPQueryLogger
     function applicationLog(sfEvent $event)
     {
         $subject = $event->getSubject();
+
         if ($subject instanceof sfPropelLogger) {
             $parameters = $event->getParameters();
             $logMessage = $parameters[0];
-            if (preg_match('/^(prepare|exec|query): (.*)$/s', $logMessage, $match))
-            {
-              if ($match[1] == 'prepare') {
-                  $this->lastStatementIndex = count($this->queries);
-                  $this->statementsIndexes[] = $this->lastStatementIndex;
-              }
-              $this->queries[] = $match[2];
-            }
-            else if (preg_match('/Binding (.*) at position (.+?) w\//', $logMessage, $match))
-            {
-              $this->bindings[$this->lastStatementIndex][$match[2]] = $match[1];
-            }
+            $this->queries[] = $logMessage;
         } else if ($subject instanceof sfResponse) {
             $parameters = $event->getParameters();
             $logMessage = $parameters[0];
@@ -63,18 +50,6 @@ class FirePHPQueryLogger
 
     private function sendLogs()
     {
-        foreach ($this->statementsIndexes as $statementIndex)
-        {
-          if (isset($this->bindings[$statementIndex]) && count($this->bindings[$statementIndex]))
-          {
-            $this->bindings[$statementIndex] = array_reverse($this->bindings[$statementIndex]);
-            foreach ($this->bindings[$statementIndex] as $search => $replace)
-            {
-              $this->queries[$statementIndex] = str_replace($search, $replace, $this->queries[$statementIndex]);
-            }
-          }
-        }
-
         $fp = FirePHP::getInstance(true);
         $fp->group('Queries ('.count($this->queries).')', array('Collapsed'=>true));
         foreach ($this->queries as $index => $query) {
@@ -82,6 +57,5 @@ class FirePHPQueryLogger
         }
         $fp->groupEnd();
     }
-
 }
 ?>
