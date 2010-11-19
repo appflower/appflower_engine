@@ -20,7 +20,7 @@ class ExceptionCatchingFilter extends sfFilter
 				throw $e;
 			} catch (PropelException $e) {
                             $cause = $e->getCause();
-                            if ($cause->getCode() == 23000) {
+                            if ($cause && $cause->getCode() == 23000) {
                                 if (!$debugMode) {
                                     $message = 'You are probably trying to delete or update a record that have other related records.';
                                 }
