@@ -405,8 +405,10 @@ Ext.ux.CodePress = Ext.extend(Ext.form.Field, {
 
           , success:function(response, options){
 
-            var code = response.responseText;
-
+          	var r = Ext.decode(response.responseText);
+          	
+          	var code = r.response;
+            
             this.code = code;
 
             this.editor.setCode(this.code);
@@ -418,7 +420,7 @@ Ext.ux.CodePress = Ext.extend(Ext.form.Field, {
           ,	failure: function() {
 			    Ext.Msg.alert("","The server can't read '"+this.file+"' !");
 			    
-			    this.tabPanel.remove(this);
+			    //this.tabPanel.remove(this);
 			    
 		  }.createDelegate(this)
 
