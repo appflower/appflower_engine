@@ -31,9 +31,8 @@ class XmlParserValidationFilter extends sfExecutionFilter
 
 			$errors = array();
 			$errorMessage = null;
-
-            $requestParameters = new sfParameterHolder13;
-            $requestParameters->add($context->getRequest()->getParameterHolder()->getAll());
+            
+            $requestParameters = $context->getRequest()->getParameterHolder();
             
 			foreach($validators as $field => $fieldValidators){
 				$tmp_field = $field;
