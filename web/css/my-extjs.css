@@ -55,6 +55,8 @@
 .icon-default  {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -796px !important;}
 .icon-reload  {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -812px !important;}
 
+.icon-table { background-image:url( /images/famfamfam/table.png ) !important; }
+.icon-table-relation { background-image:url( /images/famfamfam/table_relationship.png ) !important; }
 
 /*
 * Notification icons
