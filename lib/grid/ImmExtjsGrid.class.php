@@ -133,8 +133,9 @@ class ImmExtjsGrid
 	private function resizeToolBars(){
 		return '	
 		var oc = '.$this->privateName.';		
-		if(oc && oc.getTopToolbar()) oc.getTopToolbar().setWidth(oc.getWidth());
-		if(oc && oc.getBottomToolbar()) oc.getBottomToolbar().setWidth(oc.getWidth());';		
+		//if(oc && oc.getTopToolbar()) oc.getTopToolbar().setWidth(oc.getWidth());
+		//if(oc && oc.getBottomToolbar()) oc.getBottomToolbar().setWidth(oc.getWidth());
+		';		
 	}
 	public function addScripts(Array $scripts) {
 		
