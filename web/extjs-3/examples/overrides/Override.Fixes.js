@@ -383,3 +383,62 @@ Ext.isJsonString = function(string){
 	}
 	return rc.test(string);
 }
+
+/**
+ * The marking invalid for the forms field should also be extended to the tabs if any
+ * This will make easier, in which tabs the validation error has occured
+ */
+Ext.override(Ext.form.BasicForm,{
+	markInvalid : function(errors){
+		this.findAndClearMarkTab();
+		if (Ext.isArray(errors)) {
+		    for(var i = 0, len = errors.length; i < len; i++){
+			var fieldError = errors[i];
+			var f = this.findField(fieldError.id);
+			if(f){
+			    f.markInvalid(fieldError.msg);
+			    if(!this.oneRandomField) this.oneRandomField = f;
+			}
+		    }
+		} else {
+		    var field, id;
+		    for(id in errors){
+			if(!Ext.isFunction(errors[id]) && (field = this.findField(id))){
+			    field.markInvalid(errors[id]);
+			    if(!this.oneRandomField) this.oneRandomField = field;
+			    this.findAndMarkTab(field);
+			}
+		    }
+		}
+	
+		return this;
+	},
+	findAndMarkTab: function(field){
+		var tab = field.findParentBy(function(container,component){
+			if(container && container.ownerCt && container.ownerCt.xtype && container.ownerCt.xtype == "tabpanel"){
+				return true;
+			}
+			return false;
+		});
+		if(tab && !tab.markedInvalid){
+			tab.markedInvalid = true;
+			tab.setTitle(tab.title+ ' <img src="/appFlowerPlugin/extjs-3/resources/images/default/form/exclamation.gif" width="12">');
+		}
+	},
+	findAndClearMarkTab: function(){
+		if(!this.oneRandomField) return;
+		var form = this.oneRandomField.findParentByType('form');
+		var tabpanels = form.findByType('tabpanel');
+		if(tabpanels){
+			for(var i in tabpanels){
+				var tabpanel = tabpanels[i];
+				if(Ext.isObject(tabpanel)){
+					tabpanel.items.each(function(tab){
+						tab.setTitle(tab.initialConfig.title);
+						tab.markedInvalid = false;
+					});
+				}
+			}
+		}		
+	}
+});
