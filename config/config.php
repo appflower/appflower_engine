@@ -7,6 +7,10 @@ sfConfig::set('notification_skip_table_column',
 		"sf_guard_user"=>array("algorithm","salt","password")
 	)
 );
+/**
+ * Config to skip the certain table columns being logged in notificaiton...
+ */
+sfConfig::set('skip_credential_pages_yaml', '/usr/www/manager/apps/frontend/config/userpages.yml');
 
 
 /**

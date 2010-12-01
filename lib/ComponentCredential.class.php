@@ -53,6 +53,7 @@ class ComponentCredential{
 	* Direct checking whether user has credential for module,action 
 	*/
 	public static function actionHasCredential($module,$action){
+		if(self::skipUserPages($module,$action)) return true;
 		$class = $module."Actions";
 		$file = sfConfig::get("sf_root_dir")."/apps/frontend/modules/".$module."/actions/actions.class.php";
 		if(!file_exists($file)){
@@ -120,6 +121,23 @@ class ComponentCredential{
 			$toReturn[] = $tempItem;
 		}
 		return self::separatorFix($toReturn);
+	}
+	/**
+	 * Skip user pages from credential
+	 */
+	private static function skipUserPages($module,$action){
+		$pages = array();
+		if(!sfContext::getInstance()->getUser()->getAttribute('skip_pages',false)){
+			$path = sfConfig::get('skip_credential_pages_yaml',false);
+			if($path){
+				$pages = sfYaml::load($path);				
+			}
+		}else{
+			$pages = sfContext::getInstance()->getUser()->getAttribute('skip_pages');
+		}
+		if(!isset($pages[$module])) return false;
+		if(in_array($action,$pages[$module])) return true;
+		return false;
 	}
 }
 ?>
