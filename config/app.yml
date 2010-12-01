@@ -4,7 +4,7 @@ all:
   appFlower:
     version: '1.0'
     loadingLogo: '/appFlowerPlugin/images/appFlowerAnimatedLogo.gif'
-    logo: { file: '', url: 'http://www.appflower.com'}
+    logo: { file: '/usr/www/manager/web/images/logosmall.PNG', url: 'http://www.immunesecurity.com'}
     siteSecret: CHANGE_ME
   
   parser:
@@ -42,4 +42,5 @@ all:
       
   cdn:
     active: true
-    url: 'http://c0019995.cdn1.cloudfiles.rackspacecloud.com/'
+    url: 'http://c0019995.cdn1.cloudfiles.rackspacecloud.com/'  
+  
