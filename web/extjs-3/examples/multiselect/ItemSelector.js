@@ -375,6 +375,19 @@ Ext.ux.ItemSelector = Ext.extend(Ext.form.Field,  {
             
         }
         this.valueChanged(this.toMultiselect.store);
+    },
+    /**
+     * Because of Ticket #1619, The clear button in toMultiselect now can not use the reset action.
+     * so a separate clear method is created
+     */
+    clear: function(){
+        range = this.toMultiselect.store.getRange();
+        this.toMultiselect.store.removeAll();
+        if (!this.allowDup) {
+            this.fromMultiselect.store.add(range);            
+            this.fromMultiselect.store.sort(this.displayField,'ASC');            
+        }
+        this.valueChanged(this.toMultiselect.store);
     }
 });
 

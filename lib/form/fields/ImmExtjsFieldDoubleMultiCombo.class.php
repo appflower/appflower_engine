@@ -32,7 +32,7 @@ class ImmExtjsFieldDoubleMultiCombo extends ImmExtjsField
   								'text'=>'clear',
   								'handler'=>$this->immExtjs->asMethod(array(
   									'parameters'=>'',
-  									'source'=>'Ext.getCmp("'.$this->attributes['id'].'").reset();'
+  									'source'=>'Ext.getCmp("'.$this->attributes['id'].'").clear();'
   								))
   							))
   			);
