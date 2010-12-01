@@ -125,6 +125,16 @@ Ext.ux.ItemSelector = Ext.extend(Ext.form.Field,  {
             sortField: this.toSortField,
             sortDir: this.toSortDir
         });
+        
+        /**
+         * Ticket: #1619
+         * save the initial values at toMultiselect, that is used to set the values in toMultiselect at reset action
+         *
+         * Modifications are also at reset() method below..
+         */
+        this.toMultiselect.initialRecords = this.toStore.getRange(0,this.toStore.getTotalCount()-1);
+        /* End of #1619 */
+        
         this.toMultiselect.on('dblclick', this.onRowDblClick, this);
                 
         var p = new Ext.Panel({
@@ -351,8 +361,18 @@ Ext.ux.ItemSelector = Ext.extend(Ext.form.Field,  {
         range = this.toMultiselect.store.getRange();
         this.toMultiselect.store.removeAll();
         if (!this.allowDup) {
-            this.fromMultiselect.store.add(range);
+            this.fromMultiselect.store.add(range);            
+            /**
+             * Ticket: #1619
+             * The reset action should restore the initially set values to the toMultiselect
+             */
+            this.fromMultiselect.store.remove(this.toMultiselect.initialRecords);
+            this.toMultiselect.store.add(this.toMultiselect.initialRecords);
+            this.toMultiselect.store.sort(this.displayField,'ASC');
+            /* End of Ticket #1619 */
+            
             this.fromMultiselect.store.sort(this.displayField,'ASC');
+            
         }
         this.valueChanged(this.toMultiselect.store);
     }
