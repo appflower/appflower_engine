@@ -657,9 +657,21 @@ afApp.loadFirst = function()
 	uri[1]=uri[1] || '/';
 	uri[2]=uri[2]?'#'+uri[2]:'';
 	
-	var firstUri=uri[1]+uri[2];
+	/**
+	 * If the url does not have the bookmarked hash, check if it is saved in cookie to load,
+	 * if the user is logged out and attempts to visit the bookmarked url, they should be
+	 * redirected to this bookmarked url.
+	 */
+	var bookmarked = afApp.getCookie('url_after_login');
+	if(uri[1] == "/" && bookmarked){
+	    uri[1] = bookmarked.replace("#","");
+	    document.location.href = uri[0]+"#"+uri[1]+uri[2];
+	    document.cookie = "url_after_login=";
+	}
+	/** End of bookmarked url open for first time, without having logged in ***/
 	
-	afApp.loadCenterWidget(firstUri);
+	var firstUri=uri[1]+uri[2];
+	afApp.loadCenterWidget(firstUri);	
 }
 
 Ext.onReady(function(){
@@ -681,10 +693,20 @@ Ext.History.on('change', function(token){
 		//this means that the center contains tabs
 		else if(tokenS[1]){
 			var viewport=App.getViewport();
-			var tabPanel=viewport.layout.center.panel.items.items[0].items.items[0];
-			if(tabPanel.getXType()=='tabpanel')
-			{
-				new Portals().onTabChange(tabPanel);
+			if(viewport &&
+			   viewport.layout &&
+			   viewport.layout.center &&
+			   viewport.layout.center.panel &&
+			   viewport.layout.center.panel.items &&
+			   viewport.layout.center.panel.items.items[0] &&
+			   viewport.layout.center.panel.items.items[0].items &&
+			   viewport.layout.center.panel.items.items[0].items.items[0]
+			){
+			    var tabPanel=viewport.layout.center.panel.items.items[0].items.items[0];
+			    if(tabPanel.getXType()=='tabpanel')
+			    {
+				    new Portals().onTabChange(tabPanel);
+			    }
 			}
 		}
 	}
@@ -728,6 +750,23 @@ afApp.loadWestWidget = function(widget)
 			}
 		}
 	}
+}
+afApp.saveBookmarkBeforeLogin = function(){
+    if(document.location.hash)
+    document.cookie = "url_after_login="+document.location.hash;
+    
+}
+afApp.getCookie = function(c_name){
+    if (document.cookie.length>0){
+	c_start=document.cookie.indexOf(c_name + "=");
+	if (c_start!=-1){
+	    c_start=c_start + c_name.length+1;
+	    c_end=document.cookie.indexOf(";",c_start);
+	    if (c_end==-1) c_end=document.cookie.length;
+	    return unescape(document.cookie.substring(c_start,c_end));
+	}
+    }
+    return "";
 }
 //used to set/get current widget in center content
 afApp.currentCenterWidget = false;

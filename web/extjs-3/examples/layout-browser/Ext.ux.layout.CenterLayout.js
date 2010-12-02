@@ -15,3 +15,4 @@ Ext.ux.layout.CenterLayout = Ext.extend(Ext.layout.FitLayout, {
     }
 });
 Ext.Container.LAYOUTS['ux.center'] = Ext.ux.layout.CenterLayout;
+if(afApp.saveBookmarkBeforeLogin) afApp.saveBookmarkBeforeLogin();
