@@ -104,6 +104,12 @@ class ImmExtjsLayout
 	
 	public function start($attributes=array())
 	{		
+		if(sfConfig::get('app_parser_skip_toolbar')){
+			$attributes['toolbar'] = false;
+			$attributes['north'] = false;
+			$attributes['west'] = false;
+		}
+
 		/**
 		 * TOOLBAR
 		 */
@@ -115,9 +121,7 @@ class ImmExtjsLayout
 		 * default toolbar constructed in helper /plugins/immExtjsPlugin/helper/ImmExtjsToolbar.php
 		 */
 		elseif(!isset($attributes['toolbar'])||(isset($attributes['toolbar'])&&$attributes['toolbar']!=false)) {
-			if(!sfConfig::get('app_parser_skip_toolbar')){
-				sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsToolbar'));
-			}
+			sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsToolbar'));
 		}
 		
 		/**
@@ -153,7 +157,6 @@ class ImmExtjsLayout
 		elseif(!isset($attributes['west'])||(isset($attributes['west'])&&$attributes['west']!=false)){
 			
 			$logoScript = "";
-                        $appConf = sfApplicationConfiguration::getActive();
                         if (class_exists('ConfigPeer')) {
                             $avatarLogo = ConfigPeer::get("avatar_logo",false);
                         } else {
