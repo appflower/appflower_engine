@@ -78,6 +78,13 @@ class UrlUtil {
      * Returns an /absolute URL.
      */
     public static function abs($url) {
+        if(StringUtil::startsWith($url, 'http://')) {
+            return $url;
+        }
+        if(StringUtil::startsWith($url, 'https://')) {
+            return $url;
+        }
+
         if(!StringUtil::startsWith($url, '/')) {
             $url = '/'.$url;
         }
