@@ -115,10 +115,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 			  
 			grid.on("render", this.onRender, this);	
 			grid.on("beforerender",this.applyState,this);
-			if(this.applyPrivateCookie()){				
-				this.saveState(this.grid,this.applyPrivateCookie());
-				this.grid.saveState()
-			}
+			
 			grid.on("beforestaterestore", this.applyState, this);
 			grid.on("beforestatesave", this.saveState, this);
 					  
@@ -131,9 +128,8 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 	applyState: function(grid, state){		
 		this.suspendStateStore = true;
 		this.clearFilters();
-		var s;
-		state = (s = this.applyPrivateCookie())?s:state;
-		//console.log(this.applyPrivateCookie());
+		state = state || {};
+		state = Ext.apply(state,this.applyPrivateCookie());
 		if(state && state.filters)
 			for(var key in state.filters){
 				var filter = this.filters.get(key);
@@ -170,15 +166,20 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
      * Private cookie for log search only
      */
 	applyPrivateCookie: function(){
+		if(this.privateCookie) return this.privateCookie;
+		var name = this.grid.name;
+		if(!name) return false;
 		var path = this.grid.path;		
 		var cp = new Ext.state.CookieProvider({
-			
-		});		
-		
-		var cookie = cp.get("search_result_cookie");
+		    path: "/"
+		});
+		Ext.state.Manager.setProvider(cp);
+		var cookie = cp.get("Grid_"+name.replace(" ","_")+"_Filter");
 		
 		if(cookie){
-			var cookie_obj = Ext.util.JSON.decode(cookie);
+		    document.cookie = "ys-Grid_"+name.replace(" ","_")+"_Filter=";
+		    return this.privateCookie = cookie;
+			var cookie_obj = cookie;//Ext.util.JSON.decode(cookie);
 			for(key in cookie_obj){
 				var filter = this.filters.get(key);
 				if(filter){
@@ -195,10 +196,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 			var state = {
 				filters: cookie_obj
 			}
-			//cp.set("log_index_search","");
-			//return false;
-			//console.log(state)
-			return state;
+			return this.privateCookie = state;
 		}		
 		return false;
 		

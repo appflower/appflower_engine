@@ -40,6 +40,9 @@ class ImmExtjsGrid
 			//$this->attributes['id']=$attributes['idxml'];
 			$this->proxy['stateId']=$attributes['idxml'];
 		}
+		if(isset($attributes['name'])){
+			$this->proxy['stateId']="Grid_".str_replace(" ","_",$attributes['name']);
+		}
 
 		if(isset($attributes['plugins'])){
 			$this->attributes['plugins'] = $attributes['plugins'];
