@@ -111,7 +111,8 @@ Ext.ux.grid.filter.TextFilter = Ext.extend(Ext.ux.grid.filter.StringFilter, {
 	this.menu.add(this.removeLast);
     },
     makeChanges: function(type,value){
-	if(!value) value = this.getInputValues(); 
+	if(!value) value = this.getInputValues();
+	//if(value == "" || (Ext.isArray(value) && Ext.isEmpty(value))) return;
 	this.filterQueue.push({
             keys: value,
             type: type
@@ -141,17 +142,23 @@ Ext.ux.grid.filter.TextFilter = Ext.extend(Ext.ux.grid.filter.StringFilter, {
     resetFilterQueue: function(){
         this.reconfigureInputFields();
         this.filterQueue = [];
-        this.setValue('');
+        this.value.setValue('');
+	this.fireEvent("update", this);
 	this.resetButton.setDisabled(true);
+	this.removeLast.setText(this.texts.removeLast+" ("+this.filterQueue.length+")");
+	this.removeLast.setDisabled(true);
     },
     removeLastQueue: function(){
 	if(this.filterQueue.length){
 		this.filterQueue.pop();
 	}
 	if(!this.filterQueue.length){
-		this.removeLast.setDisabled(true);
+		this.removeLast.setDisabled(true);		
 	}
 	this.execute();
+	if(!this.filterQueue.length){
+		this.setActive(false)		
+	}
     }, 
     serialize: function(){
             var args = {type: 'text', value: this.getValue()};
