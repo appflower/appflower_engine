@@ -101,7 +101,7 @@ class ImmExtjsGridFilter{
 		if($value === NULL){
 			$value = $text;
 		}
-		$template = '<a class="ux-grid-filter" href="#" onclick="">'.$text.'</a><div class="ux-grid-filter-hidden-value">'.$value.'</div>';
+		$template = '<a class="ux-grid-filter" href="javascript:void(0)" onclick="">'.$text.'</a><div class="ux-grid-filter-hidden-value">'.$value.'</div>';
 		return $template;
 	}
 	public static function getList($flag){
