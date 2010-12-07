@@ -11,7 +11,8 @@ class afStaticSource implements afIDataSource {
         $fullResponse = false;
     private
         $totalCount = null,
-        $results = null;
+        $results = null,
+        $additionalData = null;
 
     public function __construct($callback, $params) {
         $this->callback = $callback;
@@ -71,6 +72,7 @@ class afStaticSource implements afIDataSource {
         if(isset($response['rows']) && is_array($response['rows'])) {
             $this->results = array_values($response['rows']);
             $this->totalCount = $response['totalCount'];
+            $this->additionalData = @$response['additionalData'];
             $this->fullResponse = true;
         } else {
             // Results will be a numeric array of rows.
@@ -84,6 +86,13 @@ class afStaticSource implements afIDataSource {
         return afCall::funcArray($this->callback, $this->params);
     }
     
-    function getAdditionalData() {}
+    /**
+     * The default implementation returns null
+     * or fullResponse.additionalData.
+     * Subclasses can override the implementation.
+     */
+    public function getAdditionalData() {
+        return $this->additionalData;
+    }
 }
 
