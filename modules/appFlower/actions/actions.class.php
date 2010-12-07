@@ -31,8 +31,8 @@ class appFlowerActions extends sfActions
 		$widgetHelpSettings->setHelpType($this->getRequestParameter("fieldhelp"));
         $formData = $this->getRequestParameter("edit");
         $formData = $formData[0];
-		$widgetHelpSettings->setPopupHelpIsEnabled($formData['popup']);
-		$widgetHelpSettings->setWidgetHelpIsEnabled($formData['widgethelp']);
+		$widgetHelpSettings->setPopupHelpIsEnabled(@$formData['popup']);
+		$widgetHelpSettings->setWidgetHelpIsEnabled(@$formData['widgethelp']);
 		$widgetHelpSettings->save();
 			
 		$info=json_encode(array('success'=>true,'message'=>'Your changes have been successfuly saved!'));	
