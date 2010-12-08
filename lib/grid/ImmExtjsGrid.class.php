@@ -408,7 +408,7 @@ class ImmExtjsGrid
 				$arrowSpan = '';
 				if(isset($column['contextMenu']) && $column['contextMenu']){	
 					$style = "";
-					$arrowSpan = '<span class="interactive-arrow"><a class="interactive-arrow-a"  href="#">&nbsp;</a></span>';				
+					$arrowSpan = '<span class="interactive-arrow"><a class="interactive-arrow-a"  href="javascript:void(0)">&nbsp;</a></span>';				
 					$contextMenu = context_menu($column['contextMenu'])->privateName;
 					$this->contextMenu[$temp_field['name']] = $contextMenu;
 					$temp_column['renderer']=$this->immExtjs->asMethod(array(
