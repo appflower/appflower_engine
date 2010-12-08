@@ -29,6 +29,7 @@ class afErrorHandler {
 
 class afPhpErrorException extends Exception {
     public function __construct($message, $file, $line) {
+        $message .= " in $file on line $line";
         parent::__construct($message);
         $this->file = $file;
         $this->line = $line;
