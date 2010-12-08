@@ -34,6 +34,9 @@ Ext.ux.grid.filter.StringFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	},
 	
 	setValue: function(value){
+		if(Ext.isObject(value)){
+			for(var key in value) {this.setFilterOptions(key); value = value[key];}
+		}
 		this.value.setValue(value);
 		this.fireEvent("update", this);
 	},
