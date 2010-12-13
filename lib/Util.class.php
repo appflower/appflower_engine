@@ -1081,7 +1081,8 @@ class Util {
 
 	public static function makeDirectory( $resource )
 	{
-		exec( "mkdir -pv $resource" );
+		exec( "mkdir -pv $resource");
+		
 		return true;
 	}
 
