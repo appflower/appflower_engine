@@ -7,7 +7,7 @@ class ImmExtjsGridData
 {
 	public $data=array();
 	public $totalCount=null;
-        public $additionalData=null;
+    public $additionalData=null;
 	
 	public $immExtjs=null;	
 	public $response=null;
@@ -29,7 +29,7 @@ class ImmExtjsGridData
 			 "success"=>true
 			,"totalCount"=>$this->totalCount
 			,"rows"=>$this->data
-                        ,"additionalData"=>$this->additionalData
+            ,"additionalData"=>$this->additionalData
 		);
 		
 		$result=json_encode($o);
