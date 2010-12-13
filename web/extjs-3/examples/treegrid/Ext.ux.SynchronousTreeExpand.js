@@ -31,6 +31,8 @@ Ext.ux.SynchronousTreeExpand = function(config){
 				}else{
 					mask.hide();
 				}
+			}else{
+				mask.hide();
 			}
 		}	
 	});	
