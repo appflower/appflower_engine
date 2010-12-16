@@ -35,7 +35,9 @@ class immValidatorUnique extends sfValidatorBase
         }else if(isset($formData['id'])){
         	$id = $formData['id'];
         }
-		
+		if($id !== NULL){
+			$id = (int)$id;
+		}
 		$c = new Criteria();
 		$c->add(constant($this->getOption('class')."Peer::".strtoupper($this->getOption('column'))),$value);
 		$res = call_user_func(array($this->getOption('class')."Peer","doSelectOne"),$c);
