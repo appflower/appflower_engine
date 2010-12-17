@@ -18,6 +18,39 @@ class Console {
     }
 
     /**
+     * Logs a stack trace to this point.
+     */
+    public static function trace() {
+        $trace = debug_backtrace(false);
+        $i = 0;
+        foreach ($trace as $item) {
+            $args = self::formatArgs($item['args']);
+            file_put_contents('php://stderr', sprintf(
+                "#%-3d %s%s%s(%s) called at [%s:%s]\n",
+                $i, $item['class'], $item['type'], $item['function'], $args,
+                $item['file'], $item['line']));
+            $i += 1;
+        }
+    }
+
+    private static function formatArgs($args) {
+        $output = "";
+        foreach($args as $arg) {
+            if ($output) {
+                $output .= ', ';
+            }
+            if (is_object($arg)) {
+                $output .= '$'.get_class($arg);
+            } elseif (is_array($arg)) {
+                $output .= '$array';
+            } else {
+                $output .= var_export($arg, true);
+            }
+        }
+        return $output;
+    }
+
+    /**
      * Logs the number of milliseconds till this named point.
      */
     public static function profile($point) {
