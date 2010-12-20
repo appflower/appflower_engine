@@ -1,0 +1,10 @@
+<style type="text/css">
+.x-combo-list-group	{
+	font: bold 12px tahoma,arial,helvetica,sans-serif;
+	padding: 2px;
+	border: 1px solid #fff;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+</style>
