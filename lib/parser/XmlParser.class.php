@@ -1429,17 +1429,17 @@ class XmlParser extends XmlParserTools {
 	private function checkWidgetCredentials($module = null,$action = null) {
 
 		$action_name = ($action === null) ? $this->context->getActionName() : $action;		
-		$actionInstance = $this->context->getActionStack()->getLastEntry()->getActionInstance();
-		$path = $this->getPath(($module === null) ? $this->context->getModuleName() : $module, true);
+		$module = ($module === null) ? $this->context->getModuleName() : $module;
+		$path = afConfigUtils::getPath($module, $action_name);
+		if(!file_exists($path)) {
+			throw new XmlParserException("No such action: $module/$action_name");
+		}
 		
 		/**
 		 * quick fix for symfony credentials
 		 */
 		return ComponentCredential::actionHasCredential($module,$action_name);
 		
-		if(!file_exists($path)) {
-			return true;
-		}
 		
 		$this->readXmlDocument($path,true);
 		
