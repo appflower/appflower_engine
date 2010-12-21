@@ -1430,7 +1430,8 @@ class XmlParser extends XmlParserTools {
 
 		$action_name = ($action === null) ? $this->context->getActionName() : $action;		
 		$module = ($module === null) ? $this->context->getModuleName() : $module;
-		$path = afConfigUtils::getPath($module, $action_name);
+		$configUtils = new afConfigUtils($module);
+		$path = $configUtils->getConfigFilePath($action_name.'.xml');
 		if(!file_exists($path)) {
 			throw new XmlParserException("No such action: $module/$action_name");
 		}
