@@ -8,7 +8,7 @@ class ImmExtjsFormTab
 	/**
 	 * default attributes for the column
 	 */
-	public $attributes=array('layout'=>'form','height'=>50,'autoScroll'=>true);
+	public $attributes=array('layout'=>'form','height'=>50,'autoScroll'=>true,'bodyStyle'=>'padding-right:20px');
 	
 	public $immExtjs=null;						
 							
@@ -63,6 +63,7 @@ class ImmExtjsFormTab
 		$this->attributes['items'][]=$columnsObj->end();
 	}
 	public function prepareForSetting($attr){
+		
 		if(!$attr['isSetting']) return $attr;
 		//echo "<pre>";print_r($attr);
 		$backup = $attr;
@@ -74,13 +75,13 @@ class ImmExtjsFormTab
 		$form = array();
 					
 		$help['border'] = "false";
-		$help['bodyStyle'] = "padding:5px 5px 15px 5px";
+		//$help['bodyStyle'] = "padding:5px 5px 15px 5px";
 		$help['title'] = $attr['title'];
 		$help['html'] = "";
 	
 		
 		$s['items'][] = $help;
-		$s['bodyStyle']="padding:0px";		
+		$s['bodyStyle']="padding-top:5px";		
 		
 		if(is_array($backup['items']))
 		foreach($backup['items'] as $item){							

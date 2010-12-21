@@ -9,7 +9,7 @@ class ImmExtjsForm
 	 * default attributes for the form
 	 */
 	public $attributes=array('width'      => '100%',
-							'bodyStyle'=>'padding:0px',
+							'bodyStyle'=>'padding:0px;',
 							'idxml'=>false
 							/*'fileUpload'=>true*/);
 	
@@ -188,7 +188,7 @@ class ImmExtjsForm
 	
 	
 	public function end()
-	{			
+	{
 		foreach ($this->attributes['items'] as $k=>$item)
 		{
 			if($item==null)

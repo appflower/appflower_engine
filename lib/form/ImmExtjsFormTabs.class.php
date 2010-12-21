@@ -27,11 +27,11 @@ class ImmExtjsFormTabs
 		
 		//$this->attributes['forceLayout'] = true;
 		$ah = array('autoHeight'=>(isset($attributes['tabHeight'])&&$attributes['tabHeight'])?false:true);
-		$this->attributes['defaults']=$this->immExtjs->asAnonymousClass(array_merge(array('iconCls'=>'','icon' => '', 'bodyStyle'=>'padding:10px;','hideMode'=>'offsets','autoWidth'=>true),$ah));
+		$this->attributes['defaults']=$this->immExtjs->asAnonymousClass(array_merge(array('iconCls'=>'','icon' => '', 'bodyStyle'=>'padding:10px;','hideMode'=>'offsets'),$ah));
 		
 		$this->attributes['listeners']['tabchange']=$this->immExtjs->asMethod(array(
 				          	      	'parameters'=>'tabPanel,tab',
-				          	      	'source'=>"tabPanel.doLayout();"));
+				          	      	'source'=>"tabPanel.doLayout(true);"));
 		/**
 		 * Tabs cheats for Ext 3
 		 */
@@ -60,9 +60,12 @@ class ImmExtjsFormTabs
 		if(isset($attr['isSetting']) && $attr['isSetting'] !== "false"){			
 			$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'settings/ux_VerticalTabPanel.js')));
 			$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'settings/Ext.ux.Settings.js')));
-			$this->immExtjs->setAddons(array('css'=>array($this->immExtjs->getExamplesDir().'settings/ux_VerticalTabPanel.css')));
+			//$this->immExtjs->setAddons(array('css'=>array($this->immExtjs->getExamplesDir().'settings/ux_VerticalTabPanel.css')));
+			//$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'settings/Ext.ux.tot2ivn.VrTabPanel.js')));
+			//$this->immExtjs->setAddons(array('css'=>array($this->immExtjs->getExamplesDir().'settings/Ext.ux.tot2ivn.VrTabPanel.css')));
 			$this->attributes['xtype'] = 'settings';
-			$this->attributes['enableTabScroll'] = 'false';	
+			$this->attributes['enableTabScroll'] = 'false';
+			
 			$this->attributes['user'] = sfContext::getInstance()->getUser()->getGuardUser()->getUsername();
 		}		
 	}

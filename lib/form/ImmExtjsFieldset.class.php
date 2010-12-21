@@ -12,7 +12,7 @@ class ImmExtjsFieldset
 	  						'autoHeight'=>'true',
 							'layout'=>'fit', //this creates an issue on login screen!							
 	  						'anchor'=>'100%');
-	
+
 	public $immExtjs=null;						
 							
 	public function __construct($attributes=array())

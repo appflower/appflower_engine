@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Ext.ux.form.ColorPickerField example</title>
+	
+		<link rel="stylesheet" type="text/css" href="http://www.extjs.com/deploy/dev/resources/css/ext-all.css" />
+		
+ 		<script type="text/javascript" src="http://www.extjs.com/deploy/dev/adapter/ext/ext-base.js"></script>
+		<script type="text/javascript" src="http://www.extjs.com/deploy/dev/ext-all-debug.js"></script> 		
+		
+		<link rel="stylesheet" type="text/css" href="./resources/css/colorpicker.css" />
+		<script type="text/javascript" src="./sources/ColorPicker.js"></script>
+		<script type="text/javascript" src="./sources/ColorMenu.js"></script>
+		<script type="text/javascript" src="./sources/ColorPickerField.js"></script>
+		
+		<script type="text/javascript">
+		Ext.QuickTips.init();
+		Ext.form.Field.prototype.msgTarget = 'side';
+		
+		Ext.onReady(function(){
+		
+			var colorRender = function(value, metaData, record, rowIndex, colIndex, store) {
+				var c = value;
+				if (c.length>7){
+					c='#'+c.substring(3);
+				}
+				metaData.attr = 'style="background-color:'+c+'" ';
+				return '';
+		   };
+		
+			var cm = new Ext.grid.ColumnModel([{			
+			   header: 'editMode:\'palette\'',
+			   dataIndex: 'f0',
+			   width: 70,
+			   editor: new Ext.grid.GridEditor(new Ext.ux.form.ColorPickerField({
+					editMode:'palette'
+			   }),{
+					allowBlur:false
+				})
+			},{			
+			   header: 'opacity:true',
+			   dataIndex: 'f1',
+			   width: 90,
+			   editor: new Ext.grid.GridEditor(new Ext.ux.form.ColorPickerField({
+						opacity:true
+				   }),{
+					allowBlur:false
+				})
+			},{			
+			   header: 'editMode:\'all\'',
+			   dataIndex: 'f2',
+			   width: 90,
+			   editor: new Ext.grid.GridEditor(new Ext.ux.form.ColorPickerField({
+						editMode:'all'
+				   }),{
+					allowBlur:false
+				})
+			},{			
+			   header: 'opacity:true;editMode:\'all\'',
+			   dataIndex: 'f3',
+			   width: 110,
+			   editor: new Ext.grid.GridEditor(new Ext.ux.form.ColorPickerField({
+						opacity:true,
+						editMode:'all'
+				   }),{
+					allowBlur:false
+				})
+			},{			
+			   header: 'editMode:\'all\';hideHtmlCode:true',
+			   dataIndex: 'f4',
+			   width: 90,
+			   renderer:colorRender,
+			   editor: new Ext.grid.GridEditor(new Ext.ux.form.ColorPickerField({
+						editMode:'all',
+						hideHtmlCode:true
+				   }),{
+					allowBlur:false
+				})
+			},{			
+			   header: 'opacity:true;editMode:\'all\';hideHtmlCode:true',
+			   dataIndex: 'f5',
+			   width: 110,
+			   renderer:colorRender,
+			   editor: new Ext.grid.GridEditor(new Ext.ux.form.ColorPickerField({
+						opacity:true,
+						editMode:'all',
+						hideHtmlCode:true
+				   }),{
+					allowBlur:false
+				})
+			}]);
+			cm.defaultSortable = true;
+
+			var Row = Ext.data.Record.create([{
+				name: 'f0', mapping: 'f0'
+			},{
+				name: 'f1', mapping: 'f1'
+			},{
+				name: 'f2', mapping: 'f2'
+			},{
+				name: 'f3', mapping: 'f3'
+			},{
+				name: 'f4', mapping: 'f2'
+			},{
+				name: 'f5', mapping: 'f3'
+			}]);
+
+			// create the Data Store
+			var store = new Ext.data.Store({
+				url: 'virtual.xml',
+
+				// the return will be XML, so lets set up a reader
+				reader: new Ext.data.XmlReader({
+					   record: 'row'
+				}, Row),
+				sortInfo:{field:'f0', direction:'ASC'}
+			});
+		
+			var win = new Ext.Window({
+				id: 'SampleWindow',
+				title: "Ext.ux.form.ColorPickerField",
+				width: 630,
+				height: 500,
+				layout: 'border',
+				layoutConfig: {
+			        // layout-specific configs go here
+			        titleCollapse: false,
+			        animate: true,
+			        activeOnTop: true
+			    },
+				items: [{
+					xtype: 'form',
+					region:'center',
+					border: true,
+					labelWidth: 150,
+					labelAlign:'left',
+					bodyStyle:'padding:15px;background-color:transparent',
+					defaults:{
+						width:100,
+						xtype: 'colorpickerfield'						
+					},
+					items: [{
+						fieldLabel: 'Default',
+						name: 'fieldColor1',
+						value: '#123456',
+						id: 'fieldColor1'						
+					},{
+						fieldLabel: 'opacity:true',
+						opacity:true,
+						name: 'fieldColor2',
+						value: '#AA123456',
+						id: 'fieldColor2'						
+					},{
+						fieldLabel: 'hideHtmlCode:true<br>opacity:true',
+						opacity:true,
+						hideHtmlCode:true,
+						name: 'fieldColor3',
+						value: '#AA123456',
+						id: 'fieldColor3'						
+					},{
+						fieldLabel: 'hideHtmlCode:true<br>opacity:true,editMode:all',
+						opacity:true,
+						editMode:'all',
+						hideHtmlCode:true,
+						name: 'fieldColor4',
+						value: '#AA123456',
+						id: 'fieldColor4'						
+					},{
+						fieldLabel: 'editMode:palette',
+						editMode:'palette',
+						name: 'fieldColor5',
+						value: '#123456',
+						id: 'fieldColor5'						
+					},{
+						fieldLabel: 'hideHtmlCode:true<br>editMode:palette',
+						editMode:'palette',
+						hideHtmlCode:true,
+						name: 'fieldColor6',
+						value: '#123456',
+						id: 'fieldColor6'						
+					},{
+						fieldLabel: 'editMode:all',
+						editMode:'all',
+						name: 'fieldColor7',
+						value: '#123456',
+						id: 'fieldColor7'						
+					}]
+				},{
+					region:'south',
+					xtype:'editorgrid',
+					id:'gridId',
+					height:200,
+					store: store,
+					cm: cm,
+			        title:'Grid editor samples',
+			        frame:false,
+			        clicksToEdit:1,
+			        tbar: [{
+			            text: 'Add Row',
+			            handler : function(){
+							var grid=Ext.getCmp('gridId');
+			                var p = new Row({});
+							p.data['f0']='#123456';
+							p.data['f1']='#12345678';
+							p.data['f2']='#123456';
+							p.data['f3']='#12345678';
+							p.data['f4']='#123456';
+							p.data['f5']='#12345678';
+							grid.stopEditing();
+			                store.insert(0, p);
+			                grid.startEditing(0, 0);
+			            }
+			        }]
+				}]
+			});
+			win.show();
+			
+		});
+		</script>
+	</head>
+	<body>
+		<div id='test'></div>
+	</body>
+</html>

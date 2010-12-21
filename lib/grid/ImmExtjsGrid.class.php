@@ -289,7 +289,8 @@ class ImmExtjsGrid
 			var box = this.getBox();
 			tb.setWidth(box.width);	"
 		));	
-		*/	
+		*/
+		
 		$this->attributes['canMask']=$this->immExtjs->asMethod(array("parameters"=>"","source"=>"return !Ext.isIE&&!".$this->privateName.".disableLoadMask&&!Ext.get('loading');"));
 		
 		if(!$this->attributes['tree'])

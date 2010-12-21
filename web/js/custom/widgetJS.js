@@ -62,9 +62,10 @@ Array.prototype.in_array = function (needle, argStrict) {
 /**
 * pack logic for window
 */
-afApp.pack = function(win,winConfig){
+afApp.pack = function(win,winConfig){    
 	var winConfig = winConfig || {};
 	var viewport=App.getViewport();
+	
 	win.on("show",function(win){
 		if(winConfig.applyTo) return;		
 		var childs = win.findBy(function(component,container){
@@ -146,7 +147,7 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 				if(title) win.setTitle(title);
 				
 				if(win.doLayout) win.doLayout()
-				if(win.show) win.show();
+				//if(win.show) win.show();
 				
 				/* window resize, pack and onmove adjustments */
 				afApp.pack(win,winConfig);
@@ -164,7 +165,8 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 					win.destroy();
 					win.close();
 					restoreBackup();
-				})
+				});
+				afApp.fixIEPNG();
 	};
 
 	function restoreBackup(){
@@ -396,6 +398,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		//if (window.console) { console.timeEnd('doLayout'); }
 		afApp.loadingProgress(viewport.layout.center.panel.getEl(),1);	
 		mask.hide();
+		afApp.fixIEPNG();
 	};
 	
 	load();
@@ -482,6 +485,7 @@ afApp.loadCenterWidget = function(widget) {
 			{
 				eval(json.executeAfter);
 			}
+			afApp.fixIEPNG();
 		},
 		failure : function(response) {
 			mask.hide();
@@ -641,7 +645,7 @@ afApp.changeTabHash = function(tab)
 	//Ext History, also loads center widget if last loken is different from current one
 	if(Ext.History.getToken()!=futureHash)
 	{
-    	Ext.History.add(futureHash);
+	    Ext.History.add(futureHash);
 	}
 		
 	//adding a referer param to all Ajax request in Ext objects
@@ -741,6 +745,7 @@ afApp.loadWestWidget = function(widget)
 						panelItem.body.dom.innerHTML=response.html;
 						
 						mask.hide();
+						afApp.fixIEPNG();
 					},
 					params : {
 						loadClass : westItem.loadClass,
@@ -767,6 +772,39 @@ afApp.getCookie = function(c_name){
 	}
     }
     return "";
+}
+afApp.fixIEPNG = function(){
+   
+    var arVersion = navigator.appVersion.split("MSIE")
+    var version = parseFloat(arVersion[1])
+
+    if ((version >= 5.5) && (document.body.filters)) 
+{
+   for(var i=0; i<document.images.length; i++)
+   {
+      var img = document.images[i]
+      var imgName = img.src.toUpperCase()
+      if (imgName.substring(imgName.length-3, imgName.length) == "PNG")
+      {
+	
+         var imgID = (img.id) ? "id='" + img.id + "' " : ""
+         var imgClass = (img.className) ? "class='" + img.className + "' " : ""
+         var imgTitle = (img.title) ? "title='" + img.title + "' " : "title='" + img.alt + "' "
+         var imgStyle = "display:inline-block;" + img.style.cssText 
+         if (img.align == "left") imgStyle = "float:left;" + imgStyle
+         if (img.align == "right") imgStyle = "float:right;" + imgStyle
+         if (img.parentElement.href) imgStyle = "cursor:hand;" + imgStyle
+	 
+         var strNewHTML = "<span " + imgID + imgClass + imgTitle
+         + " style=\"" + "width:" + img.width + "px; height:" + img.height + "px;" + imgStyle + ";"
+         + "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader"
+         + "(src=\'" + img.src + "\', sizingMethod='scale');\"></span>" 
+         img.outerHTML = strNewHTML
+         i = i-1
+      }
+   }
+}
+
 }
 //used to set/get current widget in center content
 afApp.currentCenterWidget = false;
