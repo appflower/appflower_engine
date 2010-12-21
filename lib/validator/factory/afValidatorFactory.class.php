@@ -8,7 +8,6 @@ class afValidatorFactory {
      * Returns a sfValidatorBase instance.
      */
     public static function createValidator($className, $params) {
-		Console::debug('className', $className);
         if(is_subclass_of($className, 'sfValidator')) {
             $validator = new $className(sfContext::getInstance(), $params);
             return new afCompat10ValidatorAdapter($validator);
