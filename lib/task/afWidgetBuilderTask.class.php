@@ -126,7 +126,7 @@ EOF;
 		 	);
 		 	
 		 	foreach($classes as $class => $message) {
-		 		$this->runTask(array($class,$message));
+		 		$this->runOtherTask(array($class,$message));
 		 	}
 	    	
 	    }
@@ -162,7 +162,7 @@ EOF;
   		
   		$this->logBlock("Clearing cache..","QUESTION");
   		
-  		$this->runTask(array("sfCacheClearTask",null));
+  		$this->runOtherTask(array("sfCacheClearTask",null));
   		
   		$this->logBlock("All done!","QUESTION");
   		$this->logSection("Module has been successfuly initialized!",null,null,"INFO");
@@ -177,7 +177,7 @@ EOF;
   
   }
   
-  protected function runTask(Array $data,$arguments = array(), $options = array()) {
+  protected function runOtherTask(Array $data,$arguments = array(), $options = array()) {
   	
   	if($data[1]) {
   		$this->logBlock($data[1],"QUESTION");	
