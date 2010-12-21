@@ -54,7 +54,7 @@ class afNotificationPeer extends BaseafNotificationPeer
 		}
 		if(count($objs) > Notification::WHEN_EXCEEDS){
 			$arr = array_slice($arr,count($obj)-Notification::MAX_SHOW_NOTIFICATIONS);				
-			$msg = "You have ".(count($objs)-Notification::MAX_SHOW_NOTIFICATIONS)." more notifications. please <a href='/audit/listNotifications' style='color:#0000ff'>click here</a> to view them all.";
+			$msg = "You have ".(count($objs)-Notification::MAX_SHOW_NOTIFICATIONS)." more notifications. please <a href='#/audit/listNotifications' style='color:#0000ff'>click here</a> to view them all.";
 			$arr = array_reverse($arr);
 			$arr[] = array('title'=>(count($objs)-Notification::MAX_SHOW_NOTIFICATIONS)." more notifications !!",'message'=>$msg,'type'=>"INFO",'duration'=>20);
 			$arr = array_reverse($arr);					
