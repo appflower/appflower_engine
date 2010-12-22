@@ -64,7 +64,7 @@ class ImmExtjsSubmitButton extends ImmExtjsButton
 				}				
 				$attributes['params']['af_formcfg'] =
 					afEditJsonRenderer::buildFormcfg($submitUrl,
-						$submitContainerObject->getValidators(),
+						(method_exists($submitContainerObject,"getValidators"))?$submitContainerObject->getValidators():null,
 						ArrayUtil::get($attributes, 'wizard', false));
 				unset($attributes['wizard']);
 				

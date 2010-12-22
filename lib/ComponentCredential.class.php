@@ -63,15 +63,26 @@ class ComponentCredential{
 			require_once($file);
 			$obj = new $class(sfContext::getInstance(),$module,$action);	
 			$credentials = $obj->getCredential();
+			
+			/**
+			 * Component credentials are meant to control the access to the components
+			 * for an authenticated user. If the user is not authenticated, this check
+			 * assumes the full access to the system. But the access is controlled by the
+			 * Authentication filter
+			 */ 
+			if(!sfContext::getInstance()->getUser()->isAuthenticated()) return true;
+			
 			/**
 			 * the action might not have any credentials set, so allow access
-			 */
-			if($credentials==null)
-			{
+			 */			
+			if($credentials==null){
 				return true;
-			}
-			elseif(sfContext::getInstance()->getUser()->hasCredential($credentials))
-			{
+			}elseif(!$obj->isSecure()){
+				/**
+				 * If the action is defined as is_secure: false, grant the permission
+				 */
+				return true;
+			}elseif(sfContext::getInstance()->getUser()->hasCredential($credentials)){
 				return true;
 			}
 		}
