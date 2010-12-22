@@ -1,0 +1,7 @@
+
+AddOutputFilterByType DEFLATE text/html text/css application/x-javascript
+
+<FilesMatch "\.(jpg|png|gif|swf)$">
+     Header set Cache-Control "max-age=31536000, public"
+</FilesMatch>
+
