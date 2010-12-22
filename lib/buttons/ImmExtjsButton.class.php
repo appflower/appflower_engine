@@ -103,7 +103,7 @@ class ImmExtjsButton
 		/**
 		 * don't use the hidden attribute
 		 */
-		unset($this->attributes['hidden']);
+		//unset($this->attributes['hidden']);
 		
 		$this->privateName='button_'.Util::makeRandomKey();
 		
