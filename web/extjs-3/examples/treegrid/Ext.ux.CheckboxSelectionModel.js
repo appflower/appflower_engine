@@ -320,15 +320,15 @@ Ext.ux.CheckboxSelectionModel = Ext.extend(Ext.grid.CheckboxSelectionModel, {
             /**
             * if rows has _selected attribute, then select them after html render
             */
-          /*  if(this.grid.select&&r.data[this.grid.store.selected_field_name])
+            /*if(this.grid.select&&r.data[this.grid.store.selected_field_name])
             {
-	            this.grid.getView().on('rowsinserted', function(){
+            	this.grid.getView().on('rowsinserted', function(){
 	            	            	
-		        	//this.grid.getView().onRowSelect(index);
+		        	this.grid.getView().onRowSelect(index);
 	            	
 	            }, this);
-            }
-                       */ 
+            }*/
+                                   
             this.fireEvent("rowselect", this, index, r);
             this.fireEvent("selectionchange", this);
         }

@@ -273,7 +273,7 @@ class interfaceActions extends CustomActions
 	$page=($start==0)?1:(ceil($start/$limit)+1);
   		
 	// pager
-	$pager = new sfPropelPager('TicketType', $limit);
+	$pager = new sfPropelPager('afsNotification', $limit);
 	$pager->setPage($page);
 	$pager->setCriteria($c);
 	$pager->init();
@@ -283,11 +283,11 @@ class interfaceActions extends CustomActions
   	
   	$i=0;
   	
-  	foreach ($pager->getResults() as $ticket_type)
+  	foreach ($pager->getResults() as $notification)
   	{
   		$i++;
   		
-  		$grid_data->addRowData(array("company"=>$ticket_type->getName().' test test test test test test test test1 test2 test3 test4 test5', "lastChange"=>'8/1 12:00am', "industry"=>$i/*'Manufacturing'*/, "action1"=>"https://192.168.0.129/interface/form", "action2"=>"https://192.168.0.129/interface/portal","_color"=>"#CC0000"/*,"hide2"=>true*/));
+  		$grid_data->addRowData(array("company"=>$notification->getIP().' test test test test test test test test1 test2 test3 test4 test5', "lastChange"=>'8/1 12:00am', "industry"=>$i/*'Manufacturing'*/, "action1"=>"https://192.168.0.129/interface/form", "action2"=>"https://192.168.0.129/interface/portal","_color"=>"#CC0000","_selected"=>true/*,"hide2"=>true*/));
   	}
   	
   	//$grid_data->addRowData(array("company"=>'some company', "lastChange"=>'8/1 12:00am', "industry"=>10/*'Manufacturing'*/, "action1"=>"https://192.168.0.129/interface/form", "action2"=>"https://192.168.0.129/interface/portal","_color"=>"#CC0000"/*,"hide2"=>true*/));
@@ -308,7 +308,7 @@ class interfaceActions extends CustomActions
 	$page=($start==0)?1:(ceil($start/$limit)+1);
   		
 	// pager
-	$pager = new sfPropelPager('TicketType', $limit);
+	$pager = new sfPropelPager('afsNotification', $limit);
 	$pager->setPage($page);
 	$pager->setCriteria($c);
 	$pager->init();
@@ -316,9 +316,9 @@ class interfaceActions extends CustomActions
   	$grid_data=new ImmExtjsGridData();
   	$grid_data->totalCount=$pager->getNbResults();
   	
-  	foreach ($pager->getResults() as $ticket_type)
+  	foreach ($pager->getResults() as $notification)
   	{
-  		$grid_data->addRowData(array("company"=>$ticket_type->getName(), "lastChange"=>'8/1 12:00am', "industry"=>'Manufacturing', "action1"=>"https://192.168.0.129/interface/form", "action2"=>"https://192.168.0.129/interface/portal","_id"=>(($anode==null)?$ticket_type->getId():rand()),"_parent"=>$anode,"_is_leaf"=>(($anode==null)?false:true),'_color'=>(($anode==null)?'#ccc000':'#cc0000'),'_selected'=>true,"_buttonOnColumn"=>"company","_buttonText"=>"Show description","_buttonDescription"=>"It's just a description text 1 ".rand(0,99)."!"/*,"hide2"=>true*/));
+  		$grid_data->addRowData(array("company"=>$notification->getIP(), "lastChange"=>'8/1 12:00am', "industry"=>'Manufacturing', "action1"=>"https://192.168.0.129/interface/form", "action2"=>"https://192.168.0.129/interface/portal","_id"=>(($anode==null)?$notification->getId():rand()),"_parent"=>$anode,"_is_leaf"=>(($anode==null)?false:true),'_color'=>(($anode==null)?'#ccc000':'#cc0000'),'_selected'=>true,"_buttonOnColumn"=>"company","_buttonText"=>"Show description","_buttonDescription"=>"It's just a description text 1 ".rand(0,99)."!"/*,"hide2"=>true*/));
   		
   	}
   	
@@ -326,14 +326,14 @@ class interfaceActions extends CustomActions
   	{
   		$parent=rand();
   		
-  		$grid_data->addRowData(array("company"=>'1 CHILD', "lastChange"=>'8/1 12:00am', "industry"=>'Manufacturing', "action1"=>"https://192.168.0.129/interface/form", "action2"=>"https://192.168.0.129/interface/portal","_id"=>$parent,"_parent"=>null,"_is_leaf"=>false,'_color'=>'#ccc000','_selected'=>false,"_buttonOnColumn"=>"company","_buttonText"=>"Show description","_buttonDescription"=>"It's just a description text 2 ".rand(0,99)."!"/*,"hide2"=>true*/));
+  		$grid_data->addRowData(array("company"=>'1 CHILD', "lastChange"=>'8/1 12:00am', "industry"=>'Manufacturing', "action1"=>"https://192.168.0.129/interface/form", "action2"=>"https://192.168.0.129/interface/portal","_id"=>$parent,"_parent"=>null,"_is_leaf"=>false,'_color'=>'#ccc000','_selected'=>true,"_buttonOnColumn"=>"company","_buttonText"=>"Show description","_buttonDescription"=>"It's just a description text 2 ".rand(0,99)."!"/*,"hide2"=>true*/));
   		
   		$child=rand();
   		
-  		$grid_data->addRowData(array("company"=>'the only CHILD', "lastChange"=>'8/1 12:00am', "industry"=>'Manufacturing', "action1"=>"https://192.168.0.129/interface/form", "action2"=>"https://192.168.0.129/interface/portal","_id"=>$child,"_parent"=>$parent,"_is_leaf"=>false,'_color'=>'#ccc000','_selected'=>false,"_buttonOnColumn"=>"company","_buttonText"=>"Show description","_buttonDescription"=>"It's just a description text 3 ".rand(0,99)."!"/*,"hide2"=>true*/));
+  		$grid_data->addRowData(array("company"=>'the only CHILD', "lastChange"=>'8/1 12:00am', "industry"=>'Manufacturing', "action1"=>"https://192.168.0.129/interface/form", "action2"=>"https://192.168.0.129/interface/portal","_id"=>$child,"_parent"=>$parent,"_is_leaf"=>true,'_color'=>'#ccc000','_selected'=>true,"_buttonOnColumn"=>"company","_buttonText"=>"Show description","_buttonDescription"=>"It's just a description text 3 ".rand(0,99)."!"/*,"hide2"=>true*/));
   		
-  		$grid_data->addRowData(array("company"=>'the only CHILD 2', "lastChange"=>'8/1 12:00am', "industry"=>'Manufacturing', "action1"=>"https://192.168.0.129/interface/form", "action2"=>"https://192.168.0.129/interface/portal","_id"=>rand(),"_parent"=>$child,"_is_leaf"=>true,'_color'=>'#ccc000','_selected'=>false,"_buttonOnColumn"=>"company","_buttonText"=>"Show description","_buttonDescription"=>"It's just a description text 4 ".rand(0,99)."!"/*,"hide2"=>true*/));
-  		$grid_data->addRowData(array("company"=>'the only CHILD 3', "lastChange"=>'8/1 12:00am', "industry"=>'Manufacturing', "action1"=>"https://192.168.0.129/interface/form", "action2"=>"https://192.168.0.129/interface/portal","_id"=>rand(),"_parent"=>$child,"_is_leaf"=>true,'_color'=>'#ccc000','_selected'=>false,"_buttonOnColumn"=>"company","_buttonText"=>"Show description","_buttonDescription"=>"It's just a description text 5 ".rand(0,99)."!"/*,"hide2"=>true*/));
+  		$grid_data->addRowData(array("company"=>'the only CHILD 2', "lastChange"=>'8/1 12:00am', "industry"=>'Manufacturing', "action1"=>"https://192.168.0.129/interface/form", "action2"=>"https://192.168.0.129/interface/portal","_id"=>rand(),"_parent"=>$child,"_is_leaf"=>true,'_color'=>'#ccc000','_selected'=>true,"_buttonOnColumn"=>"company","_buttonText"=>"Show description","_buttonDescription"=>"It's just a description text 4 ".rand(0,99)."!"/*,"hide2"=>true*/));
+  		$grid_data->addRowData(array("company"=>'the only CHILD 3', "lastChange"=>'8/1 12:00am', "industry"=>'Manufacturing', "action1"=>"https://192.168.0.129/interface/form", "action2"=>"https://192.168.0.129/interface/portal","_id"=>rand(),"_parent"=>$child,"_is_leaf"=>true,'_color'=>'#ccc000','_selected'=>true,"_buttonOnColumn"=>"company","_buttonText"=>"Show description","_buttonDescription"=>"It's just a description text 5 ".rand(0,99)."!"/*,"hide2"=>true*/));
   	}
   	
 	return $this->renderText($grid_data->end());

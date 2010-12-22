@@ -84,6 +84,13 @@ Ext.extend(Ext.ux.GridColorView, Ext.grid.GridView, {
 		    {
 		    	rp.color='background-color:'+r.data['_color']+';';
 		    }
+		    
+		    //added by radu
+		    if(this.grid.select&&r.data['_selected'])
+		    {
+		     	var sm=this.grid.getSelectionModel();
+		      	sm.selectRow(ds.indexOf(r),true);
+		    }
             
             buf[buf.length] =  rt.apply(rp);
         }
