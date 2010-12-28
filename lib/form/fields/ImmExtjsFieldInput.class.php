@@ -34,7 +34,18 @@ class ImmExtjsFieldInput extends ImmExtjsField
 				$this->attributes['xtype'] = "colorpickerfield";
 				$this->attributes['editMode'] = "all";
 				if(isset($attributes['value'])&&$attributes['value']!=null){					
-					$attributes['value'] = str_replace("#","",$attributes['value']);
+					$attributes['value'] = trim(str_replace("#","",$attributes['value']));
+					$newVal = $attributes['value'];
+					if(strlen($attributes['value']) == 3){
+						$tmp = $attributes['value'];
+						$newVal = '';
+						for($i=0;$i<3;$i++){
+							$newVal .= $tmp{$i}.$tmp{$i}."";
+						}				
+					}
+					$attributes['value'] = "#".$newVal;
+				}else{
+					$attributes['value'] = "#000000";
 				}
 			}
 			unset($attributes['plugin']);
