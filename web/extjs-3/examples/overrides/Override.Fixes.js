@@ -440,5 +440,12 @@ Ext.override(Ext.form.BasicForm,{
 				}
 			}
 		}		
+	},
+	reset: function(){
+		this.items.each(function(f){
+			f.reset();
+		});
+		this.findAndClearMarkTab();
+		return this;
 	}
 });
