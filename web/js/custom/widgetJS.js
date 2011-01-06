@@ -570,7 +570,8 @@ afApp.load = function (location, load, target, winProp)
 		switch(load)
 		{
 			case "page":
-				window.open(location,target,winProp);
+				if(target == "_self" && (winProp && !winProp.isPopup)) window.location.href = location;
+				else window.open(location,target,winProp);
 				break;
 			case "center":
 				location=location.replace(document.location.protocol+'//'+document.location.host,'');
