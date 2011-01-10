@@ -255,7 +255,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 	onStateChange: function(event, filter){
 		
 		if(event == "serialize") return;
-    
+		
 		if(filter == this.getMenuFilter() && this.mode == 'hmenu')
 			this.menu.setChecked(filter.active, false);
 			
@@ -263,10 +263,11 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 			this.deferredUpdate.delay(this.updateBuffer);
 		
 		var view = this.grid.getView();
-		this.updateColumnHeadings(view);
+		
+		this.updateColumnHeadings(view);		
 			
 		this.grid.saveState();
-			
+		
 		this.grid.fireEvent('filterupdate', this, filter);		
 	},
 	

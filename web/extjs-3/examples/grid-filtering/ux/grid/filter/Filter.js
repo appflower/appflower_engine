@@ -108,6 +108,7 @@ Ext.extend(Ext.ux.grid.filter.Filter, Ext.util.Observable, {
 			if(suppressEvent !== true)
 				this.fireEvent(active ? 'activate' : 'deactivate', this);
 		}
+		if(this.hideTask)
 		this.hideTask.delay(2000);
 	},
 	

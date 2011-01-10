@@ -122,6 +122,9 @@ Ext.ux.grid.filter.TextFilter = Ext.extend(Ext.ux.grid.filter.StringFilter, {
 	this.removeLast.setText(this.texts.removeLast+" ("+this.filterQueue.length+")");
     },
     setValue: function(value){
+	if(Ext.isObject(value)){
+		for(var key in value) {this.setFilterOptions(key); value = value[key];}
+	}
 	if(!Ext.isJsonString(value)){
 		this.filterQueue = [];
 		this.makeChanges("and",[value]);
@@ -161,7 +164,7 @@ Ext.ux.grid.filter.TextFilter = Ext.extend(Ext.ux.grid.filter.StringFilter, {
 	}
     }, 
     serialize: function(){
-            var args = {type: 'text', value: this.getValue()};
+            var args = {type: 'text', value: this.getValue(),options: this.getFilterOptions()};
             this.fireEvent('serialize', args, this);
             return args;
     },
@@ -194,11 +197,17 @@ Ext.ux.grid.filter.TextFilter = Ext.extend(Ext.ux.grid.filter.StringFilter, {
 	return rc.test(string);
     },
     getDisplayValue: function(){
-        var value = this.getValue();
+        var value = this.getValue();	
         var temp = [];
         if(value == null || value == "") return '';
 	if(!Ext.isJsonString(value)) return value;
-        value = Ext.util.JSON.decode(value);	
+	var holder;
+	try{
+	    holder = Ext.util.JSON.decode(value);
+	}catch(e){
+	    return value;
+	}
+	value = holder;
         for(i in value){
             v = value[i];
             if(!v.keys && !v.type) continue;

@@ -5,7 +5,7 @@ Ext.ux.grid.filter.StringFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	init: function(){
 		var value = this.value = new Ext.ux.menu.EditableItem({iconCls: this.icon});
 		value.on('keyup', this.onKeyUp, this);
-		this.menu.add(value);
+		if(this.menu) this.menu.add(value);
 		this.options = new Ext.ux.FilterOption(this,"string");
 		this.updateTask = new Ext.util.DelayedTask(this.fireUpdate, this);
 	},

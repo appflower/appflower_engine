@@ -63,7 +63,9 @@ Ext.override(Ext.form.Field,{
 			    				button.handler.call(button.scope);
 			    			}
 			    		})	    			
-		    		}
+		    		}else{
+					this.fireEvent("specialkey",this,e);
+				}
 	    		}
 	    	}
 	    }	    
