@@ -51,7 +51,7 @@ Ext.override(Ext.Button, {
  * Fix for enter key press form submit
  */
 Ext.override(Ext.form.Field,{
-	fireKeys : function(e) {		
+	fireKeys : function(e,field,name) {
 	    if(((Ext.isIE && e.type == 'keydown') || e.type == 'keypress') && e.isSpecialKey()) {
 	    	if(e.getKey() == e.ENTER){
 	    		if(this.getXType() != "textarea" && this.getXType() != "superboxselect"){
@@ -68,14 +68,16 @@ Ext.override(Ext.form.Field,{
 				}
 	    		}
 	    	}
-	    }	    
+	    }else{
+		this.fireEvent(name,this,e)
+	    }
 	},
 	initEvents : function() {		
-	    this.el.on("keydown", this.fireKeys, this);
-	    this.el.on("keypress", this.fireKeys, this);
-	    this.el.on("keyup", this.fireKeys, this);
-	    this.el.on("focus", this.onFocus, this);
-	    this.el.on("blur", this.onBlur, this);
+	    this.el.on("keydown", this.fireKeys, this,"keydown");
+	    this.el.on("keypress", this.fireKeys, this,"keypress");
+	    this.el.on("keyup", this.fireKeys, this,"keyup");
+	    this.el.on("focus", this.onFocus, this,"focus");
+	    this.el.on("blur", this.onBlur, this,"blur");
 	}
 });
 
