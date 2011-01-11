@@ -20,7 +20,8 @@ class ImmExtjsGrid
 
 	
 	public function __construct($attributes=array())
-	{		
+	{
+		$attributes = $this->gridScrollFix($attributes);
 		$this->immExtjs=ImmExtjs::getInstance();
 		//for test
 		$this->attributes['tbar']=array();			
@@ -282,14 +283,6 @@ class ImmExtjsGrid
 		
 	public function end()
 	{		
-		/*$this->attributes['listeners']['afterrender']=$this->immExtjs->asMethod(array(
-			"parameters"=>"value, metadata, record",
-			"source"=>"var tb = this.getTopToolbar();
-			if(!tb) return;	
-			var box = this.getBox();
-			tb.setWidth(box.width);	"
-		));	
-		*/
 		
 		$this->attributes['canMask']=$this->immExtjs->asMethod(array("parameters"=>"","source"=>"return !Ext.isIE&&!".$this->privateName.".disableLoadMask&&!Ext.get('loading');"));
 		
@@ -1055,5 +1048,24 @@ class ImmExtjsGrid
 			$column['align'] = "right";
 		}
 		return $column;
+	}
+	private function gridScrollFix($attributes){
+		//if(isset($attributes['portal']) && $attributes['portal'] === true) return $attributes;
+		if($attributes['isMulti']) return $attributes;
+		$attributes['autoHeight'] = false;
+		$attributes['listeners']['render']['source'] = "		
+			var grid = this;
+			this.getStore().on('load',function(){
+				grid.setHeight(grid.container.dom.offsetHeight);
+			});
+			
+			this.ownerCt.on('resize',function(ct,w,h,rw,rh){				
+				grid.setHeight(grid.container.dom.offsetHeight);
+				grid.getTopToolbar().setWidth(grid.getWidth())
+			});
+		";
+		$attributes['autoScroll']=true;
+		$attributes['minHeight']=200;
+		return $attributes;
 	}
 }

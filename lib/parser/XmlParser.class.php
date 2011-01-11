@@ -3881,7 +3881,8 @@ class XmlParser extends XmlParserTools {
 				if(isset($parse["pagerTemplate"]))
 				{
 					$formoptions["pagerTemplate"] = $parse["pagerTemplate"];
-				}		
+				}
+				$formoptions['isMulti']= $this->multi;
 				$formoptions["autoHeight"] = true;
 				$formoptions["clearGrouping"] = false;
 				$formoptions["frame"] = false;
