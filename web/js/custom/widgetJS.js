@@ -62,9 +62,10 @@ Array.prototype.in_array = function (needle, argStrict) {
 /**
 * pack logic for window
 */
-afApp.pack = function(win,winConfig){
+afApp.pack = function(win,winConfig,Application){
 	var winConfig = winConfig || {};
-	var viewport=App.getViewport();
+	Application = Application?Application : App; //App is default application for all Appflower apps
+	var viewport=Application.getViewport();
 	win.on("show",function(win){
 		if(winConfig.applyTo) return;		
 		var childs = win.findBy(function(component,container){
@@ -100,8 +101,9 @@ afApp.pack = function(win,winConfig){
 		});
 	});
 }
-afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
-	var viewport=App.getViewport();
+afApp.executeAddons = function(addons,json,title,superClass,winConfig,Application){
+	Application = Application?Application : App; //App is default application for all Appflower apps
+	var viewport=Application.getViewport();
 	var counter = 0;
 	var backup = new Array();
 	var finish;
@@ -110,7 +112,7 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 			finish();
 			return;
 		}
-		mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.",removeMask:true});
+		//mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.",removeMask:true});
 		//mask.show();		
 		afApp.loadingProgress(viewport.layout.center.panel.getEl(),(counter+1)/addons.length);
 		var nextAddon=addons[counter++];
@@ -149,7 +151,7 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 				if(win.show) win.show();
 				
 				/* window resize, pack and onmove adjustments */
-				afApp.pack(win,winConfig);
+				afApp.pack(win,winConfig,Application);
 				
 				if(win.doLayout) win.doLayout()
 				if(win.show) win.show();				
@@ -157,7 +159,7 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 				win.on("render",function(win){eval(json.public_source);},null,{single:true});
 				
 				afApp.loadingProgress(viewport.layout.center.panel.getEl(),1);
-				mask.hide();			
+				//mask.hide();			
 				
 				win.on("hide",function(){	
 					if(superClass)superClass.onHide(win);									
@@ -247,8 +249,10 @@ afApp.createAddon = function(filename, filetype, callback) {
 	}
 	
 }
-afApp.widgetPopup = function(widget,title,superClass,winConfig) {
-	var viewport=App.getViewport();
+afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
+	Application = Application?Application : App; //App is default application for all Appflower apps
+	var viewport=Application.getViewport();
+			
 	if(!winConfig)
 	{
 		var winConfig = {};
@@ -268,7 +272,8 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 			return widget.substring(0,20)+"...."+widget.substring(widget.length-20,widget.length);
 		}return widget;
 	}
-	var mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Opening widget</b> <br>Please Wait...",removeMask:true});
+	
+	//var mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Opening widget</b> <br>Please Wait...",removeMask:true});	
 	//mask.show();
 	afApp.initLoadingProgress(viewport.layout.center.panel.getEl());
 	var ajax = Ext.Ajax.request( {
@@ -279,7 +284,7 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 			
 			if(json.redirect&&json.message&&json.load)
 			{
-				mask.hide();
+				//mask.hide();
 				
 				Ext.Msg.alert("Failure", json.message, function(){afApp.load(json.redirect,json.load);});
 			}
@@ -307,9 +312,9 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 						}
 					}
 				}
-				afApp.executeAddons(total_addons,json,mask,title,superClass,winConfig);		
+				afApp.executeAddons(total_addons,json,title,superClass,winConfig,Application);		
 			}
-			mask.hide();
+			//mask.hide();
 		},
 		params : {
 			widget_popup_request : true
