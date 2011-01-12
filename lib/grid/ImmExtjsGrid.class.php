@@ -1054,8 +1054,10 @@ class ImmExtjsGrid
 		if($attributes['isMulti']) return $attributes;
 		$attributes['autoHeight'] = false;
 		$attributes['listeners']['render']['source'] = "		
-			var grid = this;
+			var grid = this;			
 			this.getStore().on('load',function(){
+				grid.getGridEl().unmask();
+				if(!grid.getStore().getCount()) grid.getGridEl().mask('No data to display');
 				grid.setHeight(grid.container.dom.offsetHeight);
 				if(grid.ownerCt) grid.ownerCt.doLayout();
 			});
