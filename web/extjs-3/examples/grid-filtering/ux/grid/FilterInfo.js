@@ -32,7 +32,7 @@ Ext.ux.FilterInfo = function(grid,mode){
 	if(mode == 'panel') var infoDiv = infoDivExists?infoDivExists:Ext.DomHelper.insertFirst(gridEl,{tag:'div',html:'',cls:'ux-grid-filter-info'});
 	//infoDiv.style.width=gridEl.getWidth()+"px";
 	//Create a template for info-box
-	var tpl = Ext.DomHelper.createTemplate({tag: 'div', cls: 'ux-grid-filter-info-box', html: '{html}&nbsp;&nbsp;<a title="Remove this filter" id="{id}" href="#" onclick="Ext.ux.FilterInfo.remove(this)"></a>'});
+	var tpl = Ext.DomHelper.createTemplate({tag: 'div', cls: 'ux-grid-filter-info-box', html: '{html}&nbsp;&nbsp;<a title="Remove this filter" id="{id}" href="javascript:void(0)" onclick="Ext.ux.FilterInfo.remove(this)"></a>'});
 	
 	if(infoDiv) infoDiv.innerHTML = '';
 	var actions = [];
@@ -69,12 +69,14 @@ Ext.ux.FilterInfo = function(grid,mode){
 			}
     	}
     });	
-	if(mode == 'panel')
-	var panel = new Ext.Panel({
-		renderTo:infoDiv,
-		items: actions,
-		id:'filter-info-action-panel'
-	})
+	if(mode == 'panel'){
+		var panel = new Ext.Panel({
+			renderTo:infoDiv,
+			items: actions,
+			id:'filter-info-action-panel'
+		});
+		plainText = '';
+	}
 	if(mode == "title"){		
 		if(plainText)
 		grid.setTitle(grid.originalTitle+" <font color='red'>Filtered by keyword: "+plainText+"</font>");
@@ -89,6 +91,11 @@ Ext.ux.FilterInfo.remove = function(anchor){
 	var panel = Ext.getCmp("filter-info-action-panel");
 	var action = panel.getComponent(anchor.id+"-action");
 	action.baseAction.execute();
-
+	try{
+		var grid = Ext.getCmp(Ext.get(anchor).findParent('.x-grid-panel').id);
+		grid.setTitle(grid.originalTitle);
+	}catch(e){
+		
+	}
 }
 

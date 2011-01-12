@@ -1057,11 +1057,13 @@ class ImmExtjsGrid
 			var grid = this;
 			this.getStore().on('load',function(){
 				grid.setHeight(grid.container.dom.offsetHeight);
+				if(grid.ownerCt) grid.ownerCt.doLayout();
 			});
 			
 			this.ownerCt.on('resize',function(ct,w,h,rw,rh){				
 				grid.setHeight(grid.container.dom.offsetHeight);
-				grid.getTopToolbar().setWidth(grid.getWidth())
+				grid.getTopToolbar().setWidth(grid.getWidth());
+				if(grid.ownerCt) grid.ownerCt.doLayout();
 			});
 		";
 		$attributes['autoScroll']=true;
