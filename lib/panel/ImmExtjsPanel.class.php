@@ -63,8 +63,8 @@ class ImmExtjsPanel
 			"source"=>"if(object.ownerCt.ownerCt) object.ownerCt.ownerCt.doLayout();"
 		));
 		$this->attributes['listeners']['afterrender'] = $this->immExtjs->asMethod(array(
-			"parameters"=>"object,layout",
-			"source"=>"if(object.ownerCt.ownerCt) object.ownerCt.ownerCt.doLayout();"
+			"parameters"=>"object",
+			"source"=>"if(object.ownerCt.ownerCt && object.ownerCt.ownerCt.doLayout) try{object.ownerCt.ownerCt.doLayout();}catch(e){}"
 		));
 		if((isset($attributes['autoEnd'])&&$attributes['autoEnd'])||!isset($attributes['autoEnd']))
 		{
