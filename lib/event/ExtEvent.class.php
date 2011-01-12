@@ -106,14 +106,20 @@ class ExtEvent {
 		if($action["attributes"]["updater"] != "true"){
 			if($action["attributes"]["post"] != "false"){
 				$successFunction = '
+					'.$grid->privateName.'.getEl().mask("Operation in progress");
 					Ext.Ajax.request({ 
 						url: "'.$action["attributes"]["url"].'",
 						method:"post", 
 						'.$params.'
 						success:function(response, options){
+							'.$grid->privateName.'.getEl().unmask();
 							response=Ext.decode(response.responseText);
-							if(response.message){								
-								var win = Ext.Msg.show({
+							if(response.message){
+								new Ext.ux.InstantNotification({title:"Success",message:response.message});
+								if(response.redirect){
+									afApp.load(response.redirect,response.load);
+								}
+								/*var win = Ext.Msg.show({
 								   title:"Success",
 								   msg: response.message,
 								   buttons: Ext.Msg.OK,
@@ -124,7 +130,7 @@ class ExtEvent {
 										}
 								   },
 								   icon: Ext.MessageBox.INFO
-								});															
+								});*/															
 							}
 							else
 							{
