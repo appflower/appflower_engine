@@ -84,7 +84,7 @@ Ext.ux.SaveSearchState = function(grid){
 	            {id:'action',header:'Action',dataIndex:null, width:50,menuDisabled:true,
 	            	renderer:function(){
 	            		//return '<a href="#"><img class="restore-saved-filter-button" src="/images/famfamfam/connect.png" qtip="Apply this filter to grid"/></a>&nbsp;&nbsp;<a href="#"><img class="remove-saved-filter-button" src="/images/famfamfam/cross.png" qtip="Remove this filter"/></a>'
-	            		return '<a href="#"><img class="remove-saved-filter-button" src="/images/famfamfam/cross.png" qtip="Remove this filter"/></a>'
+	            		return '<a href="javascript:void(0)"><img class="remove-saved-filter-button" src="/images/famfamfam/cross.png" qtip="Remove this filter"/></a>'
 	            	}
 	            }
 	        ],
@@ -174,8 +174,8 @@ Ext.ux.SaveSearchState = function(grid){
     	if(!grid.originalTitle){
     		grid.originalTitle = grid.title;
     	}
-    	grid.setTitle(grid.originalTitle+": <font color=red>(Filtered by keyword: '"+keyword.replace(/<\S[^><]*>/g, "")+"')</font>");    	
-    	filtersObj.clearFilters();
+	filtersObj.clearFilters();
+    	//grid.setTitle(grid.originalTitle+": <font color=red>(Filtered by keyword: '"+keyword.replace(/<\S[^><]*>/g, "")+"')</font>");    	    	
     	filtersObj.filters.each(function(filter){	
     		var json_array = Ext.util.JSON.decode(json);    		
     		for(var i=0;i<json_array.length;i++){

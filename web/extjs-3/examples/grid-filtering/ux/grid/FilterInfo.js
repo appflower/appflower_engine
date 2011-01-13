@@ -78,10 +78,12 @@ Ext.ux.FilterInfo = function(grid,mode){
 		plainText = '';
 	}
 	if(mode == "title"){		
-		if(plainText)
-		grid.setTitle(grid.originalTitle+" <font color='red'>Filtered by keyword: "+plainText+"</font>");
-		else
-		grid.setTitle(grid.originalTitle);
+		if(plainText){
+			//grid.setTitle(grid.originalTitle+" <font color='red'>Filtered by keyword: "+plainText+"</font>");
+		}
+		else{
+			grid.setTitle(grid.originalTitle);
+		}
 	}
 
 	

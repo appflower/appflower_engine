@@ -299,12 +299,12 @@ class appFlowerActions extends sfActions
 			
 			$result['rows']=array_values($result['rows']);
 			
-			$info=json_encode($result);
+			$info=json_encode($result);			
 		}
 		else {
 			$info=json_encode(array('success'=>false,'message'=>'Retrieving widgets information wasn\'t successful!'));
 		}
-		
+		print $info; exit;
 		return $this->renderText($info);
 	}
 	
@@ -553,7 +553,7 @@ class appFlowerActions extends sfActions
 			$c->addAscendingOrderByColumn(afSaveFilterPeer::NAME);
 			$objs = afSaveFilterPeer::doSelect($c);			
 			foreach($objs as $obj){
-				$data[] = array("id"=>$obj->getId(),"name"=>"<a href='#' style='color:#0000ff' qtip='Apply this filter to grid' class='ux-grid-filter-apply'>".$obj->getName()."</a>","filter"=>$obj->getFilter());			
+				$data[] = array("id"=>$obj->getId(),"name"=>"<a href='javascript:void(0)' style='color:#0000ff' qtip='Apply this filter to grid' class='ux-grid-filter-apply'>".$obj->getName()."</a>","filter"=>$obj->getFilter());			
 			}
 			$success=true;
 		}
