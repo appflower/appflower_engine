@@ -1057,7 +1057,7 @@ class ImmExtjsGrid
 			var grid = this;			
 			this.getStore().on('load',function(){
 				grid.getGridEl().unmask();
-				if(!grid.getStore().getCount()) grid.getGridEl().mask('No data to display');
+				if(!grid.getStore().getCount()) grid.getGridEl().mask('No data to display').removeClass('ext-el-mask');
 				grid.setHeight(grid.container.dom.offsetHeight);
 				if(grid.ownerCt) grid.ownerCt.doLayout();
 			});
