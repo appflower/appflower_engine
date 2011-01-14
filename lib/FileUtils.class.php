@@ -52,5 +52,18 @@ class FileUtils {
   		
   	}
   	
+  	
+ 	public static function findFile($basename, Array $extensions) {
+
+        foreach($extensions as $ext) {
+                $filename = $basename.".".$ext;
+                if(file_exists($filename)) {
+                        return array($ext,$filename);
+                }
+        }
+
+        return false;
+  }
+  	
     
 }
