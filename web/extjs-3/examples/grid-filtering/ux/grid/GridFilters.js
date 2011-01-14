@@ -225,7 +225,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 		
 		this.grid.getView().on("refresh", this.onRefresh, this);
 		this.updateColumnHeadings(this.grid.getView());
-
+		
 		
 	},
 	
@@ -381,7 +381,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 	clearFilters: function(){
 		this.filters.each(function(filter){
 			filter.setActive(false);
-		});
+		});		
 	},
 
 	/** private **/

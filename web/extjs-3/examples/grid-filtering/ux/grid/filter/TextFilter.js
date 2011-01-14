@@ -221,6 +221,6 @@ Ext.ux.grid.filter.TextFilter = Ext.extend(Ext.ux.grid.filter.StringFilter, {
 		temp.push(this._enclose(v.keys,v.type));
 	    }            
         }
-	return this._enclose(temp,"and");
+	return this._enclose(temp,"+");
     }
 });
