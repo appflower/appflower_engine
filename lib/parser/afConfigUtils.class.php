@@ -8,15 +8,28 @@
  * All possible places for module file are searched.
  * Additionally when you will look for conifig file config/pages from application and AF plugin will be searched too
  *
+ * TODO:
  * There are some static methods here - we should move them somewhere probably in the future.
  */
 class afConfigUtils {
 
     private $moduleName;
+    /**
+     * @var sfApplicationConfiguration
+     */
+    private $appConf;
 
-    function __construct($moduleName)
+    /**
+     * If you pass $appConf then afConfigUtils will work in context of passed project/application
+     */
+    function __construct($moduleName, sfApplicationConfiguration $appConf = null)
     {
         $this->moduleName = $moduleName;
+        if ($appConf) {
+            $this->appConf = $appConf;
+        } else {
+            $this->appConf = sfContext::getInstance()->getConfiguration();
+        }
 
         $this->findModulePaths();
     }
@@ -38,8 +51,7 @@ class afConfigUtils {
      */
     private function findModulePaths()
     {
-        $context = sfContext::getInstance();
-        $dirsAsKeys = $context->getConfiguration()->getControllerDirs($this->moduleName);
+        $dirsAsKeys = $this->appConf->getControllerDirs($this->moduleName);
         $dirs = array();
         foreach ($dirsAsKeys as $dir => $junk) {
             $dirs[] = dirname($dir);
@@ -50,18 +62,18 @@ class afConfigUtils {
     function getConfigFilePath($fileName)
     {
         $path = $this->getFilePath('config/'.$fileName);
+        
         if ($path) {
             return $path;
         }
 
 
         $additionalPaths = array();
-        $context = sfContext::getInstance();
-        $root = sfConfig::get('sf_root_dir');
-        $application = $context->getConfiguration()->getApplication();
+        $application = $this->appConf->getApplication();
 
-        $additionalPaths[] = "$root/apps/$application/config/pages";
-        $additionalPaths[] = "$root/plugins/appFlowerPlugin/config/pages";
+        $rootDir = $this->appConf->getRootDir();
+        $additionalPaths[] = "{$rootDir}/apps/$application/config/pages";
+        $additionalPaths[] = "{$rootDir}/plugins/appFlowerPlugin/config/pages";
 
         return $this->getFilePath($fileName, $additionalPaths);
     }
@@ -82,6 +94,23 @@ class afConfigUtils {
         foreach ($paths as $path) {
             $fullFilePath = $path.'/'.$filePath;
             if (is_readable($fullFilePath)) {
+                return $fullFilePath;
+            }
+        }
+    }
+
+    /**
+     * You can use this method to generate file path for non existent widget
+     */
+    function generateConfigFilePath($fileName)
+    {
+        $filePath = 'config/'.$fileName;
+        $paths = $this->modulePaths;
+
+        foreach ($paths as $path) {
+            $fullFilePath = $path.'/'.$filePath;
+            $fullDirPath = dirname($fullFilePath);
+            if (is_dir($fullDirPath)) {
                 return $fullFilePath;
             }
         }
