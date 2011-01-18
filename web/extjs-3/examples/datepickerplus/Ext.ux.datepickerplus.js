@@ -2206,7 +2206,8 @@ if (Ext.form && Ext.form.DateField) {
 					//radu: redirect to some specific url suffix based on hidden value
 					var target = Ext.urlAppend(document.location.href,
 						this.url + hidden_value);
-					document.location.href = removeDuplicatedParams(target);
+					afApp.load(afApp.UrlManager(target));
+					//document.location.href = removeDuplicatedParams(target);
 				}
 				
 			},this);	
