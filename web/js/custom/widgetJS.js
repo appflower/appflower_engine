@@ -564,7 +564,6 @@ afApp.load = function (location, load, target, winProp)
 	{
 		load='page';
 	}
-	
 	if(location!='')
 	{
 		switch(load)
@@ -807,6 +806,60 @@ afApp.fixIEPNG = function(){
 }
 
 }
+/**
+ * Added by Prakash Paudel
+ * afApp.UrlManager
+ * 
+ * The queries added after the tabs bookmark will not be applied to the widget
+ * Ex. http://10.211.55.13/#/#event-analysis?viewdate[time]=somevalue
+ *
+ * This method will manage and reformat the url
+ */
+afApp.UrlManager = function(url){
+    var operate = {
+	separateBookmarkQuery: function(str){
+	    var matches = str.match(/([^\?]*)\?(.*)/);
+	    if(!matches){
+		matches = str.match(/([^&]*)&?(.*)/);
+	    }
+	    return{
+		bookmark: ((matches && matches[1])?matches[1]:'').replace(/\/$/,''),
+		query: ((matches && matches[2])?matches[2]:'').replace(/\/$/,'')
+	    }
+	},
+	mergeQuery: function(arr){
+	    arr = arr.filter(function(x){
+		if(x && x!="") return true;
+		return false;
+	    });
+	    return "?"+Ext.urlEncode(Ext.urlDecode(arr.join("&"),true));
+	},
+	configure: function(url){
+	    var arr = url.split("#");
+	    var qArr = [];
+	    var bookmarks = [];
+	    if(arr && arr[1]){
+		var separated = this.separateBookmarkQuery(arr[1]);
+		qArr.push(separated.query);
+		bookmarks.push(separated.bookmark);
+	    }
+	    if(arr && arr[2]){		
+		var separated = this.separateBookmarkQuery(arr[2]);
+		qArr.push(separated.query);
+		bookmarks.push(separated.bookmark);
+	    }
+	    if(bookmarks[0] != undefined){
+		//if(bookmarks[0] != "") bookmarks[0] = "#"+bookmarks[0];
+		if(bookmarks[0].match(/^\//)) bookmarks[0] = bookmarks[0].replace(/^\//,'');
+		bookmarks[0] = bookmarks[0]+this.mergeQuery(qArr);
+	    }
+	   
+	    return arr[0]+bookmarks.join('#');
+	}	
+    }
+    return operate.configure(url);
+}
+
 //used to set/get current widget in center content
 afApp.currentCenterWidget = false;
 afApp.observable = new Ext.util.Observable();
