@@ -39,6 +39,11 @@ function in_array (needle, haystack, argStrict) {
     return false;
 }
 
+String.prototype.ucfirst = function () {
+	   
+    return this.substr(0,1).toUpperCase()+this.substr(1);
+}
+
 Array.prototype.in_array = function (needle, argStrict) {
 	   
     var key = '', strict = !!argStrict, haystack=this;
