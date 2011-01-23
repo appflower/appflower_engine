@@ -18,6 +18,21 @@ class ArrayUtil {
         }
         return $array;
     }
+    
+    
+    public static function find($key,$value,Array $array) {
+    	
+    	foreach($array as $item) {
+    		foreach($item as $entry) {
+    			if($entry[$key] == $value) {
+    				return $entry["Username"];
+    			}
+    		}
+    	}
+    	
+    	return -1;
+    	
+    }
 
     public static function isTrue($array, $key) {
         if (!isset($array[$key])) {
