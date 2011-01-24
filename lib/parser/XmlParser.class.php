@@ -84,7 +84,8 @@ class XmlParser extends XmlParserTools {
 		 WIZARD = 2;
 		 
 
-	function __construct($type = self::PANEL, $dry_run = false, $step = false, $manual = false, $internal = false, $build = false) {
+	function __construct($type = self::PANEL, $dry_run = false, $step = false, $manual = false, $internal = false, $build = false, $options = null) {
+		$this->options = $options;
 		
 		if($build) {
 			$build = strtok(substr($build,1),"?");
@@ -2379,11 +2380,19 @@ class XmlParser extends XmlParserTools {
 	private function setUnique() {
 		
 		$elements = $this->fetch("//i:field[@name]|//i:button[@name]|//i:linkbutton[@name]|//i:link[@name]");
+		// The formNumber can be any number.
+		// XmlParserValidationFilter::removeIterationNumber()
+		// will take care of it. Arrays 'edit' or 'edit[0]' can be used
+		// to read the submitted data.
+		$formNumber = $this->iteration;
+		if (isset($this->options['formNumber'])) {
+			$formNumber += $this->options['formNumber'];
+		}
 		
 		foreach($elements as $elem) {
 			
 			$name = $this->get($elem,"name");
-			$value = $this->view."[".$this->iteration."][".$name."]";
+			$value = $this->view."[".$formNumber."][".$name."]";
 			$this->set("name",$value,$elem);
 			$ref = $this->any("grouping/i:set/i:ref[@to='".$name."']");
 			

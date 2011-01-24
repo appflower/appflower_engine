@@ -3,8 +3,8 @@ class ImmExtjsAjaxLoadWidgets{
 	private $layout = null;	
 	private $type = false;
 	
-	function __construct(){		
-		$this->init();
+	function __construct($parserOptions=null){		
+		$this->init($parserOptions);
 	}
 	public function setLayout($layout){
 		$this->layout = $layout;
@@ -16,8 +16,14 @@ class ImmExtjsAjaxLoadWidgets{
 	public function getType(){
 		return $this->type;
 	}
-	private function init(){		
-		$parser = new XmlParser();		
+	private function init($parserOptions){		
+		$parser = new XmlParser(XmlParser::PANEL,
+			false,  // dry_run
+			false,  // step
+			false,  // manual
+			false,  // internal
+			false,  // build
+			$parserOptions);
 		$this->type = $parser->getType();		
 		$this->layout = $parser->getLayout();
 		if(method_exists($this->layout,'beforeEnd'))
@@ -45,11 +51,14 @@ class ImmExtjsAjaxLoadWidgets{
 			}
 		}
 		elseif($action->getRequestParameter("widget_popup_request")){	
+			$popupCounter = $action->getRequestParameter(
+				'widget_popup_request');
+			$parserOptions = array('formNumber'=> $popupCounter * 100);
 				
 			if(!$action->isPageComponent){		
 				sfConfig::set('app_parser_panels', array());
 				sfConfig::set('app_parser_skip_toolbar', true);
-				$w = new ImmExtjsAjaxLoadWidgets();				
+				$w = new ImmExtjsAjaxLoadWidgets($parserOptions);				
 				echo $widgetLoadJson=='true'?json_encode($w->getSourceForPopupLoad()):print_r($w->getSourceForPopupLoad());
 				exit;
 			}

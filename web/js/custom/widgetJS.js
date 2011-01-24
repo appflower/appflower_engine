@@ -104,7 +104,6 @@ afApp.pack = function(win,winConfig){
 afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 	var viewport=App.getViewport();
 	var counter = 0;
-	var backup = new Array();
 	var finish;
 	var load = function(){	
 		if(counter >= addons.length){
@@ -120,7 +119,6 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 	};
 
 	finish = function(){
-				backupForms();
 				eval(json.source);								
 				Ext.applyIf(winConfig, {
 					autoScroll : true,
@@ -164,46 +162,9 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 					if(superClass)superClass.onHide(win);									
 					win.destroy();
 					win.close();
-					restoreBackup();
 				});
 				afApp.fixIEPNG();
 	};
-
-	function restoreBackup(){
-		for(id in backup){
-			var el = document.getElementById(id);
-			if(el){
-				el.id = backup[id]
-			}
-		}
-	}
-	function backupForms(comp){		
-		var randomnumber=Math.floor(Math.random()*11);
-		var randomId = "x-form-el-random-"+randomnumber;
-		var inputs = document.getElementsByTagName("input");
-		var textareas = document.getElementsByTagName("textarea");
-		var selects = document.getElementsByTagName("select");
-		
-		var arr = new Array();
-		arr.push(inputs);
-		arr.push(textareas);
-		arr.push(selects);
-		for(var j=0;j<arr.length;j++){
-			var forms = arr[j];
-			for(var i=0;i<forms.length;i++){
-				if(forms[i].id){
-					if(forms[i].id.match("edit")){					
-						var el = document.getElementById("x-form-el-"+forms[i].id);							
-						if(el){ 
-							backup[randomId+"-"+i] = el.id;
-							el.id = randomId+"-"+i;
-						}						
-					}
-				}
-			}
-		}
-		
-	}
 
 	load();
 }
@@ -273,6 +234,7 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 	var mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Opening widget</b> <br>Please Wait...",removeMask:true});
 	//mask.show();
 	afApp.initLoadingProgress(viewport.layout.center.panel.getEl());
+	afApp.widgetPopup.counter += 1;
 	var ajax = Ext.Ajax.request( {
 		url : afApp.urlPrefix + widget,
 		method : "GET",		
@@ -314,10 +276,11 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 			mask.hide();
 		},
 		params : {
-			widget_popup_request : true
+			widget_popup_request: afApp.widgetPopup.counter
 		}
 	});
 }
+afApp.widgetPopup.counter = 0;
 
 // <a/> tags with widgetLoad CSS class will be loaded inside the center panel.
 afApp.attachHrefWidgetLoad = (function ()
