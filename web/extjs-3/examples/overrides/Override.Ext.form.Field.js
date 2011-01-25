@@ -118,6 +118,12 @@ Ext.override(Ext.form.TextField,{
 		if(this.PasswordFocus){
 			el.dom.setAttribute('type','password');
 		}
+	},
+	beforeBlur : function(){
+		if(this.PasswordFocus && this.getValue()==""){
+			this.el.dom.setAttribute('type','text');
+			this.reset();
+		}
 	}
 });
 
