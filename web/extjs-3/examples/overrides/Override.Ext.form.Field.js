@@ -102,6 +102,11 @@ Ext.override(Ext.form.TextField,{
 	     */
 	    this.originalValue = this.getValue();
 	},
+	pfocus:function(){
+		this.el = Ext.get(this.id);
+		this.el.dom.focus();
+		
+	},
 	preFocus : function(){
 		var el = this.el,isEmpty;
 		if(this.emptyText){
@@ -115,14 +120,44 @@ Ext.override(Ext.form.TextField,{
 			el.dom.select();
 		}
 		
-		if(this.PasswordFocus){
-			el.dom.setAttribute('type','password');
+		if(this.PasswordFocus && !this._prefocus){
+			if(Ext.isIE){
+				var html = el.dom.parentNode.innerHTML;
+				if(html.indexOf("type=")>1){
+					html=html.replace("text","password");
+				}else{
+					html = html.substr(0,html.length-1);
+					html+="  type='password'>";
+				}
+				el.dom.parentNode.innerHTML=html;
+				this.initEvents();
+				var task = new Ext.util.DelayedTask(this.pfocus,this);
+				task.delay(100); 
+				this.PasswordFocus=true;
+			}else{
+				el.dom.setAttribute('type','password');
+			}
 		}
+		this._prefocus=true;
 	},
 	beforeBlur : function(){
-		if(this.PasswordFocus && this.getValue()==""){
-			this.el.dom.setAttribute('type','text');
-			this.reset();
+		if( this.el.dom.value==""){
+			if( this._prefocus){
+				if(Ext.isIE){
+					/*debugger;
+					var html = this.el.dom.parentNode.innerHTML;
+					html=html.replace("password","text");
+					this.el.dom.parentNode.innerHTML=html;
+					this.el = Ext.get(this.id);
+					this.applyEmptyText();
+					this.initEvents();*/
+				}else{
+					this.el.dom.setAttribute('type','text');
+					this.reset();
+				}
+			}
+			
+			this._prefocus = false;
 		}
 	}
 });
