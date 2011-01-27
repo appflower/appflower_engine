@@ -8,11 +8,12 @@ class ImmExtjsPanel
 	/**
 	 * default attributes for the window
 	 */
-	public $attributes=array('border'=>false,'header'=>false,'style'=>'padding:5px;','idxml'=>false);
+	public $attributes=array('border'=>false,'header'=>false,'style'=>'padding:0px;','idxml'=>false);
 	public $menuactions_items = array();
 	
 	public $immExtjs=null;	
 	public $privateName=null;
+	private $afterRender;
 							
 	public function __construct($attributes=array())
 	{		
@@ -35,13 +36,23 @@ class ImmExtjsPanel
 		if(isset($attributes['portal'])&&$attributes['portal']==true)
 		{
 			
-			$this->attributes=array_merge($this->attributes,array('anchor'=> '100%',
-															'frame'=>true,
-															'collapsible'=>true,
-															'draggable'=>true,
-															'maximizable'=>true,
-															
-															'cls'=>'x-portlet'));
+			$this->attributes=array_merge($this->attributes,
+				array('anchor'=> '100%',
+					'frame'=>true,
+					'collapsible'=>true,
+					'draggable'=>true,
+					'maximizable'=>true,
+					'cls'=>'x-portlet'
+				)
+			);
+			$this->afterRender = "
+				var d = 4;
+				if(object.tbar){
+					object.tbar.dom.style.width = object.getEl().getWidth()-d+'px';
+					object.tbar.dom.firstChild.style.width = object.getEl().getWidth()-d+'px';
+				}
+				if(object.body)	object.body.dom.style.width = object.getEl().getWidth()-d+'px';
+			";
 			$this->attributes['plugins'][] = 'new Ext.ux.MaximizeTool()';												
 			unset($attributes['portal']);
 		}
@@ -64,7 +75,7 @@ class ImmExtjsPanel
 		));
 		$this->attributes['listeners']['afterrender'] = $this->immExtjs->asMethod(array(
 			"parameters"=>"object",
-			"source"=>"if(object.ownerCt.ownerCt && object.ownerCt.ownerCt.doLayout) try{object.ownerCt.ownerCt.doLayout();}catch(e){}"
+			"source"=>$this->afterRender."if(object.ownerCt.ownerCt && object.ownerCt.ownerCt.doLayout) try{object.ownerCt.ownerCt.doLayout();}catch(e){}"
 		));
 		if((isset($attributes['autoEnd'])&&$attributes['autoEnd'])||!isset($attributes['autoEnd']))
 		{
