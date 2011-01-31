@@ -8,30 +8,30 @@
  * Fix for the checkbox focus visible
  */
 Ext.override(Ext.form.Checkbox, {
-	onFocus: function(){
-		var wrap = this.wrap;
-		if(!wrap) return
-		wrap.setStyle("float","left")
-		wrap.setStyle("height","auto")
-		wrap.setStyle("border","1px solid #7eadd9")
-		Ext.DomHelper.insertAfter(wrap,{tag:'div',style:'clear:both'})
-		
-	},
-	onBlur: function(){
-		var wrap = this.wrap;
-		if(!wrap) return
-		wrap.setStyle("border","0px solid #7eadd9")
-	}
+  onFocus: function(){
+    var wrap = this.wrap;
+    if(!wrap) return
+    wrap.setStyle("float","left")
+    wrap.setStyle("height","auto")
+    wrap.setStyle("border","1px solid #7eadd9")
+    Ext.DomHelper.insertAfter(wrap,{tag:'div',style:'clear:both'})
+    
+  },
+  onBlur: function(){
+    var wrap = this.wrap;
+    if(!wrap) return
+    wrap.setStyle("border","0px solid #7eadd9")
+  }
 });
 
 /**
  * Fix for the radio focus visible
  */
 Ext.override(Ext.form.Radio, {
-	onFocus: function(){		
-	},
-	onBlur: function(){
-	}
+  onFocus: function(){    
+  },
+  onBlur: function(){
+  }
 });
 
 
@@ -39,11 +39,11 @@ Ext.override(Ext.form.Radio, {
  * Fix for the button focus visible, looks like mouse overed when focused
  */
 Ext.override(Ext.Button, {
-    onFocus: function(){	
-		this.addClass("x-btn-over")
+    onFocus: function(){  
+    this.addClass("x-btn-over")
     },
     onBlur: function(){
-    	this.removeClass("x-btn-over")
+      this.removeClass("x-btn-over")
     }
 });
 
@@ -51,30 +51,30 @@ Ext.override(Ext.Button, {
  * Fix for enter key press form submit
  */
 Ext.override(Ext.form.Field,{
-	fireKeys : function(e) {		
-	    if(((Ext.isIE && e.type == 'keydown') || e.type == 'keypress') && e.isSpecialKey()) {
-	    	if(e.getKey() == e.ENTER){
-	    		if(this.getXType() != "textarea" && this.getXType() != "superboxselect"){
-		    		var form = this.findParentByType('form');
-		    		//this.fireEvent("specialkey",this);
-		    		if(form){	    			
-			    		Ext.each(form.buttons,function(button){	    			
-			    			if(button.url && button.url == form.url){	    				
-			    				button.handler.call(button.scope);
-			    			}
-			    		})	    			
-		    		}
-	    		}
-	    	}
-	    }	    
-	},
-	initEvents : function() {		
-	    this.el.on("keydown", this.fireKeys, this);
-	    this.el.on("keypress", this.fireKeys, this);
-	    this.el.on("keyup", this.fireKeys, this);
-	    this.el.on("focus", this.onFocus, this);
-	    this.el.on("blur", this.onBlur, this);
-	}
+  fireKeys : function(e) {    
+      if(((Ext.isIE && e.type == 'keydown') || e.type == 'keypress') && e.isSpecialKey()) {
+        if(e.getKey() == e.ENTER){
+          if(this.getXType() != "textarea" && this.getXType() != "superboxselect"){
+            var form = this.findParentByType('form');
+            //this.fireEvent("specialkey",this);
+            if(form){           
+              Ext.each(form.buttons,function(button){           
+                if(button.url && button.url == form.url){             
+                  button.handler.call(button.scope);
+                }
+              })            
+            }
+          }
+        }
+      }     
+  },
+  initEvents : function() {   
+      this.el.on("keydown", this.fireKeys, this);
+      this.el.on("keypress", this.fireKeys, this);
+      this.el.on("keyup", this.fireKeys, this);
+      this.el.on("focus", this.onFocus, this);
+      this.el.on("blur", this.onBlur, this);
+  }
 });
 
 /**
@@ -83,83 +83,48 @@ Ext.override(Ext.form.Field,{
  * @author: Prakash Paudel
  */
 Ext.override(Ext.form.TextField,{
-	initValue : function(){
-		if(this.value){			
-			this.value = this.value.toString().trim();
-		}
-	    if(this.value !== undefined){
-	        this.setValue(this.value);
-	    }else if(!Ext.isEmpty(this.el.dom.value) && this.el.dom.value != this.emptyText){
-	        this.setValue(this.el.dom.value);
-	    }
-	    
-	    /**
-	     * The original value of the field as configured in the {@link #value} configuration, or
-	     * as loaded by the last form load operation if the form's {@link Ext.form.BasicForm#trackResetOnLoad trackResetOnLoad}
-	     * setting is true.
-	     * @type mixed
-	     * @property originalValue
-	     */
-	    this.originalValue = this.getValue();
-	},
-	pfocus:function(){
-		this.el = Ext.get(this.id);
-		this.el.dom.focus();
-		
-	},
-	preFocus : function(){
-		var el = this.el,isEmpty;
-		if(this.emptyText){
-			if(el.dom.value==this.emptyText){
-				this.setRawValue('');
-				isEmpty=true;
-			}
-			el.removeClass(this.emptyClass);
-		}
-		if(this.SelectOnFocus || isEmpty){
-			el.dom.select();
-		}
-		
-		if(this.PasswordFocus && !this._prefocus){
-			if(Ext.isIE){
-				var html = el.dom.parentNode.innerHTML;
-				if(html.indexOf("type=")>1){
-					html=html.replace("text","password");
-				}else{
-					html = html.substr(0,html.length-1);
-					html+="  type='password'>";
-				}
-				el.dom.parentNode.innerHTML=html;
-				this.initEvents();
-				var task = new Ext.util.DelayedTask(this.pfocus,this);
-				task.delay(100); 
-				this.PasswordFocus=true;
-			}else{
-				el.dom.setAttribute('type','password');
-			}
-		}
-		this._prefocus=true;
-	},
-	beforeBlur : function(){
-		if( this.el.dom.value==""){
-			if( this._prefocus){
-				if(Ext.isIE){
-					/*debugger;
-					var html = this.el.dom.parentNode.innerHTML;
-					html=html.replace("password","text");
-					this.el.dom.parentNode.innerHTML=html;
-					this.el = Ext.get(this.id);
-					this.applyEmptyText();
-					this.initEvents();*/
-				}else{
-					this.el.dom.setAttribute('type','text');
-					this.reset();
-				}
-			}
-			
-			this._prefocus = false;
-		}
-	}
+  initValue : function(){
+    if(this.value){     
+      this.value = this.value.toString().trim();
+    }
+      if(this.value !== undefined){
+          this.setValue(this.value);
+      }else if(!Ext.isEmpty(this.el.dom.value) && this.el.dom.value != this.emptyText){
+          this.setValue(this.el.dom.value);
+      }
+      
+      /**
+       * The original value of the field as configured in the {@link #value} configuration, or
+       * as loaded by the last form load operation if the form's {@link Ext.form.BasicForm#trackResetOnLoad trackResetOnLoad}
+       * setting is true.
+       * @type mixed
+       * @property originalValue
+       */
+      this.originalValue = this.getValue();
+  },
+  preFocus : function(){
+    var el = this.el,isEmpty;
+    if(this.emptyText){
+      if(el.dom.value==this.emptyText){
+        this.setRawValue('');
+        isEmpty=true;
+      }
+      el.removeClass(this.emptyClass);
+    }
+    if(this.SelectOnFocus || isEmpty){
+      el.dom.select();
+    }
+    
+    if(this.PasswordFocus){
+      el.dom.setAttribute('type','password');
+    }
+  },
+  beforeBlur : function(){
+    if(this.PasswordFocus && this.getValue()==""){
+      this.el.dom.setAttribute('type','text');
+      this.reset();
+    }
+  }
 });
 
 /**
@@ -176,15 +141,15 @@ Ext.override(Ext.form.HtmlEditor, {
         
         switch(this.msgTarget){
             case 'qtip':
-            	this.iframe.qtip = msg;
+              this.iframe.qtip = msg;
                 this.iframe.qclass = 'x-form-invalid-tip';
                 Ext.get(this.iframe).addClass(this.invalidClass);
                 break;
             case 'side':
-            	Ext.get(this.iframe).addClass(this.invalidClass);
-            	
-            	this.errorDiv=Ext.DomHelper.append(this.wrap,{tag:'div',style:'top:0px;left:'+(this.wrap.getWidth()+85)+'px;z-index:1000;position:absolute;visibility:visible;',cls:'x-form-invalid-icon',qtip:msg,qclass:'x-form-invalid-tip'});            	
-	            break;
+              Ext.get(this.iframe).addClass(this.invalidClass);
+              
+              this.errorDiv=Ext.DomHelper.append(this.wrap,{tag:'div',style:'top:0px;left:'+(this.wrap.getWidth()+85)+'px;z-index:1000;position:absolute;visibility:visible;',cls:'x-form-invalid-icon',qtip:msg,qclass:'x-form-invalid-tip'});             
+              break;
         }
         return Ext.form.TextArea.superclass.markInvalid.call(this, [msg]);
     },
@@ -198,18 +163,14 @@ Ext.override(Ext.form.HtmlEditor, {
                 Ext.get(this.iframe).removeClass(this.invalidClass);
                 break;
             case 'side':
-            	if(this.errorDiv)
-            	{            		
-                	Ext.get(this.errorDiv).remove();
-            	}
+              if(this.errorDiv)
+              {               
+                  Ext.get(this.errorDiv).remove();
+              }
                 Ext.get(this.iframe).removeClass(this.invalidClass);
                 break;
         }
         return Ext.form.TextArea.superclass.clearInvalid.call(this);
     }
 });
-
-
-
-
 
