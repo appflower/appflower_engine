@@ -109,10 +109,7 @@ class afConfigUtils {
 
         foreach ($paths as $path) {
             $fullFilePath = $path.'/'.$filePath;
-            $fullDirPath = dirname($fullFilePath);
-            if (is_dir($fullDirPath)) {
-                return $fullFilePath;
-            }
+            return $fullFilePath;
         }
     }
 
