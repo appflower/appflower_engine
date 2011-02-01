@@ -139,7 +139,7 @@ Ext.extend(Ext.ux.plugins.RealtimeWidgetUpdate, Ext.util.Observable,{
 			    	   method:'POST',
 			    	   params:Ext.apply(me.requestParams,{
 			    	   		reload:'true'
-			       	   }),
+			       	   },widget.requestParams || {}),
 			       	   success: owner.onSuccess,
 			       	   failure: function(){
 							autoReload.afterFailure();
