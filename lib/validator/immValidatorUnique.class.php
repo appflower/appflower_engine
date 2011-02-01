@@ -41,7 +41,7 @@ class immValidatorUnique extends sfValidatorBase
 		$c->add(constant($this->getOption('class')."Peer::".strtoupper($this->getOption('column'))),$value);
 		$res = call_user_func(array($this->getOption('class')."Peer","doSelectOne"),$c);
 		
-		if($res and $res->getId() === $id){
+		if($res && $res->getId() == $id){
 			return $value;
 		}else if($res && $res->getId() !== $id){
 			throw new sfValidatorError($this, 'unique', array('value' => $value,'unique' => $this->getOption('unique')));			
