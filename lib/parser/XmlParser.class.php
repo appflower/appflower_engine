@@ -3175,7 +3175,7 @@ class XmlParser extends XmlParserTools {
 					$filterParams = "fObj = ".$grid->privateName.".filters; var query = Ext.urlEncode(fObj.buildQuery(fObj.getFilterData()));";
 					if(isset($parse["pager"]) && $parse["pager"] === "true" && in_array("page",$parse["exportable"])) {
 						$grid->addMenuActionsItem(array('label'=>'Export Page as CSV', 'icon'=>'/images/famfamfam/database_save.png','url' => '#','listeners'=>array('click'=> array('parameters'=>'','source'=>"
-						var fObj = ".$grid->privateName.".filters; var query = Ext.urlEncode(fObj.buildQuery(fObj.getFilterData()));
+						var fObj = ".$grid->privateName.".filters;  var query = ''; if(fObj) query = Ext.urlEncode(fObj.buildQuery(fObj.getFilterData()));
 						window.location.href='/parser/csvexport?'+query+'&uid=".$unique_id."&export=page&start='+".$grid->privateName.
 						".store.lastOptions.params.start+'&limit='+".$grid->privateName.".store.lastOptions.params.limit+'&sort='+((".
 						$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.field : '')+'&dir='+((".
@@ -3190,7 +3190,7 @@ class XmlParser extends XmlParserTools {
 								   msg: "Are you sure you want export '. sfConfig::get("app_parser_max_items").' items? This may take a while..",
 								   buttons: Ext.Msg.YESNO,
 								   fn: function(buttonId){if(buttonId == "yes"){'.
-								   "var fObj = ".$grid->privateName.".filters; var query = Ext.urlEncode(fObj.buildQuery(fObj.getFilterData()));
+								   "var fObj = ".$grid->privateName.".filters;  var query = ''; if(fObj) query = Ext.urlEncode(fObj.buildQuery(fObj.getFilterData()));
 								   window.location.href='/parser/csvexport?'+query+'&uid=".$unique_id."&export=all&sort='+((".
 								   $grid->privateName.".store.sortInfo) ? ".$grid->privateName.
 								   ".store.sortInfo.field : '')+'&dir='+((".$grid->privateName.".store.sortInfo) ? ".
@@ -3224,7 +3224,7 @@ class XmlParser extends XmlParserTools {
 
 							$grid->addMenuActionsItem(array('label'=>'Export '.(($fs === "true") ? "Selected" :  "All").' as CSV', 'forceSelection' => "true", 
 							'icon'=>'/images/famfamfam/database_save.png','url' => '#','listeners'=>array('click'=> array('parameters'=>'','source'=>
-							"var fObj = ".$grid->privateName.".filters; var query = Ext.urlEncode(fObj.buildQuery(fObj.getFilterData()));
+							"var fObj = ".$grid->privateName.".filters;  var query = ''; if(fObj) query = Ext.urlEncode(fObj.buildQuery(fObj.getFilterData()));
 							frm = document.createElement('form'); field = document.createElement('input'); field.setAttribute('type','hidden'); field.setAttribute('name','selections'); field.value = ".
 							$grid->privateName.".getSelectionModel().getSelectionsJSON(); frm.appendChild(field); frm.action = '/parser/csvexport?'+query+'&uid=".
 							$unique_id."&_csrf_token=".$this->context->getRequest()->getAttribute("_csrf_token")."&export=".(($fs === "true") ? "selected" : "all")."&sort='+((".$grid->privateName.".store.sortInfo) ? ".$grid->privateName.".store.sortInfo.field : '')+'&dir='+((".
