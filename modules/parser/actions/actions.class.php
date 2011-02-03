@@ -167,9 +167,6 @@ class parserActions extends sfActions
 		foreach($items as $ik => $item) {
 			foreach($item as $ck => &$column) {
 				$tmp = array();
-				if(!strstr($column,'"')) {
-					$items[$ik][$ck] = '"'.$column.'"';	
-				}
 				$m = preg_match_all("/(<[^>]+>)([^<]+)(<\/[^>]+>)/",$column,$matches);
 				if($m) {
 					foreach($matches[2] as $k => $v) {
@@ -263,11 +260,9 @@ class parserActions extends sfActions
 					}
 					$items[] = $arrtmp;
 				}
-			
+
+				$this->removeTags($items);
 			}
-			
-			$this->removeTags($items);
-			
 		}
 		
 		if(!ArrayUtil::isTrue($parser, 'remoteSort') && $sort) {
@@ -377,6 +372,8 @@ class parserActions extends sfActions
 					foreach($group as $ik => $item) {
 						foreach($item as $k => $cell) {
 							$item[$k] = str_replace("\n","",trim(strip_tags($cell)));
+							// Quoting for CSV.
+							$item[$k] = '"'.str_replace('"', '""', $item[$k]).'"';
 							if(!in_array($k,$export_columns)) {
 								unset($item[$k]);
 							} 
