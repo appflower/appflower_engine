@@ -181,17 +181,18 @@ afApp.createAddon = function(filename, filetype, callback) {
 		filetype=f[f.length-1];
 	}
 	
+	var version = afApp.APP_VERSION || Math.floor(new Date().getTime()/1000);
 	//console.log(filename+":"+filetype);
 	if (filetype == "js") { // if filename is a external JavaScript file
 		var fileref = document.createElement('script')
 		fileref.setAttribute("type", "text/javascript")
-		fileref.setAttribute("src", filename)
+		fileref.setAttribute("src", filename + "?v=" + version)
 		GLOBAL_JS_VAR.push(filename);
 	} else if (filetype == "css") { // if filename is an external CSS file
 		var fileref = document.createElement("link")
 		fileref.setAttribute("rel", "stylesheet")
 		fileref.setAttribute("type", "text/css")
-		fileref.setAttribute("href", filename)
+		fileref.setAttribute("href", filename + "?v=" + version)
 		GLOBAL_CSS_VAR.push(filename);
 	}
 	
