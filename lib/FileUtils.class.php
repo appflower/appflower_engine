@@ -63,7 +63,24 @@ class FileUtils {
         }
 
         return false;
-  }
+  	}
+  	
+  	
+  	public static function createFile($filename,$data = null,$type = "t") {
+		
+    		$fp = @fopen($filename,"w".$type);
+    		
+    		if(!$fp) {
+    			throw new Exception("Couldn't save file: ".$filename);
+    		}
+    		
+    		if(!is_null($data)) {
+    			fwrite($fp, $data);	
+    		}
+    		
+    		fclose($fp);
+	}
+	
   	
     
 }
