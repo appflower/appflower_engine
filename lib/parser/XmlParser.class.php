@@ -4490,6 +4490,8 @@ if(response.message) {
 	private static function defineHtmlComponent($params) {
 		$options = array('html'=>$params['html']);
 		if (isset($params['initJs'])) {
+			// The code in initJs can use "this" to refer to the container.
+			// Preserve it when making changes.
 			$options['listeners'] = array(
 				'afterrender'=> array(
 					'fn'=>ImmExtjs::asVar(
