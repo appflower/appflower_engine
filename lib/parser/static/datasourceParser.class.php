@@ -30,13 +30,17 @@ class datasourceParser extends XmlBaseElementParser {
 		$method = self::$parser->get($element,"name");
 		$type = self::$parser->get($element,"type");
 
-		self::$parser->enumCheck("i:fetchType",$type);
+		if ($method != '') {
+			self::$parser->enumCheck("i:fetchType",$type);
+		}
 		
 		$nodes = self::$parser->fetch("./i:param",$element);
 		$it = new nodeListIterator($nodes);
-		
-		self::add("datasource/method/name",$method);
-		self::add("datasource/method/type",$type);
+
+		if ($method != '') {
+			self::add("datasource/method/name",$method);
+			self::add("datasource/method/type",$type);
+		}
 		
 		if($it->getListLength() > 0) {
 			self::parseValues($it);

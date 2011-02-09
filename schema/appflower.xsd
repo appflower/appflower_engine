@@ -1200,7 +1200,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       <xs:complexType>
 			<xs:sequence>
 				<xs:element ref="i:class" minOccurs="1" maxOccurs="1" />
-				<xs:element ref="i:method" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="i:method" minOccurs="0" maxOccurs="1" />
 			</xs:sequence>
         	<xs:attributeGroup ref="i:commonAttributes" />
         	<xs:attribute name="type" type="i:valueType" use="required" />

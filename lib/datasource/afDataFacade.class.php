@@ -63,7 +63,7 @@ class afDataFacade {
 
         if($sourceType === 'orm') {
             list($callback, $params) = self::getDataSourceCallback($view);
-            list($peer, $method) = $callback;
+            $peer = $view->get('datasource/class');
             
             $result = afCall::funcArray($callback, $params);
 
@@ -107,7 +107,11 @@ class afDataFacade {
 
         $class = $view->get('datasource/class');
         $method = $view->get('datasource/method@name');
-        $callback = array($class, $method);
+        if ($method == '') {
+            $callback = array('afCriteriaCreator','createCriteria');
+        } else {
+            $callback = array($class, $method);
+        }
         return array($callback, $args);
     }
 
