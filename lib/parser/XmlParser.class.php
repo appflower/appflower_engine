@@ -2855,7 +2855,10 @@ class XmlParser extends XmlParserTools {
 			  			foreach($_FILES["edit"] as $k => $value) {		  		
 			  				
 			  				if($k == "error") {
-			  					if($value[2][key($value[2])] != 0) {
+			  					
+			  					if($value[2][key($value[2])] === UPLOAD_ERR_NO_FILE) {
+			  						continue;
+			  					} else if($value[2][key($value[2])] !== UPLOAD_ERR_OK) {
 			  						return $value[2][key($value[2])];	
 			  					}
 			  					
