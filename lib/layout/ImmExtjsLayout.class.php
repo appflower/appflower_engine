@@ -170,7 +170,7 @@ class ImmExtjsLayout
 					this.on("bodyresize",function(comp,w,h){
 						var body = Ext.select("div[class=\'x-panel-body\']",comp.bwrap);
 						if(body && body.elements && body.elements[0]){
-							//body.elements[0].style.height = body.elements[0].offsetHeight-logoDiv.offsetHeight+"px";
+							body.elements[0].style.height = body.elements[0].offsetHeight-logoDiv.offsetHeight+"px";
 						}
 					});
 				';
