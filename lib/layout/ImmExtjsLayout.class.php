@@ -184,8 +184,8 @@ class ImmExtjsLayout
 						      'title'=>'Navigation',
 						      'width'=>'255',
 							  'minWidth'=>'255',
-							  'autoHeight'=>'false',
-							  'autoScroll'=>'true',								  
+							  /*'autoHeight'=>'false',
+							  'autoScroll'=>'true',*/								  
 						      'split'=>'true',							
 							  'layoutConfig'=>array('animate'=>'true'),
 						      'collapsible'=>'true',
@@ -392,21 +392,23 @@ class ImmExtjsLayout
 		Ext.form.Field.prototype.msgTarget = 'side';
 		Ext.History.init();
 		";
-		
-		if(isset($this->immExtjs->private['toolbar']))
-		@$this->immExtjs->public['init'] .= "toolbar.render(document.body);";
+				
+		@$this->immExtjs->public['init'] .="
+		viewport.doLayout();";
 		
 		@$this->immExtjs->public['init'] .="
-		viewport.doLayout();	
-		setTimeout(function(){
+		setTimeout(function(){			
 			Ext.get('loading').remove();
 	        Ext.get('loading-mask').fadeOut({remove:true});
+	        	        
 	    ".(!$this->showFullCenter()?"afApp.loadFirst();":"")."        
 	    }, 250);
 	    afApp.urlPrefix = '".sfContext::getInstance()->getRequest()->getRelativeUrlRoot()."';
 	    afApp.sharpPrefix = '".sfConfig::get('app_appflower_sharpPrefix')."';
 	    ";
 
+		$this->immExtjs->public['getNorth'] = "return north_panel;";
+		$this->immExtjs->public['getNorth'] = $this->immExtjs->asMethod($this->immExtjs->public['getNorth']);
 		
 		$this->immExtjs->public['getViewport'] = "return viewport;";
 		$this->immExtjs->public['getViewport'] = $this->immExtjs->asMethod($this->immExtjs->public['getViewport']);

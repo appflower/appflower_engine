@@ -672,6 +672,13 @@ afApp.loadFirst = function()
 	
 	var firstUri=uri[1]+uri[2];
 	
+	//load the toolbar inside the north panel, after rendering of layout, because of QuickTips bug
+	var north = App.getNorth();
+	var toolbar = App.getToolbar();
+
+	north.add(toolbar);
+	north.doLayout();
+	
 	afApp.loadCenterWidget(firstUri);
 }
 
