@@ -101,24 +101,9 @@ afApp.pack = function(win,winConfig){
 		});
 	});
 }
-afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
+afApp._displayPopup = function(json,mask,title,superClass,winConfig){
 	var viewport=App.getViewport();
-	var counter = 0;
-	var finish;
-	var load = function(){	
-		if(counter >= addons.length){
-			finish();
-			return;
-		}
-		mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.",removeMask:true});
-		//mask.show();		
-		afApp.loadingProgress(viewport.layout.center.panel.getEl(),(counter+1)/addons.length);
-		var nextAddon=addons[counter++];
-		
-		afApp.createAddon(nextAddon,false,load);
-	};
-
-	finish = function(){
+	function finish(){
 				eval(json.source);								
 				Ext.applyIf(winConfig, {
 					autoScroll : true,
@@ -166,51 +151,140 @@ afApp.executeAddons = function(addons,json,mask,title,superClass,winConfig){
 				afApp.fixIEPNG();
 	};
 
-	load();
-}
-afApp.createAddon = function(filename, filetype, callback) {
-	
-	if(filename.indexOf('http://')!=-1)
-	{
-		filename = afApp.urlPrefix + filename;
-	}
-	
-	if(!filetype)
-	{
-		var f = filename.split('.');
-		filetype=f[f.length-1];
-	}
-	
-	var version = afApp.APP_VERSION || Math.floor(new Date().getTime()/1000);
-	//console.log(filename+":"+filetype);
-	if (filetype == "js") { // if filename is a external JavaScript file
-		var fileref = document.createElement('script')
-		fileref.setAttribute("type", "text/javascript")
-		fileref.setAttribute("src", filename + "?v=" + version)
-		GLOBAL_JS_VAR.push(filename);
-	} else if (filetype == "css") { // if filename is an external CSS file
-		var fileref = document.createElement("link")
-		fileref.setAttribute("rel", "stylesheet")
-		fileref.setAttribute("type", "text/css")
-		fileref.setAttribute("href", filename + "?v=" + version)
-		GLOBAL_CSS_VAR.push(filename);
-	}
-	
-	if (typeof fileref != "undefined")
-		document.getElementsByTagName("head")[0].appendChild(fileref)
-		
-	if (filetype == "js") { // if filename is a external JavaScript file
-		fileref.onload = fileref.onreadystatechange = function() {
-			if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") 
-			{
+	finish();
+};
+
+afApp._loadAddons = (function() {
+	var loadedJs = undefined;
+	var loadedCss = undefined;
+
+	function setOnloadCallback(script, callback) {
+		// Includes code from JQuery.
+		// Copyright 2010, John Resig
+		// Licensed under the MIT license.
+		var done = false;
+
+		// Attach handlers for all browsers
+		script.onload = script.onreadystatechange = function() {
+			if (!done && (!this.readyState ||
+					this.readyState === "loaded" || this.readyState === "complete")) {
+				done = true;
 				callback();
+
+				// Handle memory leak in IE
+				script.onload = script.onreadystatechange = null;
+			}
+		};
+	}
+
+	function createAddon(filename, filetype, callback) {
+		if(filename.charAt(0) === '/') {
+			filename = afApp.urlPrefix + filename;
+		}
+		
+		var version = afApp.APP_VERSION || Math.floor(
+				new Date().getTime() / 1000);
+		filename = filename + "?v=" + version;
+		if (filetype == "js") { // if filename is a external JavaScript file
+			var fileref = document.createElement('script');
+			fileref.setAttribute("type", "text/javascript");
+			fileref.setAttribute("src", filename);
+		} else if (filetype == "css") { // if filename is an external CSS file
+			var fileref = document.createElement("link");
+			fileref.setAttribute("rel", "stylesheet");
+			fileref.setAttribute("type", "text/css");
+			fileref.setAttribute("href", filename);
+		} else {
+			throw new Exception('unknown filetype: ' + filetype);
+		}
+		
+			
+		if (filetype == "js" && callback) {
+			setOnloadCallback(fileref, callback);
+		}
+		document.getElementsByTagName("head")[0].appendChild(fileref);
+		if (filetype == "css" && callback) {
+			callback();
+		}
+	}
+
+	function reportProgress(numLoaded, numTotal) {
+		var viewport = App.getViewport();
+		var percent;
+		if (numTotal == 0) {
+			percent = 1;
+		} else {
+			percent = numLoaded/numTotal;
+		}
+		afApp.loadingProgress(viewport.layout.center.panel.getEl(), percent);
+	}
+
+	function rememberAlreadyLoaded() {
+		// The GLOBAL_JS_VAR and GLOBAL_CSS_VAR are filled
+		// in sfExtjs2Helper.php.
+		for (var i = 0, len = GLOBAL_JS_VAR.length; i < len; i++) {
+			loadedJs[GLOBAL_JS_VAR[i]] = true;
+		}
+		for (var i = 0, len = GLOBAL_CSS_VAR.length; i < len; i++) {
+			loadedCss[GLOBAL_CSS_VAR[i]] = true;
+		}
+	}
+
+	return function(addons, afterAllLoadedCallback) {
+		if (loadedJs === undefined) {
+			loadedJs = {};
+			loadedCss = {};
+			rememberAlreadyLoaded();
+		}
+
+		if (!addons) {
+			addons = {};
+		}
+
+		var numNeeded = 0;
+		var numLoaded = 0;
+
+		// CSS files are loaded first.
+		if (addons.css) {
+			for (var i = 0, len = addons.css.length; i < len; i++) {
+				var addon = addons.css[i];
+				if (!loadedCss[addon]) {
+					loadedCss[addon] = true;
+					numNeeded += 1;
+					numLoaded += 1;
+					createAddon(addon, 'css');
+				}
 			}
 		}
-	} else if (filetype == "css") { // if filename is an external CSS file
-		callback();
-	}
-	
-}
+
+		if (addons.js) {
+			function loadCallback() {
+				numLoaded += 1;
+				reportProgress(numLoaded, numNeeded);
+				if (numLoaded == numNeeded) {
+					afterAllLoadedCallback();
+				}
+			}
+
+			for (var i = 0, len = addons.js.length; i < len; i++) {
+				var addon = addons.js[i];
+				if (!loadedJs[addon]) {
+					loadedJs[addon] = true;
+					numNeeded += 1;
+					createAddon(addon, 'js', loadCallback);
+				}
+			}
+		}
+
+		reportProgress(numLoaded, numNeeded);
+		if (numLoaded == numNeeded) {
+			afterAllLoadedCallback();
+		}
+	};
+})();
+
+;
+
 afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 	var viewport=App.getViewport();
 	if(!winConfig)
@@ -250,29 +324,10 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 			}
 			else
 			{			
-				var total_addons = new Array();
-				
-				if(json.addons && json.addons.js)
-				{
-					for ( var i = 0; i < json.addons.js.length; i++) {
-						var addon = json.addons.js[i];
-						if(!in_array(addon,GLOBAL_JS_VAR)){
-							if(addon != null)
-							total_addons.push(addon);			
-						}
-					}
-				}
-				if(json.addons && json.addons.css)
-				{
-					for ( var i = 0; i < json.addons.css.length; i++) {
-						var addon = json.addons.css[i];
-						if(!in_array(addon,GLOBAL_CSS_VAR)){
-							if(addon != null)
-							total_addons.push(addon);
-						}
-					}
-				}
-				afApp.executeAddons(total_addons,json,mask,title,superClass,winConfig);		
+				afApp._loadAddons(json.addons, function() {
+
+					afApp._displayPopup(json,mask,title,superClass,winConfig);		
+				});
 			}
 			mask.hide();
 		},
@@ -324,33 +379,12 @@ afApp.loadingProgress = function(el,percent){
 	var pb = Ext.getCmp("progress-bar");	
 	pb.updateProgress(percent,Math.ceil(percent*100)+"% complete...");
 	if(!pb.isVisible()) pb.show();
-	if(percent >= 1) {el.unmask();setTimeout(function(){pb.hide();},500)}
+	// The extra timeout is used to cover slow rendering.
+	if(percent >= 1) {el.unmask();setTimeout(function(){pb.hide();},200)}
 }
 
-afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
-	var pb;
-	var counter = 0;
-	var finish;
-	var load = function(){	
-		if(counter >= addons.length){
-			finish();
-			return;
-		}
-		
-		if(!Ext.getCmp("progress-bar")){
-			pb = new Ext.ProgressBar();		
-		}else{
-			pb = Ext.getCmp('progress-bar');
-		}
-		//mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.<span id='progress-bar'></span>",removeMask:true});
-		//mask.show();
-		afApp.loadingProgress(viewport.layout.center.panel.getEl(),(counter+1)/addons.length);
-		var nextAddon=addons[counter++];
-			
-		afApp.createAddon(nextAddon,false,load);
-	};
-
-	finish = function(){
+afApp._displayCenterWidget = function(viewport,json,mask){
+	function finish(){
 		eval(json.source);				
 		
 		var panel = viewport.layout.center.panel;
@@ -365,7 +399,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		afApp.fixIEPNG();
 	};
 	
-	load();
+	finish();
 }
 afApp.loadCenterWidget = function(widget) {
 	
@@ -415,34 +449,13 @@ afApp.loadCenterWidget = function(widget) {
 			}
 			else
 			{				
-				var total_addons = new Array();
-				
-				if(json.addons && json.addons.js)
-				{
-					for ( var i = 0; i < json.addons.js.length; i++) {
-						var addon = json.addons.js[i];
-						if(!in_array(addon,GLOBAL_JS_VAR)){
-							if(addon != null)
-							total_addons.push(addon);	
-						}
-					}
-				}
-				if(json.addons && json.addons.css)
-				{
-					for ( var i = 0; i < json.addons.css.length; i++) {
-						var addon = json.addons.css[i];
-						if(!in_array(addon,GLOBAL_CSS_VAR)){
-							if(addon != null)
-							total_addons.push(addon);
-						}
-					}
-				}
-										
 				//adding a referer param to all Ajax request in Ext objects
 				Ext.Ajax.extraParams = Ext.Ajax.extraParams || {};
 				Ext.Ajax.extraParams['af_referer'] = futureHash;
 				
-				afApp.executeAddonsLoadCenterWidget(viewport,total_addons,json,mask);	
+				afApp._loadAddons(json.addons, function() {
+					afApp._displayCenterWidget(viewport,json,mask);	
+				});
 			}				
 			
 			if(json.executeAfter)
