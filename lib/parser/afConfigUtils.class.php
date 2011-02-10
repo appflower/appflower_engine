@@ -113,6 +113,41 @@ class afConfigUtils {
         }
     }
 
+    function generateActionFilePath($actionName)
+    {
+        $filePath = "actions/{$actionName}Action.class.php";
+        $paths = $this->modulePaths;
+
+        foreach ($paths as $path) {
+            $fullFilePath = $path.'/'.$filePath;
+            return $fullFilePath;
+        }
+    }
+
+    /**
+     * checks if passed action is defined either in actions.class.php file or in
+     * dedicated action file
+     *
+     * @param <type> $actionName
+     */
+    function isActionDefined($actionName) {
+        $actionsFilePath = $this->getActionsPath();
+        $actionsFile = file_get_contents($actionsFilePath);
+        $found = is_numeric(strpos($actionsFile, "{$actionName}action"));
+        if ($found) {
+            return true;
+        }
+
+        $actionFilePath = $this->generateActionFilePath($actionName);
+
+        if (file_exists($actionFilePath)) {
+            return true;
+        }
+
+        return false;
+    }
+
+
     /**
      * Returns the XML config DOM document.
      */
