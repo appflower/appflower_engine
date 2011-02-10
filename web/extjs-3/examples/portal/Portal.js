@@ -356,7 +356,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 			loadMask: true,
 			frame: false,
 			bodyStyle: "border: 1px solid #8db2e3;",
-			autoHeight: true,
+			height: 430,
 			forceFit: true,
 			select: true,
 			listeners: { 
@@ -482,7 +482,10 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 		
 		this.widgetSelectorWindowConfig.items.push(this.portal);				
 		this.widgetSelectorWindow = new Ext.Window (this.widgetSelectorWindowConfig);
-		
+		this.widgetSelectorWindow.on('resize',function(){
+		    treegrid.setWidth(this.widgetSelectorWindow.body.getWidth()-20);
+		    treegrid.setHeight(this.widgetSelectorWindow.body.getHeight()-70);		    
+		},this)
 		this.widgetSelectorWindow.show(button);
 		
 		this.mask.hide();
