@@ -283,8 +283,6 @@ afApp._loadAddons = (function() {
 	};
 })();
 
-;
-
 afApp.widgetPopup = function(widget,title,superClass,winConfig) {
 	var viewport=App.getViewport();
 	if(!winConfig)
