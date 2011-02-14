@@ -125,7 +125,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 	},
 		
 	/** private **/
-	applyState: function(grid, state){		
+	applyState: function(grid, state){
 		this.suspendStateStore = true;
 		this.clearFilters();
 		state = state || {};
@@ -150,7 +150,8 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 			var ss = new Ext.ux.SaveSearchState(this.grid);
 			ss.restore(this.filterby, this.filterbyKeyword);
 		}
-		
+		this.saveState(grid,state);
+		delete state.filters;
 	},
 	
 	/** private **/
@@ -178,7 +179,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 		
 		if(cookie){
 		    document.cookie = "ys-Grid_"+name.replace(" ","_")+"_Filter=";
-		    return this.privateCookie = cookie;
+		    return cookie.filters?this.privateCookie = cookie:{};
 			var cookie_obj = cookie;//Ext.util.JSON.decode(cookie);
 			for(key in cookie_obj){
 				var filter = this.filters.get(key);

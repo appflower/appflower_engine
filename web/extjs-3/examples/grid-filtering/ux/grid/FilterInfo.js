@@ -14,7 +14,7 @@ Ext.ux.FilterInfo = function(grid,mode){
     var filtersObj = grid.filters;
     
     //return if no filters obj
-    if(!filtersObj) return;
+    if(!filtersObj || !filtersObj.filters) return;
     
 	//Get the grid element
 	var gridEl = grid.getGridEl();

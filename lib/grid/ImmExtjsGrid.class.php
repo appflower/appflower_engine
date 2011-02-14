@@ -205,7 +205,7 @@ class ImmExtjsGrid
 			$this->attributes['tbar']=array();
 		}
 		
-		$panel=new ImmExtjsPanel(array('html'=>'<div style="white-space:normal;">'.$html.'</div>','listeners'=>array('render'=>$this->immExtjs->asMethod(array("parameters"=>"panel","source"=>"if(panel.body){panel.body.dom.style.border='0px';panel.body.dom.style.background='transparent';}")))));
+		$panel=new ImmExtjsPanel(array('style'=>'padding:5px','html'=>'<div style="white-space:normal;">'.$html.'</div>','listeners'=>array('render'=>$this->immExtjs->asMethod(array("parameters"=>"panel","source"=>"if(panel.body){panel.body.dom.style.border='0px';panel.body.dom.style.background='transparent';}")))));
 		@$this->attributes['listeners']['render']['source'].="var tb;if(this.getTopToolbar()&&this.getTopToolbar().items.items.length==0){tb = this.getTopToolbar();tb.addItem(".$panel->privateName.");}else{ tb = new Ext.Toolbar({renderTo: this.tbar,items: [".$panel->privateName."]});}if(tb&&tb.container){tb.container.addClass('tbarBottomBorderFix');}";
 		
 	}
@@ -283,7 +283,14 @@ class ImmExtjsGrid
 		
 	public function end()
 	{		
-		
+		/**
+		* Stateful grid
+		*/
+		$this->attributes['stateful'] = true;
+		$this->attributes['stateId'] = isset($this->attributes['name'])?$this->attributes['name']:$this->attributes['path'];
+		$this->attributes['stateId'] = "GridPanel_".str_replace(" ","_",$this->attributes['stateId']);
+		$this->attributes['stateEvents'] = array('columnresize', 'columnmove', 'show', 'hide','sortchange'); 
+
 		$this->attributes['canMask']=$this->immExtjs->asMethod(array("parameters"=>"","source"=>"return !Ext.isIE&&!".$this->privateName.".disableLoadMask&&!Ext.get('loading');"));
 		
 		if(!$this->attributes['tree'])

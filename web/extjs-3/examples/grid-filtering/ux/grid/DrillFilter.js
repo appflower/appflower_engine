@@ -26,7 +26,7 @@ Ext.ux.DrillFilter = function(grid,e){
     var filtersObj = grid.filters;
     
     //return if no filters obj
-    if(!filtersObj) return;
+    if(!filtersObj || !filtersObj.filters) return;
     
     //Get filter on current column
 	var filter = filtersObj.filters.get(dataIndex);
