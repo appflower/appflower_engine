@@ -163,9 +163,16 @@ class ImmExtjsLayout
                             $avatarLogo = sfConfig::get('app_avatar_logo',false);
                         }
 			if(file_exists(sfConfig::get('sf_web_dir').$avatarLogo)){
+				$imagesize = getimagesize(sfConfig::get('sf_web_dir').$avatarLogo);
 				$clickAction = 'onClick="var aboutWin = null;if(aboutWin = Ext.getCmp(\'about-window\')){aboutWin.show();aboutWin.center();}" style="cursor:pointer"';				
 				$logo = '<div style="background-color:#d9e7f8;border-right:1px solid #99bbe8;border-left:1px solid #99bbe8;border-bottom:1px solid #99bbe8; padding:2px 0px 0px 0px; margin:0px;text-align:center;"><img id="avatar_image" '.$clickAction.' src="'.$avatarLogo.'"/></div>';
-				$logoScript = 'var logoDiv = Ext.DomHelper.insertBefore(comp.bwrap,{tag:"div",html:"'.addslashes($logo).'"});comp.on("bodyresize",function(comp,w,h){var body = comp.body;body.setHeight(body.getHeight()-logoDiv.offsetHeight);});';
+				$logoScript = 'var logoDiv = Ext.DomHelper.insertBefore(comp.bwrap,{tag:"div",html:"'.addslashes($logo).'"});			
+				var resize = function(comp){
+					var body = comp.body, bodyHeight = body.getHeight();
+					body.setHeight(bodyHeight-'.$imagesize[1].'-3);					
+				}; 
+				resize(comp); 
+				comp.on("bodyresize",function(comp,w,h){resize(comp);});';
 			}
 			$attributes_temp=array('id'=>'west_panel',
 							  'stateful'=>true,
