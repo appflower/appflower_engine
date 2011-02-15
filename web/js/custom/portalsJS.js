@@ -141,16 +141,22 @@ function Portals()
 		this.window.show();
 	}
 	
-	this.onTabChange = function (tabPanel){
+	this.onTabChange = function (tabPanel,slug){
 		tabPanel.afterLayoutOnceEvent=true;
-		var uri=document.location.href.split('#');
-      	var toActivate=0;
-      	
-      	for(var i=0;i<tabPanel.items.items.length;i++){
-  	      	if(tabPanel.items.items[i].slug==uri[uri.length-1]){
-  	      		toActivate=i;      	      		
-  	      	}
-  	    }      	
-      	tabPanel.activate(toActivate);
+		var uri = document.location.href.split('#');
+		/**
+		 * For IE fix
+		 */		
+		var check = Ext.isIE?slug:uri[uri.length-1];
+		var toActivate=0;
+		var activeItem = null;
+		for(var i=0;i<tabPanel.items.items.length;i++){
+			if(tabPanel.items.items[i].slug==check){
+				toActivate=i;
+				activeItem = tabPanel.items.items[i];
+			}
+		}      	
+		tabPanel.activate(toActivate);
+		if(activeItem) activeItem.doLayout();
 	}
 }

@@ -32,11 +32,14 @@
     background:white;
 }
 .x-portlet .x-panel-mc {
-    padding-top:2px;
+    padding-top:0px;
 }
 .x-portlet .x-panel-bc .x-panel-footer {
     padding-bottom:2px;
 }
 .x-portlet .x-panel-nofooter .x-panel-bc {
     height:2px;
+}
+.x-portlet .x-panel-header{
+    border:0px;
 }
