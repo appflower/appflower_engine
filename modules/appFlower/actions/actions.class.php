@@ -402,7 +402,7 @@ class appFlowerActions extends sfActions
 			$method=$this->getRequestParameter('method');
 			
 			$result['store']=call_user_func(array($class,$method));
-			
+			ksort($result['store']);
 			$options=array();
 			foreach ($result['store'] as $key=>$value)
 			{
