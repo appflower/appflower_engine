@@ -181,8 +181,24 @@ class XmlParserValidationFilter extends sfExecutionFilter
         if(isset($params['edit'][0])) {
             return;
         }
-
+	$params = self::copyToRightKey($params);
         $copy = $params['edit'];
         $params['edit'][0] = $copy;
+    }
+    
+    /** edit[0][] should not always copy to [0] key
+     * it may be somewhere in [1] key too
+     */
+    private static function copyToRightKey($params){
+	$k = 0;
+	foreach($params['edit'] as $key=>$val){
+		if($key >= 100){
+			$k = $key % 100;
+			//unset($params['edit'][$key]);
+			break;
+		}
+	}
+	$params['edit'][$k] = $params['edit'];
+	return $params;
     }
 }

@@ -428,7 +428,13 @@ afApp.loadCenterWidget = function(widget) {
 				Ext.Msg.alert('Failure', json.message);
 				return;
 			}
-
+			if(json.winProp){
+			    var winProp = Ext.util.JSON.decode(json.winProp);
+			    if(winProp){
+				if(winProp.forceRedirect!==false) winProp.forceRedirect = true;
+				if(!winProp.forceRedirect && winProp.isPopup) {mask.hide();  return;}
+			    }
+			}
 			if(json.redirect)
 			{
 				afApp.loadingProgress(viewport.layout.center.panel.getEl(),1);
@@ -530,7 +536,6 @@ afApp.reloadGridsData = function (idXmls)
 afApp.load = function (location, load, target, winProp)
 {	
 	if(location=='/false'||!location)return false;
-	
 	load = load || 'center';
 	target = target || '_self';
 	winProp = winProp || null;
@@ -684,7 +689,7 @@ Ext.History.on('change', function(token){
 			    var tabPanel=viewport.layout.center.panel.items.items[0].items.items[0];
 			    if(tabPanel.getXType()=='tabpanel')
 			    {
-				    new Portals().onTabChange(tabPanel);
+				    new Portals().onTabChange(tabPanel,tokenS[1]);
 			    }
 			}
 		}
