@@ -1061,7 +1061,8 @@ class ImmExtjsGrid
 		if($attributes['isMulti']) return $attributes;
 		$attributes['autoHeight'] = false;
 		$attributes['listeners']['render']['source'] = "		
-			var grid = this;			
+			var grid = this;
+			grid.container.dom.style.overflow='hidden';
 			this.getStore().on('load',function(){
 				grid.getGridEl().unmask();
 				if(!grid.getStore().getCount()) grid.getGridEl().mask('No data to display').removeClass('ext-el-mask');
