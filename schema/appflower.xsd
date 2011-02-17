@@ -871,7 +871,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       <xs:complexType>
       	<xs:attributeGroup ref="i:commonAttributes" />
         <xs:attribute name="title" type="xs:token" use="required" />
-        <xs:attribute name="component" type="i:internalUriType" use="required" />
+        <xs:attribute name="component" type="i:combinedUriType" use="required" />
         <xs:attribute name="className" type="xs:token" use="required" />
         <xs:attribute name="methodName" type="xs:token" use="required" />
         <xs:attribute name="width" type="xs:positiveInteger" use="optional" default="500" />
