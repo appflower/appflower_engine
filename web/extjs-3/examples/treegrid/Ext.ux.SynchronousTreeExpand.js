@@ -15,11 +15,12 @@ Ext.ux.SynchronousTreeExpand = function(config){
 			}
 		}
 	}
-	config.grid.store.on('load',function(){		
-		if(config.grid.remoteLoad && config.grid.select){	
+	config.grid.store.on('load',function(){
+		
+		if(config.grid.remoteLoad && config.grid.select){
+			
 			mask = new Ext.LoadMask(Ext.getBody(), {msg:"Retrieving data..."});
 			mask.show();
-			
 			store = config.grid.getStore();
 			sm = config.grid.getSelectionModel();
 			ds = config.grid.getView().ds;			
@@ -31,9 +32,11 @@ Ext.ux.SynchronousTreeExpand = function(config){
 				}else{
 					mask.hide();
 				}
+				
 			}else{
 				mask.hide();
 			}
+			mask.hide();
 		}	
 	});	
 }
