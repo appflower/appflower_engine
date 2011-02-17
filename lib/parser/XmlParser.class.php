@@ -4197,7 +4197,8 @@ class XmlParser extends XmlParserTools {
 				'afterSuccess'=>'
 				var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Saving additional information... <br>Please wait..."});
 				myMask.show();
-				Ext.Ajax.request({ url: "'.$this->multisubmit.'", method:"post", params:{"selections":'.$this->multigrid->privateName.'.getSelectionModel().getSelectionsJSON()}, success:function(response, options){response=Ext.decode(response.responseText);
+			
+				Ext.Ajax.request({ url: "'.$this->multisubmit.'", method:"post", params:{"selections":'.$this->multigrid->privateName.'.getSelectionModel().getSelectionsJSON(),"fromPopup":winProp.isPopup?true:false}, success:function(response, options){response=Ext.decode(response.responseText);
 if(response.message) {
 	Ext.Msg.alert("Success", response.message, function(){
 		if(response.redirect) {
