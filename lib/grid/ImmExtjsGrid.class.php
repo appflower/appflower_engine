@@ -362,11 +362,10 @@ class ImmExtjsGrid
 				 * there is a row actions matching the name or label with edit, this will
 				 * be transformed to the edit="true" column
 				 */								
-				if(((isset($column['edit']) && $column['edit'])) || (isset($column['action']))){				
-					//print_r($this->actionsObject);					
+				if(((isset($column['edit']) && $column['edit'])) || (isset($column['action']))){
 					if($this->actionsObject){
 						$actions = $this->actionsObject->getActions();									
-						//print_r($actions);
+						
 						if(is_array($actions))						
 						foreach($actions as $key=>$action){							
 							if(

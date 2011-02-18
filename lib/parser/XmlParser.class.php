@@ -3980,7 +3980,6 @@ class XmlParser extends XmlParserTools {
 				
 				
 				if(isset($parse["rowactions"])) {
-					
 					$actions = $grid->startRowActions(array('header'=>'Actions'));
 					$cnt = 1;
 					foreach($parse["rowactions"] as $action_name => $action) {						

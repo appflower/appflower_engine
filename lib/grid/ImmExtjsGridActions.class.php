@@ -33,7 +33,7 @@ class ImmExtjsGridActions
 		$this->attributes['actions']=array();
 		/** Check Credential ***/
 		ComponentCredential::setAction("hidden");
-		if(!ComponentCredential::urlHasCredential($attributes['url'])) return;
+		if(!ComponentCredential::urlHasCredential($attributes['url'])) $attributes['hidden'] = true;
 		$count_actions=count($this->attributes['actions']);
 		$attributes['urlIndex']='action'.($count_actions+1);
 		$attributes['hideIndex']='hide'.($count_actions+1);
@@ -74,7 +74,7 @@ class ImmExtjsGridActions
 		return $this;
 	}
 	public function changeProperty($name,$propKey,$propVal){	
-			
+	
 		$toChange = null;
 		foreach($this->actions as $key=>$action){
 			if($action['name'] == $name){
