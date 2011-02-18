@@ -246,8 +246,9 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 		for(var i=0;i<this.actions.length;i++){
 			if(this.actions[i].hidden) continue; effectiveActionsCount++
 		};
-		
+		if(!effectiveActionsCount) return;
 		this.grid = grid;
+		
 		/**
 		 * Change the renderer method of the conditional_row_action  
 		 * 

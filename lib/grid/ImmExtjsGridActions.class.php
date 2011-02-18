@@ -60,6 +60,15 @@ class ImmExtjsGridActions
 	public function getActions(){
 		return $this->actions;
 	}
+	public function countEffectiveActions(){
+		if(!is_array($this->actions)) return 0;
+		$i = 0;
+		foreach($this->actions as $action){
+			if(isset($action['hidden']) && $action['hidden'] === true) continue;
+			$i++;
+		}
+		return $i;
+	}
 	public function removeAction($name){
 		$toRemove = null;
 		foreach($this->actions as $key=>$action){

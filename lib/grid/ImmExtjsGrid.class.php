@@ -492,7 +492,8 @@ class ImmExtjsGrid
 				$this->defineSortInfo($storePrivateName, $firstSortableCol, 'ASC');
 			}
 			
-			$count_actions=(is_object($this->actionsObject)?count($this->actionsObject->attributes['actions']):0);
+			//$count_actions=(is_object($this->actionsObject)?count($this->actionsObject->attributes['actions']):0);
+			$count_actions = (is_object($this->actionsObject)?$this->actionsObject->countEffectiveActions():0);
 			
 			if($count_actions>0)
 			{
@@ -502,7 +503,6 @@ class ImmExtjsGrid
 					$this->attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass(array('name'=>'hide'.$i,'type'=>'boolean'));
 				}
 			}
-			
 			$this->attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass(array('name'=>'message'));
 			$this->attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass(array('name'=>'redirect'));
 			$this->attributes[$readerPrivateName]['fields'][]=$this->immExtjs->asAnonymousClass(array('name'=>'load'));
