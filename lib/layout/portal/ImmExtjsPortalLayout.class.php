@@ -8,7 +8,7 @@ class ImmExtjsPortalLayout extends ImmExtjsLayout
 	public function __construct($attributes=array())
 	{
 		parent::__construct($attributes);
-		$this->immExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->immExtjs->getExamplesDir().'portal/portal.css'), 'js' => array($this->immExtjs->getExamplesDir().'portal/Portal.js',$this->immExtjs->getExamplesDir().'portal/PortalColumn.js',$this->immExtjs->getExamplesDir().'portal/Portlet.js',$this->immExtjs->getExamplesDir().'portal/sample-grid.js','/appFlowerPlugin/js/custom/portalsJS.js',$this->immExtjs->getExamplesDir().'form/Ext.ux.ClassicFormPanel.js')));
+		$this->immExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->immExtjs->getExamplesDir().'portal/portal.css'), 'js' => array($this->immExtjs->getExamplesDir().'treegrid/Ext.ux.CheckboxSelectionModel.js',$this->immExtjs->getExamplesDir().'portal/Portal.js',$this->immExtjs->getExamplesDir().'portal/PortalColumn.js',$this->immExtjs->getExamplesDir().'portal/Portlet.js',$this->immExtjs->getExamplesDir().'portal/sample-grid.js','/appFlowerPlugin/js/custom/portalsJS.js',$this->immExtjs->getExamplesDir().'form/Ext.ux.ClassicFormPanel.js')));
 	}
 
 	public function addSouthComponent($tools=false,$attributes=array())
