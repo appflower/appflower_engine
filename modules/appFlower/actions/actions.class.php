@@ -288,9 +288,13 @@ class appFlowerActions extends sfActions
 						}
 					}
 				}
-				
 				$result['rows'][$i]['_selected']=$parentChecked;
 				
+				if($j == $i){
+					// No child items on the parent. so remove the parent..
+					unset($result['rows'][$i]);
+					$j--;
+				}
 				$i=$j;
 			}
 			

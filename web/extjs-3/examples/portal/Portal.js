@@ -402,7 +402,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 					var qtip = value;  return '<span qtip="' + qtip + '">' + value + '</span>';
 				}
 			},
-			{
+			/*{
 				dataIndex: "image",
 				header: "Image",
 				sortable: true,
@@ -411,7 +411,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 				align: "left",
 				id: "image",
 				width: 30
-			},
+			},*/
 			treesm
 			],
 			master_column_id: "title",
