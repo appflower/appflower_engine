@@ -248,7 +248,6 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 		};
 		if(!effectiveActionsCount) return;
 		this.grid = grid;
-		
 		/**
 		 * Change the renderer method of the conditional_row_action  
 		 * 

@@ -28,7 +28,6 @@ class ImmExtjsGridActions
 	
 	public function addAction($attributes=array())
 	{
-		
 		if(!isset($this->attributes['actions']))
 		$this->attributes['actions']=array();
 		/** Check Credential ***/

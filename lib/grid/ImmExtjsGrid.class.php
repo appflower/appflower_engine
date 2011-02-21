@@ -492,9 +492,8 @@ class ImmExtjsGrid
 				$this->defineSortInfo($storePrivateName, $firstSortableCol, 'ASC');
 			}
 			
-			//$count_actions=(is_object($this->actionsObject)?count($this->actionsObject->attributes['actions']):0);
-			$count_actions = (is_object($this->actionsObject)?$this->actionsObject->countEffectiveActions():0);
-			
+			$count_actions=(is_object($this->actionsObject)?count($this->actionsObject->attributes['actions']):0);
+			$effective_count_actions = (is_object($this->actionsObject)?$this->actionsObject->countEffectiveActions():0);
 			if($count_actions>0)
 			{
 				for ($i=1;$i<=$count_actions;$i++)
@@ -662,14 +661,16 @@ class ImmExtjsGrid
 			unset($this->attributes[$filtersPrivateName]);	
 		}
 		
-		if($count_actions>0)
+		if($effective_count_actions>0)
 		{
+			$this->attributes['columns'][]=$this->immExtjs->asVar($this->actionsObject->privateName);
+			/*
 			if($this->movedRowActions){
 				if(($count_actions - $this->movedRowActions)>0)
 				$this->attributes['columns'][]=$this->immExtjs->asVar($this->actionsObject->privateName);
 			}else{
 				$this->attributes['columns'][]=$this->immExtjs->asVar($this->actionsObject->privateName);
-			}			
+			}*/			
 			$this->attributes['plugins'][]=$this->immExtjs->asVar($this->actionsObject->privateName);
 		}
 		$this->attributes['store']=$this->immExtjs->asVar($storePrivateName);
