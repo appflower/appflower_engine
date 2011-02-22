@@ -286,11 +286,11 @@ class ImmExtjsGrid
 		/**
 		* Stateful grid
 		*/
-		$this->attributes['stateful'] = true;
+		/*$this->attributes['stateful'] = true;
 		$this->attributes['stateId'] = isset($this->attributes['name'])?$this->attributes['name']:$this->attributes['path'];
 		$this->attributes['stateId'] = "GridPanel_".str_replace(" ","_",$this->attributes['stateId']);
-		$this->attributes['stateEvents'] = array('columnresize', 'columnmove', 'show', 'hide','sortchange'); 
-
+		$this->attributes['stateEvents'] = array('show', 'hide','sortchange'); 
+		*/
 		$this->attributes['canMask']=$this->immExtjs->asMethod(array("parameters"=>"","source"=>"return !Ext.isIE&&!".$this->privateName.".disableLoadMask&&!Ext.get('loading');"));
 		
 		if(!$this->attributes['tree'])

@@ -150,8 +150,8 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 			var ss = new Ext.ux.SaveSearchState(this.grid);
 			ss.restore(this.filterby, this.filterbyKeyword);
 		}
-		this.saveState(grid,state);
 		delete state.filters;
+		//this.saveState(grid,state);		
 	},
 	
 	/** private **/
