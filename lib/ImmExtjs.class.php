@@ -82,9 +82,9 @@ class ImmExtjs extends sfExtjs2Plugin
 	/**
 	 * add html loading mask
 	 */	
-	/*echo "<style>.lm{position:absolute; top:40%; left:40%;}</style>";
-	echo sprintf('<div id="loading-mask" class="lm"><div id="loading"><img src="%s" width="32" height="32" style="margin-right:8px;" align="absmiddle"/>Loading AppFlower v%s</div></div>%s', sfConfig::get('app_appFlower_loadingLogo'), sfConfig::get('app_appFlower_version'), self::LBR);
-	*/
+	echo "<style>.lm{position:absolute; top:40%; left:45%;}</style>";
+	echo sprintf('<div id="loading-mask" class="lm"><div id="loading"><img src="%s" width="32" height="32" style="margin-right:8px;" align="absmiddle"/>Loading data.. </div></div>%s', sfConfig::get('app_appFlower_loadingLogo'),  self::LBR);
+	
 	echo "<script type='text/javascript'>\n";
 	echo "// <![CDATA[\n";	
 	echo $this->source;

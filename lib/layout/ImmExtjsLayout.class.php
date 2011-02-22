@@ -395,8 +395,8 @@ class ImmExtjsLayout
 		@$this->immExtjs->public['init'] .="
 		viewport.doLayout();	
 		setTimeout(function(){
-			//Ext.get('loading').remove();
-			//Ext.get('loading-mask').fadeOut({remove:true});
+			Ext.get('loading').remove();
+			Ext.get('loading-mask').fadeOut({remove:true});
 	    ".(!$this->showFullCenter()?"afApp.loadFirst();":"")."        
 	    }, 250);
 	    afApp.urlPrefix = '".sfContext::getInstance()->getRequest()->getRelativeUrlRoot()."';
