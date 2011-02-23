@@ -29,13 +29,32 @@ class ImmExtjsFieldDoubleMultiCombo extends ImmExtjsField
 		if(isset($attributes['clear']))
 		{
 			$this->attributes['toTBar']=array(
-							$this->immExtjs->asAnonymousClass(array(
-  								'text'=>'clear',
-  								'handler'=>$this->immExtjs->asMethod(array(
-  									'parameters'=>'',
-  									'source'=>'Ext.getCmp("'.$this->attributes['id'].'").clear();'
-  								))
-  							))
+				$this->immExtjs->asAnonymousClass(array(
+					'text'=>'Selected',
+					'xtype'=>'label',
+					'style'=>'font-weight:bold;'
+				)),
+				$this->immExtjs->asAnonymousClass(array(
+					'xtype'=>'tbfill'
+				)),
+				$this->immExtjs->asAnonymousClass(array(
+					'text'=>'Clear all',
+					'cls'=>'x-btn-over',
+					'handler'=>$this->immExtjs->asMethod(array(
+						'parameters'=>'button',
+						'source'=>'Ext.getCmp("'.$this->attributes['id'].'").clear();'
+					)),
+					'listeners'=>array(
+						'mouseout'=>$this->immExtjs->asMethod(array(
+							'parameters'=>'button',
+							'source'=>'button.getEl().addClass("x-btn-over");'
+						)),
+						'blur'=>$this->immExtjs->asMethod(array(
+							'parameters'=>'button',
+							'source'=>'button.getEl().addClass("x-btn-over");'
+						))
+					)
+				))
   			);
   			unset($attributes['clear']);
 		}
