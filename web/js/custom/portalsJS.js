@@ -19,7 +19,7 @@ function Portals()
 				if(obj.input.getValue()!='')
 				{
 					var portal = new Ext.ux.Portal ({region: "center",portalLayoutType: "[100]",portalWidgets:portalWidgets,bodyBorder: false,style: "padding-right:5px;",bodyStyle: "overflow-x:hidden;overflow-y:hidden;padding-right:5px;",items: [{columnWidth: 1,style: "padding:10px 0 10px 10px;",items: []}]});									
-					tabpanel.add({title:obj.input.getValue(),items:[portal]}).show();
+					tabpanel.add({slug:obj.input.getValue().toString().replace(/[^0-9A-Za-z]+/g,'-').toLowerCase(),title:obj.input.getValue(),items:[portal]}).show();
 					
 					portal.showWidgetSelector(target,'Widget Selector for '+obj.input.getValue());
 					
