@@ -399,7 +399,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 				id: "description",
 				width: 50,
 				renderer : function(value, metadata, record){
-					var qtip = value;  return '<span qtip="' + qtip + '">' + value + '</span>';
+					var qtip = Ext.util.Format.htmlEncode(value); return '<span qtip="' + qtip + '">' + value + '</span>';
 				}
 			},
 			/*{
