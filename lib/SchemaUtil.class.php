@@ -29,7 +29,9 @@ class SchemaUtil {
 	public static function getSchemaDataForModel($model,$schema) {
   	
 	  	foreach($schema["propel"] as $name => $table) {
-	  		if($table["_attributes"]["phpName"] == $model) {
+	  		if( isset($table["_attributes"]) &&
+                isset($table["_attributes"]['phpName']) &&
+                $table["_attributes"]["phpName"] == $model) {
 	  			return $table;
 	  		}
 	  	}

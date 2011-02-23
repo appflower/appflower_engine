@@ -35,6 +35,7 @@ class ExceptionCatchingFilter extends sfFilter
 			} catch (Exception $e) {
                             if ($debugMode) {
                                 $errorMessage = $e->getMessage();
+                                $errorMessage .= '<br />Exception throwed by '.$e->getFile().' on line: '.$e->getLine();
                             } else {
                                 error_log('Exception: '.$e->getMessage());
                                 $errorMessage = 'Some unexpected error occured.';
