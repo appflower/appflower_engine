@@ -420,7 +420,7 @@ class ImmExtjsGrid
 				{
 					$temp_column['renderer']=$this->immExtjs->asMethod(array(
 							"parameters"=>"value, metadata, record",
-							"source"=>"var qtip = value;  return '<span qtip=\"' + qtip + '\" $style>$arrowSpan' + value + '</span>';"
+							"source"=>"var qtip = Ext.util.Format.htmlEncode(value); return '<span qtip=\"' + qtip + '\" $style>$arrowSpan' + value + '</span>';"
 					));
 				}
 				//If numeric data, right align while rendering...
