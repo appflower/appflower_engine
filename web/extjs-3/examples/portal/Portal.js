@@ -433,9 +433,10 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 		formPanel.add(treegrid);
 					
 		//adding a submit button that submits the classic form
-		var submitButton = new Ext.Button ({text:'Save & Refresh Page',
+		var submitButton = new Ext.Button ({text:'Save',
 											icon: "/images/famfamfam/accept.png",
 											cls: "x-btn-text-icon",
+											
 											handler: function () { 
 												
 												formPanel.getForm().submit({
@@ -451,13 +452,23 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 														{
 															Ext.Msg.alert("Success", action.result.message, function(){
 																if(action.result.redirect){
-																	window.location.href=action.result.redirect;
+																	//window.location.href=action.result.redirect;
+																	this.layoutSelectorWindow.hide()
+																	var win = submitButton.findParentByType('window');
+																	if(win) win.hide();
+																	Ext.Msg.alert("Refresh Page","You need to reload the page to see the changes in effect. Hit the refresh button on your browser to reload the page.")
+																	//afApp.load(document.location.href+"#refresh",'page')
+																	
 																}
 															});
 														}
 														else{
 															if(action.result.redirect){
-																window.location.href=action.result.redirect;
+																//window.location.href=action.result.redirect;
+																var win = submitButton.findParentByType('window');
+																if(win) win.hide();
+																Ext.Msg.alert("Refresh Page","You need to reload the page to see the changes in effect. Hit the refresh button on your browser to reload the page.")
+																//afApp.load(document.location.href+"#refresh",'page')
 															}
 														}
 													}
