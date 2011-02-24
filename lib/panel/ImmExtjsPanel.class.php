@@ -47,11 +47,12 @@ class ImmExtjsPanel
 			);
 			$this->afterRender = "
 				var d = 4;
+				var a = Ext.isIE?object.getEl().getWidth()-8+'px':'100%';
 				if(object.tbar){
 					object.tbar.dom.style.width = object.getEl().getWidth()-d+'px';
-					object.tbar.dom.firstChild.style.width = object.getEl().getWidth()-d+'px';
+					object.tbar.dom.firstChild.style.width = a;
 				}
-				if(object.body)	object.body.dom.style.width = object.getEl().getWidth()-d+'px';
+				if(object.body)	object.body.dom.style.width = '100%';//object.getEl().getWidth()-d+'px';
 			";
 			$this->attributes['plugins'][] = 'new Ext.ux.MaximizeTool()';												
 			unset($attributes['portal']);

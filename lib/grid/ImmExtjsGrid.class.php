@@ -113,7 +113,7 @@ class ImmExtjsGrid
 															'frame'=>true,
 															'collapsible'=>true,
 															'draggable'=>true,
-															'cls'=>'x-portlet'));
+															'style'=>'margin-bottom:10px;'));
 			$this->attributes['plugins'][] = 'new Ext.ux.MaximizeTool()';												
 			unset($attributes['portal']);
 		}
