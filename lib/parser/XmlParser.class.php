@@ -3926,7 +3926,8 @@ class XmlParser extends XmlParserTools {
 					
 				if((is_array($current_area) && $this->area_types[$current_area["attributes"]["type"]] == "south") ||
 				$current_area == "footer") {
-					$formoptions["title"] = "";
+					//$formoptions["title"] = "";
+					$formoptions["draggable"] = false;
 				}
 				
 				if(!isset($formoptions["title"])) {
