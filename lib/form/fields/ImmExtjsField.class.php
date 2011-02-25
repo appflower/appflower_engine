@@ -14,7 +14,8 @@ class ImmExtjsField
 	public function __construct($containerObject,$attributes=array())
 	{		
 		$this->immExtjs=ImmExtjs::getInstance();
-		
+		$this->addCustomPlugin($attributes);
+		unset($attributes['plugin']);
 		if($this->privateName==null)
 		{
 			$this->privateName='field_'.Util::makeRandomKey();
@@ -140,6 +141,29 @@ class ImmExtjsField
 						
 		if(count($this->attributes)>0)		
 		$this->containerObject->addMember($this->attributes);
+	}
+	private function addCustomPlugin($attributes){
+		/**
+		 * Plugins for the grid
+		 */
+		
+		if(isset($attributes['plugin']) && $attributes['plugin']){
+			if(preg_match('/^custom:(.*)$/', $attributes['plugin'], $match)){
+				$plugin = $match[1];
+				if(file_exists(sfConfig::get('sf_root_dir')."/web/js/custom/".$plugin.".js")){
+					$this->immExtjs->setAddons(array('js' => array("/js/custom/".$plugin.".js") ));			
+				}else if(file_exists(sfConfig::get('sf_root_dir')."/plugins/appFlowerPlugin/web/js/custom/".$plugin.".js")){
+					$this->immExtjs->setAddons(array('js' => array("/appFlowerPlugin/js/custom/".$plugin.".js") ));			
+				}
+				
+				if(file_exists(sfConfig::get('sf_root_dir')."/web/css/".$plugin.".css")){
+					$this->immExtjs->setAddons(array('css' => array("/css/".$plugin.".css") ));			
+				}else if(file_exists(sfConfig::get('sf_root_dir')."/plugins/appFlowerPlugin/web/css/".$plugin.".css")){
+					$this->immExtjs->setAddons(array('css' => array("/appFlowerPlugin/css/".$plugin.".css") ));			
+				}			
+				$this->attributes['plugins'][]='new '.$plugin.'()';
+			}
+		}
 	}
 }
 ?>

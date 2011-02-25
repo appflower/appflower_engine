@@ -48,7 +48,7 @@ class ImmExtjsFieldInput extends ImmExtjsField
 					$attributes['value'] = "#000000";
 				}
 			}
-			unset($attributes['plugin']);
+			//unset($attributes['plugin']);
 		}
 		if(isset($attributes['value'])&&$attributes['value']!=null)
 		{
