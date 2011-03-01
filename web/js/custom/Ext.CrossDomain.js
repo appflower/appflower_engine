@@ -1,4 +1,4 @@
-Ext.lib.Ajax.isCrossDomain = function(u) {
+Ext.Ajax.isCrossDomain = function(u) {
 	var match = /(?:(\w*:)\/\/)?([\w\.]*(?::\d*)?)/.exec(u);
 	if (!match[1]) return false; // No protocol, not cross-domain
 	return (match[1] != location.protocol) || (match[2] != location.host);
@@ -44,7 +44,7 @@ Ext.override(Ext.data.Connection, {
                     url = url.call(o.scope || WINDOW, o);
                 }
 
-                if((form = Ext.getDom(o.form))){
+                if((form = Ext.getDom(o.form))&&Ext.lib.Ajax){
                     url = url || form.action;
                      if(o.isUpload || (/multipart\/form-data/i.test(form.getAttribute("enctype")))) {
                          return me.doFormUpload.call(me, o, p, url);
@@ -71,14 +71,14 @@ Ext.override(Ext.data.Connection, {
                     p = '';
                 }
 				
-				if (o.scriptTag || this.scriptTag || Ext.lib.Ajax.isCrossDomain(url)) {
+				if (o.scriptTag || this.scriptTag || Ext.Ajax.isCrossDomain(url)) {
 				   me.transId = this.scriptRequest(method, url, cb, p, o);
 				} else {
-				   me.transId = Ext.lib.Ajax.request(method, url, cb, p, o)
+				   me.transId = Ext.Ajax.request(method, url, cb, p, o)
 				}
 				return me.transId;
 					
-               /// return (me.transId = Ext.lib.Ajax.request(method, url, cb, p, o));
+               /// return (me.transId = Ext.Ajax.request(method, url, cb, p, o));
             }else{
                 return o.callback ? o.callback.apply(o.scope, [o,undefined,undefined]) : null;
             }
