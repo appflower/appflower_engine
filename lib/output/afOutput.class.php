@@ -15,6 +15,11 @@ class afOutput {
      */
     public static function renderText($text) {
         $response = sfContext::getInstance()->getResponse();
+        $request = sfContext::getInstance()->getRequest();
+        if($request->hasParameter('callback')&&$request->getParameter('callback')!='')
+        {
+        	$text = $request->getParameter('callback')."(".$text.")";
+        }
         $response->setContent($response->getContent().$text);
         return sfView::NONE;
     }
