@@ -106,15 +106,15 @@ class afFilterUtil {
 						case 'date' : 
 							switch ($filters[$i]['data']['comparison']) {
 								case 'eq' : 
-									//$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',strtotime($filters[$i]['data']['value'])),Criteria::EQUAL);
-									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d H:i:s',strtotime($filters[$i]['data']['value'])),Criteria::GREATER_EQUAL);
-									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d H:i:s',strtotime($filters[$i]['data']['value'])+(24*60*60)),Criteria::LESS_THAN);
+									//$critAnd[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d',Tz::pickTime(strtotime($filters[$i]['data']['value']))),Criteria::EQUAL);
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d H:i:s',Tz::pickTime(strtotime($filters[$i]['data']['value']))),Criteria::GREATER_EQUAL);
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d H:i:s',Tz::pickTime(strtotime($filters[$i]['data']['value'])+(24*60*60))),Criteria::LESS_THAN);
 									break;
 								case 'lt' : 
-									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d H:i:s',strtotime($filters[$i]['data']['value'])+(24*60*60)),Criteria::LESS_THAN);
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d H:i:s',Tz::pickTime(strtotime($filters[$i]['data']['value'])+(24*60*60))),Criteria::LESS_THAN);
 									break;
 								case 'gt' : 
-									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d H:i:s',strtotime($filters[$i]['data']['value'])),Criteria::GREATER_EQUAL);
+									$critDate[] = $criteria->getNewCriterion($filters[$i]['field'],date('Y-m-d H:i:s',Tz::pickTime(strtotime($filters[$i]['data']['value']))),Criteria::GREATER_EQUAL);
 									break;
 							}
 						break;
