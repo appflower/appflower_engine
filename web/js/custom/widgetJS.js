@@ -808,11 +808,11 @@ afApp.UrlManager = function(url){
 	    }
 	},
 	mergeQuery: function(arr){
-	    arr = arr.filter(function(x){
-		if(x && x!="") return true;
-		return false;
-	    });
-	    return "?"+Ext.urlEncode(Ext.urlDecode(arr.join("&"),true));
+	    var filtered = [];
+	    for(var i=0;i<arr.length;i++){
+		if(arr[i] && arr[i] != "") filtered.push(arr[i]);
+	    }
+	    return "?"+Ext.urlEncode(Ext.urlDecode(filtered.join("&"),true));
 	},
 	configure: function(url){
 	    var arr = url.split("#");
@@ -833,7 +833,6 @@ afApp.UrlManager = function(url){
 		if(bookmarks[0].match(/^\//)) bookmarks[0] = bookmarks[0].replace(/^\//,'');
 		bookmarks[0] = bookmarks[0]+this.mergeQuery(qArr);
 	    }
-	   
 	    return arr[0]+bookmarks.join('#');
 	}	
     }
