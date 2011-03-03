@@ -32,7 +32,7 @@ Ext.ux.FilterInfo = function(grid,mode){
 	if(mode == 'panel') var infoDiv = infoDivExists?infoDivExists:Ext.DomHelper.insertFirst(gridEl,{tag:'div',html:'',cls:'ux-grid-filter-info'});
 	//infoDiv.style.width=gridEl.getWidth()+"px";
 	//Create a template for info-box
-	var tpl = Ext.DomHelper.createTemplate({tag: 'div', cls: 'ux-grid-filter-info-box', html: '{html}&nbsp;&nbsp;<a title="Remove this filter" id="{id}" href="javascript:void(0)" onclick="Ext.ux.FilterInfo.remove(this)"></a>'});
+	var tpl = Ext.DomHelper.createTemplate({tag: 'div', cls: 'ux-grid-filter-info-box', html: '{html}&nbsp;&nbsp;<a title="Remove this filter" id="{id}" href="javascript:void(0)" onclick="Ext.ux.FilterInfo.remove(this)">&nbsp;</a>'});
 	
 	if(infoDiv) infoDiv.innerHTML = '';
 	var actions = [];
