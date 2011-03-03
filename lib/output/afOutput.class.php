@@ -34,8 +34,7 @@ class afOutput {
         $user = sfContext::getInstance()->getUser();
         if($user) {
             $user->shutdown();
-        } else {
-            session_write_close();
         }
+        session_write_close();
     }
 }
