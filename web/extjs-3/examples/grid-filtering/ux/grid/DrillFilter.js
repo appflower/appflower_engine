@@ -33,7 +33,6 @@ Ext.ux.DrillFilter = function(grid,e){
 	if(!filter) return;
 	
 	//If no valid target and not selectable filter
-	console.log(filter)
 	if(t.className != 'ux-grid-filter'){
 		if(!filter.selectable){
 			return;
