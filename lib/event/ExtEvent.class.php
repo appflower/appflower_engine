@@ -147,8 +147,9 @@ class ExtEvent {
 					});
 				';
 			} else {
+				
 				$action["attributes"]["loadas"] = isset($action["attributes"]["loadas"])?$action["attributes"]["loadas"]:'center';
-				$successFunction = 'afApp.load("'.$action["attributes"]["url"].$requestParams.',"'.$action["attributes"]["loadas"].'")';
+				$successFunction = 'afApp.load(Ext.urlAppend("'.$action["attributes"]["url"].$requestParams.',"start="+'.$grid->privateName.'.getStore().lastOptions.params.start+"&limit="+'.$grid->privateName.'.getStore().lastOptions.params.limit),"'.$action["attributes"]["loadas"].'")';
 			}
 		}		
 		
