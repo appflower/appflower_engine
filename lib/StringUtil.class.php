@@ -29,12 +29,23 @@ class StringUtil {
     }
     
 	public static function removeTagsAndEntities($str) {
-		$str = preg_replace('/(<[^>]+>)/','',$str);
+		/* first remove hidden content with it's tags too */
+		$str = self::removeHiddenContent($str);
+		/*************************************************/
+		
+		$str = preg_replace('/(<[^>]+>)/','',$str);		
 		return html_entity_decode($str, ENT_QUOTES);
     }
     
 	public static function removeNewlines($str) {
 		return str_replace("\n","",$str);
+    }
+    /**
+     * method to remove the drill filter hidden value tag on exports
+     */
+	public static function removeHiddenContent($str){
+	    $str = preg_replace('/<div class="ux-grid-filter-hidden-value">(.*)<\/div>/','',$str);
+	    return $str;
     }
     
 }

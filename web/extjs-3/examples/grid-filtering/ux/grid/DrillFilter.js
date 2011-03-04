@@ -33,11 +33,12 @@ Ext.ux.DrillFilter = function(grid,e){
 	if(!filter) return;
 	
 	//If no valid target and not selectable filter
-	if(t.className != 'ux-grid-filter'){	            		
+	console.log(filter)
+	if(t.className != 'ux-grid-filter'){
 		if(!filter.selectable){
 			return;
 		}
-    }
+	}
 	
 	//Get the data in cell
 	var data = grid.getView().getCell(rowIndex,colIndex).innerHTML;
