@@ -7,11 +7,11 @@ Ext.ux.RemoteComboAutoSuggest = Ext.extend(Ext.form.ComboBox,  {
     
     initComponent: function(){
         Ext.ux.RemoteComboAutoSuggest.superclass.initComponent.call(this);
-         this.addEvents({
+        this.addEvents({
             'keyup' : true,
             'change' : true
         }); 
-        this.preValue = this.getValue(); 
+        this.preValue = this.getValue();
         this.firstTime = true;
     },	
     onRender: function(ct, position){
@@ -19,7 +19,7 @@ Ext.ux.RemoteComboAutoSuggest = Ext.extend(Ext.form.ComboBox,  {
         combo = this;
         combo.displayField = "value";
         combo.valueField = "key";       
-        store = new Ext.data.JsonStore({
+        this.store = store = new Ext.data.JsonStore({
 			url: this.url,
 			fields: [
 				'key','value'
