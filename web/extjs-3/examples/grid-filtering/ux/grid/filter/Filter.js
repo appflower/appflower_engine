@@ -104,6 +104,9 @@ Ext.extend(Ext.ux.grid.filter.Filter, Ext.util.Observable, {
 	 */
 	setActive: function(active, suppressEvent){
 		if(this.active != active){
+			if(!active){
+				try{this.setValue("");}catch(e){}
+			}
 			this.active = active;
 			if(suppressEvent !== true)
 				this.fireEvent(active ? 'activate' : 'deactivate', this);
