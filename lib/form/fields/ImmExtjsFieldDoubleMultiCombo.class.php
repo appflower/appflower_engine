@@ -10,8 +10,8 @@ class ImmExtjsFieldDoubleMultiCombo extends ImmExtjsField
 		$this->immExtjs->setAddons(array('js' => array($this->immExtjs->getExamplesDir().'multiselect/ItemSelector.js') ));					
 		$this->immExtjs->setAddons(array('css' => array($this->immExtjs->getExamplesDir().'multiselect/multiselect.css') ));					
 		$this->attributes['xtype']='itemselector';
-		$this->attributes['msWidth']='250';
-		$this->attributes['msHeight']='200';
+		$this->attributes['msWidth']=(isset($attributes["width"])) ? $attributes["width"] : '250';
+		$this->attributes['msHeight']=(isset($attributes["height"])) ? $attributes["height"] : '200';
 		$this->attributes['imagePath']=$this->immExtjs->getExamplesDir().'multiselect/images/';
 						
 		if(isset($attributes['name']))

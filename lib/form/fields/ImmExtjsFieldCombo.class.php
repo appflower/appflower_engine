@@ -8,6 +8,9 @@ class ImmExtjsFieldCombo extends ImmExtjsField
 	{	
 		$this->attributes['triggerAction']='all';	
 		$this->immExtjs=ImmExtjs::getInstance();
+		
+		$this->attributes['width']=(isset($attributes["width"])) ? $attributes["width"] : '250';
+		
 		/**
 		 * if isset button, then xtype will become combowbutton
 		 */
@@ -33,7 +36,7 @@ class ImmExtjsFieldCombo extends ImmExtjsField
 				unset($attributes['window']);
 			}
 			
-			$this->attributes['width']='250';
+			
 			if(empty($attributes['options'])){
 				$this->attributes['store'] = '[[0,"No options available.."]]';
 			}
@@ -82,7 +85,6 @@ class ImmExtjsFieldCombo extends ImmExtjsField
 				
 				$this->attributes['typeAhead']=false;
 				$this->attributes['loadingText']='Searching...';
-				$this->attributes['width']='250';
 				$this->attributes['pageSize']=$attributes['proxy']['limit'];
 				$this->attributes['hideTrigger']=true;
 				$this->attributes['itemSelector']='div.search-item';
@@ -108,7 +110,6 @@ class ImmExtjsFieldCombo extends ImmExtjsField
 				$this->attributes['disableKeyFilter']=true;
 				$this->attributes['mode']='local';
 				$this->attributes['triggerAction']='all';
-				$this->attributes['width']='250';
 			}
 		}
 		
