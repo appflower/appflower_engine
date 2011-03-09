@@ -521,6 +521,7 @@ Ext.ux.form.DateTime = Ext.extend(Ext.form.Field, {
         }
 	
 		val = val ? val : new Date(1970, 0 ,1, 0, 0, 0);
+		//val = new Date(val.getUTCFullYear(),val.getUTCMonth(),val.getUTCDate(),val.getUTCHours(),val.getUTCMinutes(),0,0);
 		var da, time;
 		if(val instanceof Date) {
 			this.setDate(val);

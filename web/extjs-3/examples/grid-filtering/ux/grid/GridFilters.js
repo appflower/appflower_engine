@@ -1,3 +1,4 @@
+Ext.namespace("Ext.ux.grid.filter");
 /**
  * Browser compatible Date.parse
  */

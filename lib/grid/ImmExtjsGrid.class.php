@@ -452,7 +452,6 @@ class ImmExtjsGrid
 							$this->attributes[$readerPrivateName]['id']=$temp_column['dataIndex'];
 						}
 					}
-					
 					if(isset($column['groupField'])&&$column['groupField'])
 					{
 						$this->attributes[$storePrivateName]['groupField']=$temp_column['dataIndex'];
@@ -600,6 +599,7 @@ class ImmExtjsGrid
 			if(!$this->attributes['tree'])
 			{
 				$this->immExtjs->private[$storePrivateName]=$this->immExtjs->GroupingStore($this->attributes[$storePrivateName]);
+				//print $this->immExtjs->private[$storePrivateName];
 			}
 			else{
 				$this->immExtjs->private[$storePrivateName]=$this->immExtjs->AdjacencyListStore($this->attributes[$storePrivateName]);
@@ -730,10 +730,10 @@ class ImmExtjsGrid
 				"parameters"=>"",
 				"source"=>"afApp.attachHrefWidgetLoad();"
 		));
-						
+		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/Filter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/EditableItem.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/ComboMenu.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/RangeMenu.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/GridFilters.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/DrillFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/RePositionFilters.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/SaveSearchState.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/FilterInfo.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/FilterOption.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/BooleanFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/ComboFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/DateFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/ListFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/NumericFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/StringFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/TextFilter.js'),'css'=>array($this->immExtjs->getExamplesDir().'grid-filtering/resources/style.css')));						
 		if(count($this->filters)>0)
 		{		
-			$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/EditableItem.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/ComboMenu.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/RangeMenu.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/GridFilters.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/DrillFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/RePositionFilters.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/SaveSearchState.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/FilterInfo.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/FilterOption.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/Filter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/BooleanFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/ComboFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/DateFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/ListFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/NumericFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/StringFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/TextFilter.js'),'css'=>array($this->immExtjs->getExamplesDir().'grid-filtering/resources/style.css')));
+			$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/Filter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/EditableItem.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/ComboMenu.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/menu/RangeMenu.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/GridFilters.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/DrillFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/RePositionFilters.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/SaveSearchState.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/FilterInfo.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/FilterOption.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/BooleanFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/ComboFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/DateFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/ListFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/NumericFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/StringFilter.js',$this->immExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/TextFilter.js'),'css'=>array($this->immExtjs->getExamplesDir().'grid-filtering/resources/style.css')));
 			// Add reset filters on menu action if there is filter in grid
 			$this->addMenuActionsItem(array('label'=>'Filters','icon'=>'/images/famfamfam/drink.png','listeners'=>array('click'=>array('parameters'=>'','source'=>'var grid = '.$this->privateName.';
 							var filters = grid.filters;
