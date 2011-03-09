@@ -456,7 +456,8 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 																	this.layoutSelectorWindow.hide()
 																	var win = submitButton.findParentByType('window');
 																	if(win) win.hide();
-																	Ext.Msg.alert("Refresh Page","You need to reload the page to see the changes in effect. Hit the refresh button on your browser to reload the page.")
+																	window.location.reload();
+																	//Ext.Msg.alert("Refresh Page","You need to reload the page to see the changes in effect. Hit the refresh button on your browser to reload the page.")
 																	//afApp.load(document.location.href+"#refresh",'page')
 																	
 																}
@@ -467,7 +468,8 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 																//window.location.href=action.result.redirect;
 																var win = submitButton.findParentByType('window');
 																if(win) win.hide();
-																Ext.Msg.alert("Refresh Page","You need to reload the page to see the changes in effect. Hit the refresh button on your browser to reload the page.")
+																window.location.reload();
+																//Ext.Msg.alert("Refresh Page","You need to reload the page to see the changes in effect. Hit the refresh button on your browser to reload the page.")
 																//afApp.load(document.location.href+"#refresh",'page')
 															}
 														}
