@@ -216,7 +216,7 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 		+'{url_start}'
 		+'<div class="ux-row-action-item {cls} <tpl if="text">'
 		+'ux-row-action-text</tpl>" style="{hide}{style}" qtip="{qtip}">'
-		+'<tpl if="text"><span qtip="{qtip}">{text}</span></tpl></div>'
+		+'<tpl if="text"><span qtip="{qtip}">{text}</span></tpl>&nbsp;</div>'
 		+'{url_end}'
 		+'</tpl>'
 		+'</div>'
