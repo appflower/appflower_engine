@@ -78,7 +78,7 @@ class ImmExtjsGridFilter{
 			}
 			$grid->immExtjs->setAddons(array('js' => array($grid->immExtjs->getExamplesDir().'form/lovcombo-1.0/js/Ext.ux.form.LovCombo.js') ));					
 			$grid->immExtjs->setAddons(array('css' => array($grid->immExtjs->getExamplesDir().'form/lovcombo-1.0/css/Ext.ux.form.LovCombo.css') ));
-								
+			$grid->immExtjs->setAddons(array ( 'js' => array($grid->immExtjs->getExamplesDir().'form/spinner/Spinner.js',$grid->immExtjs->getExamplesDir().'form/spinner/SpinnerField.js'),'css'=>array($grid->immExtjs->getExamplesDir().'form/spinner/Spinner.css') ));							
 					
 			$grid->addFilter($tf);
 		}else {					

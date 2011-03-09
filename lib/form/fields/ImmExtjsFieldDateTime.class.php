@@ -10,7 +10,7 @@ class ImmExtjsFieldDateTime extends ImmExtjsField
 				
 		if(!isset($attributes['type']))
 		$attributes['type']='date';
-		
+		$this->immExtjs->setAddons(array ( 'js' => array($this->immExtjs->getExamplesDir().'form/spinner/Spinner.js',$this->immExtjs->getExamplesDir().'form/spinner/SpinnerField.js'),'css'=>array($this->immExtjs->getExamplesDir().'form/spinner/Spinner.css') ));		
 		switch ($attributes['type'])
 		{
 			case "date":
@@ -18,6 +18,8 @@ class ImmExtjsFieldDateTime extends ImmExtjsField
 				$this->attributes['xtype']='xdatetime';
 				$this->attributes['width']='250';
 				$this->attributes['timeActive']=false;
+				$this->attributes['showToday']=false;
+				$this->attributes['pickTime']=true;
 				break;
 			case "datetime":
 				$this->immExtjs->setAddons(array ( 'js' => array($this->immExtjs->getExamplesDir().'datetime/Ext.ux.form.DateTime.js') ));		

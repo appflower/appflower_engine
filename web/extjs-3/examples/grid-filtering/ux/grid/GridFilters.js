@@ -16,7 +16,6 @@
             
             timestamp = Date.UTC(+struct[1], +struct[2] - 1, +struct[3], +struct[4], +struct[5] + minutesOffset, +struct[6], +struct[7].substr(0, 3));
         }
-        
         return timestamp;
     };
 }());
@@ -199,7 +198,6 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 		});
 		Ext.state.Manager.setProvider(cp);
 		var cookie = cp.get("Grid_"+name.replace(" ","_")+"_Filter");
-		
 		if(cookie){
 		    document.cookie = "ys-Grid_"+name.replace(" ","_")+"_Filter=";
 		    return cookie.filters?this.privateCookie = cookie:{};

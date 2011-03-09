@@ -449,3 +449,83 @@ Ext.override(Ext.form.BasicForm,{
 		return this;
 	}
 });
+
+Ext.override(Ext.DatePicker,{
+	setValue : function(value){		
+		this.added = value;
+		this.value = value.clearTime(true);
+		this.update(this.value);
+	},
+	getValue : function(){
+		return this.added?this.added:this.value;
+	},
+	handleDateClick : function(e, t){
+		e.stopEvent();
+		if(!this.disabled && t.dateValue && !Ext.fly(t.parentNode).hasClass('x-date-disabled')){
+			this.cancelFocus = this.focusOnSelect === false;
+			this.setValue(new Date(t.dateValue));
+			delete this.cancelFocus;
+			if(!this.pickTime) this.fireEvent('select', this, this.value);
+		}
+	},
+	afterRender: function(){
+		if(!this.pickTime) return;
+		var menu = this.findParentByType('datemenu');
+		var bottomBar = this.getEl().child(".x-date-bottom");
+		if(!bottomBar) bottomBar = Ext.DomHelper.append(this.getEl(),{tag:'div'})
+		//bottomBar.align = "left";
+		var createSpinner = function(config){
+			spinner = new Ext.ux.form.SpinnerField({
+				minValue: 0,
+				maxValue: config.maxValue,
+				value: config.value?config.value.format(config.format):new Date().format(config.format),
+				accelerate: true,
+				width:50,
+				preventMark:true,
+				allowBlank:false,
+				listeners:{
+					invalid:function(f,m){
+						if(f.getValue() > config.maxValue) f.setValue(config.maxValue);
+						if(f.getValue() < 0 || f.getValue() == "") f.setValue(0);		
+					}
+				}
+			});
+			return spinner;
+		}
+		var v = this.getValue();
+		var hourSpinner = createSpinner({
+			maxValue:23,
+			format:'H',
+			value:v
+		});
+		
+		
+		var minSpinner = createSpinner({
+			maxValue:59,
+			format:'i',
+			value:v
+		});
+		this.format = "Y-m-d H:i:s";
+		var ok = new Ext.Button({
+			text:' &nbsp;&nbsp;Ok&nbsp;&nbsp; ',
+			style:'float:right',
+			handler: function(b){
+				var v = this.getValue().clearTime();
+				var added = this.added = v.add(Date.HOUR,hourSpinner.getValue()).add(Date.MINUTE,minSpinner.getValue());
+				this.fireEvent('select', this, added);
+			},
+			scope:this
+		})
+		var panel = new Ext.Panel({
+			border:false,
+			style:'background:transparent;',
+			
+			tbar:[hourSpinner,{
+				xtype:'label',
+				text:' : ',
+				style:'font-weigth:bold;padding:5px 2px 5px 2px; font-size:15px'
+			},minSpinner,'->',ok],			
+			renderTo:bottomBar			
+		});
+	}
+})

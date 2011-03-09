@@ -103,19 +103,25 @@ Ext.ux.form.DateTime = Ext.extend(Ext.form.Field, {
 	,initComponent:function() {
 		// call parent initComponent
 		Ext.ux.form.DateTime.superclass.initComponent.call(this);
-
 		// create DateField
+		
+		this.dateFormat = this.timeActive?this.dateFormat:'Y-m-d H:i:s';
 		var dateConfig = Ext.apply({}, {
 			 id:this.id + '-date'
 			,format:this.dateFormat || Ext.form.DateField.prototype.format
 			,width:this.timeWidth
+			,showToday:this.showToday
 			,selectOnFocus:this.selectOnFocus
 			,listeners:{
 				  blur:{scope:this, fn:this.onBlur}
 				 ,focus:{scope:this, fn:this.onFocus}
 			}
 		}, this.dateConfig);
+		
 		this.df = new Ext.form.DateField(dateConfig);
+		this.df.on('focus',function(){
+			this.df.menu.picker.pickTime=true
+		},this)
 		this.df.ownerCt = this;
 		delete(this.dateFormat);
 
@@ -214,6 +220,7 @@ Ext.ux.form.DateTime = Ext.extend(Ext.form.Field, {
 		
 		//set activation of time field
 		this.setActive(this.tf,this.timeActive);
+		this.embbedTimeField();
 
 		//Ext.util.Observable.capture(this, function(e){console.log(e);});
 		
@@ -512,6 +519,7 @@ Ext.ux.form.DateTime = Ext.extend(Ext.form.Field, {
         else if('string' === typeof val && this.hiddenFormat) {
 			val = Date.parseDate(val, this.hiddenFormat)
         }
+	
 		val = val ? val : new Date(1970, 0 ,1, 0, 0, 0);
 		var da, time;
 		if(val instanceof Date) {
@@ -576,7 +584,7 @@ Ext.ux.form.DateTime = Ext.extend(Ext.form.Field, {
 		{
 			object.hide();
 	        
-	        this.hiddenFormat='Y-m-d';
+	        this.hiddenFormat='Y-m-d H:i:s';
 	        
 	        this.updateValue();
 	        
@@ -605,6 +613,8 @@ Ext.ux.form.DateTime = Ext.extend(Ext.form.Field, {
 			this.dateValue = '';
 			this.setTime('');
 		}
+		
+		if(!this.timeActive) this.dateValue = d;
 	} // eo function updateDate
 	// }}}
 	// {{{
@@ -683,6 +693,9 @@ Ext.ux.form.DateTime = Ext.extend(Ext.form.Field, {
 		return renderer;
 	} // eo function renderer
 	// }}}
+	,embbedTimeField: function(){
+		
+	}
 
 }); // eo extend
 
