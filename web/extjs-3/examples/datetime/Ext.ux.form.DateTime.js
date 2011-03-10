@@ -120,7 +120,7 @@ Ext.ux.form.DateTime = Ext.extend(Ext.form.Field, {
 		
 		this.df = new Ext.form.DateField(dateConfig);
 		this.df.on('focus',function(){
-			this.df.menu.picker.pickTime=true
+			this.df.menu.picker.pickTime=this.picktime
 		},this)
 		this.df.ownerCt = this;
 		delete(this.dateFormat);
