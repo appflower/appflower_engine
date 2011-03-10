@@ -520,7 +520,11 @@ Ext.override(Ext.DatePicker,{
 			border:false,
 			style:'background:transparent;',
 			
-			tbar:[hourSpinner,{
+			tbar:[{
+				xtype:'label',
+				text:'Time',
+				style:'padding-right:2px'
+			},hourSpinner,{
 				xtype:'label',
 				text:' : ',
 				style:'font-weigth:bold;padding:5px 2px 5px 2px; font-size:15px'
@@ -528,4 +532,22 @@ Ext.override(Ext.DatePicker,{
 			renderTo:bottomBar			
 		});
 	}
+})
+
+
+
+Ext.override(Ext.grid.GridPanel,{
+	saveState : function(){
+		if(Ext.state.Manager && this.stateful !== false){
+		    var id = this.getStateId();
+		    if(id){
+			var state = this.getState();
+			if(this.fireEvent('beforestatesave', this, state) !== false){
+			    Ext.state.Manager.set(id, state);
+			    this.fireEvent('statesave', this, state);
+			}
+		    }
+		}
+	}
+
 })
