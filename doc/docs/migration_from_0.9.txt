@@ -1,0 +1,59 @@
+
+== New Features ==
+
+=== No layoutExt() ===
+It is not needed to call XmlParser::layoutExt() at the end of your action.
+It will be called automatically.
+
+=== No json_encode() for response ===
+It is possible to return an array from your action.
+It will be automatically encoded as JSON.
+
+=== No <i:proxy url="parser/listjson"/> ===
+It is not needed to specify the URL to the listjson proxy.
+Its default value is OK.
+
+=== No type="static" on a method ===
+It is not needed to specify type="static" on an i:method element.
+It is the default value.
+
+=== No <i:display> ===
+The <i:display> element should not be used. It is ignored now.
+Use the column attribute hidden="true" instead.
+
+=== Action name is the default tooltip ===
+A row action name is the default tooltip for the action.
+
+=== Action conditions use PHP syntax ===
+New action conditions should use PHP syntax:
+condition="MyPeer::isEditable($id)"
+
+=== No edit[0] ===
+Use edit[name] instead of edit[0][name] in new actions.
+The values from the edit[0][] array are provided also in the edit[] array.
+
+
+== Changed Features ==
+
+Ivo will do the migration for LogInspect.
+The changes are mentioned here to keep you informed.
+
+=== Passing of remoteLoad anode ===
+A grid tree with remoteLoad=true should pass {anode}
+as an additional parameter to its datasource method.
+It is OK to pass also any other parameters.
+
+=== All datasource methods are "realtime" ===
+It is not needed to set $action->realtime=true.
+A new datasource method call is done for each listjson request.
+A file datasource should pass the {datafile} parameter explicitly
+its datasource method.
+
+It also not needed to set static_real_pagination=true.
+An action with a static datasource should pass the filters
+to the datasource method explicity.
+
+=== ImmExtJsLayoutFilter is removed ===
+Don't use ImmExtJsLayoutFilter in your filters.yml.
+It is useless in tag 0.9. It is removed in trunk.
+
