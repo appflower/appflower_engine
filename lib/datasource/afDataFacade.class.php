@@ -60,20 +60,32 @@ class afDataFacade {
         
         $sourceType = $view->get('datasource@type');
         $className = $view->get('datasource@className');
+        $modelName = $view->get('datasource@modelName');
 
         if($sourceType === 'orm') {
             list($callback, $params) = self::getDataSourceCallback($view);
-            $peer = $view->get('datasource/class');
             
             $result = afCall::funcArray($callback, $params);
 
-            afFilterUtil::setFilters($peer, $result, $filters);	
+            if ($modelName == '') {
+                $peer = $view->get('datasource/class');
 
-            if($peer == "afGenerator") {
-            	$peer = $params[0];
+                afFilterUtil::setFilters($peer, $result, $filters);
+
+                if($peer == "afGenerator") {
+                    $peer = $params[0];
+                }
+
+                $class = self::getClassFromPeerClass($peer);
+
+            } else {
+                $peer = $modelName.'Peer';
+
+                afFilterUtil::setFilters($peer, $result, $filters);
+
+                $class = $modelName;
+
             }
-            
-            $class = self::getClassFromPeerClass($peer);
             $extractor = new afColumnExtractor($class, $selectedColumns,
                 $format);
             if ($className === '') {
