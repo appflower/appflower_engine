@@ -48,8 +48,8 @@
 <li><a href="#edit-field-element">The &lt;i:field&gt; element</a></li>
 <li><a href="#edit-children-of-field">Children of &lt;i:field&gt;</a></li>
 <li><a href="#edit-value-element">The &lt;i:value&gt; element</a></li>
+<li><a href="#edit-tooltip-element">The &lt;i:tooltip&gt; element</a></li>
 <li><a href="#edit-help-element">The &lt;i:help&gt; element</a></li>
-<li><a href="#edit-comment-element">The &lt;i:comment&gt; element</a></li>
 <li><a href="#edit-validator-element">The &lt;i:validator&gt; element</a></li>
 <li><a href="#edit-event-handler">Event Handlers - The &lt;i:handler&gt; elements</a></li>
 <li><a href="#edit-field-bound-popups">Field bound popups - The &lt;i:window&gt; element</a></li>
@@ -1047,11 +1047,11 @@ or
   <td>0 - 1</td>
 </tr>
 <tr>
-  <td>&lt;i:help&gt;</td>
+  <td>&lt;i:tooltip&gt;</td>
   <td>0 - 1</td>
 </tr>
 <tr>
-  <td>&lt;i:comment&gt;</td>
+  <td>&lt;i:help&gt;</td>
   <td>0 - 1</td>
 </tr>
 <tr>
@@ -1278,24 +1278,24 @@ public static function getDoubleTree() {
 }
 </code></pre>
 
-<h3 id="edit-help-element">The &lt;i:help&gt; element</h3>
+<h3 id="edit-tooltip-element">The &lt;i:tooltip&gt; element</h3>
 
 <p>Each field may have its own help text, which is rendered when the user moves his mouse over the field (similar to a tooltip).</p>
 
-<p>Such text may be defined (optionally) via the <strong><em>&lt;i:help&gt;</em></strong> tag, which has no attributes.</p>
+<p>Such text may be defined (optionally) via the <strong><em>&lt;i:tooltip&gt;</em></strong> tag, which has no attributes.</p>
 
-<h3 id="edit-comment-element">The &lt;i:comment&gt; element</h3>
+<h3 id="edit-help-element">The &lt;i:help&gt; element</h3>
 
-<p>The purpose of the <i:comment> element is to provide a short description, or usage instruction, which is rendered directly beneath the field, in an italic, gray font. Like the <strong><em>&lt;i:help&gt;</em></strong> tag, this has no attributes and is completely optional.</p>
+<p>The purpose of the <i:help> element is to provide a short description, or usage instruction, which is rendered directly beneath the field, in an italic, gray font. Like the <strong><em>&lt;i:help&gt;</em></strong> tag, this has no attributes and is completely optional.</p>
 
-<p>An example of the <strong><em>&lt;i:help&gt;</em></strong> and <strong><em>&lt;i:comment&gt;</em></strong> tags:</p>
+<p>An example of the <strong><em>&lt;i:help&gt;</em></strong> and <strong><em>&lt;i:help&gt;</em></strong> tags:</p>
 
 <pre><code>&lt;i:field name="MyField" label="My"&gt;
     &lt;i:value type="static"&gt;
     ...
     &lt;/i:value&gt;
-    &lt;i:help&gt;This is the tooltip text&lt;/i:help&gt;
-    &lt;i:comment&gt;Lurem ipsum lorem&lt;/comment&gt;
+    &lt;i:tooltip&gt;This is the tooltip text&lt;/i:tooltip&gt;
+    &lt;i:help&gt;Lurem ipsum lorem&lt;/help&gt;
 &lt;/i:field&gt;
 </code></pre>
 

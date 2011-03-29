@@ -30,8 +30,8 @@
  * [The &lt;i:field&gt; element](#edit-field-element)
  * [Children of &lt;i:field&gt;](#edit-children-of-field)
  * [The &lt;i:value&gt; element](#edit-value-element)
+ * [The &lt;i:tooltip&gt; element](#edit-tooltip-element)
  * [The &lt;i:help&gt; element](#edit-help-element)
- * [The &lt;i:comment&gt; element](#edit-comment-element)
  * [The &lt;i:validator&gt; element](#edit-validator-element)
  * [Event Handlers - The &lt;i:handler&gt; elements](#edit-event-handler)
  * [Field bound popups - The &lt;i:window&gt; element](#edit-field-bound-popups)
@@ -860,8 +860,8 @@ Please note the order of these elements is important and while all are optional,
 Field		 | Occurances
 -------------| -----------	
 &lt;i:value&gt;	 | 0 - 1
+&lt;i:tooltip&gt;	 | 0 - 1
 &lt;i:help&gt;	 | 0 - 1
-&lt;i:comment&gt;	 | 0 - 1
 &lt;i:validator&gt;| 0 - any
 &lt;i:handler&gt;  | 0 - any
 &lt;i:window&gt;   | 0 - 1
@@ -1012,27 +1012,27 @@ So, a complete example of a function that returns a result for a doubletree look
 	}
 
  
-### The &lt;i:help&gt; element	{#edit-help-element}
+### The &lt;i:tooltip&gt; element	{#edit-tooltip-element}
 
 Each field may have its own help text, which is rendered when the user moves his mouse over the field (similar to a tooltip).
 
-Such text may be defined (optionally) via the ***&lt;i:help&gt;*** tag, which has no attributes.
+Such text may be defined (optionally) via the ***&lt;i:tooltip&gt;*** tag, which has no attributes.
 
 
-### The &lt;i:comment&gt; element	{#edit-comment-element}
+### The &lt;i:help&gt; element	{#edit-help-element}
 
-The purpose of the <i:comment> element is to provide a short description, or usage instruction, which is rendered directly beneath the field, in an italic, gray font. Like the ***&lt;i:help&gt;*** tag, this has no attributes and is completely optional.
+The purpose of the <i:help> element is to provide a short description, or usage instruction, which is rendered directly beneath the field, in an italic, gray font. Like the ***&lt;i:help&gt;*** tag, this has no attributes and is completely optional.
 
 
-An example of the ***&lt;i:help&gt;*** and ***&lt;i:comment&gt;*** tags:
+An example of the ***&lt;i:help&gt;*** and ***&lt;i:help&gt;*** tags:
 
 
 	<i:field name="MyField" label="My">
 		<i:value type="static">
 		...
 		</i:value>
-		<i:help>This is the tooltip text</i:help>
-		<i:comment>Lurem ipsum lorem</comment>
+		<i:tooltip>This is the tooltip text</i:tooltip>
+		<i:help>Lurem ipsum lorem</help>
 	</i:field>
 
 ### The &lt;i:validator&gt; element {#edit-validator-element}
