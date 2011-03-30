@@ -291,7 +291,10 @@ class afPortalStatePeer extends BaseafPortalStatePeer
         
         if ($objs!=null) 
         {
-            self::doDelete($objs);
+            foreach ($objs as $obj)
+            {
+            	$obj->delete();
+            }
         }
 	}
 	
