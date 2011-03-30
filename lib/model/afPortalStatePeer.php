@@ -294,4 +294,5 @@ class afPortalStatePeer extends BaseafPortalStatePeer
             self::doDelete($objs);
         }
 	}
+	
 }
