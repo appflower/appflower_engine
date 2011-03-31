@@ -261,26 +261,41 @@ class afPortalStatePeer extends BaseafPortalStatePeer
 	
 	public static function retrieveByIdXml($idXml)
 	{
-            return self::retrieveForCurrentUserByIdXml($idXml);
+        return self::retrieveForCurrentUserByIdXml($idXml);
 	}
 	
 	public static function deleteByIdXml($idXml)
 	{
-            $portalState = self::retrieveForCurrentUserByIdXml($idXml);
-            if ($portalState) {
-                $portalState->delete();
-            }
+        $portalState = self::retrieveForCurrentUserByIdXml($idXml);
+        if ($portalState) {
+            $portalState->delete();
+        }
 	}
         
-        public static function retrieveForCurrentUserByIdXml($idXml)
+    public static function retrieveForCurrentUserByIdXml($idXml)
+    {
+        $afUser = sfContext::getInstance()->getUser()->getAppFlowerUser();
+        if (!$afUser->isAnonymous()) {
+            $c=new Criteria();
+            $c->add(self::ID_XML,$idXml);
+            $c->add(self::USER_ID,$afUser->getId());
+            return afPortalStatePeer::doSelectOne($c);
+        }
+    }
+	
+    public static function deleteAllByIdXml($idXml)
+	{
+        $c=new Criteria();
+        $c->add(self::ID_XML,$idXml);
+        $objs=afPortalStatePeer::doSelect($c);
+        
+        if ($objs!=null) 
         {
-            $afUser = sfContext::getInstance()->getUser()->getAppFlowerUser();
-            if (!$afUser->isAnonymous()) {
-                $c=new Criteria();
-                $c->add(self::ID_XML,$idXml);
-                $c->add(self::USER_ID,$afUser->getId());
-                return afPortalStatePeer::doSelectOne($c);
+            foreach ($objs as $obj)
+            {
+            	$obj->delete();
             }
         }
+	}
 	
 }

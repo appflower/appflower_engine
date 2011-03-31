@@ -1,0 +1,2614 @@
+# AppFlower Documentation
+
+***[1. Structure of AppFlower Applications](#struct-of-af-application)***
+
+***[2. Widgets](#views-or-widget)***
+
+***[3. Pages](#pages)***
+
+ * [General Page Syntax](#page-syntax)
+ * [Page Title](#page-title)
+ * [Page Areas](#page-areas)
+ * [Widget References - The &lt;i:component&gt; elements](#widget-references)
+ * [Tabbed Pages](#pages-tabbed)
+ * [Page files location](#page-files-location)
+ * [Page Layouts](#page-layouts)
+
+***[4. Shared Elements](#shared-elements)***
+
+ * [Placeholders](#placeholders)
+ * [Optional widgets - The &lt;i:confirm&gt; element](#optional-widgets)
+ * [View Actions - The &lt;i:action&gt; element](#view-actions)
+ * [Widget Help - The &lt;i:description&gt; element](#widget-help)
+
+***[5. The Edit View](#edit-view)***
+
+ * [The *&lt;i:view&gt; element - XML header](#edit-view-element)
+ * [The &lt;i:title&gt; element](#edit-title-element)
+ * [The &lt;i:datasource&gt; element](#edit-datasource-element)
+ * [The &lt;i:fields&gt; element](#edit-fields-element)
+ * [The &lt;i:field&gt; element](#edit-field-element)
+ * [Children of &lt;i:field&gt;](#edit-children-of-field)
+ * [The &lt;i:value&gt; element](#edit-value-element)
+ * [The &lt;i:tooltip&gt; element](#edit-tooltip-element)
+ * [The &lt;i:help&gt; element](#edit-help-element)
+ * [The &lt;i:validator&gt; element](#edit-validator-element)
+ * [Event Handlers - The &lt;i:handler&gt; elements](#edit-event-handler)
+ * [Field bound popups - The &lt;i:window&gt; element](#edit-field-bound-popups)
+ * [The code generator](#admin)
+
+***[6. Other elements inside &lt;i:fields&gt;](#other-elements-inside-fields)***
+
+ * [The &lt;i:button&gt; element](#button-element)
+ * [The &lt;i:link&gt; element](#link-elemenet)
+ * [Arranging fields - The &lt;i:grouping&gt; element](#arranging-fields-element)
+ * [Field sets - The &lt;i:set&gt; tag](#field-sets)
+
+***[7. The Show View](#show-view)***
+
+***[8. The List View](#list-view)***
+
+ * [The &lt;i:title&gt; element](#list-title-element)
+ * [The &lt;i:datasource&gt; tag](#list-datasource-tag)
+ * [The container - &lt;i:fields&gt; element](#list-container-field)
+ * [The columns of the list - &lt;i:column&gt; element](#list-column-element)
+ * [Multiple Types of Lists](#list-multiple-types)
+ * [List View Actions](#list-view-action)
+
+***[9. The HTML View](#html-view)***
+
+ * [The &lt;i:option&gt; Tag](#html-option-tag)
+ * [A Note on HTML content](#html-content)
+
+***[10. The Wizard View](#wizard-view)***
+
+ * [About Wizards in General](#wizard-in-general)
+ * [Designing a Wizard  - The First Step](#wizard-design)
+ * [Automating saving and file uploads - The &lt;i:datastore&gt; element](#wizard-datastore-element)
+ * [Defining Table bindings - The &lt;i:table&gt; element](#wizard-table-element)
+ * [References - The &lt;i:ref&gt; element](#wizard-ref-element)
+ * [Defining file upload handlers - The &lt;i:file&gt; element](#wizard-file-element)
+ * [How to construct a Wizard?](#wizard-how-to-construct-wizard)
+
+***[11. REST API](#rest)***
+
+***[12. Apache Optimization](#apache-optimization)***
+
+***[13. Install in a domain's subdirectory structure](#domain-subdir)***
+
+## Introduction to AppFlower
+
+AppFlower is a framework designed to make enterprise-level application building a piece of cake (or certainly a lot easier than traditional methods). AppFlower is like a descriptive language; you simply tell AppFlower what you would like to create and the program does the rest on its own. You don't need to know HTML, CSS, XML, XSLT, JavaScript, ExtJS, PHP, or any other type of code to make a smooth, modern interface. All you do is tell AppFlower where the data is stored, describe how and where you want the data presented, and you'll have a full-featured user interface with lists, edit forms, and more in no time.
+
+![](http://www.appflower.com/images/index/bg_slide_2.png)
+
+To make life easier, we've created a small Playground Project that comes with examples and allows you play around with AppFlower. Based on this project, you can easily build your own application and see the real power of AppFlower.
+
+
+## Prerequisite
+Requirements before using AppFlower:
+
+1. Install php and symfony (1.2 <= version < 2.0)
+2. Install apache and mysql	
+3. Install APC for PHP	
+4. Setup a virtual host so you can access the project.
+
+## Project Directory Structure
+The structure is similar to Symfony's, but with a few minor extentions.
+
+### Basic Directory Structure
+The basic and most often used parts of the directory structure are found inside modules, lib, and config. The most notable difference between Symfony and AppFlower are the XML files placed under each module's config folder. These XML files are the actual rendering settings, which we will go into later.
+
+	apps/
+	  frontend/
+	    modules/
+	      [module_name]/
+	      	actions/
+	        	actions.class.php
+					config/
+						edit.xml
+						list.xml
+						show.xml
+	config/
+	lib/
+	plugins/
+		appFlowerPlugin/
+
+
+Directory    | Description
+---------    | -----------
+[module_name]/actions/	   | Generally contains a single class file named actions.class.php, in which you can store all the actions of the module. You can also write different actions of a module in separate files.
+[module_name]/config/	     | Contains all AppFlower rendering templates for the actions of the modules stored in XML format. Config can also contain custom configuration files with local parameters for the module.
+config/	     | Holds the general configuration of the project.
+lib/	       | Dedicated to foreign classes or libraries. Here, you can add the code that needs to be shared among your applications. The model/ subdirectory stores the object model of the project (described in Chapter 8).
+plugins      | Contains the added plugins, but also actual appFlower engine which extends Symfony. Notice that usually you would not need to modify code inside the appFlower engine. 
+
+### Full Directory Structure
+
+	apps/
+	  frontend/
+	  backend/
+	batch/
+	cache/
+	config/
+	data/
+	  sql/
+	doc/
+	lib/
+	  model/
+	log/
+	plugins/
+	test/
+	  unit/
+	  functional/
+	web/
+	  css/
+	  images/
+	  js/
+	  uploads/
+
+
+Directory    | Description
+---------    | -----------
+apps/	       | Contains one directory for each application of the project (typically, frontend and backend for the front and back office).
+cache/	     | Contains the cached version of the configuration, and (if you activate it) the cache version of the actions and templates of the project. The cache mechanism (detailed in Chapter 12) uses these files to speed up the answer to web requests. Each application will have a subdirectory here, containing preprocessed PHP and HTML files.
+config/	     | Holds the general configuration of the project.
+data/	       | Here, you can store the data files of the project, like a database schema, a SQL file that creates tables, or even a SQLite database file.
+doc/	       | A default place to store project documentation
+lib/	       | Dedicated to foreign classes or libraries. Here, you can add the code that needs to be shared among your applications. The model/ subdirectory stores the object model of the project (described in Chapter 8).
+log/	       | Stores the applicable log files generated directly by symfony. It can also contain web server log files, database log files, or log files from any part of the project. Symfony creates one log file per application and per environment (log files are discussed in Chapter 16).
+plugins/	   | Stores the plug-ins installed in the application (plug-ins are discussed in Chapter 17).
+test/	       | Contains unit and functional tests written in PHP and compatible with the symfony testing framework (discussed in Chapter 15). During the project setup, symfony automatically adds some stubs with a few basic tests.
+web/	       | The root for the web server. The only files accessible from the Internet are the ones located in this directory.
+
+
+### Application Tree Structure
+The tree structure of all application directories is the same:
+
+	apps/
+	  [application name]/
+	    config/
+	    i18n/
+	    lib/
+	    modules/
+	    templates/
+	      layout.php
+
+
+Directory    | Description
+---------    | -----------
+config/      | Holds a hefty set of YAML configuration files. This is where most of the application configuration is, apart from the default parameters that can be found in the framework itself. Note that the default parameters can still be overridden here if needed. You'll learn more about application configuration in the Chapter 5.
+i18n/	       | Contains files used for the internationalization of the application--mostly interface translation files (Chapter 13 deals with internationalization). You can bypass this directory if you choose to use a database for internationalization.
+lib/	       | Contains classes and libraries that are specific to the application.
+modules/	   | Stores all the modules that contain the features of the application.
+templates/	 | Lists the global templates of the application--the ones that are shared by all modules. By default, it contains a layout.php file, which is the main layout in which the module templates are inserted.
+
+
+## Structure of AppFlower Applications 	{#struct-of-af-application}
+
+AppFlower applications use Symfony's PHP framework as their basis and server-side background. So, if you are familiar with Symfony, then using AppFlower should be pretty easy, since it simply extends this foundation. In fact, the AppFlower additions to Symfony are not really structural, but rather logical, or functional, in nature.
+ 
+In other words, you can use the structure of Symfony that you already know so well with your AppFlower applications, too!
+
+
+What is the difference, you ask?
+
+Well, there are several differences. One is the configuration language we use. AppFlower configuration files are written in XML instead of YML. Also, the role of these files is more important, since they serve as the basis of AppFlower's logical units and functionality. A major part of your application's coding will be done in XML and only the advanced sections will require you to write PHP code, as well.
+
+This XML language is a major part of AppFlower and is used to describe almost everything, from appearance to parameters and behavior. It's also a replacement for Symfony templates, as AppFlower doesn't use them.
+
+To sum it up: an AppFlower application is simply an extended Symfony application that uses XML configuration files for every purpose, including the description of its views (which is why there are no templates or partials in AppFlower).
+
+The basic logical unit (or individual entity) is called "View", or "Widget". A set of these Widgets is called a "Page". You will find detailed descriptions of these terms in the next two sections, but for now it's enough to know that these are the building blocks of an AppFlower application.
+
+Such a block consists of two parts:
+
+- An XML configuration that describes all aspects of the block (parameters, settings, behavior, appearance, etc.).
+- A Symfony action that can be used to call the Widget, or integrate it into a Page. The Symfony internal URI serves as the Widget's unique id, as well.
+
+The PHP code behind the Widget, or Page, is partly provided by AppFlower "out-of-the-box" and for basic blocks, this is enough. Of course, more advanced use will require custom coding in the Action or Component levels. Libraries and ORM classes may also be used, but you don't have to worry. Feel free to use any of the Symfony tools as you would in a normal Symfony project. AppFlower is completely compatible with them (except those related to templates). 
+
+The configuration data of a Widget must be placed into the "config" directory of the Symfony module the Widget belongs to. The file must be named exactly after the corresponding action. For example: if you want to create a Widget called "Lister" in the "users" module, you would use this path: 
+
+	/$SF_DIR/apps/your_app/modules/users/config/lister.xml
+
+In regards to a Page, the location of the configuration data is different, since a Page always belongs to an application. Widgets, on the other hand, are related to a module.
+
+For this reason, in order to create a Page called "Lister", you'll have to use this path:
+
+	$SF_DIR/apps/your_app/config/pages/lister.xml
+
+Please note that these file names are always case sensitive! The name of the file must be exactly the same as the name of the action, apart from the "execute" part. 
+Thus, the following paths point to two different widgets:
+
+	$SF_DIR/apps/your_app/config/pages/lister.xml
+	$SF_DIR/apps/your_app/config/pages/Lister.xml
+
+
+
+## Views or Widgets	{#views-or-widget}
+
+Generally speaking, a "View" can be defined as a type of screen with a specific purpose. The interface of any application consists of many different components, each having its own role; AppFlower applications are no exception. They support all the tools you need to build any kind of UI, render data, read user input, or communicate with the user in some way.
+
+Thus, a View can also be defined as a screen where GUI elements of similar purpose are used. Below is a list of major Views:
+
+
+View Type    | Description
+---------    | -----------
+Edit         | Fetches user input and has all the tools to build edit / create screens.
+Show         | Renders information stored in data source as plain text. Good browsing.
+List         | Renders data stored in data source as a list with many features. Supports several different style of listings.
+Wizard       | Allows you to build Windows-like step-by-step wizards.  
+HTML         | For rendering custom information, such as messages and dialogues. Supports any valid XHTML content.
+
+
+However, a View is much more than a screen. AppFlower Views come with a bunch of built-in features that will work instantly (without any coding). For example: an edit screen (Edit View) doesn't only provide the input fields you need, it also comes with things like advanced form validation and rendering features. Similarly, a List View is not simply a static list of data--it also has cool functions that allow it to be sorted, exported, and more.
+
+What's more, unlike a standard application screen, which is usually a hard-coded component of that application, the AppFlower Views are individual entities. This gives you (and your users) a greater level of freedom. 
+
+This means once you've created a List View (for example) in one part of your application, you can use this View in any other part, as well! The AppFlower View works everywhere, since it is independent of its location and environment. So, if you change your mind about its placement, you can simply move it around freely, or even use multiple instances on different screens. The View will work out-of-the-box and moving it doesn't require any coding.
+
+For the above reasons, we also refer to "Views" as "Widgets". I will use the term "Widget" in most of the upcoming sections, but will sometimes also call them "Views", since they are the same thing.
+
+
+## Pages	{#pages}
+
+In AppFlower, a Page is a custom collection of Views (or Widgets). These Views may be the same or completely different from one another. The primary purpose of a Page is to allow the customization of any UI by grouping Views. This allows you to build each screen of your application in a way that best fits your needs.
+
+There are two kind of pages in AF:
+
+* Normal Page
+* Tabbed Page
+
+On a normal Page, the Widgets are rendered like a HTML page; they are simply placed one after another. Tabbed Pages display the Widgets in tabs (like a GUI application). Both of these Page types have the exact same features; the only difference is their layout. Let's check out the normal Page first (and Page syntax in general):
+
+### General Page Syntax	{#page-syntax}
+
+	<?xml version="1.0" encoding="UTF-8"?>
+	<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+	xmlns:i="http://www.appflower.com/schema/" type="layout">
+
+	<i:title>Appliance Setup</i:title>
+		
+		<i:area type="content">
+			<i:component name="editNetworkConfig" module="appliance_system">
+				<i:params>
+					<i:param name="foo">bar</i:param>
+				</i:params>
+			</i:component>
+			<i:component name="listNetworkInterface" module="appliance_system">
+				<i:params>
+					<i:param name="foo">bar</i:param>
+				</i:params>
+			</i:component>
+		</i:area>
+	</i:view>
+
+First of all, please note the type attribute of the ***&lt;i:view&gt;*** element. It is set to "layout". The View type must always have this value, regardless of the type of Page. 
+
+Now, as you can see, Pages don't have an overcomplicated structure. The above example Page has 2 top level elements. These are mandatory tags and there are also a few optional ones you may have to use sometimes. However, there is no need to worry; you don't need to define more than 4 top level nodes, even on the most complex of Pages.
+
+### Page Title	{#page-title}
+
+Each Page must have a title, which can be rendered in its own title row. This can be defined using the &lt;i:title&gt; element.
+
+
+### Page Areas	{#page-areas}
+
+The top level of a Page can be divided into areas. This is done by using the ***&lt;i:area&gt;*** element. The tag has one significant attribute: the type, which must equal one of the following:
+
+* content
+* sidebar
+* footer
+
+The content area is the main part of the window and where most of the Widgets will be placed. This is the working area of the application.
+
+The sidebar is a rectangular area on the left side of the screen and is the same height as the content area. Usually, this contains some kind of context menu, or special Widgets you want visible everywhere (such as navigation controls).
+
+The footer is a narrow, rectangular area located beneath the sidebar and content areas (spanning the length of both). It is optional, but may be used for several things. For example: an informative Widget can be placed here, displaying copyright and version information. Widgets located in this area will also be visible on every screen.
+
+The following image illustrates the location of areas:
+
+*** Screenshot ****
+
+The *&lt;i:area&gt;* element may contain multiple things, but on a normal Page it can only contain ***&lt;i:component&gt;*** elements.
+
+
+### Widget References - The &lt;i:component&gt; elements	{#widget-references}
+
+An ***&lt;i:component&gt;*** is a reference to a Widget. Each Widget is identified by its unique URI (module/action). When a parser encounters such a declaration, the given Widget will be loaded and rendered. 
+This tag has two mandatory attributes:
+
+ * **Name**: The name of the Symfony action to call
+ * **Module**: The name of the Symfony module
+
+The following attributes are optional, but can be useful:
+
+ * **Refresh**: The interval of automatic periodical refreshes for a Widget. This is set to 0 by default, meaning it is disabled. To enable it, it must be set to a value specified in milliseconds.
+ * **Post**: The expected value is a Symfony internal URI. This overrides the default action of the Widget and is submitted to the new URI. This is very useful when you need to use an Edit Widget, or post a List in different context.
+
+ 
+A component may have its own parameter. These can be defined by the ***&lt;i:params&gt;*** and ***&lt;i:param&gt;*** tags. 
+They work the same as elsewhere, but with one difference: parameters of components are parsed by name. In other cases, they are parsed by order of appearance.
+
+
+	<i:component name="listNetworkInterface" module="appliance_system">
+		<i:params>
+			<i:param name="foo">bar</i:param>
+		</i:params>
+	</i:component>
+
+
+
+### Tabbed Pages	{#pages-tabbed}
+
+The configuration syntax of a tabbed page is slightly different:
+
+
+	<?xml version="1.0" encoding="UTF-8"?>
+	<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+	xmlns:i="http://www.appflower.com/schema/" type="layout">
+
+		<i:title>Security Dashboard</i:title>	
+    
+		<i:area type="content">
+			<i:tab title="Dashboard">
+				<i:component name="showEventGraph" module="eventmanagement">
+		     			<i:params>
+		     				<i:param name="foo">bar</i:param>
+		     			</i:params>
+	       			</i:component>
+	       	 		<i:component name="listEventMatrix" module="eventmanagement" />
+				
+       	 		</i:tab>
+       	 		<i:tab title="Log Analysis">
+				<i:component name="syslogGraph" module="eventmanagement" />
+		    		<i:component name="syslogGraphCountSize" module="eventmanagement" />
+	        	</i:tab>
+		   	<i:tab title="Network">
+				<i:component name="listServices" module="networkmonitor" />
+				<i:component name="listServerSnmpGraph" module="networkmonitor_snmp" />
+				<i:component name="showMap" module="networkmonitor" />
+	        	</i:tab>
+		</i:area>
+    
+	</i:view>
+
+
+As you can see, this syntax is pretty straightforward. In Tabbed pages, the children of ***&lt;i:area&gt;*** elements are ***&lt;i:tab&gt;*** tags. 
+
+This tag defines the tabs. Its most important attribute is the title, which provides the title text of the tab. This attribute is also mandatory. The children of the tab must be Widget references (***&lt;i:component&gt;*** elements). Otherwise, the syntax of tabbed Pages is exactly the same as normal Page syntax (you can refer to Widgets and define their parameters the same way). 
+
+Please note that you are ***NOT*** allowed to mix tabbed and normal (non-tabbed) syntax. Your Page configuration must follow one of the aforementioned syntaxes exclusively.
+
+
+### Page files location	{#page-files-location}
+
+Once you write your Page in your favorite XML editor (or the AppFlower IDE), you must save it. This kind of file must always be saved as:
+
+$SF_ROOT/apps/your_app/config/pages/page_action_name.xml
+
+<div class="forbidden" markdown="1">
+Saving the file elsewhere will result in error because AppFlower won't be able to find the Page upon request.
+</div>
+
+### Page Layouts {#page-layouts}
+
+The areas of a Page (or the tabs inside it), can be divided into multiple columns. This allows you to arrange the Widgets in the best way to fit your needs.
+
+The default layout is 100, which means the tab (or area) has 1 column with a width of 100%; thus, it fills the enclosing area completely.
+
+However, there are several other configuration options available in AppFlower. You can specify which one you want to use via the ***layout*** attribute of the ***&lt;i:area&gt;*** or ***&lt;i:tab&gt;*** elements.
+
+The value is a number and should equal one of the following:
+
+Value    |   Columns
+---------|   ---------
+1        |   100
+2        |   50 / 50
+3        |   25 / 75
+4        |   75 / 25
+5        |   33 / 33 / 33
+6        |   50 / 25 / 25
+7        |   25 / 50 / 25
+8        |   25 / 25 / 25 / 25
+9        |   40 / 20 / 20 / 20 
+
+To place a Widget in a specific column, you must use the ***column*** attribute of the ***&lt;i:area&gt;*** or ***&lt;i:tab&gt;*** elements.
+
+The example below creates two equally wide columns in the content area and places a widget into each:
+
+	<i:area type="content" layout="2">
+		<i:component column="0" name="editFtp" module="appliance_system">
+		</i:component>
+		
+		<i:component column="1" name="editEmail" module="appliance_system">
+		</i:component>
+	</i:area>
+
+<div class="warning">
+
+Note the column="0" definition. The first index is 0 and NOT 1!
+
+In case of <b>layout</b> attribute however, the index starts at 1 if used in &lt;i:area&gt; and 0 if belongs to &lt;i:tab&gt; tag.
+
+</div>
+
+The above sample will work, whether the Page is tabbed or not. However, since tabbed Pages contain both ***&lt;i:area&gt;*** and ***&lt;i:tab&gt;*** elements, inheritance will occur if you specify ***layout="#"*** in both of these.
+
+The ***&lt;i:tab&gt;*** will inherit the layout setting of the enclosing ***&lt;i:area&gt;***. 
+
+For instance, the code below generates two tabs divided into 50 / 50 columns. This is because they inherited the layout="2" setting of the ***&lt;i:area&gt;***.
+
+	<i:area type="content" layout="2">
+		<i:tab title="foo">
+			<i:component column="1" name="editFtp" module="appliance_system">
+			</i:component>
+		
+			<i:component column="0" name="editEmail" module="appliance_system">
+			</i:component>
+		</i:tab>
+		<i:tab title="bar">
+			<i:component column="0" name="editSsh" module="appliance_system">
+			</i:component>
+			<i:component column="0" name="editLicenseKey" module="appliance_system">
+			</i:component>
+		</i:tab>
+		
+	</i:area>
+
+<div class="warning">
+
+Please note that inheritance will happen even if layout="#" is not defined at all, due to the fact that this is an optional attribute and
+it has a default value!
+
+</div>
+
+
+
+
+## Shared Elements	{#shared-elements}
+
+There are some elements in AppFlower that are not specific to a single View, which means they can be used in multiple (or all) types of Views.
+
+
+### Placeholders	{#placeholders}
+
+Although these are not elements, they are common to every type of View (and I wasn't able to find a better place for their introduction).
+
+Placeholders are what the name suggests: tokens in your XML that are substituted by values you define on the PHP (action) level. When the configuration data is parsed, these are replaced by their defined value. However, this substitution occurs once and is global to all occurrences of the given placeholder. So, assigning a value then changing it later is not possible (it would only overwrite the original value).
+
+Placeholders are universally supported by most AppFlower elements and attributes. Generally speaking, you could replace almost any attribute or node value in XML with a placeholder.
+
+You create such a thing in your widget's action:
+
+
+	public function executeExportJobList() {
+		
+		$this->status = "some value";
+		...
+		
+	}
+ 
+
+Once you assigned a value to $this->status, you can refer to it in your widget XML anytime and anywhere:
+
+
+
+	<i:some_tag>{status}</i:some_tag>
+
+	or
+
+	<i:other_tag attribute="{status}" />
+
+
+
+Naturally, the value of an attribute, or a node, supports any mixture of different placeholders, as well as mixtures of static and placeholder data. Therefore, each of the following declarations is valid:
+
+
+	<i:some_tag>{status}</i:some_tag>
+	<i:some_tag>{status}Foobar Foo Bar{status}{foo}</i:some_tag>
+	<i:some_tag>{status}{foo_bar}</i:some_tag>
+
+
+It should be noted that placeholders are always defined in the Widget actions and are unique to that Widget. So, when you are working with Pages, you don't have to worry about the tokens used in various Widgets. When processing the Page, the parser will automatically find and substitute these for you. It's not possible to override the value of a placeholder in your Page action, but it can be initialized there. Since placeholder names belong to Widgets, there won't be any naming conflicts when a Widget is used in Page context. From this point of view, we can say that each Widget has its own unique namespace.
+
+### Optional widgets - The &lt;i:confirm&gt; element	{#optional-widgets}
+
+Sometimes, you may need to make a Widget optional. For example: think of a wizard-like process, where one of the steps may be skipped. Another example is a Widget that handles sensitive info, so you want to make sure your users know what they are doing.
+
+The ***&lt;i:confirm&gt;*** element will solve the above problems. It is an optional, shared element that can be used in any View. If present, it must be placed right after the ***&lt;i:title&gt;*** tag. It has two important attributes:
+
+ * **url** (mandatory) if a user refuses confirmation, he will be redirected to this URL. Its value must be a Symfony internal URI.
+ * **title** optional title of the confirmation dialogue. If not provided, the default value is used ("Confirmation").
+
+The node value of the element will be used as text of the dialogue, so that is where your question / warning should be placed.
+
+	<i:confirm url="/wizard/install7?skip=6&amp;" title="User Setup">Would you like to create a new user?</i:confirm>	
+
+
+
+### View Actions - The &lt;i:action&gt; element	{#view-actions}
+
+Regardless of what kind of View you're working with (except the HTML View), you can add global actions to it. The actions are basically links pointing to other Views, but they have a lot more features than simple link tags and can act in different ways.
+
+An action is created in the following way:
+
+
+	<i:actions>
+		<i:action name="list" url="server/listServer" />
+	</i:actions>
+
+
+It is also possible to attach Event Handlers to actions (see Event Handlers section), so the above action could be defined like this as well:
+
+	<i:actions>
+		<i:action name="list" url="server/listServer">
+			<i:handler type="click" action="alert('CLick!');" />
+		</i:action>
+	</i:actions>
+
+
+The actions of the View are stored in a container element, called ***&lt;i:actions&gt;***. It must be placed right after the ***&lt;i:fields&gt;*** declaration and may hold any number of actions. Each action will be transformed into a button with an icon. These buttons will be placed in a row at the bottom of the screen and aligned to the right. Currently, there is no way to manipulate the placement settings.
+
+
+The tag has many attributes. We will examine them one by one now:
+
+ * **name** (required) A unique name for the action. If the "text" attribute is omitted, this will be used as the button label.
+ * **url** (mandatory) Its value is a normal URL, or internal Symfony URI. The action will point to this location. It's possible to use a "#" (hash mark) as a value, but in this case the "script" attribute should also be defined.
+ * **script** The name of an external JS file, which should be placed under "/$SF_DIR/plugins/appFlowerPlugin/web/js/custom". Only the file name should be provided here (without the ".js" extension). This allows you to link complex JS functions, or classes, to your action. The contents of the file will be executed on-click and before reading the "URL". 
+
+If you need to run a simple piece of JS code, use the ***&lt;i:handler&gt;*** element. Please see the Event Handlers section for more information.
+
+If the "URL" value is "#:" then this attribute must be defined.
+
+In the following example, "/$SF_DIR/plugins/appFlowerPlugin/web/js/custom/save_assets.js" will be loaded and executed before processing the "URL":
+
+
+	<i:action name="Next" icon="/images/famfamfam/accept.png" script="save_assets" url="wizard/pdf6?step=5&amp;id={id}" />
+	
+	
+ * **Text** A string used as a button label.
+ * **Condition** By default, all actions are always visible in a View. If you need to hide (or show) actions conditionally, then you must define this attribute.
+
+Example.:
+
+
+	<i:action name="edit" condition="PdfReports::isEditable($id)" url="wizard/pdf1" />
+	
+
+The condition can be any PHP expression. It is evaluated in the context of the current Symfony action (or row) for row actions. The action (or row) variables are accessible from the expression.
+
+ * **Post** A Boolean value that is set to false by default. If set to true, the action will perform a POST request. For Edit or List Views, this can be used as an alternate submit button that allows you to POST the form to multiple locations
+ * **Tooltip**: A description of the action that is shown on mouseover.
+ * **Icon and IconCls** This allows users to attach an image to a button, which is then rendered as an icon on the left side of the button. The value of the former attribute should be an absolute path (for example: /usr/www/myapp/web/images/foo.png), while the latter expects the name of a CSS class.
+ * **ConfirmMsg** A confirm dialogue will be displayed (if not omitted) when the button is clicked; the action will be performed only if the user hits OK.
+ * **ForceSelection**: This is only available in List View and should be used if the list supports selections. Its value is set to Boolean false by default. When set to true, the action only performs if the selection is not empty; in other words, at least 1 list item must be selected).
+ * **Updater** This is another Boolean value set to false by default. When set to true, the button initiates a comet-like request and responses pushed back by the server will be rendered in a dialogue with a progress bar. This is very useful for making more responsive applications.
+ * **Popup**: This will open the target in a new/popup window.
+
+We will talk more about actions later, since AppFlower actually supports three different types. However, one of these (the normal action) is available in all Views; the others are specific to the List View, so we will discuss them in that section. 
+
+
+### Widget Help - The &lt;i:description&gt; element	{#widget-help}
+
+This tag can be used in any View. Its purpose is to attach a type of description to a Widget, which can be used for multiple purposes. AppFlower makes use of this in its Widget help feature, as it renders this data on the top of each Widget (whenever the Widget help is turned on).
+
+The description value may be either plain text, or XHTML.
+
+The tag should be placed at the bottom of the configuration file as either the last element of ***&lt;i:view&gt;***, or the previous sibling of ***&lt;i:grouping&gt;*** (if it is used).
+
+
+	<i:description><![CDATA[The edit server widget lets you configure the nodes (server) being monitored. The settings include setting the display name, join servers in groups, add contacts and 	responsibles to 	each server, set permission rights for servers (permission objects), define which event policy to use and much more.]]>
+	</i:description>	
+
+
+Please note the CDATA section! If you want to use XHTML in a description, you MUST put it into a CDATA section.
+
+
+## The Edit View	{#edit-view}
+
+The purpose of this View is the same as that of Forms in XHTML: it allows you to fetch user input. The Edit View is used for both creating and modifying data. Its structure is somewhat similar to that of XHTML. The minimal layout of an Edit View can be described in the following way:
+
+
+	<?xml version="1.0" encoding="utf-8"?>
+		<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd" 
+		xmlns:i="http://www.appflower.com/schema/" type="edit">
+ 
+  		<!-- Title of the view -->
+
+ 	 	<i:title>...</i:title>
+
+ 	 	<!-- The Form and user input fields -->
+
+  		<i:fields>
+  			<i:field />
+			<i:field />
+			...
+  		</i:fields>
+
+ 	</i:view>
+
+
+As you can see, this is a very simple definition. However, in a real life scenario you will need a bit more to accomplish your task. The following example is the most common configuration for Edit Views, which is typically what you will need.
+
+
+	<?xml version="1.0" encoding="utf-8"?>
+		<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd" 
+		xmlns:i="http://www.appflower.com/schema/" type="edit">
+ 
+		<!-- Title of the view -->
+
+		<i:title>My Widget</i:title>
+
+  		<!-- Source of data to be used when modifying records -->
+
+  		<i:datasource>
+  		...
+  		</i:datasource>
+
+  		<!-- The Form and user input fields -->
+
+  		<i:fields>
+  			<i:field />
+			<i:field />
+			...
+  		</i:fields>
+
+  		<!-- View actions -->
+
+  		<i:actions>
+    			<i:action />
+    		...
+  		</i:actions>
+  
+  		<!-- Fieldsets and order of fields -->
+
+  		<i:grouping>
+    			<i:set>
+      				<i:ref />
+      				...
+    			</i:set>
+    			...
+  		</i:grouping>
+
+  		<!-- Widget help text -->
+	  
+  		<i:description>...</i:description>
+
+	</i:view>
+
+As shown in the previous example, most of the elements in an Edit View are optional. The two mandatory elements are ***&lt;i:title&gt;*** and ***&lt;i:fields&gt;***. Please note that other Edit View-related elements and settings exist, but we do not describe them here because they are completely optional and rarely used. In the following section, we will introduce the most common elements and their usage. (For a complete description of all Edit View elements and settings, please see Appendix A.)
+
+Let us examine the example above and discuss the elements one by one:
+
+Please note that some tags are non-View-specific elements and therefore are used in multiple Views. The basic syntax of such tags is the same everywhere, but some also have View-specific constraints. We will discuss the View-related parts in the introduction of each View and you can find all general information tags in the "Non-View-Specific Elements" section. 
+
+Shared tags will be marked with an asterisk.
+
+### The *&lt;i:view&gt; element - XML header	{#edit-view-element}
+
+As you can see, the header section is the same in both examples. In fact, most of this XML code is always the same, regardless of what View is used. The only dynamic part is the type's attribute value. This needs to be defined according to the type of View you are working on. The Edit View always has the value "edit".
+
+
+	<i:view ... (do not edit) ... type="edit">
+
+	...
+
+	</i:view>
+
+
+### The &lt;i:title&gt; element	{#edit-title-element}
+
+
+This is a shared element used by all kinds of Views to define the title of a View. It has no attributes and the values are simply displayed in the title row. The tag supports both static values and placeholders.
+
+	<i:title>My View</i:title>
+
+
+### The &lt;i:datasource&gt; element	{#edit-datasource-element}
+
+The purpose of this tag is to define a data source to be used when working with already existing data (in edit mode). You need to define three things, as shown in the example below:
+
+1.	The type of data source
+2.	The class name
+3.	The method name 
+
+Optionally, you may also define a set of parameters for the method.
+
+	<i:datasource type="orm">
+		<i:class>MyClass</i:class>
+		<i:method name="MyMethod" >
+			<i:param name="id">{id}</i:param>
+			<i:param name="num">322</i:param>
+		</i:method>
+	</i:datasource>
+
+
+In regards to Edit and Show Views, the type of attribute of the ***&lt;i:datasource&gt;*** element must always be "orm" or "static", since the only supported source (at the moment) is a database. Please note that this will be changed in the near future and support for other sources will be added.
+
+The ***&lt;i:class&gt;*** element defines the PHP class to be used. Its value is always the class name. The ***&lt;i:method&gt;*** element defines the method to be called and (optionally) the arguments to be passed to that method. These arguments can be listed using the ***&lt;i:param&gt;*** element.
+
+Please note the order of ***&lt;i:param&gt;*** tags is important, since the arguments will be passed to the method in that exact order. A name must be provided for each parameter only to allow AppFlower to store the corresponding value.
+
+When processing the datasource definition, AppFlower will try to call MyClass::MyMethod(), passing any parameters defined in the ***&lt;i:param&gt;*** element. This means MyMethod() should be declared as a "public state", since AppFlower won't create an instance. The expected result of this call is a Propel object, which is used to fill in your form fields values automatically. If the record cannot be found, the method should return to Boolean false. 
+
+The result can be retrieved by any method, including the following, which is used in most of the typical configurations.:
+
+
+	<i:datasource type="orm">
+		<i:class>MySomePeer</i:class>
+		<i:method name="retrieveByPk" >
+			<i:param name="id">{id}</i:param>
+		</i:method>
+	</i:datasource>
+
+ 
+Another possible alternative is the MySomePeer::doSelectOne() method, but any custom method can be used, as long as the result is either a Propel object or boolean false.
+
+Other Views (such as the List View) support other data sources and also make use of the ***&lt;i:datasource&gt;*** element. For detailed information about other supported data source types, please see List View.
+
+As you can see, the ***&lt;i:params&gt;*** element supports placeholders besides static values; this also applies to ***&lt;i:class&gt;*** and ***&lt;i:method&gt;*** elements.
+
+
+### The &lt;i:fields&gt; element	{#edit-fields-element}
+
+In an Edit View, this element is the AppFlower counterpart of the XHTML Form. It has many attributes, but most of them are optional and have default values. The only mandatory attribute is "URL", which defines the action of the Form and its value must be a Symfony internal URI-normal URLS are not accepted.
+ 
+The ***&lt;i:fields&gt;*** element may contain any number of ***&lt;i:field&gt;*** tags. These are the building blocks of the AppFlower Form. Other tags  may also be used here, which will also be rendered as form elements, but (for several reasons) have been implemented as separate tags.
+
+The following tags can be placed in an ***&lt;i:fields&gt;*** collection:
+
+Field             |  Description
+--------------    |  -----------
+&lt;i:field&gt;   |  a form field, see next section for details
+&lt;i:button&gt;  |  a normal button
+&lt;radiogroup&gt;|  a group of radio buttons 
+
+Here's some information on the important characteristics of the ***&lt;i:fields&gt;*** tag:
+
+When submitting the Form, the data will be posted to the URL defined by the "URL" attribute. By default, the post request is performed by AJAX. This behavior can be changed by setting the "classic" attribute to "true", in which case a normal POST request will be performed.
+
+Like XHTML Forms, the AppFlower fields container can POST both textual and binary data. If you need to design a file upload Widget, set the "multipart" attribute to "true".
+
+Another useful attribute is "redirect". If defined, its value must be an internal URI. The client's browser will then be redirected to this location upon successful submission.
+
+To set the width of the area containing the label of a form field, use the "labelWidth" attribute. Make sure you provide a value in pixels (without the "px" extension).
+
+Finally, unlike XHTML Forms, the fields container does not have a "method" attribute. Instead, data transfers are always performed as POST. This restriction was added due to security reasons.
+
+
+	<i:fields url="MyModule/MyAction">
+ 		<i:field name="myField" label="My label" />
+ 		...
+ 		<i:button name="myButton" label="My button" />
+	</i:fields>
+
+
+### The &lt;i:field&gt; element	{#edit-field-element}
+
+This tag defines an input field that can be used as part of a Form. The element resides inside of the ***&lt;i:fields&gt;*** tag.
+
+It has many attributes; most of them are optional and have default fixed values. The mandatory ones are listed below:
+
+ * name
+ * label
+
+The former is the name of the element (which must be unique) and the latter defines the text to be rendered as a field label.
+
+
+	<i:field name="id" label="Id" type="hidden" ...>
+		....
+	</i:field>
+
+
+However, there are many useful, optional attributes that you should know about. The following list contains these and their descriptions:
+
+ * **type** This determines the type of the input field. Its default value is "input", which is the same as XHTML's ***&lt;input type="text"&gt;*** setting. Currently, a number of input types are supported by AppFlower.
+
+Many of these types are using the same names as their XHTML counterparts and they render the same result as well.:
+
+ * input                                
+ * textarea
+ * checkbox
+ * hidden
+ * password
+ * radio
+ * file
+ * combo (same as XHTML &lt;select&gt;)
+ * multicombo (same as XHTML &lt;select multiple="true"&gt;)
+
+Apart from these standard types, AppFlower also supports a set of advanced input types, which are unavailable in XHTML:
+
+ * **Date** Displays a date selector Widget.
+
+ * **Datetime** Displays a combined date and time selector.
+
+ * **Doublemulticombo** Rendered as two multicombos side by side. The first contains all items. The second contains only selected items. An interface is provided for moving items between the two and can also be used to change their position. Drag and Drop functionality is supported.
+
+ * **Doubletree** This is similar to the doublemulticombo, but instead of combos, it uses tree-structured lists. This also supports Drag and Drop, and you can move nodes (or groups) freely between the two trees. 
+
+ * **Static** This is not actually a real input field, because it has no interactive features. Instead, it will render a piece of information as plain text (or HTML). In the meantime, it is a form field and acts like such in many ways (regarding grouping, ordering, having the same basic properties, etc.). This kind of field is meant to be used as a tool for printing (formatted) info on forms, but without losing the form field characteristics. Its value won't be posted.
+
+ * **ExtendedCombo**
+ * **ExtendedDayTimeSelect**
+ * **ItemSelectorAutoSuggest**
+ * **RemoteComboAutoSuggest**
+
+
+ * **state** The actual state of the field. It is editable by default, which means the users can interact with the field and may change its value. It can be set to "read only" (users cannot interact with the field), or to "disabled" (similar to "read only", but rendered differently and the field's value won't be posted).
+
+ * **Style** CSS code may be provided to change the appearance of the field.
+
+ * **Width and Height** These values are automatically calculated by default. You can override this behavior by providing static values in pixels.
+
+ * **rich** This only has a meaning in case of type="textarea". If set to "true", a WYSIWYG editor will be rendered instead of a normal text area.
+
+You can find the rest of the optional <i:field> attributes and their descriptions in Appendix A.
+
+
+### Children of &lt;i:field&gt;	{#edit-children-of-field}
+
+Most of the parameters of the ***&lt;i:field&gt;*** are defined as attributes, which are listed above. The rest of them are child elements of the node, as they can be verbose in nature and therefore, it is a better way to declare them. This also makes the ***&lt;i:field&gt;*** declaration shorter and more readable.
+
+Please note the order of these elements is important and while all are optional, if you use any of them you must place them in the right order. The following table shows the expected order and number of allowed occurrences.
+
+Field		 | Occurances
+-------------| -----------	
+&lt;i:value&gt;	 | 0 - 1
+&lt;i:tooltip&gt;	 | 0 - 1
+&lt;i:help&gt;	 | 0 - 1
+&lt;i:validator&gt;| 0 - any
+&lt;i:handler&gt;  | 0 - any
+&lt;i:window&gt;   | 0 - 1
+&lt;i:trigger&gt;  | 0 - 1 (must be present if the previous one is used)
+
+Let us check out these tags and their usage one by one now:
+
+
+### The &lt;i:value&gt; element	{#edit-value-element}
+
+This tag specifies the value of the field. Usually, this comes from a database, but it's also possible to define static values in XML. The tag has three different forms, of which you may use any that fit your needs.
+
+**1. The general way:**
+
+
+	<i:field name="id" label="No.">
+		<i:value type="orm"> 
+			<i:source name="getId" /> 
+		</i:value>	
+	</i:field>
+
+
+This is the most widely used variant (and also the shortest one). In this case, the value is returned by a method of the object fetched by the ***&lt;i:datasource&gt;*** statement. In the example above, we call the getId() method. As you can see, this was designed to work with Propel database objects, but you can use any kind of object, as long as it provides the public method you refer to here.
+
+**2. Special cases**
+
+Sometimes, the above method is not the right choice because the value stored in the object is not in the format you wish to display. Other times, you may need to display a value that cannot be retrieved from the database. In this case, you can fetch any custom value by providing a class name and method to call. You can use any class, as long as the method is declared as public static in that class.
+
+
+	<i:value type="orm">
+		<i:class>MyClass</i:class>
+		<i:method name="getMyValue">
+			<i:param name="example">some value</i:param>
+		</i:method>
+	</i:value>
+
+
+As you can see, you may define the class name by using the ***&lt;i:class&gt;*** element. The method called is defined by the ***&lt;i:method&gt;*** element and its "name" attribute must hold the name of the method. If your function requires arguments, then you can pass those using the ***&lt;i:param&gt;*** element. The arguments will be passed in the order you define them here.
+
+
+**3 Static values**
+
+We have limited support for these, as it's currently possible to define such values for combo and multicombo fields. However, it will be extended in the future to allow the defining of static values for any field (with some exceptions where such values are pointless).
+
+To declare the values of a combo, or multicombo, directly in XML, you can use the following syntax:
+
+
+	<i:field name="menu" label="Menu" type="combo">
+		<i:value type="static">
+			<i:item value="1">First Item</item>
+			<i:item value="2">Second Item</item>
+			...
+		</i:value>
+	...
+	</i:field>
+
+
+The example above will be rendered as a combo with 2 items:
+
+* First Item
+* Second Item
+
+The items and their order are defined by the ***&lt;i:item&gt;*** elements. The only mandatory attribute of this tag is "value", which specifies the value of the item, while the nodeValues will be used as labels.
+
+
+**Return values**
+
+When you use any of the first two syntaxes, you must call a method to fetch a value. The return value of this method will be the value of the ***&lt;i:field&gt;***, which should be a string, or array. The table below lists all field types, with their expected return value format:
+
+
+Field Type	|	Return value
+----------	|	------------
+input		|	any string                                
+textarea	|	any string
+checkbox	|	any string
+hidden		|	any string
+password	|	any string
+radio		|	any string
+file		|	any string
+		|
+date		|	YYY-mm-dd
+datetime	|	YYY-mm-dd HH:ii:ss
+		|
+combo		|	array("value1" => "label1","value2" => "label2")
+multicombo      |       array("value1" => "label1","value2" => "label2")
+doublecombo	|	array(0 => array("value1" => "label1", "value2" => "label2" ...), 1 => array("value1" => "label1")
+doublemulticombo|	array(0 => array("value1" => "label1", "value2" => "label2" ...), 1 => array("value1" => "label1")
+doubletree      |	see example below
+
+
+As you can see, the value of some fields should be returned as an array. This array is either simple (containing items as value => label pairs), or two dimensional (containing two arrays). In the latter case, the first array holds all items; the second array holds any selected items. Both simple and two dimensional arrays can be either numeric, or associative.
+
+
+	array("value1" => "label1","value2" => "label2")
+
+The above applies to all types, except combo and multicombo.  For these, the selected values must be supplied by the "selected" attribute of the corresponding ***&lt;i:field&gt;*** element, in the following format;
+
+
+Type		|	Syntax
+-----------	|	---------
+combo           |	selected="1"
+multicombo      |	selected="0,1"
+  
+
+Please note that the entries in selected="..." are referring to values form the array of items and NOT the corresponding keys!
+
+
+The doubletree type is somewhat special, because it requires items to be supplied in a specific format. This is an associative array, with the following structure:
+
+
+	array("text"=>"Group 1","value"=>"G1","leaf"=>false,"iconCls"=>"folder",
+		"children"=>array(
+				array("text"=>"Item1","value"=>"item 1","leaf"=>true,"iconCls"=>"file"),
+				array("text"=>"Item2","value"=>"item 2","leaf"=>true,"iconCls"=>"file")
+				// more items..
+				)
+
+	)
+
+In this case, items are stored in groups and each group must have a unique name. The label displayed is defined by the "text" key in every case. The "iconCIs" key should point to a CSS class name, which attaches an icon to the label.
+
+
+	.folder {
+		background-image:url(/appFlowerPlugin/extjs-3/resources/images/default/tree/folder.gif) no-repeat 0 0 !important;
+	}
+
+
+The "leaf" key is associated with a boolean value. It must be set to true if a node has no children, otherwise it should be false.
+
+So, a complete example of a function that returns a result for a doubletree looks something like this:
+
+	{{{
+	public static function getDoubleTree() {
+
+		$double_tree_options=array(array("text"=>"Group 1","value"=>"G1","leaf"=>false,"iconCls"=>"folder","children"=>array(array("text"=>"Item1","value"=>"item 1","leaf"=>true,"iconCls"=>"file"),
+		array("text"=>"Item2","value"=>"item 2","leaf"=>true,"iconCls"=>"file"))),
+		array("text"=>"Group 2","value"=>"G2","leaf"=>false,"iconCls"=>"folder","children"=>array(
+		array("text"=>"Item3","value"=>"item 3","leaf"=>true,"iconCls"=>"file"),array("text"=>"Item4","value"=>"item 4","leaf"=>true,"iconCls"=>"file"),array("text"=>"Item5","value"=>"item 		5","leaf"=>true,"iconCls"=>"file"))));
+
+		$double_tree_selected=array(array("text"=>"Group 1","value"=>"G1","leaf"=>false,"iconCls"=>"folder","children"=>array(
+		array("text"=>"Item2","value"=>"item 2","leaf"=>true,"iconCls"=>"file"))));
+		
+		return array
+		(
+		0 => $double_tree_options,
+		1 => $double_tree_selected
+		);
+	}
+
+ 
+### The &lt;i:tooltip&gt; element	{#edit-tooltip-element}
+
+Each field may have its own help text, which is rendered when the user moves his mouse over the field (similar to a tooltip).
+
+Such text may be defined (optionally) via the ***&lt;i:tooltip&gt;*** tag, which has no attributes.
+
+
+### The &lt;i:help&gt; element	{#edit-help-element}
+
+The purpose of the <i:help> element is to provide a short description, or usage instruction, which is rendered directly beneath the field, in an italic, gray font. Like the ***&lt;i:help&gt;*** tag, this has no attributes and is completely optional.
+
+
+An example of the ***&lt;i:help&gt;*** and ***&lt;i:help&gt;*** tags:
+
+
+	<i:field name="MyField" label="My">
+		<i:value type="static">
+		...
+		</i:value>
+		<i:tooltip>This is the tooltip text</i:tooltip>
+		<i:help>Lurem ipsum lorem</help>
+	</i:field>
+
+### The &lt;i:validator&gt; element {#edit-validator-element}
+
+AppFlower supports server-side form validation through a series of built-in validators. This means in most cases, you won't have to write any PHP code, since declaring a validator in XML will be enough.
+
+The framework will render validation error messages in a sophisticated way. Related fields will have a red border and the corresponding error message will display each time a user moves his mouse pointer over the field.
+
+The set of validators you can use (without any PHP coding) includes all validators in Symfony 1.2.x. This means you already have the required validation tools for the most frequently used data types, including: strings, numbers, and dates. It also means any custom Symfony 1.2.x style validator will be supported (we support the API), including your own code. 
+
+Please note: AppFlower also provides full support for Symfony 1.0.x style validators, but these are considered deprecated in some newer versions of Symfony 1.2.x; thus, they may fail-even if 1.0.x compatibility is enabled. This applies to certain Symfony 1.2.x version, not all of them, but as a rule of thumb, it's better to use the 1.2.x API.
+
+Apart from these Symfony components, AppFlower provides a few additional validators to make your life easier.
+
+The following is the general syntax of a validator definition:
+
+	<i:field name="ip" label="IP Address" type="input" state="editable" style="css">		
+
+		<!-- value, help and comment definitions... -->
+				
+		<i:validator name="immValidatorIp" />	
+		<i:validator name="immValidatorUnique">
+			<i:param name="class">Server</i:param>
+			<i:param name="column">ip</i:param>
+		</i:validator>
+	</i:field>	
+
+The ***&lt;i:validator&gt;*** tag has one attribute: the mandatory "name", which defines the name of the validator class to be used. Child nodes are optional, but you can use them to provide required parameters for a validator. This can be done by adding some ***&lt;i:param&gt;*** elements.
+
+Please note that in regards to validators, the "name" of the ***&lt;i:param&gt;*** is important, since the validator looks up parameters by name.
+
+The example above refers to two validators: one without parameters and another with a "class" and "column" parameter. You may list any number of validators. They will be executed one after another, until one fails (an input error is detected), or the queue is over (all good).
+
+The following example calls a built-in Symfony validator. Note the names of the parameters are the same as those listed in Symfony documentation.
+
+
+	<i:field name="ip" label="IP Address" type="input" state="editable" style="css">		
+	
+		<!-- value, help and comment definitions... -->
+
+		<i:validator name="sfValidatorRegex">
+			<i:param name="pattern">/^([1-9]+[0-9]*)?$/</i:param>
+			<i:param name="invalid_error">Only the valid integer is accepted</i:param>
+			<i:param name="required">false</i:param>
+		</i:validator>
+	</i:field>
+
+ 
+### Event Handlers - The &lt;i:handler&gt; elements	{#edit-event-handler}
+
+Event handling is supported by AppFlowr and XHTML. In XHTML, the handler can be attached to an element (as an attribute value), but in AppFlower it is a child node of the affected element. The reasons for this are readability and better syntax, especially when many handlers are used at the same time.
+
+In AppFlower, event handlers can be attached to any form field (***&lt;i:field&gt;, &lt;i:button&gt;***, etc.). Also, AppFlower and XHTML both support the same basic events, and more. The current list is below:
+
+
+You must use the ***&lt;i:handler&gt;*** tag to attach an event handler to an element. It has two attributes and both are mandatory:
+
+ * **Type** The type of event. Its value must be one of the supported types listed above.
+
+ * **Action** The JS code to execute when the event occurs.
+
+The following example creates an ***&lt;i:field&gt;*** with a "click" event handler attached to it:
+
+
+	<i:button name="button2" label="Script Button" icon="/images/famfamfam/cancel.png" action="test/list">
+		<i:handler type="click" action="alert('CLick!');" />
+	</i:button>
+
+
+In this example a form field is created and the "blur" event is attached to it:
+
+
+ 	<i:fields url="/test/action">
+  		<i:field name="myField" label="My Field" type="input" state="editable" style="css" >
+			<i:handler type="blur" action="alert('Focus has been just removed!');" />	
+		</i:field>
+		...
+  	</i:fields>
+
+
+### Field bound popups - The &lt;i:window&gt; element.	{#edit-field-bound-popups}
+
+This is the last tag in an ***&lt;i:field&gt;*** declaration and its purpose is special. It allows you to extend the value of the enclosing ***&lt;i:field&gt;*** (or define it, if the field is empty) via a popup window. The tag adds a button to the ***&lt;i:field&gt;***, which opens a new panel and loads an edit View into it. Once you fill in the popup fields, you can submit it and the result will be added to the value of the ***&lt;i:field&gt;*** (the element reloads).
+
+A use case of this is an empty field, whose value cannot be defined when the form is rendered, but it is required to have a proper value upon submit. Another case is a combo (multicombo, etc.) element, which has some items, but the value the user needs cannot be found among them (since it doesn't exist, yet). There are many similar cases. For instance: think of a user data edit Page, with a "user group" field. This tag makes it possible to relate that new user to a new group in one step.
+
+An example of an ***&lt;i:window&gt;*** call follows:
+
+
+	<i:window title="Server Location Add [Quick Widget]" component="/server/editServerLocation" className="LocationPeer" methodName="getAll" width="900" />		
+
+The tag has four mandatory attributes:
+
+ * **Title** Defines the title text of the popup panel.
+
+ * **Component** The Symfony internal URI that points to the Edit Widget to be called
+
+ * **ClassName** The name of the class used when reloading the related ***&lt;i:field&gt;*** element.
+
+ * **MethodName** The name of the method called when reloading the related ***&lt;i:field&gt;*** element.
+
+The latter two will usually be the same class and method used to render the ***&lt;i:field&gt;*** when the form is constructed.
+
+The tag has two optional attributes; since these are frequently used, we listed them here:
+
+ * **Width** The width of the popup panel in pixels (without the "px" extension). If omitted, the default value will be used, which is 500 pixels.
+
+ * **IconCls** The value is the name of the CSS class and should represent an icon used when rendering the popup opener button. If omitted, a small plus sign (+) will be used.
+
+## The code generator {#admin}
+
+AppFlower has a code generator similar to the Symfony Admin Generator. In fact, it is an extension of the Symfony task, which means the syntax is very similar and it supports most of the same features.
+
+It also contains AppFlower-specific functionality: it supports more options and the YML syntax is different, too.
+
+### The code generator shell task
+
+Just like Symfony, AppFlower also provides a CLI task, which is an automated module builder.
+
+	>> symfony appflower:generate-admin [--module="..."] [--singular="..."] [--plural="..."] [--env="..."] [--no-forms="..."] application model
+
+As you can see, it has almost the same arguments and options as the SF task, but there are a few differences:
+
+* The second argument must be the name of a Model class, routes are NOT supported.
+* It has one extra option: **--no-forms**.
+
+The routing names aren't allowed because the generated rules are currently incompatible with AppFlower; however, this restriction should be removed in the near future.
+
+The **-no-forms** option is meant to speed up the building process. By default, the generator builds all **Form and Filter** classes every time you execute it, but if you set this option to "true", the step will be skipped and the process will run a lot faster.
+time you execute it. If you set this option to "true", this step will be skipped, thus the process will run a lot faster.
+
+<div class="forbidden" markdown="1">
+Please note that the Form and Filter classes **MUST** be generated **at least once**, othewise the generator won't work properly!
+</div>. 
+
+Like I said, the rest of the command line options are the same as Symfony's Admin Generator. For more information, please see:
+
+	>> symfony help propel:generate-admin
+
+When the task is executed, it will generate all necessary files (just like in Symfony), including the generator.yml file, which has the default content. This kind of module is **instantly usable** (you can access it in your browser). To define the details, look and feel, you must edit the generator.yml file.
+
+
+### Generator YML syntax - Basic structure
+
+Although AppFlower uses XML exclusively to describe configuration data, the generator is an exception; in this case, YML is used. The reason for this is the underlying Symfony Admin Generator, which is also YML-based.
+
+The AppFlower task can read and parse the same generator.yml file as Symfony, but the syntax is not completely the same. AppFlower has specific options and subsections, while some Symfony options are not yet supported, due to incompatibilities with AppFlower.
+
+The structure of the YML file expected by AF is as follows:
+
+	generator:
+	  class: sfPropelGenerator
+	  param:
+	    model_class:           Ticket
+	    theme:                 appFlower
+	    non_verbose_templates: true
+	    with_show:             false
+	    singular:              Ticket
+	    plural:                Tickets
+	    route_prefix:          ~
+	    with_propel_route:     false
+	    actions_base_class:    sfActions
+	    default_actions: true
+	    pager:           true
+	
+	    config:
+	      actions: ~
+	      fields:  ~
+	      list:
+	        title: 
+	        scripts:
+	        credentials:
+	        fields:
+	        display:
+	        hide:
+	        sort:
+	        max_per_page:
+	        batch_actions:
+	        object_actions:
+	        actions:
+	      filter:  ~
+	      form:
+	        title:
+	        scripts:
+	        credentials:
+	        fields:
+	        display:
+	        values:
+	        handlers:
+	        validators:
+	        actions:
+	      edit:    ~
+	      new:     ~
+
+As you can see, most of the global parameters are the same, we have only two new values and the "with_propel_route" is always false, due to
+the unsupported routing.
+
+The two new params are:
+
+* default_actions
+* pager
+
+**default_actions**
+
+This is a boolean value, true by default. If it's enabled, the generator will add some actions automatically to the List and Edit / Show
+views:
+
+**List View Actions**
+
+* Delete all
+* Delete selected
+
+**Edit View Actions**
+
+* Add new item
+
+These are automatically added and you cannot change their attributes later. If you wish to define these actions manually, set this option to "false".
+
+**pager**
+
+This is also a boolean value. When set to "true", the List View is pageable; otherwise, the paging controls are removed.
+
+### Generator YML syntax - Config sections
+
+As for the keys listed under "config" (the content part), you can use all subsections supported by the Symfony task, but not all of them will be used by AppFlower.
+
+Why? Well, first of all, the AppFlower generator only uses the main **fields**, **list**, and **form** sections.
+
+This is because the others are not compatible with AppFlower's design. We don't have a separate create/edit mode, so there is no need for the edit and new sections. The actions section is also unnecessary, because in AppFlower the Edit and List Views don't have any actions in common. The filters section is also ignored, because AppFlower provides this functionality out-of-the-box.
+
+Regardless of these things, you can still use the keys. They will be recognized by the Symfony task and safely ignored by the AppFlower generator.
+
+<div class="forbidden" markdown="1">
+Please note: while you may use all the Symfony generator options in AppFlower's generator.yml, **it won't work the other way around!** The Symfony generator will only validate the YML **content**; it won't recognize the AppFlower-specific data!
+</div>
+
+**fields**
+
+This should contain the **global** definition of the list columns and form fields (like in Symfony). Inheritance is supported, so you can redefine any of the fields (or columns) under either the **list**, or the **form** subsections. Those rules will override the global declarations.
+
+It is also valid to redeclare only a part of the rule, in which case the generator will only update the
+original definition.
+
+**list**
+
+It should contain all List View specific declarations
+
+**form**
+
+The Edit / Show View specific definitons should be placed here.
+
+
+### Generator YML syntax - Options 
+
+Options are the actual definitions allowed in the generator.yml file, located under "config" and its subsections.
+
+AppFlower supports most options used by the Symfony task; incompatible options are safely ignored.
+
+Aside from these, you can use any AppFlower attribute in field (or column) definitions.
+
+We will list the AppFlower-specific options below, as well as those with different implementations in the AppFlower generator, or are simply not supported by AppFlower. The latter will be printed in <span class="red" markdown="1">red</span>.
+
+You can find the rest of the options in the Symfony documentation:
+
+[http://www.symfony-project.org/reference/1_4/en/06-Admin-Generator](http://www.symfony-project.org/reference/1_4/en/06-Admin-Generator) 
+
+### Options for fields section
+
+**help**
+
+This is the same as Symfony's options, but the AppFlower generator transforms this into an **&lt;i:help&gt;** element, whose rendering depends on the user's help settings.
+
+<span class="red" markdown="1">
+attributes
+</span>
+
+This is not supported by AppFlower, but you can use the **style** attribute of the **&lt;i:field&gt;** element, which as the same purpose.
+
+ 	fields:
+      name: {label: Name, style: "width: 200px; color: blue" }
+
+<span class="red" markdown="1">
+credentials
+</span>
+
+The original purpose of this was to allow you to hide certain actions, or form fields, based on user credentials.
+
+However, AppFlower doesn't support hiding form fields (yet); so, it implements this as a subsection of **list** (or **form**) and applies the given credentials to the corresponding view. 
+
+See *form* or *list* for details.
+
+**renderer and renderer_arguments**
+
+AF allows you to override the field's value using this declaration. The syntax is the following:
+
+	fields:
+      name: {label: Name, help: foo, renderer: { type: orm, class: Util, method: getFoo2, default: some }, renderer_arguments: {foo: 7, bar: 2} }
+
+As you can see, you can specify a class and a method of that class will be called to fetch the field's value. Arguments of the method can be
+passed via renderer_arguments.	
+
+**type**
+
+AF expects a valid **&lt;i:field&gt;** input type.
+
+**date_format**
+
+This is supported, but instead of using the formatting parameters of PHP's date function, you must use ExtJS formatting options. Please see the following URL for details (click "Date").
+
+[http://dev.sencha.com/deploy/dev/docs/](http://dev.sencha.com/deploy/dev/docs/)
+
+<div class="warning" markdown="1">
+Please keep in mind that in addition to these options, you can use **ALL AppFlower attributes** in your field declarations!
+</div>
+
+
+### Options for list section
+
+**batch_actions**
+
+Actions listed under this subsection are transformed into **&lt;i:moreactions&gt;**.
+
+**credentials**
+
+As stated above, this is implemented as a subsection of **list**. If the user doesn't have the listed credentials, the List View won't be rendered. The syntax is the same as in Symfony's generator.
+
+	list:
+      credentials: [[ fofo, admin, defe ]]
+
+To hide an action (instead of setting credentials for the view), use the AppFlower **condition** attribute:
+
+	actions:
+      new: { label: Add new Stuff, url: "/lele/edit", iconCls: icon-plus, condition: "User:hasRights()" }
+
+**scripts**
+
+This is an AppFlower addition. The JS files listed here are preloaded during parsing, so the code is available after rendering.
+
+	list:
+      scripts: [myscript,anotherfile]
+
+<div class="forbidden" markdown="1">
+Please note: The files **must** be listed **without** the JS extension!
+</div> 
+
+The following options are not supported by the AppFlower generator. This is either because AppFlower doesn't have the necessary API to implement them yet, or it is simply incompatible with them:
+
+Option  |  
+------  |
+layout  |
+params  |
+pager_class |
+peer_method |
+peer_count_method |
+table_method |
+table_count_method |
+
+
+### Options for form section
+
+<span class="red" markdown="1">
+class
+</span>
+
+It's not supported yet.
+
+**title**
+
+The title text of the Edit / Create / Show View.
+
+**display**
+
+It's the same as in Symfony's generator, with the exception of a few minor differences.
+
+Since AppFlower suppots tabbed forms, you can make your form use tabs by placing a plus (+) sign before the fieldset title.
+
+If you want to render the fields with floating enabled, add the minus (-) prefix to the fieldname in the field list:
+
+	display:
+      "+Set1": [title,-type_id,user_id,-owner_id,details]
+      "+Set2": [hours_estimated,is_public]  
+
+The above example creates a tabbed view. The fieldset "Set1" will contain 5 fields, 2 in each row (except for the last one).
+
+**scripts**
+
+It's the same as in the **list** section.
+
+**values**
+
+This is another AppFlower addition. It is a subsection that allows you to override the value of a field, or specify a default value.
+
+The default value is only used in "create mode" (when the Widget is called without the "id=" part); otherwise, the method of the class you refer to is called.
+
+	values:
+      due_at: { type: orm, class: Util, method: getFoo2, default: "1978-01-31 00:00:00" }
+
+It's possible to define the value as "static". In this case, the form field is always rendered using this value, regardless of mode (edit or create). The value is constant and cannot be changed later.
+
+	values:
+      due_at: { static: foo }
+
+**handlers**
+
+This is another AppFlower addition. It is a subsection that allows you to attach JS event handlers to form fields. The syntax is straightforward and the declaration is transformed into **&lt;i:handler&gt;** elements.
+
+The "type" should be a valid AppFlower event handler. The "action" contains the JS code to be executed when the event occurs.
+
+	handlers:
+      name: [ { type: blur, action: alert(1)} ]
+
+You may define multiple handlers for a form field, but they must have different types.
+
+**validators**
+
+This is also available only in AppFlower. You can specify a set of validators here, which will be used to validate the corresponding form field.
+
+The declaration is transformed into a number of **&lt;i:validator&gt;** elements.
+
+You can specify which validator you want to use with the "name" key and pass arguments to it using the "params" key.
+
+	validators:
+      name: [ { name: immValidatorRequired, params: {foo: bar, bar: 1} } ]
+
+
+You may define multiple validators for a form field.
+
+### Generator YML syntax - a complete example
+
+Below, you'll see an example of the generator.yml file, which contains most of the options described above.
+
+	generator:
+	  class: sfPropelGenerator
+	  param:
+	    model_class:           TicketMilestone
+	    theme:                 appFlower
+	    non_verbose_templates: true
+	    with_show:             false
+	    singular:              ~
+	    plural:                ~
+	    route_prefix:          ~
+	    with_propel_route:     false
+	    default_actions:       true
+	    pager:                 true
+	
+	    config:
+	      actions: ~
+	      fields:
+	        name: {label: Name }
+	        project_id: {label: Project2, align: left }
+	        hours_estimated: {label: Hours, link: "true" }
+	        due_at:  {label: Due At }
+	        id:  {label: Lala }
+	      list:
+	        credentials: [[ fofo, admin, defe ]]
+	        hide: [project_id,name]
+	        scripts: [sayhi]
+	        title: lala
+	        actions:
+	          new: { label: Add new Stuff, url: "/lele/edit", iconCls: icon-plus }
+	          other: { label: Do Something, url: "#", script: alert(2323), iconCls: icon-plus }
+	        batch_actions:
+	          lala: { label: Foo, url: "lele/bar"}
+	        object_actions:
+	          pipi: { url: "#", script: alert(1), iconCls: icon-plus }
+	          pipa: { url: "#", script: alert(1), iconCls: icon-minus }
+	      filter:  ~
+	      form:
+	        title: Foobar Foo!
+	        credentials: [[ fofo, ubu, defe ]]
+	        fields:
+	          name: {label: Name, help: foo }
+	          project_id: {label: Project, help: zip, type: combo }
+	          hours_estimated:  {label: Hours, help: lala, tooltip: bar }
+	          due_at: {label: Due At, type: date, date_format: "y/m/d H" }
+	        actions:
+	          another: { label: The list, url: "lele/list"}
+	        display:
+	          "+Set1": [project_id,name]
+	          "+Set2": [hours_estimated,due_at]
+	        validators:
+	          name: [ { name: immValidatorRequired } ]
+	          project_id: [ {name: immValidatorRequired } ]
+	        values:
+	          due_at: { type: orm, class: Util, method: getFoo2, default: "1978-01-31" }
+	          hours_estimated: { type: orm, class: Util, default: 10, method: getFoo, params: {foo: 1, bar: 2} }
+	        handlers:
+	          name: [ { type: blur, action: alert(1)} ]
+	          project_id: [ { type: blur, action: alert(2)} ]
+	      edit:    ~
+	      new:     ~
+
+ 
+
+
+## Other elements inside &lt;i:fields&gt;	{#other-elements-inside-fields}
+
+### The &lt;i:button&gt; element	{#button-element}
+
+This is how you define submit, reset, or normal buttons. The mandatory attributes are the same as that of ***&lt;i:field&gt;*** (name and label) and the most important (optional) ones are listed below:
+
+ * **Type** This determines the purpose of the button (reset, submit, or normal). A normal button may call an URI, or execute the JS code defined by one of its handlers.
+
+ * **Icon and IconCls** This allows users to attach an image to the button. The image is rendered as an icon, on the left side of the button. The value of the former attribute should be an absolute path, such as "/usr/www/myapp/web/images/foo.png", while the latter expects the name of a CSS class.
+
+ * **Action** The value of this must be an internal URI, or a standard URL. Clicking the button will call this address via a GET request. If the type="submit", then the form will go through the POST action.
+
+ * **Updater** This is a boolean value, which is set to "false" by default. When set to "true", the button initiates a comet-like request and responses pushed back by the server will be rendered in the form of a dialogue with a progress bar. This is also useful for making more responsive applications.
+
+
+The following creates a button, which loads the "test/show" Symfony action when clicked:
+
+	<i:button name="button" label="Click Me" icon="/images/famfamfam/cancel.png" action="test/show" />
+
+This other button performs the same action as the previous one, but before loading "test/show", it will execute some JS code.
+
+	<i:button name="button2" label="Click Me" icon="/images/famfamfam/cancel.png" action="test/show">
+		<i:handler type="click" action="alert('You clicked me!');" />
+    	</i:button>
+
+### The &lt;i:link&gt; element	{#link-elemenet}
+
+You can use this tag in Edit, Show, and HTML views. It does exactly what you expect it to: it places a textual hyperlink, much like the ***&lt;a&gt;*** tag in XHTML. It has three mandatory attributes:
+  
+ * **Name** This is a unique name for the link.
+
+ * **Action** This is the URL it points to. It can be a normal URL, or an internal URI.
+
+ * **Text** This is the link text.
+
+Example
+
+	
+	<i:link name="lnk1" text="Click Me" action="test/show" />
+	
+	
+
+### Arranging fields - The &lt;i:grouping&gt; element {#arranging-fields-element}
+
+Inside the ***&lt;i:fields&gt;*** tag, you may add the elements in any order and (by default) the fields are rendered in that order. To define a custom order, you must use the ***&lt;i:grouping&gt;*** element, which is always the last tag in an Edit View.
+
+Let us consider the following example:
+
+
+	<i:grouping>
+		<i:set title="Basic Settings">
+			<i:ref to="id" />
+			<i:ref to="ip" />
+			<i:ref to="name" />
+			<i:ref to="server_type_id" />			
+			<i:ref to="server_group_id" />
+		</i:set>
+		<i:set title="Additional">
+			<i:ref to="hostname" />
+			<i:ref to="location_id" />
+			<i:ref to="customer_id" />
+		</i:set>
+	</i:grouping>
+
+
+As you can see, the enclosing tag doesn't have any mandatory attributes; however, it does contain ***&lt;i:set&gt;*** elements and those contain ***&lt;i:ref&gt;*** tags.
+
+When this is rendered, the fields of the form are placed into two field sets: "Basic Settings" and "Additional", respectively. The fields are rendered in the order of the ***&lt;i:ref&gt;*** elements. The "to" attribute of the ***&lt;i:ref&gt;*** element must point to one of the ***&lt;i:field&gt;*** tags. The "name" attribute of the latter must match the "to" attribute of the former.
+
+In AppFlower Forms, all fields belong to a field set, even if the ***&lt;i:grouping&gt;*** tag is not used. In this case, one field set will be rendered containing all fields. The default title of this is "Default", but you can override this anytime by adding a "title" attribute to the ***&lt;i:grouping&gt;*** element.
+
+Let us discuss the contents of ***&lt;i:grouping&gt;*** in detail. 
+
+### Field sets - The &lt;i:set&gt; tag {#field-sets}
+
+An AppFlower field set looks the same as its XHTML counterpart. It has one mandatory attribute: the "title", which must always be defined. However, it's the only basic behavior and the AppFlower field set has more to offer. It can be divided into any number of columns, which means you can display the related fields in any layout. You can also render a field set as a tab and therefore, complex tabbed views can be built.
+
+Each field set is displayed, by default. If you wish to hide one, set its "collapsed" attribute to "true". The set will then be displayed in a collapsed state, but users can still open it anytime. This is very useful when you need to render some extra (or optional) fields.
+ 
+To splits a field set into columns, you must set the "float" attribute of the ***&lt;i:grouping&gt;*** element to "true". Then, simply add a "break" attribute to the ***&lt;i:ref&gt;*** tags that should be the last items of their column. For example: to create a two row/two column field set (with 2 fields in each row), you would do this:
+
+
+	<i:grouping>
+			<i:set title="Basic Settings" float="true">
+			<i:ref to="id" />
+			<i:ref to="ip" break="true" />
+			<i:ref to="name" />
+			<i:ref to="server_type_id" break="true" />			
+		</i:set>
+		<i:set title="Description">
+			<i:ref to="body" />
+		</i:set>
+	</i:grouping>
+
+Please note that it is not important to distribute field references evenly between columns. If a column contains 2 ***&lt;i:ref&gt;*** tags and the next column has 3 tags, then something like the "colspan" attribute used in XHTML tables will be calculated automatically. Different fieldsets may have their own unique layout, with any number of columns (including 0), since they are not related to each other in this sense (unlike TDs in XHTML tables).
+
+As shown in the example, it is okay to mix floated and non-floated fieldsets. You could define 2 floated sets, then 1 normal (non-floated) set, then another floated set; there is nothing wrong with this. They are all rendered according to their own model.
+
+To transform a fieldset into a tab, all you must do is define the "tabtitle" attribute. Please consider the following example:
+
+
+	<i:grouping>
+		<i:set title="Description" tabtitle="Description">
+			<i:ref to="body" />
+		</i:set>
+		<i:set title="Additional" tabtitle="Additional">
+			<i:ref to="hostname" />
+			<i:ref to="location_id" />
+			<i:ref to="customer_id" />
+		</i:set>
+		<i:set title="Permission" tabtitle="Permission">
+			<i:ref to="object_permission_id" />
+		</i:set>
+	</i:grouping>
+
+This will build three tabbed fieldsets. In other words, three tabs are created: "Description", "Additional", and "Permission", and these will hold the fieldsets.
+
+The height of a tab can be changed via the "tabHeight" attribute. You can also attach an icon to the tab, similar to the way you do with buttons. However, only the "iconCIs" attribute is supported here; you cannot use the "icon" attribute.
+
+Tabbed and normal fieldsets can be mixed. So, in the previous example I could remove the third tab's tabtitle, which would render it as a normal fieldset, while the other two would remain tabs.
+
+Making a normal fieldset tab is completely unrelated to its layout. Therefore, you can use tabs with any configuration of columns, or with normal sets, it doesn't make a difference. 
+
+
+## The Show View	{#show-view}
+
+This view is suitable for presenting data. The same form used in Edit View will be displayed (including field sets, tabs, etc.). However, instead of form fields, only the value is rendered in a read-only format. These forms may have actions, but POST is not one of them and the data cannot be changed.
+
+There is good news for the developers: Show Views don't require any special syntax, or new elements to learn. You can use a copy of your edited XML; all you need to change is the type of view from "edit" to "show". Otherwise, you can use the exact same syntax as in Edit View.
+
+
+	<?xml version="1.0" encoding="utf-8"?>
+	<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+	xmlns:i="http://www.appflower.com/schema/" type="show">
+
+	<!-- Rest of XML definitions -->
+
+	</i:view>
+
+Most fields (including drop-downs and other complex ones) are converted to textual data automatically; however, those that cannot be converted won't be displayed at all. 
+
+The following types won't be rendered in a Show View:
+
+* file
+* password
+
+
+## The List View	{#list-view}
+
+This view lets you display any kind of listing. You can take data from a number of different sources and display it as a list. Lists come with a variety of functions (provided automatically), including: paging, hide/show columns, sorting, and more. AppFlower supports multiple different types of lists and offers many options to make each list fully customizable.
+
+The minimal XML required to build a list is as follows:
+
+
+
+	<?xml version="1.0" encoding="utf-8"?>
+	<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+	xmlns:i="http://www.appflower.com/schema/" type="list">
+	
+	  <!-- View Title -->
+	
+	  <i:title>My List</i:title>
+	
+	  <!-- Global parameters of the list -->
+	
+	  <i:params>
+	    <i:param name="maxperpage">20</i:param>
+	  </i:params>
+	
+	  <!-- Data source, search criteria --->
+	
+	  <i:datasource type="orm">
+	    <i:class>MyClass</i:class>
+	    <i:method name="MyMethod" />
+	  </i:datasource>
+	
+	  <!-- List properties and column definitions -->
+	
+	  <i:fields>
+		<i:column />
+		<i:column />
+		...		
+	  </i:fields>
+	
+	<i:view>  
+
+As you can see, the structure is somewhat similar to Edit View, but there are some new elements here. Only the elements above are required and they must be present in every list configuration. They are also enough to configure many simple lists, which will satisfy your most basic needs. 
+
+However, the List View has many more features to offer and while these are completely optional, in the case of advanced lists you will need to use some of them to get the results you want.
+ 
+Let us check some extended syntax now, in a real example:
+
+
+	<?xml version="1.0" encoding="utf-8"?>
+	<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+	xmlns:i="http://www.appflower.com/schema/" type="list">
+	
+	  <!-- View Title -->
+	
+	  <i:title>Events</i:title>
+	
+	  <!-- Global parameters of the list -->
+	
+	  <i:params>
+	    <i:param name="maxperpage">20</i:param>
+	  </i:params>
+	
+	  <!-- Data source, search criteria --->
+	
+	  <i:datasource type="orm">
+	    <i:class>EventPeer</i:class>
+	    <i:method name="getCriteriaObject" />
+	  </i:datasource>
+	
+	  <!-- List properties and column definitions -->
+	
+	  <i:fields>
+		<i:column name="id" sortable="true" editable="true" resizable="true" width="50"  label="SN"/>
+		<i:column name="link_event_id" sortable="true" editable="true" resizable="true" width="50"  label="Event ID" /> 		
+	  </i:fields>
+	
+	  <!-- Actions for each row in the list -->
+			
+	  <i:rowactions>
+		<i:action name="expand" url="/eventmanagement/showEventDetail" tooltip="Event Detail"/>
+	  </i:rowactions>
+	
+	  <!-- Actions for the view -->
+	
+	  <i:actions>
+		<i:action name="expand" url="/eventmanagement/showEventDetail" tooltip="Event Detail"/>
+	  </i:actions>
+	
+	  <!-- Extra actions to be added to a popup menu -->
+	
+	  <i:moreactions>
+	  	<i:action name="Delete Selected"  url="eventmanagement/listActionsRemoveEventCategory" />
+	  	<i:action name="Delete All" icon="/images/famfamfam/cross.png" url="eventmanagement/listActionsRemoveEventCategory/all" />
+	  </i:moreactions>
+	
+	<i:view>   
+
+Now, this is more like it. With the exception of the last tags (moreactions and actions), this is pretty much what you'll need to define a real list.
+
+Let us check the building blocks of this syntax one by one:
+
+Please note some of the tags are non-view-specific elements and are used in multiple views. The basic syntax of these tags is the same everywhere, but some of them also have view-specific constraints. We will discuss the view-related parts in the introduction of each View and you can find all general information tags in the "Non-View-Specific Elements" section. 
+
+Shared tags will be marked with an asterisk.
+
+
+### The &lt;i:title&gt; element	{#list-title-element}
+
+### The &lt;i:datasource&gt; tag	{#list-datasource-tag}
+
+The general characteristics of this element were described in the appropriate section; we will discuss List View-related details here.
+
+#### Fetching data via ***&lt;i:class&gt;*** / ***&lt;i:method&gt;*** syntax
+
+Multiple kinds of data sources are supported by AppFlower lists. Here, we have 3 choices (unlike Edit View, which only supports ORM (database)):
+
+* orm
+* file
+* static
+
+One of these is the valid value of the "type" attribute.
+
+Similar to Edit View, you need to define an <i:class> and <i:method> to fetch data, but the expected return value is different:
+
+The "ORM" type means the data is stored in the database; it requires a Propel Criteria object to be returned. Paging and filtering is automatically done on the returned Criteria. 
+
+**{@TODO: "file" datasource isn't supported in AppFlower's trunk.}** The "file" type means the source is an ordinary file, located somewhere in the file system. Your method should return one line of this file at a time, as an array. The method is called for each line and will receive the current one as the first argument. You can process this input, apply any (optional) data formatting, and return it as an array of column (or value) pairs. AppFlower provides a File Pager to make such lists pageable and it also allows you to use big files as sources. The size of the file may be as large as multiple GBs. It also supports Gzip compressed files. So, a list consisting of more than 10,000 pages (using a file that's approximately 5GB) is rendered pretty fast, but the process will go a bit slower if the file is compressed.
+
+In the case of "static" type, it's typically assumed that the rows of the list will be provided manually; so, they are not stored anywhere (in a file or the database), but you will define them by hand. In this case, your method should return an array of rows. The rows contain column (or value) pairs for each column.
+
+Let's look at some example code:
+
+... If the data source type is "ORM":
+
+	public static function getSomeStuff()
+	{
+		$c = new Criteria();
+		$c->add(SomePeer::IS_ENABLED,1);
+		
+		return $c;
+	}
+
+**{@TODO: "file" datasource isn't supported in AppFlower's trunk.}**
+if the data source type is "file":
+
+	public static function getMessage($line)
+	{	
+		$message = $line;		
+			
+		// Some processing of $line may follow...	we transformed $line into an array and assigned it to $tmp
+	
+		// ...Then we return the $line as an array of column/value pairs..
+	
+		return array('sev' =>$tmp[1],'date_received' =>  $tmp[2],'reporter' => $tmp[3],'syslog_message' => htmlspecialchars($tmp[4]));		
+	}
+ 
+If the data source type is "static":
+
+	public static function staticFetch() {
+		return array
+		(
+		array("foo" => "Hello", "bar" => "Hola", "foobar" => "Namaste"),
+		array("foo" => "Hi", "bar" => "Szia", "foobar" => "Hallo")
+		);
+	}
+
+### The container - &lt;i:fields&gt; element	{#list-container-field}
+
+The name of this tag should sound familiar, since we discussed it in Edit View. Its purpose in List View is very similar: it's a container element that may define some global options for the list. Since all lists in AppFlower can use POST, it serves as a kind of form as well.
+
+Some List View-specific attributes of the ***&lt;i:fields&gt;*** element are listed below:
+
+ * **Tree** This is set to "false" by default. When set to "true", the list is rendered in a tree structure. This requires special input; please see the next section for more details.
+
+ * **Selectable**  This is set to "true" by default. When set to "false", it disables the "Select All/Deselect All" options in the list menu.
+
+ * **Exportable** This is set to "true" by default. When set to "false", the CSV export commands are not added to the list menu.
+
+ * **Select, Action, Label, Icon and IconCls** When "Select" is set to "true", checkboxes are added to the left side of each row, making the rows selectable. "Action" is the same as in Edit View: You define a Symfony internal URI and the list (or active selection) is posted to this for processing. Also, when the "Action" attribute is defined, a "Save Selection" button is added to list actions, which will then act as a submit button.
+
+To change the default "Save Selection" text, use the label attribute. 
+
+To change the icon of a button, you can use either icon, or iconCIs attributes. However, you must provide an absolute path to an image file, or a CSS class name, respectively.
+
+ * **Pager** This determines whether or not the paging controls and jump-to-page functions should be attached to the bottom of the list. This is set to "true" by default, but should be set to "false" when you're working with trees.
+
+ * **Sort** This expects a value that is a sorting direction ("ASC" or "DESC"). When defined, the list is sorted by given column (by default).
+
+ * **ExpandButton** When set to "true", the "Expanded View" button is added to the list controls.
+
+ * **Redirect** This is the URI the client is redirected to after using the "Save Selection" action. It only works when select="true" and an "action" attribute is defined.
+
+ * **remoteSort**
+ * **remoteFilter**
+ * **remoteLoad**
+ * **exportFrom**
+
+In a List View, the ***&lt;i:fields&gt;*** tag contains ***&lt;i:column&gt;*** elements, which represent the list columns. At least one column must be defined and you may add as many as you need.
+
+
+### The columns of the list - &lt;i:column&gt; element	{#list-column-element}
+
+This tag defines a list column, including the rendering options, features, behavior, and so forth. It has many attributes, but only two are required:
+
+ * **Name** A unique name of this column. If you are using a database as a data source, it must be identical to the name used in the table definition (or one listed in ***&lt;i:visible&gt;***).
+
+ * **Label** The title text of the column.
+
+All other attributes are optional; however, many of them are very useful. Let's check out the most important ones:
+
+ * **Qtip** This is a boolean value, set to "false" by default. When set to "true", the value of the corresponding list cell is shown in a bubble (on mouseover). This is useful when you need to store a long value in limited cell space; thus, it makes those long lines readable without damaging the list structure.
+
+ * **Width** The width of the column (in pixels).
+
+ * **Editable** This is set to "false" by default. When set to "true", the column cells become editable, in an inline way. Users can change the cell's value, which can be useful if they need to fill in missing values, or make corrections. Then, the whole list goes through POST, to some action to process the result.
+
+ * **Resizable** This is set to "false" by default. When set to "true", users can resize the column by dragging.
+
+ * **Sortable** This is also set to "false" by default. When set to "true", users can sort the list by the given column.
+
+ * **GroupField** This triggers a different list structure. Please see the next section for more details.
+
+ * **Hidden** This is another set to "false" by default. It determines whether or not a column is hidden. These columns are not rendered, but users can activate them by using a context menu.
+
+ * **Hideable** This is set to "true" by default. It determines if the user has the right to activate, or deactivate, the column by using the context menu.
+
+ * **Align** This is how the cell text aligns in a column. The value is set to "left" by default, but can also be set to "center", or "right".
+
+ * **Style** The name of a CSS class to apply to a column.
+
+ * **contextMenu**
+
+ * **sortType**
+
+ * **sort**
+
+ * **filter**
+
+ * **type**
+
+A simple column set looks like this in XML:
+
+
+	<i:fields select="true" action="foo/bar" label="Send Details">
+		<i:column name="name" sortable="true" editable="true" resizable="true" label="Name" />
+		<i:column name="status" sortable="true" editable="true" resizable="true" label="Status"/>
+		<i:column name="hostname" sortable="true" editable="true" resizable="true" label="Hostname" />
+		...	
+	</i:fields>
+
+
+### Multiple Types of Lists	{#list-multiple-types}
+
+supports three different kinds of lists: simple, grouped, and tree.
+
+To construct a simple list, you don't have to do anything special, as this is the default. It basically looks like an XHTML table, but with some cool, interactive features.
+
+
+To make a grouped list, you need to set the groupField attribute of the desired column to "true". The list will be grouped by this column and the items will be rendered as collapsible groups. Please note that there can only be one column with the groupField="true" setting. If applied to multiple columns, the last column will be used.
+
+To build a tree, you must do 2 things:
+
+* Set the tree attribute of the ***&lt;i:fields&gt;*** element to "true" and its pager attribute to "false".
+* The function that fetches items from a data source must be a bit more complex.
+
+The latter means the usual Propel result set, or an array we described earlier, won't work.
+
+A tree requires a two dimensional array to be returned with the following structure:
+
+
+	array
+		(
+		0 => array("name" => "My Group", "_id" => "group1", "_parent" => NULL, "_is_leaf" => false),
+		1 => array("name" => "Item1", "_id" => "item1", "_parent" => "group1", "_is_leaf" => true),
+		2 => array("name" => "Item2", "_id" => "item2", "_parent" => "group1", "_is_leaf" => true),
+		3 => array("name" => "My Group2", "_id" => "group2", "_parent" => NULL, "_is_leaf" => false),
+		4 => array("name" => "Item3", "_id" => "item3", "_parent" => "group2", "_is_leaf" => true)
+		);
+
+The items of the returned array are also arrays, each representing either a group, or an item. Each entry in the list must have a name, which is rendered as a label and unique id. These are defined by the "name" and "_id" attributes, respectively.
+
+Groups have no parents, so their "_parent" attribute is always NULL. Groups may always have child elements, so their "_is_leaf" attribute must be set to "false".
+
+Items, however, must have a parent, since they belong to a group. Therefore, their "_parent" attribute must carry the value of a group "_id". Their "_is_leaf" attribute must be set to "true", since they don't have children.
+
+The value of the "_is_leaf" attribute MUST be "boolean false", or "true"; no other values are accepted!
+
+If the entry is an item, or a group, it must have an "_id", which must be a unique string.
+
+That's basically it. This kind of array must be returned by the data fetcher function you referred to in the ***&lt;i:datasource&gt;*** definition and the tree will be rendered.
+
+<div class="warning" markdown="1">
+Please keep in mind that in AppFlower, any kind of list may act as a Form! All data, or the active selection, can POST to the action of your choice for processing (making it a very useful feature). It's also good to remember the way that data transfers in AppFlower is always POST. So, any of your list actions are suitable to process the list data and/or selection, but you can always define a special action for this purpose via the "action" and "select" attributes described above.
+
+</div>
+
+### List View Actions	{#list-view-action}
+
+We already described the ***&lt;i:action&gt;*** element in the "Shared Elements" section. This allows you to define actions for a View. List View supports this tag and some others, allowing it to provide multiple ways to define actions. There are three kinds of actions in a list:
+
+**1. Normal Actions.**
+
+These are defined by the ***&lt;i:actions&gt;*** collection and work exactly the same way in a list as in any other View. For more information on this, please see the "Shared Elements" section. The only difference is the actions are rendered at the top of the list (in Edit View, they go to the bottom of the screen).
+
+**2. Row Actions - The ***&lt;i:rowactions&gt;*** tag.**
+
+This is similar to the previous collection, but its purpose is different. The element is optional, but if present, it must be placed right after the ***&lt;i:actions&gt;*** tag. It has no attribute and may contain any number of ***&lt;i:action&gt;*** tags.
+
+Actions defined here are rendered as a set of icons, on the left side of each row. These actions should always be related to a record. For example: "edit" or "delete" actions are good candidates for this. 
+
+A row action may point to any URL. It should have an icon (attached via the icon or iconCIs attributes) to make identification easy. The action name will be used as the icon tooltip.
+
+The row action URL is enhanced to identify a concrete row. The "id" GET parameter is added automatically. Its value is taken from the column with the same name. It's possible to use different columns by specifying them inside the action "params" attribute.
+
+	<i:rowactions>
+		<i:action name="Edit Event Category" iconCls="icon-edit-record" url="eventmanagement/editEventCategory" params="id,category_name"/>
+		<i:action name="Delete Event Category" iconCls="icon-minus" url="eventmanagement/deleteEventCategory"/>
+	</i:rowactions>
+
+**3. Extra Actions - The ***&lt;i:moreactions&gt;*** element**
+
+This is the same type of collection as the previous one, but the actions defined here are added to a popupmenu. If this tag is not present, the menu still appears in the top right corner, unless the exportable attribute of the ***&lt;i:fields&gt;*** element is set to "false". Exporting data as a CSV is a built-in feature of all lists and enabled by default. Therefore, some related options will appear in the menu, as well. 
+
+If the list supports selections, two additional menu items are added automatically: "Select All" and "Deselect All".
+
+To make the popup menu disappear completely, set the exportable and select attributes to "false".
+
+
+	<i:moreactions>
+	  	<i:action name="Delete Selected" post="true" icon="/images/famfamfam/cross.png" url="eventmanagement/listActionsRemoveEventCategory" />
+	  	<i:action name="Delete All" forceSelection="false" confirmMsg="Are you sure want to delete all event categories?"  post="true" icon="/images/famfamfam/cross.png" url="eventmanagement/listActionsRemoveEventCategory/all" />
+	  </i:moreactions>
+
+## The HTML View	{#html-view}
+
+This View allows you to render custom XHTML, or script content. It can be used to render things that would otherwise be impossible to build with AppFlower, at the moment. It's also a good way of communicating with the user, since such Views often represent application messages. Another great use of this View is loading and rendering custom JS-driven, interactive content.
+
+Let us see an example:
+
+
+	<?xml version="1.0" encoding="UTF-8"?>
+	<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+	xmlns:i="http://www.appflower.com/schema/" type="html">
+		
+		<i:title>Process Failed!</i:title>
+	
+	
+		<i:params>
+			<i:param name="html">
+			    <![CDATA[
+				<h1>Attention</h1>
+				<hr />
+				<p>Important message goes here..</p>
+                            ]]>
+			</i:param>
+		</i:params>
+	
+		<i:options border="true" autoScroll="false" />
+		
+		<i:description>
+			<![CDATA[ Some description text.]]>
+		</i:description>
+	</i:view>
+
+As you can see,  the syntax is very short and straightforward.
+
+The ***&lt;i:params&gt;*** element should contain one ***&lt;i:param&gt;*** tag, in the case of a HTML View. The value of this ***&lt;i:param&gt;*** can be any valid XHTML 1.1 Strict string, as defined by W3C.
+
+The only new element here is ***&lt;i:option&gt;***, which holds some global options for the HTML View.
+
+### The &lt;i:option&gt; Tag	{#html-option-tag}
+
+This element doesn't have a node value; so, you don't have to use this, since each attribute has a default value. However, if you need to override some of the defaults, here is a list:
+
+ * **Border** Determines whether or not a border should be drawn around the Widget. The default is set to "false".
+
+ * **AutScroll** Determines whether or not the Widget should be scrollable vertically. In non-scrollable Widgets, overflowing content is handled as overflow="hidden" (in the CSS). The default is set to "true".
+
+ * **Header** The default for this is "true". When set at "true", the title row of the Widget will be printed; otherwise, it is omitted (in content-only areas).
+
+ * **Style** A CSS class name applied to the Widget container.
+
+ * **autoHeight**
+
+ * **autoEnd**
+
+### A Note on HTML content	{#html-content}
+
+Please note that, while any valid XHTML 1.1 Strict string is allowed, you should always make sure that nothing incompatible with XML appears here, since the value of ***&lt;i:param&gt;*** is parsed by an XML parser. For example: Using "&" as a literal in some text value will cause an error, since XML must contain the entity "&amp", instead of "&". Similarly, many other "special" characters must be replaced by their entity counterparts.
+
+ 
+## The Wizard View	{#wizard-view}
+
+Before we begin, please be aware that this part of AppFlower will be significantly modified in the future, mainly due to technical and design reasons. Therefore, while its functionality may remain the same, its interface (in both PHP and XML) will probably change. You can consider the following introduction partially temporary.
+
+Wizards force the user to edit some things in a sequence. Consider giving the user the freedom to modify some parts; forms give that kind of random freedom.
+
+### About Wizards in General	{#wizard-in-general}
+
+The View lets you build wizards, or processes, that can be completed in multiple steps. This View is special in several ways:
+
+First of all, a Wizard View won't be integrated into your application (like in other Views). Instead, it is rendered using its own layout, which is similar to the one used by Windows' setup wizards. What you'll get is a GUI wizard interface, with "next" and "previous" buttons.
+
+Second, the Wizard View is special because it must be designed on the Page level, only. Unlike other Views, the Wizard is always a Page, with two areas:
+
+ * Header
+ * Content
+
+The former always contains formatted text (the description or instructions), while the latter contains other types of Widgets (Edit, List, HTML, Show, etc.).
+
+Let us examine the syntax of a small wizard:
+
+Step #1:
+
+
+	<?xml version="1.0" encoding="UTF-8"?>
+	<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+	xmlns:i="http://www.appflower.com/schema/" type="wizard">
+		
+		<i:title>Some Title (ignored for now)</i:title>
+		
+		<i:datastore>
+			<i:table name="Net" select="1">
+		    	<i:ref to="hostname" />
+				<i:ref to="domain" />
+				<i:ref to="gateway" />
+				<i:ref to="dns_first" />
+				<i:ref to="dns_second" />
+				<i:ref to="ntp_enabled" />
+				<i:ref to="ntp_server" />
+			</i:table>
+			<i:file name="file1" to="/usr/www/manager/data"  />
+		</i:datastore>
+		
+		<i:area type="content">
+			<i:component name="header" module="wizard" />
+		</i:area>
+		
+		<i:actions>
+			<i:action name="Next" post="true" url="yourModule/action2" />
+		</i:actions>
+		
+	</i:view>
+
+Step #2:
+
+	<?xml version="1.0" encoding="UTF-8"?>
+	<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+	xmlns:i="http://www.appflower.com/schema/" type="wizard">
+		
+		<i:title>Some Wizard - An Edit Screen</i:title>
+		
+		<i:area type="content">
+			<i:component name="header" module="wizard" />
+			<i:component name="editNetworkConfig" module="appliance_system"  />
+		</i:area>
+		
+		<i:actions>
+			<i:action name="Next" post="true" url="yourModule/action3?step=2" />
+		</i:actions>
+	
+	</i:view>
+
+Step #3:
+
+	<?xml version="1.0" encoding="UTF-8"?>
+	<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+	xmlns:i="http://www.appflower.com/schema/" type="wizard">
+		
+		<i:title>Some Wizard - Upload a File</i:title>
+		
+		<i:area type="content">
+			<i:component name="header" module="wizard" />
+			<i:component name="upload" module="wizard" />
+		</i:area>
+		
+		<i:actions>
+			<i:action name="Previous" url="yourModule/action2"  />
+		</i:actions>
+		
+	</i:view>
+
+Last Step:
+
+
+	<?xml version="1.0" encoding="UTF-8"?>
+	<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+	xmlns:i="http://www.appflower.com/schema/" type="wizard">
+		
+		<i:title>Some Wizard - Last Step</i:title>
+		
+		<i:area type="content">
+			<i:component name="header" module="wizard"  />
+		</i:area>
+		
+	</i:view>
+
+As you can see, the syntax of a Wizard View is almost the same as that of a regular Page. Only the first Page is different, since it contains some new elements. Having at least one action is also a unique feature of Wizards.
+
+A Wizard Page must have at least one action. This can be either the "Next", or the "Previous" action, which goes to the appropriate Page. The first step must have a "Next" button, the last step must have a "Previous" button, and all others in between should have both. Please note that you can add multiple actions to a Wizard Page, but unlike other Views, you cannot name them freely. Your action may point to any URI, but its name must be one of the following:
+
+Action       |  Description
+-----------     ------------
+Next         |  This should point to the next step.
+Previous	 |	This should point to the previous step.
+Cancel       |  This should point to any URI, which is not a Wizard View.
+			 |
+Finish       | This should be placed at the last step of your process and only if you want to use your own database updater action (more details on this later).
+
+
+Similar to Tabbed Pages, a Wizard may be tabbed, as well. In this case, it gets a different layout with tabs, but the functionality remains the same. Best of all, changing from Tabbed to Normal is just a matter of an attribute value; so no changes in your Wizard configuration are required.
+
+### Designing a Wizard  - The First Step	{#wizard-design}
+
+Like I said before, the first step of any wizard is special, because it contains some unique definitions.
+
+Let us check out this:
+
+
+	<i:datastore>
+		<i:table name="Net" select="1">
+			<i:ref to="hostname" />
+			<i:ref to="domain" />
+			<i:ref to="gateway" />
+			<i:ref to="dns_first" />
+			<i:ref to="dns_second" />
+			<i:ref to="ntp_enabled" />
+			<i:ref to="ntp_server" />
+		</i:table>
+		<i:file name="file1" to="/usr/www/manager/data"  />
+	</i:datastore>
+
+If you look at the example of a complete Wizard (located a few paragraphs above), you will find this is the only new part in the syntax.
+
+Wizard View doesn't just allow you to create Windows-like wizards, but also comes with the feature of being able to save the collected data in a database, or handle uploaded files. It works with one, or multiple, tables and also recognizes relations (up to a point). It is suitable for most (but not all) wizards. This is a very handy feature, as it saves you the hassle of writing "UpdateMyXXX()" actions over and over, again.
+
+The ***&lt;i:datastore&gt;*** element is what you must use to accomplish the aforementioned tasks. Let us look at this now:
+
+
+### Automating saving and file uploads - The &lt;i:datastore&gt; element	{#wizard-datastore-element}
+
+Please note that the ***&lt;i:datastore&gt;*** element is optional! You only need this if you don't want to provide the action to save data collected by the wizard. AppFlower provides its own actions for this purpose, which is suitable for most wizards. It will take care of tasks like saving data, or moving and renaming uploaded files. However, if you want to use a custom method, there is nothing to prevent you from doing so and in that case, you won't need the ***&lt;i:datastore&gt;*** element, at all.
+
+This tag lets you define what to do with data collected from a user's input. Usually, you will want this data saved to a database and uploaded files moved to another location. The ***&lt;i:datastore&gt;*** element lets you accomplish this via a series of options and child elements.
+
+As you can see, the ***&lt;i:datastore&gt;*** element contains ***&lt;i:table&gt;*** and ***&lt;i:file&gt;*** elements. Obviously, the former is for saving data to a database and the latter handles file uploads. Each of these tags relates to a step in the wizard and they bind that particular step to a resource, which should either store, or handle, the input. For example: data collected in step 1 will be saved to table 1, a file uploaded in step 2 will go to the 2nd resource, and so on.
+
+Let's see them one by one:
+
+### Defining Table bindings - The &lt;i:table&gt; element	{#wizard-table-element}
+
+As previously stated, this tag lets you define how and where the data should be saved, once the wizard is completed.
+
+The ***&lt;i:table&gt;*** element has many important attributes and one is mandatory: "name". The others appear according to the type of task you want to perform and your specific needs.
+
+ * **Name** The name of the Propel Class to use (non-peer).
+
+ * **Select** This determines the type of operation. If present, a record is selected from the table and an update operation will be performed when saving data. The attribute may have a couple of different values:
+
+ * ***Select="1"*** Suppose the value is a positive integer. In this case, the record with the id=1 is selected.
+
+ * ***Select="foo=bar"*** In this case, the value is a condition. The record with a "foo" column that contains the value "bar" is selected. If there are multiple records like this, only the first one is selected.
+
+ * ***Select="some_id=$4"*** In this case, the record with a "some_id" column equal to the id of the object returned by the 4th table definition is selected. Obviously, this kind of syntax can be used with foreign keys, but will only work if the referred table also has a select="..." attribute. 
+
+ * **Insert** This also determines the operation. If present, a record is inserted into the table and the last_insert_id() is saved for later use. Unlike "select", this has just one type of syntax:
+
+ * ***Insert="foo_id=$2"*** When inserting the new record, the value of "foo_id" is filled in using the id of the object returned by the 2nd table definition. This is typically used when the table has foreign keys to fill.
+
+Please note that it is possible to use the ***&lt;i:table&gt;*** element without select, or insert. In this case, the default operation is used, which is "insert".
+
+ * **Alias** This lets you provide an alternate name for the table. The value of the "name" attribute has to be unique, but sometimes you will need to put data into the same table multiple times. For example: this may happen when you have to insert two records in two different steps.
+
+ * **Ignore** The value of this attribute is a positive integer. It must be used when your wizard has an optional step. The number of this step should be the value of ignore. If that step is skipped, data won't be saved to the tables whose ignore attribute equal the step number.
+
+ * **condition**
+ * **delete**
+ * **json**
+
+### References - The &lt;i:ref&gt; element	{#wizard-ref-element}
+
+The ***&lt;i:table&gt;*** element contains ***&lt;i:ref&gt;*** elements. These refer to the column names in the table and form field names in the input. By default, it's assumed these names are identical (your "name" input field will be saved in the "name" column); however, it is possible to override this behavior at any time.
+
+The ***&lt;i:ref&gt;*** element has two significant attributes related to wizards:
+
+ * **To** The name of the database column saved to.
+
+ * **As** This is an alias. When your database column and form field are named differently, you can use this attribute to relate them; thus, you can override the default behavior.
+
+
+### Defining file upload handlers - The &lt;i:file&gt; element	{#wizard-file-element}
+
+The ***&lt;i:file&gt;*** element handles file uploads automatically for you. Usually, this process involves moving and/or renaming the file, which is also taken care of. Its usage is pretty straightforward, since the syntax is very simple. The tag has three attributes, two of which are mandatory:
+
+ * **Name** The name of the input field (the file input).
+
+ * **To** A UNIX-style absolute path. After a successful upload, the file is moved here. If you specify a full path with a filename, the file is also renamed.
+
+ * **Overwrite** This is an optional, boolean value set to "false" by default. When set to "true", any existing file that "to" points to will be overwritten; otherwise, an exception occurs.
+
+Please, don't forget to set the "multipart" attribute of your ***&lt;i:fields&gt;*** element in Edit View to "true" to make this work!
+
+
+### How to construct a Wizard?	{#wizard-how-to-construct-wizard}
+
+We already discussed this partially in the previous sections. You already know the wizards are constructed from a set of Pages. Once you write and save these XML files in your application's "config" directory, you simply have to add some actions to the Wizard module that define the steps of your wizard.
+
+Let us go over the "to do" list for a 3-step, sample wizard:
+
+**1 Create your wizard Pages XML**
+
+As previously discussed, these are like normal AppFlower Pages, other than they have a different <i:view> type and some other minor differences.
+
+This kind of Page should always contain two components:
+
+- A header (for the message, or description, of the step)
+- A real Widget (that provides the content of the step)
+
+The header is provided by AppFlower, so you don't have to write this Widget in XML. All you need to do is define its value in your action.
+
+The first Page is special, as it should contain an ***&lt;i:datastore&gt;***  definition, if you want your data to be saved automatically. This is optional, since you can provide your own method to save the data. To do this, add an action called "Finish" to the last step in your process. This may point to any module and action.
+
+One other thing to note is you have to create one more file (Page) than the number of actual steps in your wizard. This is because most wizards have an extra, purely informative final screen (like a thank you message). This is where the user will be redirected to after the data is saved.
+
+Such a page should look something like this:
+
+	<?xml version="1.0" encoding="UTF-8"?>
+	<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+	xmlns:i="http://www.appflower.com/schema/" type="wizard">
+		
+		<i:title>Some Wizard - Last Step</i:title>
+		
+		<i:area type="content">
+			<i:component name="header" module="wizard"  />
+		</i:area>
+		
+	</i:view>
+
+As you can see, there is no content part here, only a header. This screen merely displays a success message.
+
+Once you have your pages, save them in your module "config" directory as:
+
+File			|	Comment
+--------------  |   ------------
+action1.xml     | (first step)
+action2.xml     | (a step)
+action3.xml     | (another step)
+action4.xml     | (success message, thank-you screen)
+
+
+The name of the file should be the same as the corresponding Symfony action. The list above is only an example.
+
+**2. Modify The Actions Class In Your Module**
+
+This is where you must add your own actions to each step; so you will need to add something like this:
+
+
+	public function executeAction1(){
+			afWizard::startPath(array(
+				'yourModule/action2', 'yourModule/action3', 'wizard/finalize'));
+		
+			$this->current = 1;
+			
+	
+			$this->title = "Welcome to the Test Wizard - Step 1";
+			$this->html = "<div style='padding:10px; font-size:13px'>Some description goes here..</div>";
+	}
+
+
+	public function executeAction2(){
+		
+			$this->current = 2;
+	
+			$this->title = "Test Wizard - Step 2";
+			$this->html = "<div style='padding:10px; font-size:13px'>Some description goes here..</div>";
+	}
+
+
+	public function executeAction3(){
+		
+			$this->current = 3;
+	
+			$this->last = true;
+			$this->end = "action4";
+	
+			$this->title = "Test Wizard - Step 3";
+			$this->html = "<div style='padding:10px; font-size:13px'>Some description goes here..</div>";
+	}
+
+
+	public function executeAction4(){
+		
+			$this->current = 4;
+			
+			$this->title = "Test Wizard - Success!";
+			$this->html = "<div style='padding:10px; font-size:13px'>Thank you, thank you..</div>";
+	}
+
+
+The first action must call 'afWizard::startPath()'. This defines the required form submissions and clears the data stored in the session. For this reason, you should never place a 'Previous' action in the 2nd step of a Wizard, or else you will lose the data collected thus far. 
+
+The other important variable is '$this->current', which should always equal the step number. This is used internally by AppFlower.
+
+The next two variables are common to each action:
+
+Variable         | Description
+---------------- | --------------
+$this->title     | Contains the title text of the step. This is the title part of the header component.
+$this->html	     | Contains the the message or description of the step. This is the body part of header component. 
+
+Both of these strings may contain HTML code.
+
+Finally, here are some variables for the last action: 
+
+Variable         | Description
+---------------- | --------------
+$this->last      | 	Simply declares the given step as the last one, should be set to true. 
+$this->end       |  This value is a string, it should be equal to the name of the very last action. The wizard/finalize action will redirect here upon success. 
+
+These must be set by the last step in your process (the step prior to the success message). They define the 'Finish' buttion.
+
+The above sample is the only PHP you need to incorporate into actions. If you start yourModule/action1, your test wizard should appear. When you reach the last page and hit the 'Finish' button, the built-in action (wizard/finalize) will be called and your data will be saved. If everything is okay, the user will be redirected to the last page (yourModule/action4 in this example) and a success message is displayed.
+
+It's good to know that you can use any Widget in a Wizard's content area, even if that Widget has its own action. When the Widget becomes part of a Wizard its action is overridden by the Wizard Page actions. For example: if you have an Edit View in your application, you may use this as a step in your wizard, without changing its configuration. The 'post' attribute of the 'Next' ***&lt;i:action&gt;*** element should always be set to 'true'. This ensures the default action won't be used and the data will POST to the URI your action points to.
+
+## REST API {#rest}
+
+It is possible to access the AppFlower widgets by a Representational State Transfer (REST) interface.
+
+### Authentication via API Key
+
+Each user has an API key to access the web application, which means cookies are not needed when the API key is used. The API key has to be provided as an additional GET parameter, 'af_apikey'.
+
+The access to the API key is not enabled by default. To enable it, put the 'afApikeySecurityFilter' before the security filter in your filters.yml file:
+
+    apikey_security:
+        class: afApikeySecurityFilter
+    security: ~
+
+
+The API key value is returned by 'afApikeySecurityFilter::getApikey($sfGuardUser)'. Usually, the API key value is displayed on the user's profile page.
+
+Users can change their API key value by changing their passwords. The old API key becomes invalid once the password is changed.
+
+The API key value is protected by a site secret. You can configure your 'app_appFlower_siteSecre' in the app.yml file, to a random value. This will prevent others from guessing the user password via API key values. 
+
+
+### List Views
+
+Every List View action can be accessed via the REST interface. Here's an example:
+
+    /customer/listCustomer?af_format=json&af_apikey=...
+
+The requested output format is defined by the "af_format" GET parameter.
+Supported values are "af_format=json" and "af_format=csv".
+
+### A Form Submit
+
+It is also possible to read and submit a form via the REST interface.
+
+Fetching a form by PHP:
+
+    $formUrl = 'https://localhost/customer/editCustomer?id=1';
+    $apikey = '...~user@example.com';
+
+    $url = $formUrl.'&af_format=json&af_apikey='.urlencode($apikey);
+    $response = file_get_contents($url);
+    if ($response === false) {
+        throw new Exception('Unable to fetch the URL: '.$url);
+    }
+
+    echo "JSON response: $response\n";
+
+    $json = json_decode($response, true);
+    if ($json === null) {
+        throw new Exception('Unable to decode the JSON response: '.$response);
+    }
+
+    if (!isset($json['success']) || $json['success'] !== true) {
+        throw new Exception('A form display error: '.$response);
+    }
+
+The fetched JSON will contain the form field values.
+The hidden fields are also included. They have to be preserved
+when submitting the form.
+
+Submitting the form:
+
+    $submitUrl = $json['af_submitUrl'].'?af_apikey='.urlencode($apikey);
+    $data = $json;
+    $data['edit[name]'] = 'Changed name';
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $submitUrl);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+    $result = curl_exec($ch);
+    if ($result === false) {
+        throw new Exception('Unable to post data: '.curl_error($ch));
+    }
+
+    curl_close($ch);
+
+    echo "JSON result: $result\n";
+
+    $json = json_decode($result, true);
+    if ($json === null) {
+        throw new Exception('Unable to decode the JSON result: '.$result);
+    }
+
+    if (!isset($json['success']) || $json['success'] !== true) {
+        throw new Exception('A form validation error: '.$result);
+    }
+
+The example changes the value of the 'edit[name]' form field, by corresponding to the 'name' field defined in the form's XML configuration.
+
+## Apache Optimization {#apache-optimization}
+
+### Enable caching of static files
+
+You can allow caching of your static files. This can be done either in a .htaccess file, or your apache configuration.
+
+    # 1 year
+    <FilesMatch "\.(jpg|png|gif|swf)$">
+    Header set Cache-Control "max-age=31536000, public"
+    </FilesMatch>
+
+    # 2 days. Use more if you put a version in the URL.
+    <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "max-age=172800, public"
+    </FilesMatch>
+
+
+The 'public' directive is necessary for a HTTPS site; browsers will not cache the files otherwise.
+
+
+### Use mod_deflate
+
+This allows you to compress the response (both HTML and AJAX) before delivering it to the browser. All you need to do is enable it in your .htaccess file.
+
+    AddOutputFilterByType DEFLATE text/html text/css text/xml text/csv application/x-javascript
+
+
+
+### Reduce disk seeks
+
+The following optimizations aim to minimize the disk searches. A disk search is necessary when fetching a previously unvisited file from the disk. The process takes less than 10 minutes.
+
+#### Use APC PHP cache
+
+Enabling the APC PHP extension will cache the parsed PHP files for subsequent requests.
+
+The production APC configuration should have enough memory to hold all PHP files. You can check this out by reviewing the apc.php file. Even after heavy usage of the internet, the 'Cache full count' information should remain at 0.
+
+It's also possible to disable checking for changed PHP files in production.
+
+APC must be configured in a php.ini file; restart Apache to reload the configuration.
+
+    apc.shm_size = 40
+    apc.stat = 0
+
+
+#### Disable deep checking for .htaccess
+
+Do this if you have only one .htaccess file. The check is not necessary for all subdirectories; simply disable 'AllowOverride' in the subdirectories.
+
+    <Directory "/path/to/web">
+            AllowOverride All
+    </Directory>
+    <Directory "/path/to/web/*">
+            AllowOverride None
+    </Directory>
+
+
+#### Reduce the number of Symfony plugins
+
+Each enabled Symfony plugin is checked when serving a request.
+Symfony checks the plugin directory for configuration files.
+
+Use `truss` on FreeBSD or `strace` on Linux to see the accessed files.
+
+    truss -f -p APACHE_PID
+
+## Install in a domain's subdirectory structure {#domain-subdir}
+
+### Some explanations
+
+Suppose we have a project installed in '/var/www' called requisitions and we want to access the project by http://DOMAIN/requisitions.
+
+The directory structure would be '/var/www/requisitions'. In this directory, we have the usual directories from Symfony applications, like 'apps', 'lib', 'web', and so forth.
+
+You need to setup the virtual host (like in the example below) and edit the './web/.htaccess' file.
+
+### Virtual host configuration example
+
+    Listen IP:PORT
+    NameVirtualHost IP:PORT
+
+    <VirtualHost IP:PORT>
+     ServerName IP:PORT
+     DocumentRoot /var/www/
+     DirectoryIndex index.php
+     Alias /requisitions/sf "/var/www/symfony-1.2/data/web/sf"
+     Alias /requisitions/ /var/www/requisitions/web/
+     Alias /appFlowerPlugin/ /var/www/requisitions/web/appFlowerPlugin/
+     Alias /images/ /var/www/requisitions/web/images/
+     
+     <Directory "/var/www/">
+       AllowOverride All
+       Allow from All
+     </Directory>
+    </VirtualHost>
+
+### ./web/.htaccess file example
+
+    Options +FollowSymLinks +ExecCGI
+
+    <IfModule mod_rewrite.c>
+     RewriteEngine On
+     RewriteBase /requisitions/
+     RewriteRule ^$ index.html [QSA]
+     RewriteRule ^([^.]+)$ $1.html [QSA]
+     RewriteCond %{REQUEST_FILENAME} !-f
+     RewriteRule ^(.*)$ index.php [QSA,L]
+    </IfModule>
