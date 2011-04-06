@@ -285,7 +285,11 @@ On a normal Page, the Widgets are rendered like a HTML page; they are simply pla
 		</i:area>
 	</i:view>
 
-First of all, please note the type attribute of the ***&lt;i:view&gt;*** element. It is set to "layout". The View type must always have this value, regardless of the type of Page. 
+First of all, please note the type attribute of the ***&lt;i:view&gt;*** element. It is set to "layout". The View type must always have this value, regardless of the type of Page.
+
+The ***&lt;i:view&gt;*** element has another attribute related to pages. This is the "module" attribute, which is optional. If defined, its value should be the **name of the SF module** the page belongs to.  
+
+Since the values is passed as an action instance variable, it will be also visible in all the widgets used in the given page, **as $pageActionInstance->layoutModule**.
 
 Now, as you can see, Pages don't have an overcomplicated structure. The above example Page has 2 top level elements. These are mandatory tags and there are also a few optional ones you may have to use sometimes. However, there is no need to worry; you don't need to define more than 4 top level nodes, even on the most complex of Pages.
 
