@@ -19,6 +19,7 @@ class XmlParser extends XmlParserTools {
 		$iteration = 0,
 		$fields, $elements, $process = array(),
 		$page,
+		$layoutModule,
 		$step,
 		$forms,
 		$jslist,
@@ -191,6 +192,11 @@ class XmlParser extends XmlParserTools {
 		$view_type = $root->getAttribute("type");
 		$dynamic = $root->getAttribute("dynamic"); 
 		$actionInstance->view = $view_type;
+		
+		if($view_type == "layout") {
+			$this->layoutModule = $actionInstance->layoutModule = $root->getAttribute("module");
+		}
+		
 		
 		$view_type = XmlBaseElementParser::parseValue($view_type,$root,true);
 		$this->set("type",$view_type,$root);
@@ -1119,6 +1125,10 @@ class XmlParser extends XmlParserTools {
 
 	public function getLayout() {
 		return $this->layout;
+	}
+	
+	public function getLayoutModule() {
+		return $this->layoutModule;
 	}
 	
 	public function getView() {
@@ -3886,6 +3896,7 @@ class XmlParser extends XmlParserTools {
 				
 				
 			} else if($view == "list") {
+				
 				if(isset($parse["params"]["name"])){
 					$formoptions['name'] = $parse["params"]["name"];
 				}

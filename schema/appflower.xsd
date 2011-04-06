@@ -2265,6 +2265,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
     	</xs:choice>
         <xs:attribute name="type" type="i:viewType" use="required" />
         <xs:attribute name="tabbed" type="xs:boolean" use="optional" />
+        <xs:attribute name="module" type="xs:string" use="optional" />
         <xs:attribute name="dynamic" type="xs:boolean" use="optional" default="false"  />
       </xs:complexType>
     </xs:element>
