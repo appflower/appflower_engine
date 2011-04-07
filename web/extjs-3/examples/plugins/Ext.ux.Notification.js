@@ -112,9 +112,7 @@ Ext.ux.Notification.Base = Ext.extend(Ext.util.Observable,{
 	},
 	hideNotification: function(win, delay) {
 	    if (win) {
-	      (function() { 
-	        win.animHide();	        
-	      }).defer(delay || 3000);
+	    	win.close.defer(delay || 3000, win);
 	    }
 	},
 	growl: function(TITLE,MESSAGE,TYPE,DURATION){			
@@ -163,9 +161,7 @@ Ext.ux.Notification.start = function(url){
 		};
 		this.hideNotification = function(win, delay) {
 		    if (win) {
-		      (function() { 
-		        win.animHide();	        
-		      }).defer(delay || 3000);
+		      win.close.defer(delay || 3000, win);
 		    }
 		};
 		this.growl = function(TITLE,MESSAGE,TYPE,DURATION){			
