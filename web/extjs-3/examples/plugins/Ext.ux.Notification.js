@@ -129,7 +129,9 @@ Ext.ux.InstantNotification = Ext.extend(Ext.ux.Notification.Base,{
 	constructor: function(config) {	
 		Ext.ux.InstantNotification.superclass.constructor.call(this, config);		
 		this.notificationEl = Ext.get("growl-notification-el")?Ext.get("growl-notification-el"):Ext.DomHelper.append(Ext.getBody(),{tag:'div',id:'growl-notification-el',style:'width:300px;position:absolute;bottom:0;right:0'});
-		this.growl(config.title,config.message,"INFO",10)
+		config.type = config.type || "INFO";
+		config.duration = config.duration || 10;
+		this.growl(config.title,config.message,config.type,config.duration);
 	}
 });
 

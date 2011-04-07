@@ -680,6 +680,14 @@ afApp.loadFirst = function()
 	north.doLayout();
 	
 	afApp.loadCenterWidget(firstUri);
+	
+	/**
+	* checking if firebug is on
+	*/
+	if(Boolean(window.console&&window.console.firebug))
+	{
+		new Ext.ux.InstantNotification({title: 'Firebug is on :(', message: 'If you would like to have a better experience with our products, please disable Firebug !<br><br>Thank you,<br>AppFlower Team', type: 'ERROR', duration: 20});
+	}
 }
 
 Ext.onReady(function(){
