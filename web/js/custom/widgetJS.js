@@ -686,7 +686,7 @@ afApp.loadFirst = function()
 	*/
 	if(Boolean(window.console&&window.console.firebug))
 	{
-		new Ext.ux.InstantNotification({title: 'Firebug is on :(', message: 'If you would like to have a better experience with our products, please disable Firebug !<br><br>Thank you,<br>AppFlower Team', type: 'ERROR', duration: 20});
+		new Ext.ux.InstantNotification({title: 'Firebug is on :(', message: 'If you would like to have a better experience with our products, please disable <b style="color:red;">Firebug</b>. You can do this using this shortcut: <b>SHIFT+F12</b>.<br><br>Thank you,<br>AppFlower Team', type: 'ERROR', duration: 20});
 	}
 }
 
