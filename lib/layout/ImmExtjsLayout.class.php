@@ -58,6 +58,8 @@ class ImmExtjsLayout
 		
 		// Plugin to maximize portlets
 		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'portal/Ext.ux.MaximizeTool.js')));
+		// Firebug checker
+		$this->immExtjs->setAddons(array('js'=>array($this->immExtjs->getExamplesDir().'firebug/Ext.ux.Firebug.js')));
 		
 		$this->start($attributes);
 		
