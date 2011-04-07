@@ -1,5 +1,5 @@
 <?php
-$layout=new ImmExtjsPanelLayout();
+$layout=new afExtjsPanelLayout();
 
 /**
  * FIRST GRID
@@ -9,7 +9,7 @@ $layout=new ImmExtjsPanelLayout();
  * pager = true/false => activate/disable pagination
  * stateful = true/false => activate/disable state restore from cookies
  */
-$grid=new ImmExtjsGrid(array('autoHeight'=>true,'root_title'=>'Companies','tree'=>true,'pager'=>false,'select'=>true,'frame'=>false/*,'stateful'=>false*/));
+$grid=new afExtjsGrid(array('autoHeight'=>true,'root_title'=>'Companies','tree'=>true,'pager'=>false,'select'=>true,'frame'=>false/*,'stateful'=>false*/));
 $grid->addHelp('test help');
 /**
  * columns
@@ -41,16 +41,16 @@ $actions->addAction(array('iconCls'=>'icon-minus','tooltip'=>'Delete'/*,'text'=>
  */
 $grid->endRowActions($actions);
 
-new ImmExtjsLinkButton($grid,array('label'=>'www.immune.dk','url'=>'http://www.immune.dk'));
-new ImmExtjsLinkButton($grid,array('label'=>'www.immune.dk','url'=>'http://www.immune.dk','icon'=>'/images/famfamfam/cancel.png'));
-new ImmExtjsButton($grid,array('label'=>'Send Selections to some url','handlers'=>array('click'=>array('parameters'=>'field,event','source'=>'Ext.Ajax.request({ url: "/interface/gridtreeJsonButton", method:"post", params:{"selections":'.$grid->privateName.'.getSelectionModel().getSelectionsJSON(["company","industry","_buttonDescription"])}, success:function(response, options){response=Ext.decode(response.responseText);if(response.message){Ext.Msg.alert("Success",response.message);}},failure: function(response,options) {if(response.message){Ext.Msg.alert("Failure",response.message);}}});'))));
+new afExtjsLinkButton($grid,array('label'=>'www.immune.dk','url'=>'http://www.immune.dk'));
+new afExtjsLinkButton($grid,array('label'=>'www.immune.dk','url'=>'http://www.immune.dk','icon'=>'/images/famfamfam/cancel.png'));
+new afExtjsButton($grid,array('label'=>'Send Selections to some url','handlers'=>array('click'=>array('parameters'=>'field,event','source'=>'Ext.Ajax.request({ url: "/interface/gridtreeJsonButton", method:"post", params:{"selections":'.$grid->privateName.'.getSelectionModel().getSelectionsJSON(["company","industry","_buttonDescription"])}, success:function(response, options){response=Ext.decode(response.responseText);if(response.message){Ext.Msg.alert("Success",response.message);}},failure: function(response,options) {if(response.message){Ext.Msg.alert("Failure",response.message);}}});'))));
 
 $grid->end();
 
 $layout->addItem('center',$grid);
 
 
-$tools=new ImmExtjsTools();
+$tools=new afExtjsTools();
 $tools->addItem(array('id'=>'gear','handler'=>array('source'=>"Ext.Msg.alert('Message', 'The Settings tool was clicked.');")));
 $tools->addItem(array('id'=>'close','handler'=>array('parameters'=>'e,target,panel','source'=>"panel.ownerCt.remove(panel, true);")));
 

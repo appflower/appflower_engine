@@ -47,7 +47,7 @@ class afListRenderer {
         	self::changeEditLinks($rows);
     	}
 
-        $gridData = new ImmExtjsGridData();
+        $gridData = new afExtjsGridData();
         $gridData->totalCount = $source->getTotalCount();
         $gridData->data = $rows;
         $additionalData = $source->getAdditionalData();

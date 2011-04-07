@@ -203,7 +203,7 @@ class interfaceActions extends CustomActions
   	
   	if($pager->getNbResults()>0)
   	{
-  		$grid_data=new ImmExtjsGridData();
+  		$grid_data=new afExtjsGridData();
   		$grid_data->totalCount=$pager->getNbResults();
   		
   		foreach($pager->getResults() as $object)
@@ -278,7 +278,7 @@ class interfaceActions extends CustomActions
 	$pager->setCriteria($c);
 	$pager->init();
   	
-  	$grid_data=new ImmExtjsGridData();
+  	$grid_data=new afExtjsGridData();
   	$grid_data->totalCount=$pager->getNbResults();
   	
   	$i=0;
@@ -313,7 +313,7 @@ class interfaceActions extends CustomActions
 	$pager->setCriteria($c);
 	$pager->init();
   	
-  	$grid_data=new ImmExtjsGridData();
+  	$grid_data=new afExtjsGridData();
   	$grid_data->totalCount=$pager->getNbResults();
   	
   	foreach ($pager->getResults() as $notification)
@@ -342,7 +342,7 @@ class interfaceActions extends CustomActions
   
   function executeJsoncustomgrid()
   {
-  	$grid_data=new ImmExtjsGridData();
+  	$grid_data=new afExtjsGridData();
   	
   	$files = sfFinder::type('file')->ignore_version_control()->maxdepth(1)->in('/usr/www/manager/web/images/famfamfam');
   	

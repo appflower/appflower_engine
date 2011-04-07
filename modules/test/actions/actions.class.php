@@ -430,7 +430,7 @@ class testActions extends CustomActions
 		$pager->setCriteria($parser["criteria"]);
 		$pager->init();
 		 
-		$grid_data = new ImmExtjsGridData();
+		$grid_data = new afExtjsGridData();
 		$grid_data->totalCount = $pager->getNbResults();
 		 
 		$items = array();
@@ -506,7 +506,7 @@ class testActions extends CustomActions
 		$pager->init();
 			
 
-		$grid_data = new ImmExtjsGridData();
+		$grid_data = new afExtjsGridData();
 		$grid_data->totalCount = $pager->getNbResults();
 
 		$items = array();

@@ -108,7 +108,7 @@ class afExecutionFilter extends sfExecutionFilter {
     private static function isFirstPageRequest($actionInstance) {
         return ($actionInstance->getRequest()->isMethod('GET') &&
             !$actionInstance->getRequest()->isXmlHttpRequest() &&
-            !ImmExtjsAjaxLoadWidgets::isWidgetRequest() &&
+            !afExtjsAjaxLoadWidgets::isWidgetRequest() &&
             self::isWidgetAction($actionInstance));
     }
 }

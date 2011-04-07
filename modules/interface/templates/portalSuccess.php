@@ -9,9 +9,9 @@
 </script>
 
 <?php
-$layout=new ImmExtjsPortalLayout(array('id'=>'center_panel','title'=>'Dashboard'));
+$layout=new afExtjsPortalLayout(array('id'=>'center_panel','title'=>'Dashboard'));
 
-$tools=new ImmExtjsTools();
+$tools=new afExtjsTools();
 $tools->addItem(array('id'=>'gear','handler'=>array('source'=>"Ext.Msg.alert('Message', 'The Settings tool was clicked.');")));
 $tools->addItem(array('id'=>'close','handler'=>array('parameters'=>'e,target,panel','source'=>"panel.ownerCt.remove(panel, true);")));
 

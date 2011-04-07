@@ -11,7 +11,7 @@ class appFlowerActions extends sfActions
 	public function preExecute()
 	{
 		$this->realRoot=sfConfig::get('sf_root_dir');
-		$this->immExtjs=ImmExtjs::getInstance();
+		$this->afExtjs=afExtjs::getInstance();
 	}	
 	
     public function executeEditHelpSettings() 
@@ -433,7 +433,7 @@ class appFlowerActions extends sfActions
 		$pager->setCriteria($c);
 		$pager->init();	
 	  	
-	  	$grid_data = new ImmExtjsGridData();
+	  	$grid_data = new afExtjsGridData();
 	  	$grid_data->totalCount = $pager->getNbResults();
 	  	
 	  	foreach($pager->getResults() as $object) {
@@ -447,7 +447,7 @@ class appFlowerActions extends sfActions
 	
 	public function executeCodepress($request)
 	{
-		$this->codepress_path=$this->immExtjs->getExamplesDir().'codepress/';
+		$this->codepress_path=$this->afExtjs->getExamplesDir().'codepress/';
 		
 		$this->language=(($this->hasRequestParameter('language')&&$this->getRequestParameter('language')!='undefined')?$this->getRequestParameter('language'):'generic');
 		
@@ -507,7 +507,7 @@ class appFlowerActions extends sfActions
 	
 	public function executeFiletree()
 	{
-		$filetree_command=new ImmExtjsFileTreeCommand($this->realRoot);
+		$filetree_command=new afExtjsFileTreeCommand($this->realRoot);
 		
 		return $this->renderText($filetree_command->end());
 	}

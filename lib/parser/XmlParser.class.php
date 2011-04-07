@@ -298,7 +298,7 @@ class XmlParser extends XmlParserTools {
 			if($this->type === self::PANEL) {
 				$this->panelIdXml = $this->context->getModuleName()."/".$this->context->getActionName();
 				self::$masterLayout = null;
-				$this->layout = new ImmExtjsPanelLayout();
+				$this->layout = new afExtjsPanelLayout();
 			} else {
 				if(self::$instance === null) {
 					self::$instance = true;
@@ -312,7 +312,7 @@ class XmlParser extends XmlParserTools {
 					} else {
 						$wizattrs = array('id'=>'center_panel','title'=>"",'centerType'=>'group');
 					}
-					$this->layout = new ImmExtjsWizardLayout($wizattrs);
+					$this->layout = new afExtjsWizardLayout($wizattrs);
 				} else {
 					
 				$this->portalIdXml = $this->context->getModuleName()."/".$this->context->getActionName();
@@ -365,7 +365,7 @@ class XmlParser extends XmlParserTools {
 					$button["button"]->end();
 				}
 				
-				sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsToolbar'));
+				sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsToolbar'));
 				*/
 	
 			}
@@ -958,22 +958,22 @@ class XmlParser extends XmlParserTools {
 			$top = ($node->getParent()->getName() == "menu");
 			
 			if($top) {
-				$button = new ImmExtjsToolbarButton($this->layout->toolbar,array("label" => $node->get("@label"), "handler" => $node->get("@handler"),
+				$button = new afExtjsToolbarButton($this->layout->toolbar,array("label" => $node->get("@label"), "handler" => $node->get("@handler"),
 				"tooltip" => array("text" => $node->get("@tooltip"), "title" => $node->get("@tiptitle"))));
 				$this->buttons[$button->attributes["text"]] = array();
 			}
 			
 			if(count($childnodes)) {
 				if(!$top) {
-					$button = new ImmExtjsToolbarMenuItem($menu,array("label" => $node->get("@label"), "url" => $node->get("@target")));
+					$button = new afExtjsToolbarMenuItem($menu,array("label" => $node->get("@label"), "url" => $node->get("@target")));
 					$this->buttons[$button->attributes["text"]] = array();
 				}
-				$menu = new ImmExtjsToolbarMenu($button);
+				$menu = new afExtjsToolbarMenu($button);
 				$this->parseMenu($childnodes,$menu);		
 			} else {
 				if(!$top) {
 					$this->buttons[$menu->containerObject->attributes["text"]][] =  $node->get("@label");
-					$item = new ImmExtjsToolbarMenuItem($menu,array("label" => $node->get("@label"), "url" => $node->get("@target")));
+					$item = new afExtjsToolbarMenuItem($menu,array("label" => $node->get("@label"), "url" => $node->get("@target")));
 					$item->end();	
 				}
 				
@@ -983,12 +983,12 @@ class XmlParser extends XmlParserTools {
 			$menu = ($menus) ? $this->getMenuForNode($node,$menus) : null;
 			
 			if($node->getParent()->getName() == "menu") {
-				$buttons[] = array("button" => new ImmExtjsToolbarButton($toolbar,array("label" => $node->get("@label"), "handler" => $node->get("@handler"),
+				$buttons[] = array("button" => new afExtjsToolbarButton($toolbar,array("label" => $node->get("@label"), "handler" => $node->get("@handler"),
 				"tooltip" => array("text" => $node->get("@tooltip"), "title" => $node->get("@tiptitle")))), 
 				"node" => $node, "last" => count($childnodes) ? $childnodes[count($childnodes)-1] : null);
 			} else {
 				if(count($childnodes)) {
-					$buttons[] = array("button" => new ImmExtjsToolbarMenuItem($menu["menu"],array("label" => $node->get("@label"), "url" => 
+					$buttons[] = array("button" => new afExtjsToolbarMenuItem($menu["menu"],array("label" => $node->get("@label"), "url" => 
 					$node->get("@target"))),"node" => $node, "last" => $childnodes[count($childnodes)-1]);
 				}
 			} 
@@ -996,12 +996,12 @@ class XmlParser extends XmlParserTools {
 			$button = $this->getMenuForNode($node,$buttons);
 			
 			if(count($childnodes)) {
-				$menus[] = array("menu" => new ImmExtjsToolbarMenu($button["button"]),"node" => $node, "last" => $childnodes[count($childnodes)-1]);
+				$menus[] = array("menu" => new afExtjsToolbarMenu($button["button"]),"node" => $node, "last" => $childnodes[count($childnodes)-1]);
 				$this->parseMenu($childnodes,$toolbar,$menus,$buttons);	
 			} else {
 				if($menus) {
 					if($menu) {
-						$item = new ImmExtjsToolbarMenuItem($menu["menu"],array("label" => $node->get("@label"), "url" => $node->get("@target")));
+						$item = new afExtjsToolbarMenuItem($menu["menu"],array("label" => $node->get("@label"), "url" => $node->get("@target")));
 						$item->end();
 						if($node->getNode() === $menu["last"]->getNode()) {
 							$menu["menu"]->end();	
@@ -1155,7 +1155,7 @@ class XmlParser extends XmlParserTools {
 	}
 	
 	public function createTree($title) {
-		$this->tree = new ImmExtjsTree(array('title'=>$title));
+		$this->tree = new afExtjsTree(array('title'=>$title));
 	}
 	
 	public function addRoot() {
@@ -2148,7 +2148,7 @@ class XmlParser extends XmlParserTools {
 						}
 						
 						
-						$this->tree = new ImmExtjsTree(array('title'=>$component["title"]));
+						$this->tree = new afExtjsTree(array('title'=>$component["title"]));
 						$this->tree_root = $this->tree->startRoot(array("title" => "Startroot"));
 						$this->buildTree($component["rootnode"],1);
 					
@@ -2190,7 +2190,7 @@ class XmlParser extends XmlParserTools {
 		
 			$this->portalColumnsSize = $this->portalStateObj->getColumnsSize();
 			
-			$portalTools  = new ImmExtjsTools();
+			$portalTools  = new afExtjsTools();
 			if($layoutType == afPortalStatePeer::TYPE_NORMAL) {
 				$portalWidgets=$this->widgets;
 				$portalTools->addItem(array('id'=>'gear','handler'=>array('parameters'=>'e,target,portal','source'=>"
@@ -2252,7 +2252,7 @@ class XmlParser extends XmlParserTools {
 						menu.showAt(e.getXY());")));
 			}
 				
-			$this->layout = new ImmExtjsPortalLayout(array('id'=>'center_panel','tools'=>$portalTools,'idxml'=>$this->portalIdXml,'layoutType'=>$layoutType, 'portalLayoutType' => $portalLayoutType, 'portalWidgets' => $portalWidgets));
+			$this->layout = new afExtjsPortalLayout(array('id'=>'center_panel','tools'=>$portalTools,'idxml'=>$this->portalIdXml,'layoutType'=>$layoutType, 'portalLayoutType' => $portalLayoutType, 'portalWidgets' => $portalWidgets));
 			self::$masterLayout = $this->layout;
 			
 		}
@@ -3185,7 +3185,7 @@ class XmlParser extends XmlParserTools {
 				$this->layout->addHelp($this->page["extra"]);
 			}
 		
-			$this->layout->setTitle($this->page["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''));
+			$this->layout->setTitle($this->page["title"].(class_exists('afExtjsWidgetConfig')?afExtjsWidgetConfig::getPostfixTitle():''));
 		}		
 		
 		
@@ -3207,7 +3207,7 @@ class XmlParser extends XmlParserTools {
 			 * Moved the tools in this loop to have different tools on different portlets depending upon their types.
 			 */
 			
-			$tools=new ImmExtjsTools();
+			$tools=new afExtjsTools();
 			// Help popup
             if($this->widgetHelpSettings && $this->widgetHelpSettings->getPopupHelpIsEnabled()) {
             	$tools->addItem(array('id'=>'help','qtip'=>"Widget Help",'handler'=>array('parameters'=>'e,target,panel','source'=>"afApp.loadPopupHelp(panel.idxml);")));
@@ -3253,7 +3253,7 @@ class XmlParser extends XmlParserTools {
 			}
 			
 			if($this->multi && isset($this->page["confirm"])) {
-				$this->layout->attributes['listeners']['beforerender']=$this->layout->immExtjs->asMethod(array('parameters'=>'el','source'=>"Ext.Msg.confirm('".$this->page["confirm"]["title"]."','".$this->page["confirm"]["text"]."', function(btn){if (btn=='yes'){ return true; }else{ window.location.href='".$this->page["confirm"]["url"]."';return false;} });"));
+				$this->layout->attributes['listeners']['beforerender']=$this->layout->afExtjs->asMethod(array('parameters'=>'el','source'=>"Ext.Msg.confirm('".$this->page["confirm"]["title"]."','".$this->page["confirm"]["text"]."', function(btn){if (btn=='yes'){ return true; }else{ window.location.href='".$this->page["confirm"]["url"]."';return false;} });"));
 			}
 			//echo "<pre>";print_r($parse);exit;
 			$formoptions = ($this->multi) ? array("title" => $parse["title"], "fileUpload" => $parse["multipart"], "portal" => true, "tools" => $tools) : array("fileUpload" => $parse["multipart"]);
@@ -3291,7 +3291,7 @@ class XmlParser extends XmlParserTools {
 					//$formoptions["classic"] = true;
 				}
 				
-				$form = new ImmExtjsForm($formoptions);
+				$form = new afExtjsForm($formoptions);
 
 				if($widgetHelp) {
 					if($this->multi) {
@@ -3419,13 +3419,13 @@ class XmlParser extends XmlParserTools {
 									$attributes = $elem["attributes"];
 									$attributes["name"] = $groupname;
 									
-									$tmp_name = "ImmExtjsField".ucfirst($classname);
+									$tmp_name = "afExtjsField".ucfirst($classname);
 									
 									if($view == "edit") {
 										$obj = new $tmp_name($radiogroup,$attributes);		
 									} else {
 										$this->showAttributes($attributes);
-										$obj = new ImmExtjsFieldStatic($radiogroup,$attributes);
+										$obj = new afExtjsFieldStatic($radiogroup,$attributes);
 									}
 								
 								}	
@@ -3439,7 +3439,7 @@ class XmlParser extends XmlParserTools {
 						} else if($attributes["type"] == "linkButton" || $attributes["type"] == "button") {
 							
 							$attributes["url"] = $attributes["action"];
-							$tmp_name = "ImmExtjs".ucfirst($classname); 
+							$tmp_name = "afExtjs".ucfirst($classname); 
 							$obj = new $tmp_name($form,$attributes);	
 							
 						} else {
@@ -3485,7 +3485,7 @@ class XmlParser extends XmlParserTools {
 							}
 							
 							if($attributes["type"] != "include") {
-								$tmp_name = "ImmExtjsField".ucfirst($classname);	
+								$tmp_name = "afExtjsField".ucfirst($classname);	
 								
 								if($view == "edit" || $attributes["type"] == "doubletree") {
 							
@@ -3493,10 +3493,10 @@ class XmlParser extends XmlParserTools {
 									
 									/*
 									if(isset($attributes["window"])) {
-										//$obj = new ImmExtjsFieldCombo($fieldset,array('name'=>'my_combo_button','label'=>'My combo button','help'=>"combo box with button",'comment'=>'comment for combo w button','options'=>array('a'=>'Value A','b'=>'Value B'),'selected'=>'b','button'=>array('text'=>'Trigger','icon'=>'/images/famfamfam/cancel.png'),'window'=>array('title'=>'Window Title','component'=>$this->getForm(),'className'=>'ServerPeer','methodName'=>'getAllAsOptions')));
+										//$obj = new afExtjsFieldCombo($fieldset,array('name'=>'my_combo_button','label'=>'My combo button','help'=>"combo box with button",'comment'=>'comment for combo w button','options'=>array('a'=>'Value A','b'=>'Value B'),'selected'=>'b','button'=>array('text'=>'Trigger','icon'=>'/images/famfamfam/cancel.png'),'window'=>array('title'=>'Window Title','component'=>$this->getForm(),'className'=>'ServerPeer','methodName'=>'getAllAsOptions')));
 										//$columnx = $columns->startColumn(array('columnWidth'=>5,'labelAlign'=> 'left'));
-										//$obj = new ImmExtjsFieldCombo($columnx,array('name'=>'my_combo_button','label'=>'My combo button','help'=>"combo box with button",'comment'=>'comment for combo w button','options'=>array('a'=>'Value A','b'=>'Value B'),'selected'=>'b','button'=>array('text'=>'Trigger','icon'=>'/images/famfamfam/cancel.png'),'window'=>array('title'=>'Window Title','component'=>$this->getForm(),'className'=>'ServerPeer','methodName'=>'getAllAsOptions')));
-										//$obj = new ImmExtjsFieldCombo($columnx,$attributes);							
+										//$obj = new afExtjsFieldCombo($columnx,array('name'=>'my_combo_button','label'=>'My combo button','help'=>"combo box with button",'comment'=>'comment for combo w button','options'=>array('a'=>'Value A','b'=>'Value B'),'selected'=>'b','button'=>array('text'=>'Trigger','icon'=>'/images/famfamfam/cancel.png'),'window'=>array('title'=>'Window Title','component'=>$this->getForm(),'className'=>'ServerPeer','methodName'=>'getAllAsOptions')));
+										//$obj = new afExtjsFieldCombo($columnx,$attributes);							
 									} else {
 										
 										;	
@@ -3507,7 +3507,7 @@ class XmlParser extends XmlParserTools {
 								} else {
 									if($attributes["type"] != "file") {
 										$this->showAttributes($attributes);
-										$obj = new ImmExtjsFieldStatic((isset($columnx)) ? $columnx : $form,$attributes);	
+										$obj = new afExtjsFieldStatic((isset($columnx)) ? $columnx : $form,$attributes);	
 									}
 									
 								}
@@ -3589,12 +3589,12 @@ class XmlParser extends XmlParserTools {
 									$form_params = null;	
 								}
 							}
-							$obj = new ImmExtjsSubmitButton($form,array("action"=>$formoptions["action"], "label" => $parse["submitlabel"], "params" => $form_params));	
+							$obj = new afExtjsSubmitButton($form,array("action"=>$formoptions["action"], "label" => $parse["submitlabel"], "params" => $form_params));	
 						} else {
 							$this->formaction = $formoptions["action"];
 						}
 						if((!isset($parse['isSetting']) || $parse['isSetting']==="false") && $parse["resetable"] !== "false") {
-							$obj = new ImmExtjsResetButton($form,array("action"=>$formoptions["action"],"text" => $parse["resetlabel"]));	
+							$obj = new afExtjsResetButton($form,array("action"=>$formoptions["action"],"text" => $parse["resetlabel"]));	
 						}
 							
 					}
@@ -3616,16 +3616,16 @@ class XmlParser extends XmlParserTools {
 						$action["attributes"]["name"] = $this->view.$this->iteration."_".$action["attributes"]["name"];
 						$action["attributes"]["url"] = url_for($action["attributes"]["url"]);
 						
-						//$temp_grid = new ImmExtjsGrid();
+						//$temp_grid = new afExtjsGrid();
 						//$params = $temp_grid->getListenerParams($action,"action");
 						// TODO:foo
 						
 						if($action["attributes"]["post"] === "true"){
 							$this->prepareButton($form, $action['attributes']);
 						}else if($action["attributes"]["updater"] === "true") {
-							$updater = new ImmExtjsUpdater(array('url'=>$action["attributes"]["url"],'width' => 500));
+							$updater = new afExtjsUpdater(array('url'=>$action["attributes"]["url"],'width' => 500));
 							$action["attributes"]["handlers"]["click"] = array('parameters'=>'field,event','source'=>$updater->privateName.'.start();');
-							$obj = new ImmExtjsButton($form,$action['attributes']);
+							$obj = new afExtjsButton($form,$action['attributes']);
 						} else {
 							$obj = $this->prepareButton($form, $action['attributes']);
 						}
@@ -3676,7 +3676,7 @@ class XmlParser extends XmlParserTools {
 					$this->layout->addItem($this->area_types[$current_area],$form);	
 					
 					if($this->area_types[$current_area] == "center") {
-						$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''),"idxml" => $this->panelIdXml));	
+						$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('afExtjsWidgetConfig')?afExtjsWidgetConfig::getPostfixTitle():''),"idxml" => $this->panelIdXml));	
 					}
 				} else {
 					
@@ -3699,7 +3699,7 @@ class XmlParser extends XmlParserTools {
 					$parse["options"]["autoHeight"] = true;
 					$parse["options"]["autoEnd"] = false;
 				}
-				$plugins = ImmExtjsWidgets::getReloadPlugin($parse);
+				$plugins = afExtjsWidgets::getReloadPlugin($parse);
 				if($this->multi) {
 					
 					if (isset($action_name)) {
@@ -3708,7 +3708,7 @@ class XmlParser extends XmlParserTools {
 						$idxml = false;
 					}
 					
-					$pn=new ImmExtjsPanel(array('plugins'=>$plugins,'title'=>$parse["title"],
+					$pn=new afExtjsPanel(array('plugins'=>$plugins,'title'=>$parse["title"],
 					'autoScroll'=>$parse["options"]["autoScroll"],
 					'border'=>$parse["options"]["border"],
 					'header'=>$parse["options"]["header"],
@@ -3740,7 +3740,7 @@ class XmlParser extends XmlParserTools {
 							}
 							
 							$parameterForButton = ExtEvent::getButtonParams($action,"actions",$this->view.$this->iteration,$parse["select"]);			
-							$obj = new ImmExtjsButton($pn,$parameterForButton);
+							$obj = new afExtjsButton($pn,$parameterForButton);
 						}
 					}*/
 					
@@ -3777,7 +3777,7 @@ class XmlParser extends XmlParserTools {
 						
 				} else {
 					
-						$pn=new ImmExtjsPanel(array('plugins'=>$plugins,'title'=>$parse["title"],
+						$pn=new afExtjsPanel(array('plugins'=>$plugins,'title'=>$parse["title"],
 						'autoScroll'=>$parse["options"]["autoScroll"],
 						'border'=>$parse["options"]["border"],
 						'header'=>$parse["options"]["header"],
@@ -3801,7 +3801,7 @@ class XmlParser extends XmlParserTools {
 								}
 								
 								$parameterForButton = ExtEvent::getButtonParams($action,"actions",$this->view.$this->iteration,false);			
-								$obj = new ImmExtjsButton($pn,$parameterForButton);
+								$obj = new afExtjsButton($pn,$parameterForButton);
 							}
 						}
 						*/
@@ -3830,12 +3830,12 @@ class XmlParser extends XmlParserTools {
 							return $pn;
 						}
 					$this->layout->addItem("center",$pn);
-					$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''),"idxml" => $this->panelIdXml));	
+					$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('afExtjsWidgetConfig')?afExtjsWidgetConfig::getPostfixTitle():''),"idxml" => $this->panelIdXml));	
 				}
 				
 			} else if($view == "info") {
 			
-				$form = new ImmExtjsForm($formoptions);
+				$form = new afExtjsForm($formoptions);
 
 				if(isset($parse["settitle"])) {
 					$legend = $parse["settitle"];
@@ -3869,7 +3869,7 @@ class XmlParser extends XmlParserTools {
 				'submitValue'=>false
 				);
 				
-				$obj = new ImmExtjsFieldStatic($fieldset,$attributes);
+				$obj = new afExtjsFieldStatic($fieldset,$attributes);
 				
 				$form->endFieldSet($fieldset);
 				$form->end();
@@ -3880,7 +3880,7 @@ class XmlParser extends XmlParserTools {
 				
 				if(!$this->multi) {
 					$this->layout->addItem('center',$form);	
-					$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():'')));
+					$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('afExtjsWidgetConfig')?afExtjsWidgetConfig::getPostfixTitle():'')));
 				} else {
 					
 					if($this->type != self::PAGE) {
@@ -3967,8 +3967,8 @@ class XmlParser extends XmlParserTools {
 				if(isset($parse["moreactions"])) $formoptions['select'] = "true";
 				//..................................................................
 				
-				$formoptions['plugins'][] = ImmExtjsWidgets::getReloadPlugin($parse);
-				$grid = new ImmExtjsGrid($formoptions);
+				$formoptions['plugins'][] = afExtjsWidgets::getReloadPlugin($parse);
+				$grid = new afExtjsGrid($formoptions);
 				
 				if(!$build && $widgetHelp) {
 					if($this->multi) {
@@ -4113,7 +4113,7 @@ class XmlParser extends XmlParserTools {
 						}
 						
 						$parameterForButton = ExtEvent::getButtonParams($action,"actions",$this->view.$this->iteration,$parse["select"],$grid);					
-						$obj = new ImmExtjsButton($grid,$parameterForButton);
+						$obj = new afExtjsButton($grid,$parameterForButton);
 					}
 				}
 				
@@ -4121,7 +4121,7 @@ class XmlParser extends XmlParserTools {
 					$post_url = ($parse["action"] != "false" && $parse["action"] != "n/a") ? "/".$parse["action"] :  "/".$this->context->getModuleName()."/". $this->context->getActionName();
 					if($parse["action"] != "false" && $parse["action"] != "n/a"){
 						if(!$this->multisubmit) {
-							new ImmExtjsButton($grid,array('label'=>$parse["label"],'icon' => $parse["icon"], 'handlers'=>array('click'=>
+							new afExtjsButton($grid,array('label'=>$parse["label"],'icon' => $parse["icon"], 'handlers'=>array('click'=>
 							array('parameters'=>'field,event','source'=>'Ext.Ajax.request({ url: "'.$post_url.'", 
 							method:"post", params:{"selections":'.$grid->privateName.'.getSelectionModel().getSelectionsJSON()}, success:function(response, options){response=Ext.decode(response.responseText);if(response.message){Ext.Msg.alert("Success",response.message,function(){if(response.redirect){afApp.loadCenterWidget(response.redirect);}});}},failure: function(response,options) {if(response.message){Ext.Msg.alert("Failure",response.message);}}});'))));
 						}
@@ -4154,7 +4154,7 @@ class XmlParser extends XmlParserTools {
 						
 						$this->layout->addItem($this->area_types[$current_area],$grid);
 						if($this->area_types[$current_area] == "center") {
-							$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('ImmExtjsWidgetConfig')?ImmExtjsWidgetConfig::getPostfixTitle():''),"idxml" => $this->panelIdXml));		
+							$this->layout->addCenterComponent($tools,array('title'=> $parse["title"].(class_exists('afExtjsWidgetConfig')?afExtjsWidgetConfig::getPostfixTitle():''),"idxml" => $this->panelIdXml));		
 						}
 					} else {
 						
@@ -4206,7 +4206,7 @@ class XmlParser extends XmlParserTools {
 	  	}
 	  	
 	  	if($this->multisubmit && $this->type !== self::WIZARD) {
-	  		new ImmExtjsSubmitButton($this->forms[0],array('action'=>$this->formaction, "label" => $parse["submitlabel"],
+	  		new afExtjsSubmitButton($this->forms[0],array('action'=>$this->formaction, "label" => $parse["submitlabel"],
 				'afterSuccess'=>'
 				var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Saving additional information... <br>Please wait..."});
 				myMask.show();
@@ -4284,11 +4284,11 @@ if(response.message) {
 						$preExecute = $file;
 					}					
 					if($this->page["actions"][$key]["attributes"]["post"] === "false" || !$value) {
-						new ImmExtjsLinkButton($this->layout,array('preExecute'=>$preExecute,'label'=>$key,'loadas'=>'page','url'=>$this->page["actions"][$key]["attributes"]["url"], 'icon' => (isset($icon)) ? $icon : $this->page["actions"][$key]["attributes"]["icon"]));
+						new afExtjsLinkButton($this->layout,array('preExecute'=>$preExecute,'label'=>$key,'loadas'=>'page','url'=>$this->page["actions"][$key]["attributes"]["url"], 'icon' => (isset($icon)) ? $icon : $this->page["actions"][$key]["attributes"]["icon"]));
 								
 					} else {
 						$wizardSubmit = ArrayUtil::get($parse, 'params', 'wizard_submit', 'true') === 'true';
-						new ImmExtjsSubmitButton($this->layout,array('wizard'=>$wizardSubmit,'preExecute'=>$preExecute,'label'=>$key,'icon' => (isset($icon)) ? $icon : 
+						new afExtjsSubmitButton($this->layout,array('wizard'=>$wizardSubmit,'preExecute'=>$preExecute,'label'=>$key,'icon' => (isset($icon)) ? $icon : 
 						"/images/famfamfam/accept.png", 'action'=>$this->page["actions"][$key]["attributes"]["url"]),$this->forms[0]);
 					}	
 				}	
@@ -4298,7 +4298,7 @@ if(response.message) {
 			if(!$finish && isset($this->attribute_holder["last"])) {
 				$id = '';
 				if(isset($this->attribute_holder["id"])) $id = $this->attribute_holder["id"];
-				new ImmExtjsSubmitButton($this->layout,array('wizard'=>true,'label'=>'Finish','action'=>"/wizard/finalize?last=".$this->current.
+				new afExtjsSubmitButton($this->layout,array('wizard'=>true,'label'=>'Finish','action'=>"/wizard/finalize?last=".$this->current.
 				"&end=".urlencode($this->attribute_holder['end'])."&id=".$id."&add=".$add),$this->forms[0]);
 			}
 
@@ -4443,7 +4443,7 @@ if(response.message) {
 		}
 
 		//used in ajax loading widgets
-		ImmExtjsAjaxLoadWidgets::initialize($actionInstance);
+		afExtjsAjaxLoadWidgets::initialize($actionInstance);
 		sfApplicationConfiguration::getActive()->loadHelpers("Helper");
 		$parser = new XmlParser();
 		$actionInstance->layout = $parser->getLayout();	
@@ -4472,7 +4472,7 @@ if(response.message) {
 			afDataFacade::DEFAULT_PROXY_LIMIT);
 
 		$proxyUrl = afExecutionFilter::getListjsonUrl(
-			ImmExtjsWidgets::getWidgetUrl($parse));
+			afExtjsWidgets::getWidgetUrl($parse));
 		$customProxyUrl = ArrayUtil::get($parse, 'proxy', $proxyUrl);
 		if($customProxyUrl !== 'parser/listjson') {
 			$proxyUrl = $customProxyUrl;
@@ -4508,7 +4508,7 @@ if(response.message) {
 		if (isset($params['initJs'])) {
 			$options['listeners'] = array(
 				'afterrender'=> array(
-					'fn'=>ImmExtjs::asVar(
+					'fn'=>afExtjs::asVar(
 						sprintf('function(){%s}', $params['initJs'])),
 					'single'=>true));
 		}
@@ -4565,9 +4565,9 @@ if(response.message) {
 		unset($attributes['popup']);
 		
 		if($attributes["post"] === "true"){
-			$obj = new ImmExtjsSubmitButton($form,array_merge($attributes,array('label'=>$attributes["label"], 'action'=>$attributes["url"])),$this->forms[0]);
+			$obj = new afExtjsSubmitButton($form,array_merge($attributes,array('label'=>$attributes["label"], 'action'=>$attributes["url"])),$this->forms[0]);
 		} else {
-			$obj = new ImmExtjsLinkButton($form,$attributes);
+			$obj = new afExtjsLinkButton($form,$attributes);
 		}
 		return $obj;
 	}

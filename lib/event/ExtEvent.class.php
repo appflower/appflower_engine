@@ -80,7 +80,7 @@ class ExtEvent {
 		if($grid) {
 			if($action["attributes"]["updater"] === "true") {
 				$action["attributes"]["post"] = "true";			
-				$updater = new ImmExtjsUpdater(array('url'=>$action["attributes"]["url"],'width' => 500));
+				$updater = new afExtjsUpdater(array('url'=>$action["attributes"]["url"],'width' => 500));
 				$functionForUpdater = $updater->privateName.'.start();';								
 			}
 			if($action["attributes"]["forceSelection"] != "false"){
@@ -180,7 +180,7 @@ class ExtEvent {
 				)
 			);
 		if(isset($action["handlers"])){
-			//sfProjectConfiguration::getActive()->loadHelpers(array('ImmExtjsExecuteCustomJS'));
+			//sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsExecuteCustomJS'));
 			//setHandler($action);
 			
 			if(!isset($action["attributes"]["handlers"]["click"])) {
