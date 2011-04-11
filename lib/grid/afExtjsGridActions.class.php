@@ -20,7 +20,7 @@ class afExtjsGridActions
 		if(count($this->attributes)>0)
 		$attributes=array_merge($this->attributes,$attributes);
 		
-		$this->afExtjs->setAddons(array ('css' => array($this->afExtjs->getExamplesDir().'rowactionsImm/css/Ext.ux.GridRowActions.css',$this->afExtjs->getExamplesDir().'rowactionsImm/css/icons.css'), 'js' => array($this->afExtjs->getExamplesDir().'rowactionsImm/js/Ext.ux.GridRowActions.js')));
+		$this->afExtjs->setAddons(array ('css' => array($this->afExtjs->getPluginsDir().'rowactionsImm/css/Ext.ux.GridRowActions.css',$this->afExtjs->getPluginsDir().'rowactionsImm/css/icons.css'), 'js' => array($this->afExtjs->getPluginsDir().'rowactionsImm/js/Ext.ux.GridRowActions.js')));
 		
 		if(count($attributes)>0)
 		$this->attributes=array_merge($this->attributes,$attributes);

@@ -10,8 +10,8 @@ class afExtjsFieldSuperBoxSelect extends afExtjsField
 		$this->afExtjs=afExtjs::getInstance();
 		{
 			$this->afExtjs->setAddons(array(
-				'js' => array($this->afExtjs->getExamplesDir().'superboxselect/SuperBoxSelect.js'),
-				'css'=>array($this->afExtjs->getExamplesDir().'superboxselect/superboxselect.css')
+				'js' => array($this->afExtjs->getPluginsDir().'superboxselect/SuperBoxSelect.js'),
+				'css'=>array($this->afExtjs->getPluginsDir().'superboxselect/superboxselect.css')
 			));
 				
 			$this->attributes['xtype']='superboxselect';						

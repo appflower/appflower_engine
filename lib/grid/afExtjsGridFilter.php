@@ -76,8 +76,8 @@ class afExtjsGridFilter{
 				if(!in_array($tf['type'],array("numeric","boolean","date"))) 
 					$tf['type'] = "string";
 			}
-			$grid->afExtjs->setAddons(array('js' => array($grid->afExtjs->getExamplesDir().'form/lovcombo-1.0/js/Ext.ux.form.LovCombo.js') ));					
-			$grid->afExtjs->setAddons(array('css' => array($grid->afExtjs->getExamplesDir().'form/lovcombo-1.0/css/Ext.ux.form.LovCombo.css') ));
+			$grid->afExtjs->setAddons(array('js' => array($grid->afExtjs->getPluginsDir().'form/lovcombo-1.0/js/Ext.ux.form.LovCombo.js') ));					
+			$grid->afExtjs->setAddons(array('css' => array($grid->afExtjs->getPluginsDir().'form/lovcombo-1.0/css/Ext.ux.form.LovCombo.css') ));
 								
 					
 			$grid->addFilter($tf);

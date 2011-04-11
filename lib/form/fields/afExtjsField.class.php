@@ -22,7 +22,7 @@ class afExtjsField
 		if(isset($attributes['break'])) unset($attributes['break']);
 		$this->containerObject=$containerObject;
 		
-		$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'form/Ext.ux.plugins.HelpText.js') ));
+		$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'form/Ext.ux.plugins.HelpText.js') ));
 		$this->attributes['plugins'][]="Ext.ux.plugins.HelpText";		
 		
 		//$this->attributes['labelStyle']='width:100px;font-size:11px;font-weight:bold;padding:0 3px 3px 0;';

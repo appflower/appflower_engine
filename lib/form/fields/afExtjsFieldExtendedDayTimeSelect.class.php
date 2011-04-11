@@ -11,7 +11,7 @@ class afExtjsFieldExtendedDayTimeSelect extends afExtjsField
 		/*
 		 * Set plugins and default attributes
 		 */		
-		$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'datetime/Ext.ux.plugins.ExtendedDayTimeSelect.js') ));
+		$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'datetime/Ext.ux.plugins.ExtendedDayTimeSelect.js') ));
 		//$this->attributes['plugins'][]="Ext.ux.plugins.DayTimeSelect";
 		$this->attributes['xtype'] = 'extendedDayTimeSelect';
 

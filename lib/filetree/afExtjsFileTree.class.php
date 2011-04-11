@@ -22,7 +22,7 @@ class afExtjsFileTree
 		
 		$this->attributes['url']='/afExtjs/filetree';
 		
-		$this->afExtjs->setAddons(array ('css' => array($this->afExtjs->getExamplesDir().'filetree/css/filetype.css',$this->afExtjs->getExamplesDir().'filetree/css/filetree.css',$this->afExtjs->getExamplesDir().'filetree/css/icons.css'), 'js' => array($this->afExtjs->getExamplesDir().'filetree/js/Ext.ux.FileTreePanel.js',$this->afExtjs->getExamplesDir().'filetree/js/Ext.ux.FileTreeMenu.js',$this->afExtjs->getExamplesDir().'filetree/js/Ext.ux.form.BrowseButton.js',$this->afExtjs->getExamplesDir().'filetree/js/Ext.ux.FileUploader.js',$this->afExtjs->getExamplesDir().'filetree/js/Ext.ux.UploadPanel.js')));
+		$this->afExtjs->setAddons(array ('css' => array($this->afExtjs->getPluginsDir().'filetree/css/filetype.css',$this->afExtjs->getPluginsDir().'filetree/css/filetree.css',$this->afExtjs->getPluginsDir().'filetree/css/icons.css'), 'js' => array($this->afExtjs->getPluginsDir().'filetree/js/Ext.ux.FileTreePanel.js',$this->afExtjs->getPluginsDir().'filetree/js/Ext.ux.FileTreeMenu.js',$this->afExtjs->getPluginsDir().'filetree/js/Ext.ux.form.BrowseButton.js',$this->afExtjs->getPluginsDir().'filetree/js/Ext.ux.FileUploader.js',$this->afExtjs->getPluginsDir().'filetree/js/Ext.ux.UploadPanel.js')));
 												
 		if(count($attributes)>0)
 		$this->attributes=array_merge($this->attributes,$attributes);

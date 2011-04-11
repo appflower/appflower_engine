@@ -3,12 +3,12 @@
  * extJs Portal layout
  *
  */
-class afExtjsPortalLayout extends afExtjsLayout
+class afExtjsPortalLayout extends afExtjsViewportLayout
 {
 	public function __construct($attributes=array())
 	{
 		parent::__construct($attributes);
-		$this->afExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->afExtjs->getExamplesDir().'portal/portal.css'), 'js' => array($this->afExtjs->getExamplesDir().'portal/Portal.js',$this->afExtjs->getExamplesDir().'portal/PortalColumn.js',$this->afExtjs->getExamplesDir().'portal/Portlet.js',$this->afExtjs->getExamplesDir().'portal/sample-grid.js','/appFlowerPlugin/js/custom/portalsJS.js',$this->afExtjs->getExamplesDir().'form/Ext.ux.ClassicFormPanel.js',$this->afExtjs->getExamplesDir().'treegrid/TreeGrid.js',$this->afExtjs->getExamplesDir().'treegrid/Ext.ux.CheckboxSelectionModel.js',$this->afExtjs->getExamplesDir().'treegrid/Ext.ux.SynchronousTreeExpand.js')));
+		$this->afExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->afExtjs->getPluginsDir().'portal/portal.css'), 'js' => array($this->afExtjs->getPluginsDir().'portal/Portal.js',$this->afExtjs->getPluginsDir().'portal/PortalColumn.js',$this->afExtjs->getPluginsDir().'portal/Portlet.js',$this->afExtjs->getPluginsDir().'portal/sample-grid.js','/appFlowerPlugin/js/custom/portalsJS.js',$this->afExtjs->getPluginsDir().'form/Ext.ux.ClassicFormPanel.js',$this->afExtjs->getPluginsDir().'treegrid/TreeGrid.js',$this->afExtjs->getPluginsDir().'treegrid/Ext.ux.CheckboxSelectionModel.js',$this->afExtjs->getPluginsDir().'treegrid/Ext.ux.SynchronousTreeExpand.js')));
 	}
 
 	public function addSouthComponent($tools=false,$attributes=array())

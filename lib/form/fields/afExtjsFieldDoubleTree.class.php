@@ -10,7 +10,7 @@ class afExtjsFieldDoubleTree extends afExtjsField
 		
 		$this->attributes['xtype']='treeitemselector';
 
-		$this->attributes['imagePath']=$this->afExtjs->getExamplesDir().'multiselect/images/';
+		$this->attributes['imagePath']=$this->afExtjs->getPluginsDir().'multiselect/images/';
 		
 		if(isset($attributes['fromLegend']))
 		{

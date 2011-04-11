@@ -447,7 +447,7 @@ class appFlowerActions extends sfActions
 	
 	public function executeCodepress($request)
 	{
-		$this->codepress_path=$this->afExtjs->getExamplesDir().'codepress/';
+		$this->codepress_path=$this->afExtjs->getPluginsDir().'codepress/';
 		
 		$this->language=(($this->hasRequestParameter('language')&&$this->getRequestParameter('language')!='undefined')?$this->getRequestParameter('language'):'generic');
 		

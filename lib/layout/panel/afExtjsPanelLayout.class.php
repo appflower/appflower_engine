@@ -3,7 +3,7 @@
  * extJs Panel layout
  *
  */
-class afExtjsPanelLayout extends afExtjsLayout
+class afExtjsPanelLayout extends afExtjsViewportLayout
 {	
 	public function addSouthComponent($tools=false,$attributes=array())
 	{	

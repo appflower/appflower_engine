@@ -3,14 +3,14 @@
  * extJs Ecomap 1 layout
  *
  */
-class afExtjsEcomap1Layout extends afExtjsLayout
+class afExtjsEcomap1Layout extends afExtjsViewportLayout
 {
 	public function start($attributes=array())
 	{
 		$attributes['south']=false;
 		$attributes['west']=false;
 		
-		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'tabs/TabCloseMenu.js')));
+		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'tabs/TabCloseMenu.js')));
 		
 		parent::start($attributes);
 	}

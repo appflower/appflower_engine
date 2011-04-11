@@ -15,7 +15,7 @@ class afExtjsSubmitButton extends afExtjsButton
 	public function __construct($containerObject,$attributes=array(),$submitContainerObject=false)
 	{		
 		$this->afExtjs=afExtjs::getInstance();		
-		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'submit/RobustSubmitAction.js')));
+		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'submit/RobustSubmitAction.js')));
 		$pe = isset($attributes['preExecute'])?$attributes['preExecute']:'';
 		if(isset($attributes['label']))
 		{

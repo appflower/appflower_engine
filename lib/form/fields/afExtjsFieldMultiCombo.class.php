@@ -14,7 +14,7 @@ class afExtjsFieldMultiCombo extends afExtjsField
 		$this->attributes['width']='250';
 		$this->attributes['height']='100';
 		if(isset($attributes['plugin']) && $attributes['plugin'] == 'listfield'){
-			$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'multiselect/ListField.js') ));
+			$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'multiselect/ListField.js') ));
 			$this->attributes['xtype'] = 'listfield';
 			$this->attributes['height'] = 250;
 			

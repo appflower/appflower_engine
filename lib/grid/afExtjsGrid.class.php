@@ -46,15 +46,15 @@ class afExtjsGrid
 			unset($attributes['plugins']);
 		}
 		$this->afExtjs->setAddons(array(
-			'js' => array($this->afExtjs->getExamplesDir().'superboxselect/SuperBoxSelect.js'),
-			'css'=>array($this->afExtjs->getExamplesDir().'superboxselect/superboxselect.css')
+			'js' => array($this->afExtjs->getPluginsDir().'superboxselect/SuperBoxSelect.js'),
+			'css'=>array($this->afExtjs->getPluginsDir().'superboxselect/superboxselect.css')
 		));	
-		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'grid/Ext.ux.GridColorView.js',$this->afExtjs->getExamplesDir().'grid/Ext.ux.GroupingColorView.js')));
-		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'grid/Ext.ux.Grid.GroupingStoreOverride.js')));
-		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'plugins/Ext.ux.ExportUI.js')));
+		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'grid/Ext.ux.GridColorView.js',$this->afExtjs->getPluginsDir().'grid/Ext.ux.GroupingColorView.js')));
+		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'grid/Ext.ux.Grid.GroupingStoreOverride.js')));
+		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'plugins/Ext.ux.ExportUI.js')));
 		
-		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'gridsummary/gridsummary.js')));
-		$this->afExtjs->setAddons(array('css'=>array($this->afExtjs->getExamplesDir().'gridsummary/gridsummary.css')));
+		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'gridsummary/gridsummary.js')));
+		$this->afExtjs->setAddons(array('css'=>array($this->afExtjs->getPluginsDir().'gridsummary/gridsummary.css')));
 					
 		
 		if(isset($attributes['action'])&&$attributes['action'] !='n/a'){
@@ -65,7 +65,7 @@ class afExtjsGrid
 		 * Check for expand button
 		 */
 		if(isset($attributes['expandButton']) && $attributes['expandButton']){
-			$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'grid/Ext.ux.plugins.AddExpandListButton.js') ));
+			$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'grid/Ext.ux.plugins.AddExpandListButton.js') ));
 			$this->attributes['plugins'][]="new Ext.ux.plugins.AddExpandListButton";
 			if(!isset($this->attributes['tbar']))$this->attributes['tbar']=array();
 			unset($attributes['expandButton']);
@@ -77,8 +77,8 @@ class afExtjsGrid
 		/*
 		 * Grid Remote Search Test
 		 */	
-		/*$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'search/js/Ext.ux.grid.Search.js') ));
-		$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'search/js/Ext.ux.IconMenu.js') ));
+		/*$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'search/js/Ext.ux.grid.Search.js') ));
+		$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'search/js/Ext.ux.IconMenu.js') ));
 		$this->attributes['plugins'][]="new Ext.ux.grid.Search({
 				iconCls:'icon-zoom'
 				,readonlyIndexes:['note']
@@ -93,7 +93,7 @@ class afExtjsGrid
 		
 		/******** TEST ENDS HERE ****************************************************/
 		
-		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'grid/RowExpander.js')));
+		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'grid/RowExpander.js')));
 		
 		$attributes['tree']=(!isset($attributes['tree'])?false:$attributes['tree']);
 		$attributes['select']=(!isset($attributes['select'])?false:$attributes['select']);
@@ -300,7 +300,7 @@ class afExtjsGrid
 		}
 		else 
 		{
-			$this->afExtjs->setAddons(array('css'=>array($this->afExtjs->getExamplesDir().'treegrid/css/TreeGrid.css'),'js'=>array($this->afExtjs->getExamplesDir().'treegrid/TreeGrid.js',$this->afExtjs->getExamplesDir().'treegrid/Ext.ux.SynchronousTreeExpand.js')));
+			$this->afExtjs->setAddons(array('css'=>array($this->afExtjs->getPluginsDir().'treegrid/css/TreeGrid.css'),'js'=>array($this->afExtjs->getPluginsDir().'treegrid/TreeGrid.js',$this->afExtjs->getPluginsDir().'treegrid/Ext.ux.SynchronousTreeExpand.js')));
 						
 			$this->attributes['viewConfig']=$this->afExtjs->asAnonymousClass(array('forceFit'=>$this->attributes['forceFit']));
 		}
@@ -677,7 +677,7 @@ class afExtjsGrid
 		//if($this->attributes['tree'] && $this->attributes['select'])
 		if($this->attributes['select'])
 		{
-			$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'treegrid/Ext.ux.CheckboxSelectionModel.js')));
+			$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'treegrid/Ext.ux.CheckboxSelectionModel.js')));
 			
 			$selectionModelPrivateName='sm_'.Util::makeRandomKey();
 			$this->afExtjs->private[$selectionModelPrivateName]=$this->afExtjs->UxCheckboxSelectionModel(array());
@@ -728,7 +728,7 @@ class afExtjsGrid
 						
 		if(count($this->filters)>0)
 		{		
-			$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'grid-filtering/ux/menu/EditableItem.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/menu/ComboMenu.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/menu/RangeMenu.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/GridFilters.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/DrillFilter.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/RePositionFilters.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/SaveSearchState.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/FilterInfo.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/FilterOption.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/Filter.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/BooleanFilter.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/ComboFilter.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/DateFilter.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/ListFilter.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/NumericFilter.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/StringFilter.js',$this->afExtjs->getExamplesDir().'grid-filtering/ux/grid/filter/TextFilter.js'),'css'=>array($this->afExtjs->getExamplesDir().'grid-filtering/resources/style.css')));
+			$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'grid-filtering/ux/menu/EditableItem.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/menu/ComboMenu.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/menu/RangeMenu.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/GridFilters.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/DrillFilter.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/RePositionFilters.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/SaveSearchState.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/FilterInfo.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/FilterOption.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/filter/Filter.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/filter/BooleanFilter.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/filter/ComboFilter.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/filter/DateFilter.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/filter/ListFilter.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/filter/NumericFilter.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/filter/StringFilter.js',$this->afExtjs->getPluginsDir().'grid-filtering/ux/grid/filter/TextFilter.js'),'css'=>array($this->afExtjs->getPluginsDir().'grid-filtering/resources/style.css')));
 			// Add reset filters on menu action if there is filter in grid
 			$this->addMenuActionsItem(array('label'=>'Filters','icon'=>'/images/famfamfam/drink.png','listeners'=>array('click'=>array('parameters'=>'','source'=>'var grid = '.$this->privateName.';
 							var filters = grid.filters;
@@ -996,12 +996,12 @@ class afExtjsGrid
 		
 		if(isset($attributes['plugin']) && $attributes['plugin']){
 			/*if($attributes['plugin'] == "index_search"){
-				$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'grid/Ext.ux.plugins.IndexSearch.js') ));
+				$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'grid/Ext.ux.plugins.IndexSearch.js') ));
 				$this->attributes['plugins'][]="new Ext.ux.plugins.IndexSearch";
 			}*/
 			if($attributes['plugin'] == "row_order"){
-				$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'plugins/grid-row-order/Ext.ux.plugins.GridRowOrder.js') ));
-				$this->afExtjs->setAddons(array('css' => array($this->afExtjs->getExamplesDir().'plugins/grid-row-order/row-up-down.css') ));
+				$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'plugins/grid-row-order/Ext.ux.plugins.GridRowOrder.js') ));
+				$this->afExtjs->setAddons(array('css' => array($this->afExtjs->getPluginsDir().'plugins/grid-row-order/row-up-down.css') ));
 				$this->attributes['plugins'][]='new Ext.ux.plugins.GridRowOrder()';
 			}
 			if(preg_match('/^custom:(.*)$/', $attributes['plugin'], $match)){

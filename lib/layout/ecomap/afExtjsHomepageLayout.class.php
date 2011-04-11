@@ -22,7 +22,7 @@ class afExtjsHomepageLayout
 		
 		$this->afExtjs->setAddons(array('js'=>array('/appFlowerPlugin/js/custom/widgetJS.js')));
 		
-		$this->afExtjs->setAddons(array ('css' => array('/css/my-extjs.css',$this->afExtjs->getExamplesDir().'layout-browser/Ext.ux.layout.CenterLayout.css'),'js'=>array($this->afExtjs->getExamplesDir().'layout-browser/Ext.ux.layout.CenterLayout.js',$this->afExtjs->getExamplesDir().'form/TriggerField.js')));
+		$this->afExtjs->setAddons(array ('css' => array('/css/my-extjs.css',$this->afExtjs->getPluginsDir().'layout-browser/Ext.ux.layout.CenterLayout.css'),'js'=>array($this->afExtjs->getPluginsDir().'layout-browser/Ext.ux.layout.CenterLayout.js',$this->afExtjs->getPluginsDir().'form/TriggerField.js')));
 	}
 	
 	public function setExtjsVersion($version)

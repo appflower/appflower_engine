@@ -47,9 +47,9 @@ class afExtjs extends sfExtjs2Plugin
   /**
    * returns the examples path
    */
-  public function getExamplesDir()
+  public function getPluginsDir()
   {
-	return sfConfig::get('sf_extjs'.$this->getExtjsVersion().'_examples_dir');
+	return sfConfig::get('sf_extjs'.$this->getExtjsVersion().'_plugins_dir');
   }
   
   public function addInitMethodSource($source)

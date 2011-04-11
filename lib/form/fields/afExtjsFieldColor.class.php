@@ -12,10 +12,10 @@ class afExtjsFieldColor extends afExtjsField
 		
 		$this->attributes['width']='250';
 		
-		$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'form/colorfield/color-field.js'),'css'=>array($this->afExtjs->getExamplesDir().'form/colorfield/color-field.css')));									
-					$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'form/adv-color-picker/code/Color.js'),'css'=>array($this->afExtjs->getExamplesDir().'form/adv-color-picker/code/color-picker.css')));
-					$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'form/adv-color-picker/code/ColorPickerPanel.js')));
-					$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'form/adv-color-picker/code/ColorPickerWin.js')));
+		$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'form/colorfield/color-field.js'),'css'=>array($this->afExtjs->getPluginsDir().'form/colorfield/color-field.css')));									
+					$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'form/adv-color-picker/code/Color.js'),'css'=>array($this->afExtjs->getPluginsDir().'form/adv-color-picker/code/color-picker.css')));
+					$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'form/adv-color-picker/code/ColorPickerPanel.js')));
+					$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'form/adv-color-picker/code/ColorPickerWin.js')));
 		if(isset($attributes['plugin'])){			
 			
 			unset($attributes['plugin']);

@@ -53,7 +53,7 @@ sfConfig::set('sf_extjs2_plugin_dir', '/appFlowerPlugin/');
 sfConfig::set('sf_extjs3_plugin_dir', sfConfig::get('sf_extjs2_plugin_dir'));
 
 sfConfig::set('sf_extjs3_js_dir', '/appFlowerPlugin/extjs-3/');
-sfConfig::set('sf_extjs3_examples_dir', '/appFlowerPlugin/extjs-3/examples/');
+sfConfig::set('sf_extjs3_plugins_dir', '/appFlowerPlugin/extjs-3/plugins/');
 sfConfig::set('sf_extjs3_css_dir', '/appFlowerPlugin/extjs-3/resources/css/');
 sfConfig::set('sf_extjs3_images_dir', '/appFlowerPlugin/extjs-3/resources/images/');
 #

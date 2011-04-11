@@ -3,7 +3,7 @@
  * extJs sfGuard layout
  *
  */
-class afExtjsSfGuardLayout extends afExtjsLayout
+class afExtjsSfGuardLayout extends afExtjsViewportLayout
 {
 	public function start($attributes=array())
 	{		
@@ -11,7 +11,7 @@ class afExtjsSfGuardLayout extends afExtjsLayout
 		$attributes['north']=false;
 		$attributes['west']=false;
 		
-		$this->afExtjs->setAddons(array ('css' => array($this->afExtjs->getExamplesDir().'layout-browser/Ext.ux.layout.CenterLayout.css'),'js'=>array($this->afExtjs->getExamplesDir().'layout-browser/Ext.ux.layout.CenterLayout.js')));		
+		$this->afExtjs->setAddons(array ('css' => array($this->afExtjs->getPluginsDir().'layout-browser/Ext.ux.layout.CenterLayout.css'),'js'=>array($this->afExtjs->getPluginsDir().'layout-browser/Ext.ux.layout.CenterLayout.js')));		
 		$this->layout='ux.center';
 		
 		parent::start($attributes);

@@ -58,9 +58,9 @@ class afExtjsFormTabs
 	}
 	public function checkIfSetting($attr){		
 		if(isset($attr['isSetting']) && $attr['isSetting'] !== "false"){			
-			$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'settings/ux_VerticalTabPanel.js')));
-			$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'settings/Ext.ux.Settings.js')));
-			$this->afExtjs->setAddons(array('css'=>array($this->afExtjs->getExamplesDir().'settings/ux_VerticalTabPanel.css')));
+			$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'settings/ux_VerticalTabPanel.js')));
+			$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'settings/Ext.ux.Settings.js')));
+			$this->afExtjs->setAddons(array('css'=>array($this->afExtjs->getPluginsDir().'settings/ux_VerticalTabPanel.css')));
 			$this->attributes['xtype'] = 'settings';
 			$this->attributes['enableTabScroll'] = 'false';	
 			$this->attributes['user'] = sfContext::getInstance()->getUser()->getAppFlowerUser()->getUsername();

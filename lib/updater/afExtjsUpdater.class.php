@@ -17,7 +17,7 @@ class afExtjsUpdater
 	{		
 		$this->afExtjs=afExtjs::getInstance();
 		
-		$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getExamplesDir().'comet/Ext.Comet.js',$this->afExtjs->getExamplesDir().'comet/Ext.ux.Updater.js') ));
+		$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getPluginsDir().'comet/Ext.Comet.js',$this->afExtjs->getPluginsDir().'comet/Ext.ux.Updater.js') ));
 		
 		$this->privateName='updater_'.Util::makeRandomKey();
 		

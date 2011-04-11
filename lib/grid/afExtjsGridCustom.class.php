@@ -18,7 +18,7 @@ class afExtjsGridCustom
 	{		
 		$this->afExtjs=afExtjs::getInstance();
 		
-		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'view/data-view-plugins.js')));
+		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'view/data-view-plugins.js')));
 				
 		if(isset($attributes['portal'])&&$attributes['portal']==true)
 		{

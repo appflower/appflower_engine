@@ -27,7 +27,7 @@ class afExtjsGmap
 		$this->attributes['mapConfOpts']=array('enableScrollWheelZoom','enableDoubleClickZoom','enableDragging');
 		$this->attributes['mapControls']=array('GSmallMapControl', 'GScaleControl','GMapTypeControl','NonExistantControl');
 		
-		$this->afExtjs->setAddons(array ('js' => array($this->afExtjs->getExamplesDir().'window/Ext.ux.GMapPanel.js') ));
+		$this->afExtjs->setAddons(array ('js' => array($this->afExtjs->getPluginsDir().'window/Ext.ux.GMapPanel.js') ));
 				
 		if(isset($attributes['tools']))
 		{

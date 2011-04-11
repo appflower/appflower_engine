@@ -8,7 +8,7 @@ class afExtjsFieldStatic extends afExtjsField
 	{		
 		$this->afExtjs=afExtjs::getInstance();
 		
-		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'form/Ext.ux.form.StaticTextField.js')));
+		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'form/Ext.ux.form.StaticTextField.js')));
 		
 		$this->attributes['xtype']='statictextfield';
 		

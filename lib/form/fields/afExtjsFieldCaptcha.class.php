@@ -9,7 +9,7 @@ class afExtjsFieldCaptcha extends afExtjsField
 		$this->afExtjs=afExtjs::getInstance();
 		$this->attributes['xtype']='captcha';
 		if(!isset($this->attributes['input'])) $this->attributes['input'] = 'true';
-		$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'form/Ext.ux.plugins.Captcha.js') ));
+		$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'form/Ext.ux.plugins.Captcha.js') ));
 		
 		$this->attributes['width']='250';
 		

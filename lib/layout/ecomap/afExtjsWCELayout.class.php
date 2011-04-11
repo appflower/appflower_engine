@@ -3,7 +3,7 @@
  * extJs Ecomap WestCenterEast Normal Panels layout
  *
  */
-class afExtjsWCELayout extends afExtjsLayout
+class afExtjsWCELayout extends afExtjsViewportLayout
 {
 	public function start($attributes=array())
 	{

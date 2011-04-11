@@ -11,7 +11,7 @@ class afExtjsFieldDoubleMultiCombo extends afExtjsField
 		$this->attributes['xtype']='itemselector';
 		$this->attributes['msWidth']='250';
 		$this->attributes['msHeight']='200';
-		$this->attributes['imagePath']=$this->afExtjs->getExamplesDir().'multiselect/images/';
+		$this->attributes['imagePath']=$this->afExtjs->getPluginsDir().'multiselect/images/';
 						
 		if(isset($attributes['name']))
 		{

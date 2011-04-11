@@ -39,7 +39,7 @@ class afExtjsFieldCombo extends afExtjsField
 			}
 		}
 		else {
-			$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'form/Ext.ux.form.Combo.js') ));
+			$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'form/Ext.ux.form.Combo.js') ));
 			$this->attributes['xtype']='combowcolors';
 			
 			if(isset($attributes['proxy'])&&isset($attributes['template']))
@@ -168,7 +168,7 @@ class afExtjsFieldCombo extends afExtjsField
 		
 		if(isset($attributes['plugin'])){
 			if($attributes['plugin'] == 'extended_combo_box'){
-				$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'form/Ext.ux.plugins.ExtendedComboBox.js') ));
+				$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'form/Ext.ux.plugins.ExtendedComboBox.js') ));
 				$this->attributes['plugins'][]="Ext.ux.plugins.ExtendedComboBox";	
 				$this->attributes['resizable'] = true;
 				$this->attributes['triggerAction'] = 'all';
@@ -178,7 +178,7 @@ class afExtjsFieldCombo extends afExtjsField
 				$this->attributes['editable'] = false;				
 			}
 			if($attributes['plugin'] == 'remote_combo_auto_suggest'){
-					$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'form/Ext.ux.plugins.RemoteComboAutoSuggest.js') ));
+					$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'form/Ext.ux.plugins.RemoteComboAutoSuggest.js') ));
 					//$this->attributes['plugins'][]="Ext.ux.RemoteComboAutoSuggest";	
 					$this->attributes['resizable'] = true;
 					$this->attributes['triggerAction'] = 'all';
@@ -195,8 +195,8 @@ class afExtjsFieldCombo extends afExtjsField
 				    )';
 			}
 			if($attributes['plugin'] == 'checkcombo'){
-					$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getExamplesDir().'form/lovcombo-1.0/js/Ext.ux.form.LovCombo.js') ));					
-					$this->afExtjs->setAddons(array('css' => array($this->afExtjs->getExamplesDir().'form/lovcombo-1.0/css/Ext.ux.form.LovCombo.css') ));					
+					$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'form/lovcombo-1.0/js/Ext.ux.form.LovCombo.js') ));					
+					$this->afExtjs->setAddons(array('css' => array($this->afExtjs->getPluginsDir().'form/lovcombo-1.0/css/Ext.ux.form.LovCombo.css') ));					
 					//$this->attributes['plugins'][]="Ext.ux.RemoteComboAutoSuggest";									
 					$this->attributes['xtype'] = "lovcombo";
 					$this->attributes['triggerAction'] = 'all';

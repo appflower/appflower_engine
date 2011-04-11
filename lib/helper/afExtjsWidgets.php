@@ -59,7 +59,7 @@ class afExtjsWidgets{
 	 * The htmlUrl is needed only for non-grid widgets.
 	 */
 	private static function generateReloadPlugin($delayMillis, $htmlUrl, $startInitial, $reloadToolVisible) {
-		afExtjs::getInstance()->setAddons(array('js' => array(afExtjs::getInstance()->getExamplesDir().'plugins/Ext.ux.plugins.RealtimeWidgetUpdate.js')));		
+		afExtjs::getInstance()->setAddons(array('js' => array(afExtjs::getInstance()->getPluginsDir().'plugins/Ext.ux.plugins.RealtimeWidgetUpdate.js')));		
 		return 'new Ext.ux.plugins.RealtimeWidgetUpdate({requestParams:'.json_encode(self::getNormalRequests()).',rate:'.$delayMillis.',url:'.json_encode($htmlUrl).',startInitial:'.($startInitial?"true":"false").',reloadToolVisible:'.($reloadToolVisible?"true":"false").'})';	
 	}
 

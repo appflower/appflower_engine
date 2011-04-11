@@ -3,7 +3,7 @@
  * extJs IDE layout
  *
  */
-class afExtjsIDELayout extends afExtjsLayout
+class afExtjsIDELayout extends afExtjsViewportLayout
 {
 	public function start($attributes=array())
 	{
@@ -12,7 +12,7 @@ class afExtjsIDELayout extends afExtjsLayout
 		$attributes['south']=false;
 		$attributes['west']=false;
 		
-		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'codepress/Ext.ux.CodePress.js')));
+		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'codepress/Ext.ux.CodePress.js')));
 				
 		parent::start($attributes);
 	}

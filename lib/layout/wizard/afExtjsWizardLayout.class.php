@@ -41,7 +41,7 @@ class afExtjsWizardLayout extends afExtjsLayout
 				
 		if(isset($this->attributes['centerType'])&&$this->attributes['centerType']=='group')
 		{
-			$this->afExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->afExtjs->getExamplesDir().'grouptabs/GroupTab.css'), 'js' => array($this->afExtjs->getExamplesDir().'grouptabs/GroupTabPanel.js',$this->afExtjs->getExamplesDir().'grouptabs/GroupTab.js')));
+			$this->afExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->afExtjs->getPluginsDir().'grouptabs/GroupTab.css'), 'js' => array($this->afExtjs->getPluginsDir().'grouptabs/GroupTabPanel.js',$this->afExtjs->getPluginsDir().'grouptabs/GroupTab.js')));
 			
 			$attributes=$this->attributes;
 			unset($attributes['viewport']);
@@ -53,7 +53,7 @@ class afExtjsWizardLayout extends afExtjsLayout
 			$this->addGroupTabPanel('center',$attributes);
 		}
 		else {
-			$this->afExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->afExtjs->getExamplesDir().'portal/portal.css'), 'js' => array($this->afExtjs->getExamplesDir().'portal/Portal.js',$this->afExtjs->getExamplesDir().'portal/PortalColumn.js',$this->afExtjs->getExamplesDir().'portal/Portlet.js',$this->afExtjs->getExamplesDir().'portal/sample-grid.js')));
+			$this->afExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->afExtjs->getPluginsDir().'portal/portal.css'), 'js' => array($this->afExtjs->getPluginsDir().'portal/Portal.js',$this->afExtjs->getPluginsDir().'portal/PortalColumn.js',$this->afExtjs->getPluginsDir().'portal/Portlet.js',$this->afExtjs->getPluginsDir().'portal/sample-grid.js')));
 			
 			$attributes=$this->attributes;
 			unset($attributes['viewport']);

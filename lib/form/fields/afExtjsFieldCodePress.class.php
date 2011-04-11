@@ -8,7 +8,7 @@ class afExtjsFieldCodePress extends afExtjsField
 	{		
 		$this->afExtjs=afExtjs::getInstance();
 		
-		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getExamplesDir().'codepress/Ext.ux.CodePress.js')));
+		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'codepress/Ext.ux.CodePress.js')));
 		
 		$this->attributes['xtype']='codepress';
 		

@@ -11,8 +11,8 @@ class afExtjsFieldItemSelectorAutoSuggest extends afExtjsField
 		$this->attributes['xtype']='itemselectorautosuggest';
 		$this->attributes['msWidth']='250';
 		$this->attributes['msHeight']='200';
-		$this->attributes['imagePath']=$this->afExtjs->getExamplesDir().'multiselect/images/';
-		$this->afExtjs->setAddons(array ('js' => array($this->afExtjs->getExamplesDir().'multiselect/Ext.ux.plugins.ItemSelectorAutoSuggest.js') ));
+		$this->attributes['imagePath']=$this->afExtjs->getPluginsDir().'multiselect/images/';
+		$this->afExtjs->setAddons(array ('js' => array($this->afExtjs->getPluginsDir().'multiselect/Ext.ux.plugins.ItemSelectorAutoSuggest.js') ));
 		
 		if(isset($attributes['name']))
 		{

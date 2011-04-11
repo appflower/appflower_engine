@@ -14,19 +14,19 @@ class afExtjsFieldDateTime extends afExtjsField
 		switch ($attributes['type'])
 		{
 			case "date":
-				$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getExamplesDir().'datetime/Ext.ux.form.DateTime.js') ));		
+				$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getPluginsDir().'datetime/Ext.ux.form.DateTime.js') ));		
 				$this->attributes['xtype']='xdatetime';
 				$this->attributes['width']='250';
 				$this->attributes['timeActive']=false;
 				break;
 			case "datetime":
-				$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getExamplesDir().'datetime/Ext.ux.form.DateTime.js') ));		
+				$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getPluginsDir().'datetime/Ext.ux.form.DateTime.js') ));		
 				$this->attributes['xtype']='xdatetime';
 				$this->attributes['width']='250';
 				$this->attributes['timeActive']=true;
 				break;
 			case "dayplus":
-				$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getExamplesDir().'datepickerplus/Ext.ux.datepickerplus.js'), 'css' => array($this->afExtjs->getExamplesDir().'datepickerplus/datepickerplus.css') ));
+				$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getPluginsDir().'datepickerplus/Ext.ux.datepickerplus.js'), 'css' => array($this->afExtjs->getPluginsDir().'datepickerplus/datepickerplus.css') ));
 				$this->attributes['xtype']='datefieldplus';
 				$this->attributes['width']='200';
 				$this->attributes['renderTodayButton']=false;
@@ -39,7 +39,7 @@ class afExtjsFieldDateTime extends afExtjsField
 				$this->attributes['url']=$attributes['url'];
 				break;
 			case "weekplus":
-				$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getExamplesDir().'datepickerplus/Ext.ux.datepickerplus.js'), 'css' => array($this->afExtjs->getExamplesDir().'datepickerplus/datepickerplus.css') ));
+				$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getPluginsDir().'datepickerplus/Ext.ux.datepickerplus.js'), 'css' => array($this->afExtjs->getPluginsDir().'datepickerplus/datepickerplus.css') ));
 				$this->attributes['xtype']='datefieldplus';
 				$this->attributes['width']='200';
 				$this->attributes['renderTodayButton']=false;
@@ -53,7 +53,7 @@ class afExtjsFieldDateTime extends afExtjsField
 				$this->attributes['url']=$attributes['url'];
 				break;
 			case "monthplus":
-				$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getExamplesDir().'datepickerplus/Ext.ux.datepickerplus.js'), 'css' => array($this->afExtjs->getExamplesDir().'datepickerplus/datepickerplus.css') ));
+				$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getPluginsDir().'datepickerplus/Ext.ux.datepickerplus.js'), 'css' => array($this->afExtjs->getPluginsDir().'datepickerplus/datepickerplus.css') ));
 				$this->attributes['xtype']='datefieldplus';
 				$this->attributes['width']='200';
 				$this->attributes['renderTodayButton']=false;
@@ -66,7 +66,7 @@ class afExtjsFieldDateTime extends afExtjsField
 				$this->attributes['url']=$attributes['url'];
 				break;
 			case "yearplus":
-				$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getExamplesDir().'yearpicker/Ext.YearPicker.js'), 'css' => array($this->afExtjs->getExamplesDir().'yearpicker/Ext.YearPicker.css') ));
+				$this->afExtjs->setAddons(array ( 'js' => array($this->afExtjs->getPluginsDir().'yearpicker/Ext.YearPicker.js'), 'css' => array($this->afExtjs->getPluginsDir().'yearpicker/Ext.YearPicker.css') ));
 				$this->attributes['xtype']='yearfield';
 				$this->attributes['width']='200';
 				$this->attributes['showToday']=false;

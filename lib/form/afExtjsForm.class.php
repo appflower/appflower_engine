@@ -35,7 +35,7 @@ class afExtjsForm
 			$this->attributes['id']=$attributes['idxml'];
 		}
 		
-		$this->afExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->afExtjs->getExamplesDir().'multiselect/multiselect.css'), 'js' => array($this->afExtjs->getExamplesDir().'multiselect/DDView.js',$this->afExtjs->getExamplesDir().'multiselect/MultiSelect.js',$this->afExtjs->getExamplesDir().'multiselect/ItemSelector.js',$this->afExtjs->getExamplesDir().'multiselect/Ext.ux.TreeItemSelector.js',$this->afExtjs->getExamplesDir().'tree/Ext.tree.TreeSerializer.js',$this->afExtjs->getExamplesDir().'form/Ext.ux.ClassicFormPanel.js',$this->afExtjs->getExamplesDir().'form/Ext.ux.form.ComboWButton.js') ));
+		$this->afExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->afExtjs->getPluginsDir().'multiselect/multiselect.css'), 'js' => array($this->afExtjs->getPluginsDir().'multiselect/DDView.js',$this->afExtjs->getPluginsDir().'multiselect/MultiSelect.js',$this->afExtjs->getPluginsDir().'multiselect/ItemSelector.js',$this->afExtjs->getPluginsDir().'multiselect/Ext.ux.TreeItemSelector.js',$this->afExtjs->getPluginsDir().'tree/Ext.tree.TreeSerializer.js',$this->afExtjs->getPluginsDir().'form/Ext.ux.ClassicFormPanel.js',$this->afExtjs->getPluginsDir().'form/Ext.ux.form.ComboWButton.js') ));
 
 		if(isset($attributes['action']))
 		{		
