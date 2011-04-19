@@ -36,21 +36,35 @@ class afExtjsAjaxLoadWidgets{
 		//Check for the widget load request
 		if($action->getRequestParameter("widget_load") && $action->getRequestParameter("widget_load") != "false"){	
 				
-			if(!$action->isPageComponent){		
+			if(!$action->isPageComponent){
+				$profiler = sfContext::getInstance()->get('profiler');
+				if ($profiler) {
+    				$profiler->sendHeaders();
+				}
 				sfConfig::set('app_parser_panels', array());
 				sfConfig::set('app_parser_skip_toolbar', true);
 				$w = new afExtjsAjaxLoadWidgets();				
 				echo $widgetLoadJson=='true'?json_encode($w->getSourceForCenterLoad()):print_r($w->getSourceForCenterLoad());
+				if ($profiler) {
+    				$profiler->collectFromContext();
+				}
 				exit;
 			}
 		}
 		elseif($action->getRequestParameter("widget_popup_request")){	
 				
 			if(!$action->isPageComponent){		
+				$profiler = sfContext::getInstance()->get('profiler');
+				if ($profiler) {
+    				$profiler->sendHeaders();
+				}
 				sfConfig::set('app_parser_panels', array());
 				sfConfig::set('app_parser_skip_toolbar', true);
 				$w = new afExtjsAjaxLoadWidgets();				
 				echo $widgetLoadJson=='true'?json_encode($w->getSourceForPopupLoad()):print_r($w->getSourceForPopupLoad());
+				if ($profiler) {
+    				$profiler->collectFromContext();
+				}
 				exit;
 			}
 		}
