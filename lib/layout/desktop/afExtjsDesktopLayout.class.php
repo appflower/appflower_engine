@@ -3,11 +3,26 @@
  * extJs desktop layout
  */
 class afExtjsDesktopLayout extends afExtjsLayout
-{
-	public function __construct($attributes=array())
+{	
+	public function start($attributes=array())
 	{
-		parent::__construct($attributes);
-		$this->afExtjs->setAddons(array ('css' => array(), 'js' => array()));
+		$this->afExtjs->setAddons(array ('css' => array($this->afExtjs->getPluginsDir().'desktop/css/desktop.css'), 'js' => array($this->afExtjs->getPluginsDir().'desktop/js/StartMenu.js',$this->afExtjs->getPluginsDir().'desktop/js/TaskBar.js',$this->afExtjs->getPluginsDir().'desktop/js/Desktop.js')));
+		
+		sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsDesktopStartMenu'));
+		
+		$this->addInitMethodSource("this.startConfig = startMenuConfig;this.desktop = new Ext.Desktop(this);");
+	}
+	
+	public function end()
+	{		
+		$this->addInitMethodSource("
+		setTimeout(function(){			
+			Ext.get('loading').remove();
+	        Ext.get('loading-mask').fadeOut({remove:true});
+	    }, 250);
+		");		
+		
+		parent::end();
 	}
 }
 ?>

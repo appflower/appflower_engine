@@ -64,13 +64,75 @@ Array.prototype.in_array = function (needle, argStrict) {
 
     return false;
 }
+afApp.windows = new Ext.WindowGroup();
+afApp.activeWindow;
+
+afApp.minimizeWin = function (win) {
+    win.minimized = true;
+    win.hide();
+}
+
+afApp.markActive = function (win) {
+    if (afApp.activeWindow && afApp.activeWindow != win) {
+        afApp.markInactive(afApp.activeWindow);
+    }
+    if(App.desktop)
+    {
+    	App.desktop.taskbar.setActiveButton(win.taskButton);
+    	Ext.fly(win.taskButton.el).addClass('active-win');
+    }
+    afApp.activeWindow = win;
+    win.minimized = false;
+}
+
+afApp.markInactive = function (win) {
+    if (win == afApp.activeWindow) {
+        afApp.activeWindow = null;
+        if(App.desktop)
+    	{
+        	Ext.fly(win.taskButton.el).removeClass('active-win');
+    	}
+    }
+}
+
+afApp.removeWin = function(win) {
+	if(App.desktop)
+    {
+    	App.desktop.taskbar.removeTaskButton(win.taskButton);
+    	afApp.layout();
+    }
+}
+
+afApp.layout = function() {
+	if(App.desktop)
+    {
+    	var desktopEl = Ext.get('x-desktop');
+    	var taskbarEl = Ext.get('ux-taskbar');
+    	
+    	desktopEl.setHeight(Ext.lib.Dom.getViewHeight() - taskbarEl.getHeight());
+    }
+}
+    
+//Ext.EventManager.onWindowResize(afApp.layout);
+
+afApp.getWindow = function(id) {
+    return afApp.windows.get(id);
+};
+
 /**
 * pack logic for window
 */
 afApp.pack = function(win,winConfig,Application){
 	var winConfig = winConfig || {};
 	Application = Application?Application : App; //App is default application for all Appflower apps
-	var viewport=Application.getViewport();
+	var viewport;//if viewport exist then use it, else use page's body
+	try{
+		viewport=Application.getViewport();
+	}
+	catch (e)
+	{
+		viewport = Ext.get("body");
+	}
 	win.on("show",function(win){
 		if(winConfig.applyTo) return;		
 		var childs = win.findBy(function(component,container){
@@ -106,9 +168,18 @@ afApp.pack = function(win,winConfig,Application){
 		});
 	});
 }
-afApp.executeAddons = function(addons,json,title,superClass,winConfig,Application){
+afApp.executeAddons = function(addons,json,title,superClass,winConfig,Application,widget){
 	Application = Application?Application : App; //App is default application for all Appflower apps
-	var viewport=Application.getViewport();
+	var maskEl; //used as maskElement, if viewport exist then use center, else use page's body
+	try{
+		var viewport=Application.getViewport();
+		maskEl = viewport.layout.center.panel.getEl();
+	}
+	catch (e)
+	{
+		maskEl = Ext.get("body");
+	}
+	
 	var counter = 0;
 	var backup = new Array();
 	var finish;
@@ -119,7 +190,7 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 		}
 		//mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.",removeMask:true});
 		//mask.show();		
-		afApp.loadingProgress(viewport.layout.center.panel.getEl(),(counter+1)/addons.length);
+		afApp.loadingProgress(maskEl,(counter+1)/addons.length);
 		var nextAddon=addons[counter++];
 		
 		afApp.createAddon(nextAddon,false,load);
@@ -129,11 +200,14 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 				backupForms();
 				eval(json.source);								
 				Ext.applyIf(winConfig, {
+					id: widget,
 					autoScroll : true,
+					minimizable: true,
 					maximizable : true,
 					draggable:true,					
 					closeAction:'hide',
-					
+					manager: afApp.windows, // general popup windows manager
+										
 					items : new Ext.Panel( {
 						frame : winConfig.applyTo?false:true,	
 						width:"auto",
@@ -152,18 +226,54 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 				}
 				if(title) win.setTitle(title);
 				
+				//win.dd.xTickSize = 1;
+		        //win.dd.yTickSize = 1;
+		        if (win.resizer) {
+		            win.resizer.widthIncrement = 1;
+		            win.resizer.heightIncrement = 1;
+		        }
+				
+				if(App.desktop)
+		        {
+		        	win.taskButton = App.desktop.taskbar.addTaskButton(win);
+		        	win.animateTarget = win.taskButton.el;
+		        }
+				
+				win.on({
+		            'activate': {
+		                fn: afApp.markActive
+		            },
+		            'beforeshow': {
+		                fn: afApp.markActive
+		            },
+		            'deactivate': {
+		                fn: afApp.markInactive
+		            },
+		            'minimize': {
+		                fn: afApp.minimizeWin
+		            },
+		            'close': {
+		                fn: afApp.removeWin
+		            },
+		            'resize': {
+		            	fn: function(){console.log('x');}
+		            }
+		        });
+				
+		        //afApp.layout();
+		        
 				if(win.doLayout) win.doLayout()
 				if(win.show) win.show();
 				
 				/* window resize, pack and onmove adjustments */
 				afApp.pack(win,winConfig,Application);
-				
+								
 				if(win.doLayout) win.doLayout()
 				if(win.show) win.show();				
 				if(win.center) win.center();
 				win.on("render",function(win){eval(json.public_source);},null,{single:true});
 				
-				afApp.loadingProgress(viewport.layout.center.panel.getEl(),1);
+				afApp.loadingProgress(maskEl,1);
 				//mask.hide();			
 				
 				win.on("hide",function(){	
@@ -171,7 +281,7 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 					win.destroy();
 					win.close();
 					restoreBackup();
-				})
+				});		        
 	};
 
 	function restoreBackup(){
@@ -256,8 +366,16 @@ afApp.createAddon = function(filename, filetype, callback) {
 }
 afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
 	Application = Application?Application : App; //App is default application for all Appflower apps
-	var viewport=Application.getViewport();
-			
+	var maskEl; //used as maskElement, if viewport exist then use center, else use page's body
+	try{
+		var viewport=Application.getViewport();
+		maskEl = viewport.layout.center.panel.getEl();
+	}
+	catch (e)
+	{
+		maskEl = Ext.get("body");
+	}
+	
 	if(!winConfig)
 	{
 		var winConfig = {};
@@ -280,51 +398,62 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
 	
 	//var mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Opening widget</b> <br>Please Wait...",removeMask:true});	
 	//mask.show();
-	afApp.initLoadingProgress(viewport.layout.center.panel.getEl());
-	var ajax = Ext.Ajax.request( {
-		url : afApp.urlPrefix + widget,
-		method : "GET",		
-		success : function(r) {
-			var json = Ext.util.JSON.decode(r.responseText);
-			
-			if(json.redirect&&json.message&&json.load)
-			{
+		
+	var win = afApp.getWindow(widget);
+	if(win)
+	{
+		win.show();
+	}
+	else {
+		
+		afApp.initLoadingProgress(maskEl);
+	
+		var ajax = Ext.Ajax.request({
+			url : afApp.urlPrefix + widget,
+			method : "GET",		
+			success : function(r) {
+				var json = Ext.util.JSON.decode(r.responseText);
+				
+				if(json.redirect&&json.message&&json.load)
+				{
+					//mask.hide();
+					
+					Ext.Msg.alert("Failure", json.message, function(){afApp.load(json.redirect,json.load);});
+				}
+				else
+				{			
+					var total_addons = new Array();
+					
+					if(json.addons && json.addons.js)
+					{
+						for ( var i = 0; i < json.addons.js.length; i++) {
+							var addon = json.addons.js[i];
+							if(!in_array(addon,GLOBAL_JS_VAR)){
+								if(addon != null)
+								total_addons.push(addon);			
+							}
+						}
+					}
+					if(json.addons && json.addons.css)
+					{
+						for ( var i = 0; i < json.addons.css.length; i++) {
+							var addon = json.addons.css[i];
+							if(!in_array(addon,GLOBAL_CSS_VAR)){
+								if(addon != null)
+								total_addons.push(addon);
+							}
+						}
+					}
+					afApp.executeAddons(total_addons,json,title,superClass,winConfig,Application,widget);		
+				}
 				//mask.hide();
-				
-				Ext.Msg.alert("Failure", json.message, function(){afApp.load(json.redirect,json.load);});
+			},
+			params : {
+				widget_popup_request : true
 			}
-			else
-			{			
-				var total_addons = new Array();
-				
-				if(json.addons && json.addons.js)
-				{
-					for ( var i = 0; i < json.addons.js.length; i++) {
-						var addon = json.addons.js[i];
-						if(!in_array(addon,GLOBAL_JS_VAR)){
-							if(addon != null)
-							total_addons.push(addon);			
-						}
-					}
-				}
-				if(json.addons && json.addons.css)
-				{
-					for ( var i = 0; i < json.addons.css.length; i++) {
-						var addon = json.addons.css[i];
-						if(!in_array(addon,GLOBAL_CSS_VAR)){
-							if(addon != null)
-							total_addons.push(addon);
-						}
-					}
-				}
-				afApp.executeAddons(total_addons,json,title,superClass,winConfig,Application);		
-			}
-			//mask.hide();
-		},
-		params : {
-			widget_popup_request : true
-		}
-	});
+		});
+	
+	}
 }
 
 // <a/> tags with widgetLoad CSS class will be loaded inside the center panel.

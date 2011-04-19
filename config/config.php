@@ -146,7 +146,9 @@ sfConfig::set('sf_extjs2_classes',
     'AsyncTreeNode'           => 'Ext.tree.AsyncTreeNode',
     // base
     'Observable'              => 'Ext.util.Observable',
-    'DataView'				  => 'Ext.DataView'
+    'DataView'				  => 'Ext.DataView',
+    //Desktop
+    'StartMenu'				  => 'Ext.ux.StartMenu'
   )
 );
 #
@@ -614,6 +616,13 @@ sfConfig::set('Ext.DataView',
 sfConfig::set('Ext.ux.GMapPanel',
   array(
     'class'       => 'Ext.ux.GMapPanel',
+    'attributes'  => array()
+  )
+);
+
+sfConfig::set('Ext.ux.StartMenu',
+  array(
+    'class'       => 'Ext.ux.StartMenu',
     'attributes'  => array()
   )
 );
