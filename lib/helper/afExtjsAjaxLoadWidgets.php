@@ -37,7 +37,8 @@ class afExtjsAjaxLoadWidgets{
 		if($action->getRequestParameter("widget_load") && $action->getRequestParameter("widget_load") != "false"){	
 				
 			if(!$action->isPageComponent){
-				$profiler = sfContext::getInstance()->get('profiler');
+                                $context = sfContext::getInstance();
+				$profiler = $context->has('profiler') ? $context->get('profiler') : null;
 				if ($profiler) {
     				$profiler->sendHeaders();
 				}
@@ -54,7 +55,8 @@ class afExtjsAjaxLoadWidgets{
 		elseif($action->getRequestParameter("widget_popup_request")){	
 				
 			if(!$action->isPageComponent){		
-				$profiler = sfContext::getInstance()->get('profiler');
+                                $context = sfContext::getInstance();
+				$profiler = $context->has('profiler') ? $context->get('profiler') : null;
 				if ($profiler) {
     				$profiler->sendHeaders();
 				}
