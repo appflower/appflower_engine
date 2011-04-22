@@ -64,10 +64,32 @@ Array.prototype.in_array = function (needle, argStrict) {
 
     return false;
 }
+/*
+* Works only with App build in layout for real AF project
+* @return boolean
+*/
+afApp.hasDesktop = function ()
+{
+	var has=false;
+	
+	try{
+		if(App&&App.desktop) has=true;
+	}
+	catch (e)
+	{
+		has=false;
+	}
+
+	return has;
+}();
+/*
+* Popup windows manager
+*/
 afApp.windows = new Ext.WindowGroup();
 afApp.activeWindow;
 
 afApp.minimizeWin = function (win) {
+	console.log(win);
     win.minimized = true;
     win.hide();
 }
@@ -76,7 +98,7 @@ afApp.markActive = function (win) {
     if (afApp.activeWindow && afApp.activeWindow != win) {
         afApp.markInactive(afApp.activeWindow);
     }
-    if(App.desktop)
+    if(afApp.hasDesktop)
     {
     	App.desktop.taskbar.setActiveButton(win.taskButton);
     	Ext.fly(win.taskButton.el).addClass('active-win');
@@ -85,10 +107,10 @@ afApp.markActive = function (win) {
     win.minimized = false;
 }
 
-afApp.markInactive = function (win) {
+afApp.markInactive = function (win,Application) {
     if (win == afApp.activeWindow) {
         afApp.activeWindow = null;
-        if(App.desktop)
+        if(afApp.hasDesktop)
     	{
         	Ext.fly(win.taskButton.el).removeClass('active-win');
     	}
@@ -96,7 +118,7 @@ afApp.markInactive = function (win) {
 }
 
 afApp.removeWin = function(win) {
-	if(App.desktop)
+	if(afApp.hasDesktop)
     {
     	App.desktop.taskbar.removeTaskButton(win.taskButton);
     	afApp.layout();
@@ -104,7 +126,7 @@ afApp.removeWin = function(win) {
 }
 
 afApp.layout = function() {
-	if(App.desktop)
+	if(afApp.hasDesktop)
     {
     	var desktopEl = Ext.get('x-desktop');
     	var taskbarEl = Ext.get('ux-taskbar');
@@ -116,6 +138,7 @@ afApp.layout = function() {
 //Ext.EventManager.onWindowResize(afApp.layout);
 
 afApp.getWindow = function(id) {
+	console.log(id);
     return afApp.windows.get(id);
 };
 
@@ -197,7 +220,7 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 	};
 
 	finish = function(){
-				backupForms();
+				//backupForms();
 				eval(json.source);								
 				Ext.applyIf(winConfig, {
 					id: widget,
@@ -233,9 +256,9 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 		            win.resizer.heightIncrement = 1;
 		        }
 				
-				if(App.desktop)
+				if(afApp.hasDesktop)
 		        {
-		        	win.taskButton = App.desktop.taskbar.addTaskButton(win);
+		        	win.taskButton = Application.desktop.taskbar.addTaskButton(win);
 		        	win.animateTarget = win.taskButton.el;
 		        }
 				
@@ -256,7 +279,7 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 		                fn: afApp.removeWin
 		            },
 		            'resize': {
-		            	fn: function(){console.log('x');}
+		            	fn: function(){/*console.log('x');*/}
 		            }
 		        });
 				
@@ -278,13 +301,13 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 				
 				win.on("hide",function(){	
 					if(superClass)superClass.onHide(win);									
-					win.destroy();
-					win.close();
-					restoreBackup();
+					//win.destroy();
+					//win.close();
+					//restoreBackup();
 				});		        
 	};
 
-	function restoreBackup(){
+	/*function restoreBackup(){
 		for(id in backup){
 			var el = document.getElementById(id);
 			if(el){
@@ -318,7 +341,7 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 			}
 		}
 		
-	}
+	}*/
 
 	load();
 }
@@ -400,6 +423,7 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
 	//mask.show();
 		
 	var win = afApp.getWindow(widget);
+	console.log(win);
 	if(win)
 	{
 		win.show();
