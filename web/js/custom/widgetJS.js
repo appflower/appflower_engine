@@ -671,6 +671,8 @@ afApp.logTime = function (msg) {
 }
 /*
 * reloads the grids data inside a portal page
+*
+* example of usage: afApp.reloadGridsData(['ticket/list','module/action',etc..]);
 */
 afApp.reloadGridsData = function (idXmls)
 {	
