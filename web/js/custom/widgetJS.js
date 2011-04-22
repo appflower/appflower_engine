@@ -89,8 +89,7 @@ afApp.windows = new Ext.WindowGroup();
 afApp.activeWindow;
 
 afApp.minimizeWin = function (win) {
-	console.log(win);
-    win.minimized = true;
+	win.minimized = true;
     win.hide();
 }
 
@@ -138,8 +137,7 @@ afApp.layout = function() {
 //Ext.EventManager.onWindowResize(afApp.layout);
 
 afApp.getWindow = function(id) {
-	console.log(id);
-    return afApp.windows.get(id);
+	return afApp.windows.get(id);
 };
 
 /**
@@ -423,7 +421,6 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
 	//mask.show();
 		
 	var win = afApp.getWindow(widget);
-	console.log(win);
 	if(win)
 	{
 		win.show();
@@ -561,7 +558,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		panel.doLayout();
 		//if (window.console) { console.timeEnd('doLayout'); }
 		afApp.loadingProgress(viewport.layout.center.panel.getEl(),1);	
-		mask.hide();
+		//mask.hide();
 	};
 	
 	load();
