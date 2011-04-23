@@ -4471,8 +4471,9 @@ if(response.message) {
 		$limit = ArrayUtil::get($parse, 'params', 'maxperpage',
 			afDataFacade::DEFAULT_PROXY_LIMIT);
 
-		$proxyUrl = afExecutionFilter::getListjsonUrl(
-			afExtjsWidgets::getWidgetUrl($parse));
+		$proxyUrl = UrlUtil::getListjsonUrl(
+			afExtjsWidgets::getWidgetUrl($parse)
+        );
 		$customProxyUrl = ArrayUtil::get($parse, 'proxy', $proxyUrl);
 		if($customProxyUrl !== 'parser/listjson') {
 			$proxyUrl = $customProxyUrl;

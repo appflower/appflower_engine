@@ -114,4 +114,9 @@ class UrlUtil {
     {
     	return ($absolute?sfContext::getInstance()->getRequest()->getUriPrefix():'').sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/'.sfConfig::get('app_appflower_sharpPrefix').'#'.$url;
     }
+
+    public static function getListjsonUrl($actionUrl) {
+        return UrlUtil::abs($actionUrl.'?af_format=json');
+    }
+
 }

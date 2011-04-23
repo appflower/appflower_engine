@@ -92,10 +92,6 @@ class afExecutionFilter extends sfExecutionFilter {
         return !!$format;
     }
 
-    public static function getListjsonUrl($actionUrl) {
-        return UrlUtil::abs($actionUrl.'?af_format=json');
-    }
-
     /**
      * All AppFlower actions should be rendered by AJAX widget load.
      * Otherwise, it is assumed that it is a request for
