@@ -6,10 +6,10 @@
  */
 class afExecutionFilter extends sfExecutionFilter {
 
-    protected function executeAction($actionInstance) {   	
-    	if(self::isExportRequest($actionInstance)) {
+    protected function executeAction($actionInstance) {
+    	if($this->isExportRequest($actionInstance)) {
             $actionInstance->isPageComponent = true;
-        } elseif(self::isFirstPageRequest($actionInstance)) {
+        } elseif($this->isFirstPageRequest($actionInstance)) {
             $request = $actionInstance->getRequest();
             if($request->getAttribute('af_first_page_request') !== true) {
                 $request->setAttribute('af_first_page_request', true);
@@ -22,7 +22,7 @@ class afExecutionFilter extends sfExecutionFilter {
         $actionInstance->postExecute();
         
         $viewName = is_null($viewName) ? sfView::SUCCESS : $viewName;
-        $viewName = self::interpretView($actionInstance, $viewName);
+        $viewName = $this->interpretView($actionInstance, $viewName);
         return is_null($viewName) ? sfView::SUCCESS : $viewName;
     }
 
@@ -30,7 +30,7 @@ class afExecutionFilter extends sfExecutionFilter {
      * Recognizes if the viewName is a JSON array
      * or an XML config view.
      */
-    private static function interpretView($actionInstance, $viewName) {
+    protected function interpretView($actionInstance, $viewName) {
         if(is_array($viewName)) {
             return $actionInstance->renderText(json_encode($viewName));
         }
@@ -39,7 +39,7 @@ class afExecutionFilter extends sfExecutionFilter {
             return $viewName;
         }
 
-        if(self::isExportRequest($actionInstance)) {
+        if($this->isExportRequest($actionInstance)) {
             return afRenderingRouter::render(
                 $actionInstance->getRequest(),
                 $actionInstance->getModuleName(),
@@ -47,16 +47,16 @@ class afExecutionFilter extends sfExecutionFilter {
                 $actionInstance->getVarHolder()->getAll());
         }
 
-        return self::layoutExtIfNeeded($actionInstance);
+        return $this->layoutExtIfNeeded($actionInstance);
     }
 
-    private static function layoutExtIfNeeded($actionInstance) {
+    protected function layoutExtIfNeeded($actionInstance) {
         $viewName = sfView::SUCCESS;
         if(XmlParser::isLayoutStarted()) {
             return $viewName;
         }
 
-        if(self::isAppFlowerAction($actionInstance)) {
+        if($this->isAppFlowerAction($actionInstance)) {
         	$viewName = XmlParser::layoutExt($actionInstance);
         }
 
@@ -66,7 +66,7 @@ class afExecutionFilter extends sfExecutionFilter {
     /**
      * Returns true for actions with XML config.
      */
-    private static function isAppFlowerAction($actionInstance) {
+    protected function isAppFlowerAction($actionInstance) {
         $afCU = new afConfigUtils($actionInstance->getModuleName());
         return $afCU->getConfigFilePath($actionInstance->getActionName().".xml");
     }
@@ -75,7 +75,7 @@ class afExecutionFilter extends sfExecutionFilter {
      * Returns true if the given action could be loaded with widget_load.
      * Wizards do not support that. They want to be displayed without menus.
      */
-    private static function isWidgetAction($actionInstance) {
+    protected function isWidgetAction($actionInstance) {
         $module = $actionInstance->getModuleName();
         $action = $actionInstance->getActionName();
         $doc = afConfigUtils::getOptionalDoc($module, $action);
@@ -87,7 +87,7 @@ class afExecutionFilter extends sfExecutionFilter {
         return $view->get('@type') !== 'wizard';
     }
 
-    private static function isExportRequest($actionInstance) {
+    protected function isExportRequest($actionInstance) {
         $format = $actionInstance->getRequestParameter('af_format');
         return !!$format;
     }
@@ -101,10 +101,10 @@ class afExecutionFilter extends sfExecutionFilter {
      * The browser isn't sending the fragment to the server.
      * So the first page is rendered instead.
      */
-    private static function isFirstPageRequest($actionInstance) {
+    protected function isFirstPageRequest($actionInstance) {
         return ($actionInstance->getRequest()->isMethod('GET') &&
             !$actionInstance->getRequest()->isXmlHttpRequest() &&
             !afExtjsAjaxLoadWidgets::isWidgetRequest() &&
-            self::isWidgetAction($actionInstance));
+            $this->isWidgetAction($actionInstance));
     }
 }
