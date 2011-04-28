@@ -7,6 +7,7 @@ Ext.ux.Notification = function(config){
 }
 Ext.ux.Notification = Ext.extend(Ext.Window, {
 	notificationType:'ERROR',
+	heightPlus:0,
 	initComponent : function(){
 		Ext.apply(this, {
 			//iconCls: this.iconCls || 'icon-notification-info',
@@ -66,6 +67,8 @@ Ext.ux.Notification = Ext.extend(Ext.Window, {
 		Ext.ux.NotificationMgr.positions.push(this.pos);		
 		Ext.ux.NotificationMgr.heights[this.pos] = this.getSize().height+10;
 		
+		h=h+this.heightPlus;
+		
 		this.el.alignTo(this.animateTarget || document, "br-tr", [ -1, -1-(h) ]);
 		this.el.slideIn('b', {
 			duration: .7
@@ -91,7 +94,7 @@ Ext.ux.Notification.Base = Ext.extend(Ext.util.Observable,{
 	showNotification:  function(config) {
 	    var win = new Ext.ux.Notification(Ext.apply({
 	    	animateTarget: this.notificationEl
-			, autoDestroy: false					
+			,autoDestroy: false					
 			,notificationType:'ERROR'
 	    }, config));
 	    if(win.notificationType == "ERROR"){
@@ -115,12 +118,13 @@ Ext.ux.Notification.Base = Ext.extend(Ext.util.Observable,{
 	    	win.close.defer(delay || 3000, win);
 	    }
 	},
-	growl: function(TITLE,MESSAGE,TYPE,DURATION){			
+	growl: function(TITLE,MESSAGE,TYPE,DURATION,HEIGHTPLUS){			
 		var n = this.showNotification({
 			width:300,	
 			notificationType:TYPE,
 			title:TITLE,
-			html:MESSAGE
+			html:MESSAGE,
+			heightPlus:HEIGHTPLUS
 		});
 		this.hideNotification(n, DURATION*1000);			
 	}
@@ -131,7 +135,9 @@ Ext.ux.InstantNotification = Ext.extend(Ext.ux.Notification.Base,{
 		this.notificationEl = Ext.get("growl-notification-el")?Ext.get("growl-notification-el"):Ext.DomHelper.append(Ext.getBody(),{tag:'div',id:'growl-notification-el',style:'width:300px;position:absolute;bottom:0;right:0'});
 		config.type = config.type || "INFO";
 		config.duration = config.duration || 10;
-		this.growl(config.title,config.message,config.type,config.duration);
+		config.heightPlus = config.heightPlus || 0;
+		
+		this.growl(config.title,config.message,config.type,config.duration,config.heightPlus);
 	}
 });
 

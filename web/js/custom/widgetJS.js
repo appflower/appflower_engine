@@ -815,30 +815,47 @@ afApp.changeTabHash = function(tab)
 }
 /**
 * load first request made to browser directly
+*
+* @param hasDesktop - tells if App will load desktop template
 */
-afApp.loadFirst = function()
+afApp.loadFirst = function(hasDesktop)
 {
+	hasDesktop = hasDesktop || false;
+	
 	var uri=document.location.href.split('#');
 	uri[1]=uri[1] || '/';
 	uri[2]=uri[2]?'#'+uri[2]:'';
 	
 	var firstUri=uri[1]+uri[2];
 	
-	//load the toolbar inside the north panel, after rendering of layout, because of QuickTips bug
-	var north = App.getNorth();
-	var toolbar = App.getToolbar();
-
-	north.add(toolbar);
-	north.doLayout();
+	if(!hasDesktop)
+	{
+		//load the toolbar inside the north panel, after rendering of layout, because of QuickTips bug
+		var north = App.getNorth();
+		var toolbar = App.getToolbar();
 	
-	afApp.loadCenterWidget(firstUri);
-	
+		north.add(toolbar);
+		north.doLayout();
+		
+		afApp.loadCenterWidget(firstUri);
+	}
+	else
+	{
+		afApp.widgetPopup(firstUri);
+	}
 	/**
 	* checking if firebug is on
 	*/
 	if(Boolean(window.console&&window.console.firebug))
 	{
-		new Ext.ux.InstantNotification({title: 'Firebug is on :(', message: 'If you would like to have a better experience with our products, please disable <b style="color:red;">Firebug</b>. You can do this using this shortcut: <b>SHIFT+F12</b>.<br><br>Thank you,<br>AppFlower Team', type: 'ERROR', duration: 20});
+		var config = {title: 'Firebug is on :(', message: 'If you would like to have a better experience with our products, please disable <b style="color:red;">Firebug</b>. You can do this using this shortcut: <b>SHIFT+F12</b>.<br><br>Thank you,<br>AppFlower Team', type: 'ERROR', duration: 20};	
+	
+		if(hasDesktop)
+		{
+			config.heightPlus = 30;
+		}
+		
+		new Ext.ux.InstantNotification(config);
 	}
 }
 

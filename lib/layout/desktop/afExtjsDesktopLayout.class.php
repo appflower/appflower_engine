@@ -19,6 +19,8 @@ class afExtjsDesktopLayout extends afExtjsLayout
 		setTimeout(function(){			
 			Ext.get('loading').remove();
 	        Ext.get('loading-mask').fadeOut({remove:true});
+	        
+	        afApp.loadFirst(true);
 	    }, 250);
 		");		
 		
