@@ -97,7 +97,7 @@ afApp.markActive = function (win) {
     if (afApp.activeWindow && afApp.activeWindow != win) {
         afApp.markInactive(afApp.activeWindow);
     }
-    if(afApp.hasDesktop)
+    if(afApp.hasDesktop())
     {
     	App.desktop.taskbar.setActiveButton(win.taskButton);
     	Ext.fly(win.taskButton.el).addClass('active-win');
@@ -109,7 +109,7 @@ afApp.markActive = function (win) {
 afApp.markInactive = function (win,Application) {
     if (win == afApp.activeWindow) {
         afApp.activeWindow = null;
-        if(afApp.hasDesktop)
+        if(afApp.hasDesktop())
     	{
         	Ext.fly(win.taskButton.el).removeClass('active-win');
     	}
@@ -117,7 +117,7 @@ afApp.markInactive = function (win,Application) {
 }
 
 afApp.removeWin = function(win) {
-	if(afApp.hasDesktop)
+	if(afApp.hasDesktop())
     {
     	App.desktop.taskbar.removeTaskButton(win.taskButton);
     	afApp.layout();
@@ -125,7 +125,7 @@ afApp.removeWin = function(win) {
 }
 
 afApp.layout = function() {
-	if(afApp.hasDesktop)
+	if(afApp.hasDesktop())
     {
     	var desktopEl = Ext.get('x-desktop');
     	var taskbarEl = Ext.get('ux-taskbar');
@@ -254,7 +254,7 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 		            win.resizer.heightIncrement = 1;
 		        }
 				
-				if(afApp.hasDesktop)
+				if(afApp.hasDesktop())
 		        {
 		        	win.taskButton = Application.desktop.taskbar.addTaskButton(win);
 		        	win.animateTarget = win.taskButton.el;
@@ -871,7 +871,7 @@ Ext.History.on('change', function(token){
 	{
 		var tokenS=token.split('#');
 		
-		if(!afApp.hasDesktop)
+		if(!afApp.hasDesktop())
 		{
 			if(afApp.currentCenterWidget!=tokenS[0])
 			{
