@@ -299,8 +299,8 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 				
 				win.on("hide",function(){	
 					if(superClass)superClass.onHide(win);									
-					win.destroy();
-					win.close();
+					//win.destroy();
+					//win.close();
 					//restoreBackup();
 				});		        
 	};

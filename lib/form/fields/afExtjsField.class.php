@@ -51,8 +51,6 @@ class afExtjsField
 			$this->attributes['name']=$attributes['name'];
 		}
 				
-		$this->attributes['id']=$this->privateName;
-		
 		if(isset($attributes['label']))
 		{
 			$this->attributes['fieldLabel']=$attributes['label'];
@@ -124,6 +122,11 @@ class afExtjsField
 	
 	public function end()
 	{
+		/**
+		 * this is really needed when multiple popups contain same form, now all fields in a loaded form have unique id
+		 */
+		$this->attributes['id']=$this->privateName;
+		
 		if(isset($this->attributes['listeners'])&&count($this->attributes['listeners'])>0)
 		{
 			foreach ($this->attributes['listeners'] as $type=>$type_params)
