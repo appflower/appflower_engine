@@ -81,7 +81,7 @@ afApp.hasDesktop = function ()
 	}
 
 	return has;
-}();
+};
 /*
 * Popup windows manager
 */
@@ -871,18 +871,25 @@ Ext.History.on('change', function(token){
 	{
 		var tokenS=token.split('#');
 		
-		if(afApp.currentCenterWidget!=tokenS[0])
+		if(!afApp.hasDesktop)
 		{
-			afApp.loadCenterWidget(token);
-		}
-		//this means that the center contains tabs
-		else if(tokenS[1]){
-			var viewport=App.getViewport();
-			var tabPanel=viewport.layout.center.panel.items.items[0].items.items[0];
-			if(tabPanel.getXType()=='tabpanel')
+			if(afApp.currentCenterWidget!=tokenS[0])
 			{
-				new Portals().onTabChange(tabPanel, tokenS);
+				afApp.loadCenterWidget(token);
 			}
+			//this means that the center contains tabs
+			else if(tokenS[1]){
+				var viewport=App.getViewport();
+				var tabPanel=viewport.layout.center.panel.items.items[0].items.items[0];
+				if(tabPanel.getXType()=='tabpanel')
+				{
+					new Portals().onTabChange(tabPanel, tokenS);
+				}
+			}
+		}
+		else
+		{
+			afApp.widgetPopup(token);
 		}
 	}
 });
