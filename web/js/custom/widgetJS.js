@@ -94,6 +94,7 @@ afApp.minimizeWin = function (win) {
 }
 
 afApp.markActive = function (win) {
+	var widget = win.id;
     if (afApp.activeWindow && afApp.activeWindow != win) {
         afApp.markInactive(afApp.activeWindow);
     }
@@ -101,6 +102,11 @@ afApp.markActive = function (win) {
     {
     	App.desktop.taskbar.setActiveButton(win.taskButton);
     	Ext.fly(win.taskButton.el).addClass('active-win');
+    	
+    	if(Ext.History.getToken()!=widget)
+		{
+			Ext.History.add(widget);
+		}
     }
     afApp.activeWindow = win;
     win.minimized = false;
@@ -209,8 +215,6 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 			finish();
 			return;
 		}
-		//mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.",removeMask:true});
-		//mask.show();		
 		afApp.loadingProgress(maskEl,(counter+1)/addons.length);
 		var nextAddon=addons[counter++];
 		
@@ -295,7 +299,6 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 				win.on("render",function(win){eval(json.public_source);},null,{single:true});
 				
 				afApp.loadingProgress(maskEl,1);
-				//mask.hide();			
 				
 				win.on("hide",function(){	
 					if(superClass)superClass.onHide(win);									
@@ -417,9 +420,14 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
 		}return widget;
 	}
 	
-	//var mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Opening widget</b> <br>Please Wait...",removeMask:true});	
-	//mask.show();
-		
+	afApp.currentWidget = widget;
+	afApp.observable.fireEvent('beforeload', widget);
+	
+	if(afApp.hasDesktop()&&Ext.History.getToken()!=widget)
+	{
+		Ext.History.add(widget);
+	}					
+			
 	var win = afApp.getWindow(widget);
 	if(win)
 	{
@@ -437,8 +445,6 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
 				
 				if(json.redirect&&json.message&&json.load)
 				{
-					//mask.hide();
-					
 					Ext.Msg.alert("Failure", json.message, function(){afApp.load(json.redirect,json.load);});
 				}
 				else
@@ -467,7 +473,6 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
 					}
 					afApp.executeAddons(total_addons,json,title,superClass,winConfig,Application,widget);		
 				}
-				//mask.hide();
 			},
 			params : {
 				widget_popup_request : true
@@ -521,7 +526,7 @@ afApp.loadingProgress = function(el,percent){
 	if(percent >= 1) {el.unmask();setTimeout(function(){pb.hide();},500)}
 }
 
-afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
+afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json){
 	var pb;
 	var counter = 0;
 	var finish;
@@ -536,8 +541,6 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		}else{
 			pb = Ext.getCmp('progress-bar');
 		}
-		//mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading additional addons.....</b> <br>Please wait..<br>"+(counter+1)+" of "+addons.length+" addon(s) are loaded.<span id='progress-bar'></span>",removeMask:true});
-		//mask.show();
 		afApp.loadingProgress(viewport.layout.center.panel.getEl(),(counter+1)/addons.length);
 		var nextAddon=addons[counter++];
 			
@@ -557,8 +560,7 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json,mask){
 		//if (window.console) { console.time('doLayout'); }
 		panel.doLayout();
 		//if (window.console) { console.timeEnd('doLayout'); }
-		afApp.loadingProgress(viewport.layout.center.panel.getEl(),1);	
-		//mask.hide();
+		afApp.loadingProgress(viewport.layout.center.panel.getEl(),1);
 	};
 	
 	load();
@@ -569,13 +571,11 @@ afApp.loadCenterWidget = function(widget) {
 	var uri=widget.split('#');
 	uri[0]=uri[0] || '/';
 		
-	afApp.currentCenterWidget = uri[0];
+	afApp.currentWidget = uri[0];
 	afApp.observable.fireEvent('beforeload', uri[0]);
 	
 	var futureTab=uri[1]?'#'+uri[1]:'';
 	var viewport=App.getViewport();
-	var mask = new Ext.LoadMask(viewport.layout.center.panel.getEl(), {msg: "<b>Loading</b> <br>Please Wait...",removeMask:true});
-	//mask.show();
 	afApp.initLoadingProgress(viewport.layout.center.panel.getEl());
 	var ajax = Ext.Ajax.request( {
 		url : afApp.urlPrefix+uri[0],
@@ -588,7 +588,6 @@ afApp.loadCenterWidget = function(widget) {
 			var futureHash=uri[0]+futureTab;
 			var currentHash=document.location.href.replace(document.location.protocol+'//'+document.location.host+'/#','');			
 			if(json.success === false) {
-				mask.hide();
 				Ext.Msg.alert('Failure', json.message);
 				return;
 			}
@@ -596,7 +595,6 @@ afApp.loadCenterWidget = function(widget) {
 			if(json.redirect)
 			{
 				afApp.loadingProgress(viewport.layout.center.panel.getEl(),1);
-				mask.hide();
 												
 				if(json.message)
 				{
@@ -638,7 +636,7 @@ afApp.loadCenterWidget = function(widget) {
 				Ext.Ajax.extraParams = Ext.Ajax.extraParams || {};
 				Ext.Ajax.extraParams['af_referer'] = futureHash;
 				
-				afApp.executeAddonsLoadCenterWidget(viewport,total_addons,json,mask);	
+				afApp.executeAddonsLoadCenterWidget(viewport,total_addons,json);	
 			}				
 			
 			if(json.executeAfter)
@@ -647,7 +645,6 @@ afApp.loadCenterWidget = function(widget) {
 			}
 		},
 		failure : function(response) {
-			mask.hide();
 			var msg =  'Unable to load the content: ' +
 				response.status + ' ' + response.statusText;
 			Ext.Msg.alert('Failure', msg);
@@ -738,12 +735,19 @@ afApp.load = function (location, load, target, winProp)
 												
 				//Ext History, also loads center widget if last loken is different from current one
 				if(Ext.History.getToken()!=location)
-				{
+				{					
 					Ext.History.add(location);
 				}
 				else
 				{
-					afApp.loadCenterWidget(location);
+					if(!afApp.hasDesktop())
+					{
+						afApp.loadCenterWidget(location);
+					}
+					else
+					{
+						afApp.widgetPopup(location);
+					}
 				}
 			    break;
 		}
@@ -873,7 +877,7 @@ Ext.History.on('change', function(token){
 		
 		if(!afApp.hasDesktop())
 		{
-			if(afApp.currentCenterWidget!=tokenS[0])
+			if(afApp.currentWidget!=tokenS[0])
 			{
 				afApp.loadCenterWidget(token);
 			}
@@ -889,7 +893,10 @@ Ext.History.on('change', function(token){
 		}
 		else
 		{
-			afApp.widgetPopup(token);
+			if(afApp.currentWidget!=tokenS[0])
+			{
+				afApp.widgetPopup(token);
+			}
 		}
 	}
 });
@@ -933,6 +940,6 @@ afApp.loadWestWidget = function(widget)
 		}
 	}
 }
-//used to set/get current widget in center content
-afApp.currentCenterWidget = false;
+//used to set/get current loaded widget
+afApp.currentWidget = false;
 afApp.observable = new Ext.util.Observable();
