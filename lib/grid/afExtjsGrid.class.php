@@ -750,8 +750,6 @@ class afExtjsGrid
 		}
 		$this->addMenuActions();
 		
-		$this->attributes['frame']=true;
-		
 		if(!$this->attributes['tree'])
 		{
 			$this->afExtjs->private[$this->privateName]=$this->afExtjs->GridPanel($this->attributes);
