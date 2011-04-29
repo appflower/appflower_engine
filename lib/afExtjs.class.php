@@ -8,7 +8,7 @@ sfProjectConfiguration::getActive()->loadHelpers(array('sfExtjs2'));
 class afExtjs extends sfExtjs2Plugin
 {
   static public $instance = null;
-  public $private,$public;
+  public $private,$public,$privateAttributes;
   
   public static function getInstance()
   {

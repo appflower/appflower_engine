@@ -43,7 +43,8 @@ class afExtjsPanelLayout extends afExtjsViewportLayout
 			$attributes['plugins'][] = 'new Ext.ux.MaximizeTool()';
 			if(isset($this->attributes['viewport']['center_panel'])&&count($this->attributes['viewport']['center_panel'])>0)
 			$attributes=array_merge($attributes,$this->attributes['viewport']['center_panel']);
-					          
+
+			$this->afExtjs->privateAttributes['center_panel_first_panel']=$attributes;
 			$this->afExtjs->private['center_panel_first_panel']=$this->afExtjs->Panel($attributes);
 					
 			$attributesPanel['items'][]=$this->afExtjs->asVar('center_panel_first_panel');

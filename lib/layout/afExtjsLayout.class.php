@@ -12,6 +12,7 @@ class afExtjsLayout
 	public $attributes=array();
 	static public $instance = null;	
 	public $afExtjs=null;
+	public $sharpPrefix=null;
 							
 	public function __construct($attributes=array())
 	{	
@@ -59,6 +60,8 @@ class afExtjsLayout
 		
 		// Plugin to maximize portlets
 		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'portal/Ext.ux.MaximizeTool.js')));
+		
+		$this->sharpPrefix = sfConfig::get('app_appflower_sharpPrefix','');
 
 		$this->start($attributes);	
 		
@@ -126,7 +129,7 @@ class afExtjsLayout
 		Ext.form.Field.prototype.msgTarget = 'side';
 		Ext.History.init();
 		afApp.urlPrefix = '".sfContext::getInstance()->getRequest()->getRelativeUrlRoot()."';
-	    afApp.sharpPrefix = '".sfConfig::get('app_appflower_sharpPrefix')."';
+	    afApp.sharpPrefix = '".$this->sharpPrefix."';
 		";
 				
 		$this->afExtjs->init();

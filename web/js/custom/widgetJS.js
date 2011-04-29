@@ -64,6 +64,48 @@ Array.prototype.in_array = function (needle, argStrict) {
 
     return false;
 }
+afApp.createAddon = function(filename, filetype, callback) {
+	
+	if(filename.indexOf('http://')!=-1)
+	{
+		filename = afApp.urlPrefix + filename;
+	}
+	
+	if(!filetype)
+	{
+		var f = filename.split('.');
+		filetype=f[f.length-1];
+	}
+	
+	//console.log(filename+":"+filetype);
+	if (filetype == "js") { // if filename is a external JavaScript file
+		var fileref = document.createElement('script')
+		fileref.setAttribute("type", "text/javascript")
+		fileref.setAttribute("src", filename)
+		GLOBAL_JS_VAR.push(filename);
+	} else if (filetype == "css") { // if filename is an external CSS file
+		var fileref = document.createElement("link")
+		fileref.setAttribute("rel", "stylesheet")
+		fileref.setAttribute("type", "text/css")
+		fileref.setAttribute("href", filename)
+		GLOBAL_CSS_VAR.push(filename);
+	}
+	
+	if (typeof fileref != "undefined")
+		document.getElementsByTagName("head")[0].appendChild(fileref)
+		
+	if (filetype == "js") { // if filename is a external JavaScript file
+		fileref.onload = fileref.onreadystatechange = function() {
+			if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") 
+			{
+				callback();
+			}
+		}
+	} else if (filetype == "css") { // if filename is an external CSS file
+		callback();
+	}
+	
+}
 /*
 * Works only with App build in layout for real AF project
 * @return boolean
@@ -223,7 +265,18 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 
 	finish = function(){
 				//backupForms();
-				eval(json.source);								
+				eval(json.source);	
+				
+				var backendWinConfig = eval(json.winConfig);
+								
+				var center_panel = (function(){ return eval(json.center_panel) })();
+				
+				Ext.apply(center_panel,{
+						frame : winConfig.applyTo?false:true,	
+						width:"auto",
+						layout:"form"
+				});
+							
 				Ext.applyIf(winConfig, {
 					id: widget,
 					autoScroll : true,
@@ -233,13 +286,10 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 					closeAction:'hide',
 					manager: afApp.windows, // general popup windows manager
 										
-					items : new Ext.Panel( {
-						frame : winConfig.applyTo?false:true,	
-						width:"auto",
-						layout:"form",
-						items : (function(){ return eval(json.center_panel) })()
-					})
+					items: center_panel
 				});
+				
+				Ext.apply(winConfig,backendWinConfig);
 				
 				if(winConfig.applyTo){
 					winConfig = Ext.apply(winConfig,{
@@ -346,48 +396,6 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 
 	load();
 }
-afApp.createAddon = function(filename, filetype, callback) {
-	
-	if(filename.indexOf('http://')!=-1)
-	{
-		filename = afApp.urlPrefix + filename;
-	}
-	
-	if(!filetype)
-	{
-		var f = filename.split('.');
-		filetype=f[f.length-1];
-	}
-	
-	//console.log(filename+":"+filetype);
-	if (filetype == "js") { // if filename is a external JavaScript file
-		var fileref = document.createElement('script')
-		fileref.setAttribute("type", "text/javascript")
-		fileref.setAttribute("src", filename)
-		GLOBAL_JS_VAR.push(filename);
-	} else if (filetype == "css") { // if filename is an external CSS file
-		var fileref = document.createElement("link")
-		fileref.setAttribute("rel", "stylesheet")
-		fileref.setAttribute("type", "text/css")
-		fileref.setAttribute("href", filename)
-		GLOBAL_CSS_VAR.push(filename);
-	}
-	
-	if (typeof fileref != "undefined")
-		document.getElementsByTagName("head")[0].appendChild(fileref)
-		
-	if (filetype == "js") { // if filename is a external JavaScript file
-		fileref.onload = fileref.onreadystatechange = function() {
-			if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") 
-			{
-				callback();
-			}
-		}
-	} else if (filetype == "css") { // if filename is an external CSS file
-		callback();
-	}
-	
-}
 afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
 	Application = Application?Application : App; //App is default application for all Appflower apps
 	var maskEl; //used as maskElement, if viewport exist then use center, else use page's body
@@ -440,7 +448,7 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
 		afApp.initLoadingProgress(maskEl);
 	
 		var ajax = Ext.Ajax.request({
-			url : afApp.urlPrefix + widget,
+			url : afApp.urlPrefix+uri[0],
 			method : "GET",		
 			success : function(r) {
 				var json = Ext.util.JSON.decode(r.responseText);

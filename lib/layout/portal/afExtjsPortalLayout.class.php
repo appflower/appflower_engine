@@ -88,12 +88,12 @@ class afExtjsPortalLayout extends afExtjsViewportLayout
 					$attributes['portalWidgets']=$this->attributes['portalWidgets'];
 				}
 				$attributes['autoScroll']=true;
-				$attributes['id']='center_panel_first_portal';
+				$attributes['id']='center_panel_first_panel';
 				$attributes['border']=false;
 				$attributes['bodyBorder']=false;
-				$this->afExtjs->private['center_panel_first_portal']=$this->afExtjs->Portal($attributes);
+				$this->afExtjs->private['center_panel_first_panel']=$this->afExtjs->Portal($attributes);
 				
-				$attributesPanel['items'][]=$this->afExtjs->asVar('center_panel_first_portal');
+				$attributesPanel['items'][]=$this->afExtjs->asVar('center_panel_first_panel');
 				$attributesPanel['border']=true;
 				$attributesPanel['bodyBorder']=true;
 				$attributesPanel['layout']='fit';
@@ -142,15 +142,16 @@ class afExtjsPortalLayout extends afExtjsViewportLayout
 				{
 					$attributesPanel['tools']=$this->attributes['tools']->end();
 				}
-				$attributesTabPanel['id']='center_panel_first_portal';
-				$this->afExtjs->private['center_panel_first_portal']=$this->afExtjs->TabPanel($attributesTabPanel);
+				$attributesTabPanel['id']='center_panel_first_panel';
+				$this->afExtjs->private['center_panel_first_panel']=$this->afExtjs->TabPanel($attributesTabPanel);
 				
-				$attributesPanel['items'][]=$this->afExtjs->asVar('center_panel_first_portal');
+				$attributesPanel['items'][]=$this->afExtjs->asVar('center_panel_first_panel');
 				$attributesPanel['border']=true;
 				$attributesPanel['bodyBorder']=true;
 				$attributesPanel['layout']='fit';
 								
 				$attributesPanel['id']='center_panel_first';
+				$this->afExtjs->privateAttributes['center_panel_first']=$attributesPanel;
 				$this->afExtjs->private['center_panel_first']=$this->afExtjs->Panel($attributesPanel);
 				
 				$attributesPanelContainer['items'][]=$this->afExtjs->asVar('center_panel_first');

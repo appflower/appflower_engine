@@ -11,6 +11,8 @@ class afExtjsDesktopLayout extends afExtjsLayout
 		sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsDesktopStartMenu'));
 		
 		$this->addInitMethodSource("this.startConfig = startMenuConfig;this.desktop = new Ext.Desktop(this);");
+		
+		$this->sharpPrefix = 'interface/desktop';
 	}
 	
 	public function end()
