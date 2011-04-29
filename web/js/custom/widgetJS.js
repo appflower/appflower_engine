@@ -420,14 +420,16 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
 		}return widget;
 	}
 	
-	afApp.currentWidget = widget;
-	afApp.observable.fireEvent('beforeload', widget);
-	
-	if(afApp.hasDesktop()&&Ext.History.getToken()!=widget)
-	{
-		Ext.History.add(widget);
-	}					
-			
+	widget = widget.replace(document.location.protocol+'//'+document.location.host+afApp.urlPrefix,'');
+	var uri=widget.split('#');
+	uri[0]=uri[0] || '/';
+	var futureTab=uri[1]?'#'+uri[1]:'';
+	//hash contains the value without #in front of the internal link
+	var futureHash=uri[0]+futureTab;
+		
+	afApp.currentWidget = uri[0];
+	afApp.observable.fireEvent('beforeload', uri[0]);
+				
 	var win = afApp.getWindow(widget);
 	if(win)
 	{
@@ -471,6 +473,11 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
 							}
 						}
 					}
+					
+					//adding a referer param to all Ajax request in Ext objects
+					Ext.Ajax.extraParams = Ext.Ajax.extraParams || {};
+					Ext.Ajax.extraParams['af_referer'] = futureHash;
+					
 					afApp.executeAddons(total_addons,json,title,superClass,winConfig,Application,widget);		
 				}
 			},
@@ -570,11 +577,13 @@ afApp.loadCenterWidget = function(widget) {
 	widget = widget.replace(document.location.protocol+'//'+document.location.host+afApp.urlPrefix,'');
 	var uri=widget.split('#');
 	uri[0]=uri[0] || '/';
+	var futureTab=uri[1]?'#'+uri[1]:'';
+	//hash contains the value without #in front of the internal link
+	var futureHash=uri[0]+futureTab;
 		
 	afApp.currentWidget = uri[0];
-	afApp.observable.fireEvent('beforeload', uri[0]);
+	afApp.observable.fireEvent('beforeload', uri[0]);	
 	
-	var futureTab=uri[1]?'#'+uri[1]:'';
 	var viewport=App.getViewport();
 	afApp.initLoadingProgress(viewport.layout.center.panel.getEl());
 	var ajax = Ext.Ajax.request( {
@@ -584,9 +593,7 @@ afApp.loadCenterWidget = function(widget) {
 			var json = Ext.util.JSON.decode(r.responseText);
 			json.load = json.load?json.load:'center';
 			json.title = json.title?json.title:'...';
-			//hash contains the value without #in front of the internal link
-			var futureHash=uri[0]+futureTab;
-			var currentHash=document.location.href.replace(document.location.protocol+'//'+document.location.host+'/#','');			
+							
 			if(json.success === false) {
 				Ext.Msg.alert('Failure', json.message);
 				return;
