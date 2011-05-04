@@ -58,7 +58,7 @@ foreach ($arrays as $arrayType=>$array)
 	$cactusXml[]="\r\n\r\n\t\t<!-- AppFlower ".$arrayType." files -->\r\n\t\t<needle>\r\n\t\t\t<output type=\"".$arrayType."\">appFlower.".$arrayType."</output>\r\n\t\t\t<files>";
 	foreach ($array as $file)
 	{
-		$cactusXml[]="\r\n\t\t\t\t<file>".sfConfig::get('sf_root_dir').'/web'.$file."</file>";
+		$cactusXml[]="\r\n\t\t\t\t<file>".$file."</file>";
 	}
 	$cactusXml[]="\r\n\t\t\t</files>\r\n\t\t</needle>";
 }
