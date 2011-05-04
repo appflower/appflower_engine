@@ -1,7 +1,7 @@
 <cactus>
 	<needles>
 
-		<!-- AppFlower js files -->
+		<!-- AppFlower js files (97) -->
 		<needle>
 			<output type="js">appFlower.js</output>
 			<files>
@@ -105,7 +105,7 @@
 			</files>
 		</needle>
 
-		<!-- AppFlower css files -->
+		<!-- AppFlower css files (22) -->
 		<needle>
 			<output type="css">appFlower.css</output>
 			<files>
