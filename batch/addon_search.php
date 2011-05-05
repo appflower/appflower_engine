@@ -32,11 +32,11 @@ foreach ($phpFiles as $phpFile)
 			if(substr_count($array,'".$plugin."')>0||substr_count($array,"\$script")>0||substr_count($array,"\$addons")>0)
 			{
 				continue;
-			}
+			}			
 
 			$array = str_replace('$this->afExtjs->getPluginsDir().\'','\'/appFlowerPlugin/extjs-3/plugins/',$array);
 			$array = str_replace('$grid->afExtjs->getPluginsDir().\'','\'/appFlowerPlugin/extjs-3/plugins/',$array);
-
+			$array = str_replace('afExtjs::getInstance()->getPluginsDir().\'','\'/appFlowerPlugin/extjs-3/plugins/',$array);						
 			//echo $phpFile.' '.$array."\n";
 			$array = eval("return (".$array.");");
 			foreach ($array as $type=>$typeArray)
@@ -52,16 +52,37 @@ foreach ($arrays as $arrayType=>$array)
 	$arrays[$arrayType]=array_unique($array);
 }
 
-$cactusXml[]="<cactus>\r\n\t<needles>";
 foreach ($arrays as $arrayType=>$array)
 {
-	$cactusXml[]="\r\n\r\n\t\t<!-- AppFlower ".$arrayType." files (".count($arrays[$arrayType]).") -->\r\n\t\t<needle>\r\n\t\t\t<output type=\"".$arrayType."\">appFlower.".$arrayType."</output>\r\n\t\t\t<files>";
+	foreach ($array as $k=>$file)
+	{
+		if(substr_count($file,'appFlowerPlugin')==0)
+		{
+			$arrays[$arrayType][$k]='/appFlowerPlugin'.$file;
+		}
+	}
+}
+
+foreach ($arrays as $arrayType=>$array)
+{
+	$arrays[$arrayType]=array_unique($array);
+}
+
+$cactusXml[]="<cactus>";
+foreach ($arrays as $arrayType=>$array)
+{
+	$cactusXml[]="\r\n\t<".$arrayType.">\r\n\t\t<needles>\r\n\r\n\t\t\t<!-- AppFlower ".$arrayType." files (".count($arrays[$arrayType]).") -->\r\n\t\t\t<needle>\r\n\t\t\t\t<output>appFlower.".$arrayType."</output>\r\n\t\t\t\t<files>";
 	foreach ($array as $file)
 	{
-		$cactusXml[]="\r\n\t\t\t\t<file>".$file."</file>";
+		if(substr_count($file,'appFlowerPlugin')==0)
+		{
+			$file='/appFlowerPlugin'.$file;
+		}
+		
+		$cactusXml[]="\r\n\t\t\t\t\t<file>".$file."</file>";
 	}
-	$cactusXml[]="\r\n\t\t\t</files>\r\n\t\t</needle>";
+	$cactusXml[]="\r\n\t\t\t\t</files>\r\n\t\t\t</needle>\r\n\t\t<needles>\r\n\t</".$arrayType.">";
 }
-$cactusXml[]="\r\n\t<needles>\r\n<cactus>";
+$cactusXml[]="\r\n<cactus>";
 
 file_put_contents(sfConfig::get('sf_root_dir').'/plugins/appFlowerPlugin/config/cactus.xml',implode(null,$cactusXml));
