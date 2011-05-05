@@ -627,7 +627,7 @@ sfConfig::set('Ext.ux.StartMenu',
   )
 );
 
-sfConfig::set('sf_execution_filter', array('afProfilerExecutionFilter', array('execution')));
+sfConfig::set('sf_execution_filter', array('afExecutionFilter', array('execution')));
 
 if ((sfConfig::has('app_enable_firephp_query_logger') && sfConfig::get('app_enable_firephp_query_logger'))
     || (!sfConfig::has('app_enable_firephp_query_logger') && sfConfig::get('sf_environment') == 'dev')) {
