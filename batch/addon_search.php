@@ -85,7 +85,7 @@ foreach ($arrays as $arrayType=>$array)
 	{
 		$cactusXml[]="\r\n\t\t\t\t\t<file>".$file."</file>";
 	}
-	$cactusXml[]="\r\n\t\t\t\t</files>\r\n\t\t\t</needle>\r\n\t\t<needles>\r\n\t</".$arrayType.">";
+	$cactusXml[]="\r\n\t\t\t\t</files>\r\n\t\t\t</needle>\r\n\t\t</needles>\r\n\t</".$arrayType.">";
 }
 $cactusXml[]="\r\n<cactus>";
 
