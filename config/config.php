@@ -627,12 +627,7 @@ sfConfig::set('Ext.ux.StartMenu',
   )
 );
 
-$currentExecutionFilter = sfConfig::get('sf_execution_filter');
-if ($currentExecutionFilter[0] != 'afProfilerExecutionFilter') {
-    // I don't know a way to override order of parsing plugins config.php files so
-    // this is my solution to that problem :)
-    sfConfig::set('sf_execution_filter', array('afExecutionFilter', array('execution')));
-}
+sfConfig::set('sf_execution_filter', array('afProfilerExecutionFilter', array('execution')));
 
 if ((sfConfig::has('app_enable_firephp_query_logger') && sfConfig::get('app_enable_firephp_query_logger'))
     || (!sfConfig::has('app_enable_firephp_query_logger') && sfConfig::get('sf_environment') == 'dev')) {
