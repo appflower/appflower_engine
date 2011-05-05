@@ -1,112 +1,112 @@
 <cactus>
 	<js>
 		<needles>
-
 			<!-- AppFlower js files (97) -->
 			<needle>
 				<output>appFlower.js</output>
 				<files>
-					<file>/appFlowerPlugin/extjs-3/plugins/filetree/js/Ext.ux.FileTreePanel.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/filetree/js/Ext.ux.FileTreeMenu.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/filetree/js/Ext.ux.form.BrowseButton.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/filetree/js/Ext.ux.FileUploader.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/filetree/js/Ext.ux.UploadPanel.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/plugins/Ext.ux.plugins.RealtimeWidgetUpdate.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/Ext.ux.plugins.HelpText.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/datetime/Ext.ux.plugins.DayTimeSelect.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/multiselect/ListField.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/colorfield/color-field.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/code/Color.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/code/ColorPickerPanel.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/code/ColorPickerWin.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/Ext.ux.form.StaticTextField.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/codepress/Ext.ux.CodePress.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/Ext.ux.form.Combo.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/Ext.ux.plugins.ExtendedComboBox.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/Ext.ux.plugins.RemoteComboAutoSuggest.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/lovcombo-1.0/js/Ext.ux.form.LovCombo.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/Ext.ux.plugins.Captcha.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/multiselect/Ext.ux.plugins.ItemSelectorAutoSuggest.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/datetime/Ext.ux.plugins.ExtendedDayTimeSelect.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/datetime/Ext.ux.form.DateTime.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/datepickerplus/Ext.ux.datepickerplus.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/yearpicker/Ext.YearPicker.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/multiselect/DDView.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/multiselect/MultiSelect.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/multiselect/ItemSelector.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/multiselect/Ext.ux.TreeItemSelector.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/tree/Ext.tree.TreeSerializer.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/Ext.ux.ClassicFormPanel.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/Ext.ux.form.ComboWButton.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/settings/ux_VerticalTabPanel.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/settings/Ext.ux.Settings.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/window/Ext.ux.GMapPanel.js</file>
-					<file>/appFlowerPlugin/js/custom/widgetJS.js</file>
-					<file>/appFlowerPlugin/js/custom/BorderLayoutOverride.js</file>
-					<file>/appFlowerPlugin/js/custom/gridUtil.js</file>
-					<file>/appFlowerPlugin/js/custom/keyMaps.js</file>
-					<file>/appFlowerPlugin/js/custom/Ext.ux.NeedHelp.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/overrides/Override.Ext.data.SortTypes.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/overrides/Override.Ext.form.Field.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/overrides/Override.Fixes.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/plugins/Ext.ux.Notification.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/layout/AccordionLayoutSetActiveItem.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/portal/Ext.ux.MaximizeTool.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grouptabs/GroupTabPanel.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grouptabs/GroupTab.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/portal/Portal.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/portal/PortalColumn.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/portal/Portlet.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/portal/sample-grid.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/tabsImm/TabMenu.js</file>
-					<file>/appFlowerPlugin/js/custom/portalsJS.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/treegrid/TreeGrid.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/treegrid/Ext.ux.CheckboxSelectionModel.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/treegrid/Ext.ux.SynchronousTreeExpand.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/desktop/js/StartMenu.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/desktop/js/TaskBar.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/desktop/js/Desktop.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/layout-browser/Ext.ux.layout.CenterLayout.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/TriggerField.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/tabs/TabCloseMenu.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid/Ext.ux.GridColorView.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid/Ext.ux.GroupingColorView.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid/Ext.ux.Grid.GroupingStoreOverride.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/plugins/Ext.ux.ExportUI.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/gridsummary/gridsummary.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid/Ext.ux.plugins.AddExpandListButton.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/search/js/Ext.ux.grid.Search.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/search/js/Ext.ux.IconMenu.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid/RowExpander.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/menu/EditableItem.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/menu/ComboMenu.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/menu/RangeMenu.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/GridFilters.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/DrillFilter.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/RePositionFilters.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/SaveSearchState.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/FilterInfo.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/FilterOption.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/filter/Filter.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/filter/BooleanFilter.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/filter/ComboFilter.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/filter/DateFilter.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/filter/ListFilter.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/filter/NumericFilter.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/filter/StringFilter.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/ux/grid/filter/TextFilter.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid/Ext.ux.plugins.IndexSearch.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/plugins/grid-row-order/Ext.ux.plugins.GridRowOrder.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/rowactionsImm/js/Ext.ux.GridRowActions.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/view/data-view-plugins.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/submit/RobustSubmitAction.js</file>
-					<file>/appFlowerPlugin/js/custom/cheatJS.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/comet/Ext.Comet.js</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/comet/Ext.ux.Updater.js</file>
+					<file>extjs-3/plugins/filetree/js/Ext.ux.FileTreePanel.js</file>
+					<file>extjs-3/plugins/filetree/js/Ext.ux.FileTreeMenu.js</file>
+					<file>extjs-3/plugins/filetree/js/Ext.ux.form.BrowseButton.js</file>
+					<file>extjs-3/plugins/filetree/js/Ext.ux.FileUploader.js</file>
+					<file>extjs-3/plugins/filetree/js/Ext.ux.UploadPanel.js</file>
+					<file>extjs-3/plugins/plugins/Ext.ux.plugins.RealtimeWidgetUpdate.js</file>
+					<file>extjs-3/plugins/form/Ext.ux.plugins.HelpText.js</file>
+					<file>extjs-3/plugins/datetime/Ext.ux.plugins.DayTimeSelect.js</file>
+					<file>extjs-3/plugins/multiselect/ListField.js</file>
+					<file>extjs-3/plugins/form/colorfield/color-field.js</file>
+					<file>extjs-3/plugins/form/adv-color-picker/code/Color.js</file>
+					<file>extjs-3/plugins/form/adv-color-picker/code/ColorPickerPanel.js</file>
+					<file>extjs-3/plugins/form/adv-color-picker/code/ColorPickerWin.js</file>
+					<file>extjs-3/plugins/form/Ext.ux.form.StaticTextField.js</file>
+					<file>extjs-3/plugins/codepress/Ext.ux.CodePress.js</file>
+					<file>extjs-3/plugins/form/Ext.ux.form.Combo.js</file>
+					<file>extjs-3/plugins/form/Ext.ux.plugins.ExtendedComboBox.js</file>
+					<file>extjs-3/plugins/form/Ext.ux.plugins.RemoteComboAutoSuggest.js</file>
+					<file>extjs-3/plugins/form/lovcombo-1.0/js/Ext.ux.form.LovCombo.js</file>
+					<file>extjs-3/plugins/form/Ext.ux.plugins.Captcha.js</file>
+					<file>extjs-3/plugins/multiselect/Ext.ux.plugins.ItemSelectorAutoSuggest.js</file>
+					<file>extjs-3/plugins/datetime/Ext.ux.plugins.ExtendedDayTimeSelect.js</file>
+					<file>extjs-3/plugins/datetime/Ext.ux.form.DateTime.js</file>
+					<file>extjs-3/plugins/datepickerplus/Ext.ux.datepickerplus.js</file>
+					<file>extjs-3/plugins/yearpicker/Ext.YearPicker.js</file>
+					<file>extjs-3/plugins/multiselect/DDView.js</file>
+					<file>extjs-3/plugins/multiselect/MultiSelect.js</file>
+					<file>extjs-3/plugins/multiselect/ItemSelector.js</file>
+					<file>extjs-3/plugins/multiselect/Ext.ux.TreeItemSelector.js</file>
+					<file>extjs-3/plugins/tree/Ext.tree.TreeSerializer.js</file>
+					<file>extjs-3/plugins/form/Ext.ux.ClassicFormPanel.js</file>
+					<file>extjs-3/plugins/form/Ext.ux.form.ComboWButton.js</file>
+					<file>extjs-3/plugins/settings/ux_VerticalTabPanel.js</file>
+					<file>extjs-3/plugins/settings/Ext.ux.Settings.js</file>
+					<file>extjs-3/plugins/window/Ext.ux.GMapPanel.js</file>
+					<file>js/custom/widgetJS.js</file>
+					<file>js/custom/BorderLayoutOverride.js</file>
+					<file>js/custom/gridUtil.js</file>
+					<file>js/custom/keyMaps.js</file>
+					<!-- <file>js/custom/Ext.ux.NeedHelp.js</file> -->
+					<file>extjs-3/plugins/overrides/Override.Ext.data.SortTypes.js</file>
+					<file>extjs-3/plugins/overrides/Override.Ext.form.Field.js</file>
+					<file>extjs-3/plugins/overrides/Override.Fixes.js</file>
+					<file>extjs-3/plugins/plugins/Ext.ux.Notification.js</file>
+					<file>extjs-3/plugins/layout/AccordionLayoutSetActiveItem.js</file>
+					<file>extjs-3/plugins/portal/Ext.ux.MaximizeTool.js</file>
+					<file>extjs-3/plugins/grouptabs/GroupTabPanel.js</file>
+					<file>extjs-3/plugins/grouptabs/GroupTab.js</file>
+					<file>extjs-3/plugins/portal/Portal.js</file>
+					<file>extjs-3/plugins/portal/PortalColumn.js</file>
+					<file>extjs-3/plugins/portal/Portlet.js</file>
+					<file>extjs-3/plugins/portal/sample-grid.js</file>
+					<file>extjs-3/plugins/tabsImm/TabMenu.js</file>
+					<file>js/custom/portalsJS.js</file>
+					<file>extjs-3/plugins/treegrid/TreeGrid.js</file>
+					<file>extjs-3/plugins/treegrid/Ext.ux.CheckboxSelectionModel.js</file>
+					<file>extjs-3/plugins/treegrid/Ext.ux.SynchronousTreeExpand.js</file>
+					<file>extjs-3/plugins/desktop/js/StartMenu.js</file>
+					<file>extjs-3/plugins/desktop/js/TaskBar.js</file>
+					<file>extjs-3/plugins/desktop/js/Desktop.js</file>
+					<file>extjs-3/plugins/layout-browser/Ext.ux.layout.CenterLayout.js</file>
+					<!-- <file>extjs-3/plugins/form/TriggerField.js</file> -->
+					<file>extjs-3/plugins/tabs/TabCloseMenu.js</file>
+					<file>extjs-3/plugins/grid/Ext.ux.GridColorView.js</file>
+					<file>extjs-3/plugins/grid/Ext.ux.GroupingColorView.js</file>
+					<file>extjs-3/plugins/grid/Ext.ux.Grid.GroupingStoreOverride.js</file>
+					<file>extjs-3/plugins/plugins/Ext.ux.ExportUI.js</file>
+					<file>extjs-3/plugins/gridsummary/gridsummary.js</file>
+					<file>extjs-3/plugins/grid/Ext.ux.plugins.AddExpandListButton.js</file>
+					<!--<file>extjs-3/plugins/search/js/Ext.ux.grid.Search.js</file> -->
+					<!--<file>extjs-3/plugins/search/js/Ext.ux.IconMenu.js</file> -->
+					<file>extjs-3/plugins/grid/RowExpander.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/menu/EditableItem.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/menu/ComboMenu.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/menu/RangeMenu.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/GridFilters.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/DrillFilter.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/RePositionFilters.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/SaveSearchState.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/FilterInfo.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/FilterOption.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/filter/Filter.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/filter/BooleanFilter.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/filter/ComboFilter.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/filter/DateFilter.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/filter/ListFilter.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/filter/NumericFilter.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/filter/StringFilter.js</file>
+					<file>extjs-3/plugins/grid-filtering/ux/grid/filter/TextFilter.js</file>
+					<file>extjs-3/plugins/grid/Ext.ux.plugins.IndexSearch.js</file>
+					<!-- <file>extjs-3/plugins/grid-row-order/Ext.ux.plugins.GridRowOrder.js</file> -->
+					<file>extjs-3/plugins/rowactionsImm/js/Ext.ux.GridRowActions.js</file>
+					<file>extjs-3/plugins/view/data-view-plugins.js</file>
+					<file>extjs-3/plugins/submit/RobustSubmitAction.js</file>
+					<file>js/custom/cheatJS.js</file>
+					<file>extjs-3/plugins/comet/Ext.Comet.js</file>
+					<file>extjs-3/plugins/comet/Ext.ux.Updater.js</file>
 				</files>
 			</needle>
-		<needles>
+		</needles>
 	</js>
+	
 	<css>
 		<needles>
 
@@ -114,29 +114,29 @@
 			<needle>
 				<output>appFlower.css</output>
 				<files>
-					<file>/appFlowerPlugin/extjs-3/plugins/filetree/css/filetype.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/filetree/css/filetree.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/filetree/css/icons.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/colorfield/color-field.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/code/color-picker.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/form/lovcombo-1.0/css/Ext.ux.form.LovCombo.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/datepickerplus/datepickerplus.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/yearpicker/Ext.YearPicker.css</file>
-					<file>/appFlowerPlugin/css/my-extjs.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/multiselect/multiselect.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/settings/ux_VerticalTabPanel.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grouptabs/GroupTab.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/portal/portal.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/desktop/css/desktop.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/layout-browser/Ext.ux.layout.CenterLayout.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/gridsummary/gridsummary.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/treegrid/css/TreeGrid.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/grid-filtering/resources/style.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/plugins/grid-row-order/row-up-down.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/rowactionsImm/css/Ext.ux.GridRowActions.css</file>
-					<file>/appFlowerPlugin/extjs-3/plugins/rowactionsImm/css/icons.css</file>
+					<file>extjs-3/plugins/filetree/css/filetype.css</file>
+					<file>extjs-3/plugins/filetree/css/filetree.css</file>
+					<file>extjs-3/plugins/filetree/css/icons.css</file>
+					<file>extjs-3/plugins/form/colorfield/color-field.css</file>
+					<file>extjs-3/plugins/form/adv-color-picker/code/color-picker.css</file>
+					<file>extjs-3/plugins/form/lovcombo-1.0/css/Ext.ux.form.LovCombo.css</file>
+					<file>extjs-3/plugins/datepickerplus/datepickerplus.css</file>
+					<file>extjs-3/plugins/yearpicker/Ext.YearPicker.css</file>
+					<file>css/my-extjs.css</file>
+					<file>extjs-3/plugins/multiselect/multiselect.css</file>
+					<file>extjs-3/plugins/settings/ux_VerticalTabPanel.css</file>
+					<file>extjs-3/plugins/grouptabs/GroupTab.css</file>
+					<file>extjs-3/plugins/portal/portal.css</file>
+					<file>extjs-3/plugins/desktop/css/desktop.css</file>
+					<file>extjs-3/plugins/layout-browser/Ext.ux.layout.CenterLayout.css</file>
+					<file>extjs-3/plugins/gridsummary/gridsummary.css</file>
+					<file>extjs-3/plugins/treegrid/css/TreeGrid.css</file>
+					<file>extjs-3/plugins/grid-filtering/resources/style.css</file>
+					<!-- <file>extjs-3/plugins/grid-row-order/row-up-down.css</file> -->
+					<file>extjs-3/plugins/rowactionsImm/css/Ext.ux.GridRowActions.css</file>
+					<file>extjs-3/plugins/rowactionsImm/css/icons.css</file>
 				</files>
 			</needle>
-		<needles>
+		</needles>
 	</css>
-<cactus>
+</cactus>
