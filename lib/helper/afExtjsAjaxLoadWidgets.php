@@ -95,7 +95,13 @@ class afExtjsAjaxLoadWidgets{
 		return $this->getLayout()->afExtjs->private['center_panel_first'];
 	}
 	public function getAddons(){		
-		return $this->getLayout()->afExtjs->addons;
+		if(sfConfig::get('af_debug'))
+		{
+			return $this->getLayout()->afExtjs->addons;
+		}
+		else {
+			return array();
+		}			
 	}
 	public function getSourceForPopupLoad(){
 		if($this->type == XmlParser::PANEL){
