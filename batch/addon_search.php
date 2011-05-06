@@ -87,6 +87,6 @@ foreach ($arrays as $arrayType=>$array)
 	}
 	$cactusXml[]="\r\n\t\t\t\t</files>\r\n\t\t\t</needle>\r\n\t\t</needles>\r\n\t</".$arrayType.">";
 }
-$cactusXml[]="\r\n<cactus>";
+$cactusXml[]="\r\n</cactus>";
 
 file_put_contents(sfConfig::get('sf_root_dir').'/plugins/appFlowerPlugin/config/cactus.xml',implode(null,$cactusXml));

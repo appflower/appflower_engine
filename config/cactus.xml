@@ -100,7 +100,7 @@
 					<file>/extjs-3/plugins/comet/Ext.ux.Updater.js</file>
 				</files>
 			</needle>
-		<needles>
+		</needles>
 	</js>
 	<css>
 		<needles>
@@ -131,6 +131,6 @@
 					<file>/extjs-3/plugins/rowactionsImm/css/icons.css</file>
 				</files>
 			</needle>
-		<needles>
+		</needles>
 	</css>
 <cactus>
