@@ -1,0 +1,6 @@
+template:
+  current: desktop
+  types: [ desktop, viewport ]
+  helpers:
+    desktop: [ afExtjsDesktopStartMenu ]
+    viewport: [ afExtjsToolbar, afExtjsWest, afExtjsSouth, afExtjsEast ]
