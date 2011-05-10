@@ -451,7 +451,7 @@ class sfExtjs2Plugin {
 	    }
 
 	    // add javascript sources for ext all
-	    $debug = (sfConfig::get('sf_web_debug', false)) ? '-debug' : ''; // if in web_debug mode, also use debug-extjs source
+	    $debug = sfConfig::get('af_debug') ? '-debug' : ''; // if in web_debug mode, also use debug-extjs source
 	    //$debug = '-debug';
 	    $response->addJavascript((sfConfig::get('app_cdn_active')?sfConfig::get('app_cdn_url'):sfConfig::get('sf_extjs'.$extjsVersion.'_js_dir')).'ext-all'.$debug.'.js', 'first');
 	    $this->jsVar[] = sfConfig::get('sf_extjs'.$extjsVersion.'_js_dir').'ext-all'.$debug.'.js';
@@ -466,13 +466,18 @@ class sfExtjs2Plugin {
 	    }
 	}
 
-    if (isset($this->addons['js']))
+    if (isset($this->addons['js'])&&sfConfig::get('af_debug'))
     {
       foreach ($this->addons['js'] as $jsAddon)
       {      
         $response->addJavascript($jsAddon, 'first');
         $this->jsVar[] = $jsAddon;
       }
+    }
+    else{
+    	$this->jsVar = $this->addons = array();
+    	
+    	$response->addJavascript('/appFlowerPlugin/cache/appFlower.js', 'first');
     }
 
     //if(!$configSfCombinePlugin['enabled'])
@@ -508,7 +513,7 @@ class sfExtjs2Plugin {
         }
     }    
 	
-    if (isset($this->addons['css']))
+    if (isset($this->addons['css'])&&sfConfig::get('af_debug'))
     {
       $this->addons['css'] = array_unique($this->addons['css']);
       foreach ($this->addons['css'] as $cssAddon)
@@ -516,7 +521,12 @@ class sfExtjs2Plugin {
         $response->addStylesheet($cssAddon, 'first');
         $this->cssVar[] = $cssAddon;        
       }
-    }    
+    }
+    else {
+    	$this->cssVar = $this->addons = array();
+    	
+    	$response->addStylesheet('/appFlowerPlugin/cache/appFlower.css', 'first');
+    }
   }
 
   /**

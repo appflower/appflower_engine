@@ -4457,11 +4457,11 @@ if(response.message) {
 	}
 	
     /**
-     * set the extSuccess.php template
+     * set the Homepage template
      */
 	private static function setTemplateAppFlower($actionInstance)
 	{
-		$name = sfConfig::get('sf_plugins_dir').'/appFlowerPlugin/modules/appFlower/templates/ext';
+		$name = sfConfig::get('sf_plugins_dir').'/appFlowerPlugin/modules/appFlower/templates/'.afExtjs::getInstance()->getCurrentTemplate();
 		
 		sfConfig::set('symfony.view.'.$actionInstance->getModuleName().'_'.$actionInstance->getActionName().'_template', $name);
 	}

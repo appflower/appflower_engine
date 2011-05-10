@@ -1,5 +1,9 @@
 <?php
 /**
+ * appFlower addons debug mode
+ */
+sfConfig::set('af_debug',false);
+/**
  * appFlower config
  */
 sfConfig::set('sf_extjs2_comment', true);

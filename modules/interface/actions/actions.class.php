@@ -519,6 +519,6 @@ class interfaceActions extends CustomActions
   
   public function executeDesktop()
   {
-    $this->setLayout("layoutExtjs");
+    //$this->setLayout("layoutExtjs");
   }
 }

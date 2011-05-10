@@ -885,7 +885,7 @@ Ext.onReady(function(){
 });
 //Ext History
 Ext.History.on('change', function(token){
-	//do not load the center widget if we are changing tabs
+	//do not load the center/popup widget if we are changing tabs
 	if(token)
 	{
 		var tokenS=token.split('#');
@@ -911,6 +911,14 @@ Ext.History.on('change', function(token){
 			if(afApp.currentWidget!=tokenS[0])
 			{
 				afApp.widgetPopup(token);
+			}
+			//this means that the popup contains tabs
+			else if(tokenS[1]){
+				var tabPanel=afApp.activeWindow.items.items[0].items.items[0];
+				if(tabPanel.getXType()=='tabpanel')
+				{
+					new Portals().onTabChange(tabPanel, tokenS);
+				}
 			}
 		}
 	}

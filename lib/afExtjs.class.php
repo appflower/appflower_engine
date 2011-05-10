@@ -52,6 +52,39 @@ class afExtjs extends sfExtjs2Plugin
 	return sfConfig::get('sf_extjs'.$this->getExtjsVersion().'_plugins_dir');
   }
   
+  public function getCurrentTemplate()
+  {
+  	$pluginTemplateYml = sfYaml::load(sfConfig::get('sf_root_dir').'/plugins/appFlowerPlugin/config/template.yml');
+  	if(file_exists(sfConfig::get('sf_root_dir').'/config/template.yml'))
+  	{
+  		$appTemplateYml = sfYaml::load(sfConfig::get('sf_root_dir').'/config/template.yml');
+  		
+  		if(is_array($appTemplateYml))
+  		{
+  			$templateYml = array_merge($pluginTemplateYml,$appTemplateYml);
+  		}
+  		else {
+  			$templateYml = $pluginTemplateYml;
+  		}
+  	}
+  	else {
+  		$templateYml = $pluginTemplateYml;
+  	}
+  	
+  	$template = in_array($templateYml['template']['current'],$pluginTemplateYml['template']['types'])?$templateYml['template']['current']:$pluginTemplateYml['template']['current'];
+  	
+  	return $template;
+  }
+  
+  public function setCurrentTemplate($template)
+  {
+  	$appTemplateYml = sfYaml::load(sfConfig::get('sf_root_dir').'/config/template.yml');
+  	
+  	$appTemplateYml['template']['current'] = $template;
+  	
+  	file_put_contents(sfConfig::get('sf_root_dir').'/config/template.yml',sfYaml::dump($appTemplateYml,4));
+  }
+  
   public function addInitMethodSource($source)
   {
 	 @$this->public['init'] .= $source;
