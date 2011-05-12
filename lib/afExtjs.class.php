@@ -76,15 +76,6 @@ class afExtjs extends sfExtjs2Plugin
   	return $template;
   }
   
-  public function setCurrentTemplate($template)
-  {
-  	$appTemplateYml = sfYaml::load(sfConfig::get('sf_root_dir').'/config/template.yml');
-  	
-  	$appTemplateYml['template']['current'] = $template;
-  	
-  	file_put_contents(sfConfig::get('sf_root_dir').'/config/template.yml',sfYaml::dump($appTemplateYml,4));
-  }
-  
   public function addInitMethodSource($source)
   {
 	 @$this->public['init'] .= $source;
