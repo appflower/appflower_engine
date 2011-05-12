@@ -117,7 +117,6 @@
 					<file>/extjs-3/plugins/form/lovcombo-1.0/css/Ext.ux.form.LovCombo.css</file>
 					<file>/extjs-3/plugins/datepickerplus/datepickerplus.css</file>
 					<file>/extjs-3/plugins/yearpicker/Ext.YearPicker.css</file>
-					<file>/css/my-extjs.css</file>
 					<file>/extjs-3/plugins/multiselect/multiselect.css</file>
 					<file>/extjs-3/plugins/settings/ux_VerticalTabPanel.css</file>
 					<file>/extjs-3/plugins/grouptabs/GroupTab.css</file>
@@ -129,8 +128,9 @@
 					<file>/extjs-3/plugins/grid-filtering/resources/style.css</file>
 					<file>/extjs-3/plugins/rowactionsImm/css/Ext.ux.GridRowActions.css</file>
 					<file>/extjs-3/plugins/rowactionsImm/css/icons.css</file>
+					<file>/css/my-extjs.css</file>
 				</files>
 			</needle>
 		</needles>
 	</css>
-<cactus>
+</cactus>
