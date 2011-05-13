@@ -587,7 +587,7 @@ The condition can be any PHP expression. It is evaluated in the context of the c
 
  * **Post** A Boolean value that is set to false by default. If set to true, the action will perform a POST request. For Edit or List Views, this can be used as an alternate submit button that allows you to POST the form to multiple locations
  * **Tooltip**: A description of the action that is shown on mouseover.
- * **Icon and IconCls** This allows users to attach an image to a button, which is then rendered as an icon on the left side of the button. The value of the former attribute should be an absolute path (for example: /usr/www/myapp/web/images/foo.png), while the latter expects the name of a CSS class.
+ * **Icon and IconCls** This allows users to attach an image to a button, which is then rendered as an icon on the left side of the button. The value of the former attribute should be a relative path or URL to the image (for example: /images/foo.png), while the latter expects the name of a CSS class.
  * **ConfirmMsg** A confirm dialogue will be displayed (if not omitted) when the button is clicked; the action will be performed only if the user hits OK.
  * **ForceSelection**: This is only available in List View and should be used if the list supports selections. Its value is set to Boolean false by default. When set to true, the action only performs if the selection is not empty; in other words, at least 1 list item must be selected).
  * **Updater** This is another Boolean value set to false by default. When set to true, the button initiates a comet-like request and responses pushed back by the server will be rendered in a dialogue with a progress bar. This is very useful for making more responsive applications.
