@@ -2,7 +2,7 @@
 /**
  * appFlower addons debug mode
  */
-sfConfig::set('af_debug',false);
+sfConfig::set('af_debug',true);
 /**
  * appFlower config
  */
