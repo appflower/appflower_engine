@@ -113,7 +113,7 @@ class afExtjsPortalLayout extends afExtjsViewportLayout
 				break;
 			case afPortalStatePeer::TYPE_TABBED:
 				$attributesTabPanel=array_merge($attributes,array('enableTabScroll'=>true,
-						  'deferredRender'=>false,
+						  'deferredRender'=>true,
 					      'resizeTabs'=>true,
 				          'minTabWidth'=>115,
 				          'tabWidth'=>135,
