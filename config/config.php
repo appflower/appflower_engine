@@ -152,7 +152,9 @@ sfConfig::set('sf_extjs2_classes',
     'Observable'              => 'Ext.util.Observable',
     'DataView'				  => 'Ext.DataView',
     //Desktop
-    'StartMenu'				  => 'Ext.ux.StartMenu'
+    'StartMenu'				  => 'Ext.ux.StartMenu',
+    //Container
+    'Container'				  => 'Ext.Container'
   )
 );
 #
@@ -627,6 +629,13 @@ sfConfig::set('Ext.ux.GMapPanel',
 sfConfig::set('Ext.ux.StartMenu',
   array(
     'class'       => 'Ext.ux.StartMenu',
+    'attributes'  => array()
+  )
+);
+
+sfConfig::set('Ext.Container',
+  array(
+    'class'       => 'Ext.Container',
     'attributes'  => array()
   )
 );
