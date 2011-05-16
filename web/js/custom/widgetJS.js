@@ -283,7 +283,7 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 					minimizable: true,
 					maximizable : true,
 					draggable:true,					
-					//closeAction:'hide',
+					closeAction:'hide',
 					manager: afApp.windows, // general popup windows manager
 										
 					items: center_panel
@@ -327,8 +327,11 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 		            'minimize': {
 		                fn: afApp.minimizeWin
 		            },
-		            'close': {
+		            /*'close': {
 		                fn: afApp.removeWin
+		            },*/
+		            'hide': {
+		            	fn: afApp.removeWin
 		            },
 		            'resize': {
 		            	fn: function(){/*console.log('x');*/}
@@ -350,12 +353,12 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 				
 				afApp.loadingProgress(maskEl,1);
 				
-				win.on("hide",function(){	
-					if(superClass)superClass.onHide(win);									
+				//win.on("hide",function(){	
+					//if(superClass)superClass.onHide(win);									
 					//win.destroy();
 					//win.close();
 					//restoreBackup();
-				});		        
+				//});		        
 	};
 
 	/*function restoreBackup(){

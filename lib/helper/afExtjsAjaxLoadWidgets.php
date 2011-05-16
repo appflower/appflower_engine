@@ -90,7 +90,7 @@ class afExtjsAjaxLoadWidgets{
 		if(isset($this->getLayout()->attributes['viewport']['center_panel']['title']))
 		unset($this->getLayout()->attributes['viewport']['center_panel']['title']);
 		
-		return afExtjs::getInstance()->getExtObject((($this->getLayout()->attributes['layoutType']==afPortalStatePeer::TYPE_NORMAL)?"Ext.Container":"Ext.Panel"),array('items'=>array('center_panel_first_panel'),'height'=>500,'autoScroll'=>true));
+		return afExtjs::getInstance()->getExtObject((($this->getLayout()->attributes['layoutType']==afPortalStatePeer::TYPE_NORMAL)?"Ext.Container":"Ext.Panel"),array('items'=>array('center_panel_first_panel'),'height'=>500,'layout'=>'fit'/*,'autoScroll'=>true*/));
 	}
 	public function getCenterPanelFirstSource(){	
 		return $this->getLayout()->afExtjs->private['center_panel_first'];
