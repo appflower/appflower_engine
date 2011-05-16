@@ -89,6 +89,7 @@ class afExtjsAjaxLoadWidgets{
 		}
 		if(isset($this->getLayout()->attributes['viewport']['center_panel']['title']))
 		unset($this->getLayout()->attributes['viewport']['center_panel']['title']);
+		
 		return afExtjs::getInstance()->getExtObject("Ext.Panel",array('items'=>array('center_panel_first_panel'),'height'=>500));
 	}
 	public function getCenterPanelFirstSource(){	
@@ -108,7 +109,7 @@ class afExtjsAjaxLoadWidgets{
 			return array("center_panel"=>$this->getCenterPanelSource(),"winConfig"=>array('title'=>$this->getLayout()->afExtjs->privateAttributes['center_panel_first_panel']['title']),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
 		}
 		if($this->type == XmlParser::PAGE){
-			return array("center_panel"=>$this->getPortalCenterPanelSource(),"winConfig"=>array('title'=>$this->getLayout()->afExtjs->privateAttributes['center_panel_first']['title']),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
+			return array("center_panel"=>$this->getPortalCenterPanelSource(),"winConfig"=>array('title'=>$this->getLayout()->afExtjs->privateAttributes['container']['title']),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
 		}
 	}
 	public function getSourceForCenterLoad(){
