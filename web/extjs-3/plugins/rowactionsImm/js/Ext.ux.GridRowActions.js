@@ -647,6 +647,14 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 	} // eo function onClick
 	// }}}
 
+	
+    /**
+     * @private
+     * Clean up. Remove any listeners.
+     */
+    ,destroy: function() {
+        this.purgeListeners();
+    }	
 });
 
 /**

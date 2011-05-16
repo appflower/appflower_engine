@@ -283,7 +283,7 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 					minimizable: true,
 					maximizable : true,
 					draggable:true,					
-					closeAction:'hide',
+					closeAction:'close',
 					manager: afApp.windows, // general popup windows manager
 										
 					items: center_panel
