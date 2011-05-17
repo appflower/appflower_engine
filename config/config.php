@@ -642,11 +642,9 @@ sfConfig::set('Ext.Container',
 
 sfConfig::set('sf_execution_filter', array('afExecutionFilter', array('execution')));
 
-if ((sfConfig::has('app_enable_firephp_query_logger') && sfConfig::get('app_enable_firephp_query_logger'))
-    || (!sfConfig::has('app_enable_firephp_query_logger') && sfConfig::get('sf_environment') == 'dev')) {
+if (sfConfig::get('app_enable_firephp_query_logger')) {
     if (isset($_SERVER['REQUEST_URI'])) {
         $queryLogger = FirePHPQueryLogger::getInstance();
         $this->dispatcher->connect('application.log', array($queryLogger, 'applicationLog'));
     }
-    
 }

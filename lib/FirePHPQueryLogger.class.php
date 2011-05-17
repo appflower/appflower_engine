@@ -2,17 +2,15 @@
 /**
  * This class will log executed queries
  * It works with every HTTP request so it is ajax friendly.
- * For this to work switch to dev environment and make sure that Firebug and FirePHP extensions for firefox are installed and "Net" panel in firebug is enabled
- * If You want to use it in other environment You must also make sure that:
- *  * DebugPDO connection class is used instead of PropelPDO (databases.yml)
- *  * You are using debug mode: $configuration = ProjectConfiguration::getApplicationConfiguration('frontend', 'prod', true);
- *  * You have enabled it in app.yml like below:
+ * For this to work make sure that Firebug and FirePHP extensions for firefox are installed and "Net" panel in firebug is enabled
+ * You must also make sure that:
+ *  * DebugPDO connection class is used instead of PropelPDO (databases.yml) - this is probably true if you are using dev environment
+ *  * You are using debug mode - this is probably true if you are using dev environment
+ * You also need to enabled it explicitly in app.yml like below:
 all:
   enable_firephp_query_logger: true
  *
  * When You do everything correct You should notice queries being logged to Firebug console.
- *
- * You can also force this class NOT to log queries even in dev environment by switching above app.yml setting to false
  *
  * @author Łukasz Wojciechowski <luwo@appflower.com>
  */
