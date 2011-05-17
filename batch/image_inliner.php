@@ -17,10 +17,12 @@
  * PATH_TO/image_inliner.php web/css/main.css > web/css/main_inlined.css
  * IF there are images with absolute paths you should provide it as second argument
  * PATH_TO/image_inliner.php web/css/main.css web > web/css/main_inlined.css
+ * 
+ * This script should be used from main directory of project or plugin
  */
 
 $cssFile = trim(@$argv[1]);
-$webRootPath = trim(@$argv[2]);
+$webRootPath = realpath(trim(@$argv[2]));
 
 if ($cssFile == '') {
     die("Provide CSS file path as first argument\n");
@@ -49,7 +51,7 @@ foreach ($lines as $index => &$line) {
     if ( !preg_match($pattern, $line, $matches)) {
         die("preg_match returned an error for: '$line'"."\n");
     }
-    $imagePath = $matches[1];
+    $imagePath = trim($matches[1]);
     // another lack of knowledge about regexp's from my side :|
     $imagePath = str_replace('"', '', $imagePath);
     
@@ -65,8 +67,12 @@ foreach ($lines as $index => &$line) {
             fwrite(STDERR, "File '$imagePath' needs web base directory provided by YOU :) - please provide it as second argument - skipping\n");
             continue;
         } else {
-            $imageAbsolutePath = realpath($webRootPath.'/'.$imagePath);
+            $imageAbsolutePath = $webRootPath.'/'.$imagePath;
 
+            if (!$imageAbsolutePath) {
+                fwrite(STDERR, "Could not build path for '$webRootPath/$imagePath' :(\n");
+                continue;
+            }
             if (!file_exists($imageAbsolutePath)) {
                 fwrite(STDERR, "File '$imagePath' does not exist :(\n");
                 continue;

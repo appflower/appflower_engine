@@ -47,7 +47,7 @@ sfConfig::set('sf_extjs2_themes',
 sfConfig::set('sf_extjs3_default_theme', 'blue');
 sfConfig::set('sf_extjs3_themes',
   array(
-    'blue' => array( 'xtheme-blue.css' )
+    'blue' => array( 'xtheme-blue.inlined.css' )
   )
 );
 #
