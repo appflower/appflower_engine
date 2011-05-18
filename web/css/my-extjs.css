@@ -268,3 +268,10 @@
 .icon-user-go {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -1031px !important;}
 .icon-zoom {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -1047px !important;}
 .icon-house  {background:url("/appFlowerPlugin/images/sprite.png") no-repeat 0 -1063px !important;}
+
+#desktop-win-shortcut img {
+    width:48px;
+    height:48px;
+    background-image: url(/appFlowerPlugin/images/desktop-win-shortcut48x48.png);
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/appFlowerPlugin/images/desktop-win-shortcut48x48.png', sizingMethod='scale');
+}

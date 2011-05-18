@@ -13,6 +13,13 @@ class afExtjsDesktopLayout extends afExtjsLayout
 		$this->addInitMethodSource("this.startConfig = startMenuConfig;this.desktop = new Ext.Desktop(this);");
 	}
 	
+	public function getShortcuts(){
+	  if (is_readable(sfConfig::get('sf_app_lib_dir').'/helper/afExtjsDesktopLinksHelper.php'))
+    {
+      sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsDesktopLinks'));
+    }
+	}
+	
 	public function end()
 	{		
 		$this->addInitMethodSource("

@@ -204,10 +204,11 @@ Ext.Desktop = function(app) {
             t = e.getTarget('dt', shortcuts);
             if (t) {
                 e.stopEvent();
-                var module = app.getModule(t.id.replace('-shortcut', ''));
+                
+                /*var module = app.getModule(t.id.replace('-shortcut', ''));
                 if (module) {
                     module.createWindow();
-                }
+                }*/
             }
         });
     }
