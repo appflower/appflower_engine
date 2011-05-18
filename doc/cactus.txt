@@ -1,0 +1,8 @@
+We are using cactus-tool.jar to merge and obfuscate assets files.
+
+Process of updating web/cache/* files is like described below:
+- run image_inliner_cactus.php from main app directory and inspect for any errors
+- if everything is all right you should run it again and add 'overwrite' parameter
+- now you should go to batch dir and run cactus.sh script to build web/cache/* files - for inline images to work you need to use cactus tool in DEBUG mode
+- now you should 'git checkout' all css files that was changed while images was inlined
+- finally you should commit web/cache/* files
