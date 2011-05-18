@@ -22,7 +22,7 @@ class afExtjsDesktopLinks
 	{			
 		foreach ($this->attributes['items'] as $link)
 		{
-		  if(!isset($link['iconCls']))
+		  if(!isset($link['iconCls'])||$link['iconCls']=='')
 		  {
 		    $link['iconCls'] = "desktop-win-shortcut";
 		  }
