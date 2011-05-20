@@ -25,6 +25,15 @@ class afExecutionFilter extends sfExecutionFilter {
         $viewName = $this->interpretView($actionInstance, $viewName);
         return is_null($viewName) ? sfView::SUCCESS : $viewName;
     }
+    
+    /**
+     * @return afRenderingRouter 
+     */
+    protected function createRenderingRouter(sfAction $actionInstance)
+    {
+        return new afRenderingRouter($actionInstance);
+    }
+    
 
     /**
      * Recognizes if the viewName is a JSON array
@@ -40,11 +49,8 @@ class afExecutionFilter extends sfExecutionFilter {
         }
 
         if($this->isExportRequest($actionInstance)) {
-            return afRenderingRouter::render(
-                $actionInstance->getRequest(),
-                $actionInstance->getModuleName(),
-                $actionInstance->getActionName(),
-                $actionInstance->getVarHolder()->getAll());
+            $renderingRouter = $this->createRenderingRouter($actionInstance);
+            return $renderingRouter->render();
         }
 
         return $this->layoutExtIfNeeded($actionInstance);

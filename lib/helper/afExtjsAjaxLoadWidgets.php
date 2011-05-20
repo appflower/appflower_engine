@@ -16,7 +16,10 @@ class afExtjsAjaxLoadWidgets{
 	public function getType(){
 		return $this->type;
 	}
-	private function init(){		
+	private function init(){
+        if (sfContext::getInstance()->has('profiler')) {
+            $timer = sfTimerManager::getTimer('afRead'); // this time will be stopeed inside XmlParser constructor
+        }
 		$parser = new XmlParser();		
 		$this->type = $parser->getType();		
 		$this->layout = $parser->getLayout();
@@ -24,6 +27,10 @@ class afExtjsAjaxLoadWidgets{
 		{
 			$this->layout->beforeEnd();
 		}
+        if (sfContext::getInstance()->has('profiler')) {
+            $timer = sfTimerManager::getTimer('afRender');
+            $timer->addTime();// this one closes afRender timer that was started inside XmlParser constructor
+        }
 	}
 	public static function initialize($action){		
 		

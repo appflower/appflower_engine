@@ -1,27 +1,49 @@
 <?php
 
 class afRenderingRouter {
-    public static function render($request, $module, $action, $actionVars) {
-        $doc = afConfigUtils::getDoc($module, $action);
-        $view = afDomAccess::wrap($doc, 'view', new afVarScope($actionVars));
-
+    public function __construct(sfAction $actionInstance)
+    {
+        $this->request = $actionInstance->getRequest();
+        $this->module  = $actionInstance->getModuleName();
+        $this->action  = $actionInstance->getActionName();
+        $this->actionVars = $actionInstance->getVarHolder()->getAll();
+    }
+    
+    public function render() {
+        $doc = $this->readWidgetConfig();
+        $view = $this->wrapDoc($doc);
+        return $this->renderContent($view);
+    }
+    
+    protected function readWidgetConfig()
+    {
+        return afConfigUtils::getDoc($this->module, $this->action);
+    }
+    
+    protected function wrapDoc($doc)
+    {
+        return afDomAccess::wrap($doc, 'view', new afVarScope($this->actionVars));
+    }
+    
+    protected function renderContent($view)
+    {
         $viewType = $view->get('@type');
         if ($viewType === 'list') {
-            return afListRenderer::renderList($request, $module, $action,
+            return afListRenderer::renderList($this->request, $this->module, $this->action,
                 $view);
         } elseif ($viewType === 'edit' || $viewType === 'show') {
-            $format = $request->getParameter('af_format');
+            $format = $this->request->getParameter('af_format');
             if ($format === 'pdf') {
                 return afEditShowRenderer::renderEditShow(
-                    $request, $module, $action, $view);
+                    $this->request, $this->module, $this->action, $view);
             } elseif ($viewType === 'edit') {
                 return afEditJsonRenderer::renderEdit(
-                    $request, $module, $action, $view);
+                    $this->request, $this->module, $this->action, $view);
             }
         } elseif ($viewType === 'html') {
-        	$format = $request->getParameter('af_format');
+        	$format = $this->request->getParameter('af_format');
             if ($format === 'pdf') {
-            	return afHtmlRenderer::renderHtml($actionVars,$module,$action,$view);
+            	return afHtmlRenderer::renderHtml($this->actionVars,$this->module,$this->action,$view);
             }
         }
 

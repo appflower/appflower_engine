@@ -184,7 +184,13 @@ class XmlParser extends XmlParserTools {
 		} else {
 			$this->readXmlDocument(null,false,$build);
 		}
-		
+
+        if (sfContext::getInstance()->has('profiler')) {
+            $timer = sfTimerManager::getTimer('afRead');
+            $timer->addTime();
+            $timer = sfTimerManager::getTimer('afRender');
+        }
+        
 		parent::__construct($this->document);
 	
 		
