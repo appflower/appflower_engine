@@ -1699,7 +1699,7 @@ Ext.reg('filetreepanel', Ext.ux.FileTreePanel);
 
 // eof
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/filetree/js/Ext.ux.FileTreePanel.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/filetree/js/Ext.ux.FileTreePanel.js  ]*/
 
 // vim: ts=4:sw=4:nu:fdc=4:nospell
 /**
@@ -2057,7 +2057,7 @@ Ext.reg('filetreemenu', Ext.ux.FileTreeMenu);
 
 // eof
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/filetree/js/Ext.ux.FileTreeMenu.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/filetree/js/Ext.ux.FileTreeMenu.js  ]*/
 
 Ext.namespace('Ext.ux.form');
 
@@ -2497,7 +2497,7 @@ Ext.ux.form.BrowseButton = Ext.extend(Ext.Button, {
 Ext.reg('browsebutton', Ext.ux.form.BrowseButton);
 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/filetree/js/Ext.ux.form.BrowseButton.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/filetree/js/Ext.ux.form.BrowseButton.js  ]*/
 
 // vim: ts=4:sw=4:nu:fdc=4:nospell
 /**
@@ -3174,7 +3174,7 @@ Ext.reg('fileuploader', Ext.ux.FileUploader);
 
  // eof
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/filetree/js/Ext.ux.FileUploader.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/filetree/js/Ext.ux.FileUploader.js  ]*/
 
 // vim: ts=4:sw=4:nu:fdc=4:nospell
 /**
@@ -3923,7 +3923,7 @@ Ext.reg('uploadpanel', Ext.ux.UploadPanel);
 
 // eof
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/filetree/js/Ext.ux.UploadPanel.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/filetree/js/Ext.ux.UploadPanel.js  ]*/
 
 /*
 * Extended Panel
@@ -4131,7 +4131,7 @@ Ext.extend(Ext.ux.plugins.RealtimeWidgetUpdate, Ext.util.Observable,{
 	}
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/plugins/Ext.ux.plugins.RealtimeWidgetUpdate.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/plugins/Ext.ux.plugins.RealtimeWidgetUpdate.js  ]*/
 
 // create namespace for plugins
 /**
@@ -4205,7 +4205,7 @@ Ext.ux.plugins.HelpText = {
 Ext.ux.plugins.HelpText = Ext.extend(Ext.ux.plugins.HelpText, Ext.util.Observable);
 // end of file
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.plugins.HelpText.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.plugins.HelpText.js  ]*/
 
 Ext.ns("Ext.ux.plugins");
 Ext.ux.plugins.DayTimeSelect = Ext.extend(Ext.form.Field, {
@@ -4506,7 +4506,7 @@ Ext.ux.plugins.DayTimeSelect = Ext.extend(Ext.form.Field, {
 });
 Ext.reg('daytimeselect', Ext.ux.plugins.DayTimeSelect); 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/datetime/Ext.ux.plugins.DayTimeSelect.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/datetime/Ext.ux.plugins.DayTimeSelect.js  ]*/
 
 Ext.ux.ListField = Ext.extend(Ext.form.Field,  {
     dataFields:[],
@@ -4683,7 +4683,7 @@ Ext.ux.ListField = Ext.extend(Ext.form.Field,  {
 
 Ext.reg("listfield", Ext.ux.ListField);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/multiselect/ListField.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/multiselect/ListField.js  ]*/
 
 /**
  * @class Ext.ux.ColorField
@@ -4926,7 +4926,7 @@ Ext.ux.ColorField = Ext.extend(Ext.form.TriggerField,  {
 
 Ext.reg('colorfield',Ext.ux.ColorField);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/colorfield/color-field.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/colorfield/color-field.js  ]*/
 
 /*
  	This project began as a port of a Color Picker written by:
@@ -5245,7 +5245,7 @@ Ext.ux.color.Color.prototype = {
 	}
 };
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/adv-color-picker/code/Color.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/adv-color-picker/code/Color.js  ]*/
 
 Ext.ux.Radio = {
 	groups: {},
@@ -6080,7 +6080,7 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 	}
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/adv-color-picker/code/ColorPickerPanel.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/adv-color-picker/code/ColorPickerPanel.js  ]*/
 
 Ext.ns("Ext.ux");
 Ext.ux.ColorPickerWin = function(config){
@@ -6101,7 +6101,7 @@ Ext.ux.ColorPickerWin = function(config){
 	return Cwin;
 }
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/adv-color-picker/code/ColorPickerWin.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/adv-color-picker/code/ColorPickerWin.js  ]*/
 
 /**
  * @class Ext.ux.form.StaticTextField
@@ -6320,7 +6320,7 @@ Ext.extend(Ext.ux.form.StaticTextField, Ext.BoxComponent,  {
 
 Ext.reg('statictextfield', Ext.ux.form.StaticTextField); 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.form.StaticTextField.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.form.StaticTextField.js  ]*/
 
 /*
 
@@ -7125,7 +7125,7 @@ Ext.ux.CodePress.languages = {
 
 } 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/codepress/Ext.ux.CodePress.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/codepress/Ext.ux.CodePress.js  ]*/
 
 /**
 * @author radu
@@ -8116,7 +8116,7 @@ Ext.ux.form.ComboBox = Ext.extend(Ext.form.ComboBox,  {
 });
 Ext.reg('combowcolors', Ext.ux.form.ComboBox);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.form.Combo.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.form.Combo.js  ]*/
 
 Ext.namespace('Ext.ux.plugins');
 Ext.ux.plugins.ExtendedComboBox = {
@@ -8148,7 +8148,7 @@ Ext.ux.plugins.ExtendedComboBox = {
 Ext.ux.plugins.ExtendedComboBox = Ext.extend(Ext.ux.plugins.ExtendedComboBox, Ext.util.Observable);
 // end of file
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.plugins.ExtendedComboBox.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.plugins.ExtendedComboBox.js  ]*/
 
 /**
 Extended Item Selector
@@ -8202,7 +8202,7 @@ Ext.ux.RemoteComboAutoSuggest = Ext.extend(Ext.form.ComboBox,  {
 
 Ext.reg("remotecomboautosuggest", Ext.ux.RemoteComboAutoSuggest);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.plugins.RemoteComboAutoSuggest.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.plugins.RemoteComboAutoSuggest.js  ]*/
 
 // vim: ts=4:sw=4:nu:fdc=4:nospell
 /**
@@ -8547,7 +8547,7 @@ Ext.reg('lovcombo', Ext.ux.form.LovCombo);
  
 // eof
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/lovcombo-1.0/js/Ext.ux.form.LovCombo.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/lovcombo-1.0/js/Ext.ux.form.LovCombo.js  ]*/
 
 /**
 Captcha input field
@@ -8576,7 +8576,7 @@ Ext.ux.Captcha = Ext.extend(Ext.form.TextField,  {
 
 Ext.reg("captcha", Ext.ux.Captcha);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.plugins.Captcha.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.plugins.Captcha.js  ]*/
 
 /**
 Extended Item Selector
@@ -9027,7 +9027,7 @@ Ext.ux.ItemSelectorAutoSuggest = Ext.extend(Ext.form.Field,  {
 
 Ext.reg("itemselectorautosuggest", Ext.ux.ItemSelectorAutoSuggest);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/multiselect/Ext.ux.plugins.ItemSelectorAutoSuggest.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/multiselect/Ext.ux.plugins.ItemSelectorAutoSuggest.js  ]*/
 
 Ext.ns("Ext.ux.plugins");
 Ext.ux.plugins.ExtendedDayTimeSelect = Ext.extend(Ext.form.Field, {
@@ -9450,7 +9450,7 @@ Ext.ux.plugins.ExtendedDayTimeSelect = Ext.extend(Ext.form.Field, {
 });
 Ext.reg('extendedDayTimeSelect', Ext.ux.plugins.ExtendedDayTimeSelect); 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/datetime/Ext.ux.plugins.ExtendedDayTimeSelect.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/datetime/Ext.ux.plugins.ExtendedDayTimeSelect.js  ]*/
 
 // vim: ts=4:sw=4:nu:fdc=4:nospell
 /*global Ext */
@@ -10145,7 +10145,7 @@ Ext.reg('xdatetime', Ext.ux.form.DateTime);
 
 // eof
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/datetime/Ext.ux.form.DateTime.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/datetime/Ext.ux.form.DateTime.js  ]*/
 
 Date.prototype.getFirstDateOfWeek = function(startDay) {
 //set startDay to Sunday by default
@@ -12415,7 +12415,7 @@ if (Ext.form && Ext.form.DateField) {
 	Ext.reg('datefieldplus', Ext.ux.form.DateFieldPlus);
 }
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/datepickerplus/Ext.ux.datepickerplus.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/datepickerplus/Ext.ux.datepickerplus.js  ]*/
 
 /*
  * Ext JS Library 2.2
@@ -13348,7 +13348,7 @@ dateField.setValue('2006-05-04');
 });
 Ext.reg('yearfield', Ext.form.YearField);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/yearpicker/Ext.YearPicker.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/yearpicker/Ext.YearPicker.js  ]*/
 
 /*
  * Ext JS Library 2.2
@@ -13960,7 +13960,7 @@ Ext.extend(Ext.ux.DDView, Ext.DataView, {
     }
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/multiselect/DDView.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/multiselect/DDView.js  ]*/
 
 /*
  * Ext JS Library 2.2
@@ -14293,7 +14293,7 @@ Ext.ux.Multiselect = Ext.extend(Ext.form.Field,  {
 
 Ext.reg("multiselect", Ext.ux.Multiselect);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/multiselect/MultiSelect.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/multiselect/MultiSelect.js  ]*/
 
 /*
  * Ext JS Library 2.2
@@ -14657,7 +14657,7 @@ Ext.ux.ItemSelector = Ext.extend(Ext.form.Field,  {
 
 Ext.reg("itemselector", Ext.ux.ItemSelector);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/multiselect/ItemSelector.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/multiselect/ItemSelector.js  ]*/
 
 Ext.override(Ext.layout.TableLayout, {
 	getNextCell : function(c){
@@ -15060,7 +15060,7 @@ Ext.ux.TreeItemSelector = Ext.extend(Ext.form.Field,  {
 
 Ext.reg("treeitemselector", Ext.ux.TreeItemSelector);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/multiselect/Ext.ux.TreeItemSelector.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/multiselect/Ext.ux.TreeItemSelector.js  ]*/
 
 /**
  * @class Ext.tree.TreeSerializer
@@ -15264,7 +15264,7 @@ Ext.extend(Ext.tree.JsonTreeSerializer, Ext.tree.TreeSerializer, {
     }
 }); 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/tree/Ext.tree.TreeSerializer.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/tree/Ext.tree.TreeSerializer.js  ]*/
 
 Ext.ns('Ext.ux');
 
@@ -15281,7 +15281,7 @@ Ext.extend(Ext.ux.ClassicFormPanel, Ext.form.FormPanel, {
     }
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.ClassicFormPanel.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.ClassicFormPanel.js  ]*/
 
 /**
  * Different from Extjs-2 Version
@@ -15468,7 +15468,7 @@ Ext.ux.form.ComboWButton = Ext.extend(Ext.form.Field,  {
 
 Ext.reg("combowbutton", Ext.ux.form.ComboWButton);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.form.ComboWButton.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/form/Ext.ux.form.ComboWButton.js  ]*/
 
 Ext.ns("Ext.ux");
 
@@ -15570,7 +15570,7 @@ Ext.extend(Ext.ux.VerticalTabPanel, Ext.TabPanel, {
   }
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/settings/ux_VerticalTabPanel.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/settings/ux_VerticalTabPanel.js  ]*/
 
 /*
 * Ext.ux.Settings
@@ -15613,7 +15613,7 @@ Ext.extend(Ext.ux.Settings, Ext.ux.VerticalTabPanel,{
 });
 Ext.reg("settings",Ext.ux.Settings);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/settings/Ext.ux.Settings.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/settings/Ext.ux.Settings.js  ]*/
 
 /*!
  * Ext JS Library 3.3.0
@@ -15831,7 +15831,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
 
 Ext.reg('gmappanel', Ext.ux.GMapPanel); 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/window/Ext.ux.GMapPanel.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/window/Ext.ux.GMapPanel.js  ]*/
 
 /*
  *  Dynamic widgets
@@ -16802,7 +16802,7 @@ afApp.loadWestWidget = function(widget)
 afApp.currentWidget = false;
 afApp.observable = new Ext.util.Observable();
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/js/custom/widgetJS.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/js/custom/widgetJS.js  ]*/
 
 Ext.override(Ext.layout.BorderLayout, {
 
@@ -17059,7 +17059,7 @@ Ext.override(Ext.layout.BorderLayout, {
 
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/js/custom/BorderLayoutOverride.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/js/custom/BorderLayoutOverride.js  ]*/
 
 var gridUtil = function(grid,config){
 	config = Ext.decode(config);
@@ -17107,7 +17107,7 @@ var gridUtil = function(grid,config){
 	
 }
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/js/custom/gridUtil.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/js/custom/gridUtil.js  ]*/
 
 /**
 * Keymap for tabPortalPanel inside a portal page
@@ -17165,7 +17165,7 @@ var map = new Ext.KeyMap(document, {
 	}
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/js/custom/keyMaps.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/js/custom/keyMaps.js  ]*/
 
 /*
  *  Override for Ext.data.SortTypes
@@ -17235,7 +17235,7 @@ Ext.apply(Ext.data.SortTypes,{
 	}
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/overrides/Override.Ext.data.SortTypes.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/overrides/Override.Ext.data.SortTypes.js  ]*/
 
 /*
  *  Override for form fields
@@ -17414,7 +17414,7 @@ Ext.override(Ext.form.HtmlEditor, {
 });
 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/overrides/Override.Ext.form.Field.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/overrides/Override.Ext.form.Field.js  ]*/
 
 /**
  * author: Prakash Paudel
@@ -17802,7 +17802,7 @@ Ext.isJsonString = function(string){
 	return rc.test(string);
 }
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/overrides/Override.Fixes.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/overrides/Override.Fixes.js  ]*/
 
 Ext.ux.NotificationMgr = {
     positions: [],
@@ -18040,7 +18040,7 @@ Ext.ux.Notification.start = function(url){
 }
 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/plugins/Ext.ux.Notification.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/plugins/Ext.ux.Notification.js  ]*/
 
 Ext.override(Ext.Container, {
 	render : function(){
@@ -18104,7 +18104,7 @@ Ext.override(Ext.layout.Accordion, {
 	}
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/layout/AccordionLayoutSetActiveItem.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/layout/AccordionLayoutSetActiveItem.js  ]*/
 
 Ext.ns("Ext.ux");
 Ext.ux.MaximizeTool = function() {
@@ -18215,7 +18215,7 @@ Ext.ux.MaximizeTool = function() {
     
 };
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/portal/Ext.ux.MaximizeTool.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/portal/Ext.ux.MaximizeTool.js  ]*/
 
 /*!
  * Ext JS Library 3.0.0
@@ -18505,7 +18505,7 @@ Ext.ux.GroupTabPanel = Ext.extend(Ext.TabPanel, {
 
 Ext.reg('grouptabpanel', Ext.ux.GroupTabPanel);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grouptabs/GroupTabPanel.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grouptabs/GroupTabPanel.js  ]*/
 
 /*!
  * Ext JS Library 3.0.0
@@ -18774,7 +18774,7 @@ Ext.ux.GroupTab = Ext.extend(Ext.Container, {
 
 Ext.reg('grouptab', Ext.ux.GroupTab);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grouptabs/GroupTab.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grouptabs/GroupTab.js  ]*/
 
 /*
  * Ext JS Library 2.2
@@ -19708,7 +19708,7 @@ Ext.extend(Ext.ux.Portal.DropZone, Ext.dd.DropTarget, {
     }
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/portal/Portal.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/portal/Portal.js  ]*/
 
 /*
  * Ext JS Library 2.2
@@ -19726,7 +19726,7 @@ Ext.ux.PortalColumn = Ext.extend(Ext.Container, {
 });
 Ext.reg('portalcolumn', Ext.ux.PortalColumn);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/portal/PortalColumn.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/portal/PortalColumn.js  ]*/
 
 /*
  * Ext JS Library 2.2
@@ -19745,7 +19745,7 @@ Ext.ux.Portlet = Ext.extend(Ext.Panel, {
 });
 Ext.reg('portlet', Ext.ux.Portlet);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/portal/Portlet.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/portal/Portlet.js  ]*/
 
 /*
  * Ext JS Library 2.2
@@ -19849,7 +19849,7 @@ SampleGrid = function(limitColumns){
 
 Ext.extend(SampleGrid, Ext.grid.GridPanel);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/portal/sample-grid.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/portal/sample-grid.js  ]*/
 
 /*
  * Ext JS Library 2.2
@@ -19940,7 +19940,7 @@ Ext.ux.TabMenu = function(){
     }
 };
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/tabsImm/TabMenu.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/tabsImm/TabMenu.js  ]*/
 
 /**
 * Portals code extensions
@@ -20101,7 +20101,7 @@ function Portals()
 	}
 }
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/js/custom/portalsJS.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/js/custom/portalsJS.js  ]*/
 
 if (Ext.version == '3.0') {
     Ext.override(Ext.grid.GridView, {
@@ -22199,7 +22199,7 @@ Ext.reg('Ext.ux.maximgb.tg.GridPanel', Ext.ux.maximgb.tg.GridPanel);
 Ext.reg('Ext.ux.maximgb.tg.EditorGridPanel', Ext.ux.maximgb.tg.EditorGridPanel);
 Ext.reg('Ext.ux.maximgb.tg.PagingToolbar', Ext.ux.maximgb.tg.PagingToolbar);
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/treegrid/TreeGrid.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/treegrid/TreeGrid.js  ]*/
 
 /**
  * @class Ext.ux.CheckboxSelectionModel
@@ -22556,7 +22556,7 @@ Ext.ux.CheckboxSelectionModel = Ext.extend(Ext.grid.CheckboxSelectionModel, {
     }
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/treegrid/Ext.ux.CheckboxSelectionModel.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/treegrid/Ext.ux.CheckboxSelectionModel.js  ]*/
 
 Ext.ns("Ext.ux");
 Ext.ux.SynchronousTreeExpand = function(config){	
@@ -22596,7 +22596,7 @@ Ext.ux.SynchronousTreeExpand = function(config){
 	});	
 }
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/treegrid/Ext.ux.SynchronousTreeExpand.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/treegrid/Ext.ux.SynchronousTreeExpand.js  ]*/
 
 /*!
  * Ext JS Library 3.3.1
@@ -22848,7 +22848,7 @@ Ext.ux.StartMenu = Ext.extend(Ext.menu.Menu, {
     }
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/desktop/js/StartMenu.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/desktop/js/StartMenu.js  ]*/
 
 /*!
  * Ext JS Library 3.3.1
@@ -23324,7 +23324,7 @@ Ext.extend(Ext.ux.TaskBar.TaskButton, Ext.Button, {
     }
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/desktop/js/TaskBar.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/desktop/js/TaskBar.js  ]*/
 
 /*!
  * Ext JS Library 3.3.1
@@ -23532,16 +23532,17 @@ Ext.Desktop = function(app) {
             t = e.getTarget('dt', shortcuts);
             if (t) {
                 e.stopEvent();
-                var module = app.getModule(t.id.replace('-shortcut', ''));
+                
+                /*var module = app.getModule(t.id.replace('-shortcut', ''));
                 if (module) {
                     module.createWindow();
-                }
+                }*/
             }
         });
     }
 };
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/desktop/js/Desktop.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/desktop/js/Desktop.js  ]*/
 
 Ext.ns('Ext.ux.layout');
 
@@ -23561,7 +23562,7 @@ Ext.ux.layout.CenterLayout = Ext.extend(Ext.layout.FitLayout, {
 });
 Ext.Container.LAYOUTS['ux.center'] = Ext.ux.layout.CenterLayout;
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/layout-browser/Ext.ux.layout.CenterLayout.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/layout-browser/Ext.ux.layout.CenterLayout.js  ]*/
 
 /*
  * Ext JS Library 2.2
@@ -23616,7 +23617,7 @@ Ext.ux.TabCloseMenu = function(){
     }
 };
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/tabs/TabCloseMenu.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/tabs/TabCloseMenu.js  ]*/
 
 /**
 * @author: radu
@@ -23718,7 +23719,7 @@ Ext.extend(Ext.ux.GridColorView, Ext.grid.GridView, {
     }
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid/Ext.ux.GridColorView.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid/Ext.ux.GridColorView.js  ]*/
 
 /**
 * @author: radu
@@ -24205,7 +24206,7 @@ var grid = new Ext.grid.GridPanel({
 // private
 Ext.ux.GroupingColorView.GROUP_ID = 1000;
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid/Ext.ux.GroupingColorView.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid/Ext.ux.GroupingColorView.js  ]*/
 
 /*
  * For the grids with no initial sort, the grouping view attempt shows a error
@@ -24225,7 +24226,7 @@ Ext.override(Ext.data.GroupingStore, {
     }
 }); 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid/Ext.ux.Grid.GroupingStoreOverride.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid/Ext.ux.Grid.GroupingStoreOverride.js  ]*/
 
 /**
 * Export UI for grids
@@ -24360,7 +24361,7 @@ Ext.extend(Ext.ux.ExportUI,Ext.Window,{
 	}	
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/plugins/Ext.ux.ExportUI.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/plugins/Ext.ux.ExportUI.js  ]*/
 
 Ext.ns('Ext.ux.grid');
 
@@ -24611,7 +24612,7 @@ Ext.ux.grid.GridSummary.Calculations = {
 	}
 };
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/gridsummary/gridsummary.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/gridsummary/gridsummary.js  ]*/
 
 Ext.namespace('Ext.ux.plugins'); 
 /**
@@ -24679,7 +24680,7 @@ Ext.extend(Ext.ux.plugins.AddExpandListButton, Ext.util.Observable, {
     }	
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid/Ext.ux.plugins.AddExpandListButton.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid/Ext.ux.plugins.AddExpandListButton.js  ]*/
 
 /*!
  * Ext JS Library 3.0.0
@@ -24913,7 +24914,7 @@ Ext.preg('rowexpander', Ext.ux.grid.RowExpander);
 //backwards compat
 Ext.grid.RowExpander = Ext.ux.grid.RowExpander;
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid/RowExpander.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid/RowExpander.js  ]*/
 
 Ext.namespace("Ext.ux.menu");
 Ext.ux.menu.EditableItem = Ext.extend(Ext.menu.BaseItem, {
@@ -24978,7 +24979,7 @@ Ext.ux.menu.EditableItem = Ext.extend(Ext.menu.BaseItem, {
     }
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/menu/EditableItem.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/menu/EditableItem.js  ]*/
 
 Ext.namespace("Ext.ux.menu");
 Ext.ux.menu.ComboMenu = Ext.extend(Ext.menu.BaseItem, {
@@ -25074,7 +25075,7 @@ Ext.ux.menu.ComboMenu = Ext.extend(Ext.menu.BaseItem, {
     }
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/menu/ComboMenu.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/menu/ComboMenu.js  ]*/
 
 Ext.namespace("Ext.ux.menu");
 Ext.ux.menu.RangeMenu = function(){
@@ -25157,7 +25158,7 @@ Ext.extend(Ext.ux.menu.RangeMenu, Ext.menu.Menu, {
 	}
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/menu/RangeMenu.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/menu/RangeMenu.js  ]*/
 
 /**
  * Fix for Ext 3
@@ -25616,7 +25617,7 @@ Ext.extend(Ext.ux.grid.GridFilters, Ext.util.Observable, {
 	}
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/GridFilters.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/GridFilters.js  ]*/
 
 /**
 * Ext.ux.DrillFilter
@@ -25706,7 +25707,7 @@ Ext.Imm.SelectedText = function(){
 	return txt;	
 }
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/DrillFilter.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/DrillFilter.js  ]*/
 
 /**
 * Ext.ux.RePositionFilters
@@ -25870,7 +25871,7 @@ Ext.ux.RePositionFilters = function(grid){
 	}, this);		
 }
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/RePositionFilters.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/RePositionFilters.js  ]*/
 
 /**
 * Ext.ux.SaveSearchState
@@ -26068,7 +26069,7 @@ Ext.ux.SaveSearchState = function(grid){
 }
 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/SaveSearchState.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/SaveSearchState.js  ]*/
 
 /**
 * Ext.ux.FilterInfo
@@ -26165,7 +26166,7 @@ Ext.ux.FilterInfo.remove = function(anchor){
 }
 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/FilterInfo.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/FilterInfo.js  ]*/
 
 /**
  * Ext.ux.FilterOption
@@ -26232,7 +26233,7 @@ Ext.ux.FilterOption = function(filter,name){
     }    
 }
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/FilterOption.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/FilterOption.js  ]*/
 
 Ext.namespace("Ext.ux.grid.filter");
 Ext.ux.grid.filter.Filter = function(config){
@@ -26399,7 +26400,7 @@ Ext.extend(Ext.ux.grid.filter.Filter, Ext.util.Observable, {
 	 }
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/Filter.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/Filter.js  ]*/
 
 Ext.ux.grid.filter.BooleanFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	defaultValue: false,
@@ -26448,7 +26449,7 @@ Ext.ux.grid.filter.BooleanFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	}
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/BooleanFilter.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/BooleanFilter.js  ]*/
 
 Ext.ux.grid.filter.ComboFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	updateBuffer: 500,
@@ -26517,7 +26518,7 @@ Ext.ux.grid.filter.ComboFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	}
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/ComboFilter.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/ComboFilter.js  ]*/
 
 Ext.ux.grid.filter.DateFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	dateFormat: 'Y-m-d',
@@ -26638,7 +26639,7 @@ Ext.ux.grid.filter.DateFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	}
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/DateFilter.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/DateFilter.js  ]*/
 
 Ext.ux.grid.filter.ListFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	labelField:  'text',
@@ -26804,7 +26805,7 @@ Ext.ux.grid.filter.ListFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
     }
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/ListFilter.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/ListFilter.js  ]*/
 
 Ext.ux.grid.filter.NumericFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	init: function(){
@@ -26866,7 +26867,7 @@ Ext.ux.grid.filter.NumericFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	}
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/NumericFilter.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/NumericFilter.js  ]*/
 
 Ext.ux.grid.filter.StringFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 	updateBuffer: 0,
@@ -26942,7 +26943,7 @@ Ext.ux.grid.filter.StringFilter = Ext.extend(Ext.ux.grid.filter.Filter, {
 });
 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/StringFilter.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/StringFilter.js  ]*/
 
 /**
  * Text filter: drill down on a previously applied filter in long texts
@@ -27155,7 +27156,7 @@ Ext.ux.grid.filter.TextFilter = Ext.extend(Ext.ux.grid.filter.StringFilter, {
     }
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/TextFilter.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid-filtering/ux/grid/filter/TextFilter.js  ]*/
 
 Ext.namespace('Ext.ux.plugins'); 
 /**
@@ -27351,7 +27352,7 @@ Ext.extend(Ext.ux.plugins.IndexSearch, Ext.util.Observable, {
     }	
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid/Ext.ux.plugins.IndexSearch.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/grid/Ext.ux.plugins.IndexSearch.js  ]*/
 
 // vim: ts=4:sw=4:nu:fdc=4:nospell
 /**
@@ -28059,7 +28060,7 @@ Ext.reg('rowactions', Ext.ux.GridRowActions);
 
 // eof
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/rowactionsImm/js/Ext.ux.GridRowActions.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/rowactionsImm/js/Ext.ux.GridRowActions.js  ]*/
 
 /*
  * Ext JS Library 2.2
@@ -28203,7 +28204,7 @@ Ext.DataView.DragSelector = function(cfg){
     }
 };
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/view/data-view-plugins.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/view/data-view-plugins.js  ]*/
 
 Ext.ns('Ext.ux');
 
@@ -28235,7 +28236,7 @@ Ext.ux.RobustSubmitAction = Ext.extend(Ext.form.Action.Submit, {
 Ext.form.Action.ACTION_TYPES['robustsubmit'] = Ext.ux.RobustSubmitAction;
 
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/submit/RobustSubmitAction.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/submit/RobustSubmitAction.js  ]*/
 
 /*
  * JS for html cheat to make the html div height synchronized 
@@ -28256,7 +28257,7 @@ function panelHtmlCheat(div){
 	
 }
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/js/custom/cheatJS.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/js/custom/cheatJS.js  ]*/
 
 /**
  * immune custom comet like script
@@ -28332,7 +28333,7 @@ Ext.extend(Ext.Comet, Ext.util.Observable, {
 
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/comet/Ext.Comet.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/comet/Ext.Comet.js  ]*/
 
 /**
  * immune custom updater using some comet like script
@@ -28470,5 +28471,5 @@ Ext.extend(Ext.ux.Updater, Ext.util.Observable, {
 
 });
 
-/*[  /home/lukas/workspace/AppFlower/seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/comet/Ext.ux.Updater.js  ]*/
+/*[  /var/www/projects/appflower_seedcontrol/plugins/appFlowerPlugin/batch/../web/extjs-3/plugins/comet/Ext.ux.Updater.js  ]*/
 
