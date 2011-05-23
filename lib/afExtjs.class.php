@@ -55,23 +55,15 @@ class afExtjs extends sfExtjs2Plugin
   public function getCurrentTemplate()
   {
   	$pluginTemplateYml = sfYaml::load(sfConfig::get('sf_root_dir').'/plugins/appFlowerPlugin/config/template.yml');
-  	if(file_exists(sfConfig::get('sf_root_dir').'/config/template.yml'))
+  	if(file_exists(sfConfig::get('sf_root_dir').'/config/project.yml'))
   	{
-  		$appTemplateYml = sfYaml::load(sfConfig::get('sf_root_dir').'/config/template.yml');
+  		$projectYml = sfYaml::load(sfConfig::get('sf_root_dir').'/config/project.yml');
   		
-  		if(is_array($appTemplateYml))
-  		{
-  			$templateYml = array_merge($pluginTemplateYml,$appTemplateYml);
-  		}
-  		else {
-  			$templateYml = $pluginTemplateYml;
-  		}
+  		$template = $projectYml['project']['template'];
   	}
   	else {
-  		$templateYml = $pluginTemplateYml;
+  		$templateYml = $pluginTemplateYml['template']['default'];
   	}
-  	
-  	$template = in_array($templateYml['template']['current'],$pluginTemplateYml['template']['types'])?$templateYml['template']['current']:$pluginTemplateYml['template']['current'];
   	
   	return $template;
   }
