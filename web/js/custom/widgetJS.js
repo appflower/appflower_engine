@@ -42,11 +42,11 @@ function in_array (needle, haystack, argStrict) {
 String.prototype.ucfirst = function () {
 	   
     return this.substr(0,1).toUpperCase()+this.substr(1);
-}
+};
 
-Array.prototype.in_array = function (needle, argStrict) {
+Array.prototype.in_array = function(needle, argStrict) {
 	   
-    var key = '', strict = !!argStrict, haystack=this;
+    var key = '', strict = !!argStrict, haystack = this;
 
     if (strict) {
         for (key in haystack) {
@@ -63,36 +63,36 @@ Array.prototype.in_array = function (needle, argStrict) {
     }
 
     return false;
-}
+};
+
 afApp.createAddon = function(filename, filetype, callback) {
 	
-	if(filename.indexOf('http://')!=-1)
-	{
+	if (filename.indexOf('http://') != -1) {
 		filename = afApp.urlPrefix + filename;
 	}
 	
-	if(!filetype)
-	{
+	if (!filetype) {
 		var f = filename.split('.');
-		filetype=f[f.length-1];
+		filetype = f[f.length-1];
 	}
 	
 	//console.log(filename+":"+filetype);
 	if (filetype == "js") { // if filename is a external JavaScript file
-		var fileref = document.createElement('script')
-		fileref.setAttribute("type", "text/javascript")
-		fileref.setAttribute("src", filename)
+		var fileref = document.createElement('script');
+		fileref.setAttribute("type", "text/javascript");
+		fileref.setAttribute("src", filename);
 		GLOBAL_JS_VAR.push(filename);
 	} else if (filetype == "css") { // if filename is an external CSS file
-		var fileref = document.createElement("link")
-		fileref.setAttribute("rel", "stylesheet")
-		fileref.setAttribute("type", "text/css")
-		fileref.setAttribute("href", filename)
+		var fileref = document.createElement("link");
+		fileref.setAttribute("rel", "stylesheet");
+		fileref.setAttribute("type", "text/css");
+		fileref.setAttribute("href", filename);
 		GLOBAL_CSS_VAR.push(filename);
 	}
 	
-	if (typeof fileref != "undefined")
-		document.getElementsByTagName("head")[0].appendChild(fileref)
+	if (typeof fileref != "undefined") {
+		document.getElementsByTagName("head")[0].appendChild(fileref);
+	}
 		
 	if (filetype == "js") { // if filename is a external JavaScript file
 		fileref.onload = fileref.onreadystatechange = function() {
@@ -103,23 +103,23 @@ afApp.createAddon = function(filename, filetype, callback) {
 		}
 	} else if (filetype == "css") { // if filename is an external CSS file
 		callback();
-	}
-	
-}
+	}	
+};
+
 /*
 * Works only with App build in layout for real AF project
 * @return boolean
 */
 afApp.hasDesktop = function ()
 {
-	var has=false;
+	var has = false;
 	
-	try{
-		if(App&&App.desktop) has=true;
-	}
-	catch (e)
-	{
-		has=false;
+	try {
+		if (App && App.desktop) {
+			has = true;
+		}
+	} catch(e) {
+		has = false;
 	}
 
 	return has;
@@ -237,125 +237,139 @@ afApp.pack = function(win,winConfig,Application){
 		});
 	});
 }
-afApp.executeAddons = function(addons,json,title,superClass,winConfig,Application,widget){
-	Application = Application?Application : App; //App is default application for all Appflower apps
+
+afApp.executeAddons = function(addons, json, title, superClass, winConfig, Application, widget) {
+	//App is default application for all Appflower apps
+	Application = Application?Application : App; 
 	var maskEl; //used as maskElement, if viewport exist then use center, else use page's body
-	try{
-		var viewport=Application.getViewport();
+	try {
+		var viewport = Application.getViewport();
 		maskEl = viewport.layout.center.panel.getEl();
-	}
-	catch (e)
-	{
+	} catch (e) {
 		maskEl = Ext.get("body");
 	}
 	
-	var counter = 0;
-	var backup = new Array();
-	var finish;
-	var load = function(){	
-		if(counter >= addons.length){
+	var counter = 0,
+		backup = new Array(),
+		finish;
+		
+	var load = function() {	
+		if (counter >= addons.length) {
 			finish();
 			return;
 		}
-		afApp.loadingProgress(maskEl,(counter+1)/addons.length);
-		var nextAddon=addons[counter++];
+		afApp.loadingProgress(maskEl, (counter + 1) / addons.length);
+		var nextAddon = addons[counter++];
 		
-		afApp.createAddon(nextAddon,false,load);
+		afApp.createAddon(nextAddon, false, load);
 	};
 
-	finish = function(){
-				//backupForms();
-				eval(json.source);	
-				
-				var backendWinConfig = eval(json.winConfig);
-								
-				var center_panel = (function(){ return eval(json.center_panel) })();
-				
-				Ext.apply(center_panel,{
-						frame : winConfig.applyTo?false:true,	
-						width:"auto",
-						layout:"form"
-				});
-							
-				Ext.applyIf(winConfig, {
-					id: widget,
-					autoScroll : true,
-					minimizable: true,
-					maximizable : true,
-					draggable:true,					
-					closeAction:'close',
-					manager: afApp.windows, // general popup windows manager
-										
-					items: center_panel
-				});
-				
-				Ext.apply(winConfig,backendWinConfig);
-				
-				if(winConfig.applyTo){
-					winConfig = Ext.apply(winConfig,{
-						frame:false
-					});
-					var win = new Ext.Panel( winConfig );					
-				}else{
-					var win = new Ext.Window( winConfig );
-				}
-				if(title) win.setTitle(title);
-				
-				//win.dd.xTickSize = 1;
-		        //win.dd.yTickSize = 1;
-		        if (win.resizer) {
-		            win.resizer.widthIncrement = 1;
-		            win.resizer.heightIncrement = 1;
-		        }
-				
-				if(afApp.hasDesktop())
-		        {
-		        	win.taskButton = Application.desktop.taskbar.addTaskButton(win);
-		        	win.animateTarget = win.taskButton.el;
-		        }
-				
-				win.on({
-		            'activate': {
-		                fn: afApp.markActive
-		            },
-		            'beforeshow': {
-		                fn: afApp.markActive
-		            },
-		            'deactivate': {
-		                fn: afApp.markInactive
-		            },
-		            'minimize': {
-		                fn: afApp.minimizeWin
-		            },
-		            'close': {
-		                fn: afApp.removeWin
-		            },
-		            'resize': {
-		            	fn: function(){/*console.log('x');*/}
-		            }
-		        });
-				
-		        //afApp.layout();
-		        
-				if(win.doLayout) win.doLayout()
-				if(win.show) win.show();
-				
-				/* window resize, pack and onmove adjustments */
-				afApp.pack(win,winConfig,Application);
-								
-				if(win.doLayout) win.doLayout()
-				if(win.show) win.show();				
-				if(win.center) win.center();
-				win.on("render",function(win){eval(json.public_source);},null,{single:true});
-				
-				afApp.loadingProgress(maskEl,1);
-				
-				win.on("hide",function(){	
-					if(superClass)superClass.onHide(win);									
-					//win.destroy();
-					//win.close();
-					//restoreBackup();
-				});		        
+	finish = function() {
+		//backupForms();
+		eval(json.source);	
+		
+		var backendWinConfig = eval(json.winConfig);
+						
+		var center_panel = (function(){ return eval(json.center_panel); })();
+		
+		Ext.apply(center_panel, {
+			frame: winConfig.applyTo ? false : true,	
+			width: "auto",
+			layout: "form"
+		});
+					
+		Ext.applyIf(winConfig, {
+			id: widget,
+			autoScroll: true,
+			minimizable: true,
+			maximizable: true,
+			draggable: true,					
+			closeAction: 'close',
+			manager: afApp.windows, // general popup windows manager								
+			items: center_panel
+		});
+		
+		Ext.apply(winConfig, backendWinConfig);
+		
+		if (winConfig.applyTo) {
+			winConfig = Ext.apply(winConfig, {
+				frame: false
+			});
+			var win = new Ext.Panel(winConfig);					
+		} else {
+			var win = new Ext.Window(winConfig);
+		}
+		
+		if (title) {
+			win.setTitle(title);
+		}
+		
+		//win.dd.xTickSize = 1;
+        //win.dd.yTickSize = 1;
+        if (win.resizer) {
+            win.resizer.widthIncrement = 1;
+            win.resizer.heightIncrement = 1;
+        }
+		
+		if (afApp.hasDesktop()) {
+        	win.taskButton = Application.desktop.taskbar.addTaskButton(win);
+        	win.animateTarget = win.taskButton.el;
+        }
+		
+		win.on({
+            'activate': {
+                fn: afApp.markActive
+            },
+            'beforeshow': {
+                fn: afApp.markActive
+            },
+            'deactivate': {
+                fn: afApp.markInactive
+            },
+            'minimize': {
+                fn: afApp.minimizeWin
+            },
+            'close': {
+                fn: afApp.removeWin
+            },
+            'resize': {
+            	fn: function(){/*console.log('x');*/}
+            }
+        });
+		
+        //afApp.layout();
+        
+		if (win.doLayout) {
+			win.doLayout();
+		}
+		if (win.show) {
+			win.show();
+		}
+		
+		/* window resize, pack and onmove adjustments */
+		afApp.pack(win, winConfig, Application);
+						
+		if (win.doLayout) {
+			win.doLayout();
+		}
+		if (win.show) {
+			win.show();				
+		}
+		if (win.center) {
+			win.center();
+		}
+		win.on("render", function(win){ eval(json.public_source); }, null, {single:true});
+		
+		afApp.loadingProgress(maskEl, 1);
+		
+		win.on("hide",function(){	
+			if (superClass) {
+				superClass.onHide(win);									
+			}
+			//win.destroy();
+			//win.close();
+			//restoreBackup();
+		});		        
 	};
 
 	/*function restoreBackup(){
@@ -395,88 +409,82 @@ afApp.executeAddons = function(addons,json,title,superClass,winConfig,Applicatio
 	}*/
 
 	load();
-}
-afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
-	Application = Application?Application : App; //App is default application for all Appflower apps
+};
+
+afApp.widgetPopup = function(widget, title, superClass, winConfig, Application) {
+	//App is default application for all Appflower apps
+	Application = Application ? Application : App;
+	
 	var maskEl; //used as maskElement, if viewport exist then use center, else use page's body
-	try{
-		var viewport=Application.getViewport();
+	try {
+		var viewport = Application.getViewport();
 		maskEl = viewport.layout.center.panel.getEl();
-	}
-	catch (e)
-	{
+	} catch (e) {
 		maskEl = Ext.get("body");
 	}
 	
-	if(!winConfig)
-	{
+	if (!winConfig) {
 		var winConfig = {};
 		winConfig.width = 800;
 		winConfig.height = 500;
+	} else {
+		winConfig = eval('({' + unescape(winConfig) + '});');		
+		winConfig.width = winConfig.width ? winConfig.width : 800;
+		winConfig.height = winConfig.height ? winConfig.height : 500;
 	}
-	else
-	{
-		winConfig=eval('({'+unescape(winConfig)+'});');
+	
+	var getWidgetText = function(widget) {
+		if (widget.length > 45) {
+			return widget.substring(0, 20) + "...." + widget.substring(widget.length - 20, widget.length);
+		}
 		
-		winConfig.width = winConfig.width? winConfig.width:800;
-		winConfig.height = winConfig.height? winConfig.height:500;
-	}
+		return widget;
+	};
 	
-	var getWidgetText = function(widget){
-		if(widget.length > 45){
-			return widget.substring(0,20)+"...."+widget.substring(widget.length-20,widget.length);
-		}return widget;
-	}
-	
-	widget = widget.replace(document.location.protocol+'//'+document.location.host+afApp.urlPrefix,'');
-	var uri=widget.split('#');
-	uri[0]=uri[0] || '/';
-	var futureTab=uri[1]?'#'+uri[1]:'';
+	widget = widget.replace(document.location.protocol + '//' + document.location.host + afApp.urlPrefix, '');
+	var uri = widget.split('#');
+	uri[0] = uri[0] || '/';
+	var futureTab = uri[1] ? '#' + uri[1] : '';
 	//hash contains the value without #in front of the internal link
-	var futureHash=uri[0]+futureTab;
-		
+	var futureHash = uri[0] + futureTab;
+	
 	afApp.currentWidget = uri[0];
 	afApp.observable.fireEvent('beforeload', uri[0]);
 				
 	var win = afApp.getWindow(widget);
-	if(win)
-	{
+	
+	if (win) {
 		win.show();
-	}
-	else {
-		
+	} else {
 		afApp.initLoadingProgress(maskEl);
 	
 		var ajax = Ext.Ajax.request({
-			url : afApp.urlPrefix+uri[0],
-			method : "GET",		
-			success : function(r) {
+			url: afApp.urlPrefix + uri[0],
+			method: "GET",
+			params: {
+				widget_popup_request : true
+			},
+			success: function(r) {
 				var json = Ext.util.JSON.decode(r.responseText);
 				
-				if(json.redirect&&json.message&&json.load)
-				{
-					Ext.Msg.alert("Failure", json.message, function(){afApp.load(json.redirect,json.load);});
-				}
-				else
-				{			
+				if (json.redirect && json.message && json.load) {
+					Ext.Msg.alert("Failure", json.message, function(){ afApp.load(json.redirect,json.load); });
+				} else {
 					var total_addons = new Array();
 					
-					if(json.addons && json.addons.js)
-					{
-						for ( var i = 0; i < json.addons.js.length; i++) {
+					if (json.addons && json.addons.js) {
+						for (var i = 0; i < json.addons.js.length; i++) {
 							var addon = json.addons.js[i];
-							if(!in_array(addon,GLOBAL_JS_VAR)){
-								if(addon != null)
-								total_addons.push(addon);			
+							if (!in_array(addon, GLOBAL_JS_VAR) && addon != null) {
+								total_addons.push(addon);
 							}
 						}
 					}
-					if(json.addons && json.addons.css)
-					{
-						for ( var i = 0; i < json.addons.css.length; i++) {
+					
+					if (json.addons && json.addons.css) {
+						for (var i = 0; i < json.addons.css.length; i++) {
 							var addon = json.addons.css[i];
-							if(!in_array(addon,GLOBAL_CSS_VAR)){
-								if(addon != null)
+							if (!in_array(addon, GLOBAL_CSS_VAR) && addon != null) {
 								total_addons.push(addon);
 							}
 						}
@@ -486,20 +494,15 @@ afApp.widgetPopup = function(widget,title,superClass,winConfig,Application) {
 					Ext.Ajax.extraParams = Ext.Ajax.extraParams || {};
 					Ext.Ajax.extraParams['af_referer'] = futureHash;
 					
-					afApp.executeAddons(total_addons,json,title,superClass,winConfig,Application,widget);		
+					afApp.executeAddons(total_addons, json, title, superClass, winConfig, Application, widget);		
 				}
-			},
-			params : {
-				widget_popup_request : true
 			}
-		});
-	
+		});	
 	}
-}
+};//eo widgetPopup
 
 // <a/> tags with widgetLoad CSS class will be loaded inside the center panel.
-afApp.attachHrefWidgetLoad = (function ()
-{
+afApp.attachHrefWidgetLoad = (function () {
 	var listener = function(e) {
 		e.stopEvent();
 		
@@ -517,49 +520,66 @@ afApp.attachHrefWidgetLoad = (function ()
 		internalUrls.on('click', listener);
 	};
 })();
+
 afApp.initLoadingProgress = function(el){	
 	el.mask();
-	var pb = Ext.getCmp("progress-bar");	
-	var pbEl = Ext.get('progress-bar-el');
-	if(!pbEl){	
-		pbEl = Ext.DomHelper.append(el,{tag:'div',id:'progress-bar-el',style:'z-index:1000;position:absolute;top:40%;left:40%;width:20%'});
-	}else{
+	var pb   = Ext.getCmp("progress-bar"),	
 		pbEl = Ext.get('progress-bar-el');
+	
+	if (!pbEl) {	
+		pbEl = Ext.DomHelper.append(el, {
+			tag: 'div',
+			id: 'progress-bar-el',
+			style: 'z-index:1000; position:absolute; top:40%; left:40%; width:20%'
+		});
 	}
-	if(!pb){
-		pb = new Ext.ProgressBar({id:'progress-bar',text:"Loading.... Please wait....."});
+	
+	if (!pb) {
+		pb = new Ext.ProgressBar({
+			id: 'progress-bar',
+			text: "Loading.... Please wait....."
+		});
 		pb.render(pbEl);
-	}else{
-		pb.updateProgress(0,"Loading.... Please wait.....");
+	} else {
+		pb.updateProgress(0, "Loading.... Please wait.....");
 		pb.show();
-	}	
-}
-afApp.loadingProgress = function(el,percent){	
-	var pb = Ext.getCmp("progress-bar");	
-	pb.updateProgress(percent,Math.ceil(percent*100)+"% complete...");
-	if(!pb.isVisible()) pb.show();
-	if(percent >= 1) {el.unmask();setTimeout(function(){pb.hide();},500)}
-}
+	}
+};
 
-afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json){
-	var pb;
-	var counter = 0;
-	var finish;
-	var load = function(){	
-		if(counter >= addons.length){
+afApp.loadingProgress = function(el, percent) {	
+	var pb = Ext.getCmp("progress-bar");
+	pb.updateProgress(percent, Math.ceil(percent * 100) + "% complete...");
+	if (!pb.isVisible()) {
+		pb.show();
+	}
+	if (percent >= 1) {
+		el.unmask();
+		setTimeout(function(){
+			pb.hide();
+		}, 500);
+	}
+};
+
+afApp.executeAddonsLoadCenterWidget = function(viewport, addons, json) {
+	var pb,
+		counter = 0,
+		finish;
+		
+	var load = function() {	
+		if (counter >= addons.length) {
 			finish();
 			return;
 		}
 		
-		if(!Ext.getCmp("progress-bar")){
+		if (!Ext.getCmp("progress-bar")) {
 			pb = new Ext.ProgressBar();		
-		}else{
+		} else {
 			pb = Ext.getCmp('progress-bar');
 		}
-		afApp.loadingProgress(viewport.layout.center.panel.getEl(),(counter+1)/addons.length);
-		var nextAddon=addons[counter++];
+		afApp.loadingProgress(viewport.layout.center.panel.getEl(), (counter + 1) / addons.length);
+		var nextAddon = addons[counter++];
 			
-		afApp.createAddon(nextAddon,false,load);
+		afApp.createAddon(nextAddon, false, load);
 	};
 
 	finish = function(){
@@ -575,34 +595,38 @@ afApp.executeAddonsLoadCenterWidget = function(viewport,addons,json){
 		//if (window.console) { console.time('doLayout'); }
 		panel.doLayout();
 		//if (window.console) { console.timeEnd('doLayout'); }
-		afApp.loadingProgress(viewport.layout.center.panel.getEl(),1);
+		afApp.loadingProgress(viewport.layout.center.panel.getEl(), 1);
 	};
 	
 	load();
-}
+};
+
 afApp.loadCenterWidget = function(widget) {
 	
-	widget = widget.replace(document.location.protocol+'//'+document.location.host+afApp.urlPrefix,'');
-	var uri=widget.split('#');
-	uri[0]=uri[0] || '/';
-	var futureTab=uri[1]?'#'+uri[1]:'';
+	widget = widget.replace(document.location.protocol + '//' + document.location.host + afApp.urlPrefix, '');
+	var uri = widget.split('#');
+	uri[0] = uri[0] || '/';
+	var futureTab = uri[1] ? '#' + uri[1] : '';
 	//hash contains the value without #in front of the internal link
-	var futureHash=uri[0]+futureTab;
+	var futureHash = uri[0] + futureTab;
 		
 	afApp.currentWidget = uri[0];
 	afApp.observable.fireEvent('beforeload', uri[0]);	
 	
-	var viewport=App.getViewport();
+	var viewport = App.getViewport();
 	afApp.initLoadingProgress(viewport.layout.center.panel.getEl());
 	var ajax = Ext.Ajax.request( {
-		url : afApp.urlPrefix+uri[0],
-		method : "GET",		
-		success : function(r) {
+		url: afApp.urlPrefix + uri[0],
+		method: "GET",		
+		params : {
+			widget_load : true
+		},
+		success: function(r) {
 			var json = Ext.util.JSON.decode(r.responseText);
-			json.load = json.load?json.load:'center';
-			json.title = json.title?json.title:'...';
+			json.load = json.load ? json.load : 'center';
+			json.title = json.title ? json.title : '...';
 							
-			if(json.success === false) {
+			if (json.success === false) {
 				Ext.Msg.alert('Failure', json.message);
 				return;
 			}
@@ -651,7 +675,7 @@ afApp.loadCenterWidget = function(widget) {
 				Ext.Ajax.extraParams = Ext.Ajax.extraParams || {};
 				Ext.Ajax.extraParams['af_referer'] = futureHash;
 				
-				afApp.executeAddonsLoadCenterWidget(viewport,total_addons,json);	
+				afApp.executeAddonsLoadCenterWidget(viewport, total_addons, json);	
 			}				
 			
 			if(json.executeAfter)
@@ -663,12 +687,10 @@ afApp.loadCenterWidget = function(widget) {
 			var msg =  'Unable to load the content: ' +
 				response.status + ' ' + response.statusText;
 			Ext.Msg.alert('Failure', msg);
-		},
-		params : {
-			widget_load : true
 		}
 	});
-}
+};
+
 afApp.logTime = function (msg) {
 	var today=new Date();
 	
@@ -883,6 +905,8 @@ Ext.onReady(function(){
 	afApp.attachHrefWidgetLoad();
 
 });
+
+
 //Ext History
 Ext.History.on('change', function(token){
 	//do not load the center/popup widget if we are changing tabs
