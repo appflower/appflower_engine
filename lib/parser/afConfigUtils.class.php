@@ -101,6 +101,7 @@ class afConfigUtils {
 
     /**
      * You can use this method to generate file path for non existent widget
+     * We are assuming that we'll want to create given file so we'll try to create needed directories
      */
     function generateConfigFilePath($fileName)
     {
@@ -109,6 +110,10 @@ class afConfigUtils {
 
         foreach ($paths as $path) {
             $fullFilePath = $path.'/'.$filePath;
+            $fullDirPath = dirname($fullFilePath);
+            if (!file_exists($fullDirPath)) {
+                mkdir($fullDirPath, 0777, true);
+            }
             return $fullFilePath;
         }
     }
