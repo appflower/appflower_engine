@@ -1,0 +1,164 @@
+
+## The wrong and right way of storing information
+
+In the last chapter, we explained why Models are the number one choice when it comes to choosing a storage
+mechanism for your application.
+
+Remember? We also said that one of the best thing about them is that they store information in the *right* way.
+
+In order to make you understand what that means, first you must see how the *wrong* way looks like. 
+
+Let's have a look at simple example:
+
+Suppose you want to create a catalogue of all the music you own. CDs, MCs, DVDs and MP3s etc. This list contains the titles
+of the songs, the artist's name, the genre, and some info on where the to find the song. It is ordered alphabetically to make
+it easier to read.
+
+How should this list look like?
+
+Well, surely there are a couple of ways to do this.
+
+For instance, you could write something like this:
+
+	Enter Sandman (radio edit), Metallica, Heavy Metal, Album Title
+	Forever Young, Alphaville, Pop, MP3 CD1
+	Going Home, Runrig, Rock, MP3 CD2
+	Guardian Angel, Alphaville, Pop, MP3 CD2
+	Heat of The Moment, Asia, Pop, MP3 CD3
+	Loch Lomond, Runrig, Rock, Once in a Lifetime DVD
+	The Unforgiven, Metallica, Heavy Metal, MP3 CD3
+	...
+	(hundreds of songs)
+	
+You may use a tool like MS Word to create this list or simply just pen and paper if you are old fashioned,
+doesn't really matter. The result is the same: a complete mess. This list is *hard to read* and it will *take some time* to find 
+the song you are looking for.
+
+It looks somewhat better if you do it like this:
+
+	Enter Sandman (radio edit)		Metallica	Heavy Metal 	Album Title
+	Forever Young				Alphaville	Pop		MP3 CD1
+	Going Home				Runrig		Rock		MP3 CD2
+	...
+		
+Well it is readable for sure. It's also a bit easier to pick the right song. 
+Now you have a nicely formatted list. But is this enough? 
+
+Well, maybe it isn't... For example, using this list, can you tell me:
+
+What songs do you have from Alphaville?
+What rock songs do you have in your collection?
+What's the contents of MP3 CD1? And CD2?
+What recordings you alerady have as audio, and which ones are yet to be grabbed from DVD?
+
+You surely can't.. 
+
+And how about reordering this list by location instead of song title? Man, that would be a lot of work..
+
+You may further improve your list by merging the song title and the name of the artist.:
+	
+	Alphaville - Forever Young			Pop			MP3 CD1
+	Alphaville - Guardian Angel			Pop			MP3 CD2
+	Asia - Heat of The Moment			Pop			MP3 CD1
+	...
+
+This would answer the first question, since this way it's easy to see what songs you alerady have from given artist.
+But as for the rest of the questions, the answer is still no..
+	
+Like I said before, information can be stored in many different ways. There are many other possible ways to write this 
+list as well. However, all of them have one thing in common: *they are all wrong*.
+
+Why? Because even if they answer one or more of the questions above, in the meantime, they create new ones.
+*None of them can show you everything.*.
+
+<div class="important">
+Storing information in a rigid structure is *never good*, because it can be viewed only in *one particular way*. At any given time, 
+your needs determine in what way you want to see that information, and these needs are always changing. The list above may seem to be 
+good for now, but tomorrow or next week you may want see the same list in a different way, which better fits your current needs.
+</div>
+
+So you see, the thing is, you cannot do this right. But no worries, you don't really have to. That's what Models are for.
+
+## So then how does the right way look like?
+
+Well, a Model is much like a *blueprint*. It describes *what* you want to store.
+
+In our case it's a list of songs, so let's create the blueprint called *Song*.
+
+At this point it's just an empty shell with a name. It cannot store anything. Why? Because we haven't defined *what* it is yet, 
+it doesn't have any *characteristics*.
+
+All it has is a name, so currently it looks like this:
+
+	Song
+
+But now let's ask the question: What a song is? What details do we wish to know about it?
+
+Well, in order to create our music list, we need these details:
+
+* a title
+* an author
+* a genre
+* a location
+
+So let's add these to our model, *Song*. Now it's different: it has *characteristics*, so it represents something.
+Actually, it looks exactly as an item in our music catalogue.
+
+	A Song is something having
+		a title
+		an author
+		a genre
+		a location
+		
+That's it! We just finalized the blueprint. Now the system knows what do we mean by *Song* and it's ready to store our data.
+
+And why is this so good? When you actually add a song to the list, the system behind the Model will store it in a *smart* way.
+The songs aren't stored in a rigid way, like the lists we tried to create previously. They are not even ordered. 
+Instead, they will be handled in a way which allows the Model to show them to you as you want to see them!
+
+<div class="important">
+The Model can use all the *characteristics* of the information it stores intelligently. 
+Furthermore, it can also use the *stored information* itself.
+As long as the view you want to see can be described using these characteristics or the stored information, the Model can dynamically 
+create and show that view to you.
+</div>
+
+This means you can see your music list in *many* different ways. 
+
+Use the characteristics of the blueprint: List only song *titles* and *authors*, flip them (make author appear first), 
+print title and author combined, order the list by *genre* or *location* instead of ABC and and so on.. 
+
+Use the stored information: List only those songs whose author *is* "Metallica" or those that *belong* to the "Pop" genre.
+Show the ones whose location is "CD3" or whose title contains the word "love" and so on..
+
+You can even combine these things: List "Pop" songs from "CD 4" by the band "Alphaville".
+
+And best of all, you don't even have to know *how to do* most of these, since AppFlower engine will do the hard work for you.
+All you need to do is to create your Model and add your data to it using AppFlower Studio.
+
+<div class="important">
+Storing information in a Model is *always better*, because the same information can be viewed in *many different ways*. You can adjust 
+the view anytime to better fit your current needs, thus you'll always see the desired results. 
+</div>
+
+## A Word on Model Design
+
+Models are fast, dynamic and smart, no wonder you can find them everywhere these days: on your computer, smartphone, even in your car's 
+MP3 player.They are able to store just about any kind of information and as you can see, they are very powerful too.
+
+However, they have one limitation you should always keep this in mind:
+
+<div class="important">
+The Model can show you the view you want to see, but *only* if it has all the *required characteristics* to do so. Always design your Models
+carefully. Whatever information you want to store, always ask yourself first: "What is this this information about? What do I want to know
+about it?" and make sure you add the characteristics that fully satisfy your needs.
+
+Models are flexible, they can be extended later, thus you can add or remove characterisctics anytime. You can do this even 
+when the Model is not empty (it alerady stores your information), but then this might be a bit more difficult to accomplish.
+
+So as a rule of thumb, you should always try make your Models as *complete as possible, before adding any data to them*. 
+This can save you a lot of time.
+</div>
+
+Well, that's about it. Now that you know how Models work, it's time to see them in action! That's exactly what we're going to do. 
+Let's see how to create our music list using AppFlower Studio.
