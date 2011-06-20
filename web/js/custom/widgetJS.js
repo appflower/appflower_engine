@@ -275,7 +275,7 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
 		Ext.apply(center_panel, {
 			frame: winConfig.applyTo ? false : true,	
 			width: "auto",
-			layout: "form"
+//			layout: "form"
 		});
 					
 		Ext.applyIf(winConfig, {
