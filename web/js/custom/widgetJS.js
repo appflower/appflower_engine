@@ -273,9 +273,9 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
 		var center_panel = (function(){ return eval(json.center_panel); })();
 		
 		Ext.apply(center_panel, {
-			frame: winConfig.applyTo ? false : true,	
-			width: "auto",
-//			layout: "form"
+			frame: winConfig.applyTo ? false : true
+			,width: "auto"
+//			,layout: "form"
 		});
 					
 		Ext.applyIf(winConfig, {
