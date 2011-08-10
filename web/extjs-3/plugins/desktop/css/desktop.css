@@ -5,7 +5,7 @@
  * http://www.sencha.com/license
  */
 html, body {
-	background:#3d71b8 url(../wallpapers/desktop.jpg) no-repeat left top;
+	background:#3d71b8 url(/appFlowerPlugin/extjs-3/plugins/desktop/wallpapers/desktop.jpg) no-repeat left top;
     font: normal 12px tahoma, arial, verdana, sans-serif;
 	margin: 0;
 	padding: 0;
@@ -15,19 +15,19 @@ html, body {
 }
 
 .start {
-	background-image: url( ../images/taskbar/black/startbutton-icon.gif ) !important;
+	background-image: url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/startbutton-icon.gif ) !important;
 }
 
 .bogus {
-	background-image: url( ../images/bogus.png ) !important;
+	background-image: url(/appFlowerPlugin/extjs-3/plugins/desktop/images/bogus.png ) !important;
 }
 
 .logout {
-	background-image: url( ../images/logout.gif ) !important;
+	background-image: url(/appFlowerPlugin/extjs-3/plugins/desktop/images/logout.gif ) !important;
 }
 
 .settings {
-	background-image: url( ../images/gears.gif ) !important;
+	background-image: url(/appFlowerPlugin/extjs-3/plugins/desktop/images/gears.gif ) !important;
 }
 
 #dpanels {
@@ -141,12 +141,12 @@ html, body {
 .ux-taskbutton-left{
 	width:4px;
 	height:28px;
-	background:url( ../images/taskbar/black/taskbutton.gif ) no-repeat 0 0;
+	background:url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/taskbutton.gif ) no-repeat 0 0;
 }
 .ux-taskbutton-right{
 	width:4px;
 	height:28px;
-	background:url( ../images/taskbar/black/taskbutton.gif ) no-repeat 0 -28px;
+	background:url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/taskbutton.gif ) no-repeat 0 -28px;
 }
 .ux-taskbutton-left i, .ux-taskbutton-right i{
 	display:block;
@@ -156,7 +156,7 @@ html, body {
     line-height:1px;
 }
 .ux-taskbutton-center{
-	background:url( ../images/taskbar/black/taskbutton.gif ) repeat-x 0 -56px;
+	background:url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/taskbutton.gif ) repeat-x 0 -56px;
 	vertical-align: middle;
 	text-align:center;
 	padding:0 5px;
@@ -198,10 +198,10 @@ html, body {
 	background-position:0 -84px;
 }
 #ux-taskbar .active-win  .ux-taskbutton-right{
-	background:url( ../images/taskbar/black/taskbutton.gif ) no-repeat 0 -112px;
+	background:url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/taskbutton.gif ) no-repeat 0 -112px;
 }
 #ux-taskbar .active-win .ux-taskbutton-center{
-	background:url( ../images/taskbar/black/taskbutton.gif ) repeat-x 0 -140px;
+	background:url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/taskbutton.gif ) repeat-x 0 -140px;
 }
 #ux-taskbar .active-win .ux-taskbutton-center button {
     color:#fff;
@@ -225,55 +225,55 @@ html, body {
 }
 
 .icon-grid {
-    background-image:url( ../images/grid.png ) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/desktop/images/grid.png ) !important;
 }
 .add {
-    background-image:url(../../shared/icons/fam/add.gif) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/shared/icons/fam/add.gif) !important;
 }
 .option {
-    background-image:url(../../shared/icons/fam/plugin.gif) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/shared/icons/fam/plugin.gif) !important;
 }
 .remove {
-    background-image:url(../../shared/icons/fam/delete.gif) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/shared/icons/fam/delete.gif) !important;
 }
 .save {
-    background-image:url(../../shared/icons/save.gif) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/shared/icons/save.gif) !important;
 }
 .accordion {
-    background-image:url(../images/accordian.gif) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/desktop/images/accordian.gif) !important;
 }
 .tabs {
-    background-image:url(../images/tabs.gif) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/desktop/images/tabs.gif) !important;
 }
 
 /* IM window icons */
 
 .user {
-    background-image:url( ../../shared/icons/fam/user.gif ) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/shared/icons/fam/user.gif ) !important;
 }
 
 .user-add {
-    background-image:url(../../shared/icons/fam/user_add.gif) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/shared/icons/fam/user_add.gif) !important;
 }
 
 .user-delete {
-    background-image:url(../../shared/icons/fam/user_delete.gif) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/shared/icons/fam/user_delete.gif) !important;
 }
 
 .connect {
-    background-image:url(../../shared/icons/fam/connect.gif) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/shared/icons/fam/connect.gif) !important;
 }
 
 .user-girl {
-    background-image:url(../../shared/icons/fam/user_female.gif) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/shared/icons/fam/user_female.gif) !important;
 }
 
 .user-kid {
-    background-image:url(../../shared/icons/fam/user_green.gif) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/shared/icons/fam/user_green.gif) !important;
 }
 
 .user-suit {
-    background-image:url(../../shared/icons/fam/user_suit.gif) !important;
+    background-image:url(/appFlowerPlugin/extjs-3/plugins/shared/icons/fam/user_suit.gif) !important;
 }
 
 .ux-start-menu {
@@ -295,7 +295,7 @@ html, body {
 }
 
 .ux-start-menu-tl {
-	background: transparent url( ../images/taskbar/black/start-menu-left-corners.png ) no-repeat 0 0;
+	background: transparent url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/start-menu-left-corners.png ) no-repeat 0 0;
 	padding-left:6px;
     zoom:1;
     z-index:1;
@@ -303,24 +303,24 @@ html, body {
 }
 
 .ux-start-menu-tr {
-	background: transparent url( ../images/taskbar/black/start-menu-right-corners.png ) no-repeat right 0;
+	background: transparent url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/start-menu-right-corners.png ) no-repeat right 0;
 	padding-right:6px;
 }
 
 .ux-start-menu-tc {
-	background: transparent url( ../images/taskbar/black/start-menu-top-bottom.png ) repeat-x 0 0;
+	background: transparent url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/start-menu-top-bottom.png ) repeat-x 0 0;
 	overflow:hidden;
     zoom:1;
 }
 
 .ux-start-menu-ml {
-	background: transparent url( ../images/taskbar/black/start-menu-left-right.png ) repeat-y 0 0;
+	background: transparent url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/start-menu-left-right.png ) repeat-y 0 0;
 	padding-left:6px;
     zoom:1;
 }
 
 .ux-start-menu-bc {
-	background: transparent url( ../images/taskbar/black/start-menu-top-bottom.png ) repeat-x 0 bottom;
+	background: transparent url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/start-menu-top-bottom.png ) repeat-x 0 bottom;
     zoom:1;
 }
 
@@ -332,13 +332,13 @@ html, body {
 }
 
 .ux-start-menu-bl {
-	background: transparent url( ../images/taskbar/black/start-menu-left-corners.png ) no-repeat 0 bottom;
+	background: transparent url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/start-menu-left-corners.png ) no-repeat 0 bottom;
 	padding-left:6px;
     zoom:1;
 }
 
 .ux-start-menu-br {
-	background: transparent url( ../images/taskbar/black/start-menu-right-corners.png ) no-repeat right bottom;
+	background: transparent url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/start-menu-right-corners.png ) no-repeat right bottom;
 	padding-right:6px;
     zoom:1;
 }
@@ -369,11 +369,11 @@ html, body {
 
 .ux-start-menu-tools-panel {
 	border:0px none;
-	background:transparent url( ../images/taskbar/black/start-menu-right.png ) repeat-y scroll right 0pt;
+	background:transparent url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/start-menu-right.png ) repeat-y scroll right 0pt;
 }
 
 #ux-taskbar-start {
-	background:#000000 url( ../images/taskbar/black/taskbar-start-panel-bg.gif ) repeat-x left top;
+	background:#000000 url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/taskbar-start-panel-bg.gif ) repeat-x left top;
 	left:0px;
 	padding:0;
 	position:absolute;
@@ -386,7 +386,7 @@ html, body {
 }
 
 #ux-taskbuttons-panel {
-	background:#000000 url( ../images/taskbar/black/taskbuttons-panel-bg.gif ) repeat-x left top;
+	background:#000000 url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/taskbuttons-panel-bg.gif ) repeat-x left top;
 	padding-top:0;
 	position:relative;
 }
@@ -458,7 +458,7 @@ td.ux-taskButtons-edge {
 }
 
 .ux-taskbuttons-scroller-left {
-    background: transparent url( ../images/taskbar/black/scroll-left.gif ) no-repeat -18px 0;
+    background: transparent url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/scroll-left.gif ) no-repeat -18px 0;
     width:18px;
     position:absolute;
     left:1px;
@@ -477,7 +477,7 @@ td.ux-taskButtons-edge {
     cursor:default;
 }
 .ux-taskbuttons-scroller-right {
-    background: transparent url( ../images/taskbar/black/scroll-right.gif ) no-repeat 0 0;
+    background: transparent url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/scroll-right.gif ) no-repeat 0 0;
     width:18px;
     position:absolute;
     right:0;
@@ -514,13 +514,13 @@ td.ux-taskButtons-edge {
 }
 
 .ux-start-menu-tools-panel .x-menu-item-active {
-	background: #525456 url( ../images/taskbar/black/item-over.gif ) repeat-x left bottom;
+	background: #525456 url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/item-over.gif ) repeat-x left bottom;
 	border:1px solid #000000;
 	padding: 0;
 }
 
 #ux-taskbar .x-splitbar-h {
-	background:#000000 url( ../images/taskbar/black/taskbar-split-h.gif ) no-repeat 0 0;
+	background:#000000 url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/taskbar-split-h.gif ) no-repeat 0 0;
 	width:8px;
 }
 
@@ -538,12 +538,12 @@ td.ux-taskButtons-edge {
 .ux-startbutton-left{
 	width:10px;
 	height:28px;
-	background:url( ../images/taskbar/black/startbutton.gif ) no-repeat 0 0;
+	background:url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/startbutton.gif ) no-repeat 0 0;
 }
 .ux-startbutton-right{
 	width:10px;
 	height:30px;
-	background:url( ../images/taskbar/black/startbutton.gif ) no-repeat 0 -28px;
+	background:url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/startbutton.gif ) no-repeat 0 -28px;
 }
 .ux-startbutton-left i, .ux-startbutton-right i{
 	display:block;
@@ -553,7 +553,7 @@ td.ux-taskButtons-edge {
     line-height:1px;
 }
 .ux-startbutton-center{
-	background:url( ../images/taskbar/black/startbutton.gif ) repeat-x 0 -56px;
+	background:url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/startbutton.gif ) repeat-x 0 -56px;
 	vertical-align: middle;
 	text-align:center;
 	padding:0;
@@ -595,10 +595,10 @@ td.ux-taskButtons-edge {
 	background-position:0 -90px;
 }
 #ux-taskbar .active-win  .ux-startbutton-right{
-	background:url( ../images/taskbar/black/startbutton.gif ) no-repeat 0 -120px;
+	background:url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/startbutton.gif ) no-repeat 0 -120px;
 }
 #ux-taskbar .active-win .ux-startbutton-center{
-	background:url( ../images/taskbar/black/startbutton.gif ) repeat-x 0 -150px;
+	background:url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/startbutton.gif ) repeat-x 0 -150px;
 }
 #ux-taskbar .active-win .ux-startbutton-center button {
     color:#fff;
