@@ -1,9 +1,7 @@
 <?php $layout=new afExtjsDesktopLayout(); ?>
 
 
-<div id="x-desktop">
-    <a href="http://www.appflower.com" target="_blank" style="margin:5px; float:right;"><img src="/appFlowerPlugin/images/logo-transparent.png" /></a>
-
+<div id="x-desktop">    
     <dl id="x-shortcuts">
         <?php $layout->getShortcuts();?>
     </dl>
