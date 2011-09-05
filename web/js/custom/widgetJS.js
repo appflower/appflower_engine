@@ -200,7 +200,7 @@ afApp.pack = function(win,winConfig,Application){
 	}
 	catch (e)
 	{
-		viewport = Ext.get("body");
+		viewport = Ext.getBody();
 	}
 	win.on("show",function(win){
 		if(winConfig.applyTo) return;		
@@ -246,7 +246,7 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
 		var viewport = Application.getViewport();
 		maskEl = viewport.layout.center.panel.getEl();
 	} catch (e) {
-		maskEl = Ext.get("body");
+		maskEl = Ext.getBody();
 	}
 	
 	var counter = 0,
