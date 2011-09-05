@@ -420,7 +420,7 @@ afApp.widgetPopup = function(widget, title, superClass, winConfig, Application) 
 		var viewport = Application.getViewport();
 		maskEl = viewport.layout.center.panel.getEl();
 	} catch (e) {
-		maskEl = Ext.get("body");
+		maskEl = Ext.getBody();
 	}
 	
 	if (!winConfig) {
