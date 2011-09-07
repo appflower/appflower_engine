@@ -118,7 +118,11 @@ class afExtjsSubmitButton extends afExtjsButton
 												if(w.getBox().height > 400){ w.setHeight(400);w.setWidth(w.getWidth()+20)}
 												w.center();		  									
 											}else{
-												new Ext.ux.InstantNotification({title:"Success",message:message});
+											    var heightPlus = 0;
+											    if(afApp.hasDesktop()) {
+											        heightPlus = 30;
+											    }
+												new Ext.ux.InstantNotification({title:"Success",message:message,heightPlus:heightPlus});
 											}
 										}
 		  								if(_win){		  								
