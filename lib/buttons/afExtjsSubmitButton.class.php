@@ -127,8 +127,11 @@ class afExtjsSubmitButton extends afExtjsButton
 										}
 		  								if(_win){		  								
 		  									if(winProp.hidePopup === false) return;
-		  									//destroy the popup because content most probably have been changed, see ticket #891 for more info
-		  									_win.destroy();
+		  									
+		  									if(!afApp.hasDesktop()) { // destroy method cousing error on desktop layout
+		  									   //destroy the popup because content most probably have been changed, see ticket #891 for more info
+		  									   _win.destroy();
+		  									}
 		  									_win.close();
 		  									
 		  									return false;
