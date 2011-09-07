@@ -30,7 +30,7 @@ var result = {
 	data:json,
 	order:preserve_row_order
 }
-var mask = new Ext.LoadMask(Ext.get("body"), {msg: "Please Wait...", removeMask: true});
+var mask = new Ext.LoadMask(Ext.getBody(), {msg: "Please Wait...", removeMask: true});
 mask.show();
 Ext.Ajax.request({
 	url:'/fileinspect/storeLocation',

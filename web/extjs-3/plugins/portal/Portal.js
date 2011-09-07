@@ -504,7 +504,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 			title:title
 		});
 		
-		this.mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Opening Widget Selector</b> <br>Please Wait...",removeMask:true});
+		this.mask = new Ext.LoadMask(Ext.getBody(), {msg: "<b>Opening Widget Selector</b> <br>Please Wait...",removeMask:true});
 		this.mask.show();
 		
 		this.retrieveWidgets(button); 

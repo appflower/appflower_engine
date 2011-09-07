@@ -625,24 +625,23 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         <xs:attribute name="value" type="xs:token" use="optional" />
         <xs:attribute name="style" type="xs:token" use="optional" />
         <xs:attribute name="width" type="xs:positiveInteger" use="optional" /> 
-    	<xs:attribute name="height" type="xs:token" use="optional" /> 
-		<xs:attribute name="checked" type="xs:token" use="optional" /> 
-		<xs:attribute name="rich" type="xs:boolean" use="optional" default="false" /> 
- 		<xs:attribute name="assignid" type="xs:boolean" fixed="true" />
- 		<xs:attribute name="content" type="xs:token" use="optional" />
- 		<xs:attribute name="module" type="xs:token" use="optional" />
+    	<xs:attribute name="height" type="xs:positiveInteger" use="optional" /> 
+	<xs:attribute name="checked" type="xs:boolean" use="optional" /> 
+	<xs:attribute name="rich" type="xs:boolean" use="optional" default="false" /> 
+ 	<xs:attribute name="assignid" type="xs:boolean" fixed="true" />
+ 	<xs:attribute name="content" type="xs:token" use="optional" />
+ 	<xs:attribute name="module" type="xs:token" use="optional" />
         <xs:attribute name="action" type="xs:token" use="optional" />
- 		<xs:attribute name="fromLegend" type="xs:token" use="optional" default="Options" />
- 		<xs:attribute name="toLegend" type="xs:token" use="optional" default="Selected" />
- 		<xs:attribute name="dateFormat" type="xs:token" use="optional" />
- 		<xs:attribute name="timeFormat" type="xs:token" use="optional" />
- 		<xs:attribute name="clear" type="xs:boolean" use="optional" default="true" /> 
- 		<xs:attribute name="session" type="xs:boolean" use="optional" default="false" />
- 		<xs:attribute name="disabled" type="xs:boolean" use="optional" default="false" />
- 		<xs:attribute name="permissions" type="i:permissionType" default="*" />        
- 		<xs:attribute name="plugin" type="xs:token" use="optional" default="*" /> 
- 		<xs:attribute name="url" type="i:internalUriType" use="optional" />
- 		           
+ 	<xs:attribute name="fromLegend" type="xs:token" use="optional" default="Options" />
+ 	<xs:attribute name="toLegend" type="xs:token" use="optional" default="Selected" />
+ 	<xs:attribute name="dateFormat" type="xs:token" use="optional" />
+ 	<xs:attribute name="timeFormat" type="xs:token" use="optional" />
+ 	<xs:attribute name="clear" type="xs:boolean" use="optional" default="true" /> 
+ 	<xs:attribute name="session" type="xs:boolean" use="optional" default="false" />
+ 	<xs:attribute name="disabled" type="xs:boolean" use="optional" default="false" />
+ 	<xs:attribute name="permissions" type="i:permissionType" default="*" />        
+ 	<xs:attribute name="plugin" type="xs:token" use="optional" default="*" /> 
+ 	<xs:attribute name="url" type="i:internalUriType" use="optional" />
     </xs:attributeGroup>
     
 	<xs:attributeGroup name="columnAttributes">

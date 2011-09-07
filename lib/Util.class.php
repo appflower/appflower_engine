@@ -1066,25 +1066,72 @@ class Util {
 
 		return $text;
 	}
-
-	public static function removeResource( $resource )
+    
+    /**
+     * Remove resource
+     *
+     * @param string $resource
+     * @return boolean
+     * @author Sergey Startsev
+     */
+    static public function removeResource($resource)
+    {
+        if (!file_exists($resource)) return true;
+        
+        (is_dir($resource) && !is_link($resource)) ? self::recursiveRemove($resource) : unlink($resource);
+        
+        return !file_exists($resource);
+    }
+    
+    /**
+     * Recursive remove directory
+     *
+     * @param string $dir
+     * @author Sergey Startsev
+     */
+    static public function recursiveRemove($dir) 
+    {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    $path = $dir . DIRECTORY_SEPARATOR . $object;
+                    (filetype($path) == "dir") ? self::recursiveRemove($path) : unlink($path);
+                }
+            }
+            reset($objects);
+            
+            rmdir($dir);
+        }
+    }
+    
+    /**
+     * Rename resource
+     *
+     * @param string $old_resource 
+     * @param string $new_resource 
+     * @return boolean
+     * @author Sergey Startsev
+     */
+	static public function renameResource($old_resource, $new_resource)
 	{
-		exec( "rm -rf $resource" );
-		return true;
+	    if (file_exists($new_resource)) return false;
+	    
+		return @rename($old_resource, $new_resource);
 	}
-
-	public static function renameResource( $old_resource, $new_resource )
-	{
-		exec( "mv $old_resource $new_resource" );
-		return true;
-	}
-
-	public static function makeDirectory( $resource )
-	{
-		exec( "mkdir -pv $resource");
-		
-		return true;
-	}
+    
+    /**
+     * Create directory
+     *
+     * @param string $resource 
+     * @param int - octal $mode 
+     * @return boolean
+     * @author Sergey Startsev
+     */
+    static public function makeDirectory($resource, $mode = 0774)
+    {
+        return @mkdir($resource, $mode, true);
+    }
 
 	public static function makeFile( $resource )
 	{

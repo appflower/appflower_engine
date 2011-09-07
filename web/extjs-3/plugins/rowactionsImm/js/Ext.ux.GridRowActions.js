@@ -486,7 +486,7 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 		var extlink= Ext.get(link);
 		
 		if(!this.isRowExpanded(row)){
-			var mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Getting data from server.....</b> <br>Please wait..",removeMask:true});
+			var mask = new Ext.LoadMask(Ext.getBody(), {msg: "<b>Getting data from server.....</b> <br>Please wait..",removeMask:true});
 			mask.show();
 			var ajax = Ext.Ajax.request({
 				url: url,
