@@ -1611,7 +1611,7 @@ An AppFlower field set looks the same as its XHTML counterpart. It has one manda
 
 Each field set is displayed, by default. If you wish to hide one, set its "collapsed" attribute to "true". The set will then be displayed in a collapsed state, but users can still open it anytime. This is very useful when you need to render some extra (or optional) fields.
  
-To splits a field set into columns, you must set the "float" attribute of the ***&lt;i:grouping&gt;*** element to "true". Then, simply add a "break" attribute to the ***&lt;i:ref&gt;*** tags that should be the last items of their column. For example: to create a two row/two column field set (with 2 fields in each row), you would do this:
+To splits a field set into columns, you must set the "float" attribute of the ***&lt;i:set&gt;*** element to "true". Then, simply add a "break" attribute to the ***&lt;i:ref&gt;*** tags that should be the last items of their column. For example: to create a two row/two column field set (with 2 fields in each row), you would do this:
 
 
 	<i:grouping>
