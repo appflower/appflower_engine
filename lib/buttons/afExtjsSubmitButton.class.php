@@ -199,7 +199,7 @@ class afExtjsSubmitButton extends afExtjsButton
 												}
 											});
 		  								}
-		  								else{	  									
+		  								else{	
 		  									if(redirect && (!confirm || confirm == "undefined")){
 												showInstantNotification();		  										
 		  										if(redirect&&redirect!="undefined"){
@@ -224,6 +224,11 @@ class afExtjsSubmitButton extends afExtjsButton
 		  							}else{
 		  								if(redirect){
 											showInstantNotification();
+											if(afApp.hasDesktop()) {
+											    if(afApp.windows.get(redirect)) {
+                                                    afApp.windows.get(redirect).close();
+                                                }
+                                            }
 		  									afApp.load(redirect,load,target,winProp);
 										}'.(isset($attributes['afterSuccess'])?$attributes['afterSuccess']:'').'
 		  							} '
