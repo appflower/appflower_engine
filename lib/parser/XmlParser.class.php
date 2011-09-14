@@ -3287,10 +3287,10 @@ class XmlParser extends XmlParserTools {
 				$formoptions["labelWidth"] = isset($parse['labelWidth'])?$parse['labelWidth']:'75';
 				if($this->type == self::PANEL) {
 					$widget = $this->context->getActionName();	
-				} else if($this->type == self::PAGE) {
-					$widget = $action_name;
-					$formoptions["idxml"] = $parse["module"]."/".$action_name;
-				} 
+				} // else if($this->type == self::PAGE) { #1048 - element should have unique id
+					// $widget = $action_name;
+					// $formoptions["idxml"] = $parse["module"]."/".$action_name;
+				// } 
 				 
 				
 				if($this->type === self::WIZARD) {
