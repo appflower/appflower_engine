@@ -32,11 +32,6 @@
  * [Multiple Types of Lists](#list-multiple-types)
  * [List View Actions](#list-view-action)
 
-***[9. The HTML View](#html-view)***
-
- * [The &lt;i:option&gt; Tag](#html-option-tag)
- * [A Note on HTML content](#html-content)
-
 ## The Edit View	{#edit-view}
 
 The purpose of this View is the same as that of Forms in XHTML: it allows you to fetch user input. The Edit View is used for both creating and modifying data. Its structure is somewhat similar to that of XHTML. The minimal layout of an Edit View can be described in the following way:
@@ -1412,26 +1407,3 @@ To make the popup menu disappear completely, set the exportable and select attri
 	  	<i:action name="Delete Selected" post="true" icon="/images/famfamfam/cross.png" url="eventmanagement/listActionsRemoveEventCategory" />
 	  	<i:action name="Delete All" forceSelection="false" confirmMsg="Are you sure want to delete all event categories?"  post="true" icon="/images/famfamfam/cross.png" url="eventmanagement/listActionsRemoveEventCategory/all" />
 	  </i:moreactions>
-
-## The HTML View	{#html-view}
-
-### The &lt;i:option&gt; Tag	{#html-option-tag}
-
-This element doesn't have a node value; so, you don't have to use this, since each attribute has a default value. However, if you need to override some of the defaults, here is a list:
-
- * **Border** Determines whether or not a border should be drawn around the Widget. The default is set to "false".
-
- * **AutScroll** Determines whether or not the Widget should be scrollable vertically. In non-scrollable Widgets, overflowing content is handled as overflow="hidden" (in the CSS). The default is set to "true".
-
- * **Header** The default for this is "true". When set at "true", the title row of the Widget will be printed; otherwise, it is omitted (in content-only areas).
-
- * **Style** A CSS class name applied to the Widget container.
-
- * **autoHeight**
-
- * **autoEnd**
-
-### A Note on HTML content	{#html-content}
-
-Please note that, while any valid XHTML 1.1 Strict string is allowed, you should always make sure that nothing incompatible with XML appears here, since the value of ***&lt;i:param&gt;*** is parsed by an XML parser. For example: Using "&" as a literal in some text value will cause an error, since XML must contain the entity "&amp", instead of "&". Similarly, many other "special" characters must be replaced by their entity counterparts.
-
