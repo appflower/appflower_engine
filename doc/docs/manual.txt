@@ -1,7 +1,5 @@
 # AppFlower Documentation
 
-***[2. Widgets](#views-or-widget)***
-
 ***[4. Shared Elements](#shared-elements)***
 
  * [Placeholders](#placeholders)
@@ -58,29 +56,6 @@
  * [Defining file upload handlers - The &lt;i:file&gt; element](#wizard-file-element)
  * [How to construct a Wizard?](#wizard-how-to-construct-wizard)
 
-## Views or Widgets	{#views-or-widget}
-
-Generally speaking, a "View" can be defined as a type of screen with a specific purpose. The interface of any application consists of many different components, each having its own role; AppFlower applications are no exception. They support all the tools you need to build any kind of UI, render data, read user input, or communicate with the user in some way.
-
-Thus, a View can also be defined as a screen where GUI elements of similar purpose are used. Below is a list of major Views:
-
-
-View Type    | Description
----------    | -----------
-Edit         | Fetches user input and has all the tools to build edit / create screens.
-Show         | Renders information stored in data source as plain text. Good browsing.
-List         | Renders data stored in data source as a list with many features. Supports several different style of listings.
-Wizard       | Allows you to build Windows-like step-by-step wizards.  
-HTML         | For rendering custom information, such as messages and dialogues. Supports any valid XHTML content.
-
-
-However, a View is much more than a screen. AppFlower Views come with a bunch of built-in features that will work instantly (without any coding). For example: an edit screen (Edit View) doesn't only provide the input fields you need, it also comes with things like advanced form validation and rendering features. Similarly, a List View is not simply a static list of data--it also has cool functions that allow it to be sorted, exported, and more.
-
-What's more, unlike a standard application screen, which is usually a hard-coded component of that application, the AppFlower Views are individual entities. This gives you (and your users) a greater level of freedom. 
-
-This means once you've created a List View (for example) in one part of your application, you can use this View in any other part, as well! The AppFlower View works everywhere, since it is independent of its location and environment. So, if you change your mind about its placement, you can simply move it around freely, or even use multiple instances on different screens. The View will work out-of-the-box and moving it doesn't require any coding.
-
-For the above reasons, we also refer to "Views" as "Widgets". I will use the term "Widget" in most of the upcoming sections, but will sometimes also call them "Views", since they are the same thing.
 
 
 ## Shared Elements	{#shared-elements}
