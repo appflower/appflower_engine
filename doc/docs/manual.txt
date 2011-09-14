@@ -60,22 +60,6 @@
  * [Defining file upload handlers - The &lt;i:file&gt; element](#wizard-file-element)
  * [How to construct a Wizard?](#wizard-how-to-construct-wizard)
 
-## Introduction to AppFlower
-
-AppFlower is a framework designed to make enterprise-level application building a piece of cake (or certainly a lot easier than traditional methods). AppFlower is like a descriptive language; you simply tell AppFlower what you would like to create and the program does the rest on its own. You don't need to know HTML, CSS, XML, XSLT, JavaScript, ExtJS, PHP, or any other type of code to make a smooth, modern interface. All you do is tell AppFlower where the data is stored, describe how and where you want the data presented, and you'll have a full-featured user interface with lists, edit forms, and more in no time.
-
-![](http://www.appflower.com/images/index/bg_slide_2.png)
-
-To make life easier, we've created a small Playground Project that comes with examples and allows you play around with AppFlower. Based on this project, you can easily build your own application and see the real power of AppFlower.
-
-
-## Prerequisite
-Requirements before using AppFlower:
-
-1. Install php and symfony (1.2 <= version < 2.0)
-2. Install apache and mysql	
-3. Install APC for PHP	
-4. Setup a virtual host so you can access the project.
 
 ## Project Directory Structure
 The structure is similar to Symfony's, but with a few minor extentions.
