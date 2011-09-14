@@ -23,8 +23,6 @@
  * [Arranging fields - The &lt;i:grouping&gt; element](#arranging-fields-element)
  * [Field sets - The &lt;i:set&gt; tag](#field-sets)
 
-***[7. The Show View](#show-view)***
-
 ***[8. The List View](#list-view)***
 
  * [The &lt;i:title&gt; element](#list-title-element)
@@ -1091,31 +1089,6 @@ The height of a tab can be changed via the "tabHeight" attribute. You can also a
 Tabbed and normal fieldsets can be mixed. So, in the previous example I could remove the third tab's tabtitle, which would render it as a normal fieldset, while the other two would remain tabs.
 
 Making a normal fieldset tab is completely unrelated to its layout. Therefore, you can use tabs with any configuration of columns, or with normal sets, it doesn't make a difference. 
-
-
-## The Show View	{#show-view}
-
-This view is suitable for presenting data. The same form used in Edit View will be displayed (including field sets, tabs, etc.). However, instead of form fields, only the value is rendered in a read-only format. These forms may have actions, but POST is not one of them and the data cannot be changed.
-
-There is good news for the developers: Show Views don't require any special syntax, or new elements to learn. You can use a copy of your edited XML; all you need to change is the type of view from "edit" to "show". Otherwise, you can use the exact same syntax as in Edit View.
-
-
-	<?xml version="1.0" encoding="utf-8"?>
-	<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
-	xmlns:i="http://www.appflower.com/schema/" type="show">
-
-	<!-- Rest of XML definitions -->
-
-	</i:view>
-
-Most fields (including drop-downs and other complex ones) are converted to textual data automatically; however, those that cannot be converted won't be displayed at all. 
-
-The following types won't be rendered in a Show View:
-
-* file
-* password
-
 
 ## The List View	{#list-view}
 
