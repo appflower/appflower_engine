@@ -1598,7 +1598,9 @@ html, body {
 }
 
 #ux-taskbar-start .x-btn {
-	margin: 0;
+	/*margin: 0*/;
+	margin-left: 2px;
+    margin-top: 5px;
 }
 
 #ux-taskbar button {
@@ -1631,7 +1633,7 @@ html, body {
 
 #ux-taskbar {
 	background:transparent none;
-	height:30px;
+	height:38px;
 	margin:0;
 	padding:0;
 	position:relative;
@@ -1942,6 +1944,7 @@ ul.ux-taskbuttons-strip {
 ul.ux-taskbuttons-strip li {
     float:left;
     margin-left:2px;
+    margin-top: 5px;
 }
 
 
