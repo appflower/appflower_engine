@@ -16035,7 +16035,7 @@ afApp.pack = function(win,winConfig,Application){
 	}
 	catch (e)
 	{
-		viewport = Ext.get("body");
+		viewport = Ext.getBody();
 	}
 	win.on("show",function(win){
 		if(winConfig.applyTo) return;		
@@ -16081,7 +16081,7 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
 		var viewport = Application.getViewport();
 		maskEl = viewport.layout.center.panel.getEl();
 	} catch (e) {
-		maskEl = Ext.get("body");
+		maskEl = Ext.getBody();
 	}
 	
 	var counter = 0,
@@ -16255,7 +16255,7 @@ afApp.widgetPopup = function(widget, title, superClass, winConfig, Application) 
 		var viewport = Application.getViewport();
 		maskEl = viewport.layout.center.panel.getEl();
 	} catch (e) {
-		maskEl = Ext.get("body");
+		maskEl = Ext.getBody();
 	}
 	
 	if (!winConfig) {
@@ -16822,6 +16822,18 @@ afApp.loadWestWidget = function(widget)
 		}
 	}
 }
+//CTRL+ALT+X keymap - closing the active window
+var keymapX = new Ext.KeyMap(document, {
+	ctrl:true,
+	alt:true,
+	key: Ext.EventObject.X,
+	handler: function (key,e)
+	{
+		e.stopEvent();
+		
+		afApp.activeWindow.close();		
+	}
+});
 //used to set/get current loaded widget
 afApp.currentWidget = false;
 afApp.observable = new Ext.util.Observable();
@@ -19306,7 +19318,7 @@ Ext.ux.Portal = Ext.extend(Ext.Panel, {
 			title:title
 		});
 		
-		this.mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Opening Widget Selector</b> <br>Please Wait...",removeMask:true});
+		this.mask = new Ext.LoadMask(Ext.getBody(), {msg: "<b>Opening Widget Selector</b> <br>Please Wait...",removeMask:true});
 		this.mask.show();
 		
 		this.retrieveWidgets(button); 
@@ -27866,7 +27878,7 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 		var extlink= Ext.get(link);
 		
 		if(!this.isRowExpanded(row)){
-			var mask = new Ext.LoadMask(Ext.get("body"), {msg: "<b>Getting data from server.....</b> <br>Please wait..",removeMask:true});
+			var mask = new Ext.LoadMask(Ext.getBody(), {msg: "<b>Getting data from server.....</b> <br>Please wait..",removeMask:true});
 			mask.show();
 			var ajax = Ext.Ajax.request({
 				url: url,

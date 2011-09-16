@@ -987,6 +987,18 @@ afApp.loadWestWidget = function(widget)
 		}
 	}
 }
+//CTRL+ALT+X keymap - closing the active window
+var keymapX = new Ext.KeyMap(document, {
+	ctrl:true,
+	alt:true,
+	key: Ext.EventObject.X,
+	handler: function (key,e)
+	{
+		e.stopEvent();
+		
+		afApp.activeWindow.close();		
+	}
+});
 //used to set/get current loaded widget
 afApp.currentWidget = false;
 afApp.observable = new Ext.util.Observable();
