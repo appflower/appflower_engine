@@ -14,9 +14,9 @@ html, body {
 	height: 100%;
 }
 
-.start {
+/*.start {
 	background-image: url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/startbutton-icon.gif ) !important;
-}
+}*/
 
 .bogus {
 	background-image: url(/appFlowerPlugin/extjs-3/plugins/desktop/images/bogus.png ) !important;
@@ -131,9 +131,9 @@ html, body {
 .x-btn-text-icon .ux-startbutton-center .x-btn-text{
 	background-position: 0 4px;
 	background-repeat: no-repeat;
-	color:#000000 !important;
+	color:#ffffff !important;
 	font-weight:bold;
-	padding:7px 0px 7px 28px;
+	padding:6px 14px 9px 14px;
 }
 
 .ux-taskbutton-left, .ux-taskbutton-right{
