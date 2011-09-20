@@ -5,7 +5,7 @@
  * http://www.sencha.com/license
  */
 html, body {
-	background:#3d71b8 url(/appFlowerPlugin/extjs-3/plugins/desktop/wallpapers/desktop.jpg) no-repeat left top;
+	background:#3d71b8 url(/appFlowerPlugin/extjs-3/plugins/desktop/wallpapers/desktop.jpg) no-repeat bottom right;
     font: normal 12px tahoma, arial, verdana, sans-serif;
 	margin: 0;
 	padding: 0;
@@ -14,9 +14,9 @@ html, body {
 	height: 100%;
 }
 
-.start {
+/*.start {
 	background-image: url(/appFlowerPlugin/extjs-3/plugins/desktop/images/taskbar/black/startbutton-icon.gif ) !important;
-}
+}*/
 
 .bogus {
 	background-image: url(/appFlowerPlugin/extjs-3/plugins/desktop/images/bogus.png ) !important;
@@ -69,7 +69,7 @@ html, body {
 #ux-taskbar-start .x-btn {
 	/*margin: 0*/;
 	margin-left: 2px;
-    margin-top: 5px;
+    margin-top: 7px;
 }
 
 #ux-taskbar button {
@@ -131,9 +131,9 @@ html, body {
 .x-btn-text-icon .ux-startbutton-center .x-btn-text{
 	background-position: 0 4px;
 	background-repeat: no-repeat;
-	color:#000000 !important;
+	color:#ffffff !important;
 	font-weight:bold;
-	padding:7px 0px 7px 28px;
+	padding:6px 14px 9px 14px;
 }
 
 .ux-taskbutton-left, .ux-taskbutton-right{
@@ -286,14 +286,14 @@ html, body {
 
 .ux-start-menu-tl .x-window-header {
 	color:#f1f1f1;
-	font:bold 11px tahoma,arial,verdana,sans-serif;
+	font:bold 13px tahoma,arial,verdana,sans-serif;
     padding:5px 0 4px 0;
 }
 
 .x-panel-tl .x-panel-icon, .ux-start-menu-tl .x-panel-icon {
 	background-position:0pt 4px;
 	background-repeat:no-repeat;
-	padding-left:20px !important;
+	padding-left:5px !important;
 }
 
 .ux-start-menu-tl {
