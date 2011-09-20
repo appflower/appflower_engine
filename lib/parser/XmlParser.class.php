@@ -2200,6 +2200,8 @@ class XmlParser extends XmlParserTools {
 			if($layoutType == afPortalStatePeer::TYPE_NORMAL) {
 				$portalWidgets=$this->widgets;
 				$portalTools->addItem(array('id'=>'gear','handler'=>array('parameters'=>'e,target,portal','source'=>"
+				        if(afApp.hasDesktop()){portal = portal.items.items[0].items.items[0];}
+				        
 						var layouts=[[100],[50,50],[25,75],[75,25],[33,33,33],[50,25,25],[25,50,25],[25,25,25,25],[40,20,20,20]]; 
 						var menu=new Ext.menu.Menu({items:[
 							{text: 'Layout Selector', handler:function(){
@@ -2226,6 +2228,8 @@ class XmlParser extends XmlParserTools {
 				$portalWidgets = null;
 				
 				$portalTools->addItem(array('id'=>'gear','handler'=>array('parameters'=>'e,target,panel','source'=>"
+				        if(afApp.hasDesktop()){panel = panel.items.items[0];}
+				        
 						var layouts=[[100],[50,50],[25,75],[75,25],[33,33,33],[50,25,25],[25,50,25],[25,25,25,25],[40,20,20,20]];
 						var tabpanel=panel.items.items[0];
 						var menu=new Ext.menu.Menu({items:[

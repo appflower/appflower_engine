@@ -17,6 +17,7 @@ class afExtjsAjaxLoadWidgets{
 		return $this->type;
 	}
 	private function init(){
+	    
         if (sfContext::getInstance()->has('profiler')) {
             $timer = sfTimerManager::getTimer('afRead'); // this time will be stopeed inside XmlParser constructor
         }
@@ -80,30 +81,28 @@ class afExtjsAjaxLoadWidgets{
 		return false;
 		/*************************************************************/
 	}	
+	
+	public function getPopupPanelSource(){
+	    
+	    if($this->type == XmlParser::PANEL)
+	    {
+		  return afExtjs::getInstance()->getExtObject("Ext.Panel",$this->getLayout()->attributes['viewport']['center_panel']);
+	    }
+	    else if($this->type == XmlParser::PAGE)
+	    {
+	      return afExtjs::getInstance()->getExtObject((($this->getLayout()->attributes['layoutType']==afPortalStatePeer::TYPE_NORMAL)?"Ext.Container":"Ext.Panel"),array('items'=>array('center_panel_first_panel'),'height'=>500,'layout'=>'fit'));  
+	    }
+	}
+	
 	public function getCenterPanelSource(){	
-		if(isset($this->getLayout()->attributes['viewport']['center_panel']['tbar'])){
-			//if(count($this->getLayout()->attributes['viewport']['center_panel']['tbar']) > 1)
-			unset($this->getLayout()->attributes['viewport']['center_panel']['tbar']);
-		}
-		
-		return afExtjs::getInstance()->getExtObject("Ext.Panel",$this->getLayout()->attributes['viewport']['center_panel']);
-	}
-	public function getPortalCenterPanelSource(){
-		$config = array();
-		if(isset($this->getLayout()->attributes['viewport']['center_panel']['tbar'])){
-			//if(count($this->getLayout()->attributes['viewport']['center_panel']['tbar']) > 1)
-			unset($this->getLayout()->attributes['viewport']['center_panel']['tbar']);
-		}
-		if(isset($this->getLayout()->attributes['viewport']['center_panel']['title']))
-		unset($this->getLayout()->attributes['viewport']['center_panel']['title']);
-		
-		return afExtjs::getInstance()->getExtObject((($this->getLayout()->attributes['layoutType']==afPortalStatePeer::TYPE_NORMAL)?"Ext.Container":"Ext.Panel"),array('items'=>array('center_panel_first_panel'),'height'=>500,'layout'=>'fit'/*,'autoScroll'=>true*/));
-	}
-	public function getCenterPanelFirstSource(){	
+	    
+	    if($this->type == XmlParser::PANEL || $this->type == XmlParser::PAGE)
 		return $this->getLayout()->afExtjs->private['center_panel_first'];
 	}
+	
 	public function getAddons(){		
-		if(sfConfig::get('af_debug'))
+		
+	    if(sfConfig::get('af_debug'))
 		{
 			return $this->getLayout()->afExtjs->addons;
 		}
@@ -111,24 +110,19 @@ class afExtjsAjaxLoadWidgets{
 			return array();
 		}			
 	}
+	
 	public function getSourceForPopupLoad(){
-		if($this->type == XmlParser::PANEL){
-			return array("center_panel"=>$this->getCenterPanelSource(),"winConfig"=>array('title'=>$this->getLayout()->afExtjs->privateAttributes['center_panel_first_panel']['title']),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
-		}
-		if($this->type == XmlParser::PAGE){
-			return array("center_panel"=>$this->getPortalCenterPanelSource(),"winConfig"=>array('title'=>$this->getLayout()->afExtjs->privateAttributes['container']['title']),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
-		}
+	    
+	    return array("center_panel"=>$this->getPopupPanelSource(),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
 	}
+	
 	public function getSourceForCenterLoad(){
-		if($this->type == XmlParser::PANEL){
-			return array("center_panel_first"=>$this->getCenterPanelFirstSource(),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
-		}
-		if($this->type == XmlParser::PAGE){
-			return array("center_panel_first"=>$this->getCenterPanelFirstSource(),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
-		}		
+		
+	    return array("center_panel_first"=>$this->getCenterPanelSource(),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
 	}	
 
 	public static function isWidgetRequest() {
+	    
 		$request = sfContext::getInstance()->getRequest();
 		return ($request->getParameter('widget_load') ||
 			$request->getParameter('widget_popup_request'));

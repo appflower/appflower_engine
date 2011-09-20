@@ -845,6 +845,20 @@ if (window.top !== window.self) {
   }
   
   /**
+   * return the array of a var
+   *
+   * @param sfExtjs2Var $var
+   */
+  public static function asArray($var)
+  {
+      return sprintf
+        (
+          self::LBR_SB_L.'%s'.self::LBR_SB_R,
+          self::_build_attributes($var)
+        );
+  }
+  
+  /**
    * returns output of evaled php code
    *
    * @param array matches

@@ -8,7 +8,7 @@ sfProjectConfiguration::getActive()->loadHelpers(array('sfExtjs2'));
 class afExtjs extends sfExtjs2Plugin
 {
   static public $instance = null;
-  public $private,$public,$privateAttributes;
+  public $private, $public, $privateAttributes, $template = false;
   
   public static function getInstance()
   {
@@ -54,23 +54,31 @@ class afExtjs extends sfExtjs2Plugin
   
   public function getCurrentTemplate()
   {
-    $projectYmlPath = sfConfig::get('sf_root_dir') . '/config/project.yml';
-  	$pluginTemplateYml = sfYaml::load(sfConfig::get('sf_root_dir').'/plugins/appFlowerPlugin/config/template.yml');
-  	if(file_exists($projectYmlPath))
-  	{
-  		$projectYml = sfYaml::load($projectYmlPath);
-  		
-  		$projectYml['project']['template']=isset($projectYml['project']['template'])?$projectYml['project']['template']:$pluginTemplateYml['template']['default'];
-  		
-  		$template = $projectYml['project']['template'];
-  		
-  		afUtil::writeFile($projectYmlPath,sfYaml::dump($projectYml,4));
-  	}
-  	else {
-  		$template = $pluginTemplateYml['template']['default'];
-  	}
+      if(!$this->template)
+      {
+        $projectYmlPath = sfConfig::get('sf_root_dir') . '/config/project.yml';
+      	$pluginTemplateYml = sfYaml::load(sfConfig::get('sf_root_dir').'/plugins/appFlowerPlugin/config/template.yml');
+      	if(file_exists($projectYmlPath))
+      	{
+      		$projectYml = sfYaml::load($projectYmlPath);
+      		
+      		$projectYml['project']['template']=isset($projectYml['project']['template'])?$projectYml['project']['template']:$pluginTemplateYml['template']['default'];
+      		
+      		$this->template = $projectYml['project']['template'];
+      		
+      		afUtil::writeFile($projectYmlPath,sfYaml::dump($projectYml,4));
+      	}
+      	else {
+      		$this->template = $pluginTemplateYml['template']['default'];
+      	}
+    }
   	
-  	return $template;
+  	return $this->template;
+  }
+  
+  public function isDesktop()
+  {
+      return afExtjs::getInstance()->getCurrentTemplate()=='desktop';
   }
   
   public function addInitMethodSource($source)

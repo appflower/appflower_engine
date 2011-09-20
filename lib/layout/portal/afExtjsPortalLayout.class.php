@@ -77,8 +77,22 @@ class afExtjsPortalLayout extends afExtjsViewportLayout
 			case afPortalStatePeer::TYPE_NORMAL:
 				if(isset($this->attributes['tools']))
 				{
-					$attributes['tools']=$this->attributes['tools']->end();
+				    if(!afExtjs::getInstance()->isDesktop())
+				    {
+				        $attributes['tools']=$this->attributes['tools']->end();
+				    }
+				    else {
+				        $attributes['winTools']=$this->attributes['tools']->end();
+				        unset($attributes['tools']);
+				    }
 				}
+				
+				if(afExtjs::getInstance()->isDesktop())
+				{
+				   $attributes['winTitle'] = $attributes['title'];
+				   unset($attributes['title']);
+				}
+				
 				if(isset($this->attributes['portalLayoutType']))
 				{
 					$attributes['portalLayoutType']=$this->attributes['portalLayoutType'];
@@ -139,10 +153,24 @@ class afExtjsPortalLayout extends afExtjsViewportLayout
 
 				$attributesPanel['title']=$attributesTabPanel['title'];
 				unset($attributesTabPanel['title']);
+				
 				if(isset($this->attributes['tools']))
 				{
-					$attributesPanel['tools']=$this->attributes['tools']->end();
+				    if(!afExtjs::getInstance()->isDesktop())
+				    {
+				        $attributesPanel['tools']=$this->attributes['tools']->end();
+				    }
+				    else {
+				        $attributesTabPanel['winTools']=$this->attributes['tools']->end();
+				        unset($attributes['tools']);
+				    }
 				}
+				
+				if(afExtjs::getInstance()->isDesktop())
+				{
+				   $attributesTabPanel['winTitle'] = $attributes['title'];
+				}
+				
 				//$attributesTabPanel['id']='center_panel_first_panel';
 				$this->afExtjs->private['center_panel_first_panel']=$this->afExtjs->TabPanel($attributesTabPanel);
 				

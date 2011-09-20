@@ -265,12 +265,16 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
 	};
 
 	finish = function() {
+	    var backendWinConfig = {};
 		//backupForms();
 		eval(json.source);	
-		
-		var backendWinConfig = eval(json.winConfig);
 						
 		var center_panel = (function(){ return eval(json.center_panel); })();
+		
+		if(center_panel_first_panel.winTools)
+		winConfig.tools = center_panel_first_panel.winTools;
+		if(center_panel_first_panel.winTitle)
+		winConfig.title = center_panel_first_panel.winTitle;
 		
 		Ext.apply(center_panel, {
 			frame: winConfig.applyTo ? false : true
@@ -289,7 +293,7 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
 			items: center_panel
 		});
 		
-		Ext.apply(winConfig, backendWinConfig);
+		//Ext.apply(winConfig, backendWinConfig);
 		
 		if (winConfig.applyTo) {
 			winConfig = Ext.apply(winConfig, {
