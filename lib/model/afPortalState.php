@@ -156,5 +156,8 @@ class afPortalState extends BaseafPortalState
                 parent::save($con);
             }
         }
+        else {
+            parent::save($con);
+        }
 	}
 }
