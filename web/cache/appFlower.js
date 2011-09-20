@@ -22819,6 +22819,8 @@ Ext.ux.StartMenu = Ext.extend(Ext.menu.Menu, {
 
         this.fireEvent("beforeshow", this);
         this.showAt(this.el.getAlignToXY(el, pos || this.defaultAlign), parentMenu, false);
+        this.getEl().setTop(this.getEl().getTop()-5);
+        this.getEl().setLeft(0);
         var tPanelWidth = 100;
         var box = this.menuBWrap.getBox();
         this.menuPanel.setWidth(box.width-tPanelWidth);
