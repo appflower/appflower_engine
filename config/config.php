@@ -2,7 +2,7 @@
 /**
  * appFlower addons debug mode
  */
-sfConfig::set('af_debug',true);
+sfConfig::set('af_debug',false);
 /**
  * appFlower config
  */
@@ -68,7 +68,7 @@ sfConfig::set('sf_extjs3_spacer', sfConfig::get('sf_extjs3_images_dir').'default
 #
 # attributes which must handled as array
 #
-sfConfig::set('sf_extjs2_list_attributes', array('items', 'tbar', 'toTBar', 'bbar', 'buttons', 'plugins', 'fields', 'tools', 'actions', 'columns','children','filters'));
+sfConfig::set('sf_extjs2_list_attributes', array('items', 'tbar', 'toTBar', 'bbar', 'buttons', 'plugins', 'fields', 'tools', 'actions', 'columns','children','filters', 'winTools'));
 #
 # array values that don't need quotes
 #
