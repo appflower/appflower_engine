@@ -26,19 +26,27 @@ class afExtjsPanelLayout extends afExtjsViewportLayout
 	}
 	
 	public function addCenterComponent($tools,$attributes=array())
-	{	
+	{	    
 		if($this->showFullCenter())
-		{
-			$attributes=array('id'=>'center_panel_first_panel',
-						      'title'=>isset($attributes['title'])?$attributes['title']:'Panel',
+		{		    		    
+			if(!afExtjs::getInstance()->isDesktop())
+		    {
+		        $attributes['title'] = isset($attributes['title'])?$attributes['title']:'Panel';
+		        $attributes['tools']=$tools->end();
+		    }
+		    else {
+		        $attributes['winTitle'] = isset($attributes['title'])?$attributes['title']:'Panel';
+		        unset($attributes['tools']);
+		    }
+		    
+		    $attributes=array_merge($attributes,array('id'=>'center_panel_first_panel',
 						      'autoScroll'=>true,
 						      'width'=>'auto',
 					          'frame'=>true,
 					          'collapsible'=>true,
-					          'style'=>'padding-right:0px;',
-					          'tools'=>$tools->end(),
+					          'style'=>'padding-right:0px;',					          
 							  'idxml'=>isset($attributes['idxml'])?$attributes['idxml']:false,
-			);
+			));
 			
 			$attributes['plugins'][] = 'new Ext.ux.MaximizeTool()';
 			if(isset($this->attributes['viewport']['center_panel'])&&count($this->attributes['viewport']['center_panel'])>0)
