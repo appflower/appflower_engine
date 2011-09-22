@@ -19,7 +19,8 @@ class afExtjsDesktopLayout extends afExtjsLayout
 		$this->addInitMethodSource("this.startConfig = startMenuConfig;this.desktop = new Ext.Desktop(this);");
 	}
 	
-	public function getShortcuts(){
+	public function getShortcuts()
+	{
 	    if (is_readable(sfConfig::get('sf_app_lib_dir').'/helper/afExtjsDesktopLinksHelper.php'))
         {
           sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsDesktopLinks'));
@@ -27,6 +28,16 @@ class afExtjsDesktopLayout extends afExtjsLayout
         else {
             sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsDesktopLinksDefault'));
         }
+	}
+	
+	public function getBackgroundColor()
+	{
+	    return sfConfig::get('app_appFlower_desktopBackgroundColor');
+	}
+	
+	public function getBackgroundImage()
+	{
+	    return sfConfig::get('app_appFlower_desktopBackgroundImage');
 	}
 	
 	public function end()
