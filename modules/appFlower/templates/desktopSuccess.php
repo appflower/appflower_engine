@@ -1,5 +1,11 @@
 <?php $layout=new afExtjsDesktopLayout(); ?>
 
+<style>
+body {
+	background:<?php echo $layout->getBackgroundColor() ?> url(<?php echo $layout->getBackgroundImage() ?>) no-repeat bottom right;
+}
+</style>
+
 
 <div id="x-desktop">    
     <dl id="x-shortcuts">

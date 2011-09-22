@@ -6,6 +6,8 @@ all:
     loadingLogo: '/appFlowerPlugin/images/appFlowerAnimatedLogo.gif'
     logo: { file: '', url: 'http://www.appflower.com'}
     siteSecret: CHANGE_ME
+    desktopBackgroundColor: '#3d71b8'
+    desktopBackgroundImage: '/appFlowerPlugin/extjs-3/plugins/desktop/wallpapers/desktop.jpg'
   
   parser:
     panels:
