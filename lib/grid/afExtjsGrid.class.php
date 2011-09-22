@@ -133,8 +133,8 @@ class afExtjsGrid
 	private function resizeToolBars(){
 		return '	
 		var oc = '.$this->privateName.';		
-		if(oc && oc.getTopToolbar()) oc.getTopToolbar().setWidth(oc.getWidth());
-		if(oc && oc.getBottomToolbar()) oc.getBottomToolbar().setWidth(oc.getWidth());';		
+		if(oc && oc.getTopToolbar() && oc.getWidth()!=0) oc.getTopToolbar().setWidth(oc.getWidth()); else oc.getTopToolbar().setWidth("auto");
+		if(oc && oc.getBottomToolbar() && oc.getWidth()!=0) oc.getBottomToolbar().setWidth(oc.getWidth()); else oc.getTopToolbar().setWidth("auto");';		
 	}
 	public function addScripts(Array $scripts) {
 		
