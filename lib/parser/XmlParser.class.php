@@ -4457,7 +4457,7 @@ if(response.message) {
 		sfApplicationConfiguration::getActive()->loadHelpers("Helper");
 		$parser = new XmlParser();
 		$actionInstance->layout = $parser->getLayout();	
-		$actionInstance->setLayout("layoutExtjs");
+		self::setLayoutAppFlower($actionInstance);
 		self::setTemplateAppFlower($actionInstance);
 		return sfView::SUCCESS;
 	}
@@ -4467,13 +4467,23 @@ if(response.message) {
 	}
 	
     /**
-     * set the Homepage template
+     * set AppFlower template
      */
 	private static function setTemplateAppFlower($actionInstance)
 	{
 		$name = sfConfig::get('sf_plugins_dir').'/appFlowerPlugin/modules/appFlower/templates/'.afExtjs::getInstance()->getCurrentTemplate();
 		
 		sfConfig::set('symfony.view.'.$actionInstance->getModuleName().'_'.$actionInstance->getActionName().'_template', $name);
+	}
+	
+	/**
+     * set AppFlower Layout
+     */
+	private static function setLayoutAppFlower($actionInstance)
+	{
+		$name = sfConfig::get('sf_plugins_dir').'/appFlowerPlugin/modules/appFlower/templates/layout';
+		
+		sfConfig::set('symfony.view.'.$actionInstance->getModuleName().'_'.$actionInstance->getActionName().'_layout', $name);
 	}
 
 	private static function getProxyAttributes($parse) {
