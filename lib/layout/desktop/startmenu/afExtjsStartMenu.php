@@ -42,7 +42,7 @@ class afExtjsStartMenu
 			$this->containerObject->addMember($this->attributes);
 		}
 		else {
-			$this->afExtjs->private[$this->privateName]=$this->afExtjs->asAnonymousClass($this->attributes);			
+			$this->afExtjs->private[$this->privateName]=$this->afExtjs->asAnonymousClass($this->attributes);	
 		}
 	}
 }

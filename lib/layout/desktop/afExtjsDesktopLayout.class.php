@@ -12,6 +12,9 @@ class afExtjsDesktopLayout extends afExtjsLayout
         {
 		  sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsDesktopStartMenu'));
         }
+        else {
+            sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsDesktopStartMenuDefault'));
+        }
 		
 		$this->addInitMethodSource("this.startConfig = startMenuConfig;this.desktop = new Ext.Desktop(this);");
 	}
@@ -20,6 +23,9 @@ class afExtjsDesktopLayout extends afExtjsLayout
 	    if (is_readable(sfConfig::get('sf_app_lib_dir').'/helper/afExtjsDesktopLinksHelper.php'))
         {
           sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsDesktopLinks'));
+        }
+        else {
+            sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsDesktopLinksDefault'));
         }
 	}
 	
