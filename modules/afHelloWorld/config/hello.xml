@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="html">
+
+    <i:title>Hello world!</i:title>
+
+
+    <i:params>
+        <i:param name="html">
+            <![CDATA[
+            <h1>Hello world example</h1>
+            <hr />
+            <p>As you can see - putting HTML in a widget is pretty simple.</p>
+            ]]>
+        </i:param>
+    </i:params>
+</i:view>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.appflower.com /schema/appflower.xsd"
+xmlns:i="http://www.appflower.com/schema/" type="layout">
+
+	<i:title>Dashboard</i:title>	
+    
+	<i:area type="content" layout="2">
+        <i:component column="0" module="afHelloWorld" name="hello"></i:component>
+        <i:component column="1" module="afHelloWorld" name="world"></i:component>
+	</i:area>
+       
+</i:view>
