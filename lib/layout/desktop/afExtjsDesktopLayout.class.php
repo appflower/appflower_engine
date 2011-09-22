@@ -8,7 +8,7 @@ class afExtjsDesktopLayout extends afExtjsLayout
 	{
 		$this->afExtjs->setAddons(array ('css' => array($this->afExtjs->getPluginsDir().'desktop/css/desktop.css'), 'js' => array($this->afExtjs->getPluginsDir().'desktop/js/StartMenu.js',$this->afExtjs->getPluginsDir().'desktop/js/TaskBar.js',$this->afExtjs->getPluginsDir().'desktop/js/Desktop.js')));
 		
-		if (is_readable(sfConfig::get('sf_app_lib_dir').'/helper/afExtjsDesktopLinksHelper.php'))
+		if (is_readable(sfConfig::get('sf_app_lib_dir').'/helper/afExtjsDesktopStartMenuHelper.php'))
         {
 		  sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsDesktopStartMenu'));
         }
