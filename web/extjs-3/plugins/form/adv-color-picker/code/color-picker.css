@@ -7,10 +7,10 @@ body, html {
   margin: 100px; }
 
 .x-panel-icon.x-color-wheel, .x-color-wheel {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/color_wheel.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/color_wheel.png'); }
 
 .x-color-picker.x-panel-body {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/background.jpg'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/background.jpg'); }
 
 .x-color-picker.x-panel .x-layer {
   width: 100%;
@@ -18,59 +18,59 @@ body, html {
   position: absolute;
   visibility: visible; }
 .x-color-picker.x-panel .blank {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/blank.gif'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/blank.gif'); }
 .x-color-picker.x-panel .bar-brightness {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-brightness.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-brightness.png'); }
 .x-color-picker.x-panel .map-hue {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/map-hue.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/map-hue.png'); }
 .x-color-picker.x-panel .bar-hue {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-hue.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-hue.png'); }
 .x-color-picker.x-panel .map-saturation {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/map-saturation.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/map-saturation.png'); }
 .x-color-picker.x-panel .map-saturation-overlay {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/map-saturation-overlay.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/map-saturation-overlay.png'); }
 .x-color-picker.x-panel .bar-saturation {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-saturation.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-saturation.png'); }
 .x-color-picker.x-panel .map-brightness {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/map-brightness.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/map-brightness.png'); }
 .x-color-picker.x-panel .bar-brightness {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-brightness.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-brightness.png'); }
 .x-color-picker.x-panel .map-red-max {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/map-red-max.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/map-red-max.png'); }
 .x-color-picker.x-panel .map-red-min {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/map-red-min.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/map-red-min.png'); }
 .x-color-picker.x-panel .bar-red-tl {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-red-tl.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-red-tl.png'); }
 .x-color-picker.x-panel .bar-red-tr {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-red-tr.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-red-tr.png'); }
 .x-color-picker.x-panel .bar-red-br {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-red-br.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-red-br.png'); }
 .x-color-picker.x-panel .bar-red-bl {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-red-bl.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-red-bl.png'); }
 .x-color-picker.x-panel .map-green-max {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/map-green-max.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/map-green-max.png'); }
 .x-color-picker.x-panel .map-green-min {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/map-green-min.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/map-green-min.png'); }
 .x-color-picker.x-panel .bar-green-tl {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-green-tl.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-green-tl.png'); }
 .x-color-picker.x-panel .bar-green-tr {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-green-tr.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-green-tr.png'); }
 .x-color-picker.x-panel .bar-green-br {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-green-br.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-green-br.png'); }
 .x-color-picker.x-panel .bar-green-bl {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-green-bl.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-green-bl.png'); }
 .x-color-picker.x-panel .map-blue-max {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/map-blue-max.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/map-blue-max.png'); }
 .x-color-picker.x-panel .map-blue-min {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/map-blue-min.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/map-blue-min.png'); }
 .x-color-picker.x-panel .bar-blue-tl {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-blue-tl.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-blue-tl.png'); }
 .x-color-picker.x-panel .bar-blue-tr {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-blue-tr.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-blue-tr.png'); }
 .x-color-picker.x-panel .bar-blue-br {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-blue-br.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-blue-br.png'); }
 .x-color-picker.x-panel .bar-blue-bl {
-  background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/bar-blue-bl.png'); }
+  background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/bar-blue-bl.png'); }
 .x-color-picker.x-panel .x-map {
   border: 1px solid black;
   width: 255px;
@@ -83,7 +83,7 @@ body, html {
     width: 15px;
     height: 15px;
     position: absolute;
-    background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/mappoint.gif'); }
+    background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/mappoint.gif'); }
 .x-color-picker.x-panel .x-track {
   height: 255px;
   width: 20px;
@@ -97,7 +97,7 @@ body, html {
     position: absolute;
     left: -10px;
     top: 0px;
-    background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/rangearrows.gif'); }
+    background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/rangearrows.gif'); }
 .x-color-picker.x-panel .x-console {
   float: left;
   width: 75px;
@@ -117,7 +117,7 @@ body, html {
     left: 1px;
     width: 20px;
     height: 20px;
-    background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/radio/background.png'); }
+    background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/radio/background.png'); }
     .x-color-picker.x-panel .x-console .x-label {
     position: absolute;
     top: 6px;
@@ -136,7 +136,7 @@ body, html {
     font-size:11px;
    }
   .x-color-picker.x-panel .x-console .x-radio.x-dialed {
-    background-image: url('/appFlowerPlugin/extjs-3/examples/form/adv-color-picker/images/radio/over.png'); }
+    background-image: url('/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/radio/over.png'); }
   .x-color-picker.x-panel .x-console .x-form-text {
     width: 30px;
     padding-left: 40px;
