@@ -597,12 +597,4 @@ class appFlowerActions extends sfActions
 			return $this->renderText($response);
 		}
 	}
-
-	public function executeHello(sfWebRequest $request)
-	{
-	}
-	
-	public function executeWorld(sfWebRequest $request)
-	{
-	}
 }
