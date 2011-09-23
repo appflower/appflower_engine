@@ -2,7 +2,7 @@
 
 <style>
 body {
-	background:<?php echo $layout->getBackgroundColor() ?> url(<?php echo $layout->getBackgroundImage() ?>) no-repeat bottom right;
+	background:<?php echo $layout->getBackgroundColor() ?> url(<?php echo $layout->getBackgroundImage() ?>) repeat bottom right;
 }
 </style>
 
