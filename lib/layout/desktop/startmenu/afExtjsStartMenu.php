@@ -35,6 +35,35 @@ class afExtjsStartMenu
 		}
 	}
 	
+	public function addTool($item)
+	{
+		if(isset($item['separator']))
+		{
+			$this->attributes['toolItems'][]=$this->afExtjs->asVar("'-'");		
+		}
+		else {
+		    
+		    if(isset($item['url']))
+    		{
+    			$item['handler']=$this->afExtjs->asMethod(array(
+      									'parameters'=>'',
+      									'source'=>'afApp.widgetPopup("'.$item['url'].'");'
+      								));
+    			
+    			unset($item['url']);
+    		}
+    		elseif(isset($item['handler']))
+    		{
+    			$item['handler']=$this->afExtjs->asMethod(array(
+      									'parameters'=>'',
+      									'source'=>$item['handler']
+      								));
+    		}
+		    
+			$this->attributes['toolItems'][]=$item;
+		}
+	}
+	
 	public function end()
 	{			
 		if($this->containerObject)
