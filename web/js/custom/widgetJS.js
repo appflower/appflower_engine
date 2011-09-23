@@ -897,7 +897,7 @@ afApp.loadFirst = function(hasDesktop)
 	
 		if(hasDesktop)
 		{
-			config.heightPlus = 30;
+			config.heightPlus = 40;
 		}
 		
 		new Ext.ux.InstantNotification(config);
