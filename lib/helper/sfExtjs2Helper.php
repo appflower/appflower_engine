@@ -506,7 +506,7 @@ class sfExtjs2Plugin {
     // add css sources for theme
     $themes = sfConfig::get('sf_extjs'.$extjsVersion.'_themes', array());
 	
-    if ($this->options['theme']) {
+    if ($this->options['theme'] && isset($themes[$this->options['theme']])) {
         foreach ($themes[$this->options['theme']] as $file)
         {        	
             $response->addStylesheet(sfConfig::get('sf_extjs'.$extjsVersion.'_css_dir').$file, 'first');            
