@@ -276,23 +276,3 @@
     filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/appFlowerPlugin/images/desktop-win-shortcut48x48.png', sizingMethod='scale');
 }
 
-#desktop-dashboard-shortcut img {
-    width:47px;
-    height:48px;
-    background-image: url(/appFlowerPlugin/images/ico_dashboard.png);
-    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/appFlowerPlugin/images/ico_dashboard.png', sizingMethod='scale');
-}
-
-#desktop-mytickets-shortcut img {
-    width:35px;
-    height:47px;
-    background-image: url(/appFlowerPlugin/images/ico_my_tickets.png);
-    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/appFlowerPlugin/images/ico_my_tickets.png', sizingMethod='scale');
-}
-
-#desktop-addticket-shortcut img {
-    width:32px;
-    height:47px;
-    background-image: url(/appFlowerPlugin/images/ico_ticke.png);
-    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/appFlowerPlugin/images/ico_ticke.png', sizingMethod='scale');
-}
