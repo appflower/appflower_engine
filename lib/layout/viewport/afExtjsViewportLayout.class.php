@@ -189,7 +189,12 @@ class afExtjsViewportLayout extends afExtjsLayout
 		$panel=new afExtjsPanel(array('html'=>'<div style="white-space:normal;">'.$html.'</div>','listeners'=>array('render'=>$this->afExtjs->asMethod(array("parameters"=>"panel","source"=>"if(panel.body){panel.body.dom.style.border='0px';panel.body.dom.style.background='transparent';}")))));
 		
 		$this->attributes['viewport']['center_panel']['tbar'][]=$this->afExtjs->asVar($panel->privateName);
-		$this->attributes['viewport']['center_panel']['listeners']=array('render'=>$this->afExtjs->asMethod('if(this.getTopToolbar()&&this.getTopToolbar().container){this.getTopToolbar().container.addClass(\'tbarBottomBorderFix\');}'));
+		$this->attributes['viewport']['center_panel']['listeners']=array('render'=>$this->afExtjs->asMethod('if(this.getTopToolbar()&&this.getTopToolbar().container){this.getTopToolbar().container.addClass(\'tbarBottomBorderFix\');
+		
+		/*var tt=this.getTopToolbar();
+		console.log(tt);
+		tt.container.dom.style.width=\'0\';*/		
+		}'));
 	}
 		
 	public function getPrivateSource()

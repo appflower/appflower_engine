@@ -104,7 +104,18 @@ html, body {
 	height:38px;
 	margin:0;
 	padding:0;
-	position:relative;
+	bottom:0;
+	position:fixed;
+	z-index:12001;
+}
+
+*html #ux-taskbar {
+    background:transparent none;
+	height:38px;
+	margin:0;
+	padding:0;
+	bottom:0;
+	position:absolute;
 	z-index:12001;
 }
 
