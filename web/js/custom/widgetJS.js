@@ -182,7 +182,7 @@ afApp.layout = function() {
     }
 }
     
-//Ext.EventManager.onWindowResize(afApp.layout);
+Ext.EventManager.onWindowResize(afApp.layout);
 
 afApp.getWindow = function(id) {
 	return afApp.windows.get(id);
@@ -337,13 +337,13 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
                 fn: afApp.removeWin
             },
             'resize': {
-            	fn: function(){/*console.log('x');*/}
+            	fn: function(win,width,height){
+            	    
+            	}
             }
-        });
+        }); 
 		
-        //afApp.layout();
-        
-		if (win.doLayout) {
+        if (win.doLayout) {
 			win.doLayout();
 		}
 		if (win.show) {
@@ -374,6 +374,8 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
 			//win.close();
 			//restoreBackup();
 		});		        
+				
+		afApp.layout();
 	};
 
 	/*function restoreBackup(){

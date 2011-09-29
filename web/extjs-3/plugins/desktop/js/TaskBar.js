@@ -406,7 +406,7 @@ Ext.ux.TaskBar.TaskButton = function(win, el){
             '<table cellspacing="0" class="x-btn {3}"><tbody><tr>',
             '<td class="ux-taskbutton-left"><i>&#160;</i></td>',
             '<td class="ux-taskbutton-center"><em class="{5} unselectable="on">',
-                '<button class="x-btn-text {2}" type="{1}" style="height:28px;">{0}</button>',
+                '<button class="x-btn-text {2}" type="{1}" style="height:16px;padding-top: 1px;">{0}</button>',
             '</em></td>',
             '<td class="ux-taskbutton-right"><i>&#160;</i></td>',
             "</tr></tbody></table>")
