@@ -648,3 +648,11 @@ if (sfConfig::get('app_enable_firephp_query_logger')) {
         $this->dispatcher->connect('application.log', array($queryLogger, 'applicationLog'));
     }
 }
+
+// automatically enabling two base modules
+sfConfig::set(  'sf_enabled_modules', 
+                array_merge(
+                            sfConfig::get('sf_enabled_modules'), 
+                            array('appFlower','afHelloWorld')
+                )
+);
