@@ -341,9 +341,7 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
             	    
             	}
             }
-        });
-        
-        Ext.util.Observable.capture(win, function(e){console.info(e)}); 
+        }); 
 		
         if (win.doLayout) {
 			win.doLayout();
