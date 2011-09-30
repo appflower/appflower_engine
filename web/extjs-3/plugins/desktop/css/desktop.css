@@ -297,13 +297,13 @@ html, body {
 .ux-start-menu-tl .x-window-header {
 	color:#f1f1f1;
 	font:bold 13px tahoma,arial,verdana,sans-serif;
-    padding:5px 0 4px 0;
+    padding:65px 0 18px 90;
 }
 
 .x-panel-tl .x-panel-icon, .ux-start-menu-tl .x-panel-icon {
 	background-position:0pt 4px;
 	background-repeat:no-repeat;
-	padding-left:5px !important;
+	/*padding-left:5px !important;*/
 }
 
 .ux-start-menu-tl {
@@ -615,6 +615,16 @@ td.ux-taskButtons-edge {
 }
 #ux-taskbar .active-win .ux-startbutton-center button {
     color:#fff;
+}
+.ux-start-menu-tl .x-window-header-text {
+	margin-left: 68px;
+	margin-top: 23px;
+	margin-bottom: 23px;
+	float: left;
+	font-size: 18px;
+}
+.active-user-image {
+    background: url(../../../../../images/desktop/User-icon.png);
 }
 /*
  * End Start button

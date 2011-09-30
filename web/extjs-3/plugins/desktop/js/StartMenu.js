@@ -63,7 +63,7 @@ Ext.ux.StartMenu = Ext.extend(Ext.menu.Menu, {
 		this.header = header;
 
 		var headerText = header.createChild({
-			tag: "span",
+			tag: "div",
 			cls: "x-window-header-text"
 		});
 		var tl = header.wrap({
@@ -179,7 +179,7 @@ Ext.ux.StartMenu = Ext.extend(Ext.menu.Menu, {
 
         this.fireEvent("beforeshow", this);
         this.showAt(this.el.getAlignToXY(el, pos || this.defaultAlign), parentMenu, false);
-        this.getEl().setTop(this.getEl().getTop()-5);
+        this.getEl().setTop(this.getEl().getTop()-50);
         this.getEl().setLeft(0);
         var tPanelWidth = 100;
         var box = this.menuBWrap.getBox();
@@ -245,7 +245,7 @@ Ext.ux.StartMenu = Ext.extend(Ext.menu.Menu, {
 
     setTitle : function(title, iconCls){
         this.title = title;
-        this.header.child('span').update(title);
+        this.header.child('div').update(title);
         return this;
     }
 });
