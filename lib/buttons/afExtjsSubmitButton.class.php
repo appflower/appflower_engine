@@ -225,9 +225,17 @@ class afExtjsSubmitButton extends afExtjsButton
 		  								if(redirect){
 											showInstantNotification();
 											if(afApp.hasDesktop()) {
+											    
+											    if (redirect.indexOf("#")>-1) {
+											        tmp = redirect.substring(0, redirect.indexOf("#"));
+											        if(afApp.windows.get(tmp)) {
+                                                        afApp.windows.get(tmp).close();
+                                                    } 
+                                                    // alert(redirect);
+											    }
 											    if(afApp.windows.get(redirect)) {
                                                     afApp.windows.get(redirect).close();
-                                                }
+                                                } 
                                             }
 		  									afApp.load(redirect,load,target,winProp);
 										}'.(isset($attributes['afterSuccess'])?$attributes['afterSuccess']:'').'
