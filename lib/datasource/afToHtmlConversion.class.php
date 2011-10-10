@@ -20,7 +20,13 @@ class afToHtmlConversion {
         }
 
         if(is_object($value)) {
-            $value = (string)$value;
+            if (method_exists($value, '__toString')) {
+                $value = (string)$value;
+            } else if (method_exists($value, 'getId')) {
+                $value = $value->getId();
+            } else {
+                throw new Exception('I don\'t know how to represent object of class '.get_class($value). ' as string.');
+            }
         }
         if(is_string($value)) {
             $value = htmlspecialchars($value);

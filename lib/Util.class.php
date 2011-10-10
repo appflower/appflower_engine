@@ -1101,7 +1101,7 @@ class Util {
             }
             reset($objects);
             
-            rmdir($dir);
+            @rmdir($dir);
         }
     }
     
