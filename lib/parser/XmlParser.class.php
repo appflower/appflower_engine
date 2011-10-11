@@ -2313,7 +2313,7 @@ class XmlParser extends XmlParserTools {
 		
 		try {
 			foreach($elements as $e) { 		
-				if(!$afUser->isAnonymous()) {
+				if(is_null($afUser) || (is_object($afUser) && !$afUser->isAnonymous())) {
                  	if($this->name($e) == "help" && $this->getWidgetId() != "appFlower/editHelpSettings" && $this->widgetHelpSettings->getHelpType() == 0) {
                     	continue;
                     }
