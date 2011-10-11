@@ -175,7 +175,7 @@ afApp.removeWin = function(win) {
 afApp.layout = function() {
 	if(afApp.hasDesktop())
     {
-    	var desktopEl = Ext.get('x-desktop');
+        var desktopEl = Ext.get('x-desktop');
     	var taskbarEl = Ext.get('ux-taskbar');
     	
     	desktopEl.setHeight(Ext.lib.Dom.getViewHeight() - taskbarEl.getHeight());
@@ -281,9 +281,18 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
 			,width: "auto"
 //			,layout: "form"
 		});
-					
+		
+		if(afApp.hasDesktop())
+		{
+		    var desktopEl = Ext.get('x-desktop');
+		    
+    		Ext.applyIf(winConfig, {	
+                renderTo: desktopEl
+    		});
+		}
+			
 		Ext.applyIf(winConfig, {
-			id: widget,
+		    id: widget,
 			autoScroll: true,
 			minimizable: true,
 			maximizable: true,
@@ -293,7 +302,7 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
 			items: center_panel
 		});
 		
-		//Ext.apply(winConfig, backendWinConfig);
+		
 		
 		if (winConfig.applyTo) {
 			winConfig = Ext.apply(winConfig, {
@@ -343,17 +352,22 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
             }
         }); 
 		
-        if (win.doLayout) {
-			win.doLayout();
-		}
-		if (win.show) {
+        if (afApp.hasDesktop()) {
+            win.render(desktopEl);
+        }
+        
+        if (win.show) {
 			win.show();
 		}
+		
+		/*if (win.doLayout) {
+			win.doLayout();
+		}*/
 		
 		/* window resize, pack and onmove adjustments */
 		afApp.pack(win, winConfig, Application);
 						
-		if (win.doLayout) {
+		/*if (win.doLayout) {
 			win.doLayout();
 		}
 		if (win.show) {
@@ -361,7 +375,7 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
 		}
 		if (win.center) {
 			win.center();
-		}
+		}*/
 		win.on("render", function(win){ eval(json.public_source); }, null, {single:true});
 		
 		afApp.loadingProgress(maskEl, 1);
