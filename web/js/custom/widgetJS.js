@@ -287,7 +287,10 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
 		    var desktopEl = Ext.get('x-desktop');
 		    
     		Ext.applyIf(winConfig, {	
-                renderTo: desktopEl
+                renderTo: desktopEl,
+                shim:false,
+                animCollapse:false,
+                constrainHeader:true,
     		});
 		}
 			
