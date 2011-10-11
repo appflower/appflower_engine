@@ -191,7 +191,7 @@ class afExtjsViewportLayout extends afExtjsLayout
 		$this->attributes['viewport']['center_panel']['tbar'][]=$this->afExtjs->asVar($panel->privateName);
 		$this->attributes['viewport']['center_panel']['listeners']=array('render'=>$this->afExtjs->asMethod('if(this.getTopToolbar()&&this.getTopToolbar().container){this.getTopToolbar().container.addClass(\'tbarBottomBorderFix\');}'));
         $this->attributes['viewport']['center_panel']['listeners']['afterrender'] = $this->afExtjs->asMethod('
-        if(this.getTopToolbar()&&this.getTopToolbar().container){
+        if(this.getTopToolbar()&&this.getTopToolbar().el.parent()){
             var tt=this.getTopToolbar();
             tt.el.setWidth("auto");
             tt.el.parent().setWidth("auto");
