@@ -5,7 +5,7 @@ class afWidgetHelpSettingsPeer extends BaseafWidgetHelpSettingsPeer
 	public static function retrieveCurrent()
 	{
         $afUser = sfContext::getInstance()->getUser()->getAppFlowerUser();
-		if(is_null($afUser) || (is_object($afUser) && !$afUser->isAnonymous())) {
+		if(!$afUser->isAnonymous()) {
             return new afWidgetHelpSettings();
         }
 
