@@ -70,7 +70,7 @@ class afExtjsWidgets{
 		}
 
         $afUser = sfContext::getInstance()->getUser()->getAppFlowerUser();
-		if(!$afUser->isAnonymous()) {
+		if (is_object($afUser) && !$afUser->isAnonymous()) {
 			$userId = $afUser->getId();
 		} else {
 			return array();
