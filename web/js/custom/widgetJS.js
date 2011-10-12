@@ -350,7 +350,30 @@ afApp.executeAddons = function(addons, json, title, superClass, winConfig, Appli
             },
             'resize': {
             	fn: function(win,width,height){
-            	    
+            	    /*
+            	    * fixing width for toolbars and columns
+            	    * when loading a grid in a popup window
+            	    * @author: Radu Topala <radu@appflower.com>
+            	    */
+            	    if(center_panel.items.items[0].getXType()=='grid')  
+            	    {           	        
+            	       var tt = center_panel.items.items[0].getTopToolbar();
+            	       var bt = center_panel.items.items[0].getBottomToolbar();
+            	       
+            	       if(tt)
+            	       {
+            	         tt.el.setWidth("auto");
+                         tt.el.parent().setWidth("auto");
+            	       }
+                       
+            	       if(bt)
+            	       {
+                         bt.el.setWidth("auto");
+                         bt.el.parent().setWidth("auto");
+            	       }
+            	       
+            	       center_panel.items.items[0].getView().refresh();
+            	    }
             	}
             }
         }); 
