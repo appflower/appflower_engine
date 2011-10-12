@@ -189,15 +189,10 @@ class afConfigUtils {
      * for placeholders.
      */
     public static function getConfigVars($module, $action, $request) {
-    	
     	$context = sfContext::getInstance();
-        $moduleClass = $module.'Actions';
-        if(!class_exists($moduleClass)) {
-            $afCU = new afConfigUtils($module);
-            require_once($afCU->getActionsPath());
-        }
-
-        $instance = new $moduleClass($context, $module, $action);
+        $controller = $context->getController();
+        $instance = $controller->getAction($module, $action);
+        
         $instance->isPageComponent = true;
         $instance->preExecute();
         $instance->execute($request);
