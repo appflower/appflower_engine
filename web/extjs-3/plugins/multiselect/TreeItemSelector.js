@@ -34,7 +34,7 @@ Ext.ux.DDBulkMultiselect = function(config) {
     autoScroll: true,
     enableDD:true,
     containerScroll:true,
-    loader: new Ext.tree.TreeLoader({dataUrl:'https://192.168.198.129/interface/getNodes'}),
+    loader: new Ext.tree.TreeLoader({dataUrl:'https://192.168.198.129/interface/getNodes'})
   });
 
   var multiselect = this;
@@ -100,7 +100,6 @@ Ext.extend(Ext.ux.DDBulkMultiselect, Ext.Panel, {
     this.setupTrees();
 
     //this.store.load();
-    console.log();
     //this.dstTree.render();
     
     this.dstTree.on('remove', this.onRemove, this);

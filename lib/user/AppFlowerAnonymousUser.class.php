@@ -35,5 +35,9 @@ class AppFlowerAnonymousUser implements AppFlowerUser{
     {
         return null;
     }
+    
+    function getTimezoneOffset() {
+        return 0;
+    }
 }
 ?>

@@ -211,8 +211,7 @@ Ext.ux.ItemSelectorAutoSuggest = Ext.extend(Ext.form.Field,  {
             border:this.border,
             layout:"table",
             layoutConfig:{columns:3},
-            width:530,
-
+            width:530
         });
         p.add(this.switchToFrom ? this.toMultiselect : this.fromMultiselect);
         var icons = new Ext.Panel({header:false});

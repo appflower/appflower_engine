@@ -25,7 +25,7 @@ class Tz {
     	if(self::$zone) {
         	$time_zone_offset = self::$zone->getOffset();	
         } else {
-        	$time_zone_offset = self::getUserTimeZones()->getOffset();
+        	$time_zone_offset = sfContext::getInstance()->getUser()->getAppFlowerUser()->getTimezoneOffset();
         }
     	
         return $unix_timestamp - $time_zone_offset;
@@ -40,7 +40,7 @@ class Tz {
     	if(self::$zone) {
         	$time_zone_offset = self::$zone->getOffset();	
         } else {
-        	$time_zone_offset = self::getUserTimeZones()->getOffset();
+        	$time_zone_offset = sfContext::getInstance()->getUser()->getAppFlowerUser()->getTimezoneOffset();
         }
     	
         return date($format, $unix_timestamp + $time_zone_offset);
@@ -51,18 +51,5 @@ class Tz {
      */
     public static function reformat($formatted) {
         return self::formatTime(strtotime($formatted));
-    }
-
-    public static function getUserTimeZones() {
-        $timeZones = null;
-    	$user = sfContext::getInstance()->getUser();
-        $profile = $user->getProfile();
-        if ($profile !== null) {
-            $timeZones = $profile->getTimeZones();
-        }
-        if ($timeZones === null) {
-            $timeZones = TimeZonesPeer::retrieveByPk(1);
-        }
-        return $timeZones;
     }
 }

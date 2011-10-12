@@ -107,6 +107,11 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 	baseCls: 'x-color-picker x-panel',
 	iconCls: 'x-color-wheel',
 	
+	/**
+	 * @cfg {String} imagePath The path to images folder (defaults to "/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/")
+	 * @type String
+	 */
+	imagePath : "/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/",
 	
 	images: 
 	[
@@ -160,7 +165,7 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 			abbr: 'H',
 			min: 0, 
 			max: 359,
-			unit: '°'
+			unit: 'ï¿½'
 		},
 		saturation: {
 			name: 'saturation',
@@ -647,7 +652,7 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 		Ext.each(this.images, function(image) 
 		{
 			img = new Image();
-			img.src = "/images/" + image + ".png";
+			img.src = this.imagePath + image + ".png";
 			this.preloads.push(img);
 		}, this);
 	},

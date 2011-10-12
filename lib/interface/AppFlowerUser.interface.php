@@ -11,5 +11,6 @@ interface AppFlowerUser {
     function isAnonymous();
     function getId();
     function getPassword();
+    function getTimezoneOffset();
 }
 ?>
