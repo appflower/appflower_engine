@@ -189,9 +189,7 @@ class afConfigUtils {
      * for placeholders.
      */
     public static function getConfigVars($module, $action, $request) {
-    	$context = sfContext::getInstance();
-        $controller = $context->getController();
-        $instance = $controller->getAction($module, $action);
+        $instance = self::getActionInstance($module, $action);
         
         $instance->isPageComponent = true;
         $instance->preExecute();
@@ -199,6 +197,19 @@ class afConfigUtils {
         $instance->postExecute();
 
         return $instance->getVarHolder()->getAll();
+    }
+    
+    /**
+     * Returns given module/action instance
+     * 
+     * @param type $module
+     * @param type $action
+     * @return sfAction
+     */
+    public static function getActionInstance($module, $action) {
+    	$context = sfContext::getInstance();
+        $controller = $context->getController();
+        return $controller->getAction($module, $action);
     }
 
 }
