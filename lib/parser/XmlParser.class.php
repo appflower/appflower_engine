@@ -1052,7 +1052,7 @@ class XmlParser extends XmlParserTools {
 	}
 	
 	
-	public function testConditions() {
+	private function testConditions() {
 		
 		$ifs = $this->fetch("//i:if");
 		
