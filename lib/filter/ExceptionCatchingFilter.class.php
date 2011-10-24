@@ -16,8 +16,6 @@ class ExceptionCatchingFilter extends sfFilter
                     $debugMode = sfConfig::get('sf_debug');
 			try {
 				$filterChain->execute();
-			} catch (sfException $e) {
-				throw $e;
 			} catch (PropelException $e) {
                             $cause = $e->getCause();
                             if ($cause && $cause->getCode() == 23000) {

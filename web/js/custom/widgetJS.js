@@ -513,7 +513,10 @@ afApp.widgetPopup = function(widget, title, superClass, winConfig, Application) 
 			success: function(r) {
 				var json = Ext.util.JSON.decode(r.responseText);
 				
-				if (json.redirect && json.message && json.load) {
+                if (json.success === false) {
+                    Ext.Msg.alert('Failure', json.message);
+                    return;
+                } else if (json.redirect && json.message && json.load) {
 					Ext.Msg.alert("Failure", json.message, function(){ afApp.load(json.redirect,json.load); });
 				} else {
 					var total_addons = new Array();
