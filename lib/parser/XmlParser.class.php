@@ -2961,7 +2961,11 @@ class XmlParser extends XmlParserTools {
 	 * @author radu
 	 */
 	private function addPortal($ext,$name) {
-		
+
+        /**
+         * @todo This place is causing module/widget names that contains any number - NOT WORKING
+         * We should fix this but first we need some solid pack of tests
+         */
 		$name = preg_replace("/[0-9]+/","",$name);
 		
 		if($this->portalConfig) {
