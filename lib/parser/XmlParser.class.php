@@ -2056,7 +2056,7 @@ class XmlParser extends XmlParserTools {
 				
 			}
 			
-			if(count($tab["components"])>0){
+			if(isset($tab['components']) && count($tab['components'])>0){
 				foreach($tab["components"] as $name => $component) {
 					
 					$this->currentUri = $component['module']."/".$component['name'];
