@@ -1052,7 +1052,7 @@ class XmlParser extends XmlParserTools {
 	}
 	
 	
-	public function testConditions() {
+	private function testConditions() {
 		
 		$ifs = $this->fetch("//i:if");
 		
@@ -2097,17 +2097,11 @@ class XmlParser extends XmlParserTools {
 						$this->vars[$component['module']."/".$component['name']] = $config_vars;
 						$attribute_holder->add($config_vars);
 							
-						$file = $this->root."/apps/".$this->application."/modules/".$component["module"]."/config/".$component["name"].".xml";
-						$alt_file = $this->root."/plugins/appFlowerPlugin/modules/".$component["module"]."/config/".$component["name"].".xml";
+                                                $fileCU = new afConfigUtils($component['module']);
+						$file = $fileCU->getConfigFilePath($component["name"].".xml");
 						
 						if(!file_exists($file)) {
-							
-							if(!file_exists($alt_file)) {
-								throw new XmlParserException("The config file ".$file." or ".$alt_file." doesn't exist!");	
-							} else {
-								$file = $alt_file;
-							}
-							
+                                                    throw new XmlParserException("The config file ".$file." doesn't exist!");
 						} 
 						
 						if(isset($component["params"])) {
@@ -2967,7 +2961,11 @@ class XmlParser extends XmlParserTools {
 	 * @author radu
 	 */
 	private function addPortal($ext,$name) {
-		
+
+        /**
+         * @todo This place is causing module/widget names that contains any number - NOT WORKING
+         * We should fix this but first we need some solid pack of tests
+         */
 		$name = preg_replace("/[0-9]+/","",$name);
 		
 		if($this->portalConfig) {

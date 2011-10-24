@@ -39,7 +39,7 @@ class afPortalState extends BaseafPortalState
 			return $content[$item]['portalColumns'];
 		}
 		else {
-			return false;
+			return array();
 		}
 	}
 	

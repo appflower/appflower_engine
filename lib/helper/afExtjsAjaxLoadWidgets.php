@@ -82,7 +82,7 @@ class afExtjsAjaxLoadWidgets{
 		/*************************************************************/
 	}	
 	
-	public function getPopupPanelSource(){
+	private function getPopupPanelSource(){
 	    
 	    if($this->type == XmlParser::PANEL)
 	    {
@@ -111,7 +111,7 @@ class afExtjsAjaxLoadWidgets{
 		}			
 	}
 	
-	public function getSourceForPopupLoad(){
+	private function getSourceForPopupLoad(){
 	    
 	    return array("center_panel"=>$this->getPopupPanelSource(),"source"=>$this->getLayout()->getPrivateSource(),"addons"=>$this->getAddons(),"public_source"=>$this->getLayout()->getPublicSource());
 	}
