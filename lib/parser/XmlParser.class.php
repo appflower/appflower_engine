@@ -3577,25 +3577,10 @@ class XmlParser extends XmlParserTools {
 					if($this->type !== self::WIZARD && $parse["submit"] !== "false") {
 						if(!$this->multisubmit) {
 							
+                            $form_params = null;
 							if(isset($parse["redirect"])) {
 								if($parse["redirect"])
 								$form_params = array("redirect" => $parse["redirect"], "message" => "");	
-							} else {
-								if(isset($widget)) {
-									if(substr($widget,0,4) == "edit") {
-										$tmp_func = "executeList".substr($widget,4);
-										$tmp_url = "list".substr($widget,4);
-										if(!class_exists($this->context->getModuleName()."Actions")) {
-											require_once("/apps/".$this->application."/modules/".$this->context->getModuleName()."/actions/actions.class.php");
-										}
-										if(method_exists($this->context->getModuleName()."Actions",$tmp_func)) {
-											$form_params = array("redirect" => "/".$this->context->getModuleName()."/".$tmp_url, "message" => "");
-										}
-									}
-								}
-								if(!isset($form_params)) {
-									$form_params = null;	
-								}
 							}
 							$obj = new afExtjsSubmitButton($form,array("action"=>$formoptions["action"], "label" => $parse["submitlabel"], "params" => $form_params));	
 						} else {
