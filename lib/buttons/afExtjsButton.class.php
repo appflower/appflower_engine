@@ -125,5 +125,13 @@ class afExtjsButton
 		
 		return $this->privateName;
 	}
+    
+    protected function preExecuteSource($file,$callback){	
+        $code = 'var callback = \''.$callback.'\'';
+        $code .= "\n\r";
+        $code .= file_get_contents($file);
+        return $code;
+    }
+    
 }
 ?>

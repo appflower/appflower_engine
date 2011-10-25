@@ -45,8 +45,7 @@ class afExtjsSubmitButton extends afExtjsButton
 		  									.');';		  									
 				if(isset($attributes['preExecute']) && $attributes['preExecute']){	
 					$pe_file = isset($attributes['preExecute'])?$attributes['preExecute']:'';
-					sfProjectConfiguration::getActive()->loadHelpers("afExtjsExecuteCustomJS");
-					$source = preExecuteSource($pe_file,$source);
+					$source = $this->preExecuteSource($pe_file,$source);
 				}	
 				$this->attributes['handler']=$this->afExtjs->asMethod(array(
 		  									'parameters'=>'',
@@ -246,8 +245,7 @@ class afExtjsSubmitButton extends afExtjsButton
 		  									.');';
 				if(isset($attributes['preExecute']) && $attributes['preExecute']){	
 					$pe_file = isset($attributes['preExecute'])?$attributes['preExecute']:'';
-					sfProjectConfiguration::getActive()->loadHelpers("afExtjsExecuteCustomJS");
-					$source = preExecuteSource($pe_file,$source);
+					$source = $this->preExecuteSource($pe_file,$source);
 				}	
 				$this->attributes['handler']=$this->afExtjs->asMethod(array(
 		  									'parameters'=>'',

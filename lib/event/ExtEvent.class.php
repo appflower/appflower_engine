@@ -180,8 +180,6 @@ class ExtEvent {
 				)
 			);
 		if(isset($action["handlers"])){
-			//sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsExecuteCustomJS'));
-			//setHandler($action);
 			
 			if(!isset($action["attributes"]["handlers"]["click"])) {
 				$action["attributes"]["handlers"]["click"] = array('parameters'=>'field,event','source'=>(isset($action['attributes']['script'])?$action['attributes']['script']:'').";".$sourceForButton);

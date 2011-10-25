@@ -27,8 +27,7 @@ class afExtjsLinkButton extends afExtjsButton
 			
 			if(isset($attributes['preExecute']) && $attributes['preExecute']){	
 				$pe_file = isset($attributes['preExecute'])?$attributes['preExecute']:'';
-				sfProjectConfiguration::getActive()->loadHelpers("afExtjsExecuteCustomJS");
-				$source = preExecuteSource($pe_file,$source);
+				$source = $this->preExecuteSource($pe_file,$source);
 			}	
 			if(isset($attributes['handlerSource'])){	
 				$source=$attributes['handlerSource'];
