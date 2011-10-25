@@ -41,17 +41,8 @@ class XmlValidator {
 				}
 			
 				if(!$path) {
-					$file = $this->root."/apps/".$this->application."/modules/".$module."/config/".$action.".xml";
-					$alt_file = $this->root."/plugins/appFlowerPlugin/modules/".$module."/config/".$action.".xml";
-				
-					if(!file_exists($file)) {
-						if(!file_exists($alt_file)) {
-							throw new XmlParserException("The config file ".$file." or ".$alt_file." doesn't exist!");	
-						} else {
-							$file = $alt_file;
-						}	
-					}
-					
+                    $fileCU = new afConfigUtils($module);
+					$file = $fileCU->getConfigFilePath($action.'.xml', true);
 				} else {
 					$file = $path;
 				}

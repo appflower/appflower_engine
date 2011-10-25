@@ -1400,8 +1400,8 @@ class XmlParser extends XmlParserTools {
 					$item = array_shift($this->defaultPanels["footer"]["components"]);
 					$region = "footer";
 				} 
-				
-				$path = $this->getPath($item["module"]."/".$item["name"]);
+				$itemCU = new afConfigUtils($item['module']);
+				$path = $itemCU->getConfigFilePath($item["name"].'.xml', true);
 				$this->readXmlDocument($path);
 				$this->iteration++;
 				$this->process["parses"][$this->iteration]["component_name"] = $item["name"];
@@ -1447,10 +1447,7 @@ class XmlParser extends XmlParserTools {
 		$action_name = ($action === null) ? $this->context->getActionName() : $action;		
 		$module = ($module === null) ? $this->context->getModuleName() : $module;
 		$configUtils = new afConfigUtils($module);
-		$path = $configUtils->getConfigFilePath($action_name.'.xml');
-		if(!file_exists($path)) {
-			throw new XmlParserException("No such action: $module/$action_name");
-		}
+		$path = $configUtils->getConfigFilePath($action_name.'.xml', true);
 		
 		/**
 		 * quick fix for symfony credentials
@@ -1512,16 +1509,6 @@ class XmlParser extends XmlParserTools {
 		}
 		
 	}
-	
-	public function getPath($uri, $security = false) {
-		if(!$security) {
-			return $this->root."/apps/".$this->application."/modules/".strtok($uri,"/")."/config/".strtok("/").".xml";	
-		} else {
-			return $this->root."/apps/".$this->application."/modules/".$uri."/config/security.xml";
-		}
-		
-	}
-	
 	
 	private function setPanel($input, $sidebar = true) {
 		
@@ -1639,18 +1626,8 @@ class XmlParser extends XmlParserTools {
 			$module = strtok($uri,"/");
 			$action = strtok("/");
 			
-			$configuration = ProjectConfiguration::getApplicationConfiguration('frontend', 'dev', true);
-			
-			$file = $configuration->getRootDir()."/apps/".$app."/modules/".$module."/config/".$action.".xml";
-			$alt_file = $configuration->getRootDir()."/plugins/appFlowerPlugin/modules/".$module."/config/".$action.".xml";
-			
-			if(!file_exists($file)) {
-				if(!file_exists($alt_file)) {
-					throw new XmlValidatorException("The input file: ".$file." or ".$alt_file." doesn't exist!");	
-				} else {
-					$file = $alt_file;
-				}	
-			}
+			$fileCU = new afConfigUtils($module);
+            $file = $fileCU->getConfigFilePath($action.".xml", true);
 			
 			$xpath = self::buildDocument($file,$xpath);
 							
@@ -1713,32 +1690,6 @@ class XmlParser extends XmlParserTools {
   	
   }
 
-  
-  private function findWidget($module,$action) {
-  	
-  	$dirs = self::getPluginDirs($this->root."/plugins");
-  	
-  	foreach($dirs as $dir) {
-  		
-  		$path = array();
-  		$path[] = $this->root."/apps/".$this->application."/".$dir."/".$action.".xml";
-  		$path[] = $this->root."/apps/".$this->application."/".$dir."/".$module."/config/".$action.".xml";
-  		$path[] = $dir."/".$module."/config/".$action.".xml";
-  		$path[] = $dir."/".$action.".xml";
-  		
-  		foreach($path as $p) {
-  			if(file_exists($p)) {
-	  			return $p;
-	  		}	
-  		}
-  		
-  	}	
-  	
-  	return false;
-  	
-  }
-  	
-	
 	public function readXmlDocument($path = null,$security = false,$uri = false) {	
 		
 		$page = false;
@@ -1752,19 +1703,14 @@ class XmlParser extends XmlParserTools {
 		}
 		
 		if($path === null) {
+            $pathCU = new afConfigUtils($module);
+			$path = $pathCU->getConfigFilePath($action.'.xml', true);
 			
-			$path = $this->findWidget($module,$action);
-			
-			if($path && strstr($path,"page")) {
+			if(strstr($path,"page")) {
 				$page = true;
 			}
-			
 		}
 		   			
-		if(!$path || !file_exists($path)) {
-			throw new XmlParserException("Unable to read config file: ".$path);
-		}
-		
 		$hash = sha1_file($path);
 		$obj = afValidatorCachePeer::inCache($path);
 		
@@ -2098,11 +2044,7 @@ class XmlParser extends XmlParserTools {
 						$attribute_holder->add($config_vars);
 							
                                                 $fileCU = new afConfigUtils($component['module']);
-						$file = $fileCU->getConfigFilePath($component["name"].".xml");
-						
-						if(!file_exists($file)) {
-                                                    throw new XmlParserException("The config file ".$file." doesn't exist!");
-						} 
+						$file = $fileCU->getConfigFilePath($component["name"].".xml", true);
 						
 						if(isset($component["params"])) {
 							foreach($component["params"] as $pname => $pvalue) {

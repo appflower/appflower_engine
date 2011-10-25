@@ -59,7 +59,14 @@ class afConfigUtils {
         $this->modulePaths = $dirs;
     }
 
-    function getConfigFilePath($fileName)
+    /**
+     * Tries to find given file in config subdirectory
+     * 
+     * @param string $fileName Name to look for
+     * @param boolean $throwException should exception be thrown when file is not found ?
+     * @return mixed path to the file or false if file was not found
+     */
+    function getConfigFilePath($fileName, $throwException = false)
     {
         $path = $this->getFilePath('config/'.$fileName);
         
@@ -75,7 +82,13 @@ class afConfigUtils {
         $additionalPaths[] = "{$rootDir}/apps/$application/config/pages";
         $additionalPaths[] = "{$rootDir}/plugins/appFlowerPlugin/config/pages";
 
-        return $this->getFilePath($fileName, $additionalPaths);
+        $path = $this->getFilePath($fileName, $additionalPaths);
+        
+        if (!$path && $throwException) {
+            throw new XmlParserException("The '$fileName' config file for $this->moduleName module could not be found");	
+        }
+        
+        return $path;
     }
 
     function getActionFilePath($fileName)
@@ -158,16 +171,12 @@ class afConfigUtils {
      */
     public static function getDoc($module, $action) {
         $afCU = new afConfigUtils($module);
-        $path = $afCU->getConfigFilePath("{$action}.xml");
-       	if(file_exists($path)) {
-        	$doc = new DOMDocument();
-	        $doc->load($path);
-	        return $doc;	
-        } else {
-            throw new XmlParserException(
-                sprintf('No such XML config: %s/%s', $module, $action));
-        }
-       
+        $path = $afCU->getConfigFilePath("{$action}.xml", true);
+        
+        $doc = new DOMDocument();
+        $doc->load($path);
+        
+        return $doc;	
     }
 
     /**
