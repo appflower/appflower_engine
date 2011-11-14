@@ -4,42 +4,42 @@
 }
 
 .x-grid3-hd-row .ux-filtered-column .x-grid3-hd-inner {
-	background-image: url(/appFlowerPlugin/extjs-3/examples/grid-filtering/resources/header_bg.gif);
+	background-image: url(/appFlowerPlugin/extjs-3/plugins/grid-filtering/resources/header_bg.gif);
 }
 
 .ux-filtered-column .x-grid3-hd-btn {
-	background-image: url(/appFlowerPlugin/extjs-3/examples/grid-filtering/resources/hd-btn.gif);
+	background-image: url(/appFlowerPlugin/extjs-3/plugins/grid-filtering/resources/hd-btn.gif);
 }
 
 .ux-filtered-column.sort-asc .x-grid3-sort-icon {
-	background-image: url(/appFlowerPlugin/extjs-3/examples/grid-filtering/resources/sort_filtered_asc.gif);
+	background-image: url(/appFlowerPlugin/extjs-3/plugins/grid-filtering/resources/sort_filtered_asc.gif);
 }
 
 .ux-filtered-column.sort-desc .x-grid3-sort-icon {
-	background-image: url(/appFlowerPlugin/extjs-3/examples/grid-filtering/resources/sort_filtered_desc.gif);
+	background-image: url(/appFlowerPlugin/extjs-3/plugins/grid-filtering/resources/sort_filtered_desc.gif);
 }
 
 .ux-gridfilter-text-icon {
-	background-image: url(/appFlowerPlugin/extjs-3/examples/grid-filtering/resources/find.png);
+	background-image: url(/appFlowerPlugin/extjs-3/plugins/grid-filtering/resources/find.png);
 }
 
 /**
  * RangeMenu.js Styles
  **/
 .ux-rangemenu-gt {
-	background-image: url(/appFlowerPlugin/extjs-3/examples/grid-filtering/resources/greater_then.png);
+	background-image: url(/appFlowerPlugin/extjs-3/plugins/grid-filtering/resources/greater_then.png);
 }
 
 .ux-rangemenu-lt {
-	background-image: url(/appFlowerPlugin/extjs-3/examples/grid-filtering/resources/less_then.png);
+	background-image: url(/appFlowerPlugin/extjs-3/plugins/grid-filtering/resources/less_then.png);
 }
 
 .ux-rangemenu-eq {
-	background-image: url(/appFlowerPlugin/extjs-3/examples/grid-filtering/resources/equals.png);
+	background-image: url(/appFlowerPlugin/extjs-3/plugins/grid-filtering/resources/equals.png);
 }
 
 .ux-rangemenu-ne {
-	background-image: url(/appFlowerPlugin/extjs-3/examples/grid-filtering/resources/ne.png);
+	background-image: url(/appFlowerPlugin/extjs-3/plugins/grid-filtering/resources/ne.png);
 }
 
 .ux-grid-filter{
@@ -86,11 +86,11 @@
 	text-decoration:none;
 	padding-right:12px;
 	
-	background-image:url(/appFlowerPlugin/extjs-3/examples/grid-filtering/resources/cross.png);
+	background-image:url(/appFlowerPlugin/extjs-3/plugins/grid-filtering/resources/cross.png);
 	background-repeat:no-repeat;
 }
 .ux-grid-filter-info-box a:hover{	
-	background-image:url(/appFlowerPlugin/extjs-3/examples/grid-filtering/resources/cross_over.png);
+	background-image:url(/appFlowerPlugin/extjs-3/plugins/grid-filtering/resources/cross_over.png);
 }
 /*
 * overwrite the x-grid3-header to have bg at top
