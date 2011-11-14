@@ -7,6 +7,9 @@ class afExtjsFieldCombo extends afExtjsField
 	public function __construct($containerObject,$attributes=array())
 	{	
 		$this->attributes['triggerAction']='all';	
+        if (@$attributes['minChars']) {
+            $this->attributes['minChars']=$attributes['minChars'];
+        }
 		$this->afExtjs=afExtjs::getInstance();
 		/**
 		 * if isset button, then xtype will become combowbutton

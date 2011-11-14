@@ -24,7 +24,11 @@ class afExtjsField
 		
 		$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'form/Ext.ux.plugins.HelpText.js') ));
 		$this->attributes['plugins'][]="Ext.ux.plugins.HelpText";		
-		
+
+        if (@$attributes['vtype']) {
+            $this->attributes['vtype'] = $attributes['vtype'];
+        }
+        
 		//$this->attributes['labelStyle']='width:100px;font-size:11px;font-weight:bold;padding:0 3px 3px 0;';
 		
 		if(isset($attributes['state']))

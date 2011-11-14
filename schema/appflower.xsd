@@ -513,6 +513,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
                 url			- An SF internal URI
                 dateFormat  - date() compliant format string. Used by date* fields only.
                 timeFormat  - date() compliant format string for time part. Used by date* fields only.
+                vtype       - Transfered simply as vtype attribute
+                minChars    - usable only for combobox element
                 
             </xs:documentation>
         </xs:annotation>
@@ -541,7 +543,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
  		<xs:attribute name="plugin" type="xs:token" use="optional" default="*" /> 
  		<xs:attribute name="permissions" type="i:permissionType" default="*" />
  		<xs:attribute name="url" type="i:internalUriType" use="optional" />
- 		           
+        <xs:attribute name="vtype" type="xs:token" use="optional" />
+        <xs:attribute name="minChars" type="xs:positiveInteger" use="optional" />
     </xs:attributeGroup>
     
 	<xs:attributeGroup name="columnAttributes">
