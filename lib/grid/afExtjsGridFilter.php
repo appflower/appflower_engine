@@ -30,7 +30,7 @@ class afExtjsGridFilter{
 			$tf['type'] = isset($f['type'])?$f['type']:(isset($temp_field['type'])?$temp_field['type']:'string');					
 			if(!isset($grid->attributes['remoteFilter'])) $tf['type'] = "string";
 			if(isset($f['class']) && isset($f['method'])){
-				$datas = call_user_func(array($f['class'],$f['method']));
+				$datas = (isset($f['param'])) ? call_user_func(array($f['class'], $f['method']), $f['param']) : call_user_func(array($f['class'],$f['method']));
 				foreach($datas as $key=>$value){
 					$tf['options'][] = array($key,$value);	
 				}
