@@ -162,7 +162,7 @@ EOF;
   }
   
   private function readConfigs($dir) {
-  	
+  	if (!file_exists($dir)) return false;
   	$input = scandir($dir);
   	
   	if(substr($dir,strrpos($dir,"/")+1) == "config" || substr($dir,strrpos($dir,"/")+1) == "pages") {
