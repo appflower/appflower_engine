@@ -231,14 +231,9 @@ class afUtil
      */
     public static function writeFile($filePath, $content)
     {
-      $unique = self::unique();
-    	
-    	file_put_contents('/tmp/copy-file-'.$unique.'.txt', $content);
-    	
-    	$exec=self::getRootDir().'/plugins/appFlowerPlugin/batch/copy_file.sh /tmp/copy-file-'.$unique.'.txt '.$filePath;
-    	
-    	ob_start();
-			passthru('sudo '.$exec.' 2>&1', $return);
-			$raw = ob_get_clean();
+        if (file_exists($filePath) && !is_writable($filePath)) return false;
+        if (!file_exists($filePath) && !is_writable(dirname($filePath))) return false;
+        
+        return file_put_contents($filePath, $content);
     }
 }
