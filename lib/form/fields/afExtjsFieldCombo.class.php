@@ -180,7 +180,7 @@ class afExtjsFieldCombo extends afExtjsField
 				$this->attributes['hideLabel'] = true;
 				$this->attributes['editable'] = false;				
 			}
-			if($attributes['plugin'] == 'remote_combo_auto_suggest'){
+			if($attributes['plugin'] == 'autocompleter'){
 					$this->afExtjs->setAddons(array('js' => array($this->afExtjs->getPluginsDir().'form/Ext.ux.plugins.RemoteComboAutoSuggest.js') ));
 					//$this->attributes['plugins'][]="Ext.ux.RemoteComboAutoSuggest";	
 					$this->attributes['resizable'] = true;
