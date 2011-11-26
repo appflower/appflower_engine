@@ -35,7 +35,8 @@ Ext.ux.RemoteComboAutoSuggest = Ext.extend(Ext.form.ComboBox,  {
 		},this)
 		var delay = new Ext.util.DelayedTask(function(){
 			keyword = combo.el.getValue();
-			if(keyword != combo.preValue){
+			
+			if(keyword.length >= combo.minChars&&keyword != combo.preValue){
 				combo.store.load({params:{like:keyword}});
 				combo.preValue = keyword;
 			}
