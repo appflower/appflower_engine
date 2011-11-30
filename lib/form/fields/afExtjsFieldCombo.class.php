@@ -4,8 +4,8 @@
  */
 class afExtjsFieldCombo extends afExtjsField
 {
-	public function __construct($containerObject,$attributes=array())
-	{	
+	public function __construct($containerObject,$attributes=array(), $parsesData = array())
+	{
 		$this->attributes['triggerAction']='all';	
         if (@$attributes['minChars']) {
             $this->attributes['minChars']=$attributes['minChars'];
