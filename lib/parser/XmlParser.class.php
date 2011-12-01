@@ -3443,11 +3443,12 @@ class XmlParser extends XmlParserTools {
 							}
 							
 							if($attributes["type"] != "include") {
-								$tmp_name = "afExtjsField".ucfirst($classname);	
+							    
+							   $tmp_name = "afExtjsField".ucfirst($classname);	
 								
 								if($view == "edit" || $attributes["type"] == "doubletree") {
                                     if ($tmp_name == 'afExtjsFieldCombo') {
-                                        $obj = new $tmp_name((isset($columnx)) ? $columnx : $form,$attributes, $this->process["parses"][$it]);
+                                        $obj = new $tmp_name((isset($columnx)) ? $columnx : $form,$attributes, $this->process["parses"][$it]['fields'][$attributes['name']]);
                                     } else {
                                         $obj = new $tmp_name((isset($columnx)) ? $columnx : $form,$attributes);
                                     }

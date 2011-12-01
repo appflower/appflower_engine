@@ -597,4 +597,23 @@ class appFlowerActions extends sfActions
 			return $this->renderText($response);
 		}
 	}
+	
+	public function executeAutocompleter(sfWebRequest $request)
+	{	    
+	    $like=$request->hasParameter('like')?$request->getParameter('like'):false;
+		$storeParams=$request->hasParameter('storeParams')?$request->getParameter('storeParams'):false;
+		$response = false;		
+		
+		if($like&&$storeParams)
+		{
+		    $storeParams = json_decode($storeParams);
+		    
+		    if($storeParams->type==2)
+		    {
+		      $response = call_user_func_array(array($storeParams->class,$storeParams->method->name),array($storeParams->method->params[0],'',$like,$storeParams->method->params[1]));
+		    }
+		    
+		    return $this->renderText(json_encode($response));
+		}
+	}
 }
