@@ -10,42 +10,33 @@ Ext.ux.RemoteComboAutoSuggest = Ext.extend(Ext.form.ComboBox,  {
          this.addEvents({
             'keyup' : true,
             'change' : true
-        }); 
-        this.preValue = this.getValue(); 
-        this.firstTime = true;
+        });        
     },	
     onRender: function(ct, position){
         Ext.ux.RemoteComboAutoSuggest.superclass.onRender.call(this, ct, position);
         combo = this;
         combo.displayField = "value";
         combo.valueField = "key";       
+        
         store = new Ext.data.JsonStore({
 			url: this.url,
 			fields: [
 				'key','value'
 			]
 		});
-		store.load({params:{id:this.preValue}});
-		store.on("load",function(){
-			combo.bindStore(store);
-			if(this.firstTime){
-				combo.setValue(this.preValue);
-				this.firstTime = false;
-			}			
-		},this)
+		
+		combo.bindStore(store);
+				
 		var delay = new Ext.util.DelayedTask(function(){
 			keyword = combo.el.getValue();
 			
 			if(keyword.length >= combo.minChars&&keyword != combo.preValue){
-				combo.store.load({params:{like:keyword}});
-				combo.preValue = keyword;
+				combo.store.load({params:{like: keyword, storeParams:Ext.encode(combo.storeParams)}});
 			}
 		});
 		onkeyup = function(){
-			delay.delay(1000);				
-		}
-		
-		
+			delay.delay(1000);
+		}	
     }
 });
 

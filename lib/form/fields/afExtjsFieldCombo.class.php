@@ -5,11 +5,9 @@
 class afExtjsFieldCombo extends afExtjsField
 {
 	public function __construct($containerObject,$attributes=array(), $parsedData = array())
-	{
-	    $this->attributes['triggerAction']='all';	
-        if (@$attributes['minChars']) {
-            $this->attributes['minChars']=$attributes['minChars'];
-        }
+	{    
+	    $this->attributes['triggerAction']='all';
+	    $this->attributes['minChars']=isset($attributes['minChars'])?$attributes['minChars']:1;        
 		$this->afExtjs=afExtjs::getInstance();
 		/**
 		 * if isset button, then xtype will become combowbutton
@@ -118,7 +116,7 @@ class afExtjsFieldCombo extends afExtjsField
 		/**
 		 * the options attribute, an assoc array for now
 		 */
-		if(isset($attributes['options'])&&count($attributes['options'])>0)
+		if(isset($attributes['options'])&&count($attributes['options'])>0&&$attributes['plugin'] != 'autocompleter')
 		{
 			$options=array();
 			foreach ($attributes['options'] as $key=>$value)
@@ -191,6 +189,15 @@ class afExtjsFieldCombo extends afExtjsField
 					$this->attributes['xtype'] = "remotecomboautosuggest";
 					$this->attributes['enableKeyEvents'] = true;
 					$this->attributes['disableKeyFilter'] = true;
+					if(isset($attributes['url']))
+					{
+					   $this->attributes['url'] = $attributes['url'];
+					}
+					else {
+					    $this->attributes['url'] = '/appFlower/autocompleter';
+					}
+					$this->attributes['store'] = '[]';
+					$this->attributes['storeParams'] = $parsedData['value'];
 			}
 			if($attributes['plugin'] == 'fontfield'){
 					$this->attributes['tpl'] = 'new Ext.XTemplate(
@@ -212,6 +219,9 @@ class afExtjsFieldCombo extends afExtjsField
 		}
 		
 		$this->attributes['listWidth']=$this->attributes['width'];
+		
+		//print_r($this->attributes);die();
+		
 		parent::__construct($containerObject,$attributes);
 	}
 }
