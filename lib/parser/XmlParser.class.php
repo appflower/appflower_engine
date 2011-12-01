@@ -1905,18 +1905,26 @@ class XmlParser extends XmlParserTools {
 									}
 								}
 								if(!$found) {
-									$this->process["parses"][$this->iteration]["areas"]["content"]["tabs"][$tkk]["components"][self::getComponentKey($tmp[1])] = 
-									array(
-									"name" => $tmp[1],
-									"module" => $tmp[0],
-									"column" => 0,
-									"refresh" => 0,
-									"container" => "true",
-									"parsable" => "true",
-									"permissions" => "*",
-									"priority" => 0,
-									"params" => null
-									); 
+                                    if ($tmp[0] != '' && $tmp[1] != '') {
+                                        $this->process["parses"][$this->iteration]["areas"]["content"]["tabs"][$tkk]["components"][self::getComponentKey($tmp[1])] = 
+                                        array(
+                                        "name" => $tmp[1],
+                                        "module" => $tmp[0],
+                                        "column" => 0,
+                                        "refresh" => 0,
+                                        "container" => "true",
+                                        "parsable" => "true",
+                                        "permissions" => "*",
+                                        "priority" => 0,
+                                        "params" => null
+                                        ); 
+                                    } else {
+                                        /**
+                                         * @todo - check #1274
+                                         * I've added conditional statement here to solve problems
+                                         * caused by invalid afPropelState object
+                                         */
+                                    }
 								}
 							}
 						}
