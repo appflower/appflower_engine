@@ -116,7 +116,7 @@ class afExtjsFieldCombo extends afExtjsField
 		/**
 		 * the options attribute, an assoc array for now
 		 */
-		if(isset($attributes['options'])&&count($attributes['options'])>0&&$attributes['plugin'] != 'autocompleter')
+		if(isset($attributes['options'])&&count($attributes['options'])>0&&isset($attributes['plugin'])&&$attributes['plugin'] != 'autocompleter')
 		{
 			$options=array();
 			foreach ($attributes['options'] as $key=>$value)

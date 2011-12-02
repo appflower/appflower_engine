@@ -43,11 +43,11 @@ class afExtjsViewportLayout extends afExtjsLayout
 		if(isset($attributes['toolbar'])&&is_object($attributes['toolbar'])&&get_class($attributes['toolbar'])=='afExtjsToolbar')
 		{
 			$attributes['toolbar']->end();
-		}
+		}		
 		/**
 		 * default toolbar constructed in helper /plugins/afExtjsPlugin/helper/afExtjsToolbar.php
 		 */
-		elseif(!isset($attributes['toolbar'])||(isset($attributes['toolbar'])&&$attributes['toolbar']!=false)) {
+		elseif((!isset($attributes['toolbar'])||(isset($attributes['toolbar'])&&$attributes['toolbar']!=false))&&afExtjs::getInstance()->isDesktop()==false) {
 			sfProjectConfiguration::getActive()->loadHelpers(array('afExtjsToolbar'));
 		}
 		
