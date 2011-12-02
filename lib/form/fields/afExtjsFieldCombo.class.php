@@ -144,6 +144,8 @@ class afExtjsFieldCombo extends afExtjsField
 			$this->attributes['store']=$this->afExtjs->asVar(json_encode($options));
 			
 			unset($attributes['options']);
+		} elseif (empty($attributes['options'])) {
+		    $this->attributes['store'] = '[[0,"No options available.."]]';
 		}
 		
 		
