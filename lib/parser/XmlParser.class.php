@@ -3325,6 +3325,7 @@ class XmlParser extends XmlParserTools {
 					foreach($set as $name => $data) {
 						$rcf = new ReConfigureFields($data);
 						$data = $rcf->getField();
+						
 						if($parse["isgrouped"]) {
 							$columnx = $columns->startColumn($attrs);
 						}
@@ -3448,7 +3449,8 @@ class XmlParser extends XmlParserTools {
 								
 								if($view == "edit" || $attributes["type"] == "doubletree") {
                                     if ($tmp_name == 'afExtjsFieldCombo') {
-                                        $obj = new $tmp_name((isset($columnx)) ? $columnx : $form,$attributes, $this->process["parses"][$it]['fields'][$attributes['name']]);
+                                        
+                                        $obj = new $tmp_name((isset($columnx)) ? $columnx : $form,$attributes, $data);
                                     } else {
                                         $obj = new $tmp_name((isset($columnx)) ? $columnx : $form,$attributes);
                                     }
