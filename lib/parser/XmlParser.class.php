@@ -3856,7 +3856,20 @@ class XmlParser extends XmlParserTools {
 				if(isset($parse["pagerTemplate"]))
 				{
 					$formoptions["pagerTemplate"] = $parse["pagerTemplate"];
-				}		
+				}	
+
+				if(isset($this->page) && is_array($this->page)) {
+					foreach($this->page["areas"]["content"]["tabs"] as $thisTab) {
+						if(isset($thisTab["components"][$parse["component"]])) {
+							$formoptions["bindForm"] = $thisTab["components"][$parse["component"]]["bindForm"];
+						} 
+					}	
+				}
+				
+				if(!isset($formoptions["bindForm"])) {
+					$formoptions["bindForm"] = -1;
+				}
+				
 				$formoptions["autoHeight"] = true;
 				$formoptions["clearGrouping"] = false;
 				$formoptions["frame"] = false;
@@ -4321,6 +4334,30 @@ if(response.message) {
 	  	
 		if($build) {
 			$this->result = $grid;
+		}
+		
+		$layout_items = afExtjs::getInstance()->private;
+		
+		if(is_array($layout_items)) {
+			$gridNames = $formIds = array();
+			foreach($layout_items as $privateName => $it) {
+				if(preg_match("/bindForm: ([0-9]+),/", $it,$match)) {
+					$gridNames[$privateName] = trim($match[1]);
+				}
+				if(preg_match("/^form_[0-9a-zA-Z]+$/", $privateName)) {
+					$formIds[] = $privateName;
+				}
+			}
+			
+			foreach($gridNames as $privateName => $fid) {
+				if(isset($formIds[$fid])) {
+					$layout_items[$privateName] = str_replace("bindForm: ".$fid.",","bindForm: '".$formIds[$fid]."',", $layout_items[$privateName]);	
+				}
+				
+			}
+			
+			afExtjs::$instance->private = $layout_items;	
+		
 		}
 		
 		return true;	

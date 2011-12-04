@@ -771,6 +771,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	<xs:attribute name="name" type="xs:token" use="required" />
       	<xs:attribute name="module" type="xs:token" use="required" />
       	<xs:attribute name="post" type="i:internalUriType" use="optional" />
+		<xs:attribute name="bindForm" type="xs:integer" use="optional" default="-1" />
       	<xs:attribute name="column" type="xs:integer" use="optional" default="0" />
       	<xs:attribute name="refresh" type="xs:nonNegativeInteger" use="optional" default="0" />
         <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
