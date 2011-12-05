@@ -23,6 +23,11 @@ class afExtjsBuilderParser
     const CHILDS = '_childs';
     
     /**
+     * Tools identificator
+     */
+    const TOOLS = '_tools';
+    
+    /**
      * Helper file path
      *
      * @var string
@@ -81,6 +86,18 @@ class afExtjsBuilderParser
     }
     
     /**
+     * Getting tools from definition
+     *
+     * @param Array $def 
+     * @return array
+     * @author Sergey Startsev
+     */
+    static public function getTools(Array $def)
+    {
+        return (array_key_exists(self::TOOLS, $def)) ? $def[self::TOOLS] : array();
+    }
+    
+    /**
      * Getting cleaned definition without attrs and childs
      *
      * @param Array $def 
@@ -91,6 +108,7 @@ class afExtjsBuilderParser
     {
         if (array_key_exists(self::ATTRIBUTES, $def)) unset($def[self::ATTRIBUTES]);
         if (array_key_exists(self::CHILDS, $def)) unset($def[self::CHILDS]);
+        if (array_key_exists(self::TOOLS, $def)) unset($def[self::TOOLS]);
         
         return $def;
     }

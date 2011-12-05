@@ -66,7 +66,8 @@ class afExtjsDesktopStartMenuBuilder
      */
     public function process()
     {
-        $this->getItems($this->menu_instance, $this->definition);
+        $this->processTools();
+        $this->processItems($this->menu_instance, $this->definition);
         
         return $this;
     }
@@ -95,6 +96,19 @@ class afExtjsDesktopStartMenuBuilder
     }
     
     /**
+     * Process tool area
+     *
+     * @return void
+     * @author Sergey Startsev
+     */
+    private function processTools()
+    {
+        foreach (afExtjsBuilderParser::getTools($this->definition) as $tool) {
+            $this->getMenuInstance()->addTool($tool);
+        }
+    }
+    
+    /**
      * Process with items
      *
      * @param afExtjsStartMenu $glue_instance 
@@ -102,7 +116,7 @@ class afExtjsDesktopStartMenuBuilder
      * @return void
      * @author Sergey Startsev
      */
-    private function getItems(afExtjsStartMenu $glue_instance, Array $definition)
+    private function processItems(afExtjsStartMenu $glue_instance, Array $definition)
     {
         foreach (afExtjsBuilderParser::getCleanDefinition($definition) as $item_name => $item) {
             $this->getItemInstance($glue_instance, $item);
@@ -134,7 +148,7 @@ class afExtjsDesktopStartMenuBuilder
         if (!empty($childs)) {
             $menu_reflection = new ReflectionClass("afExtjsStartMenu");
             $menu_instance = $menu_reflection->newInstance($instance);
-            $this->getItems($menu_instance, $childs);
+            $this->processItems($menu_instance, $childs);
             $menu_instance->end();
         }
         
