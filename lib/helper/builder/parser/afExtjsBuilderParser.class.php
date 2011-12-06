@@ -15,17 +15,12 @@ class afExtjsBuilderParser
     /**
      * Attributes identificator
      */
-    const ATTRIBUTES = '_attributes';
+    const ATTRIBUTES = 'attributes';
     
     /**
      * Childs identificator
      */
-    const CHILDS = '_childs';
-    
-    /**
-     * Tools identificator
-     */
-    const TOOLS = '_tools';
+    const CHILDREN = 'children';
     
     /**
      * Helper file path
@@ -80,37 +75,9 @@ class afExtjsBuilderParser
      * @return array
      * @author Sergey Startsev
      */
-    static public function getChilds(Array $def)
+    static public function getChildren(Array $def)
     {
-        return (array_key_exists(self::CHILDS, $def)) ? $def[self::CHILDS] : array();
-    }
-    
-    /**
-     * Getting tools from definition
-     *
-     * @param Array $def 
-     * @return array
-     * @author Sergey Startsev
-     */
-    static public function getTools(Array $def)
-    {
-        return (array_key_exists(self::TOOLS, $def)) ? $def[self::TOOLS] : array();
-    }
-    
-    /**
-     * Getting cleaned definition without attrs and childs
-     *
-     * @param Array $def 
-     * @return array
-     * @author Sergey Startsev
-     */
-    static public function getCleanDefinition(Array $def)
-    {
-        if (array_key_exists(self::ATTRIBUTES, $def)) unset($def[self::ATTRIBUTES]);
-        if (array_key_exists(self::CHILDS, $def)) unset($def[self::CHILDS]);
-        if (array_key_exists(self::TOOLS, $def)) unset($def[self::TOOLS]);
-        
-        return $def;
+        return (array_key_exists(self::CHILDREN, $def)) ? $def[self::CHILDREN] : array();
     }
     
     /**
