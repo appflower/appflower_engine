@@ -81,6 +81,19 @@ class afExtjsBuilderParser
     }
     
     /**
+     * Getting helper file path
+     *
+     * @param string $place 
+     * @param string $place_type 
+     * @return string
+     * @author Sergey Startsev
+     */
+    static public function getHelperPath($place = 'frontend', $place_type = 'app')
+    {
+        return sfConfig::get("sf_{$place_type}s_dir") . "/{$place}/config/" . self::HELPER_FILE;
+    }
+    
+    /**
      * Parse definition process
      *
      * @return afExtjsBuilderParser

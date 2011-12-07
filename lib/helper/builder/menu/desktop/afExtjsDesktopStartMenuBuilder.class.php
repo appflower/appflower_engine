@@ -58,7 +58,7 @@ class afExtjsDesktopStartMenuBuilder
     {
         $instance = new self;
         
-        $path = self::getHelperPath($place, $place_type);
+        $path = afExtjsBuilderParser::getHelperPath($place, $place_type);
         
         if (!file_exists($path)) throw new afExtjsDesktopStartMenuBuilderException("Helper file '{$path}' doesn't exists");
         
@@ -66,19 +66,6 @@ class afExtjsDesktopStartMenuBuilder
         $instance->menu_instance = new afExtjsStartMenu(afExtjsBuilderParser::getAttributes($instance->definition));
         
         return $instance;
-    }
-    
-    /**
-     * Getting helper file path
-     *
-     * @param string $place 
-     * @param string $place_type 
-     * @return string
-     * @author Sergey Startsev
-     */
-    static public function getHelperPath($place = 'frontend', $place_type = 'app')
-    {
-        return sfConfig::get("sf_{$place_type}s_dir") . "/{$place}/config/" . afExtjsBuilderParser::HELPER_FILE;
     }
     
     /**
