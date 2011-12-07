@@ -3860,7 +3860,7 @@ class XmlParser extends XmlParserTools {
 
 				if(isset($this->page) && is_array($this->page)) {
 					foreach($this->page["areas"]["content"]["tabs"] as $thisTab) {
-						if(isset($thisTab["components"][$parse["component"]])) {
+						if(isset($thisTab["components"][$parse["component"]])&&isset($thisTab["components"][$parse["component"]]["bindForm"])) {
 							$formoptions["bindForm"] = $thisTab["components"][$parse["component"]]["bindForm"];
 						} 
 					}	
