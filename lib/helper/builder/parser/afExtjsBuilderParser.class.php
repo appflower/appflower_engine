@@ -15,12 +15,12 @@ class afExtjsBuilderParser
     /**
      * Attributes identificator
      */
-    const ATTRIBUTES = '_attributes';
+    const ATTRIBUTES = 'attributes';
     
     /**
      * Childs identificator
      */
-    const CHILDS = '_childs';
+    const CHILDREN = 'children';
     
     /**
      * Helper file path
@@ -75,24 +75,22 @@ class afExtjsBuilderParser
      * @return array
      * @author Sergey Startsev
      */
-    static public function getChilds(Array $def)
+    static public function getChildren(Array $def)
     {
-        return (array_key_exists(self::CHILDS, $def)) ? $def[self::CHILDS] : array();
+        return (array_key_exists(self::CHILDREN, $def)) ? $def[self::CHILDREN] : array();
     }
     
     /**
-     * Getting cleaned definition without attrs and childs
+     * Getting helper file path
      *
-     * @param Array $def 
-     * @return array
+     * @param string $place 
+     * @param string $place_type 
+     * @return string
      * @author Sergey Startsev
      */
-    static public function getCleanDefinition(Array $def)
+    static public function getHelperPath($place = 'frontend', $place_type = 'app')
     {
-        if (array_key_exists(self::ATTRIBUTES, $def)) unset($def[self::ATTRIBUTES]);
-        if (array_key_exists(self::CHILDS, $def)) unset($def[self::CHILDS]);
-        
-        return $def;
+        return sfConfig::get("sf_{$place_type}s_dir") . "/{$place}/config/" . self::HELPER_FILE;
     }
     
     /**

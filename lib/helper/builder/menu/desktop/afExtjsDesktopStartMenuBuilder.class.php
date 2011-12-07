@@ -18,6 +18,16 @@ class afExtjsDesktopStartMenuBuilder
     const ITEM_TYPE = 'type';
     
     /**
+     * Main identificator
+     */
+    const MAIN = 'main';
+    
+    /**
+     * Tools identificator
+     */
+    const TOOLS = 'tools';
+    
+    /**
      * Menu definition
      *
      * @var array
@@ -48,7 +58,7 @@ class afExtjsDesktopStartMenuBuilder
     {
         $instance = new self;
         
-        $path = sfConfig::get("sf_{$place_type}s_dir") . "/{$place}/config/" . afExtjsBuilderParser::HELPER_FILE;
+        $path = afExtjsBuilderParser::getHelperPath($place, $place_type);
         
         if (!file_exists($path)) throw new afExtjsDesktopStartMenuBuilderException("Helper file '{$path}' doesn't exists");
         
@@ -59,6 +69,30 @@ class afExtjsDesktopStartMenuBuilder
     }
     
     /**
+     * Getting main from definition
+     *
+     * @param Array $def 
+     * @return array
+     * @author Sergey Startsev
+     */
+    static public function getMain(Array $def)
+    {
+        return (array_key_exists(self::MAIN, $def)) ? $def[self::MAIN] : array();
+    }
+    
+    /**
+     * Getting tools from definition
+     *
+     * @param Array $def 
+     * @return array
+     * @author Sergey Startsev
+     */
+    static public function getTools(Array $def)
+    {
+        return (array_key_exists(self::TOOLS, $def)) ? $def[self::TOOLS] : array();
+    }
+    
+    /**
      * Processing - building menu
      *
      * @return afExtjsDesktopStartMenuBuilder
@@ -66,7 +100,8 @@ class afExtjsDesktopStartMenuBuilder
      */
     public function process()
     {
-        $this->getItems($this->menu_instance, $this->definition);
+        $this->processTools();
+        $this->processItems($this->menu_instance, self::getMain($this->definition));
         
         return $this;
     }
@@ -95,6 +130,19 @@ class afExtjsDesktopStartMenuBuilder
     }
     
     /**
+     * Process tool area
+     *
+     * @return void
+     * @author Sergey Startsev
+     */
+    private function processTools()
+    {
+        foreach (self::getTools($this->definition) as $tool) {
+            $this->getMenuInstance()->addTool($tool);
+        }
+    }
+    
+    /**
      * Process with items
      *
      * @param afExtjsStartMenu $glue_instance 
@@ -102,9 +150,9 @@ class afExtjsDesktopStartMenuBuilder
      * @return void
      * @author Sergey Startsev
      */
-    private function getItems(afExtjsStartMenu $glue_instance, Array $definition)
+    private function processItems(afExtjsStartMenu $glue_instance, Array $definition)
     {
-        foreach (afExtjsBuilderParser::getCleanDefinition($definition) as $item_name => $item) {
+        foreach ($definition as $item_name => $item) {
             $this->getItemInstance($glue_instance, $item);
         }
     }
@@ -120,21 +168,20 @@ class afExtjsDesktopStartMenuBuilder
     private function getItemInstance(afExtjsStartMenu $glue_instance, Array $definition)
     {
         $attributes = afExtjsBuilderParser::getAttributes($definition);
-        $childs = afExtjsBuilderParser::getChilds($definition);
+        $children = afExtjsBuilderParser::getChildren($definition);
         
         $type = 'item';
         if (array_key_exists(self::ITEM_TYPE, $attributes)) $type = $attributes[self::ITEM_TYPE];
         $type = ucfirst($type);
         
-        $clean_definition = afExtjsBuilderParser::getCleanDefinition($definition);
-        
         $reflection = new ReflectionClass("afExtjsStartMenu{$type}");
-        $instance = $reflection->newInstance($glue_instance, $clean_definition);
         
-        if (!empty($childs)) {
+        $instance = $reflection->newInstance($glue_instance, $attributes);
+        
+        if (!empty($children)) {
             $menu_reflection = new ReflectionClass("afExtjsStartMenu");
             $menu_instance = $menu_reflection->newInstance($instance);
-            $this->getItems($menu_instance, $childs);
+            $this->processItems($menu_instance, $children);
             $menu_instance->end();
         }
         
