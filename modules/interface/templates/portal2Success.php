@@ -3,10 +3,10 @@ $layout=new afExtjsPortalLayout(array('id'=>'center_panel'));
 
 $html='<b>Lorem ipsum dolor sit amet</b>, consectetur adipiscing elit. Ut est neque, feugiat venenatis elementum a, tincidunt non massa. Cras sagittis, augue nec porttitor scelerisque, elit lorem ornare massa, eu euismod odio massa vitae justo. Mauris erat nunc, luctus tincidunt lacinia ac, sagittis id risus. Mauris ut quam nisl. Mauris tortor eros, tincidunt sit amet fringilla lacinia, faucibus vel augue. Sed dolor felis, faucibus nec elementum at, cursus in magna. Nam erat nibh, auctor fermentum convallis id, ornare vitae urna. Ut placerat elementum felis. Donec quis libero mauris, vitae vehicula mauris. Donec sit amet urna id justo tempus aliquam. Duis aliquam gravida dictum. Nullam ac nibh eros. Donec lacinia risus id velit congue sed placerat nibh fringilla. Vivamus condimentum varius lacus et facilisis. Curabitur sed tellus sit amet diam dictum ornare. Donec dui lacus, vehicula sit amet semper a, auctor sed sem. Nam pulvinar iaculis libero sed varius. Quisque volutpat posuere sapien quis condimentum.';
 
-if(sfContext::getInstance()->getUser()->getProfile()->getWidgetHelpIsEnabled())
-{
+//if(sfContext::getInstance()->getUser()->getProfile()->getWidgetHelpIsEnabled())
+//{
 	$layout->addHelp('<b>help text on top of everything</b>');
-}
+//}
 
 $layout->setTitle('Dashboard');
 

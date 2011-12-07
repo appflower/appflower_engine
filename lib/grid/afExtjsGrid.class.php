@@ -21,7 +21,7 @@ class afExtjsGrid
 	
 	public function __construct($attributes=array())
 	{		
-		$this->afExtjs=afExtjs::getInstance();
+	    $this->afExtjs=afExtjs::getInstance();
 		//for test
 		$this->attributes['tbar']=array();			
 		$this->attributes['stripeRows']=true;
@@ -34,6 +34,7 @@ class afExtjsGrid
 			unset($attributes['datasource']);
 		}
 		$this->privateName='grid_'.Util::makeRandomKey();
+		$this->attributes['id']=$this->privateName;
 		
 		if(isset($attributes['idxml'])&&$attributes['idxml'])
 		{
@@ -583,7 +584,7 @@ class afExtjsGrid
 			$this->attributes[$storePrivateName]['listeners']['load']=$this->afExtjs->asMethod(array(
 																			"parameters"=>"object,records,options",
 																			"source"=>
-																			'if(records.length>0&&records[0].json.redirect&&records[0].json.message&&records[0].json.load){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){afApp.load(rec.redirect,rec.load);});}else{if('.$this->privateName.'.canMask()){'.$this->privateName.'.getEl().unmask();}}
+																			'/*console.log(eval('.$this->privateName.'.bindForm));*/if(records.length>0&&records[0].json.redirect&&records[0].json.message&&records[0].json.load){var rec=records[0].json;Ext.Msg.alert("Failure", rec.message, function(){afApp.load(rec.redirect,rec.load);});}else{if('.$this->privateName.'.canMask()){'.$this->privateName.'.getEl().unmask();}}
 																			'.$this->privateName.'.ownerCt.ownerCt.doLayout();/*Chrome fix*/'.$this->privateName.'.body.dom.lastChild.style.width=\'100%\';/*Toolbars fix*/if('.$this->privateName.'.bbar){'.$this->privateName.'.bbar.dom.style.width=\'auto\';'.$this->privateName.'.bbar.dom.firstChild.style.width=\'auto\';}if('.$this->privateName.'.tbar){'.$this->privateName.'.tbar.dom.style.width=\'auto\';'.$this->privateName.'.tbar.dom.firstChild.style.width=\'auto\';}'
                                                                              .($this->dataLoadedHandler != '' ? "{$this->dataLoadedHandler}($this->privateName);" : '')
                                                                              .$this->resizeToolBars()
@@ -735,17 +736,20 @@ class afExtjsGrid
 							if(!filters) return;							
 							var saveFilter = Ext.ux.SaveSearchState(grid);
 							saveFilter.viewSavedList();'))));				
-			$this->addMenuActionsItem(array('xtype'=>'menuseparator'));			
-			$savedFilters = afSaveFilterPeer::getFiltersByName(isset($this->attributes['name'])?$this->attributes['name']:$this->attributes['path']);
-			$fc = 0;
-			foreach($savedFilters as $f){
-				//if($fc > 4) break;			
-				$this->addMenuActionsItem(array('label'=>++$fc.". ".$f->getName(),'listeners'=>array('click'=>array('parameters'=>'','source'=>'
-							var grid = '.$this->privateName.';
-							var filters = grid.filters;
-							if(!filters) return;							
-							var saveFilter = Ext.ux.SaveSearchState(grid);							
-							saveFilter.restore(\''.$f->getFilter().'\',"'.$f->getName().'");'))));	
+			$this->addMenuActionsItem(array('xtype'=>'menuseparator'));		
+			if(isset($this->attributes['name'])||isset($this->attributes['path']))
+			{	
+    			$savedFilters = afSaveFilterPeer::getFiltersByName(isset($this->attributes['name'])?$this->attributes['name']:$this->attributes['path']);
+    			$fc = 0;
+    			foreach($savedFilters as $f){
+    				//if($fc > 4) break;			
+    				$this->addMenuActionsItem(array('label'=>++$fc.". ".$f->getName(),'listeners'=>array('click'=>array('parameters'=>'','source'=>'
+    							var grid = '.$this->privateName.';
+    							var filters = grid.filters;
+    							if(!filters) return;							
+    							var saveFilter = Ext.ux.SaveSearchState(grid);							
+    							saveFilter.restore(\''.$f->getFilter().'\',"'.$f->getName().'");'))));	
+    			}
 			}
 		}
 		$this->addMenuActions();

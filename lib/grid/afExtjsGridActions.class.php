@@ -32,7 +32,7 @@ class afExtjsGridActions
 		if(!isset($this->attributes['actions']))
 		$this->attributes['actions']=array();
 		/** Check Credential ***/
-		if(!ComponentCredential::urlHasCredential($attributes['url'])) return;
+		if(isset($attributes['url'])&&!ComponentCredential::urlHasCredential($attributes['url'])) return;
 		$count_actions=count($this->attributes['actions']);
 		$attributes['urlIndex']='action'.($count_actions+1);
 		$attributes['hideIndex']='hide'.($count_actions+1);

@@ -373,9 +373,12 @@ Ext.extend(Ext.ux.GridRowActions, Ext.util.Observable, {
 			 * Add expand action in row action
 			 * row action containing name expand triggers is action
 			 */
-			
-			if(a.script){
-				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="javascript:void(0);" onclick="'+a.script+'">') : '';
+			if(a.bindForm)
+			{
+			    var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="javascript:void(0);" onclick="afApp.bindForm(\''+this.grid.id+'\',\''+afApp.urlPrefix+'{' + a.urlIndex + '}\');">') : '';
+			}
+			else if(a.script){
+				var urlStart = a.urlIndex ? ('<tpl if="this.isUrl(' + a.urlIndex + ')"><a href="javascript:void(0);" onclick="var url=\''+afApp.urlPrefix+'{' + a.urlIndex + '}\';'+a.script+'">') : '';
 			}else if(a.name&&a.name.match("_expand$")){
 				
 				/**

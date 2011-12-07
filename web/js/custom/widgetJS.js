@@ -1051,3 +1051,18 @@ var keymapX = new Ext.KeyMap(document, {
 //used to set/get current loaded widget
 afApp.currentWidget = false;
 afApp.observable = new Ext.util.Observable();
+//used to fill up the bindForm from a custom datasource
+afApp.bindForm = function(gridId,url)
+{
+    var grid = Ext.getCmp(gridId);
+    var form = Ext.getCmp(grid.bindForm);
+    
+    form.getForm().waitMsgTarget = form.getEl();
+    
+    form.load({
+        url:url,
+        method : "GET",
+        waitMsg:'Loading...',
+        params:{}
+    });
+}
