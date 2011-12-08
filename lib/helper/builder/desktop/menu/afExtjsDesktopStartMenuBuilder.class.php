@@ -5,7 +5,7 @@
  * @package appFlower
  * @author Sergey Startsev <startsev.sergey@gmail.com>
  */
-class afExtjsDesktopStartMenuBuilder
+class afExtjsDesktopStartMenuBuilder extends afBaseExtjsBuilder
 {
     /**
      * Menu identificator in definition
@@ -28,20 +28,6 @@ class afExtjsDesktopStartMenuBuilder
     const TOOLS = 'tools';
     
     /**
-     * Menu definition
-     *
-     * @var array
-     */
-    protected $definition;
-    
-    /**
-     * Menu instance
-     *
-     * @var afExtjsStartMenu
-     */
-    protected $menu_instance;
-    
-    /**
      * Private constructor
      */
     private function __construct() {}
@@ -62,8 +48,8 @@ class afExtjsDesktopStartMenuBuilder
         
         if (!file_exists($path)) throw new afExtjsDesktopStartMenuBuilderException("Helper file '{$path}' doesn't exists");
         
-        $instance->definition = afExtjsBuilderParser::create($path)->parse()->get(self::MENU_IDENTIFICATOR);
-        $instance->menu_instance = new afExtjsStartMenu(afExtjsBuilderParser::getAttributes($instance->definition));
+        $instance->setDefinition(afExtjsBuilderParser::create($path)->parse()->get(self::MENU_IDENTIFICATOR));
+        $instance->setBuildedInstance(new afExtjsStartMenu(afExtjsBuilderParser::getAttributes($instance->getDefinition())));
         
         return $instance;
     }
@@ -101,32 +87,9 @@ class afExtjsDesktopStartMenuBuilder
     public function process()
     {
         $this->processTools();
-        $this->processItems($this->menu_instance, self::getMain($this->definition));
+        $this->processItems($this->getBuildedInstance(), self::getMain($this->getDefinition()));
         
         return $this;
-    }
-    
-    /**
-     * Settign menu instance
-     *
-     * @param afExtjsStartMenu $menu 
-     * @return void
-     * @author Sergey Startsev
-     */
-    public function setMenuInstance(afExtjsStartMenu $menu)
-    {
-        $this->menu_instance = $menu;
-    }
-    
-    /**
-     * Getting menu instance
-     *
-     * @return afExtjsStartMenu
-     * @author Sergey Startsev
-     */
-    public function getMenuInstance()
-    {
-        return $this->menu_instance;
     }
     
     /**
@@ -137,8 +100,8 @@ class afExtjsDesktopStartMenuBuilder
      */
     private function processTools()
     {
-        foreach (self::getTools($this->definition) as $tool) {
-            $this->getMenuInstance()->addTool($tool);
+        foreach (self::getTools($this->getDefinition()) as $tool) {
+            $this->getBuildedInstance()->addTool($tool);
         }
     }
     

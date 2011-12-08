@@ -10,3 +10,8 @@ menu:
         tooltip: { text: 'Your review', title: 'Project dashboard' }
   tools:
     logout: { text: 'Logout', iconCls:'logout', handler: '' }
+links:
+  dashboard:
+    title: Home
+    iconCls: ''
+    url: /
