@@ -35,7 +35,7 @@ class afExtjsDesktopLinks
 		    $link['title'] = 'default';
 		  }
 		  
-		  $return[] = "<dt id=\"".$link['iconCls']."\"><a href=\"javascript:return false;\"".(($link['url']!='')?" onclick='afApp.widgetPopup(\"".$link['url']."\");'":"")."><img src=\"/appFlowerPlugin/extjs-3/plugins/desktop/images/s.gif\" /><div>".$link['title']."</div></a></dt>";
+		  $return[] = "<dt id=\"".$link['iconCls']."\"><a href=\"javascript:return false;\"".(($link['url']!='')?" onclick='afApp.widgetPopup(\"".$link['url']."\"); return false;'":"")."><img src=\"/appFlowerPlugin/extjs-3/plugins/desktop/images/s.gif\" /><div>".$link['title']."</div></a></dt>";
 		}
 		
 		echo implode(null,$return);
