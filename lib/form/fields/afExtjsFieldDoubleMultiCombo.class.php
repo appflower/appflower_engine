@@ -52,10 +52,10 @@ class afExtjsFieldDoubleMultiCombo extends afExtjsField
 			$options=array();
 			foreach ($attributes['options'] as $key=>$value)
 			{
-				$options[]="['".$key."','".$value."']";
+				$options[]= array($key, $value);
 			}
 			
-			$this->attributes['fromData']=$this->afExtjs->asVar("[ ".implode(',',$options)." ]");
+			$this->attributes['fromData']=$this->afExtjs->asVar(json_encode($options));
 			
 			unset($attributes['options']);
 		}
@@ -112,10 +112,10 @@ class afExtjsFieldDoubleMultiCombo extends afExtjsField
 			
 			foreach ($this->selected_values as $key=>$value)
 			{
-				$options[]="['".$key."',".$value."]";
+				$options[]=array($key, $value);
 			}
 			
-			$this->attributes['toData']=$this->afExtjs->asVar("[ ".implode(',',$options)." ]");
+			$this->attributes['toData']=$this->afExtjs->asVar(json_encode($options));
 		}
 		else {
 			$this->attributes['toData']=$this->afExtjs->asVar("[]");
