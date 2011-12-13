@@ -100,7 +100,7 @@ class afExtjsDesktopStartMenuBuilder extends afBaseExtjsBuilder
      */
     private function processTools()
     {
-        foreach (self::getTools($this->getDefinition()) as $tool) {
+        foreach ((array) self::getTools($this->getDefinition()) as $tool) {
             $this->getBuildedInstance()->addTool($tool);
         }
     }
@@ -115,7 +115,7 @@ class afExtjsDesktopStartMenuBuilder extends afBaseExtjsBuilder
      */
     private function processItems(afExtjsStartMenu $glue_instance, Array $definition)
     {
-        foreach ($definition as $item_name => $item) {
+        foreach ((array) $definition as $item_name => $item) {
             $this->getItemInstance($glue_instance, $item);
         }
     }
