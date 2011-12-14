@@ -105,6 +105,13 @@ class afExtjsPortalLayout extends afExtjsViewportLayout
 				//$attributes['id']='center_panel_first_panel';
 				$attributes['border']=false;
 				$attributes['bodyBorder']=false;
+				/**
+        		 * fixing ticket #1295 part 2
+        		 * 
+        		 * @author Radu Topala <radu@appflower.com>
+        		 */
+				$attributes['dropConfig']['ddGroup'] = 'portal_'.Util::makeRandomKey().'_dd';
+				
 				$this->afExtjs->privateAttributes['container']=$attributes;
 				$this->afExtjs->private['center_panel_first_panel']=$this->afExtjs->Portal($attributes);
 				

@@ -3234,6 +3234,7 @@ class XmlParser extends XmlParserTools {
 			if($view == "edit" || $view == "show") {
 
 				$formoptions["action"] = url_for($parse["form"]);
+				
 				$formoptions["name"] = "form".$it;
 				$formoptions["classic"] = ($parse["classic"] !== "false");
 				$formoptions["labelWidth"] = isset($parse['labelWidth'])?$parse['labelWidth']:'75';
@@ -3241,7 +3242,7 @@ class XmlParser extends XmlParserTools {
 					$widget = $this->context->getActionName();	
 				} // else if($this->type == self::PAGE) { #1048 - element should have unique id
 					// $widget = $action_name;
-					// $formoptions["idxml"] = $parse["module"]."/".$action_name;
+					$formoptions["idxml"] = $parse["module"]."/".$action_name;
 				// } 
 				 
 				

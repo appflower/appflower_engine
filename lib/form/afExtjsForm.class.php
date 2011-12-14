@@ -19,8 +19,8 @@ class afExtjsForm
 	private $validators = array();
 							
 	public function __construct($attributes=array())
-	{		
-		$this->afExtjs=afExtjs::getInstance();
+	{	
+	    $this->afExtjs=afExtjs::getInstance();
 		
 		$this->privateName='form_'.Util::makeRandomKey();
 		

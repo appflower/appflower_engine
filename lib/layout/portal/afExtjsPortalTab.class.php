@@ -30,6 +30,13 @@ class afExtjsPortalTab
 			unset($attributes['portalWidgets']);
 		}
 		
+		/**
+		 * fixing ticket #1295 part 2
+		 * 
+		 * @author Radu Topala <radu@appflower.com>
+		 */
+		$this->attributes['portal']['dropConfig']['ddGroup'] = $this->portalPrivateName.'_dd';
+		
 		$this->attributes['portal']['bodyBorder']=false;
 		$this->attributes['portal']['autoWidth']=true;
 		@$this->attributes['portal']['style'].='padding-right:5px;';
