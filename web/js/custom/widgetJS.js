@@ -922,10 +922,13 @@ afApp.loadFirst = function(hasDesktop)
 	{
 		//load the toolbar inside the north panel, after rendering of layout, because of QuickTips bug
 		var north = App.getNorth();
-		var toolbar = App.getToolbar();
-	
-		north.add(toolbar);
-		north.doLayout();
+		if(north)
+		{
+    		var toolbar = App.getToolbar();
+    			
+    		north.add(toolbar);
+    		north.doLayout();
+		}
 		
 		afApp.loadCenterWidget(firstUri);
 	}

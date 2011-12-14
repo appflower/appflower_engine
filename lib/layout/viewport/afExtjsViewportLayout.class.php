@@ -263,7 +263,15 @@ class afExtjsViewportLayout extends afExtjsLayout
 		$viewportItems=array();
 		
 		if(isset($this->afExtjs->private['north_panel']))
-		$viewportItems[]=$this->afExtjs->asVar('north_panel');
+		{
+		  $viewportItems[]=$this->afExtjs->asVar('north_panel');
+		  
+		  $this->afExtjs->public['getNorth'] = "return north_panel;";
+		}
+		else {
+		    $this->afExtjs->public['getNorth'] = "return false;";		    
+		}
+		$this->afExtjs->public['getNorth'] = $this->afExtjs->asMethod($this->afExtjs->public['getNorth']);
 		
 		if(isset($this->afExtjs->private['west_panel']))
 		$viewportItems[]=$this->afExtjs->asVar('west_panel');
@@ -309,10 +317,7 @@ class afExtjsViewportLayout extends afExtjsLayout
 	    ".(!$this->showFullCenter()?"afApp.loadFirst();":"")."        
 	    }, 250);
 	    ";
-
-		$this->afExtjs->public['getNorth'] = "return north_panel;";
-		$this->afExtjs->public['getNorth'] = $this->afExtjs->asMethod($this->afExtjs->public['getNorth']);
-		
+				
 		$this->afExtjs->public['getViewport'] = "return viewport;";
 		$this->afExtjs->public['getViewport'] = $this->afExtjs->asMethod($this->afExtjs->public['getViewport']);
 		
