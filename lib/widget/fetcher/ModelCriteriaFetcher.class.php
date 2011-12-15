@@ -129,10 +129,16 @@ class ModelCriteriaFetcher
         $objects = $query::create()->find();
         
         if ($objects != null) {
-            foreach ($objects as $object) $array[$object->getId()] = $object->__toString();
-            
+
+            $array = array();
+            foreach ($objects as $object) {
+                $array[$object->getId()] = $object->__toString();
+            }
+
             return $array;
-        } else return array();
+        } else {
+            return array();
+        }
     }
     
     /**
