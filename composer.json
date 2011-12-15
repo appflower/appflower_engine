@@ -1,0 +1,41 @@
+{
+    "name": "appFlower/engine",
+    "type": "library",
+    "description": "AppFlower is a Rapid Application Development (RAD) tool which automatically generates user interface and backend code",
+    "keywords": ["framework","RAD","builder"],
+    "homepage": "https://github.com/appflower/appflower_engine",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Jimmi Andersen",
+            "homepage": "http://www.appflower.com"
+        },
+        {
+            "name": "Radu Topala",
+            "homepage": "http://www.appflower.com"
+        },
+        {
+            "name": "Lukasz Wojciechowski",
+            "homepage": "http://www.appflower.com"
+        },
+        {
+            "name": "Tamas Geschitz",
+            "homepage": "http://www.appflower.com"
+        },
+        {
+            "name": "Nikolai Babinski",
+            "homepage": "http://www.appflower.com"
+        },
+        {
+            "name": "Sergey Startsev",
+            "homepage": "http://www.appflower.com"
+        },
+        {
+            "name": "Milos Milovanovic",
+            "homepage": "http://www.appflower.com"
+        },
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    }
+}
