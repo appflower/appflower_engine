@@ -1,5 +1,6 @@
 {
     "name": "appFlower/engine",
+    "version": "1.1.1",
     "type": "library",
     "description": "AppFlower is a Rapid Application Development (RAD) tool which automatically generates user interface and backend code",
     "keywords": ["framework","RAD","builder"],
