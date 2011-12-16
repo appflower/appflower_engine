@@ -2,7 +2,11 @@
 
 <style>
 body {
-	background:<?php echo $layout->getBackgroundColor() ?> url(<?php echo $layout->getBackgroundImage() ?>) repeat bottom right;
+    <?php if ($layout->getBackgroundImage() != 'none') : ?>
+        background:<?php echo $layout->getBackgroundColor() ?> url(<?php echo $layout->getBackgroundImage() ?>) repeat bottom right;
+    <?php else: ?>
+        background-color:<?php echo $layout->getBackgroundColor() ?>;
+    <?php endif; ?>
 }
 </style>
 
@@ -19,4 +23,4 @@ body {
 	<div class="x-clear"></div>
 </div>
 
-<?php $layout->end(); ?>
+<?php $layout->end(); ?>    
