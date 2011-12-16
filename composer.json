@@ -34,7 +34,7 @@
         {
             "name": "Milos Milovanovic",
             "homepage": "http://www.appflower.com"
-        },
+        }
     ],
     "require": {
         "php": ">=5.3.0"
