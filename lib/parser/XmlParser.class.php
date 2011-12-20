@@ -3242,7 +3242,7 @@ class XmlParser extends XmlParserTools {
 					$widget = $this->context->getActionName();	
 				} // else if($this->type == self::PAGE) { #1048 - element should have unique id
 					// $widget = $action_name;
-					$formoptions["idxml"] = $parse["module"]."/".$action_name;
+					$formoptions["idxml"] = $module."/".$action;
 				// } 
 				 
 				
