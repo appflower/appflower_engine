@@ -19,8 +19,10 @@ class afExtjsDesktopLinks
 	}
 	
 	public function end()
-	{			
-		foreach ($this->attributes['items'] as $link)
+	{
+	    $return = array();
+	    $items = (array_key_exists('items', $this->attributes)) ? $this->attributes['items'] : array();
+		foreach ($items as $link)
 		{
 		  if(!isset($link['iconCls'])||$link['iconCls']=='')
 		  {
