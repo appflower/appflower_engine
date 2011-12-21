@@ -63,9 +63,9 @@ class afExtjsBuilderParser
      * @return array
      * @author Sergey Startsev
      */
-    static public function getAttributes(Array $def)
+    static public function getAttributes(Array $def, Array $default = array())
     {
-        return (array_key_exists(self::ATTRIBUTES, $def)) ? $def[self::ATTRIBUTES] : array();
+        return (array_key_exists(self::ATTRIBUTES, $def)) ? $def[self::ATTRIBUTES] : $default;
     }
     
     /**
@@ -101,7 +101,7 @@ class afExtjsBuilderParser
      */
     public function parse()
     {
-        $this->definition = sfYaml::load($this->getPath());
+        $this->definition = (array) sfYaml::load($this->getPath());
         
         return $this;
     }
@@ -142,7 +142,7 @@ class afExtjsBuilderParser
     {
         if (empty($key)) return $this->definition;
         
-        return (array_key_exists($key, $this->definition)) ? $this->definition[$key] : array();
+        return (array_key_exists($key, $this->definition)) ? (array) $this->definition[$key] : array();
     }
     
 }

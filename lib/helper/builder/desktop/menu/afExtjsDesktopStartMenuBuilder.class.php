@@ -49,7 +49,7 @@ class afExtjsDesktopStartMenuBuilder extends afBaseExtjsBuilder
         if (!file_exists($path)) throw new afExtjsDesktopStartMenuBuilderException("Helper file '{$path}' doesn't exists");
         
         $instance->setDefinition(afExtjsBuilderParser::create($path)->parse()->get(self::MENU_IDENTIFICATOR));
-        $instance->setBuildedInstance(new afExtjsStartMenu(afExtjsBuilderParser::getAttributes($instance->getDefinition())));
+        $instance->setBuildedInstance(new afExtjsStartMenu(afExtjsBuilderParser::getAttributes($instance->getDefinition(), array('title' => 'App Flower'))));
         
         return $instance;
     }
