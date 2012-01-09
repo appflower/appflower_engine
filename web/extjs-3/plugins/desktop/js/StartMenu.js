@@ -135,7 +135,6 @@ Ext.ux.StartMenu = Ext.extend(Ext.menu.Menu, {
         this.toolsUl = toolsUl;
 
         this.menuBWrap.setStyle('position', 'relative');
-        this.menuBWrap.setHeight(this.height - 28);
 
         this.menuPanel.setStyle({
         	padding: '2px',
@@ -150,6 +149,8 @@ Ext.ux.StartMenu = Ext.extend(Ext.menu.Menu, {
         });
 
         this.setTitle(this.title);
+        
+        this.menuBWrap.setHeight(this.height - (this.header.getHeight() + br.getHeight()));
     },
 
     // private
@@ -179,8 +180,7 @@ Ext.ux.StartMenu = Ext.extend(Ext.menu.Menu, {
 
         this.fireEvent("beforeshow", this);
         this.showAt(this.el.getAlignToXY(el, pos || this.defaultAlign), parentMenu, false);
-        this.getEl().setTop(this.getEl().getTop()-50);
-        this.getEl().setLeft(0);
+        this.el.setLeft(0);
         var tPanelWidth = 100;
         var box = this.menuBWrap.getBox();
         this.menuPanel.setWidth(box.width-tPanelWidth);

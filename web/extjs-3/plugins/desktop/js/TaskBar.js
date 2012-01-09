@@ -16,7 +16,7 @@ Ext.ux.TaskBar = function(app){
 Ext.extend(Ext.ux.TaskBar, Ext.util.Observable, {
     init : function(){
         this.startMenu = new Ext.ux.StartMenu(Ext.apply({
-            height: 300,
+            height: 346,
             shadow: true,
             width: 300
         }, this.app.startConfig));
