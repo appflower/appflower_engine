@@ -24,10 +24,10 @@
 	background-repeat:no-repeat ! important;
 }
 .ux-lovcombo-icon-checked {
-	background: transparent url(/appFlowerPlugin/extjs-3/examples/form/lovcombo-1.0/images/checked.gif);
+	background: transparent url(/appFlowerPlugin/extjs-3/plugins/form/lovcombo-1.0/images/checked.gif);
 }
 .ux-lovcombo-icon-unchecked {
-	background: transparent url(/appFlowerPlugin/extjs-3/examples/form/lovcombo-1.0/images/unchecked.gif);
+	background: transparent url(/appFlowerPlugin/extjs-3/plugins/form/lovcombo-1.0/images/unchecked.gif);
 }
  
 /* eof */
