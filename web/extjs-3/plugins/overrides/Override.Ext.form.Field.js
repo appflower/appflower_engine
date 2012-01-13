@@ -1,4 +1,4 @@
-/*
+/**
  *  Override for form fields
  *  @author: Prakash Paudel
  *  
@@ -101,29 +101,6 @@ Ext.override(Ext.form.TextField,{
        * @property originalValue
        */
       this.originalValue = this.getValue();
-  },
-  preFocus : function(){
-    var el = this.el,isEmpty;
-    if(this.emptyText){
-      if(el.dom.value==this.emptyText){
-        this.setRawValue('');
-        isEmpty=true;
-      }
-      el.removeClass(this.emptyClass);
-    }
-    if(this.SelectOnFocus || isEmpty){
-      el.dom.select();
-    }
-    
-    if(this.PasswordFocus){
-      el.dom.setAttribute('type','password');
-    }
-  },
-  beforeBlur : function(){
-    if(this.PasswordFocus && this.getValue()==""){
-      this.el.dom.setAttribute('type','text');
-      this.reset();
-    }
   }
 });
 
