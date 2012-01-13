@@ -11,8 +11,14 @@ var map = new Ext.KeyMap(document, {
 	{
 		e.stopEvent();
 		
-		var viewport=App.getViewport();
-		var tabPortalPanel=viewport.layout.center.panel.items.items[0].items.items[0];
+		var viewport = App.getViewport(),
+            tabPortalPanel;
+            
+        try {
+            tabPortalPanel = viewport.layout.center.panel.items.items[0].items.items[0];
+        } catch (e) {
+            return false;
+        }
 		
 		if(tabPortalPanel.getXType()=='tabpanel')
 		{		
