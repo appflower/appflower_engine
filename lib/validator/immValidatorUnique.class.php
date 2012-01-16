@@ -25,7 +25,8 @@ class immValidatorUnique extends sfValidatorBase
 	protected function doClean($value)
 	{
 		$id = NULL;
-        $formData = sfContext::getInstance()->getRequest()->getParameter("edit");
+        $request = sfContext::getInstance()->getRequest();
+        $formData = $request->getParameter("edit");
                 
         if(isset($formData[0]) && isset($formData[0]['id'])){
         	$id = $formData[0]['id'];
@@ -35,6 +36,10 @@ class immValidatorUnique extends sfValidatorBase
         	$id = $formData[2]['id'];
         }else if(isset($formData['id'])){
         	$id = $formData['id'];
+        }
+        
+        if (!$id && $request->hasParameter('id')) {
+            $id = $request->hasParameter('id');
         }
 		
 		$c = new Criteria();
