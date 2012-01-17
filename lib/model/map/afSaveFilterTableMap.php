@@ -14,7 +14,8 @@
  *
  * @package    propel.generator.plugins.appFlowerPlugin.lib.model.map
  */
-class afSaveFilterTableMap extends TableMap {
+class afSaveFilterTableMap extends TableMap
+{
 
 	/**
 	 * The (dot-path) name of this class
@@ -30,7 +31,7 @@ class afSaveFilterTableMap extends TableMap {
 	 */
 	public function initialize()
 	{
-	  // attributes
+		// attributes
 		$this->setName('af_save_filter');
 		$this->setPhpName('afSaveFilter');
 		$this->setClassname('afSaveFilter');
@@ -54,9 +55,9 @@ class afSaveFilterTableMap extends TableMap {
 	} // buildRelations()
 
 	/**
-	 * 
+	 *
 	 * Gets the list of behaviors registered for this table
-	 * 
+	 *
 	 * @return array Associative array (name => parameters) of behaviors
 	 */
 	public function getBehaviors()

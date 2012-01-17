@@ -24,18 +24,24 @@ abstract class BasesfCombinePeer {
 
 	/** the related TableMap class for this table */
 	const TM_CLASS = 'sfCombineTableMap';
-	
+
 	/** The total number of columns. */
 	const NUM_COLUMNS = 2;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
+	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
+	const NUM_HYDRATE_COLUMNS = 2;
+
 	/** the column name for the ASSETS_KEY field */
 	const ASSETS_KEY = 'sf_combine.ASSETS_KEY';
 
 	/** the column name for the FILES field */
 	const FILES = 'sf_combine.FILES';
+
+	/** The default string format for model objects of the related table **/
+	const DEFAULT_STRING_FORMAT = 'YAML';
 
 	/**
 	 * An identiy map to hold any loaded instances of sfCombine objects.
@@ -46,20 +52,13 @@ abstract class BasesfCombinePeer {
 	public static $instances = array();
 
 
-	// symfony behavior
-	
-	/**
-	 * Indicates whether the current model includes I18N.
-	 */
-	const IS_I18N = false;
-
 	/**
 	 * holds an array of fieldnames
 	 *
 	 * first dimension keys are the type constants
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
-	private static $fieldNames = array (
+	protected static $fieldNames = array (
 		BasePeer::TYPE_PHPNAME => array ('AssetsKey', 'Files', ),
 		BasePeer::TYPE_STUDLYPHPNAME => array ('assetsKey', 'files', ),
 		BasePeer::TYPE_COLNAME => array (self::ASSETS_KEY, self::FILES, ),
@@ -74,7 +73,7 @@ abstract class BasesfCombinePeer {
 	 * first dimension keys are the type constants
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
-	private static $fieldKeys = array (
+	protected static $fieldKeys = array (
 		BasePeer::TYPE_PHPNAME => array ('AssetsKey' => 0, 'Files' => 1, ),
 		BasePeer::TYPE_STUDLYPHPNAME => array ('assetsKey' => 0, 'files' => 1, ),
 		BasePeer::TYPE_COLNAME => array (self::ASSETS_KEY => 0, self::FILES => 1, ),
@@ -210,7 +209,7 @@ abstract class BasesfCombinePeer {
 		return $count;
 	}
 	/**
-	 * Method to select one object from the DB.
+	 * Selects one object from the DB.
 	 *
 	 * @param      Criteria $criteria object used to create the SELECT statement.
 	 * @param      PropelPDO $con
@@ -229,7 +228,7 @@ abstract class BasesfCombinePeer {
 		return null;
 	}
 	/**
-	 * Method to do selects.
+	 * Selects several row from the DB.
 	 *
 	 * @param      Criteria $criteria The Criteria object used to build the SELECT statement.
 	 * @param      PropelPDO $con
@@ -289,7 +288,7 @@ abstract class BasesfCombinePeer {
 	 * @param      sfCombine $value A sfCombine object.
 	 * @param      string $key (optional) key to use for instance map (for performance boost if key was already calculated externally).
 	 */
-	public static function addInstanceToPool(sfCombine $obj, $key = null)
+	public static function addInstanceToPool($obj, $key = null)
 	{
 		if (Propel::isInstancePoolingEnabled()) {
 			if ($key === null) {
@@ -384,7 +383,7 @@ abstract class BasesfCombinePeer {
 	}
 
 	/**
-	 * Retrieves the primary key from the DB resultset row 
+	 * Retrieves the primary key from the DB resultset row
 	 * For tables with a single-column primary key, that simple pkey value will be returned.  For tables with
 	 * a multi-column primary key, an array of the primary key columns will be returned.
 	 *
@@ -444,7 +443,7 @@ abstract class BasesfCombinePeer {
 			// We no longer rehydrate the object, since this can cause data loss.
 			// See http://www.propelorm.org/ticket/509
 			// $obj->hydrate($row, $startcol, true); // rehydrate
-			$col = $startcol + sfCombinePeer::NUM_COLUMNS;
+			$col = $startcol + sfCombinePeer::NUM_HYDRATE_COLUMNS;
 		} else {
 			$cls = sfCombinePeer::OM_CLASS;
 			$obj = new $cls();
@@ -453,6 +452,7 @@ abstract class BasesfCombinePeer {
 		}
 		return array($obj, $col);
 	}
+
 	/**
 	 * Returns the TableMap related to this peer.
 	 * This method is not needed for general use but a specific application could have a need.
@@ -494,7 +494,7 @@ abstract class BasesfCombinePeer {
 	}
 
 	/**
-	 * Method perform an INSERT on the database, given a sfCombine or Criteria object.
+	 * Performs an INSERT on the database, given a sfCombine or Criteria object.
 	 *
 	 * @param      mixed $values Criteria or sfCombine object containing data that is used to create the INSERT statement.
 	 * @param      PropelPDO $con the PropelPDO connection to use
@@ -533,7 +533,7 @@ abstract class BasesfCombinePeer {
 	}
 
 	/**
-	 * Method perform an UPDATE on the database, given a sfCombine or Criteria object.
+	 * Performs an UPDATE on the database, given a sfCombine or Criteria object.
 	 *
 	 * @param      mixed $values Criteria or sfCombine object containing data that is used to create the UPDATE statement.
 	 * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
@@ -572,11 +572,12 @@ abstract class BasesfCombinePeer {
 	}
 
 	/**
-	 * Method to DELETE all rows from the sf_combine table.
+	 * Deletes all rows from the sf_combine table.
 	 *
+	 * @param      PropelPDO $con the connection to use
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 */
-	public static function doDeleteAll($con = null)
+	public static function doDeleteAll(PropelPDO $con = null)
 	{
 		if ($con === null) {
 			$con = Propel::getConnection(sfCombinePeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
@@ -601,7 +602,7 @@ abstract class BasesfCombinePeer {
 	}
 
 	/**
-	 * Method perform a DELETE on the database, given a sfCombine or Criteria object OR a primary key value.
+	 * Performs a DELETE on the database, given a sfCombine or Criteria object OR a primary key value.
 	 *
 	 * @param      mixed $values Criteria or sfCombine object or primary key or array of primary keys
 	 *              which is used to create the DELETE statement
@@ -670,7 +671,7 @@ abstract class BasesfCombinePeer {
 	 *
 	 * @return     mixed TRUE if all columns are valid or the error message of the first invalid column.
 	 */
-	public static function doValidate(sfCombine $obj, $cols = null)
+	public static function doValidate($obj, $cols = null)
 	{
 		$columns = array();
 

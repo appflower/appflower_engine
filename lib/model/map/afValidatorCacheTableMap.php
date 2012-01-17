@@ -14,7 +14,8 @@
  *
  * @package    propel.generator.plugins.appFlowerPlugin.lib.model.map
  */
-class afValidatorCacheTableMap extends TableMap {
+class afValidatorCacheTableMap extends TableMap
+{
 
 	/**
 	 * The (dot-path) name of this class
@@ -30,7 +31,7 @@ class afValidatorCacheTableMap extends TableMap {
 	 */
 	public function initialize()
 	{
-	  // attributes
+		// attributes
 		$this->setName('af_validator_cache');
 		$this->setPhpName('afValidatorCache');
 		$this->setClassname('afValidatorCache');
@@ -53,9 +54,9 @@ class afValidatorCacheTableMap extends TableMap {
 	} // buildRelations()
 
 	/**
-	 * 
+	 *
 	 * Gets the list of behaviors registered for this table
-	 * 
+	 *
 	 * @return array Associative array (name => parameters) of behaviors
 	 */
 	public function getBehaviors()

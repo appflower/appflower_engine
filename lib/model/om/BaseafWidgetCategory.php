@@ -62,6 +62,12 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 	protected $alreadyInValidation = false;
 
 	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $afWidgetSelectorsScheduledForDeletion = null;
+
+	/**
 	 * Get the [id] column value.
 	 * 
 	 * @return     int
@@ -194,7 +200,7 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 3; // 3 = afWidgetCategoryPeer::NUM_COLUMNS - afWidgetCategoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 3; // 3 = afWidgetCategoryPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating afWidgetCategory object", $e);
@@ -282,6 +288,8 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 
 		$con->beginTransaction();
 		try {
+			$deleteQuery = afWidgetCategoryQuery::create()
+				->filterByPrimaryKey($this->getPrimaryKey());
 			$ret = $this->preDelete($con);
 			// symfony_behaviors behavior
 			foreach (sfMixer::getCallables('BaseafWidgetCategory:delete:pre') as $callable)
@@ -294,9 +302,7 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 			}
 
 			if ($ret) {
-				afWidgetCategoryQuery::create()
-					->filterByPrimaryKey($this->getPrimaryKey())
-					->delete($con);
+				$deleteQuery->delete($con);
 				$this->postDelete($con);
 				// symfony_behaviors behavior
 				foreach (sfMixer::getCallables('BaseafWidgetCategory:delete:post') as $callable)
@@ -309,7 +315,7 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 			} else {
 				$con->commit();
 			}
-		} catch (PropelException $e) {
+		} catch (Exception $e) {
 			$con->rollBack();
 			throw $e;
 		}
@@ -377,7 +383,7 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 			}
 			$con->commit();
 			return $affectedRows;
-		} catch (PropelException $e) {
+		} catch (Exception $e) {
 			$con->rollBack();
 			throw $e;
 		}
@@ -400,27 +406,24 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
-			if ($this->isNew() ) {
-				$this->modifiedColumns[] = afWidgetCategoryPeer::ID;
+			if ($this->isNew() || $this->isModified()) {
+				// persist changes
+				if ($this->isNew()) {
+					$this->doInsert($con);
+				} else {
+					$this->doUpdate($con);
+				}
+				$affectedRows += 1;
+				$this->resetModified();
 			}
 
-			// If this object has been modified, then save it to the database.
-			if ($this->isModified()) {
-				if ($this->isNew()) {
-					$criteria = $this->buildCriteria();
-					if ($criteria->keyContainsValue(afWidgetCategoryPeer::ID) ) {
-						throw new PropelException('Cannot insert a value for auto-increment primary key ('.afWidgetCategoryPeer::ID.')');
-					}
-
-					$pk = BasePeer::doInsert($criteria, $con);
-					$affectedRows = 1;
-					$this->setId($pk);  //[IMV] update autoincrement primary key
-					$this->setNew(false);
-				} else {
-					$affectedRows = afWidgetCategoryPeer::doUpdate($this, $con);
+			if ($this->afWidgetSelectorsScheduledForDeletion !== null) {
+				if (!$this->afWidgetSelectorsScheduledForDeletion->isEmpty()) {
+					afWidgetSelectorQuery::create()
+						->filterByPrimaryKeys($this->afWidgetSelectorsScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->afWidgetSelectorsScheduledForDeletion = null;
 				}
-
-				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
 
 			if ($this->collafWidgetSelectors !== null) {
@@ -436,6 +439,86 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 		}
 		return $affectedRows;
 	} // doSave()
+
+	/**
+	 * Insert the row in the database.
+	 *
+	 * @param      PropelPDO $con
+	 *
+	 * @throws     PropelException
+	 * @see        doSave()
+	 */
+	protected function doInsert(PropelPDO $con)
+	{
+		$modifiedColumns = array();
+		$index = 0;
+
+		$this->modifiedColumns[] = afWidgetCategoryPeer::ID;
+		if (null !== $this->id) {
+			throw new PropelException('Cannot insert a value for auto-increment primary key (' . afWidgetCategoryPeer::ID . ')');
+		}
+
+		 // check the columns in natural order for more readable SQL queries
+		if ($this->isColumnModified(afWidgetCategoryPeer::ID)) {
+			$modifiedColumns[':p' . $index++]  = '`ID`';
+		}
+		if ($this->isColumnModified(afWidgetCategoryPeer::MODULE)) {
+			$modifiedColumns[':p' . $index++]  = '`MODULE`';
+		}
+		if ($this->isColumnModified(afWidgetCategoryPeer::NAME)) {
+			$modifiedColumns[':p' . $index++]  = '`NAME`';
+		}
+
+		$sql = sprintf(
+			'INSERT INTO `af_widget_category` (%s) VALUES (%s)',
+			implode(', ', $modifiedColumns),
+			implode(', ', array_keys($modifiedColumns))
+		);
+
+		try {
+			$stmt = $con->prepare($sql);
+			foreach ($modifiedColumns as $identifier => $columnName) {
+				switch ($columnName) {
+					case '`ID`':
+						$stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+						break;
+					case '`MODULE`':
+						$stmt->bindValue($identifier, $this->module, PDO::PARAM_STR);
+						break;
+					case '`NAME`':
+						$stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
+						break;
+				}
+			}
+			$stmt->execute();
+		} catch (Exception $e) {
+			Propel::log($e->getMessage(), Propel::LOG_ERR);
+			throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), $e);
+		}
+
+		try {
+			$pk = $con->lastInsertId();
+		} catch (Exception $e) {
+			throw new PropelException('Unable to get autoincrement id.', $e);
+		}
+		$this->setId($pk);
+
+		$this->setNew(false);
+	}
+
+	/**
+	 * Update the row in the database.
+	 *
+	 * @param      PropelPDO $con
+	 *
+	 * @see        doSave()
+	 */
+	protected function doUpdate(PropelPDO $con)
+	{
+		$selectCriteria = $this->buildPkeyCriteria();
+		$valuesCriteria = $this->buildCriteria();
+		BasePeer::doUpdate($selectCriteria, $valuesCriteria, $con);
+	}
 
 	/**
 	 * Array of ValidationFailed objects.
@@ -568,17 +651,28 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 	 *                    BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM.
 	 *                    Defaults to BasePeer::TYPE_PHPNAME.
 	 * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
+	 * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+	 * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
 	 *
 	 * @return    array an associative array containing the field names (as keys) and field values
 	 */
-	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true)
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
+		if (isset($alreadyDumpedObjects['afWidgetCategory'][$this->getPrimaryKey()])) {
+			return '*RECURSION*';
+		}
+		$alreadyDumpedObjects['afWidgetCategory'][$this->getPrimaryKey()] = true;
 		$keys = afWidgetCategoryPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getModule(),
 			$keys[2] => $this->getName(),
 		);
+		if ($includeForeignObjects) {
+			if (null !== $this->collafWidgetSelectors) {
+				$result['afWidgetSelectors'] = $this->collafWidgetSelectors->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+		}
 		return $result;
 	}
 
@@ -716,12 +810,13 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 	 *
 	 * @param      object $copyObj An object of afWidgetCategory (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
 	 * @throws     PropelException
 	 */
-	public function copyInto($copyObj, $deepCopy = false)
+	public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
 	{
-		$copyObj->setModule($this->module);
-		$copyObj->setName($this->name);
+		$copyObj->setModule($this->getModule());
+		$copyObj->setName($this->getName());
 
 		if ($deepCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -736,9 +831,10 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 
 		} // if ($deepCopy)
 
-
-		$copyObj->setNew(true);
-		$copyObj->setId(NULL); // this is a auto-increment column, so set to default value
+		if ($makeNew) {
+			$copyObj->setNew(true);
+			$copyObj->setId(NULL); // this is a auto-increment column, so set to default value
+		}
 	}
 
 	/**
@@ -779,6 +875,22 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 		return self::$peer;
 	}
 
+
+	/**
+	 * Initializes a collection based on the name of a relation.
+	 * Avoids crafting an 'init[$relationName]s' method name
+	 * that wouldn't work when StandardEnglishPluralizer is used.
+	 *
+	 * @param      string $relationName The name of the relation to initialize
+	 * @return     void
+	 */
+	public function initRelation($relationName)
+	{
+		if ('afWidgetSelector' == $relationName) {
+			return $this->initafWidgetSelectors();
+		}
+	}
+
 	/**
 	 * Clears out the collafWidgetSelectors collection
 	 *
@@ -800,10 +912,16 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
 	 * @return     void
 	 */
-	public function initafWidgetSelectors()
+	public function initafWidgetSelectors($overrideExisting = true)
 	{
+		if (null !== $this->collafWidgetSelectors && !$overrideExisting) {
+			return;
+		}
 		$this->collafWidgetSelectors = new PropelObjectCollection();
 		$this->collafWidgetSelectors->setModel('afWidgetSelector');
 	}
@@ -842,6 +960,30 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Sets a collection of afWidgetSelector objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $afWidgetSelectors A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setafWidgetSelectors(PropelCollection $afWidgetSelectors, PropelPDO $con = null)
+	{
+		$this->afWidgetSelectorsScheduledForDeletion = $this->getafWidgetSelectors(new Criteria(), $con)->diff($afWidgetSelectors);
+
+		foreach ($afWidgetSelectors as $afWidgetSelector) {
+			// Fix issue with collection modified by reference
+			if ($afWidgetSelector->isNew()) {
+				$afWidgetSelector->setafWidgetCategory($this);
+			}
+			$this->addafWidgetSelector($afWidgetSelector);
+		}
+
+		$this->collafWidgetSelectors = $afWidgetSelectors;
+	}
+
+	/**
 	 * Returns the number of related afWidgetSelector objects.
 	 *
 	 * @param      Criteria $criteria
@@ -874,8 +1016,7 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 	 * through the afWidgetSelector foreign key attribute.
 	 *
 	 * @param      afWidgetSelector $l afWidgetSelector
-	 * @return     void
-	 * @throws     PropelException
+	 * @return     afWidgetCategory The current object (for fluent API support)
 	 */
 	public function addafWidgetSelector(afWidgetSelector $l)
 	{
@@ -883,9 +1024,19 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 			$this->initafWidgetSelectors();
 		}
 		if (!$this->collafWidgetSelectors->contains($l)) { // only add it if the **same** object is not already associated
-			$this->collafWidgetSelectors[]= $l;
-			$l->setafWidgetCategory($this);
+			$this->doAddafWidgetSelector($l);
 		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	afWidgetSelector $afWidgetSelector The afWidgetSelector object to add.
+	 */
+	protected function doAddafWidgetSelector($afWidgetSelector)
+	{
+		$this->collafWidgetSelectors[]= $afWidgetSelector;
+		$afWidgetSelector->setafWidgetCategory($this);
 	}
 
 	/**
@@ -905,25 +1056,38 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Resets all collections of referencing foreign keys.
+	 * Resets all references to other model objects or collections of model objects.
 	 *
-	 * This method is a user-space workaround for PHP's inability to garbage collect objects
-	 * with circular references.  This is currently necessary when using Propel in certain
-	 * daemon or large-volumne/high-memory operations.
+	 * This method is a user-space workaround for PHP's inability to garbage collect
+	 * objects with circular references (even in PHP 5.3). This is currently necessary
+	 * when using Propel in certain daemon or large-volumne/high-memory operations.
 	 *
-	 * @param      boolean $deep Whether to also clear the references on all associated objects.
+	 * @param      boolean $deep Whether to also clear the references on all referrer objects.
 	 */
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
 			if ($this->collafWidgetSelectors) {
-				foreach ((array) $this->collafWidgetSelectors as $o) {
+				foreach ($this->collafWidgetSelectors as $o) {
 					$o->clearAllReferences($deep);
 				}
 			}
 		} // if ($deep)
 
+		if ($this->collafWidgetSelectors instanceof PropelCollection) {
+			$this->collafWidgetSelectors->clearIterator();
+		}
 		$this->collafWidgetSelectors = null;
+	}
+
+	/**
+	 * Return the string representation of this object
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return (string) $this->exportTo(afWidgetCategoryPeer::DEFAULT_STRING_FORMAT);
 	}
 
 	/**
@@ -931,6 +1095,7 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 	 */
 	public function __call($name, $params)
 	{
+		
 		// symfony_behaviors behavior
 		if ($callable = sfMixer::getCallable('BaseafWidgetCategory:' . $name))
 		{
@@ -938,17 +1103,6 @@ abstract class BaseafWidgetCategory extends BaseObject  implements Persistent
 		  return call_user_func_array($callable, $params);
 		}
 
-		if (preg_match('/get(\w+)/', $name, $matches)) {
-			$virtualColumn = $matches[1];
-			if ($this->hasVirtualColumn($virtualColumn)) {
-				return $this->getVirtualColumn($virtualColumn);
-			}
-			// no lcfirst in php<5.3...
-			$virtualColumn[0] = strtolower($virtualColumn[0]);
-			if ($this->hasVirtualColumn($virtualColumn)) {
-				return $this->getVirtualColumn($virtualColumn);
-			}
-		}
 		return parent::__call($name, $params);
 	}
 

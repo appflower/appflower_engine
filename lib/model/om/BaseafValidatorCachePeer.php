@@ -24,12 +24,15 @@ abstract class BaseafValidatorCachePeer {
 
 	/** the related TableMap class for this table */
 	const TM_CLASS = 'afValidatorCacheTableMap';
-	
+
 	/** The total number of columns. */
 	const NUM_COLUMNS = 5;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
+
+	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
+	const NUM_HYDRATE_COLUMNS = 5;
 
 	/** the column name for the ID field */
 	const ID = 'af_validator_cache.ID';
@@ -46,6 +49,9 @@ abstract class BaseafValidatorCachePeer {
 	/** the column name for the UPDATED_AT field */
 	const UPDATED_AT = 'af_validator_cache.UPDATED_AT';
 
+	/** The default string format for model objects of the related table **/
+	const DEFAULT_STRING_FORMAT = 'YAML';
+
 	/**
 	 * An identiy map to hold any loaded instances of afValidatorCache objects.
 	 * This must be public so that other peer classes can access this when hydrating from JOIN
@@ -55,20 +61,13 @@ abstract class BaseafValidatorCachePeer {
 	public static $instances = array();
 
 
-	// symfony behavior
-	
-	/**
-	 * Indicates whether the current model includes I18N.
-	 */
-	const IS_I18N = false;
-
 	/**
 	 * holds an array of fieldnames
 	 *
 	 * first dimension keys are the type constants
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
-	private static $fieldNames = array (
+	protected static $fieldNames = array (
 		BasePeer::TYPE_PHPNAME => array ('Id', 'Signature', 'Path', 'CreatedAt', 'UpdatedAt', ),
 		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'signature', 'path', 'createdAt', 'updatedAt', ),
 		BasePeer::TYPE_COLNAME => array (self::ID, self::SIGNATURE, self::PATH, self::CREATED_AT, self::UPDATED_AT, ),
@@ -83,7 +82,7 @@ abstract class BaseafValidatorCachePeer {
 	 * first dimension keys are the type constants
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
-	private static $fieldKeys = array (
+	protected static $fieldKeys = array (
 		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Signature' => 1, 'Path' => 2, 'CreatedAt' => 3, 'UpdatedAt' => 4, ),
 		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'signature' => 1, 'path' => 2, 'createdAt' => 3, 'updatedAt' => 4, ),
 		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::SIGNATURE => 1, self::PATH => 2, self::CREATED_AT => 3, self::UPDATED_AT => 4, ),
@@ -225,7 +224,7 @@ abstract class BaseafValidatorCachePeer {
 		return $count;
 	}
 	/**
-	 * Method to select one object from the DB.
+	 * Selects one object from the DB.
 	 *
 	 * @param      Criteria $criteria object used to create the SELECT statement.
 	 * @param      PropelPDO $con
@@ -244,7 +243,7 @@ abstract class BaseafValidatorCachePeer {
 		return null;
 	}
 	/**
-	 * Method to do selects.
+	 * Selects several row from the DB.
 	 *
 	 * @param      Criteria $criteria The Criteria object used to build the SELECT statement.
 	 * @param      PropelPDO $con
@@ -304,7 +303,7 @@ abstract class BaseafValidatorCachePeer {
 	 * @param      afValidatorCache $value A afValidatorCache object.
 	 * @param      string $key (optional) key to use for instance map (for performance boost if key was already calculated externally).
 	 */
-	public static function addInstanceToPool(afValidatorCache $obj, $key = null)
+	public static function addInstanceToPool($obj, $key = null)
 	{
 		if (Propel::isInstancePoolingEnabled()) {
 			if ($key === null) {
@@ -399,7 +398,7 @@ abstract class BaseafValidatorCachePeer {
 	}
 
 	/**
-	 * Retrieves the primary key from the DB resultset row 
+	 * Retrieves the primary key from the DB resultset row
 	 * For tables with a single-column primary key, that simple pkey value will be returned.  For tables with
 	 * a multi-column primary key, an array of the primary key columns will be returned.
 	 *
@@ -459,7 +458,7 @@ abstract class BaseafValidatorCachePeer {
 			// We no longer rehydrate the object, since this can cause data loss.
 			// See http://www.propelorm.org/ticket/509
 			// $obj->hydrate($row, $startcol, true); // rehydrate
-			$col = $startcol + afValidatorCachePeer::NUM_COLUMNS;
+			$col = $startcol + afValidatorCachePeer::NUM_HYDRATE_COLUMNS;
 		} else {
 			$cls = afValidatorCachePeer::OM_CLASS;
 			$obj = new $cls();
@@ -468,6 +467,7 @@ abstract class BaseafValidatorCachePeer {
 		}
 		return array($obj, $col);
 	}
+
 	/**
 	 * Returns the TableMap related to this peer.
 	 * This method is not needed for general use but a specific application could have a need.
@@ -509,7 +509,7 @@ abstract class BaseafValidatorCachePeer {
 	}
 
 	/**
-	 * Method perform an INSERT on the database, given a afValidatorCache or Criteria object.
+	 * Performs an INSERT on the database, given a afValidatorCache or Criteria object.
 	 *
 	 * @param      mixed $values Criteria or afValidatorCache object containing data that is used to create the INSERT statement.
 	 * @param      PropelPDO $con the PropelPDO connection to use
@@ -552,7 +552,7 @@ abstract class BaseafValidatorCachePeer {
 	}
 
 	/**
-	 * Method perform an UPDATE on the database, given a afValidatorCache or Criteria object.
+	 * Performs an UPDATE on the database, given a afValidatorCache or Criteria object.
 	 *
 	 * @param      mixed $values Criteria or afValidatorCache object containing data that is used to create the UPDATE statement.
 	 * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
@@ -591,11 +591,12 @@ abstract class BaseafValidatorCachePeer {
 	}
 
 	/**
-	 * Method to DELETE all rows from the af_validator_cache table.
+	 * Deletes all rows from the af_validator_cache table.
 	 *
+	 * @param      PropelPDO $con the connection to use
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 */
-	public static function doDeleteAll($con = null)
+	public static function doDeleteAll(PropelPDO $con = null)
 	{
 		if ($con === null) {
 			$con = Propel::getConnection(afValidatorCachePeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
@@ -620,7 +621,7 @@ abstract class BaseafValidatorCachePeer {
 	}
 
 	/**
-	 * Method perform a DELETE on the database, given a afValidatorCache or Criteria object OR a primary key value.
+	 * Performs a DELETE on the database, given a afValidatorCache or Criteria object OR a primary key value.
 	 *
 	 * @param      mixed $values Criteria or afValidatorCache object or primary key or array of primary keys
 	 *              which is used to create the DELETE statement
@@ -689,7 +690,7 @@ abstract class BaseafValidatorCachePeer {
 	 *
 	 * @return     mixed TRUE if all columns are valid or the error message of the first invalid column.
 	 */
-	public static function doValidate(afValidatorCache $obj, $cols = null)
+	public static function doValidate($obj, $cols = null)
 	{
 		$columns = array();
 

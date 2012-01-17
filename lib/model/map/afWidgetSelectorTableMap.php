@@ -14,7 +14,8 @@
  *
  * @package    propel.generator.plugins.appFlowerPlugin.lib.model.map
  */
-class afWidgetSelectorTableMap extends TableMap {
+class afWidgetSelectorTableMap extends TableMap
+{
 
 	/**
 	 * The (dot-path) name of this class
@@ -30,7 +31,7 @@ class afWidgetSelectorTableMap extends TableMap {
 	 */
 	public function initialize()
 	{
-	  // attributes
+		// attributes
 		$this->setName('af_widget_selector');
 		$this->setPhpName('afWidgetSelector');
 		$this->setClassname('afWidgetSelector');
@@ -50,13 +51,13 @@ class afWidgetSelectorTableMap extends TableMap {
 	 */
 	public function buildRelations()
 	{
-    $this->addRelation('afWidgetCategory', 'afWidgetCategory', RelationMap::MANY_TO_ONE, array('category_id' => 'id', ), 'CASCADE', null);
+		$this->addRelation('afWidgetCategory', 'afWidgetCategory', RelationMap::MANY_TO_ONE, array('category_id' => 'id', ), 'CASCADE', null);
 	} // buildRelations()
 
 	/**
-	 * 
+	 *
 	 * Gets the list of behaviors registered for this table
-	 * 
+	 *
 	 * @return array Associative array (name => parameters) of behaviors
 	 */
 	public function getBehaviors()

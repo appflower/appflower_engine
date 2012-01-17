@@ -24,12 +24,15 @@ abstract class BaseafPortalStatePeer {
 
 	/** the related TableMap class for this table */
 	const TM_CLASS = 'afPortalStateTableMap';
-	
+
 	/** The total number of columns. */
 	const NUM_COLUMNS = 7;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
+
+	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
+	const NUM_HYDRATE_COLUMNS = 7;
 
 	/** the column name for the ID field */
 	const ID = 'af_portal_state.ID';
@@ -52,6 +55,9 @@ abstract class BaseafPortalStatePeer {
 	/** the column name for the UPDATED_AT field */
 	const UPDATED_AT = 'af_portal_state.UPDATED_AT';
 
+	/** The default string format for model objects of the related table **/
+	const DEFAULT_STRING_FORMAT = 'YAML';
+
 	/**
 	 * An identiy map to hold any loaded instances of afPortalState objects.
 	 * This must be public so that other peer classes can access this when hydrating from JOIN
@@ -61,20 +67,13 @@ abstract class BaseafPortalStatePeer {
 	public static $instances = array();
 
 
-	// symfony behavior
-	
-	/**
-	 * Indicates whether the current model includes I18N.
-	 */
-	const IS_I18N = false;
-
 	/**
 	 * holds an array of fieldnames
 	 *
 	 * first dimension keys are the type constants
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
-	private static $fieldNames = array (
+	protected static $fieldNames = array (
 		BasePeer::TYPE_PHPNAME => array ('Id', 'IdXml', 'UserId', 'LayoutType', 'Content', 'CreatedAt', 'UpdatedAt', ),
 		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'idXml', 'userId', 'layoutType', 'content', 'createdAt', 'updatedAt', ),
 		BasePeer::TYPE_COLNAME => array (self::ID, self::ID_XML, self::USER_ID, self::LAYOUT_TYPE, self::CONTENT, self::CREATED_AT, self::UPDATED_AT, ),
@@ -89,7 +88,7 @@ abstract class BaseafPortalStatePeer {
 	 * first dimension keys are the type constants
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
-	private static $fieldKeys = array (
+	protected static $fieldKeys = array (
 		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'IdXml' => 1, 'UserId' => 2, 'LayoutType' => 3, 'Content' => 4, 'CreatedAt' => 5, 'UpdatedAt' => 6, ),
 		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'idXml' => 1, 'userId' => 2, 'layoutType' => 3, 'content' => 4, 'createdAt' => 5, 'updatedAt' => 6, ),
 		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::ID_XML => 1, self::USER_ID => 2, self::LAYOUT_TYPE => 3, self::CONTENT => 4, self::CREATED_AT => 5, self::UPDATED_AT => 6, ),
@@ -235,7 +234,7 @@ abstract class BaseafPortalStatePeer {
 		return $count;
 	}
 	/**
-	 * Method to select one object from the DB.
+	 * Selects one object from the DB.
 	 *
 	 * @param      Criteria $criteria object used to create the SELECT statement.
 	 * @param      PropelPDO $con
@@ -254,7 +253,7 @@ abstract class BaseafPortalStatePeer {
 		return null;
 	}
 	/**
-	 * Method to do selects.
+	 * Selects several row from the DB.
 	 *
 	 * @param      Criteria $criteria The Criteria object used to build the SELECT statement.
 	 * @param      PropelPDO $con
@@ -314,7 +313,7 @@ abstract class BaseafPortalStatePeer {
 	 * @param      afPortalState $value A afPortalState object.
 	 * @param      string $key (optional) key to use for instance map (for performance boost if key was already calculated externally).
 	 */
-	public static function addInstanceToPool(afPortalState $obj, $key = null)
+	public static function addInstanceToPool($obj, $key = null)
 	{
 		if (Propel::isInstancePoolingEnabled()) {
 			if ($key === null) {
@@ -409,7 +408,7 @@ abstract class BaseafPortalStatePeer {
 	}
 
 	/**
-	 * Retrieves the primary key from the DB resultset row 
+	 * Retrieves the primary key from the DB resultset row
 	 * For tables with a single-column primary key, that simple pkey value will be returned.  For tables with
 	 * a multi-column primary key, an array of the primary key columns will be returned.
 	 *
@@ -469,7 +468,7 @@ abstract class BaseafPortalStatePeer {
 			// We no longer rehydrate the object, since this can cause data loss.
 			// See http://www.propelorm.org/ticket/509
 			// $obj->hydrate($row, $startcol, true); // rehydrate
-			$col = $startcol + afPortalStatePeer::NUM_COLUMNS;
+			$col = $startcol + afPortalStatePeer::NUM_HYDRATE_COLUMNS;
 		} else {
 			$cls = afPortalStatePeer::OM_CLASS;
 			$obj = new $cls();
@@ -478,6 +477,7 @@ abstract class BaseafPortalStatePeer {
 		}
 		return array($obj, $col);
 	}
+
 	/**
 	 * Returns the TableMap related to this peer.
 	 * This method is not needed for general use but a specific application could have a need.
@@ -519,7 +519,7 @@ abstract class BaseafPortalStatePeer {
 	}
 
 	/**
-	 * Method perform an INSERT on the database, given a afPortalState or Criteria object.
+	 * Performs an INSERT on the database, given a afPortalState or Criteria object.
 	 *
 	 * @param      mixed $values Criteria or afPortalState object containing data that is used to create the INSERT statement.
 	 * @param      PropelPDO $con the PropelPDO connection to use
@@ -562,7 +562,7 @@ abstract class BaseafPortalStatePeer {
 	}
 
 	/**
-	 * Method perform an UPDATE on the database, given a afPortalState or Criteria object.
+	 * Performs an UPDATE on the database, given a afPortalState or Criteria object.
 	 *
 	 * @param      mixed $values Criteria or afPortalState object containing data that is used to create the UPDATE statement.
 	 * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
@@ -601,11 +601,12 @@ abstract class BaseafPortalStatePeer {
 	}
 
 	/**
-	 * Method to DELETE all rows from the af_portal_state table.
+	 * Deletes all rows from the af_portal_state table.
 	 *
+	 * @param      PropelPDO $con the connection to use
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 */
-	public static function doDeleteAll($con = null)
+	public static function doDeleteAll(PropelPDO $con = null)
 	{
 		if ($con === null) {
 			$con = Propel::getConnection(afPortalStatePeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
@@ -630,7 +631,7 @@ abstract class BaseafPortalStatePeer {
 	}
 
 	/**
-	 * Method perform a DELETE on the database, given a afPortalState or Criteria object OR a primary key value.
+	 * Performs a DELETE on the database, given a afPortalState or Criteria object OR a primary key value.
 	 *
 	 * @param      mixed $values Criteria or afPortalState object or primary key or array of primary keys
 	 *              which is used to create the DELETE statement
@@ -699,7 +700,7 @@ abstract class BaseafPortalStatePeer {
 	 *
 	 * @return     mixed TRUE if all columns are valid or the error message of the first invalid column.
 	 */
-	public static function doValidate(afPortalState $obj, $cols = null)
+	public static function doValidate($obj, $cols = null)
 	{
 		$columns = array();
 

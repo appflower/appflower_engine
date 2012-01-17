@@ -14,7 +14,8 @@
  *
  * @package    propel.generator.plugins.appFlowerPlugin.lib.model.map
  */
-class afPortalStateTableMap extends TableMap {
+class afPortalStateTableMap extends TableMap
+{
 
 	/**
 	 * The (dot-path) name of this class
@@ -30,7 +31,7 @@ class afPortalStateTableMap extends TableMap {
 	 */
 	public function initialize()
 	{
-	  // attributes
+		// attributes
 		$this->setName('af_portal_state');
 		$this->setPhpName('afPortalState');
 		$this->setClassname('afPortalState');
@@ -55,9 +56,9 @@ class afPortalStateTableMap extends TableMap {
 	} // buildRelations()
 
 	/**
-	 * 
+	 *
 	 * Gets the list of behaviors registered for this table
-	 * 
+	 *
 	 * @return array Associative array (name => parameters) of behaviors
 	 */
 	public function getBehaviors()

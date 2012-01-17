@@ -14,7 +14,8 @@
  *
  * @package    propel.generator.plugins.appFlowerPlugin.lib.model.map
  */
-class afWidgetHelpSettingsTableMap extends TableMap {
+class afWidgetHelpSettingsTableMap extends TableMap
+{
 
 	/**
 	 * The (dot-path) name of this class
@@ -30,7 +31,7 @@ class afWidgetHelpSettingsTableMap extends TableMap {
 	 */
 	public function initialize()
 	{
-	  // attributes
+		// attributes
 		$this->setName('af_widget_help_settings');
 		$this->setPhpName('afWidgetHelpSettings');
 		$this->setClassname('afWidgetHelpSettings');
@@ -39,8 +40,8 @@ class afWidgetHelpSettingsTableMap extends TableMap {
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
 		$this->addColumn('USER_ID', 'UserId', 'INTEGER', false, null, null);
-		$this->addColumn('WIDGET_HELP_IS_ENABLED', 'WidgetHelpIsEnabled', 'BOOLEAN', false, null, true);
-		$this->addColumn('POPUP_HELP_IS_ENABLED', 'PopupHelpIsEnabled', 'BOOLEAN', false, null, true);
+		$this->addColumn('WIDGET_HELP_IS_ENABLED', 'WidgetHelpIsEnabled', 'BOOLEAN', false, 1, true);
+		$this->addColumn('POPUP_HELP_IS_ENABLED', 'PopupHelpIsEnabled', 'BOOLEAN', false, 1, true);
 		$this->addColumn('HELP_TYPE', 'HelpType', 'TINYINT', false, null, 1);
 		$this->addColumn('CREATED_AT', 'CreatedAt', 'TIMESTAMP', false, null, null);
 		$this->addColumn('UPDATED_AT', 'UpdatedAt', 'TIMESTAMP', false, null, null);
@@ -55,9 +56,9 @@ class afWidgetHelpSettingsTableMap extends TableMap {
 	} // buildRelations()
 
 	/**
-	 * 
+	 *
 	 * Gets the list of behaviors registered for this table
-	 * 
+	 *
 	 * @return array Associative array (name => parameters) of behaviors
 	 */
 	public function getBehaviors()

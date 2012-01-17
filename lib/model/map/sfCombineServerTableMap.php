@@ -14,7 +14,8 @@
  *
  * @package    propel.generator.plugins.appFlowerPlugin.lib.model.map
  */
-class sfCombineServerTableMap extends TableMap {
+class sfCombineServerTableMap extends TableMap
+{
 
 	/**
 	 * The (dot-path) name of this class
@@ -30,7 +31,7 @@ class sfCombineServerTableMap extends TableMap {
 	 */
 	public function initialize()
 	{
-	  // attributes
+		// attributes
 		$this->setName('sf_combine_server');
 		$this->setPhpName('sfCombineServer');
 		$this->setClassname('sfCombineServer');
@@ -38,7 +39,7 @@ class sfCombineServerTableMap extends TableMap {
 		$this->setUseIdGenerator(true);
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-		$this->addColumn('ONLINE', 'Online', 'BOOLEAN', false, null, null);
+		$this->addColumn('ONLINE', 'Online', 'BOOLEAN', false, 1, null);
 		// validators
 	} // initialize()
 
@@ -50,9 +51,9 @@ class sfCombineServerTableMap extends TableMap {
 	} // buildRelations()
 
 	/**
-	 * 
+	 *
 	 * Gets the list of behaviors registered for this table
-	 * 
+	 *
 	 * @return array Associative array (name => parameters) of behaviors
 	 */
 	public function getBehaviors()

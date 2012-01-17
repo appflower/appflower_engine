@@ -273,18 +273,26 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 	} // setUserId()
 
 	/**
-	 * Set the value of [widget_help_is_enabled] column.
+	 * Sets the value of the [widget_help_is_enabled] column.
+	 * Non-boolean arguments are converted using the following rules:
+	 *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+	 *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+	 * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
 	 * 
-	 * @param      boolean $v new value
+	 * @param      boolean|integer|string $v The new value
 	 * @return     afWidgetHelpSettings The current object (for fluent API support)
 	 */
 	public function setWidgetHelpIsEnabled($v)
 	{
 		if ($v !== null) {
-			$v = (boolean) $v;
+			if (is_string($v)) {
+				$v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+			} else {
+				$v = (boolean) $v;
+			}
 		}
 
-		if ($this->widget_help_is_enabled !== $v || $this->isNew()) {
+		if ($this->widget_help_is_enabled !== $v) {
 			$this->widget_help_is_enabled = $v;
 			$this->modifiedColumns[] = afWidgetHelpSettingsPeer::WIDGET_HELP_IS_ENABLED;
 		}
@@ -293,18 +301,26 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 	} // setWidgetHelpIsEnabled()
 
 	/**
-	 * Set the value of [popup_help_is_enabled] column.
+	 * Sets the value of the [popup_help_is_enabled] column.
+	 * Non-boolean arguments are converted using the following rules:
+	 *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+	 *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+	 * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
 	 * 
-	 * @param      boolean $v new value
+	 * @param      boolean|integer|string $v The new value
 	 * @return     afWidgetHelpSettings The current object (for fluent API support)
 	 */
 	public function setPopupHelpIsEnabled($v)
 	{
 		if ($v !== null) {
-			$v = (boolean) $v;
+			if (is_string($v)) {
+				$v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+			} else {
+				$v = (boolean) $v;
+			}
 		}
 
-		if ($this->popup_help_is_enabled !== $v || $this->isNew()) {
+		if ($this->popup_help_is_enabled !== $v) {
 			$this->popup_help_is_enabled = $v;
 			$this->modifiedColumns[] = afWidgetHelpSettingsPeer::POPUP_HELP_IS_ENABLED;
 		}
@@ -324,7 +340,7 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 			$v = (int) $v;
 		}
 
-		if ($this->help_type !== $v || $this->isNew()) {
+		if ($this->help_type !== $v) {
 			$this->help_type = $v;
 			$this->modifiedColumns[] = afWidgetHelpSettingsPeer::HELP_TYPE;
 		}
@@ -335,45 +351,18 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 	/**
 	 * Sets the value of [created_at] column to a normalized version of the date/time value specified.
 	 * 
-	 * @param      mixed $v string, integer (timestamp), or DateTime value.  Empty string will
-	 *						be treated as NULL for temporal objects.
+	 * @param      mixed $v string, integer (timestamp), or DateTime value.
+	 *               Empty strings are treated as NULL.
 	 * @return     afWidgetHelpSettings The current object (for fluent API support)
 	 */
 	public function setCreatedAt($v)
 	{
-		// we treat '' as NULL for temporal objects because DateTime('') == DateTime('now')
-		// -- which is unexpected, to say the least.
-		if ($v === null || $v === '') {
-			$dt = null;
-		} elseif ($v instanceof DateTime) {
-			$dt = $v;
-		} else {
-			// some string/numeric value passed; we normalize that so that we can
-			// validate it.
-			try {
-				if (is_numeric($v)) { // if it's a unix timestamp
-					$dt = new DateTime('@'.$v, new DateTimeZone('UTC'));
-					// We have to explicitly specify and then change the time zone because of a
-					// DateTime bug: http://bugs.php.net/bug.php?id=43003
-					$dt->setTimeZone(new DateTimeZone(date_default_timezone_get()));
-				} else {
-					$dt = new DateTime($v);
-				}
-			} catch (Exception $x) {
-				throw new PropelException('Error parsing date/time value: ' . var_export($v, true), $x);
-			}
-		}
-
-		if ( $this->created_at !== null || $dt !== null ) {
-			// (nested ifs are a little easier to read in this case)
-
-			$currNorm = ($this->created_at !== null && $tmpDt = new DateTime($this->created_at)) ? $tmpDt->format('Y-m-d H:i:s') : null;
-			$newNorm = ($dt !== null) ? $dt->format('Y-m-d H:i:s') : null;
-
-			if ( ($currNorm !== $newNorm) // normalized values don't match 
-					)
-			{
-				$this->created_at = ($dt ? $dt->format('Y-m-d H:i:s') : null);
+		$dt = PropelDateTime::newInstance($v, null, 'DateTime');
+		if ($this->created_at !== null || $dt !== null) {
+			$currentDateAsString = ($this->created_at !== null && $tmpDt = new DateTime($this->created_at)) ? $tmpDt->format('Y-m-d H:i:s') : null;
+			$newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
+			if ($currentDateAsString !== $newDateAsString) {
+				$this->created_at = $newDateAsString;
 				$this->modifiedColumns[] = afWidgetHelpSettingsPeer::CREATED_AT;
 			}
 		} // if either are not null
@@ -384,45 +373,18 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 	/**
 	 * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
 	 * 
-	 * @param      mixed $v string, integer (timestamp), or DateTime value.  Empty string will
-	 *						be treated as NULL for temporal objects.
+	 * @param      mixed $v string, integer (timestamp), or DateTime value.
+	 *               Empty strings are treated as NULL.
 	 * @return     afWidgetHelpSettings The current object (for fluent API support)
 	 */
 	public function setUpdatedAt($v)
 	{
-		// we treat '' as NULL for temporal objects because DateTime('') == DateTime('now')
-		// -- which is unexpected, to say the least.
-		if ($v === null || $v === '') {
-			$dt = null;
-		} elseif ($v instanceof DateTime) {
-			$dt = $v;
-		} else {
-			// some string/numeric value passed; we normalize that so that we can
-			// validate it.
-			try {
-				if (is_numeric($v)) { // if it's a unix timestamp
-					$dt = new DateTime('@'.$v, new DateTimeZone('UTC'));
-					// We have to explicitly specify and then change the time zone because of a
-					// DateTime bug: http://bugs.php.net/bug.php?id=43003
-					$dt->setTimeZone(new DateTimeZone(date_default_timezone_get()));
-				} else {
-					$dt = new DateTime($v);
-				}
-			} catch (Exception $x) {
-				throw new PropelException('Error parsing date/time value: ' . var_export($v, true), $x);
-			}
-		}
-
-		if ( $this->updated_at !== null || $dt !== null ) {
-			// (nested ifs are a little easier to read in this case)
-
-			$currNorm = ($this->updated_at !== null && $tmpDt = new DateTime($this->updated_at)) ? $tmpDt->format('Y-m-d H:i:s') : null;
-			$newNorm = ($dt !== null) ? $dt->format('Y-m-d H:i:s') : null;
-
-			if ( ($currNorm !== $newNorm) // normalized values don't match 
-					)
-			{
-				$this->updated_at = ($dt ? $dt->format('Y-m-d H:i:s') : null);
+		$dt = PropelDateTime::newInstance($v, null, 'DateTime');
+		if ($this->updated_at !== null || $dt !== null) {
+			$currentDateAsString = ($this->updated_at !== null && $tmpDt = new DateTime($this->updated_at)) ? $tmpDt->format('Y-m-d H:i:s') : null;
+			$newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
+			if ($currentDateAsString !== $newDateAsString) {
+				$this->updated_at = $newDateAsString;
 				$this->modifiedColumns[] = afWidgetHelpSettingsPeer::UPDATED_AT;
 			}
 		} // if either are not null
@@ -489,7 +451,7 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 7; // 7 = afWidgetHelpSettingsPeer::NUM_COLUMNS - afWidgetHelpSettingsPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 7; // 7 = afWidgetHelpSettingsPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating afWidgetHelpSettings object", $e);
@@ -575,6 +537,8 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 
 		$con->beginTransaction();
 		try {
+			$deleteQuery = afWidgetHelpSettingsQuery::create()
+				->filterByPrimaryKey($this->getPrimaryKey());
 			$ret = $this->preDelete($con);
 			// symfony_behaviors behavior
 			foreach (sfMixer::getCallables('BaseafWidgetHelpSettings:delete:pre') as $callable)
@@ -587,9 +551,7 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 			}
 
 			if ($ret) {
-				afWidgetHelpSettingsQuery::create()
-					->filterByPrimaryKey($this->getPrimaryKey())
-					->delete($con);
+				$deleteQuery->delete($con);
 				$this->postDelete($con);
 				// symfony_behaviors behavior
 				foreach (sfMixer::getCallables('BaseafWidgetHelpSettings:delete:post') as $callable)
@@ -602,7 +564,7 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 			} else {
 				$con->commit();
 			}
-		} catch (PropelException $e) {
+		} catch (Exception $e) {
 			$con->rollBack();
 			throw $e;
 		}
@@ -648,9 +610,8 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 			// symfony_timestampable behavior
 			if ($this->isModified() && !$this->isColumnModified(afWidgetHelpSettingsPeer::UPDATED_AT))
 			{
-			  $this->setUpdatedAt(time());
+				$this->setUpdatedAt(time());
 			}
-
 			if ($isInsert) {
 				$ret = $ret && $this->preInsert($con);
 				// symfony_timestampable behavior
@@ -682,7 +643,7 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 			}
 			$con->commit();
 			return $affectedRows;
-		} catch (PropelException $e) {
+		} catch (Exception $e) {
 			$con->rollBack();
 			throw $e;
 		}
@@ -705,27 +666,15 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
-			if ($this->isNew() ) {
-				$this->modifiedColumns[] = afWidgetHelpSettingsPeer::ID;
-			}
-
-			// If this object has been modified, then save it to the database.
-			if ($this->isModified()) {
+			if ($this->isNew() || $this->isModified()) {
+				// persist changes
 				if ($this->isNew()) {
-					$criteria = $this->buildCriteria();
-					if ($criteria->keyContainsValue(afWidgetHelpSettingsPeer::ID) ) {
-						throw new PropelException('Cannot insert a value for auto-increment primary key ('.afWidgetHelpSettingsPeer::ID.')');
-					}
-
-					$pk = BasePeer::doInsert($criteria, $con);
-					$affectedRows = 1;
-					$this->setId($pk);  //[IMV] update autoincrement primary key
-					$this->setNew(false);
+					$this->doInsert($con);
 				} else {
-					$affectedRows = afWidgetHelpSettingsPeer::doUpdate($this, $con);
+					$this->doUpdate($con);
 				}
-
-				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
+				$affectedRows += 1;
+				$this->resetModified();
 			}
 
 			$this->alreadyInSave = false;
@@ -733,6 +682,110 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 		}
 		return $affectedRows;
 	} // doSave()
+
+	/**
+	 * Insert the row in the database.
+	 *
+	 * @param      PropelPDO $con
+	 *
+	 * @throws     PropelException
+	 * @see        doSave()
+	 */
+	protected function doInsert(PropelPDO $con)
+	{
+		$modifiedColumns = array();
+		$index = 0;
+
+		$this->modifiedColumns[] = afWidgetHelpSettingsPeer::ID;
+		if (null !== $this->id) {
+			throw new PropelException('Cannot insert a value for auto-increment primary key (' . afWidgetHelpSettingsPeer::ID . ')');
+		}
+
+		 // check the columns in natural order for more readable SQL queries
+		if ($this->isColumnModified(afWidgetHelpSettingsPeer::ID)) {
+			$modifiedColumns[':p' . $index++]  = '`ID`';
+		}
+		if ($this->isColumnModified(afWidgetHelpSettingsPeer::USER_ID)) {
+			$modifiedColumns[':p' . $index++]  = '`USER_ID`';
+		}
+		if ($this->isColumnModified(afWidgetHelpSettingsPeer::WIDGET_HELP_IS_ENABLED)) {
+			$modifiedColumns[':p' . $index++]  = '`WIDGET_HELP_IS_ENABLED`';
+		}
+		if ($this->isColumnModified(afWidgetHelpSettingsPeer::POPUP_HELP_IS_ENABLED)) {
+			$modifiedColumns[':p' . $index++]  = '`POPUP_HELP_IS_ENABLED`';
+		}
+		if ($this->isColumnModified(afWidgetHelpSettingsPeer::HELP_TYPE)) {
+			$modifiedColumns[':p' . $index++]  = '`HELP_TYPE`';
+		}
+		if ($this->isColumnModified(afWidgetHelpSettingsPeer::CREATED_AT)) {
+			$modifiedColumns[':p' . $index++]  = '`CREATED_AT`';
+		}
+		if ($this->isColumnModified(afWidgetHelpSettingsPeer::UPDATED_AT)) {
+			$modifiedColumns[':p' . $index++]  = '`UPDATED_AT`';
+		}
+
+		$sql = sprintf(
+			'INSERT INTO `af_widget_help_settings` (%s) VALUES (%s)',
+			implode(', ', $modifiedColumns),
+			implode(', ', array_keys($modifiedColumns))
+		);
+
+		try {
+			$stmt = $con->prepare($sql);
+			foreach ($modifiedColumns as $identifier => $columnName) {
+				switch ($columnName) {
+					case '`ID`':
+						$stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+						break;
+					case '`USER_ID`':
+						$stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
+						break;
+					case '`WIDGET_HELP_IS_ENABLED`':
+						$stmt->bindValue($identifier, (int) $this->widget_help_is_enabled, PDO::PARAM_INT);
+						break;
+					case '`POPUP_HELP_IS_ENABLED`':
+						$stmt->bindValue($identifier, (int) $this->popup_help_is_enabled, PDO::PARAM_INT);
+						break;
+					case '`HELP_TYPE`':
+						$stmt->bindValue($identifier, $this->help_type, PDO::PARAM_INT);
+						break;
+					case '`CREATED_AT`':
+						$stmt->bindValue($identifier, $this->created_at, PDO::PARAM_STR);
+						break;
+					case '`UPDATED_AT`':
+						$stmt->bindValue($identifier, $this->updated_at, PDO::PARAM_STR);
+						break;
+				}
+			}
+			$stmt->execute();
+		} catch (Exception $e) {
+			Propel::log($e->getMessage(), Propel::LOG_ERR);
+			throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), $e);
+		}
+
+		try {
+			$pk = $con->lastInsertId();
+		} catch (Exception $e) {
+			throw new PropelException('Unable to get autoincrement id.', $e);
+		}
+		$this->setId($pk);
+
+		$this->setNew(false);
+	}
+
+	/**
+	 * Update the row in the database.
+	 *
+	 * @param      PropelPDO $con
+	 *
+	 * @see        doSave()
+	 */
+	protected function doUpdate(PropelPDO $con)
+	{
+		$selectCriteria = $this->buildPkeyCriteria();
+		$valuesCriteria = $this->buildCriteria();
+		BasePeer::doUpdate($selectCriteria, $valuesCriteria, $con);
+	}
 
 	/**
 	 * Array of ValidationFailed objects.
@@ -869,11 +922,16 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 	 *                    BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM.
 	 *                    Defaults to BasePeer::TYPE_PHPNAME.
 	 * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
+	 * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
 	 *
 	 * @return    array an associative array containing the field names (as keys) and field values
 	 */
-	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true)
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
 	{
+		if (isset($alreadyDumpedObjects['afWidgetHelpSettings'][$this->getPrimaryKey()])) {
+			return '*RECURSION*';
+		}
+		$alreadyDumpedObjects['afWidgetHelpSettings'][$this->getPrimaryKey()] = true;
 		$keys = afWidgetHelpSettingsPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
@@ -1041,19 +1099,21 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 	 *
 	 * @param      object $copyObj An object of afWidgetHelpSettings (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
 	 * @throws     PropelException
 	 */
-	public function copyInto($copyObj, $deepCopy = false)
+	public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
 	{
-		$copyObj->setUserId($this->user_id);
-		$copyObj->setWidgetHelpIsEnabled($this->widget_help_is_enabled);
-		$copyObj->setPopupHelpIsEnabled($this->popup_help_is_enabled);
-		$copyObj->setHelpType($this->help_type);
-		$copyObj->setCreatedAt($this->created_at);
-		$copyObj->setUpdatedAt($this->updated_at);
-
-		$copyObj->setNew(true);
-		$copyObj->setId(NULL); // this is a auto-increment column, so set to default value
+		$copyObj->setUserId($this->getUserId());
+		$copyObj->setWidgetHelpIsEnabled($this->getWidgetHelpIsEnabled());
+		$copyObj->setPopupHelpIsEnabled($this->getPopupHelpIsEnabled());
+		$copyObj->setHelpType($this->getHelpType());
+		$copyObj->setCreatedAt($this->getCreatedAt());
+		$copyObj->setUpdatedAt($this->getUpdatedAt());
+		if ($makeNew) {
+			$copyObj->setNew(true);
+			$copyObj->setId(NULL); // this is a auto-increment column, so set to default value
+		}
 	}
 
 	/**
@@ -1116,13 +1176,13 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 	}
 
 	/**
-	 * Resets all collections of referencing foreign keys.
+	 * Resets all references to other model objects or collections of model objects.
 	 *
-	 * This method is a user-space workaround for PHP's inability to garbage collect objects
-	 * with circular references.  This is currently necessary when using Propel in certain
-	 * daemon or large-volumne/high-memory operations.
+	 * This method is a user-space workaround for PHP's inability to garbage collect
+	 * objects with circular references (even in PHP 5.3). This is currently necessary
+	 * when using Propel in certain daemon or large-volumne/high-memory operations.
 	 *
-	 * @param      boolean $deep Whether to also clear the references on all associated objects.
+	 * @param      boolean $deep Whether to also clear the references on all referrer objects.
 	 */
 	public function clearAllReferences($deep = false)
 	{
@@ -1132,10 +1192,21 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 	}
 
 	/**
+	 * Return the string representation of this object
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return (string) $this->exportTo(afWidgetHelpSettingsPeer::DEFAULT_STRING_FORMAT);
+	}
+
+	/**
 	 * Catches calls to virtual methods
 	 */
 	public function __call($name, $params)
 	{
+		
 		// symfony_behaviors behavior
 		if ($callable = sfMixer::getCallable('BaseafWidgetHelpSettings:' . $name))
 		{
@@ -1143,17 +1214,6 @@ abstract class BaseafWidgetHelpSettings extends BaseObject  implements Persisten
 		  return call_user_func_array($callable, $params);
 		}
 
-		if (preg_match('/get(\w+)/', $name, $matches)) {
-			$virtualColumn = $matches[1];
-			if ($this->hasVirtualColumn($virtualColumn)) {
-				return $this->getVirtualColumn($virtualColumn);
-			}
-			// no lcfirst in php<5.3...
-			$virtualColumn[0] = strtolower($virtualColumn[0]);
-			if ($this->hasVirtualColumn($virtualColumn)) {
-				return $this->getVirtualColumn($virtualColumn);
-			}
-		}
 		return parent::__call($name, $params);
 	}
 
