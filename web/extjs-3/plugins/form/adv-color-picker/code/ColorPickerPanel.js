@@ -89,32 +89,31 @@ Ext.ux.Radio = {
  * @param {Object} config The config object
  */
 
-Ext.ux.color.ColorPickerPanel = function() 
-{
+Ext.ux.color.ColorPickerPanel = function() {
 	this.modeFields = {};
 	this.preloads = [];
 	Ext.ux.color.ColorPickerPanel.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel, 
-{
-	width: 400,
-	height: 305,
-	hex: "FF0000",
+Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel, {
+    width : 400,
+
+    height : 305,
 	
-	mode: 'saturation',
+    hex : "FF0000",
 	
-	baseCls: 'x-color-picker x-panel',
-	iconCls: 'x-color-wheel',
+    mode : 'saturation',
+	
+    baseCls : 'x-color-picker x-panel',
+	
+    iconCls : 'x-color-wheel',
 	
 	/**
 	 * @cfg {String} imagePath The path to images folder (defaults to "/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/")
-	 * @type String
 	 */
 	imagePath : "/appFlowerPlugin/extjs-3/plugins/form/adv-color-picker/images/",
 	
-	images: 
-	[
+	images : [
 		'bar-blue-bl',
 		'bar-blue-br',
 		'bar-blue-tl',
@@ -141,8 +140,8 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 		'map-saturation-overlay'
 	],
 	
-	modes: {
-		red: {
+	modes : {
+        red: {
 			name: 'red',
 			abbr: 'R',
 			min: 0, 
@@ -165,7 +164,7 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 			abbr: 'H',
 			min: 0, 
 			max: 359,
-			unit: '�'
+			unit: '%'
 		},
 		saturation: {
 			name: 'saturation',
@@ -182,25 +181,60 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 		}
 	},
 	
-	write: function(mode, value) 
-	{
-		var field = this.modeFields[mode.name],
+    /**
+     * Ext template method.
+     * @override
+     * @private
+     */
+    initComponent : function() {
+        if (this.frame) {
+            this.width = 410;
+            this.height = 310;
+        }
+        this.preloadImages();
+        
+        Ext.ux.color.ColorPickerPanel.superclass.initComponent.apply(this, arguments);
+        
+        this.color = new Ext.ux.color.Color();
+        this.color.setHex(this.hex);
+    },
+    
+    /**
+     * Ext template method.
+     * @override
+     * @private
+     */
+    onRender : function() {
+        if (this.el) {
+            Ext.ux.color.ColorPickerPanel.superclass.onRender.apply(this, arguments);
+            
+            this.initMarkup();
+            this.initLayers();
+            this.initConsole();
+            this.initMap();
+            this.initSlider();
+            this.writeToConsole();
+            this.setMode(this.mode);
+        }
+    },
+    
+	write : function(mode, value) {
+        var field = this.modeFields[mode.name],
 			val = parseInt(value, 10);
 			
-		val = val.constrain(mode.min, mode.max)
-		field.setRawValue(val.toString().replace(new RegExp(mode.unit||''), '') + (mode.unit||''));
+		val = val.constrain(mode.min, mode.max);
+		field.setRawValue(val.toString().replace(new RegExp(mode.unit || ''), '') + (mode.unit || ''));
 	},
 	 
-	isRgb:function(mode) 
-	{
+	isRgb : function(mode) {
 		 return !('red green blue rgb'.indexOf(mode.name) === -1);
 	},
-	isHsv: function(mode)
-	{
+    
+	isHsv : function(mode) {
 		return !('hue saturation brightness hsv'.indexOf(mode.name) === -1)
 	},
 	
-	setFromConsole: function(mode) {
+	setFromConsole : function(mode) {
 		if (this.isRgb({name:mode})) {
 			this.color.setRgb({
 				red: this.modeFields.red.getValue(),
@@ -208,8 +242,8 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 				blue: this.modeFields.blue.getValue()
 			});
 			this.writeToConsole('Hsv');
-		}
-		else {
+            
+		} else {
 			this.color.setHsv({
 				hue: this.modeFields.hue.getValue(),
 				saturation: this.modeFields.saturation.getValue(),
@@ -219,26 +253,26 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 		}
 	},
 	
-	setFromTrack: function(y) {
+	setFromTrack : function(y) {
 		switch(this.mode) {
 			case 'hue':
-				this.write(this.modes.hue, 360 - (y/255) * 360);
+				this.write(this.modes.hue, 360 - (y / 255) * 360);
 				break;
 			case 'saturation':
-				this.write(this.modes.saturation, 100 - (y/255) * 100);
+				this.write(this.modes.saturation, 100 - (y / 255) * 100);
 				break;
 			case 'brightness':
 				this.write(this.modes.brightness, 100 - (y / 255) * 100);
 				break;
 				
 			case 'red':
-				this.write(this.modes.red, 255 - (y/255) * 255);
+				this.write(this.modes.red, 255 - (y / 255) * 255);
 				break;
 			case 'green':
-				this.write(this.modes.green, 255 - (y/255) * 255);
+				this.write(this.modes.green, 255 - (y / 255) * 255);
 				break;
 			case 'blue':
-				this.write(this.modes.blue, 255 - (y/255) * 255);
+				this.write(this.modes.blue, 255 - (y / 255) * 255);
 				break;				
 		}
 		
@@ -309,9 +343,9 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 		this.paint();	
 	},
 	
-	writeToConsole: function(group) {
+	writeToConsole : function(group) {
 		var slot, mode;
-		for(slot in this.modes) {
+		for (slot in this.modes) {
 			mode = this.modes[slot];
 			if ((group && this['is' + group](mode)) || !group) {
 				this.write(mode, this.color[mode.name]);
@@ -321,8 +355,7 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 		this.hex.setValue(this.color.hex);
 	},
 	
-	setMode: function(name) 
-	{
+	setMode : function(name) {
 		this.mode = name;
 		Ext.each(this.layers.map.concat(this.layers.track), function(layer) 
 		{
@@ -379,7 +412,7 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 	greenMode: function() { this.colorMode('green'); },
 	blueMode: function() { this.colorMode('blue'); },
 	
-	colorMode: function(color) {
+	colorMode : function(color) {
 		this.setClass(this.layers.map[1], 'map-'+color+'-max');
 		this.setClass(this.layers.map[0], 'map-'+color+'-min');
 		
@@ -389,35 +422,7 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 		this.setClass(this.layers.track[0], 'bar-'+color+'-bl');	
 	},
 	
-	onRender: function() 
-	{
-		if (this.el) 
-		{
-			Ext.ux.color.ColorPickerPanel.superclass.onRender.apply(this, arguments);
-			this.initMarkup();
-			this.initLayers();
-			this.initConsole();
-			this.initMap();
-			this.initSlider();
-			this.writeToConsole();
-			this.setMode(this.mode);
-		}
-	},
-	
-	initComponent: function() 
-	{
-		if (this.frame) {
-			this.width = 410;
-			this.height = 310;
-		}
-		this.preloadImages();
-		Ext.ux.color.ColorPickerPanel.superclass.initComponent.apply(this, arguments);
-		this.color = new Ext.ux.color.Color();
-		this.color.setHex(this.hex);
-	},
-	
-	initMarkup: function() 
-	{
+	initMarkup : function() {
 			this.body.dom.innerHTML += [
 				'<div class="x-map">',
 					'<div class="x-layer"></div>',
@@ -445,8 +450,7 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 			].join('');
 	},
 	
-	initConsole: function() 
-	{
+	initConsole : function() {
 		var _console = this.body.first('.x-console'),
 			radio,
 			group = Ext.id(),
@@ -511,7 +515,6 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 				
 				that.modeFields[mode.name].el.on({
 					'click': function(event){
-//						console.warn("STUB");
 					}
 				});
 			})(that.modes[slot])
@@ -539,9 +542,9 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 			text: 'Ok'						
 		});
 	},
+    //eo initConsole
 	
-	initMap: function() 
-	{
+	initMap : function() {
 		var that = this;
 		var map = this.body.first('.x-map');
 		map.dom.id = Ext.id();
@@ -584,8 +587,7 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 		});
 	},
 	
-	initSlider: function() 
-	{
+	initSlider: function() {
 		var that = this;
 		
 		var track = this.body.first('.x-track');
@@ -622,24 +624,21 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 		});
 	},
 	
-	setAlpha: function(layer, value) 
-	{
+	setAlpha : function(layer, value) {
 		Ext.fly(layer).setOpacity(value/100);
 	},
 	
-	setClass: function(layer, name) 
-	{
+	setClass : function(layer, name) {
 		layer.className = 'x-layer ' + name;
 	},
-	setBackground: function(layer, hex) 
-	{
+    
+	setBackground : function(layer, hex) {
 		Ext.fly(layer).setStyle({
 			backgroundColor: (hex==null ? 'transparent' : "#" + hex)
 		});
 	},
 	
-	initLayers: function() 
-	{
+	initLayers : function() {
 		this.layers = {
 			track: this.body.query('.x-track > .x-layer'),
 			map: this.body.query('.x-map > .x-layer')
@@ -657,16 +656,14 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 		}, this);
 	},
 	
-	paint: function() 
-	{
+	paint : function() {
 		this.paintMap();
 		this.paintTrack();
 		this.paintPreview();
 //		this.paintSliders();
 	},
 	
-	paintMap: function() 
-	{
+	paintMap : function() {
 		switch(this.mode) {
 			case 'hue':
 				// fake color with only hue
@@ -697,8 +694,7 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 		}
 	},
 	
-	paintTrack: function() 
-	{
+	paintTrack : function() {
 		switch(this.mode) {
 			case 'hue':
 				break;
@@ -750,13 +746,11 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 		}	
 	},
 	
-	paintPreview: function() 
-	{
+	paintPreview : function() {
 		this.setBackground(this.preview, this.color.hex);
 	},
 	
-	paintSliders: function()
-	{
+	paintSliders : function() {
 		var sliderValue = 0,
 			sliderValues = {
 				hue: 360, 
@@ -834,4 +828,5 @@ Ext.extend(Ext.ux.color.ColorPickerPanel, Ext.Panel,
 //		console.log(mapLeft, mapTop)
 		
 	}
+    //eo paintSliders
 });

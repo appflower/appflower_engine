@@ -15,8 +15,7 @@ var color_field = new Ext.ux.ColorField({
 </code></pre>
 * @param {Object} config
  */
-
-Ext.ux.ColorField = Ext.extend(Ext.form.TriggerField,  {
+Ext.ux.ColorField = Ext.extend(Ext.form.TriggerField, {
 	valueVisible : true,
 	
     /**
@@ -25,6 +24,7 @@ Ext.ux.ColorField = Ext.extend(Ext.form.TriggerField,  {
      * '{value} is not a valid color - it must be in the format {format}').
      */
     invalidText : "'{0}' is not a valid color - it must be in a the hex format (# followed by 3 or 6 letters/numbers 0-9 A-F)",
+    
     /**
      * @cfg {String} triggerClass
      * An additional CSS class used to style the trigger button.  The trigger will always get the
@@ -32,6 +32,7 @@ Ext.ux.ColorField = Ext.extend(Ext.form.TriggerField,  {
      * which displays a color wheel icon).
      */
     triggerClass : 'x-form-color-trigger',
+    
     /**
      * @cfg {String/Object} autoCreate
      * A DomHelper element spec, or true for a default element spec (defaults to
@@ -42,42 +43,131 @@ Ext.ux.ColorField = Ext.extend(Ext.form.TriggerField,  {
     defaultAutoCreate : {tag: "input", type: "text", size: "10", maxlength: "7", autocomplete: "off"},
 
     // Limit input to hex values
-	maskRe: /[#a-f0-9]/i,
+	maskRe : /[#a-f0-9]/i,
+    
+    /**
+     * @cfg {Boolean} lazyInit <tt>true</tt> to not initialize the color-picker for this color-field 
+     * until the trigger button was clicked (defaults to <tt>true</tt>)
+     */
+    lazyInit : true,
 	
-	initComponent: function(){
-    	if(Ext.getBody().first(".x-color-picker")) return;
-    	if(!this.picker){
-    		elem = new Ext.Element(document.createElement('div'));
-    		elem.setXY([-500,-500]);
-    		Ext.getBody().appendChild(elem);
-			this.picker = new Ext.ux.color.ColorPickerPanel({
-                applyTo: elem,
-                hex:"ffffff",
-                mode:'hue'                
-            });	
-			Ext.getBody().first(".x-color-picker").setStyle({
-				display:"none"
-			})
-            this.picker = null;
-		}
+    /**
+     * @property picker The color-picker
+     * @type {Ext.ux.color.ColorPickerPanel}
+     */
+    
+    /**
+     * Ext template method.
+     * @override
+     * @private
+     */
+    initComponent : function() {
+        Ext.ux.ColorField.superclass.initComponent.call(this);
+        
+        this.addEvents(
+            /**
+             * @event expand Fires when the color-picker is expanded
+             * @param {Ext.form.ComboBox} color-picker
+             */
+            'expand',
+            /**
+             * @event collapse Fires when the color-picker is collapsed
+             * @param {Ext.form.ComboBox} color-picker
+             */
+            'collapse'
+        );
     },
+    
+    /**
+     * Ext template method.
+     * @override
+     * @private
+     */
+    onRender : function(ct, position){
+        Ext.ux.ColorField.superclass.onRender.call(this, ct, position);
+        
+        if (!this.lazyInit) {
+            this.initPicker();
+        }
+    },
+
+    /**
+     * @override
+     * @private
+     */
+    onDestroy : function(){
+        Ext.destroy(this.picker);
+        
+        Ext.ux.ColorField.superclass.onDestroy.call(this);
+    },
+    
+    /**
+     * Inits the color-picker {@link #}.
+     * @private
+     */
+    initPicker : function() {
+        if (!this.picker) {
+            var val = this.getValue();
+        
+			var spec = {
+			    tag: 'div', 
+			    style: {
+			        position: 'absolute',
+			        'z-index': '10000'
+			    }
+			};
+        
+            var pickerdiv = Ext.DomHelper.append(Ext.getBody(), spec);
+            
+			this.picker = new Ext.ux.color.ColorPickerPanel({
+			    applyTo: pickerdiv,
+			    hex: val.replace('#', ''),
+			    mode: 'hue',
+                hidden: true
+			});
+            
+            this.mon(this.picker.okButton, 'click', this.pickColor, this);
+        }
+    },    
+    
+    /**
+     * Picks up selected color from the color-picker.
+     * @private
+     */
+    pickColor : function() {
+        this.setValue(this.picker.hex.getValue());
+        this.collapse();
+    },
+    
+    /**
+     * Returns true if the color-picker is expanded, else false.
+     * @return {Boolean}
+     */
+    isExpanded : function() {
+        return this.picker && this.picker.isVisible();
+    },
+    
     // private
     validateValue : function(value){    	
-        if(!Ext.ux.ColorField.superclass.validateValue.call(this, value)){
+        if (!Ext.ux.ColorField.superclass.validateValue.call(this, value)) {
             return false;
         }
-        if(value.length < 1){ // if it's blank and textfield didn't flag it then it's valid
+        
+        // if it's blank and textfield didn't flag it then it's valid
+        if (value.length < 1) { 
         	 this.setColor('');
         	 return true;
         }
 
         var parseOK = this.parseColor(value);
 
-        if(!value || (parseOK == false)){
-            this.markInvalid(String.format(this.invalidText,value));
+        if (!value || (parseOK == false)) {
+            this.markInvalid(String.format(this.invalidText, value));
             return false;
         }
+        
 		this.setColor(value);
+        
         return true;
     },
 
@@ -86,155 +176,135 @@ Ext.ux.ColorField = Ext.extend(Ext.form.TriggerField,  {
 	 * Does *not* change the value of the field.
 	 * @param {String} hex The color value.
 	 */
-	setColor : function(color) {    	
-		if (color=='' || color==undefined)
-		{
-			if (this.emptyText!='' && this.parseColor(this.emptyText))
-				color=this.emptyText;
-			else
-				color='transparent';
+	setColor : function(color) {
+		if (color == '' || color == undefined) {
+            color = (this.emptyText != '' && this.parseColor(this.emptyText)) ? this.emptyText : 'transparent';  
 		}
-		if (this.trigger){
-			if(this.valueVisible){
-				this.trigger.setStyle( {
-					'background-color': color
+        
+		if (this.trigger) {
+			if (this.valueVisible) {
+				this.trigger.setStyle({
+				    'background-color': color
 				});
-			}else{
-				this.getEl().dom.style.backgroundColor=color;				
+			} else {
+				this.getEl().dom.style.backgroundColor = color;				
 			}
-			this.getEl().setStyle({
-				'background-color':color
-			})			
-		}
-		else
-		{
-			this.on('render',function(){
-				this.setColor(color);				
-			},this);
+            
+			this.getEl().setStyle({'background-color': color});
+            
+		} else {
+			this.on('render', function(){
+				this.setColor(color);
+			}, this);
 		}
 	},
 	
-    // private
-    // Provides logic to override the default TriggerField.validateBlur which just returns true
-    validateBlur : function(){
-       // return !this.menu || !this.menu.isVisible();
-    },
-
     /**
-     * Returns the current value of the color field
-     * @return {String} value The color value
-     */
-    getValue : function(){
-        return Ext.ux.ColorField.superclass.getValue.call(this) || "";
-    },
-
-    /**
-     * Sets the value of the color field.  You can pass a string that can be parsed into a valid HTML color
-     * <br />Usage:
+     * Sets the value of the color field.  
+     * You can pass a string that can be parsed into a valid HTML color,
+     * i.e: 
      * <pre><code>
-		colorField.setValue('#FFFFFF');
-       </code></pre>
+     * colorField.setValue('#FFFFFF'); 
+     * </code></pre>
      * @param {String} color The color string
      */
-    setValue : function(color){
-    	
-    	//this.getEl().dom.style.fontSize = this.valueVisible?"":"font-size:0px"
-    	
+    setValue : function(color) {
         Ext.ux.ColorField.superclass.setValue.call(this, this.formatColor(color));
-		this.setColor( this.formatColor(color));
+		this.setColor(this.formatColor(color));
     },
 
     // private
-    parseColor : function(value){
-		return (!value || (value.substring(0,1) != '#')) ?
-			false : (value.length==4 || value.length==7 );
+    parseColor : function(value) {
+		return (!value || (value.substring(0, 1) != '#')) 
+                ? false : (value.length == 4 || value.length == 7 );
     },
 
     // private
-    formatColor : function(value){
-		if (!value || this.parseColor(value))
+    formatColor : function(value) {
+		if (!value || this.parseColor(value)) {
 			return value;
-		if (value.length==3 || value.length==6) {
+        }
+		if (value.length == 3 || value.length == 6) {
 			return '#' + value;
 		}
+        
         return '';
     },
 
-    // private
-    menuListeners : {
-        select: function(e, c){
-            this.setValue(c);
-        },
-        show : function(){ // retain focus styling
-            this.onFocus();
-        },
-        hide : function(){
-            this.focus.defer(10, this);
-            var ml = this.menuListeners;
-            this.menu.un("select", ml.select,  this);
-            this.menu.un("show", ml.show,  this);
-            this.menu.un("hide", ml.hide,  this);
-        }
-    },
-
-    // private
-    // Implements the default empty TriggerField.onTriggerClick function to display the ColorPalette
-    onTriggerClick : function(e){ 
-    	e.stopEvent();
-    	var Pheight = e.getPageY(),Pwidth=e.getPageX();
-        Pheight = this.getBox().y;
-        Pwidth = this.getBox().x;
-        if(this.disabled){
+    /**
+     * Hides the color-picker if it is currently expanded. 
+     * Fires the {@link #collapse} event on completion.
+     * @protected
+     */
+    collapse : function(){
+        if (!this.isExpanded()) {
             return;
         }
-        var el = this.wrap.dom.id
-       
-        if(this.picker == null)
-        { 
-            var w = document.body.clientWidth;
-            var h = document.body.clientHeight;           
-            var boxHeight = this.getBox().height;            
-            if(Pheight > h-310){
-               Pheight = Pheight-285;
-               boxHeight = -boxHeight;
-            }           
-            if(Pwidth > w-400){
-                Pwidth = Pwidth-400+this.getBox().width;
-            }
-            Pheight+=boxHeight;
-           
-            var val = this.getValue();           
-            this.pickerdiv = Ext.DomHelper.append(Ext.getBody(),{tag:"div",style:{position:'absolute',top:Pheight+"px",left:Pwidth+"px",width:'400px',height:'310px'}});
-            this.pickerdiv.style.zIndex = "10000"
-            this.picker = new Ext.ux.color.ColorPickerPanel({
-                applyTo: this.pickerdiv,
-                hex:val.replace("#",""),
-                mode:'hue'
-            });
-            this.picker.okButton.on('click',function(){
-                this.setValue(this.picker.hex.getValue());
-                this.pickerdiv.style.display="none";
-                this.picker = null;
-            },this) 
+        
+        this.picker.hide();
+        
+        Ext.getDoc().un('mousewheel', this.collapseIf, this);
+        Ext.getDoc().un('mousedown', this.collapseIf, this);
+        
+        this.fireEvent('collapse', this);
+    },    
+    
+    /**
+     * @private
+     * @param {EventObject} e
+     */
+    collapseIf : function(e) {
+        if (!this.isDestroyed && !e.within(this.wrap) && !e.within(this.picker.el)) {
+            this.collapse();
         }
-        else
-        {
-            this.pickerdiv.style.display="none";
-            this.picker=null;
-          
+    },    
+    
+    /**
+     * Expands the color-picker if it is currently hidden. 
+     * Fires the {@link #expand} event on completion.
+     * @protected
+     */
+    expand : function() {
+        if (this.isExpanded()) {
+            return;
         }
-        Ext.getBody().un("mousedown");
-        Ext.getBody().on("mousedown",function(){
-        	if(e.getPageY() >= Pheight && e.getPageY() <= Pheight+310 && e.getPageX() >= Pwidth && e.getPageX() <= Pwidth+400){
-        		return;
-        	}
-        	if(this.picker){
-        		this.pickerdiv.style.display="none";
-        		this.picker=null;
-        	}
-        	
-        },this)
+
+        this.picker.show();
+        this.picker.el.alignTo(this.el, 'bl-tl?');
+        
+        this.mon(Ext.getDoc(), {
+            scope: this,
+            mousewheel: this.collapseIf,
+            mousedown: this.collapseIf
+        });
+        
+        this.fireEvent('expand', this);
+    },
+    
+    /**
+     * Displays the ColorPalette.
+     * @override {@link Ext.form.TriggerField#onTriggerClick}
+     * @protected
+     * @param {EventObject} e
+     */
+    onTriggerClick : function(e) { 
+        if (this.readOnly || this.disabled) {
+            return;
+        }
+        
+        this.initPicker();
+        
+        if (this.isExpanded()) {
+            this.collapse();
+            this.el.focus();
+        } else {
+            this.onFocus();
+            this.expand();
+        }
     }
 });
 
-Ext.reg('colorfield',Ext.ux.ColorField);
+/**
+ * @type colorfield
+ */
+Ext.reg('colorfield', Ext.ux.ColorField);
