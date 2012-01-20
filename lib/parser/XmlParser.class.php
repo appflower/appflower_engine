@@ -133,7 +133,7 @@ class XmlParser extends XmlParserTools {
 		$this->user = $this->context->getUser();
 		
 		// Add JS file list 
-		$this->loadJSFilesList();
+		//$this->loadJSFilesList();
 		
 		// Action attributes..
 		

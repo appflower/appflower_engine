@@ -127,7 +127,7 @@ EOF;
 	$handle = @fopen($this->result,"wr");
   		
 	if(!$handle) {
-		throw new Exception("Unable to write result file!");
+		throw new Exception("Unable to write result file ".$this->result."!");
 	}
 	
 	$data = serialize($this->files);
