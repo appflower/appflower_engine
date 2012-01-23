@@ -8,6 +8,8 @@ all:
     siteSecret: CHANGE_ME
     desktopBackgroundColor: '#3d71b8'
     desktopBackgroundImage: '/appFlowerPlugin/extjs-3/plugins/desktop/wallpapers/desktop.jpg'
+    # if you need you can disable all calls to chmod here - by default they are enabled
+    #chmod_enabled: true
   
   parser:
     panels:
