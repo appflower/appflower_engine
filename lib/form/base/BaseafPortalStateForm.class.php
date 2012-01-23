@@ -24,7 +24,7 @@ abstract class BaseafPortalStateForm extends BaseFormPropel
     ));
 
     $this->setValidators(array(
-      'id'          => new sfValidatorPropelChoice(array('model' => 'afPortalState', 'column' => 'id', 'required' => false)),
+      'id'          => new sfValidatorChoice(array('choices' => array($this->getObject()->getId()), 'empty_value' => $this->getObject()->getId(), 'required' => false)),
       'id_xml'      => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'user_id'     => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647, 'required' => false)),
       'layout_type' => new sfValidatorString(array('max_length' => 255, 'required' => false)),

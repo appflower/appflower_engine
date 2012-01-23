@@ -199,6 +199,17 @@ class afExtjsFieldCombo extends afExtjsField
 					    $this->attributes['url'] = '/appFlower/autocompleter';
 					}
 					$this->attributes['store'] = '[]';
+					/**
+					 * example of i:value for autocompleter
+					 * <i:value type="orm">
+                            <i:class>ModelCriteriaFetcher</i:class>
+                            <i:method name="getDataForComboWidget">
+                                <i:param name="modelName">TicketType</i:param>
+                                <i:param name="lookupIn">Name</i:param>
+                            </i:method>
+                        </i:value>
+					 */
+					if(isset($parsedData['value']))
 					$this->attributes['storeParams'] = $parsedData['value'];
 			}
 			if($attributes['plugin'] == 'fontfield'){

@@ -19,7 +19,7 @@ abstract class BasesfCombineForm extends BaseFormPropel
     ));
 
     $this->setValidators(array(
-      'assets_key' => new sfValidatorPropelChoice(array('model' => 'sfCombine', 'column' => 'assets_key', 'required' => false)),
+      'assets_key' => new sfValidatorChoice(array('choices' => array($this->getObject()->getAssetsKey()), 'empty_value' => $this->getObject()->getAssetsKey(), 'required' => false)),
       'files'      => new sfValidatorString(),
     ));
 

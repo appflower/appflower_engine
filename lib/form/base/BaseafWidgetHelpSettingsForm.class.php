@@ -24,7 +24,7 @@ abstract class BaseafWidgetHelpSettingsForm extends BaseFormPropel
     ));
 
     $this->setValidators(array(
-      'id'                     => new sfValidatorPropelChoice(array('model' => 'afWidgetHelpSettings', 'column' => 'id', 'required' => false)),
+      'id'                     => new sfValidatorChoice(array('choices' => array($this->getObject()->getId()), 'empty_value' => $this->getObject()->getId(), 'required' => false)),
       'user_id'                => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647, 'required' => false)),
       'widget_help_is_enabled' => new sfValidatorBoolean(array('required' => false)),
       'popup_help_is_enabled'  => new sfValidatorBoolean(array('required' => false)),

@@ -22,7 +22,7 @@ abstract class BaseafValidatorCacheForm extends BaseFormPropel
     ));
 
     $this->setValidators(array(
-      'id'         => new sfValidatorPropelChoice(array('model' => 'afValidatorCache', 'column' => 'id', 'required' => false)),
+      'id'         => new sfValidatorChoice(array('choices' => array($this->getObject()->getId()), 'empty_value' => $this->getObject()->getId(), 'required' => false)),
       'signature'  => new sfValidatorString(array('max_length' => 40, 'required' => false)),
       'path'       => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'created_at' => new sfValidatorDateTime(array('required' => false)),
