@@ -1148,7 +1148,9 @@ class Util {
 
 		fclose($handle);
 			
-		chmod($resource,0775);
+        if (sfConfig::get('app_appFlower_chmod_enabled', true)) {
+    		chmod($resource,0775);
+        }
 			
 		return true;
 	}
