@@ -831,7 +831,24 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
         <xs:attribute name="type" type="i:fetchType" use="optional" default="static" />
       </xs:complexType>
     </xs:element>
-    
+     
+	<xs:element name="item">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+
+            This element defines an item of a combo or multicombo statically.
+
+            It can be used within value elements.
+
+            value      - Value of the item
+
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+        <xs:attribute name="value" type="xs:token" use="required" />
+      </xs:complexType>
+   </xs:element>
+	
     <xs:element name="value" i:view="edit,show">
     	<xs:annotation>
         <xs:documentation xml:lang="en">
@@ -858,6 +875,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 				<xs:sequence minOccurs="0" maxOccurs="1">
 					<xs:element ref="i:source" minOccurs="1" maxOccurs="1" />
 				</xs:sequence>
+				<xs:sequence minOccurs="0" maxOccurs="1">
+         			<xs:element ref="i:item" minOccurs="1" maxOccurs="unbounded" />
+        		</xs:sequence> 
 			</xs:choice>
 		</xs:sequence>
 		<xs:attributeGroup ref="i:commonAttributes" />
