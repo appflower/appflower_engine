@@ -41,9 +41,16 @@ class valueParser extends XmlBaseElementParser {
 			
 			$nodes = self::$parser->fetch("./i:item",$node);
 			$it = new nodeListIterator($nodes,PAIRS);
-			$it->setAttribute("value");
+			$ls = $it->getList();
+			$ls_arr = array();
+			foreach($ls as $node) {
+				$ls_arr[$node->getAttribute("value")] = $node->nodeValue;
+			}
+			$it->setList($ls);
+			self::add("fields/".$name."/value/default/value",$ls_arr);
 			
-			self::add("fields/".$name."/value/items",$it);
+			//$it->setAttribute("value");
+			//self::add("fields/".$name."/value/items",$it);
 		
 		} else if($node) {
             $class = self::$parser->get(self::$parser->getnode("class",$node));
