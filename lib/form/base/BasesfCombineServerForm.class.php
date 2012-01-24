@@ -19,7 +19,7 @@ abstract class BasesfCombineServerForm extends BaseFormPropel
     ));
 
     $this->setValidators(array(
-      'id'     => new sfValidatorPropelChoice(array('model' => 'sfCombineServer', 'column' => 'id', 'required' => false)),
+      'id'     => new sfValidatorChoice(array('choices' => array($this->getObject()->getId()), 'empty_value' => $this->getObject()->getId(), 'required' => false)),
       'online' => new sfValidatorBoolean(array('required' => false)),
     ));
 

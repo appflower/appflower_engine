@@ -23,7 +23,7 @@ abstract class BaseafSaveFilterForm extends BaseFormPropel
     ));
 
     $this->setValidators(array(
-      'id'     => new sfValidatorPropelChoice(array('model' => 'afSaveFilter', 'column' => 'id', 'required' => false)),
+      'id'     => new sfValidatorChoice(array('choices' => array($this->getObject()->getId()), 'empty_value' => $this->getObject()->getId(), 'required' => false)),
       'name'   => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'user'   => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647, 'required' => false)),
       'path'   => new sfValidatorString(array('max_length' => 255, 'required' => false)),
