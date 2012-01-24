@@ -5,11 +5,21 @@ class afColumnExtractor {
         $class,
         $selectedColumns,
         $formatMethodPrefix,
-        $formatConversion;
+        $formatConversion,
+        $specialColumns = array('_color');
 
     public function __construct($class, $selectedColumns, $format='html') {
         $this->class = $class;
-        $this->selectedColumns = $selectedColumns;
+        /**
+         * added new getter method for row color, if an object has method like
+         * 
+         * public function get_Color() { return 'green'; }
+         * 
+         * then row gets a background color
+         * 
+         * @author Radu Topala <radu@appflower.com>
+         */
+        $this->selectedColumns = array_merge($selectedColumns,$this->specialColumns);
         $camelFormat = sfInflector::camelize($format);
         $this->formatMethodPrefix = 'get'.$camelFormat;
         $this->formatConversion = call_user_func(
@@ -50,12 +60,12 @@ class afColumnExtractor {
             }
         } else {
             $methodName = 'get'.sfInflector::camelize($column);
-            $getter = $this->createMethodGetter($methodName);
+            $getter = $this->createMethodGetter($methodName,in_array($column,$this->specialColumns));
         }
         return $getter;
     }
 
-    private function createMethodGetter($methodName) {
+    private function createMethodGetter($methodName, $isSpecialColumn = false) {
         if(StringUtil::startsWith($methodName, $this->formatMethodPrefix)) {
             $conversion = null;
         } else {
@@ -69,7 +79,7 @@ class afColumnExtractor {
             }
         }
 
-        return new afMethodGetter($methodName, $conversion);
+        return new afMethodGetter($methodName, $conversion, $isSpecialColumn);
     }
 
     /**
@@ -83,7 +93,11 @@ class afColumnExtractor {
         foreach($objects as $obj) {
             $row = array();
             foreach($getters as $column => $getter) {
-                $row[$column] = $getter->getFrom($obj);
+                $value = $getter->getFrom($obj);
+                if((in_array($column,$this->specialColumns)&&$value!=false)||!in_array($column,$this->specialColumns))
+                {
+                    $row[$column] = $value;
+                }
             }
             $rows[] = $row;
         }
