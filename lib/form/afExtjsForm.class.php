@@ -30,10 +30,10 @@ class afExtjsForm
 		if(isset($attributes['labelWidth'])){
 			//$this->attributes['defaults']=array('labelStyle'=>'width:'.$attributes['labelWidth'].'px;font-size:11px;font-weight:bold;padding:0 3px 3px 0;');
 		}
-		if(isset($attributes['idxml'])&&$attributes['idxml'])
+		/*if(isset($attributes['idxml'])&&$attributes['idxml'])
 		{
 			$this->attributes['id']=$attributes['idxml'];
-		}
+		}*/
 		
 		$this->afExtjs->setAddons(array ('css' => array('/appFlowerPlugin/css/my-extjs.css',$this->afExtjs->getPluginsDir().'multiselect/multiselect.css'), 'js' => array($this->afExtjs->getPluginsDir().'multiselect/DDView.js',$this->afExtjs->getPluginsDir().'multiselect/MultiSelect.js',$this->afExtjs->getPluginsDir().'multiselect/ItemSelector.js',$this->afExtjs->getPluginsDir().'multiselect/Ext.ux.TreeItemSelector.js',$this->afExtjs->getPluginsDir().'tree/Ext.tree.TreeSerializer.js',$this->afExtjs->getPluginsDir().'form/Ext.ux.ClassicFormPanel.js',$this->afExtjs->getPluginsDir().'form/Ext.ux.form.ComboWButton.js') ));
 
