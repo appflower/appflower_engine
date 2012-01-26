@@ -655,6 +655,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	    <xs:element ref="i:help" minOccurs="0" maxOccurs="1" />
 	    <xs:element ref="i:validator" minOccurs="0" maxOccurs="unbounded" />
 	    <xs:element ref="i:handler" minOccurs="0" maxOccurs="unbounded" />
+		<xs:element ref="i:trigger" minOccurs="0" maxOccurs="1" />
+	    <xs:element ref="i:window" minOccurs="0" maxOccurs="1" />
+
 	  </xs:sequence>
 	</xs:group> 
     
@@ -1231,6 +1234,57 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	<xs:attribute name="test" type="xs:token" use="required" />    	
 	  </xs:complexType>
 	</xs:element>
+	
+	
+	<xs:element name="trigger">
+    	<xs:annotation>
+        <xs:documentation xml:lang="en">
+            Thisrenders as a special button which is bound to a field. It opens a popup window. See docs.
+            
+            text 		- Custom text for the button
+            icon		- Path to an image that should be attached to the buttons as icon. 
+            permissions -  Access rights required to render the element.
+            
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="text" type="xs:token" use="optional" />
+        <xs:attribute name="icon" type="i:combinedUriType" use="optional" default="/images/famfamfam/cancel.png" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+        <xs:attribute name="permissions" type="i:permissionType" default="*" />
+      </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="window">
+    	<xs:annotation>
+        <xs:documentation xml:lang="en">
+            The element defines the properties of the popup window opened by the trigger element.
+            
+            Please not that this is not a real window, but only a DHTML layer.
+            
+            title			- Window title
+            component		- The URI of a widget that should be loaded in the window
+            className		- Name of a PHP class (see docs)
+            methodName		- Name of a public static method (see docs)
+            width			- Window width in pixels
+            iconCls			- A CSS class name that adds icon image to the button.
+            
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      	<xs:attributeGroup ref="i:commonAttributes" />
+        <xs:attribute name="title" type="xs:token" use="required" />
+        <xs:attribute name="component" type="i:combinedUriType" use="required" />
+        <xs:attribute name="className" type="xs:token" use="required" />
+        <xs:attribute name="methodName" type="xs:token" use="required" />
+        <xs:attribute name="width" type="xs:positiveInteger" use="optional" default="500" />
+        <xs:attribute name="iconCls" type="xs:token" use="optional" />
+        <xs:attribute name="parsable" type="xs:boolean" fixed="true" />
+      </xs:complexType>
+    </xs:element>
+
+	
 	
 	<xs:element name="set" i:view="edit,show">
 	  <xs:annotation>
