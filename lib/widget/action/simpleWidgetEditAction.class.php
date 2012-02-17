@@ -214,7 +214,7 @@ abstract class simpleWidgetEditAction extends sfAction
      * @return array
      * @author Łukasz Wojciechowski
      */
-    private function changeKeysForForeignFields($formData)
+    public function changeKeysForForeignFields($formData)
     {
         $baseKeys = array();
         foreach ($formData as $key => $value) {
@@ -257,7 +257,7 @@ abstract class simpleWidgetEditAction extends sfAction
      * @return array
      * @author Sergey Startsev
      */
-    protected function getFieldNames()
+    public function getFieldNames()
     {
         $fields = array();
         
@@ -277,7 +277,7 @@ abstract class simpleWidgetEditAction extends sfAction
      * @return array
      * @author Sergey Startsev
      */
-    protected function processMultipleRelations(Array $formData)
+    public function processMultipleRelations(Array $formData)
     {
         $model_name = $this->object->getPeer()->getOMClass(false);
         
@@ -418,7 +418,7 @@ abstract class simpleWidgetEditAction extends sfAction
     /**
      * This method reuturn field names that are also present in the form
      */
-    private function getFieldNamesOfForm(sfForm $form)
+    public function getFieldNamesOfForm(sfForm $form)
     {
         $fieldNames = $this->getFieldNames();
         

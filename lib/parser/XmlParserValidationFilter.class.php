@@ -53,7 +53,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 						$validator->clean($value);
 					}
 					catch(sfValidatorError $e) {
-						$errors[] = array($field,$e->getMessage());
+						$errors[] = array($tmp_field,$e->getMessage());
 					}
 				}
 			}
