@@ -1486,8 +1486,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		<xs:attribute name="updater" type="xs:boolean" use="optional" default="false" />
 		<xs:attribute name="popup" type="xs:boolean" use="optional" default="false" />
 		<xs:attribute name="bindForm" type="xs:boolean" use="optional" default="false" />
-		<xs:attribute name="permissions" type="i:permissionType" default="*" />
-		
+		<xs:attribute name="loadas" type="xs:string" use="optional" />
+		<xs:attribute name="permissions" type="i:permissionType" default="*" />		
 	  </xs:complexType>
 	</xs:element>
 	

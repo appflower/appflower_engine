@@ -127,7 +127,7 @@ afApp.hasDesktop = function ()
 /*
 * Popup windows manager
 */
-afApp.windows = new Ext.WindowGroup();
+afApp.windows = Ext.WindowMgr;
 afApp.activeWindow;
 
 afApp.minimizeWin = function (win) {
@@ -513,11 +513,12 @@ afApp.widgetPopup = function(widget, title, superClass, winConfig, Application) 
 			success: function(r) {
 				var json = Ext.util.JSON.decode(r.responseText);
 				
-                if (json.success === false) {
-                    Ext.Msg.alert('Failure', json.message);
-                    return;
-                } else if (json.redirect && json.message && json.load) {
-					Ext.Msg.alert("Failure", json.message, function(){ afApp.load(json.redirect,json.load); });
+				if ( json.message && !json.redirect ) {
+                    afApp.notify(json.title,json.message,'INFO',5);
+                    afApp.loadingProgress(maskEl, 1);
+                } else if ( json.message && json.redirect ) {
+					Ext.Msg.alert(json.title, json.message, function(){ afApp.load(json.redirect,json.load); });
+					afApp.loadingProgress(maskEl, 1);
 				} else {
 					var total_addons = new Array();
 					
@@ -941,14 +942,7 @@ afApp.loadFirst = function(hasDesktop)
 	*/
 	if(Boolean(window.console&&window.console.firebug))
 	{
-		var config = {title: 'Firebug is on :(', message: 'If you would like to have a better experience with our products, please disable <b style="color:red;">Firebug</b>. You can do this using this shortcut: <b>SHIFT+F12</b>.<br><br>Thank you,<br>AppFlower Team', type: 'ERROR', duration: 20};	
-	
-		if(hasDesktop)
-		{
-			config.heightPlus = 40;
-		}
-		
-		new Ext.ux.InstantNotification(config);
+		afApp.notify('Firebug is on :(','If you would like to have a better experience with our products, please disable <b style="color:red;">Firebug</b>. You can do this using this shortcut: <b>SHIFT+F12</b>.<br><br>Thank you,<br>AppFlower Team','ERROR', 20);
 	}
 }
 
@@ -1068,4 +1062,18 @@ afApp.bindForm = function(gridId,url)
         waitMsg:'Loading...',
         params:{}
     });
+}
+afApp.notify = function (title, message, type, duration)
+{    
+    var config = {title: title, message: message};
+    
+    config.type = type || 'INFO'; //type can be: ERROR, INFO, WARNING, default INFO
+    config.duration = duration || 20;
+	
+	if(afApp.hasDesktop())
+	{
+		config.heightPlus = 40;
+	}
+	
+	new Ext.ux.InstantNotification(config);
 }
