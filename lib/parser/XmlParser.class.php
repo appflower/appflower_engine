@@ -3552,7 +3552,6 @@ class XmlParser extends XmlParserTools {
 					
 				}
 				
-				
 				if(isset($parse["actions"]) && $this->type !== self::WIZARD) {					
 					foreach($parse["actions"] as $aname => $action) {
 						
@@ -3582,8 +3581,9 @@ class XmlParser extends XmlParserTools {
 						}
 					}
 					
-					if(isset($parse["moreactions"])) {																					
-						
+				}
+				
+				if(isset($parse["moreactions"]) && $this->type !== self::WIZARD) {																											
 						foreach($parse["moreactions"] as $aname => $action) {	
 							
 							if(!self::toggleAction($aname,$action)) {
@@ -3596,10 +3596,9 @@ class XmlParser extends XmlParserTools {
 							
 							$parameterForButton = ExtEvent::getButtonParams($action,"moreactions",$this->view.$this->iteration,$parse["select"]);						
 							$form->addMenuActionsItem($parameterForButton);															
-						}
 					}
 				}
-				
+								
 				if(isset($tabs)) {
 					$form->endTabs($tabs);	
 				}
