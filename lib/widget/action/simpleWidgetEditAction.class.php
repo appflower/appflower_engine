@@ -390,7 +390,7 @@ abstract class simpleWidgetEditAction extends sfAction
      * @return void
      * @author Sergey Startsev
      */
-    protected function processFileFields(BaseObject $model)
+    public function processFileFields(BaseObject $model)
     {
         $model_name = $this->object->getPeer()->getOMClass(false);
         
