@@ -87,7 +87,7 @@ class afExtjsFieldDoubleMultiCombo extends afExtjsField
 		{			
 			foreach ($attributes['selected'] as $key=>$value)
 			{
-				$this->selected_values[$key]="'".$value."'";
+				$this->selected_values[$key]=$value;
 			}
 		
 			unset($attributes['selected']);

@@ -95,7 +95,27 @@ class ModelCriteriaFetcher
      * @param string $middle_model 
      * @param string $middle_model_field 
      * @return array
+     * 
+     * @example 
+     * 
+     * <i:field label="Genres" name="genre_id" state="editable" style="" type="doublemulticombo">
+            <i:value type="orm">
+                <i:class>ModelCriteriaFetcher</i:class>
+                <i:method name="getDataForDoubleComboWidget">
+                    <i:param name="source_model">Genre</i:param>
+                    <i:param name="glue_field_name">band_id</i:param>
+                    <i:param name="glue_field_value">{id}</i:param>
+                    <i:param name="middle_model">BandHasGenre</i:param>
+                    <i:param name="middle_model_field">genre_id</i:param>
+                </i:method>
+            </i:value>
+            <i:tooltip>Select the genres to be added to this new band.</i:tooltip>
+            <i:help>The selected genres will be associated with this new band.</i:help>
+            <i:validator name="immValidatorRequired"/>
+        </i:field>
+     * 
      * @author Sergey Startsev
+     * @author Radu Topala <radu@appflower.com>
      */
     static public function getDataForDoubleComboWidget($source_model, $glue_field_name, $glue_field_value, $middle_model, $middle_model_field)
     {
