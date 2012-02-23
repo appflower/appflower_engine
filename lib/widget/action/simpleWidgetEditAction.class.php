@@ -55,6 +55,7 @@ abstract class simpleWidgetEditAction extends sfAction
         'include',
         'file',
         'doublemulticombo',
+        'static',
     );
     
     /**
@@ -183,14 +184,16 @@ abstract class simpleWidgetEditAction extends sfAction
      *
      * @return boolean
      * @author Łukasz Wojciechowski
+     * @author Radu Topala <radu@appflower.com>
      */
-    private function processPostData()
+    public function processPostData()
     {
         $formData = $this->getRequest()->getParameter('edit');
         $formData = $formData[0];
 
-        $formData = $this->changeKeysForForeignFields($formData);
-        $formData = $this->processMultipleRelations($formData);
+        $this->changeKeysForForeignFields($formData);
+        $this->processMultipleRelations($formData);
+        $this->processCheckboxes($formData);
 
         // filtered means that we are leaving only values for fields that exists in the form
         $formDataFiltered = array();
@@ -214,7 +217,7 @@ abstract class simpleWidgetEditAction extends sfAction
      * @return array
      * @author Łukasz Wojciechowski
      */
-    public function changeKeysForForeignFields($formData)
+    public function changeKeysForForeignFields(Array &$formData)
     {
         $baseKeys = array();
         foreach ($formData as $key => $value) {
@@ -271,13 +274,34 @@ abstract class simpleWidgetEditAction extends sfAction
     }
     
     /**
+     * Checkboxes processing
+     *
+     * @param array $formData
+     * @return array
+     * @author Radu Topala <radu@appflower.com>
+     */
+    public function processCheckboxes(Array &$formData)
+    {
+        $fields_nodes = $this->dom_xml_xpath->query('//i:fields/i:field[@type="checkbox"]');
+        foreach ($fields_nodes as $field) {
+            if(isset($formData[$field->getAttribute('name')]))
+            {
+                $formData[$field->getAttribute('name')] = 1;
+            }
+            else {
+                $formData[$field->getAttribute('name')] = 0;
+            }
+        }
+    }
+    
+    /**
      * Multiple relationships processing
      *
      * @param Array $formData 
      * @return array
      * @author Sergey Startsev
      */
-    public function processMultipleRelations(Array $formData)
+    public function processMultipleRelations(Array &$formData)
     {
         $model_name = $this->object->getPeer()->getOMClass(false);
         
