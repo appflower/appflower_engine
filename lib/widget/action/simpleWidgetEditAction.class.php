@@ -192,7 +192,6 @@ abstract class simpleWidgetEditAction extends sfAction
         $formData = $formData[0];
 
         $this->changeKeysForForeignFields($formData);
-        $this->processMultipleRelations($formData);
         $this->processCheckboxes($formData);
 
         // filtered means that we are leaving only values for fields that exists in the form
@@ -204,7 +203,14 @@ abstract class simpleWidgetEditAction extends sfAction
         }
         
         $this->form->bind($formDataFiltered);
-        return $this->form->save();
+        $formSave = $this->form->save();
+        
+        //set object after saving and add double multi-combo values after adding main object, if doesn't exist
+        $this->object = $this->form->getObject();
+        $this->id = $this->object->getPrimaryKey();
+        $this->processMultipleRelations($formData);
+        
+        return $formSave;
     }
     
     /**
@@ -234,8 +240,6 @@ abstract class simpleWidgetEditAction extends sfAction
             unset($formData["${baseKey}_value"]);
             $formData[$baseKey] = $valueForBaseKey;
         }
-        
-        return $formData;
     }
     
     /**
@@ -366,8 +370,6 @@ abstract class simpleWidgetEditAction extends sfAction
             
             if (array_key_exists($name, $formData)) unset($formData[$name]);
         }
-        
-        return $formData;
     }
     
     /**
@@ -472,6 +474,7 @@ abstract class simpleWidgetEditAction extends sfAction
                 $formFieldNames[] = $formFieldName;
             }
         }
+        
         return $formFieldNames;
     }
 }
