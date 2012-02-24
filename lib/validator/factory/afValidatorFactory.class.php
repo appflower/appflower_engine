@@ -25,7 +25,7 @@ class afValidatorFactory {
     /**
      * Returns a value to be validated by the given validator.
      */
-    public static function prepareValue($field, sfValidatorBase $validator, Serializable $requestParams) {
+    public static function prepareValue($field, sfValidatorBase $validator, $requestParams) {
         if($validator instanceof sfValidatorSchemaCompare) {
             $values = array();
             $prefix = preg_replace('/\[[^\]]+\]$/', '', $field);
@@ -35,14 +35,14 @@ class afValidatorFactory {
                 $requestParams);
             return $values;
         } else {
-            return $requestParams->get($field);
+            return sfToolkit13::getArrayValueForPath($requestParams,$field);
         }
     }
 
-    private static function fillValue(&$values, $prefix, $option, sfValidatorSchemaCompare $validator, sfParameterHolder $requestParams) {
+    private static function fillValue(&$values, $prefix, $option, sfValidatorSchemaCompare $validator, $requestParams) {
         $inputName = $validator->getOption($option);
         $fieldName = sprintf('%s[%s]', $prefix, $inputName);
-        $value = $requestParams->get($fieldName);
+        $value = sfToolkit13::getArrayValueForPath($requestParams,$fieldName);
         $values[$inputName] = $value;
     }
 

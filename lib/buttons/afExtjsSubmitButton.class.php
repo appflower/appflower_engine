@@ -14,7 +14,7 @@ class afExtjsSubmitButton extends afExtjsButton
 	
 	public function __construct($containerObject,$attributes=array(),$submitContainerObject=false)
 	{		
-		$this->afExtjs=afExtjs::getInstance();		
+	    $this->afExtjs=afExtjs::getInstance();		
 		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'submit/RobustSubmitAction.js')));
 		$pe = isset($attributes['preExecute'])?$attributes['preExecute']:'';
 		if(isset($attributes['label']))
@@ -63,7 +63,7 @@ class afExtjsSubmitButton extends afExtjsButton
 				}				
 				$attributes['params']['af_formcfg'] =
 					afEditJsonRenderer::buildFormcfg($submitUrl,
-						$submitContainerObject->getValidators(),
+						$submitContainerObject->getValidators(), $submitContainerObject->getFieldTypes(),
 						ArrayUtil::get($attributes, 'wizard', false));
 				unset($attributes['wizard']);
 				

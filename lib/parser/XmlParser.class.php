@@ -3347,9 +3347,12 @@ class XmlParser extends XmlParserTools {
 						// Put validators into af_formcfg.
 						if(isset($data['validators'])) {
 							$form->addValidator($name, $data['validators']);
-						}
+						}						
 						
 						$classname = $attributes["type"];
+						
+						// Add file types for af_formcfg
+						$form->addFieldType($name,$classname);
 					
 						if($setname == $name) {
 							$this->process["parses"][$it]["fields"][$name]["attributes"] = $attributes;
