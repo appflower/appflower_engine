@@ -81,13 +81,17 @@ afApp.createAddon = function(filename, filetype, callback) {
 		var fileref = document.createElement('script');
 		fileref.setAttribute("type", "text/javascript");
 		fileref.setAttribute("src", filename);
-		GLOBAL_JS_VAR.push(filename);
+		if (typeof GLOBAL_JS_VAR != "undefined") {
+		   GLOBAL_JS_VAR.push(filename); 
+		}		
 	} else if (filetype == "css") { // if filename is an external CSS file
 		var fileref = document.createElement("link");
 		fileref.setAttribute("rel", "stylesheet");
 		fileref.setAttribute("type", "text/css");
 		fileref.setAttribute("href", filename);
-		GLOBAL_CSS_VAR.push(filename);
+		if (typeof GLOBAL_CSS_VAR != "undefined") {
+		   GLOBAL_CSS_VAR.push(filename);   
+		}		
 	}
 	
 	if (typeof fileref != "undefined") {
