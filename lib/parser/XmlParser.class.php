@@ -2552,24 +2552,22 @@ class XmlParser extends XmlParserTools {
 					
 					if(!isset($class)) { 
 						$class = $data["value"]["class"];
-						$params = (isset($data["value"]["method"]["params"])) ? $data["value"]["method"]["params"] : array();
-						
-						
-						if(isset($data["attributes"]["selected"]) && $data["attributes"]["selected"]) {
-							$params[] = $data["attributes"]["selected"];
-						}
+						$params = (isset($data["value"]["method"]["params"])) ? $data["value"]["method"]["params"] : array();					
 					}
 					
 					
 					$method = (is_array($data["value"]["method"])) ? $data["value"]["method"]["name"] : $data["value"]["method"];
+					
+					if(isset($data["attributes"]["selected"]) && $data["attributes"]["selected"]&&!($class=='ModelCriteriaFetcher'&&$method=='getDataForComboWidget')) {
+						$params[] = $data["attributes"]["selected"];
+					}
 					
 					if($class && !method_exists($class,$method)) {
 						throw new XmlParserException("The method ".$method." doesn't exist in class ".((is_string($class)) ? $class : get_class($class))."!");
 					}
 					
 					if($class) {
-					
-						$value = afCall::funcArray(array($class,$method),$params);	
+					    $value = afCall::funcArray(array($class,$method),$params);
 						if(isset($data["attributes"]["content"])) {
 							$value = $data["attributes"]["content"];
 						}
@@ -2634,7 +2632,7 @@ class XmlParser extends XmlParserTools {
 					} 
 						
 				} else {
-					$data["attributes"]["options"] = $value->getArray();
+				    $data["attributes"]["options"] = $value->getArray();
 					$data["attributes"]["selected"] = $value->getSelected();
 				}
 				  

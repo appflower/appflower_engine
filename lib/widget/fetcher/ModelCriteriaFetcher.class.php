@@ -20,7 +20,7 @@ class ModelCriteriaFetcher
         $queryClass = "{$modelName}Query";
         $query = new $queryClass('propel', $modelName);
         
-        if (is_array($params)) {
+        if (is_array($params)) {            
             foreach ($params as $def) {
                 list($method, $value) = explode(':', $def);
                 call_user_func(array($query, $method), $value);
