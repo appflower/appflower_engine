@@ -189,10 +189,10 @@ abstract class simpleWidgetEditAction extends sfAction
     public function processPostData()
     {
         $formData = $this->getRequest()->getParameter('edit');
-        $formData = $formData[0];
+        $formData = isset($formData[0])?$formData[0]:array();
 
-        $this->changeKeysForForeignFields($formData);
         $this->processCheckboxes($formData);
+        $this->changeKeysForForeignFields($formData);        
 
         // filtered means that we are leaving only values for fields that exists in the form
         $formDataFiltered = array();
