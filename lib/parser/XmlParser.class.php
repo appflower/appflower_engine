@@ -3482,7 +3482,7 @@ class XmlParser extends XmlParserTools {
 							} else {
 								$prs = new XmlParser(self::PANEL,false,false,false,false,$attributes["url"]);
 								
-								if($columnx) {
+								if(isset($columnx)) {
 									$columnx->addMember($prs->getResult());	
 								} else {
 									$form->addMember($prs->getResult());
