@@ -59,6 +59,22 @@ abstract class simpleWidgetEditAction extends sfAction
     );
     
     /**
+     * Deprecated Symfony placeholders
+     *
+     * @var array
+     */
+    protected $deprecated_placeholders = array(
+        'response',
+        'request',
+        'moduleName',
+        'actionName',
+        'context',
+        'dispatcher',
+        'varHolder',
+        'requestParameterHolder'
+    );
+    
+    /**
      * Pre-execute action - before every action
      *
      * @author Sergey Startsev
@@ -145,6 +161,7 @@ abstract class simpleWidgetEditAction extends sfAction
         
         // making form field default values available for widget XML config file placeholders
         foreach ($formFieldNames as $fieldName) {
+            if(!in_array($fieldName,$this->deprecated_placeholders))
             $this->$fieldName = $this->object->getByName($fieldName, BasePeer::TYPE_FIELDNAME);
         }
     }
