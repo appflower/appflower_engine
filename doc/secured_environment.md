@@ -2,6 +2,7 @@
 A few guidelines on security for deploying an appFlower application. The goal is to have AppFlower (including Symfony and AppFlower Studio) running smoothly in a secured environment.
 
 Security Aims:
+
  * Run appFlower with least privileges
  * Run appFlower with as strict permissions as possible
  
@@ -11,6 +12,7 @@ We want to have the application itself, and all files created under the lifecycl
 To change the permissions you need to
 
 1. Create config/permissions.yml with following content:
+
     folders:
       root:
         path: '/'
@@ -20,9 +22,11 @@ To change the permissions you need to
 2. Change your application configuration file in apps/frontend/config/frontendConfiguration.class.php and
 
 2.1: add the require statement at the beginning of the file:
+
     require_once dirname(dirname(dirname(dirname(__FILE__)))).'/plugins/appFlowerPlugin/lib/afConfigCache.class.php';
 
 2.2: Add getConfigCache() method
+
     public function getConfigCache()
     {
         if (null === $this->configCache) {
@@ -33,6 +37,7 @@ To change the permissions you need to
     }
 
 3. Configure AF engine and studio plugins by adding following to app.yml
+
     all:
       afs:
         chmod_enabled: false
