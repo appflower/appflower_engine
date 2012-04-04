@@ -21,11 +21,11 @@ To change the permissions you need to
 
 2. Change your application configuration file in apps/frontend/config/frontendConfiguration.class.php and
 
-2.1: add the require statement at the beginning of the file:
+ * add the require statement at the beginning of the file:
 
     require_once dirname(dirname(dirname(dirname(__FILE__)))).'/plugins/appFlowerPlugin/lib/afConfigCache.class.php';
 
-2.2: Add getConfigCache() method
+ * Add getConfigCache() method
 
     public function getConfigCache()
     {
