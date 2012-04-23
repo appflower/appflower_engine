@@ -2498,9 +2498,7 @@ class XmlParser extends XmlParserTools {
 			$data["attributes"]["value"] = $data["attributes"]["content"];
 		} else if(isset($data["value"])) {
 			
-			
-			if((isset($data["value"]["default"]) && (!isset($this->attribute_holder["id"]) || !$this->attribute_holder["id"])) || 
-			isset($data["value"]["static"])) {
+		    if(isset($data["value"]["default"]) ||	isset($data["value"]["static"])) {
 				if(!isset($data["value"]["static"])) {
 					$akey = "default";
 				} else {
