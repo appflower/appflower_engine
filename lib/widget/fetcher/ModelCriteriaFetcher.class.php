@@ -164,6 +164,7 @@ class ModelCriteriaFetcher
     /**
      * Configure file field method
      *
+     * @see ../action/simpleWidgetEditAction.class.php
      * @return void
      * @author Sergey Startsev
      */
