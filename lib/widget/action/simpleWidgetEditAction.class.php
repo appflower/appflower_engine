@@ -144,7 +144,7 @@ abstract class simpleWidgetEditAction extends sfAction
      * @param string $formClassName 
      * @author Łukasz Wojciechowski
      */
-    private function createAndConfigureForm($formClassName)
+    public function createAndConfigureForm($formClassName)
     {
         $this->form = new $formClassName($this->object);
         $vs = $this->form->getValidatorSchema();
@@ -172,7 +172,7 @@ abstract class simpleWidgetEditAction extends sfAction
      * @param string $modelClassName 
      * @author Łukasz Wojciechowski
      */
-    private function createNewObject($modelClassName)
+    public function createNewObject($modelClassName)
     {
         $this->object = new $modelClassName;
         $this->id = '';
@@ -184,7 +184,7 @@ abstract class simpleWidgetEditAction extends sfAction
      * @param string $peerClassName 
      * @author Łukasz Wojciechowski
      */
-    private function tryToLoadObjectFromRequest($peerClassName)
+    public function tryToLoadObjectFromRequest($peerClassName)
     {
         if ($this->getRequest()->hasParameter('id')) {
             $objectId = $this->getRequest()->getParameter('id');
