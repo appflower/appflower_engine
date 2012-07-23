@@ -1137,7 +1137,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	<xs:attribute name="submitlabel" type="xs:token" use="optional" default="Submit" /> 	
       	<xs:attribute name="tree" type="xs:boolean" use="optional" default="false" />
       	<xs:attribute name="selectable" type="xs:boolean" use="optional" default="true" />
-      	<xs:attribute name="exportable" type="xs:boolean" use="optional" default="true" />
+      	<xs:attribute name="exportable" type="xs:token" use="optional" default="true" />
       	<xs:attribute name="select" type="xs:boolean" use="optional" default="false" />
       	<xs:attribute name="pager" type="xs:boolean" use="optional" default="true" />
       	<xs:attribute name="url" type="i:internalUriType" use="optional" default="n/a" />
