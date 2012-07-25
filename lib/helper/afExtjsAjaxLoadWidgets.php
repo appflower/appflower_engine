@@ -96,7 +96,7 @@ class afExtjsAjaxLoadWidgets{
 	
 	public function getCenterPanelSource(){	
 	    
-	    if($this->type == XmlParser::PANEL || $this->type == XmlParser::PAGE)
+	    if($this->type == XmlParser::PANEL || $this->type == XmlParser::PAGE || $this->type == XmlParser::WIZARD)
 		return $this->getLayout()->afExtjs->private['center_panel_first'];
 	}
 	

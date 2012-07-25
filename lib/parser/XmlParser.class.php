@@ -2386,22 +2386,24 @@ class XmlParser extends XmlParserTools {
 	private function shiftItem($item, $default = true) {
 		
 		foreach($this->process["parses"] as $it) {
-			if(!$default) {
-				foreach($it["fields"] as $element => $data) {
-					if($element == $item) {
-						return $data;
-					}
-				}	
-			} else {
-				foreach($it["fields"] as $setname => $setvalue) {
-					foreach($setvalue as $element => $data) {
-						if($element == $item) {
-							return $data;
-						}
-					}
-				}	
-			}
-				
+		    if(isset($it["fields"]))
+		    {
+    			if(!$default) {
+    				foreach($it["fields"] as $element => $data) {
+    					if($element == $item) {
+    						return $data;
+    					}
+    				}	
+    			} else {
+    				foreach($it["fields"] as $setname => $setvalue) {
+    					foreach($setvalue as $element => $data) {
+    						if($element == $item) {
+    							return $data;
+    						}
+    					}
+    				}	
+    			}
+		    }	
 		}
 		
 		throw new XmlParserException("Invalid element reference in radiogroup!");
@@ -4226,7 +4228,7 @@ if(response.message) {
 				} else if($key == "Previous") {
 					$icon = "/images/famfamfam/arrow_left.png";
 				} else {
-					$icon = null;
+					$icon = "/images/famfamfam/accept.png";
 				}
 				
 				if(isset($this->page["actions"][$key])) {

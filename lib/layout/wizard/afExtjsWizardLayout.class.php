@@ -3,9 +3,9 @@
  * extJs Wizard layout
  *
  */
-class afExtjsWizardLayout extends afExtjsLayout
+class afExtjsWizardLayout extends afExtjsViewportLayout
 {
-	public function start($attributes=array())
+    public function start($attributes=array())
 	{
 		$attributes['toolbar']=false;
 		$attributes['north']=false;
@@ -34,10 +34,26 @@ class afExtjsWizardLayout extends afExtjsLayout
 		$this->attributes['items'][]=$groupObj->end();
 	}
 	
-	public function end()
+	public function beforeEnd()
 	{
 		$this->attributes['buttonAlign']='center';
 		$this->attributes['autoScroll']=true;
+		
+		$attributes=$this->attributes;
+		
+		if(isset($this->attributes['viewport']['center_panel'])&&count($this->attributes['viewport']['center_panel'])>0)
+			$attributes=array_merge($attributes,$this->attributes['viewport']['center_panel']);
+
+		$this->afExtjs->privateAttributes['center_panel_first_panel']=$attributes;
+		$this->afExtjs->private['center_panel_first_panel']=$this->afExtjs->Panel($attributes);
+				
+		$attributesPanel['items'][]=$this->afExtjs->asVar('center_panel_first_panel');
+		$attributesPanel['border']=false;
+		$attributesPanel['bodyBorder']=false;
+		$attributesPanel['layout']='fit';
+						
+		$attributesPanel['id']='center_panel_first';
+		$this->afExtjs->private['center_panel_first']=$this->afExtjs->Panel($attributesPanel);
 				
 		if(isset($this->attributes['centerType'])&&$this->attributes['centerType']=='group')
 		{
@@ -63,6 +79,16 @@ class afExtjsWizardLayout extends afExtjsLayout
 			unset($attributes['north']);
 			
 			$this->addPortal('center',$attributes);
+		}
+		
+		//parent::end();
+	}
+	
+	public function end()
+	{	
+		if($this->showFullCenter())
+		{
+			$this->beforeEnd();
 		}
 		
 		parent::end();

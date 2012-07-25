@@ -60,7 +60,8 @@ class afExtjsSubmitButton extends afExtjsButton
 				$submitUrl = $attributes['action'];
 				if (!StringUtil::startsWith($submitUrl, 'http')) {
 					$submitUrl = sfContext::getInstance()->getRequest()->getUriPrefix().sfContext::getInstance()->getRequest()->getRelativeUrlRoot().$submitUrl;
-				}				
+				}		
+				if(method_exists($submitContainerObject,'getValidators'))		
 				$attributes['params']['af_formcfg'] =
 					afEditJsonRenderer::buildFormcfg($submitUrl,
 						$submitContainerObject->getValidators(),

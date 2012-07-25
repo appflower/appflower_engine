@@ -118,7 +118,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 
 		if($status === true || $status === 0) {
 			afWizard::takeStep();
-			$result = array('success' => true, 'message' => false, 'redirect' => $url, 'load'=>'page');
+			$result = array('success' => true, 'message' => false, 'redirect' => $url, 'load'=>'center');
 		} else {
 			$result = array('success' => false, 'message' => "A file upload error has been detected: ".$upload_status[$status]."!");
 		}

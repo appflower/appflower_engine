@@ -74,6 +74,7 @@ class afWizard {
         }
 
         $steps = self::getStepsTo($steps, $updateAction);
+        
         for($i = 0, $len = count($steps); $i < $len; $i++) {
             if ($steps[$i] !== $path[$i]) {
                 Console::debug('wrong steps:', $steps, 'path:', $path);
