@@ -2414,6 +2414,7 @@ class XmlParser extends XmlParserTools {
 		
 		$tmp_value = array();
 		foreach($keys as $k) {
+		    if(isset($values[$k]))
 			$tmp_value[$k] = $values[$k];
 		}
 		
@@ -2670,6 +2671,7 @@ class XmlParser extends XmlParserTools {
 							$data["attributes"]["selected"] = $step[$name];
 						} else if($data["attributes"]["type"] == "itemSelectorAutoSuggest" || $data["attributes"]["type"] == "doublemulticombo" || $data["attributes"]["type"] == "multicombo") {
 							$tmp = explode(",",$step[$name]);
+							if(isset($value[0]))
 							$data["attributes"]["selected"] = $this->mapKeys($tmp,$value[0]);
 						} else {
 							$data["attributes"]["value"] = $step[$name];
