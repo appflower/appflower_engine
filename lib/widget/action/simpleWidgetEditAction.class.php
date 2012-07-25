@@ -55,6 +55,23 @@ abstract class simpleWidgetEditAction extends sfAction
         'include',
         'file',
         'doublemulticombo',
+        'static',
+    );
+    
+    /**
+     * Deprecated Symfony placeholders
+     *
+     * @var array
+     */
+    protected $deprecated_placeholders = array(
+        'response',
+        'request',
+        'moduleName',
+        'actionName',
+        'context',
+        'dispatcher',
+        'varHolder',
+        'requestParameterHolder'
     );
     
     /**
@@ -127,7 +144,7 @@ abstract class simpleWidgetEditAction extends sfAction
      * @param string $formClassName 
      * @author Łukasz Wojciechowski
      */
-    private function createAndConfigureForm($formClassName)
+    public function createAndConfigureForm($formClassName)
     {
         $this->form = new $formClassName($this->object);
         $vs = $this->form->getValidatorSchema();
@@ -144,6 +161,7 @@ abstract class simpleWidgetEditAction extends sfAction
         
         // making form field default values available for widget XML config file placeholders
         foreach ($formFieldNames as $fieldName) {
+            if(!in_array($fieldName,$this->deprecated_placeholders))
             $this->$fieldName = $this->object->getByName($fieldName, BasePeer::TYPE_FIELDNAME);
         }
     }
@@ -154,7 +172,7 @@ abstract class simpleWidgetEditAction extends sfAction
      * @param string $modelClassName 
      * @author Łukasz Wojciechowski
      */
-    private function createNewObject($modelClassName)
+    public function createNewObject($modelClassName)
     {
         $this->object = new $modelClassName;
         $this->id = '';
@@ -166,12 +184,13 @@ abstract class simpleWidgetEditAction extends sfAction
      * @param string $peerClassName 
      * @author Łukasz Wojciechowski
      */
-    private function tryToLoadObjectFromRequest($peerClassName)
+    public function tryToLoadObjectFromRequest($peerClassName)
     {
         if ($this->getRequest()->hasParameter('id')) {
             $objectId = $this->getRequest()->getParameter('id');
             if ($objectId > 0) {
                 $this->object = call_user_func("$peerClassName::retrieveByPK", $objectId);
+                if($this->object!=null)
                 $this->id = $this->object->getPrimaryKey();
             }
         }
@@ -182,14 +201,15 @@ abstract class simpleWidgetEditAction extends sfAction
      *
      * @return boolean
      * @author Łukasz Wojciechowski
+     * @author Radu Topala <radu@appflower.com>
      */
-    private function processPostData()
+    public function processPostData()
     {
         $formData = $this->getRequest()->getParameter('edit');
-        $formData = $formData[0];
+        $formData = isset($formData[0])?$formData[0]:array();
 
-        $formData = $this->changeKeysForForeignFields($formData);
-        $formData = $this->processMultipleRelations($formData);
+        $this->processCheckboxes($formData);
+        $this->changeKeysForForeignFields($formData);        
 
         // filtered means that we are leaving only values for fields that exists in the form
         $formDataFiltered = array();
@@ -200,7 +220,14 @@ abstract class simpleWidgetEditAction extends sfAction
         }
         
         $this->form->bind($formDataFiltered);
-        return $this->form->save();
+        $formSave = $this->form->save();
+        
+        //set object after saving and add double multi-combo values after adding main object, if doesn't exist
+        $this->object = $this->form->getObject();
+        $this->id = $this->object->getPrimaryKey();
+        $this->processMultipleRelations($formData);
+        
+        return $formSave;
     }
     
     /**
@@ -213,7 +240,7 @@ abstract class simpleWidgetEditAction extends sfAction
      * @return array
      * @author Łukasz Wojciechowski
      */
-    private function changeKeysForForeignFields($formData)
+    public function changeKeysForForeignFields(Array &$formData)
     {
         $baseKeys = array();
         foreach ($formData as $key => $value) {
@@ -230,8 +257,6 @@ abstract class simpleWidgetEditAction extends sfAction
             unset($formData["${baseKey}_value"]);
             $formData[$baseKey] = $valueForBaseKey;
         }
-        
-        return $formData;
     }
     
     /**
@@ -256,7 +281,7 @@ abstract class simpleWidgetEditAction extends sfAction
      * @return array
      * @author Sergey Startsev
      */
-    protected function getFieldNames()
+    public function getFieldNames()
     {
         $fields = array();
         
@@ -270,13 +295,54 @@ abstract class simpleWidgetEditAction extends sfAction
     }
     
     /**
+     * Checkboxes processing
+     *
+     * @param array $formData
+     * @return array
+     * @author Radu Topala <radu@appflower.com>
+     */
+    public function processCheckboxes(Array &$formData)
+    {
+        $fields_nodes = $this->dom_xml_xpath->query('//i:fields/i:field[@type="checkbox"]');
+        foreach ($fields_nodes as $field) {
+            if(isset($formData[$field->getAttribute('name')]))
+            {
+                $formData[$field->getAttribute('name')] = 1;
+            }
+            else {
+                $formData[$field->getAttribute('name')] = 0;
+            }
+        }
+    }
+    
+    /**
      * Multiple relationships processing
      *
      * @param Array $formData 
      * @return array
+     * 
+     * @example 
+     * 
+     * <i:field label="Genres" name="genre_id" state="editable" style="" type="doublemulticombo">
+            <i:value type="orm">
+                <i:class>ModelCriteriaFetcher</i:class>
+                <i:method name="getDataForDoubleComboWidget">
+                    <i:param name="source_model">Genre</i:param>
+                    <i:param name="glue_field_name">band_id</i:param>
+                    <i:param name="glue_field_value">{id}</i:param>
+                    <i:param name="middle_model">BandHasGenre</i:param>
+                    <i:param name="middle_model_field">genre_id</i:param>
+                </i:method>
+            </i:value>
+            <i:tooltip>Select the genres to be added to this new band.</i:tooltip>
+            <i:help>The selected genres will be associated with this new band.</i:help>
+            <i:validator name="immValidatorRequired"/>
+        </i:field>
+     * 
      * @author Sergey Startsev
+     * @author Radu Topala <radu@appflower.com>
      */
-    protected function processMultipleRelations(Array $formData)
+    public function processMultipleRelations(Array &$formData)
     {
         $model_name = $this->object->getPeer()->getOMClass(false);
         
@@ -321,8 +387,6 @@ abstract class simpleWidgetEditAction extends sfAction
             
             if (array_key_exists($name, $formData)) unset($formData[$name]);
         }
-        
-        return $formData;
     }
     
     /**
@@ -343,7 +407,7 @@ abstract class simpleWidgetEditAction extends sfAction
      * @return void
      * @author Sergey Startsev
      */
-    protected function processFileFields(BaseObject $model)
+    public function processFileFields(BaseObject $model)
     {
         $model_name = $this->object->getPeer()->getOMClass(false);
         
@@ -417,7 +481,7 @@ abstract class simpleWidgetEditAction extends sfAction
     /**
      * This method reuturn field names that are also present in the form
      */
-    private function getFieldNamesOfForm(sfForm $form)
+    public function getFieldNamesOfForm(sfForm $form)
     {
         $fieldNames = $this->getFieldNames();
         
@@ -427,6 +491,7 @@ abstract class simpleWidgetEditAction extends sfAction
                 $formFieldNames[] = $formFieldName;
             }
         }
+        
         return $formFieldNames;
     }
 }

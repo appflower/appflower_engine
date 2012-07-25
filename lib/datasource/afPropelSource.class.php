@@ -45,12 +45,19 @@ class afPropelSource implements afIDataSource {
 
     public function setSort($column, $sortDir='ASC') {
         $this->initialized = false;
-        $this->sortColumn = $column;
-        $this->sortDir = $sortDir;
-        if(!StringUtil::isIn('.', $column)) {
-            $tableMap = afMetaDb::getTableMap($this->class);
+        
+        $tableMap = afMetaDb::getTableMap($this->class);
+                
+        $this->sortDir = $sortDir;        
+        
+        if(!StringUtil::isIn('.', $column)&&$tableMap->hasColumn($column)) {            
+            $this->sortColumn = $column;
+            
             $this->sortColumn = $tableMap->getColumn(
                 $column)->getFullyQualifiedName();
+        }
+        else {
+            $this->sortColumn = false;
         }
     }
 

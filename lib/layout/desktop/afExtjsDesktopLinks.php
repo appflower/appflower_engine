@@ -4,6 +4,11 @@
  */
 class afExtjsDesktopLinks
 {
+    /**
+     * Contains path to the transparent 1px image.
+     */
+    const EMPTY_ICON = "/appFlowerPlugin/extjs-3/plugins/desktop/images/s.gif"; 
+    
 	public $attributes=array();
 	
 	public $afExtjs=null;		
@@ -22,25 +27,26 @@ class afExtjsDesktopLinks
 	{
 	    $return = array();
 	    $items = (array_key_exists('items', $this->attributes)) ? $this->attributes['items'] : array();
-		foreach ($items as $link)
-		{
-		  if(!isset($link['iconCls'])||$link['iconCls']=='')
-		  {
-		    $link['iconCls'] = "desktop-win-shortcut";
-		  }
-		  
-		  if(!isset($link['title'])&&$link['url']!='')
-		  {
-		    $link['title'] = $link['url'];
-		  }
-		  elseif (!isset($link['title'])&&($link['url']==''||isset($link['url']))) {
-		    $link['title'] = 'default';
-		  }
-		  
-		  $return[] = "<dt id=\"".$link['iconCls']."\"><a href=\"javascript:return false;\"".(($link['url']!='')?" onclick='afApp.widgetPopup(\"".$link['url']."\"); return false;'":"")."><img src=\"/appFlowerPlugin/extjs-3/plugins/desktop/images/s.gif\" /><div>".$link['title']."</div></a></dt>";
+	    
+		foreach ($items as $link) {
+            if (empty($link['iconCls'])) {
+                $link['iconCls'] = empty($link['icon']) ? "desktop-win-shortcut" : '';
+            }
+
+            if (empty($link['icon'])) {
+                $link['icon'] = self::EMPTY_ICON;
+            }
+            
+            if (!isset($link['title']) && $link['url'] != '') {
+                $link['title'] = $link['url'];
+            } elseif (!isset($link['title']) && ($link['url'] == '' || isset($link['url']))) {
+                $link['title'] = 'default';
+            }
+
+            $return[] = '<dt class="shortcut ' . $link['iconCls'] . '"><a href="javascript:return false;"' . (($link['url']!='') ? ' onclick="afApp.widgetPopup("' . $link['url']. '"); return false;' : "") . '><img src="' . $link['icon'] . '" /><div>' . $link['title'] . '</div></a></dt>';
 		}
 		
-		echo implode(null,$return);
+		echo implode(null, $return);
 	}
 }
 ?>

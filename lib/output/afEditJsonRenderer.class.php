@@ -5,6 +5,7 @@ class afEditJsonRenderer {
         $fields = $view->wrapAll('fields/field');
         $submitUrl = self::getSubmitUrl($module, $action, $view);
         $validators = afEditView::getValidators($fields);
+        $fileTypes = afEditView::getFileTypes($fields);
 
         $result = array();
         $result['success'] = true;
@@ -13,12 +14,12 @@ class afEditJsonRenderer {
         foreach(self::getFieldValues($instance, $fields) as $name => $value) {
             $result[sprintf('edit[%s]', $name)] = $value;
         }
-        $result['af_formcfg'] = self::buildFormcfg($submitUrl, $validators);
+        $result['af_formcfg'] = self::buildFormcfg($submitUrl, $validators, $fileTypes);
         return afOutput::renderText(json_encode($result));
     }
 
-    public static function buildFormcfg($submitUrl, $validators, $wizard=false) {
-        $formcfg = array('url'=>$submitUrl, 'validators'=>$validators);
+    public static function buildFormcfg($submitUrl, $validators, $fileTypes, $wizard=false) {
+        $formcfg = array('url'=>$submitUrl, 'validators'=>$validators, 'fileTypes'=>$fileTypes);
         if ($wizard) {
             $formcfg['wizard'] = true;
         }

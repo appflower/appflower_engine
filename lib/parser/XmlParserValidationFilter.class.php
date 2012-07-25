@@ -23,8 +23,9 @@ class XmlParserValidationFilter extends sfExecutionFilter
 				}
 			} else {
 				$validators = $formcfg['validators'];
+				$fileTypes = $formcfg['fileTypes'];
 			}
-
+			
 			if(ArrayUtil::get($formcfg, 'wizard', false)) {
 				afWizard::checkStepOrRenderError();
 			}
@@ -32,12 +33,11 @@ class XmlParserValidationFilter extends sfExecutionFilter
 			$errors = array();
 			$errorMessage = null;
 
-            $requestParameters = new sfParameterHolder13;
-            $requestParameters->add($context->getRequest()->getParameterHolder()->getAll());
-            
+			$requestParameters = sfToolkit13::arrayDeepMerge($context->getRequest()->getParameterHolder()->getAll(),$context->getRequest()->getFiles());
+			
 			foreach($validators as $field => $fieldValidators){
 				$tmp_field = $field;
-				if(!$requestParameters->has($field)) {
+				if($fileTypes[$field] == 'combo') {
 					$tmp_field = substr($field,0,-1)."_value]";
 				}
 
@@ -53,7 +53,7 @@ class XmlParserValidationFilter extends sfExecutionFilter
 						$validator->clean($value);
 					}
 					catch(sfValidatorError $e) {
-						$errors[] = array($field,$e->getMessage());
+						$errors[] = array($tmp_field,$e->getMessage());
 					}
 				}
 			}

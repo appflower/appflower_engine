@@ -1,36 +1,7 @@
-AppFlower Engine - Application Builder Framework
-Copyright (c) 2010, AppFLower ApS
-All rights reserved.
-licensing@appflower.com
+APPFLOWER LICENSE
+Copyright (c) 2011 Jimmi Andersen
 
-http://appflower.com/license
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-Open Source License
-------------------------------------------------------------------------------------------
-AppFlower Engine is licensed under the terms of the Open Source GPL 3.0 license. 
-
-http://www.gnu.org/licenses/gpl.html
-
-There are several FLOSS exceptions available for use with this release for
-open source applications that are distributed under a license other than the GPL.
-
-Please contact AppFlower for the details before using this software.
-
-
-Commercial License
-------------------------------------------------------------------------------------------
-This is the appropriate option if you are creating proprietary applications and you are 
-not prepared to distribute and share the source code of your application under the 
-GPL v3 license. Please visit http://appflower.com/license for more details.
-
-
-OEM / Reseller License
-------------------------------------------------------------------------------------------
-For more details, please contact sales@appflower.com
-
---
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

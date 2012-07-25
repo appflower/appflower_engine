@@ -14,7 +14,7 @@ class afExtjsSubmitButton extends afExtjsButton
 	
 	public function __construct($containerObject,$attributes=array(),$submitContainerObject=false)
 	{		
-		$this->afExtjs=afExtjs::getInstance();		
+	    $this->afExtjs=afExtjs::getInstance();		
 		$this->afExtjs->setAddons(array('js'=>array($this->afExtjs->getPluginsDir().'submit/RobustSubmitAction.js')));
 		$pe = isset($attributes['preExecute'])?$attributes['preExecute']:'';
 		if(isset($attributes['label']))
@@ -64,7 +64,7 @@ class afExtjsSubmitButton extends afExtjsButton
 				if(method_exists($submitContainerObject,'getValidators'))		
 				$attributes['params']['af_formcfg'] =
 					afEditJsonRenderer::buildFormcfg($submitUrl,
-						$submitContainerObject->getValidators(),
+						$submitContainerObject->getValidators(), $submitContainerObject->getFieldTypes(),
 						ArrayUtil::get($attributes, 'wizard', false));
 				unset($attributes['wizard']);
 				
@@ -118,11 +118,7 @@ class afExtjsSubmitButton extends afExtjsButton
 												if(w.getBox().height > 400){ w.setHeight(400);w.setWidth(w.getWidth()+20)}
 												w.center();		  									
 											}else{
-											    var heightPlus = 0;
-											    if(afApp.hasDesktop()) {
-											        heightPlus = 30;
-											    }
-												new Ext.ux.InstantNotification({title:"Success",message:message,heightPlus:heightPlus});
+											    afApp.notify("Success",message);
 											}
 										}
 		  								if(_win){		  								

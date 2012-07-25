@@ -164,7 +164,7 @@ class ExtEvent {
 				   msg: "'.$confirmMsg.'",
 				   buttons: Ext.Msg.YESNO,
 				   fn: function(buttonId){if(buttonId == "yes"){'.$functionForUpdater.$successFunction.'}},
-				   icon: Ext.MessageBox.QUESTION								   
+				   icon: Ext.MessageBox.QUESTION					   
 				});
 			';
 		}else{

@@ -17,6 +17,7 @@ class afExtjsForm
 	public $privateName=null;
 	public $menuactions_items=array();
 	private $validators = array();
+	public $fieldTypes = array();
 							
 	public function __construct($attributes=array())
 	{	
@@ -186,6 +187,13 @@ class afExtjsForm
 		return $this->validators;
 	}
 	
+	public function addFieldType($fieldName, $fieldType) {
+		$this->fieldTypes[$fieldName] = $fieldType;
+	}
+
+	public function getFieldTypes() {
+		return $this->fieldTypes;
+	}	
 	
 	public function end()
 	{			

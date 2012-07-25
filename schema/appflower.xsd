@@ -1137,7 +1137,7 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
       	<xs:attribute name="submitlabel" type="xs:token" use="optional" default="Submit" /> 	
       	<xs:attribute name="tree" type="xs:boolean" use="optional" default="false" />
       	<xs:attribute name="selectable" type="xs:boolean" use="optional" default="true" />
-      	<xs:attribute name="exportable" type="xs:boolean" use="optional" default="true" />
+      	<xs:attribute name="exportable" type="xs:token" use="optional" default="true" />
       	<xs:attribute name="select" type="xs:boolean" use="optional" default="false" />
       	<xs:attribute name="pager" type="xs:boolean" use="optional" default="true" />
       	<xs:attribute name="url" type="i:internalUriType" use="optional" default="n/a" />
@@ -1181,7 +1181,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 	  </xs:annotation>
 	  <xs:complexType>
       		<xs:sequence>
-				<xs:element ref="i:set" minOccurs="1" maxOccurs="unbounded"/>
+      		    <xs:element ref="i:if" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="i:set" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
       	<xs:attributeGroup ref="i:commonAttributes" />
       	<xs:attribute name="parsable" type="xs:boolean" fixed="true" />
@@ -1228,6 +1229,9 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 						<xs:element ref="i:component" minOccurs="1" maxOccurs="unbounded"/>
 						<xs:element ref="i:tab" minOccurs="1" maxOccurs="unbounded"/>
 						<xs:element ref="i:area" minOccurs="1" maxOccurs="unbounded"/>
+					</xs:choice>
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element ref="i:set" minOccurs="1" maxOccurs="unbounded"/>
 					</xs:choice>
       	</xs:choice>
       	<xs:attributeGroup ref="i:commonAttributes" />
@@ -1486,8 +1490,8 @@ xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.appflower.com/s
 		<xs:attribute name="updater" type="xs:boolean" use="optional" default="false" />
 		<xs:attribute name="popup" type="xs:boolean" use="optional" default="false" />
 		<xs:attribute name="bindForm" type="xs:boolean" use="optional" default="false" />
-		<xs:attribute name="permissions" type="i:permissionType" default="*" />
-		
+		<xs:attribute name="loadas" type="xs:string" use="optional" />
+		<xs:attribute name="permissions" type="i:permissionType" default="*" />		
 	  </xs:complexType>
 	</xs:element>
 	

@@ -648,45 +648,55 @@ td.ux-taskButtons-edge {
 }
 
 /* Desktop Shortcuts */
+
 #x-shortcuts dt {
-    float:left;
-    margin:15px 0 0 15px;
-    clear:left;
-    width:64px;
-    font:normal 10px tahoma,arial,verdana,sans-serif;
-    text-align:center;
-    zoom:1;
-    display:block;
+    float: left;
+    margin: 15px 0 0 15px;
+    clear: left;
+    width: 64px;
+    font: normal 10px tahoma,arial,verdana,sans-serif;
+    text-align: center;
+    zoom: 1;
+	background-position: top center;
+	background-repeat: no-repeat;
+	background-size: 48px 48px;    
 }
+
 #x-shortcuts dt a {
-    width:64px;
-    display:block;
-    color:white;
-    text-decoration:none;
+    display: block;
+    color: white;
+    text-decoration: none;
+    height: 64px;
 }
+
 #x-shortcuts dt div {
-    width:100%;
-    color:white;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    cursor:pointer;
+    width: 100%;
+    padding-top: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
 }
-.ext-ie #x-shortcuts dt img {
-    background:transparent !important;
-}
+
 #x-shortcuts dt a:hover {
-    text-decoration:underline;
+    text-decoration: underline;
 }
+
+#x-shortcuts dt a img {
+	position: relative;
+	height: 48px;
+	width: 48px;
+}
+
+.ext-ie #x-shortcuts dt img {
+    background: transparent !important;
+}
+
 /* shortcuts */
-#grid-win-shortcut img {
-    width:48px;
-    height:48px;
+#x-shortcuts .grid-win-shortcut {
     background-image: url(../images/grid48x48.png);
-    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/grid48x48.png', sizingMethod='scale');
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/grid48x48.png', sizingMethod='scale');
 }
-#acc-win-shortcut img {
-    width:48px;
-    height:48px;
+#x-shortcuts .acc-win-shortcut {
     background-image: url(../images/im48x48.png);
-    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/im48x48.png', sizingMethod='scale');
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/im48x48.png', sizingMethod='scale');
 }

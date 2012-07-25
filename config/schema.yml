@@ -89,3 +89,13 @@ propel:
     help_type:                  { type: tinyint, default: 1 }
     created_at:
     updated_at:
+    
+  ############################################################################
+  # - Session Storage ------------------------------------------------------ #
+  ############################################################################
+  
+  af_session:
+    _attributes: { phpName: afSession }
+    id:
+    data: longvarchar
+    time: timestamp

@@ -21,6 +21,14 @@ class afEditView {
         }
         return $validators;
     }
+    
+    public static function getFileTypes($fields) {
+        $fileTypes = array();
+        foreach($fields as $field) {
+            $fieldTypes[sprintf('edit[%s]', $field->get('@name'))]=$field->get('@type');
+        }
+        return $fieldTypes;
+    }
 
     /**
      * Returns all <i:param name="KEY">VALUE</i:param> key-value pairs

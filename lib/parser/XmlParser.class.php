@@ -2500,9 +2500,7 @@ class XmlParser extends XmlParserTools {
 			$data["attributes"]["value"] = $data["attributes"]["content"];
 		} else if(isset($data["value"])) {
 			
-			
-			if((isset($data["value"]["default"]) && (!isset($this->attribute_holder["id"]) || !$this->attribute_holder["id"])) || 
-			isset($data["value"]["static"])) {
+		    if(isset($data["value"]["default"]) ||	isset($data["value"]["static"])) {
 				if(!isset($data["value"]["static"])) {
 					$akey = "default";
 				} else {
@@ -2554,24 +2552,22 @@ class XmlParser extends XmlParserTools {
 					
 					if(!isset($class)) { 
 						$class = $data["value"]["class"];
-						$params = (isset($data["value"]["method"]["params"])) ? $data["value"]["method"]["params"] : array();
-						
-						
-						if(isset($data["attributes"]["selected"]) && $data["attributes"]["selected"]) {
-							$params[] = $data["attributes"]["selected"];
-						}
+						$params = (isset($data["value"]["method"]["params"])) ? $data["value"]["method"]["params"] : array();					
 					}
 					
 					
 					$method = (is_array($data["value"]["method"])) ? $data["value"]["method"]["name"] : $data["value"]["method"];
+					
+					if(isset($data["attributes"]["selected"]) && $data["attributes"]["selected"]&&!($class=='ModelCriteriaFetcher'&&$method=='getDataForComboWidget')) {
+						$params[] = $data["attributes"]["selected"];
+					}
 					
 					if($class && !method_exists($class,$method)) {
 						throw new XmlParserException("The method ".$method." doesn't exist in class ".((is_string($class)) ? $class : get_class($class))."!");
 					}
 					
 					if($class) {
-					
-						$value = afCall::funcArray(array($class,$method),$params);	
+					    $value = afCall::funcArray(array($class,$method),$params);
 						if(isset($data["attributes"]["content"])) {
 							$value = $data["attributes"]["content"];
 						}
@@ -2636,7 +2632,7 @@ class XmlParser extends XmlParserTools {
 					} 
 						
 				} else {
-					$data["attributes"]["options"] = $value->getArray();
+				    $data["attributes"]["options"] = $value->getArray();
 					$data["attributes"]["selected"] = $value->getSelected();
 				}
 				  
@@ -3349,9 +3345,12 @@ class XmlParser extends XmlParserTools {
 						// Put validators into af_formcfg.
 						if(isset($data['validators'])) {
 							$form->addValidator($name, $data['validators']);
-						}
+						}						
 						
 						$classname = $attributes["type"];
+						
+						// Add file types for af_formcfg
+						$form->addFieldType($name,$classname);
 					
 						if($setname == $name) {
 							$this->process["parses"][$it]["fields"][$name]["attributes"] = $attributes;
@@ -3483,7 +3482,7 @@ class XmlParser extends XmlParserTools {
 							} else {
 								$prs = new XmlParser(self::PANEL,false,false,false,false,$attributes["url"]);
 								
-								if($columnx) {
+								if(isset($columnx)) {
 									$columnx->addMember($prs->getResult());	
 								} else {
 									$form->addMember($prs->getResult());
@@ -3554,7 +3553,6 @@ class XmlParser extends XmlParserTools {
 					
 				}
 				
-				
 				if(isset($parse["actions"]) && $this->type !== self::WIZARD) {					
 					foreach($parse["actions"] as $aname => $action) {
 						
@@ -3584,8 +3582,9 @@ class XmlParser extends XmlParserTools {
 						}
 					}
 					
-					if(isset($parse["moreactions"])) {																					
-						
+				}
+				
+				if(isset($parse["moreactions"]) && $this->type !== self::WIZARD) {																											
 						foreach($parse["moreactions"] as $aname => $action) {	
 							
 							if(!self::toggleAction($aname,$action)) {
@@ -3598,10 +3597,9 @@ class XmlParser extends XmlParserTools {
 							
 							$parameterForButton = ExtEvent::getButtonParams($action,"moreactions",$this->view.$this->iteration,$parse["select"]);						
 							$form->addMenuActionsItem($parameterForButton);															
-						}
 					}
 				}
-				
+								
 				if(isset($tabs)) {
 					$form->endTabs($tabs);	
 				}
