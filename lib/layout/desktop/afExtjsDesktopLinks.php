@@ -43,7 +43,7 @@ class afExtjsDesktopLinks
                 $link['title'] = 'default';
             }
 
-            $return[] = '<dt class="shortcut ' . $link['iconCls'] . '"><a href="javascript:return false;"' . (($link['url']!='') ? ' onclick="afApp.widgetPopup("' . $link['url']. '"); return false;' : "") . '><img src="' . $link['icon'] . '" /><div>' . $link['title'] . '</div></a></dt>';
+            $return[] = '<dt class="shortcut ' . $link['iconCls'] . '"><a href="#'.$link['url'].'"' . (($link['url']!='') ? ' onclick="afApp.widgetPopup("' . $link['url']. '"); return false;' : "") . '><img src="' . $link['icon'] . '" /><div>' . $link['title'] . '</div></a></dt>';
 		}
 		
 		echo implode(null, $return);
