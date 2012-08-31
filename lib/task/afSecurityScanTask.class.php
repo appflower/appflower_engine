@@ -35,7 +35,6 @@ class afSecurityScanTask extends sfBaseTask
    */
   public function configure()
   {
-  	
   	$this->addArguments(array(
   	  new sfCommandArgument('application', sfCommandArgument::REQUIRED, 'The name of symfony app'),
       new sfCommandArgument('sendto', sfCommandArgument::REQUIRED, 'An email address or a file name the results should be delivered or saved to'),
@@ -67,7 +66,14 @@ EOF;
    */
   public function execute($arguments = array(), $options = array())
   {
-  	
+    if ($this->configuration instanceof sfApplicationConfiguration) {
+        sfContext::createInstance($this->configuration);
+    }
+
+    if (sfContext::hasInstance()) {
+        $context = sfContext::getInstance();
+    }
+
   	if(!strstr($arguments["sendto"],"@") && substr($arguments["sendto"],0,1) != "/") {
   		throw new Exception("Invalid value for argument: sendto. Either an absolute path or email address is expected, but '".
   		$arguments["sendto"]."' is given!");
@@ -105,29 +111,29 @@ EOF;
     	$this->logSection("Unable to save results to file!",null,null,"ERROR");
     	exit();
     }
-    
+
     if($mail) {
-    	
-    	$mailobj = myMail::createMail();
-    	
-    	$mailobj->addAddress($arguments["sendto"]);
-		$mailobj->setFrom('AppFlower Bot <no-reply@appflower.com>');
-		$mailobj->setSubject($arguments["application"]." Security Settings");
-		
-		$mailobj->setDomain('appflower.com');
-		$mailobj->setSender('AppFlower Bot <no-reply@appflower.com>');
-		$mailobj->setBody("Hello!\nThese are the widgets found in ".$this->basedir."/apps/".$arguments["application"].".\nPlease see attached CSV file.\n\nRegards\nBot");
-		
-		$mailobj->addAttachment($this->basedir."/data/security_tmp.csv","widget_data.csv");
-		
-		$mailobj->setPriority(1);
-    	
-		$mailobj->send();
-		
-		$this->logSection("Sending message..","(please wait..)");
-		
-		$this->printTotal(true);
-    	
+        $msg_to = $arguments["sendto"];
+        $msg_from = 'no-reply@appflower.com';
+        $subject = $arguments["application"]." Security Settings";
+        $content = "Hello!\nThese are the widgets found in ".$this->basedir."/apps/".$arguments["application"].".\nPlease see attached CSV file.\n\nRegards\nBot";
+
+        $attachment = $this->basedir."/data/security_tmp.csv";
+        $attachment_name = "widget_data.csv";
+
+        $message = sfContext::getInstance()->getMailer()->compose(
+            $msg_from,
+            $msg_to,
+            $subject,
+            $content
+        )->setContentType('text/html');
+
+        $message->attach(Swift_Attachment::fromPath($attachment)->setFilename($attachment_name));
+        sfContext::getInstance()->getMailer()->send($message);
+
+        $this->logSection("Sending message..","(please wait..)");
+
+        $this->printTotal(true);
     } else {
     	
     	$this->printTotal(false);
