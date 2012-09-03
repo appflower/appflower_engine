@@ -1,10 +1,13 @@
 <?php
-class ipValidator extends sfValidator
+
+class ipValidator extends sfValidatorBase
 {
-    /**
-     * Accepts a valid IP address or hostname.
-     */
-    public function execute(&$value, &$error)
+    protected function configure($options = array(), $messages = array())
+    {
+        parent::configure($options, $messages);
+    }
+
+    protected function doClean($value)
     {
         if (preg_match('/^[0-9]+(\.[0-9]+){3}$/', $value) === 1)
         {
@@ -15,8 +18,7 @@ class ipValidator extends sfValidator
         $ip = gethostbyname($value);
         if ($ip === $value)
         {
-            $error = $this->getParameter('error', 'Invalid IP address!');
-            return false;
+            throw new sfValidatorError($this, 'invalid', array('value' => $value));
         }
 
         return true;
