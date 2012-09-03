@@ -1,30 +1,21 @@
 <?php
-class requiredValidator extends sfValidator
+
+class requiredValidator extends sfValidatorBase
 {
-	public function execute(&$value, &$error)
-	{		 
+    protected function configure($options = array(), $messages = array())
+    {
+        parent::configure($options, $messages);
+    }
+
+    protected function doClean($value)
+    {
 		if (trim($value) == "")
 		{
-			$error = $this->getParameter('required_error');
-			return false;
+			throw new sfValidatorError($this, 'required', array('value' => $value));
 		}
 
-		return true;
-	}
-
-	public function initialize ($context, $parameters = null)
-	{
-		
-		// Initialize parent
-		parent::initialize($context);
-
-		// Set default parameters value
-		$this->setParameter('required_error', 'This field is required!');
-
-		// Set parameters
-		$this->getParameterHolder()->add($parameters);
-
-		return true;
-	}
+        return true;
+    }
 }
+
 ?>
