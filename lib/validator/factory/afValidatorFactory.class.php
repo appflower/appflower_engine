@@ -8,11 +8,6 @@ class afValidatorFactory {
      * Returns a sfBaseValidator instance.
      */
     public static function createValidator($className, $params) {
-        if(is_subclass_of($className, 'sfValidator')) {
-            $validator = new $className(sfContext::getInstance(), $params);
-            return new afCompat10ValidatorAdapter($validator);
-        }
-
         list($options, $messages) = self::collectOptions($params);
         if($className === 'sfValidatorSchemaCompare') {
             $options['throw_global_error'] = true;
