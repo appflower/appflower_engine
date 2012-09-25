@@ -9,12 +9,12 @@ var map = new Ext.KeyMap(document, {
 	key: Ext.EventObject.TAB,
 	handler: function (key,e)
 	{
-		e.stopEvent();
-		
-		var viewport = App.getViewport(),
+		try {
+		    var viewport = App.getViewport(),
             tabPortalPanel;
             
-        try {
+            e.stopEvent();
+              
             tabPortalPanel = viewport.layout.center.panel.items.items[0].items.items[0];
         } catch (e) {
             return false;
