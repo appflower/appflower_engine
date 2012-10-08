@@ -101,7 +101,9 @@ class afExtjsBuilderParser
      */
     public function parse()
     {
-        $this->definition = (array) sfYaml::load($this->getPath());
+        $content = preg_replace(array('/\<\?php/','/\<\?/','/\?\>/'), array('','',''), file_get_contents($this->getPath()));
+        
+        $this->definition = (array) sfYaml::load($content);
         
         return $this;
     }
