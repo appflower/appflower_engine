@@ -173,6 +173,12 @@ afApp.removeWin = function(win) {
     {
     	App.desktop.taskbar.removeTaskButton(win.taskButton);
     	afApp.layout();
+
+        //hash removal to $ == nothing loaded, if any activeWindow left
+        if(afApp.activeWindow === null) {
+            document.location.hash = '#$';
+            afApp.currentWidget = '$';
+        }
     }
 }
 
@@ -918,7 +924,7 @@ afApp.loadFirst = function(hasDesktop)
 	hasDesktop = hasDesktop || false;
 	
 	var uri=document.location.href.split('#');
-	uri[1]=uri[1] || '/';
+	uri[1]=uri[1] || '$';
 	uri[2]=uri[2]?'#'+uri[2]:'';
 	
 	var firstUri=uri[1]+uri[2];
@@ -939,7 +945,9 @@ afApp.loadFirst = function(hasDesktop)
 	}
 	else
 	{
-		afApp.widgetPopup(firstUri);
+        if(uri[1] != '$') {
+            afApp.widgetPopup(firstUri);
+        }
 	}
 	/**
 	* checking if firebug is on
@@ -982,7 +990,7 @@ Ext.History.on('change', function(token){
 		}
 		else
 		{
-			if(afApp.currentWidget!=tokenS[0])
+            if(afApp.currentWidget!=tokenS[0] && tokenS[0] != '$')
 			{
 				afApp.widgetPopup(token);
 			}
